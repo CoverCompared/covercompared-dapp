@@ -1,0 +1,119 @@
+import React, { useState } from 'react';
+import uniqid from 'uniqid';
+import { classNames } from '../functions/utils';
+import MobilePageTitle from '../components/common/MobilePageTitle';
+
+const TypeOfUser = ['Consumer', 'Insurance Partner', 'Others'];
+const ContactUs = (props) => {
+  const [name, SetName] = useState('');
+  const [email, SetEmail] = useState('');
+  const [subject, SetSubject] = useState('');
+  const [message, SetMessage] = useState('');
+
+  const isValid = () => {
+    return !(name === '' || email === '' || subject === '' || message === '');
+  };
+  const RadioButtons = () => {
+    const [typeOfUser, SetUser] = useState('Consumers');
+    return (
+      <>
+        {TypeOfUser.map((user) => (
+          <div className="inline-flex items-center mr-10 mb-4 md:mb-0">
+            <input
+              id="sample"
+              name="sample"
+              type="radio"
+              className="focus:ring-dark-blue h-4 w-4 text-dark-blue-1 border-gray-300 border-2"
+              onClick={() => SetUser(user)}
+            />
+            <span
+              className={classNames(
+                typeOfUser === user
+                  ? 'text-dark-blue font-semibold dark:text-white'
+                  : 'text-contact-input-dark-grey font-medium',
+                'ml-2 text-h6 ring-0',
+              )}
+            >
+              {user}
+            </span>
+          </div>
+        ))}
+      </>
+    );
+  };
+
+  return (
+    <>
+      <MobilePageTitle title="Contact Us" />
+      <form className="md:pr-28 md:pl-6 mb-8">
+        <div className="grid grid-cols-1 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12">
+          <div className="relative col-span-12 md:col-span-6">
+            <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
+              Name
+            </label>
+            <input
+              type="text"
+              id="rounded-name"
+              className="mt-3 py-2 px-4 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-dark-blue focus:ring-shadow-none"
+              placeholder="Fill Your Name Here"
+              onChange={(e) => SetName(e.target.value)}
+            />
+          </div>
+          <div className="relative col-span-12 md:col-span-6">
+            <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
+              Email
+            </label>
+            <input
+              type="text"
+              id="rounded-email"
+              className="mt-3 py-2 px-4 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-dark-blue focus:ring-shadow-none"
+              placeholder="Fill Your Email Here"
+              onChange={(e) => SetEmail(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="font-Montserrat text-dark-blue font-h1 font-semibold mt-6 dark:text-white">
+          Type Of User
+        </div>
+        <div className="mt-3">
+          <RadioButtons {...props} />
+        </div>
+        <div className=" relative mt-6">
+          <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
+            Subject
+          </label>
+          <input
+            type="text"
+            id="rounded-subject"
+            className="mt-3 py-2 px-4 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-dark-blue focus:ring-shadow-none"
+            placeholder="Subject"
+            onChange={(e) => SetSubject(e.target.value)}
+          />
+        </div>
+
+        <div className=" relative mt-6">
+          <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
+            Message
+          </label>
+          <textarea
+            onChange={(e) => SetMessage(e.target.value)}
+            className="mt-3 py-2 px-4 h-32 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-dark-blue focus:ring-shadow-none"
+            placeholder="Write your message"
+          />
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            disabled={!isValid()}
+            className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </>
+  );
+};
+export default ContactUs;

@@ -24,20 +24,20 @@ const AboutToken = () => {
           </div>
         </div>
       </div>
-      <div className="font-Montserrat text-dark-blue md:text-body-md text-body-xsm text-center md:px-24 font-medium dark:text-white">
+      <div className="font-Montserrat text-dark-blue md:text-body-md text-body-xs text-center md:px-24 font-medium dark:text-white">
         One Coin. 2 marketplaces. 11 use cases
       </div>
       <div className="text-center md:px-24 flex justify-center w-full mt-10 md:mb-28 mb-14">
         <div className="md:max-w-3xl w-full hidden md:block">
           {marketPlaces.map((name) => (
-            <div className="bg-login-button-bg md:py-4 md:px-2 md:my-3 md:mx-8 md:w-40 rounded-xl inline-block text-login-button-text md:text-body-md text-body-xsm font-semibold">
+            <div className="bg-login-button-bg md:py-4 md:px-2 md:my-3 md:mx-8 md:w-40 rounded-xl inline-block text-login-button-text md:text-body-md text-body-xs font-semibold">
               {name}
             </div>
           ))}
         </div>
         <div className="grid grid-cols-12 gap-x-6 gap-y-4 md:hidden w-full">
           {marketPlaces.map((name) => (
-            <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl inline-block text-login-button-text md:text-body-md text-body-xsm font-semibold">
+            <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl inline-block text-login-button-text md:text-body-md text-body-xs font-semibold">
               {name}
             </div>
           ))}

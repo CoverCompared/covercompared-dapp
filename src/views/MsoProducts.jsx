@@ -138,22 +138,22 @@ const MSOProduct = (props) => {
             <div className="font-semibold text-h2 text-dark-blue font-Montserrat mb-6 dark:text-white md:flex hidden">
               {MSOplanName}
             </div>
-            <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xsm mb-5 dark:text-white">
+            <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xs mb-5 dark:text-white">
               Details
             </div>
             <div className="flex justify-between items-center md:mb-3 mb-4">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xsm dark:text-white">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Plan Type
               </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xsm ml-2 dark:text-white">
+              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 {MSOPlanType}
               </div>
             </div>
             <div className="flex justify-between mb-4 md:mb-3">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xsm dark:text-white mr-12">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white mr-12">
                 Users
               </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xsm ml-2 dark:text-white text-right">
+              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white text-right">
                 {MSOCoverUser}
               </div>
             </div>

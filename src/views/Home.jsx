@@ -170,7 +170,7 @@ export default function Home(props) {
               <div className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
                 {`${title.slice(0, 18)}. . .`}
               </div>
-              <div className="text-post-body-text md:text-body-md text-body-xsm mt-1 mb-2 font-Inter dark:text-subtitle-dark-text">
+              <div className="text-post-body-text md:text-body-md text-body-xs mt-1 mb-2 font-Inter dark:text-subtitle-dark-text">
                 {`${body.slice(0, 60)}. . . `}
               </div>
               <Link

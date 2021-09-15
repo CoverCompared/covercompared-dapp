@@ -16,7 +16,7 @@ const SearchedProductCard = (props) => {
         <p className="mt-3 px-3 font-Montserrat text-center font-semibold text-body-md dark:text-white">
           {name}
         </p>
-        <p className="mt-1 text-center font-Montserrat text-body-xsm dark:text-white">
+        <p className="mt-1 text-center font-Montserrat text-body-xs dark:text-white">
           {priceLabel}
         </p>
         <h2 className="mt-1 text-center font-Montserrat font-semibold text-h2 dark:text-white">

@@ -37,10 +37,10 @@ const MSOPackageCard = (props) => {
             <div className="font-Montserrat md:text-h6 text-body-sm font-semibold text-dark-blue mb-1 leading-4 dark:text-white group-hover:text-white">
               {MSOplanName}
             </div>
-            <div className="font-Montserrat md:text-body-xsm text-10 font-medium text-dark-blue dark:text-white group-hover:text-white mb-2">
+            <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white mb-2">
               {MSOPlanType}
             </div>
-            <div className="font-Montserrat text-body-xsm font-semibold text-dark-blue dark:text-white group-hover:text-white hidden md:block">
+            <div className="font-Montserrat text-body-xs font-semibold text-dark-blue dark:text-white group-hover:text-white">
               {EHR}
             </div>
           </div>
@@ -58,9 +58,9 @@ const MSOPackageCard = (props) => {
               : ''}
           </div>
         </div>
-        <div className="md:col-span-4 col-span-5 flex items-center justify-end">
-          <div className="md:mr-16 md:block hidden">
-            <div className="font-Montserrat text-body-xsm text-dark-blue dark:text-white group-hover:text-white">
+        <div className="col-span-4 flex items-center justify-end">
+          <div className="mr-16">
+            <div className="font-Montserrat text-body-xs text-dark-blue dark:text-white group-hover:text-white">
               Price
             </div>
             <div className="font-Montserrat text-h4 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">

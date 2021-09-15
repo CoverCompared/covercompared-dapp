@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { ShoppingCartIcon } from '@heroicons/react/outline';
 import { connect } from 'react-redux';
-import { setCurrentProduct } from '../../redux/actions/AppActions';
+import { toast } from 'react-toastify';
+import { setCurrentProduct, addItemToCart } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
 import Loading from './Loading';
+import BuyIcon from '../../assets/icons/buy.svg';
 import NsureNetworkLogo from '../../assets/img/nsure-network.svg';
 import NexusMutualLogo from '../../assets/img/nexus-mutual-icon.png';
 import InsureAceLogo from '../../assets/img/insurace-icon.png';
@@ -24,11 +25,6 @@ const SmallPackageCard = (props) => {
   } = props;
   const [providerLogo, setProviderLogo] = useState(NsureNetworkLogo);
 
-  const handleCardClick = () => {
-    props.setCurrentProduct(props);
-    history.push('/product/cover');
-  };
-
   useEffect(() => {
     let providerLogo = NsureNetworkLogo;
     if (company === 'Nexus Mutual') {
@@ -39,6 +35,17 @@ const SmallPackageCard = (props) => {
     setProviderLogo(providerLogo);
   });
 
+  const handleCardClick = () => {
+    props.setCurrentProduct(props);
+    history.push('/product/cover');
+  };
+
+  const handleAddToCart = (e) => {
+    if (e) e.stopPropagation();
+    props.addItemToCart(props);
+    toast.success('Item added to cart!');
+  };
+
   return (
     <div
       onClick={handleCardClick}
@@ -46,15 +53,15 @@ const SmallPackageCard = (props) => {
     >
       <DiscountCard discountPercentage={discount} />
       <div className="flex md:justify-between items-center md:h-full">
-        <div className="md:w-16 md:h-16 h-9 w-9 md:rounded-xl rounded-md relative shadow-2xl p-1 dark:bg-white group-hover:text-white">
+        <div className="md:w-16 md:h-16 h-9 w-9 md:rounded-xl rounded-md relative shadow-2xl p-1 bg-white">
           <img src={logo} className="h-full w-full rounded-xl" alt={name} />
           <img src={providerLogo} className="absolute right-1 bottom-1 h-3" alt="" />
         </div>
         <div className="md:ml-4 ml-2">
           <div className="font-Montserrat md:text-body-lg text-h6 font-semibold text-dark-blue dark:text-white group-hover:text-white">
-            {name ? (name.length > 13 ? `${name.slice(0, 13)} ...` : name) : ''}
+            {name ? (name.length > 13 ? `${name.slice(0, 13)} ....` : name) : ''}
           </div>
-          <div className="font-Montserrat md:text-body-xsm text-10 font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
+          <div className="font-Montserrat md:text-body-xs text-10 font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
             {company}
           </div>
           <div className="font-Montserrat text-10 font-medium text-dark-blue dark:text-white group-hover:text-white mt-1">
@@ -71,20 +78,16 @@ const SmallPackageCard = (props) => {
         </div>
         <button
           type="button"
-          onClick={() => {
-            alert('added to cart');
-          }}
+          onClick={handleAddToCart}
           className="h-10 w-10 rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2"
         >
-          <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
+          <img src={BuyIcon} alt="cart" className="w-6 h-6" />
         </button>
       </div>
       <button
         type="button"
-        onClick={() => {
-          alert('added to cart');
-        }}
-        className="md:hidden py-1.5 mt-4 w-full rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2 font-semibold text-body-xsm"
+        onClick={handleAddToCart}
+        className="md:hidden py-1.5 mt-4 w-full rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2 font-semibold text-body-xs"
       >
         Start From <br />{' '}
         {quote !== undefined ? (
@@ -101,4 +104,4 @@ const SmallPackageCard = (props) => {
   );
 };
 
-export default connect(null, { setCurrentProduct })(SmallPackageCard);
+export default connect(null, { setCurrentProduct, addItemToCart })(SmallPackageCard);

@@ -21,17 +21,17 @@ const BuyInsurancePackageCard = (props) => {
             <div className="font-Montserrat text-h6 font-semibold text-dark-blue leading-4 dark:text-white">
               {packName}
             </div>
-            <div className="font-Montserrat text-body-xsm font-light text-dark-blue dark:text-white">
+            <div className="font-Montserrat text-body-xs font-light text-dark-blue dark:text-white">
               {ProviderName}
             </div>
-            <div className="font-Montserrat text-body-xsm font-semibold text-dark-blue dark:text-white mt-1">
+            <div className="font-Montserrat text-body-xs font-semibold text-dark-blue dark:text-white mt-1">
               Some <br /> Information
             </div>
           </div>
         </div>
         <div className="flex justify-start items-center">
           <div className="mr-14">
-            <div className="font-Montserrat text-body-xsm font-light text-dark-blue dark:text-white text-left">
+            <div className="font-Montserrat text-body-xs font-light text-dark-blue dark:text-white text-left">
               Price Range
             </div>
             <div className="font-Montserrat text-19 font-semibold text-dark-blue dark:text-white text-left">
@@ -39,7 +39,7 @@ const BuyInsurancePackageCard = (props) => {
             </div>
           </div>
           <div>
-            <div className="font-Montserrat text-body-xsm font-light text-dark-blue dark:text-white text-left">
+            <div className="font-Montserrat text-body-xs font-light text-dark-blue dark:text-white text-left">
               Start From
             </div>
             <div className="font-Montserrat text-19 font-semibold text-dark-blue dark:text-white text-left">

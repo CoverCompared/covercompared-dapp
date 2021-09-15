@@ -27,10 +27,10 @@ const SmallPackageCard = (props) => {
           <div className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white group-hover:text-white">
             {MSOplanName}
           </div>
-          <div className="font-Montserrat text-body-xsm font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
+          <div className="font-Montserrat text-body-xs font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
             {MSOPlanType}
           </div>
-          <div className="font-Montserrat text-body-xsm text-dark-blue dark:text-white flex items-center group-hover:text-white">
+          <div className="font-Montserrat text-body-xs text-dark-blue dark:text-white flex items-center group-hover:text-white">
             Price{' '}
             <span className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white ml-2 group-hover:text-white">
               {MSOPrice}
@@ -40,7 +40,7 @@ const SmallPackageCard = (props) => {
       </div>
       <div className="h-full flex items-center">
         <div className="col-span-4 flex flex-col justify-center font-Montserrat text-h6 text-dark-blue dark:text-white mr-5 my-4 md:my-0 group-hover:text-white">
-          <div className="text-body-xsm">Add on service</div>
+          <div className="text-body-xs">Add on service</div>
           <div className="font-semibold">{MSOAddOnService}</div>
         </div>
         <button

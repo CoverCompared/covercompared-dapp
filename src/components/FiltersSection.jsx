@@ -428,23 +428,13 @@ const FiltersSection = (props) => {
 
         {card === 'mso' && (
           <>
-            {!!options.amount_option && (
+            {!!options.MSO_amout_opt && (
               <MultiRangeSlider
                 {...{
                   title: 'Amount',
-                  optionsKey: 'amount_option',
-                  value: amount,
-                  setValue: setAmount,
-                }}
-              />
-            )}
-            {!!options.mso_plan_type_opt && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'Plan type',
-                  optionsKey: 'mso_plan_type_opt',
-                  value: msoPlanTypeOpt,
-                  setValue: setMsoPlanTypeOpt,
+                  optionsKey: 'MSO_amout_opt',
+                  value: msoAmount,
+                  setValue: setMsoAmount,
                 }}
               />
             )}
@@ -458,6 +448,17 @@ const FiltersSection = (props) => {
                 }}
               />
             )}
+            {!!options.mso_plan_type_opt && (
+              <MultiCheckValueFilter
+                {...{
+                  title: 'Plan type',
+                  optionsKey: 'mso_plan_type_opt',
+                  value: msoPlanTypeOpt,
+                  setValue: setMsoPlanTypeOpt,
+                }}
+              />
+            )}
+
             {!!options.mso_add_on_service && (
               <MultiCheckValueFilter
                 {...{
@@ -552,99 +553,6 @@ const FiltersSection = (props) => {
           </div>
 
           <div className="rounded-xl shadow-md bg-white dark:bg-featureCard-dark-bg">
-            {/* {!!options.duration_days_option && (
-              <MultiRangeSlider
-                {...{
-                  title: 'Duration',
-                  optionsKey: 'duration_days_option',
-                  value: duration,
-                  setValue: setDuration,
-                }}
-              />
-            )}
-            {!!options.amount_option && (
-              <MultiRangeSlider
-                {...{
-                  title: 'Amount',
-                  optionsKey: 'amount_option',
-                  value: amount,
-                  setValue: setAmount,
-                }}
-              />
-            )}
-            {!!options.MSO_amout_opt && (
-              <MultiRangeSlider
-                {...{
-                  title: 'Amount',
-                  optionsKey: 'MSO_amout_opt',
-                  value: msoAmount,
-                  setValue: setMsoAmount,
-                }}
-              />
-            )}
-            {!!options.mso_plan_type_opt && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'EHR & Portal',
-                  optionsKey: 'EHR',
-                  value: wantEHR,
-                  setValue: setwantEHR,
-                }}
-              />
-            )}
-            {!!options.mso_plan_type_opt && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'Plan type',
-                  optionsKey: 'mso_plan_type_opt',
-                  value: msoPlanTypeOpt,
-                  setValue: setMsoPlanTypeOpt,
-                }}
-              />
-            )}
-
-            {!!options.mso_add_on_service && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'Add on',
-                  optionsKey: 'mso_add_on_service',
-                  value: wantAddOn,
-                  setValue: setWantAddOn,
-                }}
-              />
-            )}
-            {!!options.companies_option && (
-              <MultiCheckObjectFilter
-                {...{
-                  title: 'Company',
-                  optionsKey: 'companies_option',
-                  value: company,
-                  setValue: setCompany,
-                }}
-              />
-            )}
-            {!!options.currency_option && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'Currency',
-                  optionsKey: 'currency_option',
-                  value: currencyOption,
-                  setValue: setCurrencyOption,
-                }}
-              />
-            )}
-            {!!options.supported_chain_option && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'Supported Chain',
-                  optionsKey: 'supported_chain_option',
-                  value: chianOption,
-                  setValue: setChianOption,
-                  defaultOpen: false,
-                  showSeparator: false,
-                }}
-              />
-            )} */}
             {renderFilterFields()}
           </div>
         </div>

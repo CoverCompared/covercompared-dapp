@@ -29,13 +29,13 @@ export default function InputWithSelect({
         'w-full flex justify-between py-3 px-4 bg-promo-input-bg rounded-xl dark:bg-product-input-bg-dark',
       )}
     >
-      <div className="text-dark-blue font-Montserrat font-semibold text-body-xsm dark:text-white">
+      <div className="text-dark-blue font-Montserrat font-semibold text-body-xs dark:text-white">
         {fieldTitle}
       </div>
       <div className="flex-col flex items-end">
         {!showColumnLayout ? (
           <>
-            <div className="font-Montserrat font-medium text-primary-gd-1 text-body-xsm dark:text-white">
+            <div className="font-Montserrat font-medium text-primary-gd-1 text-body-xs dark:text-white">
               {fieldSubtitle}
             </div>
             <div className="mt-1 flex items-center justify-end">

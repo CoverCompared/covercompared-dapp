@@ -14,7 +14,7 @@ const Login = () => {
             <div className="md:col-span-5 col-span-6">
               <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
                 <img src={MetamaskIcon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
-                <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xsm md:mt-5 mt-4 dark:text-white">
+                <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
                   Metamask
                 </div>
               </div>
@@ -22,7 +22,7 @@ const Login = () => {
             <div className="md:col-span-5 col-span-6">
               <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
                 <img src={LedgerIcon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
-                <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xsm mt-5 dark:text-white">
+                <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs mt-5 dark:text-white">
                   Wallet Conntect
                 </div>
               </div>

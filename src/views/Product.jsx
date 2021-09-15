@@ -127,38 +127,38 @@ const InsuranceProduct = (props) => {
             <div className="font-semibold text-h2 text-dark-blue font-Montserrat mb-6 dark:text-white md:flex hidden">
               Product Name Here
             </div>
-            <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xsm mb-5 dark:text-white">
+            <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xs mb-5 dark:text-white">
               Details
             </div>
             <div className="flex justify-between items-center md:mb-3 mb-4">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xsm dark:text-white">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Address
               </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xsm ml-2 dark:text-white">
+              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 Loreuam ac in amet, porta ac duis.
               </div>
             </div>
             <div className="flex justify-between items-center md:mb-3 mb-4">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xsm dark:text-white">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Capacity
               </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xsm ml-2 dark:text-white">
+              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 Loreuam ac in amet, porta ac duis.
               </div>
             </div>
             <div className="flex justify-between items-center md:mb-3 mb-4">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xsm dark:text-white">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Provider
               </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xsm ml-2 dark:text-white">
+              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 Loreuam ac in amet, porta ac duis.
               </div>
             </div>
             <div className="flex justify-between items-center">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xsm dark:text-white">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Utilization
               </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xsm ml-2 dark:text-white">
+              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 Loreuam ac in amet, porta ac duis.
               </div>
             </div>

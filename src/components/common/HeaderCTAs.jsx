@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router';
+import CartButton from './CartButton';
 import InsuranceCards from '../InsuranceCards';
 import ThemeToggleSwitch from '../ThemeToggleSwitch';
 import BuyInsuranceIcon from '../../assets/img/buy-insurance-icon.svg';
@@ -16,6 +18,7 @@ const InsuranceGrid = (props) => (
 );
 
 const HeaderCTAs = (props) => {
+  const history = useHistory();
   const { theme } = useContext(ThemeContext);
   const { showBuyButton } = props;
   return (
@@ -36,13 +39,8 @@ const HeaderCTAs = (props) => {
           </button>
         </Modal>
       )}
-      <button
-        type="button"
-        className="ml-3 flex justify-center items-center p-2 rounded-xl bg-white dark:bg-featureCard-dark-bg shadow-lg"
-      >
-        <img src={theme === 'light' ? BuyIcon : BuyWhiteIcon} alt="Login" className="w-6 h-6" />
-      </button>
-      <Modal title="Log In" renderComponent={<Login {...props} bgImg="loginPopupBg" />}>
+      <CartButton />
+      <Modal title="Log In" bgImg="bg-loginPopupBg" renderComponent={<Login {...props} />}>
         <button
           type="button"
           className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"

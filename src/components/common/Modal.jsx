@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import { classNames } from '../../functions/utils';
 
-const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false, bgImg }) => {
+const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false, bgImg = '' }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -47,30 +47,32 @@ const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false
                   `bg-white bg-cover rounded-lg shadow-xl transform sm:align-middle sm:w-full inline-block align-bottom transition-all dark:bg-popup-dark-bg`,
                 )}
               >
-                <div className={`bg-${bgImg} px-4 pt-5 text-left sm:my-8 sm:px-16 sm:pt-6 pb-8`}>
-                  <div className="hidden sm:block absolute top-8 right-8">
-                    {showCTA || (
-                      <button
-                        type="button"
-                        onClick={() => setOpen(false)}
-                        className="bg-white dark:bg-transparent rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-offset-0"
+                <div className={`${bgImg} w-full h-full sm:py-8`}>
+                  <div className="px-4 pt-5 text-left sm:px-16 sm:pt-6 pb-8">
+                    <div className="hidden sm:block absolute top-8 right-8">
+                      {showCTA || (
+                        <button
+                          type="button"
+                          onClick={() => setOpen(false)}
+                          className="bg-white dark:bg-transparent rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-offset-0"
+                        >
+                          <span className="sr-only">Close</span>
+                          <XIcon
+                            className="h-7 w-7 text-dark-blue dark:text-white"
+                            aria-hidden="true"
+                          />
+                        </button>
+                      )}
+                    </div>
+                    <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                      <Dialog.Title
+                        as="h1"
+                        className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue text-center pb-3 dark:text-white"
                       >
-                        <span className="sr-only">Close</span>
-                        <XIcon
-                          className="h-7 w-7 text-dark-blue dark:text-white"
-                          aria-hidden="true"
-                        />
-                      </button>
-                    )}
-                  </div>
-                  <div className="mt-3 text-center sm:mt-0 sm:text-left">
-                    <Dialog.Title
-                      as="h1"
-                      className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue text-center pb-3 dark:text-white"
-                    >
-                      {title || 'Dialog'}
-                    </Dialog.Title>
-                    <div className="mt-2">{C || null}</div>
+                        {title || 'Dialog'}
+                      </Dialog.Title>
+                      <div className="mt-2">{C || null}</div>
+                    </div>
                   </div>
                 </div>
               </div>

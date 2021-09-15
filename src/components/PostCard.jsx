@@ -13,7 +13,7 @@ const PostCard = ({ image, title, body, ctaLink }) => {
           <h3 className="font-Montserrat text-dark-blue font-semibold md:text-h6 text-body-md dark:text-white">
             {title}
           </h3>
-          <p className="text-post-body-text md:text-body-md text-body-xsm mt-2 font-Inter dark:text-subtitle-dark-text">
+          <p className="text-post-body-text md:text-body-md text-body-xs mt-2 font-Inter dark:text-subtitle-dark-text">
             {body}
           </p>
         </div>

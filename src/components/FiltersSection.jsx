@@ -428,13 +428,13 @@ const FiltersSection = (props) => {
 
         {card === 'mso' && (
           <>
-            {!!options.amount_option && (
+            {!!options.MSO_amout_opt && (
               <MultiRangeSlider
                 {...{
                   title: 'Amount',
-                  optionsKey: 'amount_option',
-                  value: amount,
-                  setValue: setAmount,
+                  optionsKey: 'MSO_amout_opt',
+                  value: msoAmount,
+                  setValue: setMsoAmount,
                 }}
               />
             )}

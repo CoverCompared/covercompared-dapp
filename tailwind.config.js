@@ -38,7 +38,6 @@ module.exports = {
         Mobile404Bg: "url('./assets/bg-img/mobile-bg/404-bg.png')",
         HomeMobileBg: "url('./assets/bg-img/mobile-bg/home-bg.png')",
         productPageBg: "url('./assets/bg-img/mobile-bg/product-page-bg.png')",
-        // submit-review-bg
         submitReviewBg: "url('./assets/bg-img/mobile-bg/submit-review-bg.png')",
         AboutTokenMobileBg: "url('./assets/bg-img/mobile-bg/about-token-bg.png')",
         ContactUsmobileBg: "url('./assets/bg-img/mobile-bg/contact-us-bg.png')",

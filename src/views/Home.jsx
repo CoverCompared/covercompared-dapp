@@ -267,7 +267,7 @@ export default function Home(props) {
 
       <div className="md:px-28 pb-20">
         <div className=" bg-gradient-to-r from-global-banner-gd-1 to-global-banner-gd-2 rounded-2xl">
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-20 md:py-14 px-4 py-12 bg-globalPolicyMobileBg md:bg-globalPolicyBg bg-no-repeat bg-cover">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-20 md:py-14 px-4 py-12 md:bg-globalPolicyBg bg-no-repeat bg-cover">
             <div className="flex items-center text-white font-Montserrat font-bold text-30 md:col-span-1 col-span-2 justify-center md:justify-start mb-6 md:mb-0">
               Global Policy
             </div>

@@ -44,24 +44,29 @@ const PackageCard = (props) => {
       <div className="w-full" onClick={handleCardClick}>
         <div className="grid grid-cols-12 gap-x-0 w-full group bg-gradient-to-r dark:from-featureCard-dark-bg dark:to-featureCard-dark-bg dark:hover:from-primary-gd-1 dark:hover:to-primary-gd-2 from-white to-white hover:from-primary-gd-1 hover:to-primary-gd-2 shadow-md py-4 md:pl-4 md:pr-8 px-4 rounded-xl mb-4 relative cursor-pointer">
           <DiscountCard discountPercentage={discount} />
-          <div className="col-span-8 md:col-span-5 flex items-center h-full w-full">
+          <div className="col-span-7 md:col-span-5 flex items-center h-full w-full">
             <div className="md:w-20 md:h-20 w-16 h-16 rounded-xl shadow-2xl p-1 relative dark:bg-white group-hover:text-white">
-              <img src={logo} className="h-full w-full rounded-xl" alt={name} />
+              <img src={logo} className="md:h-full md:w-full rounded-xl w-14 h-14" alt={name} />
               <img src={providerLogo} className="absolute right-1 bottom-1 max-h-5" alt="" />
             </div>
             <div className="md:ml-6 mr-5 ml-4">
               <div className="font-Montserrat text-h6 font-semibold text-dark-blue mb-1 leading-4 dark:text-white group-hover:text-white">
-                {name ? (name.length > 20 ? `${name.slice(0, 20)} . . .` : name) : ''}
+                <div className="hidden md:block">
+                  {name ? (name.length > 20 ? `${name.slice(0, 20)} . . .` : name) : ''}
+                </div>
+                <div className="md:hidden">
+                  {name ? (name.length > 12 ? `${name.slice(0, 12)}...` : name) : ''}
+                </div>
               </div>
               <div className="font-Montserrat text-body-xsm font-medium text-dark-blue dark:text-white group-hover:text-white">
                 {company}
               </div>
-              <div className="font-Montserrat text-body-xsm font-medium text-dark-blue dark:text-white group-hover:text-white mt-2">
+              <div className="font-Montserrat text-body-xsm md:block hidden font-medium text-dark-blue dark:text-white group-hover:text-white mt-2">
                 Chain: {quote_chain}
               </div>
             </div>
           </div>
-          <div className="col-span-4 md:col-span-5 md:flex items-center hidden">
+          <div className="col-span-0 md:col-span-5 md:flex items-center hidden">
             <div className="grid grid-cols-12 gap-x-0 w-full">
               <div className="col-span-6 font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white group-hover:text-white">
                 <div className=" mr-5 my-4 md:my-0">{duration_days_min} days</div>
@@ -87,7 +92,7 @@ const PackageCard = (props) => {
               </div>
             </div>
           </div>
-          <div className="col-span-4 md:col-span-2 flex items-center justify-end">
+          <div className="col-span-5 md:col-span-2 flex items-center justify-end">
             <Link to="facebook.com">
               <button
                 type="button"

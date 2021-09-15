@@ -327,7 +327,7 @@ const Partner = (props) => {
 
       <div className="pt-6 pb-8">
         <div className="sm:hidden">
-          <label htmlFor="tabs" className="sr-only">
+          {/* <label htmlFor="tabs" className="sr-only">
             Select a tab
           </label>
           <select
@@ -346,9 +346,9 @@ const Partner = (props) => {
                 {tab.tabTitle}
               </option>
             ))}
-          </select>
+          </select> */}
         </div>
-        <div className="hidden sm:block">
+        <div className="overflow-x-scroll">
           <nav className="flex space-x-2 justify-center" aria-label="Tabs">
             {tabs.map((tab, i) => (
               <div

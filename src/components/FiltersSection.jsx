@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { uniqueId } from 'lodash';
-import { createSliderWithTooltip, Range } from 'rc-slider';
+import Slider, { createSliderWithTooltip, Range } from 'rc-slider';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { RefreshIcon, XIcon } from '@heroicons/react/outline';
 import { MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid';
@@ -24,12 +24,6 @@ const options = {
   amount_option: {
     min: 1,
     max: 20000,
-  },
-  MSO_User_Opt: {
-    1: 1,
-    2: 4,
-    3: 6,
-    4: 'Unlimited',
   },
   companies_option: [
     {
@@ -124,57 +118,57 @@ const MultiRangeSlider = ({
   );
 };
 
-// const RangeSliderWithMarks = ({
-//   value,
-//   setValue,
-//   title,
-//   marks,
-//   defaultOpen = true,
-//   showSeparator = true,
-// }) => {
-//   const [tempValue, setTempValue] = useState(value);
-//   useEffect(() => {
-//     if (JSON.stringify(value) !== JSON.stringify(tempValue)) setTempValue(value);
-//   }, [value]);
-
-//   return (
-//     <Disclosure as="div" defaultOpen={defaultOpen}>
-//       {({ open }) => (
-//         <>
-//           <div className={classNames(showSeparator ? 'border-b' : 'border-0', 'px-5 py-3')}>
-//             <div className="text-lg text-left w-full flex items-center">
-//               <Disclosure.Button className="w-full flex items-center justify-between">
-//                 <span className="font-Montserrat font-semibold text-dark-blue-1 text-body-sm dark:text-white">
-//                   {title}
-//                 </span>
-//                 <span className="flex items-center text-black dark:text-white">
-//                   {open ? (
-//                     <MinusSmIcon className="h-4 w-4" aria-hidden="true" />
-//                   ) : (
-//                     <PlusSmIcon className="h-4 w-4" aria-hidden="true" />
-//                   )}
-//                 </span>
-//               </Disclosure.Button>
-//             </div>
-//             <Disclosure.Panel>
-//               <div className="mt-2 mb-6 px-1.5 flex flex-col">
-//                 <RangeSlider
-//                   min={1}
-//                   defaultValue={3}
-//                   marks={marks}
-//                   // step={null}
-//                   onChange={setTempValue}
-//                   onAfterChange={setValue}
-//                   tipFormatter={(value) => `${value}`}
-//                 />
-//               </div>
-//             </Disclosure.Panel>
-//           </div>
-//         </>
-//       )}
-//     </Disclosure>
-//   );
-// };
+const RangeSliderWithMarks = ({
+  value,
+  setValue,
+  title,
+  marks,
+  defaultOpen = true,
+  showSeparator = true,
+}) => {
+  const [tempValue, setTempValue] = useState(value);
+  useEffect(() => {
+    if (JSON.stringify(value) !== JSON.stringify(tempValue)) setTempValue(value);
+  }, [value]);
+  const MSO_user_Opt = { 0: 1, 33: 4, 66: 6, 100: 'unlimited' };
+  return (
+    <Disclosure as="div" defaultOpen={defaultOpen}>
+      {({ open }) => (
+        <>
+          <div className={classNames(showSeparator ? 'border-b' : 'border-0', 'px-5 py-3')}>
+            <div className="text-lg text-left w-full flex items-center">
+              <Disclosure.Button className="w-full flex items-center justify-between">
+                <span className="font-Montserrat font-semibold text-dark-blue-1 text-body-sm dark:text-white">
+                  {title}
+                </span>
+                <span className="flex items-center text-black dark:text-white">
+                  {open ? (
+                    <MinusSmIcon className="h-4 w-4" aria-hidden="true" />
+                  ) : (
+                    <PlusSmIcon className="h-4 w-4" aria-hidden="true" />
+                  )}
+                </span>
+              </Disclosure.Button>
+            </div>
+            <Disclosure.Panel>
+              <div className="mt-2 mb-6 px-1.5 flex flex-col">
+                <Slider
+                  min={1}
+                  defaultValue={1}
+                  marks={MSO_user_Opt}
+                  step={null}
+                  onChange={setTempValue}
+                  onAfterChange={setValue}
+                  included={false}
+                />
+              </div>
+            </Disclosure.Panel>
+          </div>
+        </>
+      )}
+    </Disclosure>
+  );
+};
 
 const MultiCheckObjectFilter = ({
   value,
@@ -302,7 +296,7 @@ const FiltersSection = (props) => {
   const [company, setCompany] = useState([]);
   const [currencyOption, setCurrencyOption] = useState([]);
   const [chianOption, setChianOption] = useState([]);
-  const [user, setUser] = useState([+options.MSO_User_Opt[0]]);
+  const [msoUser, setMsoUser] = useState([]);
   const [msoPlanTypeOpt, setMsoPlanTypeOpt] = useState([]);
   const [wantAddOn, setWantAddOn] = useState([]);
   const [wantEHR, setwantEHR] = useState([]);
@@ -438,6 +432,14 @@ const FiltersSection = (props) => {
                 }}
               />
             )}
+            <RangeSliderWithMarks
+              {...{
+                title: 'User',
+                optionsKey: 'MSO_user_Opt',
+                value: msoUser,
+                setValue: setMsoUser,
+              }}
+            />
             {!!options.mso_plan_type_opt && (
               <MultiCheckValueFilter
                 {...{

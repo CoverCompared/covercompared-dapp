@@ -43,6 +43,11 @@ module.exports = {
         ContactUsmobileBg: "url('./assets/bg-img/mobile-bg/contact-us-bg.png')",
         LearnMoremobileBg: "url('./assets/bg-img/mobile-bg/learn-more-bg.png')",
         mobileCartCardBg: "url('./assets/bg-img/mobile-bg/cart-card-bg.png')",
+        additionalDetailsBg: "url('./assets/bg-img/addtional-details-bg.png')",
+        submitclaimBg: "url('./assets/bg-img/submit-claim-popup-bg.png')",
+        formPopupBg: "url('./assets/bg-img/form-bg.png')",
+        formPopupMobileBg: "url('./assets/bg-img/mobile-bg/form-popup-bg.png')",
+        loginPopupMobileBg: "url('./assets/bg-img/mobile-bg/login-popup-bg.png')",
       },
       colors: {
         'body-bg': '#FDFEFD',
@@ -132,5 +137,6 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
+    require('tailwind-scrollbar-hide'),
   ],
 };

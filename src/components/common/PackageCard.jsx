@@ -51,12 +51,12 @@ const PackageCard = (props) => {
       <div className="w-full" onClick={handleCardClick}>
         <div className="grid grid-cols-12 gap-x-0 w-full group bg-gradient-to-r dark:from-featureCard-dark-bg dark:to-featureCard-dark-bg dark:hover:from-primary-gd-1 dark:hover:to-primary-gd-2 from-white to-white hover:from-primary-gd-1 hover:to-primary-gd-2 shadow-md py-4 md:pl-4 md:pr-8 px-4 rounded-xl mb-4 relative cursor-pointer">
           <DiscountCard discountPercentage={discount} />
-          <div className="col-span-8 md:col-span-5 flex items-center h-full w-full">
+          <div className="col-span-7 md:col-span-5 flex items-center h-full w-full">
             <div className="md:w-20 md:h-20 w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white">
               <img src={logo} className="h-full w-full rounded-xl" alt={name} />
               <img src={providerLogo} className="absolute right-1 bottom-1 max-h-5" alt="" />
             </div>
-            <div className="md:ml-6 mr-5 ml-4">
+            <div className="md:ml-6 md:mr-5 mr-1 ml-3">
               <div className="font-Montserrat text-h6 font-semibold text-dark-blue mb-1 leading-4 dark:text-white group-hover:text-white">
                 <div className="hidden md:block">
                   {name ? (name.length > 20 ? `${name.slice(0, 20)} . . .` : name) : ''}
@@ -68,7 +68,7 @@ const PackageCard = (props) => {
               <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
                 {company}
               </div>
-              <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white mt-2">
+              <div className="hidden md:block font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white mt-2">
                 Chain: {quote_chain}
               </div>
             </div>
@@ -99,7 +99,7 @@ const PackageCard = (props) => {
               </div>
             </div>
           </div>
-          <div className="col-span-4 md:col-span-2 flex items-center justify-end">
+          <div className="col-span-5 md:col-span-2 flex items-center justify-end">
             <button
               type="button"
               onClick={handleAddToCart}

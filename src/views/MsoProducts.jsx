@@ -182,7 +182,7 @@ const MSOProduct = (props) => {
               <label className="inline-flex items-center">
                 <input
                   type="checkbox"
-                  className="form-checkbox rounded-sm text-primary-gd-1 focus:text-dark-blue focus:ring-0 focus:border-opacity-0 duration-200 focus:shadow-none"
+                  className="form-checkbox rounded-sm text-primary-gd-1 focus:text-dark-blue focus:ring-0 focus:border-opacity-0 duration-200 focus:shadow-0"
                   checked={addonServices}
                   onChange={() => setAddonServices(!addonServices)}
                 />

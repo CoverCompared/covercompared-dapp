@@ -3,12 +3,14 @@ import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-pro
 import { connect } from 'react-redux';
 import { removeItemToCart } from '../redux/actions/AppActions';
 import EditIcon from '../assets/img/Edit.svg';
-import DeleteIcon from '../assets/img/Delete.svg';
-import BookIcon from '../assets/img/book-icon.svg';
-// import CartCardBg from '../assets/bg-img/cart-card-bg.svg';
 import EditIconWhite from '../assets/dark-icons/Edit.svg';
+import DeleteIcon from '../assets/img/Delete.svg';
+import BookIcon from '../assets/img/book-icon.png';
+import BookWhiteIcon from '../assets/img/book-icon-white.png';
 import DeleteIconWhite from '../assets/dark-icons/Delete.svg';
 import { ThemeContext } from '../themeContext';
+import CheckoutForm from './CheckoutForm';
+import Modal from './common/Modal';
 import 'react-circular-progressbar/dist/styles.css';
 
 const CartCard = (props) => {
@@ -17,8 +19,8 @@ const CartCard = (props) => {
 
   return (
     <div className="dark:bg-featureCard-dark-bg rounded-xl shadow-md bg-white">
-      <div className="py-4 px-4 md:pr-8 rounded-xl grid grid-cols-12 gap-x-0 mb-4 relative md:bg-cartCardBg bg-mobileCartCardBg bg-contain bg-100% bg-no-repeat bg-right">
-        <div className="md:col-span-5 flex items-center h-full">
+      <div className="py-4 px-4 md:pr-8 rounded-xl grid grid-cols-12 gap-x-1 mb-4 relative md:bg-cartCardBg bg-mobileCartCardBg bg-contain bg-100% bg-no-repeat bg-right">
+        <div className="md:col-span-5 col-span-7 flex items-center h-full">
           <div
             className="md:w-20 md:h-20 w-14 h-14  rounded-xl bg-white shadow-2xl p-1"
             style={{ minWidth: 'fit-content' }}
@@ -33,7 +35,7 @@ const CartCard = (props) => {
               <span className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white mr-2">
                 Price
               </span>
-              <span className="font-Montserrat text-h4 font-semibold text-dark-blue leading-4 dark:text-white">
+              <span className="font-Montserrat md:text-h4 text-body-md font-semibold text-dark-blue leading-4 dark:text-white">
                 {quote ? quote.toFixed(6) : '---'}
               </span>
             </div>
@@ -55,48 +57,54 @@ const CartCard = (props) => {
             {quote ? quote.toFixed(6) : '---'}
           </div>
         </div>
-        <div className="flex items-center justify-end md:col-span-3">
+        <div className="flex items-center justify-end md:col-span-3 col-span-5">
           <button type="button" onClick={() => props.removeItemToCart(address)}>
             <img
               src={theme === 'light' ? DeleteIcon : DeleteIconWhite}
               alt="Delete"
-              className="h-6 w-6"
+              className="md:h-6 md:w-6 h-5"
             />
           </button>
-          <div className="cursor-pointer mx-4">
+          <div className="cursor-pointer md:mx-4 mx-3">
             <img
-              src={theme === 'light' ? BookIcon : EditIconWhite}
+              src={theme === 'light' ? BookIcon : BookWhiteIcon}
               alt="Edit"
-              className="h-6 w-6"
+              className="md:h-6 md:w-6 h-5"
             />
           </div>
-          <div className="h-7 w-7 cursor-pointer">
-            <CircularProgressbarWithChildren
-              value={66}
-              styles={buildStyles({
-                pathColor: `#0CED58`,
-                textColor: 'text-dark-blue',
-                trailColor: '#d6d6d6',
-              })}
-            >
-              <img
-                style={{ width: '14px', height: '14px' }}
-                src={theme === 'light' ? EditIcon : EditIconWhite}
-                alt="Edit"
-              />
-              <div
-                style={{
-                  fontSize: 8,
-                  position: 'absolute',
-                  marginRight: '-10',
-                  top: '-4px',
-                  left: '-6px',
-                }}
+          <Modal
+            title="MSO checkout form"
+            bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-cover bg-no-repeat"
+            renderComponent={<CheckoutForm {...props} />}
+          >
+            <div className="h-7 w-7 cursor-pointer">
+              <CircularProgressbarWithChildren
+                value={66}
+                styles={buildStyles({
+                  pathColor: `#0CED58`,
+                  textColor: 'text-dark-blue',
+                  trailColor: '#d6d6d6',
+                })}
               >
-                <strong>66%</strong>
-              </div>
-            </CircularProgressbarWithChildren>
-          </div>
+                <img
+                  style={{ width: '14px', height: '14px' }}
+                  src={theme === 'light' ? EditIcon : EditIconWhite}
+                  alt="Edit"
+                />
+                <div
+                  style={{
+                    fontSize: 8,
+                    position: 'absolute',
+                    marginRight: '-10',
+                    top: '-4px',
+                    left: '-6px',
+                  }}
+                >
+                  <strong>66%</strong>
+                </div>
+              </CircularProgressbarWithChildren>
+            </div>
+          </Modal>
         </div>
       </div>
     </div>

@@ -162,12 +162,12 @@ const DetailSearch = (props) => {
                 <button
                   type="button"
                   onClick={() => props.toggleFilters(true)}
-                  className="focus:outline-none focus:ring-offset-0"
+                  className="focus:outline-none focus:ring-offset-0 md:mr-4"
                 >
                   <img
                     src={theme === 'light' ? MobileFilterIcon : MobileFilterWhiteIcon}
                     alt=""
-                    className="md:hidden mr-4"
+                    className="md:hidden"
                   />
                 </button>
                 <div

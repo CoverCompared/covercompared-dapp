@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { toggleSidebar } from '../../redux/actions/AppActions';
 import coverComparedLogo from '../../assets/img/cover-compared-logo.svg';
 import coverComparedWhiteLogo from '../../assets/img/cover-compared-logo-dark.svg';
-import BuyIcon from '../../assets/icons/buy.svg';
-import BuyWhiteIcon from '../../assets/dark-icons/Buy.svg';
+import CartButton from '../../components/common/CartButton';
 import { ThemeContext } from '../../themeContext';
 
 const HeaderMobile = (props) => {
@@ -23,12 +22,7 @@ const HeaderMobile = (props) => {
           />
         </Link>
         <div className="flex justify-end items-center">
-          <button
-            type="button"
-            className="mr-2 flex justify-center items-center p-2 rounded-xl bg-white dark:bg-featureCard-dark-bg shadow-lg"
-          >
-            <img src={theme === 'light' ? BuyIcon : BuyWhiteIcon} alt="Login" className="w-4 h-4" />
-          </button>
+          <CartButton />
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-0"

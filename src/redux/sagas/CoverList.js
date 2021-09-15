@@ -218,7 +218,7 @@ function* getDeviceDetail({ payload }) {
       }),
     );
 
-    const url = `${P4L_BASE_URL}/device-details`;
+    const url = `${P4L_BASE_URL}`;
     const deviceDetail = yield call(axiosPost, url, payload);
 
     if (deviceDetail?.data?.data) {

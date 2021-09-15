@@ -2,15 +2,53 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import InputWithSelect from './common/InputWithSelect';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
+import Select from './common/Select';
 
-const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
+const deviceOptions = [{ option: 'Tab' }, { option: 'Mobile' }, { option: 'Laptop' }];
+const brandOptions = [
+  {
+    option: 'Apple',
+    // icon: 'https://via.placeholder.com/100',
+  },
+  {
+    option: 'Samsung',
+    // icon: 'https://via.placeholder.com/100',
+  },
+  {
+    option: 'Oppo',
+    // icon: 'https://via.placeholder.com/100',
+  },
+  {
+    option: 'Vivo',
+    // icon: 'https://via.placeholder.com/100',
+  },
+  {
+    option: 'Motorola',
+    // icon: 'https://via.placeholder.com/100',
+  },
+];
+const valueOptions = [{ option: '$1000' }, { option: '$2000' }, { option: '$5000' }];
+const purchaseMonthOptions = [
+  { option: 'January' },
+  { option: 'February' },
+  { option: 'March' },
+  { option: 'April' },
+  { option: 'May' },
+  { option: 'June' },
+  { option: 'July' },
+  { option: 'August' },
+  { option: 'September' },
+  { option: 'October' },
+  { option: 'November' },
+  { option: 'December' },
+];
 const amountOptions = ['ETH', 'BTC', 'USDT', 'USDC', 'CVR'];
 
 const DeviceBuyBox = (props) => {
   const { coverListData } = props;
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
 
-  const [device, setDevice] = useState(deviceOptions[0]);
+  const [deviceType, setDeviceType] = useState(null);
   const [brand, setBrand] = useState(deviceDetails?.brand?.[0] || '');
   const [value, setValue] = useState(deviceDetails?.device_values?.[0] || '');
   const [purchaseMonth, setPurchaseMonth] = useState(deviceDetails?.purchase_month?.[0] || '');
@@ -18,8 +56,12 @@ const DeviceBuyBox = (props) => {
   const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
 
   useEffect(() => {
-    props.getDeviceDetails({ device, partner_code: 'Crypto' });
-  }, [device]);
+    props.getDeviceDetails({
+      endpoint: 'device-details',
+      device: 'Mobile Phone',
+      partner_code: 'Crypto',
+    });
+  }, [deviceType]);
 
   return (
     <>
@@ -27,40 +69,35 @@ const DeviceBuyBox = (props) => {
         Cover Period and Amount
       </div>
       <form onSubmit={() => {}}>
-        <div className="grid grid-cols-2 gap-4 mb-3">
-          <InputWithSelect
-            {...props}
-            showColumnLayout
-            fieldTitle="Device"
-            selectedOption={device}
-            setSelectedOption={setDevice}
-            dropdownOptions={deviceOptions}
-          />
-          <InputWithSelect
-            {...props}
-            showColumnLayout
-            fieldTitle="Brand"
-            selectedOption={brand}
-            setSelectedOption={setBrand}
-            dropdownOptions={deviceDetails?.brand || []}
-          />
-          <InputWithSelect
-            {...props}
-            showColumnLayout
-            fieldTitle="Value"
-            selectedOption={value}
-            setSelectedOption={setValue}
-            dropdownOptions={deviceDetails?.device_values || []}
-          />
-          <InputWithSelect
-            {...props}
-            showColumnLayout
-            fieldTitle="Purchase Month"
-            selectedOption={purchaseMonth}
-            setSelectedOption={setPurchaseMonth}
-            dropdownOptions={deviceDetails?.purchase_month || []}
-          />
-        </div>
+        <Select
+          {...props}
+          fieldTitle="Device"
+          options={deviceOptions}
+          selectedOption={deviceType}
+          setSelectedOption={setDeviceType}
+        />
+        <Select
+          {...props}
+          fieldTitle="Brand"
+          options={brandOptions}
+          selectedOption={brand}
+          setSelectedOption={setBrand}
+        />
+        <Select
+          {...props}
+          fieldTitle="Device Value"
+          options={valueOptions}
+          selectedOption={value}
+          setSelectedOption={setValue}
+        />
+        <Select
+          {...props}
+          fieldTitle="Device Purchase Month"
+          options={purchaseMonthOptions}
+          selectedOption={purchaseMonth}
+          setSelectedOption={setPurchaseMonth}
+        />
+
         <InputWithSelect
           {...props}
           readOnly

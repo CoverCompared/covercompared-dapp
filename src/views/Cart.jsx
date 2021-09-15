@@ -43,7 +43,7 @@ const Cart = (props) => {
           {cart?.length ? (
             cart.map((cart) => <CartCard key={uniqid()} {...props} {...cart} />)
           ) : (
-            <div className="text-center bg-white shadow-md rounded-lg p-6">
+            <div className="text-center bg-white shadow-md rounded-lg p-6 mb-6">
               <div className="font-Montserrat text-h5 font-semibold mb-2">
                 Shopping cart is empty
               </div>

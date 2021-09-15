@@ -348,8 +348,8 @@ const Partner = (props) => {
             ))}
           </select> */}
         </div>
-        <div className="overflow-x-scroll">
-          <nav className="flex space-x-2 justify-center" aria-label="Tabs">
+        <div className="overflow-x-scroll md:overflow-x-hidden scrollbar-hide relative">
+          <nav className="flex space-x-2 justify-center items-center" aria-label="Tabs">
             {tabs.map((tab, i) => (
               <div
                 key={tab.tabTitle}
@@ -358,7 +358,7 @@ const Partner = (props) => {
                   activeTab === i
                     ? 'bg-active-tab-bg dark:text-tab-title'
                     : 'hover:bg-active-tab-bg',
-                  'px-7 py-3 text-body-md rounded-xl cursor-pointer text-tab-title font-semibold dark:text-white',
+                  'md:px-7 md:py-3 p-4 md:text-body-md text-body-xs rounded-xl cursor-pointer text-tab-title font-semibold dark:text-white',
                 )}
                 aria-current={activeTab === i ? 'page' : undefined}
               >

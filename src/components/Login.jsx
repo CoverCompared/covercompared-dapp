@@ -48,28 +48,7 @@ const Login = () => {
     <>
       <div className="grid grid-cols-12 gap-6">
         <div className="md:col-span-7 col-span-12 h-full flex items-center w-full order-2 md:order-1">
-<<<<<<< HEAD
           <div className="grid grid-cols-12 md:gap-x-6 gap-x-5 w-full">{getWalletOption()}</div>
-=======
-          <div className="grid grid-cols-12 md:gap-x-6 gap-x-5 w-full">
-            <div className="md:col-span-5 col-span-6">
-              <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
-                <img src={MetamaskIcon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
-                <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
-                  Metamask
-                </div>
-              </div>
-            </div>
-            <div className="md:col-span-5 col-span-6">
-              <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
-                <img src={LedgerIcon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
-                <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs mt-5 dark:text-white">
-                  Wallet Conntect
-                </div>
-              </div>
-            </div>
-          </div>
->>>>>>> 3692c639f5c9d3d996433c50ff5b8b9839f30397
         </div>
         <div className="md:col-span-4 lg:col-start-9 xl:col-span-5 col-span-12 xl:col-start-8 w-full order-1 md:order-2">
           <div className="flex flex-col items-end justify-center h-full w-full">

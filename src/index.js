@@ -26,7 +26,12 @@ export const { persistor, store } = configureStore();
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
 if (!window.ethereum) {
-  window.ethereum.autoRefreshOnNetworkChange = false;
+  window.ethereum = {
+    isMetaMask: true,
+    on: (...args) => {},
+    removeListener: (...args) => {},
+    autoRefreshOnNetworkChange: false,
+  };
 }
 
 ReactDOM.render(

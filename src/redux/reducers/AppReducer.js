@@ -1,28 +1,19 @@
-<<<<<<< HEAD
-=======
 import { uniqueId } from 'lodash';
->>>>>>> 3692c639f5c9d3d996433c50ff5b8b9839f30397
 import {
   TOGGLE_SIDEBAR,
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
-<<<<<<< HEAD
   MODAL_VISIBLE,
-=======
   ADD_ITEM_TO_CART,
   REMOVE_ITEM_TO_CART,
->>>>>>> 3692c639f5c9d3d996433c50ff5b8b9839f30397
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
   sidebarOpen: false,
   filtersOpen: false,
   currentProduct: null,
-<<<<<<< HEAD
   modalVisible: false,
-=======
   cart: [],
->>>>>>> 3692c639f5c9d3d996433c50ff5b8b9839f30397
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -60,7 +51,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case MODAL_VISIBLE: {
       return {
         ...state,
-        modalVisible: action.payload,
+        modalVisible: payload,
       };
     }
     default:

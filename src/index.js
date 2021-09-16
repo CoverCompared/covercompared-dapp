@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core';
+
 // imports for redux
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
@@ -16,17 +18,29 @@ import reportWebVitals from './reportWebVitals';
 // imports for component and styles
 import App from './App';
 import './index.css';
+import { NetworkContextName } from './config';
+import getLibrary from './utils/getLibrary';
 
 export const { persistor, store } = configureStore();
+
+const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
+
+if (!window.ethereum) {
+  window.ethereum.autoRefreshOnNetworkChange = false;
+}
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ConnectedRouter history={history}>
-          <ThemeProvider>
-            <App />
-          </ThemeProvider>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <Web3ProviderNetwork getLibrary={getLibrary}>
+              <ThemeProvider>
+                <App />
+              </ThemeProvider>
+            </Web3ProviderNetwork>
+          </Web3ReactProvider>
         </ConnectedRouter>
       </PersistGate>
     </Provider>

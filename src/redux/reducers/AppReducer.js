@@ -1,9 +1,15 @@
-import { TOGGLE_SIDEBAR, TOGGLE_FILTERS, SET_CURRENT_PRODUCT } from '../constants/ActionTypes';
+import {
+  TOGGLE_SIDEBAR,
+  TOGGLE_FILTERS,
+  SET_CURRENT_PRODUCT,
+  MODAL_VISIBLE,
+} from '../constants/ActionTypes';
 
 const INIT_STATE = {
   sidebarOpen: false,
   filtersOpen: false,
   currentProduct: null,
+  modalVisible: false,
 };
 
 export default (state = INIT_STATE, action) => {
@@ -24,6 +30,12 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         currentProduct: action.payload,
+      };
+    }
+    case MODAL_VISIBLE: {
+      return {
+        ...state,
+        modalVisible: action.payload,
       };
     }
     default:

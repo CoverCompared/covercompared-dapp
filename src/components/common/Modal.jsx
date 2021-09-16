@@ -1,14 +1,23 @@
 import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
+import { useDispatch, useSelector } from 'react-redux';
 import { classNames } from '../../functions/utils';
+import { setModalVisible } from '../../redux/actions';
 
 const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false, bgImg }) => {
+  const { modalVisible } = useSelector((state) => state.app);
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleOpen = async (e) => {
+    e.preventDefault();
+    dispatch(setModalVisible(true));
+  };
 
   return (
     <>
-      <span onClick={() => setOpen(true)}>{children}</span>
+      <div onClick={(e) => setOpen(true)}>{children}</div>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"

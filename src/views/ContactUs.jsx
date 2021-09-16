@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import uniqid from 'uniqid';
 import { classNames } from '../functions/utils';
+import FormInput from '../components/FormInput';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 
 const TypeOfUser = ['Consumer', 'Insurance Partner', 'Others'];
@@ -45,10 +46,10 @@ const ContactUs = (props) => {
   return (
     <>
       <MobilePageTitle title="Contact Us" />
-      <form className="md:pr-28 md:pl-6 mb-8">
+      <form className="md:pr-28 md:pl-6 mb-8 md:mt-6">
         <div className="grid grid-cols-1 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12">
           <div className="relative col-span-12 md:col-span-6">
-            <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
+            {/* <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
               Name
             </label>
             <input
@@ -57,18 +58,20 @@ const ContactUs = (props) => {
               className="mt-3 py-2 px-4 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-dark-blue focus:ring-shadow-none"
               placeholder="Fill Your Name Here"
               onChange={(e) => SetName(e.target.value)}
+            /> */}
+            <FormInput
+              title="First Name"
+              inputValue={name}
+              setChange={SetName}
+              inputPlaceholder="Fill Your Name Here"
             />
           </div>
           <div className="relative col-span-12 md:col-span-6">
-            <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
-              Email
-            </label>
-            <input
-              type="text"
-              id="rounded-email"
-              className="mt-3 py-2 px-4 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-dark-blue focus:ring-shadow-none"
-              placeholder="Fill Your Email Here"
-              onChange={(e) => SetEmail(e.target.value)}
+            <FormInput
+              title="Email"
+              inputValue={email}
+              setChange={SetEmail}
+              inputPlaceholder="Fill Your Email Here"
             />
           </div>
         </div>
@@ -79,26 +82,22 @@ const ContactUs = (props) => {
         <div className="mt-3">
           <RadioButtons {...props} />
         </div>
-        <div className=" relative mt-6">
-          <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
-            Subject
-          </label>
-          <input
-            type="text"
-            id="rounded-subject"
-            className="mt-3 py-2 px-4 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-dark-blue focus:ring-shadow-none"
-            placeholder="Subject"
-            onChange={(e) => SetSubject(e.target.value)}
+        <div className="mt-6">
+          <FormInput
+            title="Subject"
+            inputValue={subject}
+            setChange={SetSubject}
+            inputPlaceholder="Subject"
           />
         </div>
 
-        <div className=" relative mt-6">
+        <div className="relative mt-6">
           <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
             Message
           </label>
           <textarea
             onChange={(e) => SetMessage(e.target.value)}
-            className="mt-3 py-2 px-4 h-32 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-dark-blue focus:ring-shadow-none"
+            className="mt-3 py-2 px-4 h-32 rounded-lg appearance-none w-full border-0 bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm"
             placeholder="Write your message"
           />
         </div>

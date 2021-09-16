@@ -5,6 +5,7 @@ import InsuranceCards from '../components/InsuranceCards';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 import InsuranceCardDotBg from '../assets/bg-img/insurance-card-dot-bg.svg';
 import cryptoInsuranceDotBg from '../assets/bg-img/crypto-insurance-dot-bg.svg';
+import cryptoInsuranceOrangeDots from '../assets/img/orange-dots.svg';
 import CounterCard from '../components/CounterCard';
 import PostCard from '../components/PostCard';
 import FeatureCard from '../components/FeatureCard';
@@ -13,7 +14,7 @@ import Discount from '../assets/icons/discount1.svg';
 import Stopwatch from '../assets/icons/stopwatch1.svg';
 import Strategy from '../assets/icons/strategy1.svg';
 import CryptoInsuranceImg from '../assets/img/crypto-insurance-icon.svg';
-import CryptoInsuranceImgDark from '../assets/dark-icons/crypto-insurance-icon.svg';
+import CryptoInsuranceImgDark from '../assets/img/crypto-orange-logo.svg';
 import { ThemeContext } from '../themeContext';
 
 const counterCards = [
@@ -170,7 +171,7 @@ export default function Home(props) {
               <div className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
                 {`${title.slice(0, 18)}. . .`}
               </div>
-              <div className="text-post-body-text md:text-body-md text-body-xsm mt-1 mb-2 font-Inter dark:text-subtitle-dark-text">
+              <div className="text-post-body-text md:text-body-md text-body-xs mt-1 mb-2 font-Inter dark:text-subtitle-dark-text">
                 {`${body.slice(0, 60)}. . . `}
               </div>
               <Link
@@ -199,7 +200,7 @@ export default function Home(props) {
 
       <div className="flex flex-col items-center md:px-28 pb-20 text-center relative">
         <img
-          src={cryptoInsuranceDotBg}
+          src={theme === 'light' ? cryptoInsuranceDotBg : cryptoInsuranceOrangeDots}
           alt=""
           className="absolute md:top-12 left-0 top-32 h-16 w-16"
         />
@@ -267,7 +268,7 @@ export default function Home(props) {
 
       <div className="md:px-28 pb-20">
         <div className=" bg-gradient-to-r from-global-banner-gd-1 to-global-banner-gd-2 rounded-2xl">
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-20 md:py-14 px-4 py-12 bg-globalPolicyMobileBg md:bg-globalPolicyBg bg-no-repeat bg-cover">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-20 md:py-14 px-4 py-12 md:bg-globalPolicyBg bg-globalPolicyMobileBg bg-100%">
             <div className="flex items-center text-white font-Montserrat font-bold text-30 md:col-span-1 col-span-2 justify-center md:justify-start mb-6 md:mb-0">
               Global Policy
             </div>

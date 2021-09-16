@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { uniqueId } from 'lodash';
-import { createSliderWithTooltip, Range } from 'rc-slider';
+import Slider, { createSliderWithTooltip, Range } from 'rc-slider';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { RefreshIcon, XIcon } from '@heroicons/react/outline';
 import { MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid';
@@ -14,22 +14,16 @@ const RangeSlider = createSliderWithTooltip(Range);
 
 const options = {
   duration_days_option: {
-    min: '15',
+    min: 15,
     max: 365,
   },
-  MSO_amout_opt: {
+  MSO_amount_opt: {
     min: 50,
     max: 115,
   },
   amount_option: {
-    min: 1,
+    min: 0.1,
     max: 20000,
-  },
-  MSO_User_Opt: {
-    1: 1,
-    2: 4,
-    3: 6,
-    4: 'Unlimited',
   },
   companies_option: [
     {
@@ -64,7 +58,7 @@ const options = {
   ],
   currency_option: ['ETH', 'DAI', 'USDC', 'USDT', 'MATIC', 'BNB', 'BUSD-T', 'BUSD'],
   mso_plan_type_opt: ['Single cover', 'Family cover'],
-  mso_add_on_service: ['Add on Conierge services'],
+  mso_add_on_service: ['Add on Concierge services'],
   EHR: ['EHR & Portal'],
 };
 
@@ -124,57 +118,52 @@ const MultiRangeSlider = ({
   );
 };
 
-// const RangeSliderWithMarks = ({
-//   value,
-//   setValue,
-//   title,
-//   marks,
-//   defaultOpen = true,
-//   showSeparator = true,
-// }) => {
-//   const [tempValue, setTempValue] = useState(value);
-//   useEffect(() => {
-//     if (JSON.stringify(value) !== JSON.stringify(tempValue)) setTempValue(value);
-//   }, [value]);
-
-//   return (
-//     <Disclosure as="div" defaultOpen={defaultOpen}>
-//       {({ open }) => (
-//         <>
-//           <div className={classNames(showSeparator ? 'border-b' : 'border-0', 'px-5 py-3')}>
-//             <div className="text-lg text-left w-full flex items-center">
-//               <Disclosure.Button className="w-full flex items-center justify-between">
-//                 <span className="font-Montserrat font-semibold text-dark-blue-1 text-body-sm dark:text-white">
-//                   {title}
-//                 </span>
-//                 <span className="flex items-center text-black dark:text-white">
-//                   {open ? (
-//                     <MinusSmIcon className="h-4 w-4" aria-hidden="true" />
-//                   ) : (
-//                     <PlusSmIcon className="h-4 w-4" aria-hidden="true" />
-//                   )}
-//                 </span>
-//               </Disclosure.Button>
-//             </div>
-//             <Disclosure.Panel>
-//               <div className="mt-2 mb-6 px-1.5 flex flex-col">
-//                 <RangeSlider
-//                   min={1}
-//                   defaultValue={3}
-//                   marks={marks}
-//                   // step={null}
-//                   onChange={setTempValue}
-//                   onAfterChange={setValue}
-//                   tipFormatter={(value) => `${value}`}
-//                 />
-//               </div>
-//             </Disclosure.Panel>
-//           </div>
-//         </>
-//       )}
-//     </Disclosure>
-//   );
-// };
+const RangeSliderWithMarks = ({
+  value,
+  setValue,
+  title,
+  marks,
+  defaultOpen = true,
+  showSeparator = true,
+}) => {
+  return (
+    <Disclosure as="div" defaultOpen={defaultOpen}>
+      {({ open }) => (
+        <>
+          <div className={classNames(showSeparator ? 'border-b' : 'border-0', 'px-5 py-3')}>
+            <div className="text-lg text-left w-full flex items-center">
+              <Disclosure.Button className="w-full flex items-center justify-between">
+                <span className="font-Montserrat font-semibold text-dark-blue-1 text-body-sm dark:text-white">
+                  {title}
+                </span>
+                <span className="flex items-center text-black dark:text-white">
+                  {open ? (
+                    <MinusSmIcon className="h-4 w-4" aria-hidden="true" />
+                  ) : (
+                    <PlusSmIcon className="h-4 w-4" aria-hidden="true" />
+                  )}
+                </span>
+              </Disclosure.Button>
+            </div>
+            <Disclosure.Panel>
+              <div className="mt-2 mb-6 px-1.5 flex flex-col">
+                <Slider
+                  min={0}
+                  max={4}
+                  marks={marks}
+                  step={null}
+                  onChange={setValue}
+                  value={value}
+                  included={false}
+                />
+              </div>
+            </Disclosure.Panel>
+          </div>
+        </>
+      )}
+    </Disclosure>
+  );
+};
 
 const MultiCheckObjectFilter = ({
   value,
@@ -294,6 +283,7 @@ const FiltersSection = (props) => {
   const { search, type, card, filtersOpen } = props;
 
   const filtersDialogRef = useRef(null);
+
   const [duration, setDuration] = useState([
     +options.duration_days_option.min,
     +options.duration_days_option.max,
@@ -302,14 +292,15 @@ const FiltersSection = (props) => {
   const [company, setCompany] = useState([]);
   const [currencyOption, setCurrencyOption] = useState([]);
   const [chianOption, setChianOption] = useState([]);
-  const [user, setUser] = useState([+options.MSO_User_Opt[0]]);
+
+  const [msoAmount, setMsoAmount] = useState([
+    +options.MSO_amount_opt.min,
+    +options.MSO_amount_opt.max,
+  ]);
+  const [msoUser, setMsoUser] = useState(0);
+  const [wantEHR, setWantEHR] = useState([]);
   const [msoPlanTypeOpt, setMsoPlanTypeOpt] = useState([]);
   const [wantAddOn, setWantAddOn] = useState([]);
-  const [wantEHR, setwantEHR] = useState([]);
-  const [msoAmount, setMsoAmount] = useState([
-    +options.MSO_amout_opt.min,
-    +options.MSO_amout_opt.max,
-  ]);
 
   useEffect(() => {
     if (card !== 'smart-contract' && card !== 'crypto-exchange') return;
@@ -330,14 +321,15 @@ const FiltersSection = (props) => {
 
     let query = `?search=${search}`;
 
-    if (msoPlanTypeOpt.length) query += `&plan_type=${msoPlanTypeOpt.join(',')}`;
-    if (wantAddOn.length) query += `&add_on_service=1`;
-    if (wantEHR.length) query += `&ehr=1`;
     if (msoAmount.length) query += `&amount_min=${msoAmount[0]}`;
     if (msoAmount.length) query += `&amount_max=${msoAmount[1]}`;
+    if (msoUser) query += `&user_limit=${msoUser}`;
+    if (wantEHR.length) query += `&ehr=1`;
+    if (msoPlanTypeOpt.length) query += `&plan_type=${msoPlanTypeOpt.join(',')}`;
+    if (wantAddOn.length) query += `&add_on_service=1`;
 
     props.searchMSOList(query);
-  }, [msoPlanTypeOpt, wantAddOn, msoAmount, wantEHR]);
+  }, [msoPlanTypeOpt, wantAddOn, msoAmount, wantEHR, msoUser]);
 
   const handleResetFilter = () => {
     if (card === 'smart-contract' || card === 'crypto-exchange') {
@@ -355,11 +347,11 @@ const FiltersSection = (props) => {
     if (card === 'mso') {
       const query = `?search=${search}`;
 
-      setMsoAmount([options.MSO_amout_opt.min, +options.MSO_amout_opt.max]);
+      setMsoAmount([options.MSO_amount_opt.min, +options.MSO_amount_opt.max]);
+      setMsoUser(0);
+      setWantEHR([]);
       setMsoPlanTypeOpt([]);
       setWantAddOn([]);
-      setWantAddOn([]);
-      setwantEHR([]);
 
       return props.searchMSOList(query);
     }
@@ -428,13 +420,32 @@ const FiltersSection = (props) => {
 
         {card === 'mso' && (
           <>
-            {!!options.amount_option && (
+            {!!options.MSO_amount_opt && (
               <MultiRangeSlider
                 {...{
                   title: 'Amount',
-                  optionsKey: 'amount_option',
-                  value: amount,
-                  setValue: setAmount,
+                  optionsKey: 'MSO_amount_opt',
+                  value: msoAmount,
+                  setValue: setMsoAmount,
+                }}
+              />
+            )}
+            <RangeSliderWithMarks
+              {...{
+                title: 'User',
+                optionsKey: 'MSO_user_Opt',
+                value: msoUser,
+                setValue: setMsoUser,
+                marks: { 0: 'All', 1: 1, 2: 4, 3: 6, 4: 'Unlimited' },
+              }}
+            />
+            {!!options.mso_plan_type_opt && (
+              <MultiCheckValueFilter
+                {...{
+                  title: 'EHR & Portal',
+                  optionsKey: 'EHR',
+                  value: wantEHR,
+                  setValue: setWantEHR,
                 }}
               />
             )}
@@ -448,16 +459,7 @@ const FiltersSection = (props) => {
                 }}
               />
             )}
-            {!!options.mso_plan_type_opt && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'EHR & Portal',
-                  optionsKey: 'EHR',
-                  value: wantEHR,
-                  setValue: setwantEHR,
-                }}
-              />
-            )}
+
             {!!options.mso_add_on_service && (
               <MultiCheckValueFilter
                 {...{
@@ -465,6 +467,7 @@ const FiltersSection = (props) => {
                   optionsKey: 'mso_add_on_service',
                   value: wantAddOn,
                   setValue: setWantAddOn,
+                  showSeparator: false,
                 }}
               />
             )}
@@ -552,99 +555,6 @@ const FiltersSection = (props) => {
           </div>
 
           <div className="rounded-xl shadow-md bg-white dark:bg-featureCard-dark-bg">
-            {/* {!!options.duration_days_option && (
-              <MultiRangeSlider
-                {...{
-                  title: 'Duration',
-                  optionsKey: 'duration_days_option',
-                  value: duration,
-                  setValue: setDuration,
-                }}
-              />
-            )}
-            {!!options.amount_option && (
-              <MultiRangeSlider
-                {...{
-                  title: 'Amount',
-                  optionsKey: 'amount_option',
-                  value: amount,
-                  setValue: setAmount,
-                }}
-              />
-            )}
-            {!!options.MSO_amout_opt && (
-              <MultiRangeSlider
-                {...{
-                  title: 'Amount',
-                  optionsKey: 'MSO_amout_opt',
-                  value: msoAmount,
-                  setValue: setMsoAmount,
-                }}
-              />
-            )}
-            {!!options.mso_plan_type_opt && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'EHR & Portal',
-                  optionsKey: 'EHR',
-                  value: wantEHR,
-                  setValue: setwantEHR,
-                }}
-              />
-            )}
-            {!!options.mso_plan_type_opt && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'Plan type',
-                  optionsKey: 'mso_plan_type_opt',
-                  value: msoPlanTypeOpt,
-                  setValue: setMsoPlanTypeOpt,
-                }}
-              />
-            )}
-
-            {!!options.mso_add_on_service && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'Add on',
-                  optionsKey: 'mso_add_on_service',
-                  value: wantAddOn,
-                  setValue: setWantAddOn,
-                }}
-              />
-            )}
-            {!!options.companies_option && (
-              <MultiCheckObjectFilter
-                {...{
-                  title: 'Company',
-                  optionsKey: 'companies_option',
-                  value: company,
-                  setValue: setCompany,
-                }}
-              />
-            )}
-            {!!options.currency_option && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'Currency',
-                  optionsKey: 'currency_option',
-                  value: currencyOption,
-                  setValue: setCurrencyOption,
-                }}
-              />
-            )}
-            {!!options.supported_chain_option && (
-              <MultiCheckValueFilter
-                {...{
-                  title: 'Supported Chain',
-                  optionsKey: 'supported_chain_option',
-                  value: chianOption,
-                  setValue: setChianOption,
-                  defaultOpen: false,
-                  showSeparator: false,
-                }}
-              />
-            )} */}
             {renderFilterFields()}
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import uniqid from 'uniqid';
 import CartCard from '../components/CartCard';
 import RightArrow from '../assets/img/Arrow-Right.svg';
@@ -27,20 +28,31 @@ const CartArr = [
 ];
 
 const Cart = (props) => {
+  const { cart } = props;
   const [promoCode, setPromoCode] = useState('');
 
   return (
     <div className="py-6 md:px-10">
       <div className="grid xl:grid-cols-12 lg:grid-cols-2 md:grid-cols-2 xl:gap-10 lg:gap-8 md:gap-6 xl:px-40 md:px-24 lg:px-24 z-10">
-        <div className="col-span-8">
+        <div className="col-span-12 lg:col-span-8">
           <div className="font-Montserrat text-dark-blue font-semibold text-h2 mb-6 dark:text-white">
             Order Cart
           </div>
-          {CartArr.map((cart) => (
-            <CartCard key={uniqid()} {...props} {...cart} />
-          ))}
+          {cart?.length ? (
+            cart.map((cart) => <CartCard key={uniqid()} {...props} {...cart} />)
+          ) : (
+            <div className="text-center bg-white shadow-md rounded-lg p-6 mb-6">
+              <div className="font-Montserrat text-h5 font-semibold mb-2">
+                Shopping cart is empty
+              </div>
+              <div className="font-Montserrat text-body-md font-medium leading-4 text-gray-600">
+                You have no items in your shopping cart.
+              </div>
+            </div>
+          )}
         </div>
-        <div className="col-span-4">
+
+        <div className="col-span-12 lg:col-span-4">
           <div className="font-Montserrat text-dark-blue font-semibold text-h2 mb-6 dark:text-white">
             Payment
           </div>
@@ -61,7 +73,7 @@ const Cart = (props) => {
                 $50
               </div>
             </div>
-            <div className="grid grid-cols-12 gap-x-6">
+            <div className="grid grid-cols-12">
               <div className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white col-span-6 flex items-center">
                 Promo Code
               </div>
@@ -96,4 +108,9 @@ const Cart = (props) => {
     </div>
   );
 };
-export default Cart;
+
+const mapStateToProps = ({ app }) => ({
+  cart: app.cart,
+});
+
+export default connect(mapStateToProps, null)(Cart);

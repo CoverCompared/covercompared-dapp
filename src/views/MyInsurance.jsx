@@ -37,7 +37,11 @@ const MyInsurance = (props) => {
             >
               Submit Review
             </button>
-            <Modal title="Additional Details" renderComponent={<AdditionalDetails {...props} />}>
+            <Modal
+              title="Additional Details"
+              bgImg="bg-additionalDetailsBg"
+              renderComponent={<AdditionalDetails {...props} />}
+            >
               <button
                 type="button"
                 className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
@@ -62,7 +66,11 @@ const MyInsurance = (props) => {
             </div>
           </div>
           <div className="flex md:justify-end items-center md:col-span-6 col-span-12">
-            <Modal title="Instruction" renderComponent={<ClaimCards {...props} />}>
+            <Modal
+              title="Instruction"
+              bgImg="bg-submitclaimBg bg-cover"
+              renderComponent={<ClaimCards {...props} />}
+            >
               <button
                 type="button"
                 className="md:px-6 py-3 px-4 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "

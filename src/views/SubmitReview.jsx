@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import StarRatings from 'react-star-ratings';
+import FormInput from '../components/FormInput';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 
 const ContactUs = () => {
@@ -15,30 +16,22 @@ const ContactUs = () => {
   return (
     <>
       <MobilePageTitle title="Submit review" />
-      <form className="md:pr-28 md:pl-6 mb-8">
+      <form className="md:pr-28 md:pl-6 mb-8 md:mt-6">
         <div className="grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8">
           <div className="relative col-span-12 md:col-span-6">
-            <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
-              Name
-            </label>
-            <input
-              type="text"
-              id="rounded-name"
-              className="mt-3 py-2 px-4 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-black focus:ring-shadow-none"
-              placeholder="Fill Your Name Here"
-              onChange={(e) => SetName(e.target.value)}
+            <FormInput
+              title="First Name"
+              inputValue={name}
+              setChange={SetName}
+              inputPlaceholder="Enter your Name"
             />
           </div>
           <div className="relative col-span-12 md:col-span-6">
-            <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
-              Email
-            </label>
-            <input
-              type="text"
-              id="rounded-email"
-              className="mt-3 py-2 px-4 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-black focus:ring-shadow-none"
-              placeholder="Fill Your Email Here"
-              onChange={(e) => SetEmail(e.target.value)}
+            <FormInput
+              title="Email"
+              inputValue={email}
+              setChange={SetEmail}
+              inputPlaceholder="Enter your Email"
             />
           </div>
         </div>
@@ -49,7 +42,7 @@ const ContactUs = () => {
           </label>
           <textarea
             onChange={(e) => SetReviews(e.target.value)}
-            className="mt-3 py-2 px-4 h-32 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-black focus:ring-shadow-none"
+            className="mt-3 py-2 px-4 h-32 rounded-lg appearance-none w-full border-0 bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm"
             placeholder="Reviews"
           />
         </div>

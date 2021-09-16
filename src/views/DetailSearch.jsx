@@ -147,7 +147,7 @@ const DetailSearch = (props) => {
                   data-for="search-tool-tip"
                   data-tip="Hello world"
                   data-iscapture="true"
-                  className="bg-login-button-bg h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-white flex justify-center items-center mr-4 cursor-pointer"
+                  className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
                 >
                   i
                 </div>
@@ -162,12 +162,12 @@ const DetailSearch = (props) => {
                 <button
                   type="button"
                   onClick={() => props.toggleFilters(true)}
-                  className="focus:outline-none focus:ring-offset-0"
+                  className="focus:outline-none focus:ring-offset-0 md:mr-4"
                 >
                   <img
                     src={theme === 'light' ? MobileFilterIcon : MobileFilterWhiteIcon}
                     alt=""
-                    className="md:hidden mr-4"
+                    className="md:hidden"
                   />
                 </button>
                 <div

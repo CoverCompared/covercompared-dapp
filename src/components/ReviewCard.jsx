@@ -14,7 +14,7 @@ const ReviewCard = ({ name, image, rating, uploaded, description }) => {
               <div className="font-Inter text-h6 font-medium leading-tight dark:text-white">
                 {name}
               </div>
-              <div className="font-Inter text-body-xsm font-light leading-tight text-counter-card-text dark:text-subtitle-dark-text">
+              <div className="font-Inter text-body-xs font-light leading-tight text-counter-card-text dark:text-subtitle-dark-text">
                 {uploaded}
               </div>
             </div>

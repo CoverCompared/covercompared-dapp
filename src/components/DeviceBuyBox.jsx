@@ -10,16 +10,35 @@ const DeviceBuyBox = (props) => {
   const { coverListData } = props;
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
 
-  const [device, setDevice] = useState(deviceOptions[0]);
+  console.log('devicePlanDetails :>> ', devicePlanDetails);
+
+  const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
   const [brand, setBrand] = useState(deviceDetails?.brand?.[0] || '');
-  const [value, setValue] = useState(deviceDetails?.device_values?.[0] || '');
+  const [value, setValue] = useState(Object.values(deviceDetails?.device_values || {})?.[0] || '');
   const [purchaseMonth, setPurchaseMonth] = useState(deviceDetails?.purchase_month?.[0] || '');
-  const [quoteField, setQuoteField] = useState('350');
+  const [quoteField, setQuoteField] = useState('');
   const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
 
   useEffect(() => {
-    props.getDeviceDetails({ device, partner_code: 'Crypto' });
-  }, [device]);
+    props.getDeviceDetails({
+      endpoint: 'device-details',
+      device: 'Mobile Phone',
+      partner_code: 'Crypto',
+    });
+  }, [deviceType]);
+
+  useEffect(() => {
+    if (deviceType && brand && value && purchaseMonth) {
+      props.getDevicePlanDetails({
+        endpoint: 'plan-details',
+        device: deviceType,
+        brand,
+        device_value: value,
+        purchase_month: purchaseMonth,
+        tran_id: deviceDetails.tran_id,
+      });
+    }
+  }, [deviceType, brand, value, purchaseMonth]);
 
   return (
     <>
@@ -27,15 +46,17 @@ const DeviceBuyBox = (props) => {
         Cover Period and Amount
       </div>
       <form onSubmit={() => {}}>
-        <div className="grid grid-cols-2 gap-4 mb-3">
+        <div className="mb-2">
           <InputWithSelect
             {...props}
             showColumnLayout
             fieldTitle="Device"
-            selectedOption={device}
-            setSelectedOption={setDevice}
+            selectedOption={deviceType}
+            setSelectedOption={setDeviceType}
             dropdownOptions={deviceOptions}
           />
+        </div>
+        <div className="mb-2">
           <InputWithSelect
             {...props}
             showColumnLayout
@@ -44,14 +65,18 @@ const DeviceBuyBox = (props) => {
             setSelectedOption={setBrand}
             dropdownOptions={deviceDetails?.brand || []}
           />
+        </div>
+        <div className="mb-2">
           <InputWithSelect
             {...props}
             showColumnLayout
             fieldTitle="Value"
             selectedOption={value}
             setSelectedOption={setValue}
-            dropdownOptions={deviceDetails?.device_values || []}
+            dropdownOptions={Object.values(deviceDetails?.device_values || {}) || []}
           />
+        </div>
+        <div className="mb-2">
           <InputWithSelect
             {...props}
             showColumnLayout
@@ -61,6 +86,7 @@ const DeviceBuyBox = (props) => {
             dropdownOptions={deviceDetails?.purchase_month || []}
           />
         </div>
+
         <InputWithSelect
           {...props}
           readOnly

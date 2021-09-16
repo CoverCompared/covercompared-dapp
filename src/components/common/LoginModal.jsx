@@ -1,19 +1,22 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
+import { useDispatch, useSelector } from 'react-redux';
 import { classNames } from '../../functions/utils';
+import { setModalVisible } from '../../redux/actions';
 
-const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false, bgImg }) => {
-  const [open, setOpen] = useState(false);
+const LoginModal = ({ children, sizeClass, title, renderComponent: C, showCTA = false, bgImg }) => {
+  const { modalVisible } = useSelector((state) => state.app);
+  const dispatch = useDispatch();
 
   return (
     <>
-      <div onClick={(e) => setOpen(true)}>{children}</div>
-      <Transition.Root show={open} as={Fragment}>
+      <div onClick={(e) => dispatch(setModalVisible(true))}>{children}</div>
+      <Transition.Root show={modalVisible} as={Fragment}>
         <Dialog
           as="div"
           className="fixed z-40 inset-0 overflow-y-auto"
-          onClose={() => setOpen(false)}
+          onClose={() => dispatch(setModalVisible(false))}
         >
           <div className="flex md:items-end items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <Transition.Child
@@ -53,7 +56,7 @@ const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false
                       {showCTA || (
                         <button
                           type="button"
-                          onClick={() => setOpen(false)}
+                          onClick={() => dispatch(setModalVisible(false))}
                           className="bg-white dark:bg-transparent rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-offset-0"
                         >
                           <span className="sr-only">Close</span>
@@ -84,4 +87,4 @@ const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false
   );
 };
 
-export default Modal;
+export default LoginModal;

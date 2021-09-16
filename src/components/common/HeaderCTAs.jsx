@@ -9,6 +9,7 @@ import BuyIcon from '../../assets/icons/buy.svg';
 import BuyWhiteIcon from '../../assets/dark-icons/Buy.svg';
 import Login from '../Login';
 import Modal from './Modal';
+import LoginModal from './LoginModal';
 import { ThemeContext } from '../../themeContext';
 
 const InsuranceGrid = (props) => (
@@ -40,7 +41,7 @@ const HeaderCTAs = (props) => {
         </Modal>
       )}
       <CartButton />
-      <Modal title="Log In" bgImg="bg-loginPopupBg" renderComponent={<Login {...props} />}>
+      <LoginModal title="Log In" bgImg="bg-loginPopupBg" renderComponent={<Login {...props} />}>
         <button
           type="button"
           className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
@@ -48,7 +49,7 @@ const HeaderCTAs = (props) => {
           <img src={LoginIcon} alt="Login" className="mr-1" />
           Log In
         </button>
-      </Modal>
+      </LoginModal>
     </div>
   );
 };

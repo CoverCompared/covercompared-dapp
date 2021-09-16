@@ -15,7 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   const tryActivation = async (connect) => {
-    console.log(connect);
+    console.log(connect, account);
     login(connect);
     dispatch(setModalVisible(false));
   };

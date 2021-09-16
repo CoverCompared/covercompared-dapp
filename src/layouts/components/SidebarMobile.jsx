@@ -168,7 +168,7 @@ const Sidebar = (props) => {
                 </Modal>
                 <Modal
                   title="Log In"
-                  bgImg="bg-loginPopupBg"
+                  bgImg="bg-loginPopupMobileBg bg-cover"
                   renderComponent={<Login {...props} />}
                 >
                   <button

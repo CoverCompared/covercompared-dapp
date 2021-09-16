@@ -22,7 +22,7 @@ module.exports = {
         cartPageBg: "url('./assets/bg-img/cart-page-bg.png')",
         packagePageBg: "url('./assets/bg-img/package-page-bg.png')",
         myInsurancePageBg: "url('./assets/bg-img/my-insurance-page-bg.png')",
-        globalPolicyBg: "url('./assets/bg-img/global-policy-bg.png')",
+        globalPolicyBg: "url('./assets/img/global-banner-bg.png')",
         aboutTokenTopBanner: "url('./assets/bg-img/about-token-top-banner.png')",
         subscribeBannerBg: "url('./assets/bg-img/subscribe-banner-bg.png')",
         commonSectionBg: "url('./assets/bg-img/common-secion-bg.png')",

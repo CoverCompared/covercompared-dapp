@@ -31,19 +31,14 @@ const DetailSearch = (props) => {
   const { theme } = useContext(ThemeContext);
   const [changeView, setChangeView] = useState(false);
 
-  const [type, setType] = useState('');
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState(coverList || []);
   const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    const callOnMount = () => {
-      if (card === 'smart-contract') setType('protocol');
-      else if (card === 'crypto-exchange') setType('custodian');
-      else setType('');
-    };
-    callOnMount();
-  }, []);
+  let type;
+  if (card === 'smart-contract') type = 'protocol';
+  else if (card === 'crypto-exchange') type = 'custodian';
+  else type = '';
 
   useEffect(() => {
     setProducts(coverList);

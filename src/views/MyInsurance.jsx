@@ -40,7 +40,7 @@ const MyInsurance = (props) => {
             <Modal
               title="Additional Details"
               bgImg="md:bg-additionalDetailsBg bg-loginPopupMobileBg bg-100%"
-              renderComponent={<AdditionalDetails {...props} />}
+              renderComponent={AdditionalDetails}
             >
               <button
                 type="button"
@@ -69,7 +69,7 @@ const MyInsurance = (props) => {
             <Modal
               title="Instruction"
               bgImg="md:bg-submitclaimBg bg-submitclaimPopupBg bg-cover"
-              renderComponent={<ClaimCards {...props} />}
+              renderComponent={ClaimCards}
             >
               <button
                 type="button"

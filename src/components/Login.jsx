@@ -1,23 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../hooks/useAuth';
 import GoogleIcon from '../assets/img/google.png';
 import SUPPORTED_WALLETS from '../config/walletConfig';
-import { setModalVisible } from '../redux/actions';
+import { setLoginModalVisible } from '../redux/actions';
 
-const Login = () => {
-  const { account } = useWeb3React();
+const Login = ({ isModalOpen, setIsModalOpen }) => {
   const { login } = useAuth();
   const dispatch = useDispatch();
+  const { loginModalVisible } = useSelector((state) => state.app);
 
+  const { account } = useWeb3React();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    dispatch(setLoginModalVisible(true));
+  }, []);
+
+  useEffect(() => {
+    if (!isModalOpen && loginModalVisible) setIsModalOpen(true);
+    if (isModalOpen && !loginModalVisible) setIsModalOpen(false);
+  }, [loginModalVisible]);
 
   const tryActivation = async (connect) => {
     console.log(connect);
     login(connect);
-    dispatch(setModalVisible(false));
+    dispatch(setLoginModalVisible(false));
   };
 
   function getWalletOption() {

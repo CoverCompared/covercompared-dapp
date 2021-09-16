@@ -109,7 +109,7 @@ const featureCards = [
 
 const Features = (props) => {
   return (
-    <div className="flex flex-col items-center md:px-36 md:pb-40 pb-16 text-center">
+    <div className="flex flex-col items-center md:px-36 md:pb-20 pb-16 text-center">
       <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center lg:max-w-xs dark:text-subtitle-dark-text">
         Save money on your insurance in 4 easy step!
       </h2>
@@ -134,7 +134,7 @@ export default function Home(props) {
         title="Motto of the Company"
         subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel semper blandit euismod vitae eleifend vitae eleifend massa imperdiet."
       />
-      <div className="grid grid-cols-2 gap-4 xl:gap-y-8 md:gap-x-6 md:grid-cols-2 lg:grid-cols-2 xl:gap-x-8 md:pb-40 pb-12 xl:px-40 relative">
+      <div className="grid grid-cols-2 gap-4 xl:gap-y-8 md:gap-x-6 md:grid-cols-2 lg:grid-cols-2 xl:gap-x-8 md:pb-20 pb-12 xl:px-40 relative">
         <InsuranceCards {...props} />
         <img
           src={InsuranceCardDotBg}
@@ -143,13 +143,13 @@ export default function Home(props) {
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-y-6 gap-x-6 xl:gap-y-8 xl:gap-x-8 md:grid-cols-3 lg:grid-cols-3 md:px-36 md:pb-40 px-0 pb-10">
+      <div className="grid grid-cols-3 gap-y-6 gap-x-6 xl:gap-y-8 xl:gap-x-8 md:grid-cols-3 lg:grid-cols-3 md:px-36 md:pb-20 px-0 pb-10">
         {counterCards.map(({ title, subtitle }) => (
           <CounterCard {...props} key={uniqid()} title={title} subtitle={subtitle} />
         ))}
       </div>
 
-      <div className="md:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 md:px-14 md:pb-40 pb-14">
+      <div className="md:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 md:px-14 md:pb-20 pb-14">
         {postCards.map(({ image, title, body, ctaLink }) => (
           <PostCard
             {...props}
@@ -187,7 +187,7 @@ export default function Home(props) {
 
       <Features {...props} />
 
-      <div className="md:pb-40 pb-16">
+      <div className="md:pb-20 pb-16">
         <h2 className="font-Montserrat font-semibold md:text-h2 text-h4 mb-4 text-dark-blue dark:text-white">
           Our Insurance Partners
         </h2>
@@ -266,7 +266,7 @@ export default function Home(props) {
         </div>
       </div>
 
-      <div className="md:px-28 pb-20">
+      <div className="md:px-28 pb-0 lg:pb-20">
         <div className=" bg-gradient-to-r from-global-banner-gd-1 to-global-banner-gd-2 rounded-2xl">
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-20 md:py-14 px-4 py-12 md:bg-globalPolicyBg bg-globalPolicyMobileBg bg-100%">
             <div className="flex items-center text-white font-Montserrat font-bold text-30 md:col-span-1 col-span-2 justify-center md:justify-start mb-6 md:mb-0">

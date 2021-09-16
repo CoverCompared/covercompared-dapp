@@ -153,11 +153,7 @@ const Sidebar = (props) => {
               </nav>
               <div className="border-t-2 border-grey-300 mt-5 mb-6 w-full" />
               <div className="flex justify-between items-center mt-6">
-                <Modal
-                  title="Buy Insurance"
-                  sizeClass="max-w-4xl"
-                  renderComponent={<InsuranceGrid {...props} />}
-                >
+                <Modal title="Buy Insurance" sizeClass="max-w-4xl" renderComponent={InsuranceGrid}>
                   <button
                     type="button"
                     className="md:ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-buyInsurance md:text-body-md text-body-sm leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2"
@@ -166,11 +162,7 @@ const Sidebar = (props) => {
                     Buy Insurance
                   </button>
                 </Modal>
-                <Modal
-                  title="Log In"
-                  bgImg="bg-loginPopupMobileBg bg-100%"
-                  renderComponent={<Login {...props} />}
-                >
+                <Modal title="Log In" bgImg="bg-loginPopupMobileBg bg-100%" renderComponent={Login}>
                   <button
                     type="button"
                     className="md:ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm md:text-body-md text-body-sm leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"

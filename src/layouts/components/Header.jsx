@@ -10,7 +10,7 @@ const Header = (props) => {
       <HeaderMobile {...props} />
       <div
         style={{ width: 'calc(100% - 18rem)' }}
-        className={`hidden lg:flex lg:flex-shrink-0 bg-white dark:bg-body-dark-bg pt-7 fixed z-20  ${
+        className={`hidden lg:flex lg:flex-shrink-0 bg-body-bg dark:bg-body-dark-bg pt-7 fixed z-20  ${
           !subtitle && 'pb-4'
         }`}
       >

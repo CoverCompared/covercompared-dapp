@@ -25,14 +25,10 @@ const HeaderCTAs = (props) => {
     <div className="flex items-center">
       <ThemeToggleSwitch />
       {showBuyButton && (
-        <Modal
-          title="Buy Insurance"
-          sizeClass="max-w-4xl"
-          renderComponent={<InsuranceGrid {...props} />}
-        >
+        <Modal title="Buy Insurance" sizeClass="max-w-4xl" renderComponent={InsuranceGrid}>
           <button
             type="button"
-            className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-buyInsurance text-body-md leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2"
+            className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2"
           >
             <img src={BuyInsuranceIcon} alt="Buy Insurance" className="mr-2" />
             Buy Insurance
@@ -40,10 +36,10 @@ const HeaderCTAs = (props) => {
         </Modal>
       )}
       <CartButton />
-      <Modal title="Log In" bgImg="bg-loginPopupBg" renderComponent={<Login {...props} />}>
+      <Modal title="Log In" bgImg="bg-loginPopupBg" renderComponent={Login}>
         <button
           type="button"
-          className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+          className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
         >
           <img src={LoginIcon} alt="Login" className="mr-1" />
           Log In

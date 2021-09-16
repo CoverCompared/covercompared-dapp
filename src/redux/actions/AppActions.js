@@ -3,7 +3,7 @@ import {
   TOGGLE_SIDEBAR,
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
-  MODAL_VISIBLE,
+  LOGIN_MODAL_VISIBLE,
   ADD_ITEM_TO_CART,
   REMOVE_ITEM_TO_CART,
 } from '../constants/ActionTypes';
@@ -29,9 +29,9 @@ export const setCurrentProduct = (payload) => {
   };
 };
 
-export const setModalVisible = (payload) => {
+export const setLoginModalVisible = (payload) => {
   return {
-    type: MODAL_VISIBLE,
+    type: LOGIN_MODAL_VISIBLE,
     payload,
   };
 };

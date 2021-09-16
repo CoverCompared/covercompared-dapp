@@ -1,14 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { getQuote } from '../redux/actions/CoverList';
 import InputWithSelect from './common/InputWithSelect';
+import { getQuote } from '../redux/actions/CoverList';
 import { addItemToCart } from '../redux/actions/AppActions';
 
 const periodOptions = ['Days', 'Week', 'Month'];
 
 const CoverBuyBox = (props) => {
-  const { quote, loader, product } = props;
+  const dispatch = useDispatch();
+  const { quote, loader } = useSelector((state) => state.coverList);
+  const { currentProduct: product } = useSelector((state) => state.app);
+
   const { company_code, address, product_id, currency, supportedChains } = product || {};
 
   const [periodField, setPeriodField] = useState('30');
@@ -37,20 +40,22 @@ const CoverBuyBox = (props) => {
         break;
     }
 
-    props.getQuote({
-      address,
-      period,
-      product_id,
-      company: company_code,
-      currency: amountSelect,
-      coverAmount: amountField,
-      supported_chain: quoteSelect,
-    });
+    dispatch(
+      getQuote({
+        address,
+        period,
+        product_id,
+        company: company_code,
+        currency: amountSelect,
+        coverAmount: amountField,
+        supported_chain: quoteSelect,
+      }),
+    );
   };
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    props.addItemToCart(props.product);
+    dispatch(addItemToCart(props.product));
     toast.success('Item added to cart!');
   };
 
@@ -121,10 +126,4 @@ const CoverBuyBox = (props) => {
   );
 };
 
-const mapStateToProps = ({ coverList, app }) => ({
-  quote: coverList.quote,
-  loader: coverList.loader,
-  product: app.currentProduct,
-});
-
-export default connect(mapStateToProps, { getQuote, addItemToCart })(CoverBuyBox);
+export default CoverBuyBox;

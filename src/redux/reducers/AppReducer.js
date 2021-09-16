@@ -3,7 +3,7 @@ import {
   TOGGLE_SIDEBAR,
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
-  MODAL_VISIBLE,
+  LOGIN_MODAL_VISIBLE,
   ADD_ITEM_TO_CART,
   REMOVE_ITEM_TO_CART,
 } from '../constants/ActionTypes';
@@ -12,7 +12,7 @@ const INIT_STATE = {
   sidebarOpen: false,
   filtersOpen: false,
   currentProduct: null,
-  modalVisible: false,
+  loginModalVisible: false,
   cart: [],
 };
 
@@ -48,10 +48,10 @@ export default (state = INIT_STATE, { type, payload }) => {
         cart: state.cart.filter((f) => f.uuid !== payload),
       };
     }
-    case MODAL_VISIBLE: {
+    case LOGIN_MODAL_VISIBLE: {
       return {
         ...state,
-        modalVisible: payload,
+        loginModalVisible: payload,
       };
     }
     default:

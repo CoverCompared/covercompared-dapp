@@ -1,28 +1,20 @@
 import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
-import { useDispatch, useSelector } from 'react-redux';
 import { classNames } from '../../functions/utils';
-import { setModalVisible } from '../../redux/actions';
 
-const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false, bgImg }) => {
-  const { modalVisible } = useSelector((state) => state.app);
-  const [open, setOpen] = useState(false);
-  const dispatch = useDispatch();
-
-  const handleOpen = async (e) => {
-    e.preventDefault();
-    dispatch(setModalVisible(true));
-  };
+const Modal = (props) => {
+  const { children, sizeClass, title, renderComponent: C, showCTA = false, bgImg } = props;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
-      <div onClick={(e) => setOpen(true)}>{children}</div>
-      <Transition.Root show={open} as={Fragment}>
+      <div onClick={(e) => setIsModalOpen(true)}>{children}</div>
+      <Transition.Root show={isModalOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed z-40 inset-0 overflow-y-auto"
-          onClose={() => setOpen(false)}
+          onClose={() => setIsModalOpen(false)}
         >
           <div className="flex md:items-end items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <Transition.Child
@@ -62,7 +54,7 @@ const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false
                       {showCTA || (
                         <button
                           type="button"
-                          onClick={() => setOpen(false)}
+                          onClick={() => setIsModalOpen(false)}
                           className="bg-white dark:bg-transparent rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-offset-0"
                         >
                           <span className="sr-only">Close</span>
@@ -80,7 +72,9 @@ const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false
                       >
                         {title || 'Dialog'}
                       </Dialog.Title>
-                      <div className="mt-2">{C || null}</div>
+                      <div className="mt-2">
+                        <C {...props} {...{ isModalOpen, setIsModalOpen }} />
+                      </div>
                     </div>
                   </div>
                 </div>

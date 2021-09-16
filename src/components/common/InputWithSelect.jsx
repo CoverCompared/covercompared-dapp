@@ -3,7 +3,7 @@ import uniqid from 'uniqid';
 import DownArrow from '../../assets/img/Arrow-Down.svg';
 import DownArrowWhite from '../../assets/dark-icons/Arrow-Down.svg';
 import { ThemeContext } from '../../themeContext';
-import { classNames } from '../../functions/utils';
+import { classNames, getKeyByValue, isObject } from '../../functions/utils';
 import Loading from './Loading';
 
 export default function InputWithSelect({
@@ -61,7 +61,7 @@ export default function InputWithSelect({
                   className="text-Montserrat text-h6 text-dark-blue font-medium flex items-center dark:text-white"
                   onClick={() => setIsOpen(!isOpen)}
                 >
-                  {selectedOption}{' '}
+                  {isObject(dropdownOptions) ? dropdownOptions[selectedOption] : selectedOption}{' '}
                   <img
                     src={theme === 'light' ? DownArrow : DownArrowWhite}
                     alt="Down Arrow"
@@ -70,20 +70,37 @@ export default function InputWithSelect({
                 </div>
                 {isOpen && (
                   <div className="absolute left-20 top-0 z-20">
-                    <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
-                      {dropdownOptions.map((option) => (
-                        <div
-                          key={uniqid()}
-                          className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
-                          onClick={() => {
-                            setSelectedOption(option);
-                            setIsOpen(false);
-                          }}
-                        >
-                          {option}
-                        </div>
-                      ))}
-                    </div>
+                    {isObject(dropdownOptions) ? (
+                      <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
+                        {Object.values(dropdownOptions || {}).map((option) => (
+                          <div
+                            key={uniqid()}
+                            className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
+                            onClick={() => {
+                              setSelectedOption(getKeyByValue(dropdownOptions, option));
+                              setIsOpen(false);
+                            }}
+                          >
+                            {option}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
+                        {dropdownOptions.map((option) => (
+                          <div
+                            key={uniqid()}
+                            className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
+                            onClick={() => {
+                              setSelectedOption(option);
+                              setIsOpen(false);
+                            }}
+                          >
+                            {option}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -95,29 +112,47 @@ export default function InputWithSelect({
               className="text-Montserrat text-h6 text-dark-blue font-medium flex items-center dark:text-white"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {selectedOption}{' '}
+              {isObject(dropdownOptions) ? dropdownOptions[selectedOption] : selectedOption}{' '}
               <img
                 src={theme === 'light' ? DownArrow : DownArrowWhite}
                 alt="Down Arrow"
                 className="ml-1"
               />
             </div>
+
             {isOpen && (
               <div className="absolute left-20 top-0 z-20">
-                <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
-                  {dropdownOptions.map((option) => (
-                    <div
-                      key={uniqid()}
-                      className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
-                      onClick={() => {
-                        setSelectedOption(option);
-                        setIsOpen(false);
-                      }}
-                    >
-                      {option}
-                    </div>
-                  ))}
-                </div>
+                {isObject(dropdownOptions) ? (
+                  <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
+                    {Object.values(dropdownOptions || {}).map((option) => (
+                      <div
+                        key={uniqid()}
+                        className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
+                        onClick={() => {
+                          setSelectedOption(getKeyByValue(dropdownOptions, option));
+                          setIsOpen(false);
+                        }}
+                      >
+                        {option}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
+                    {dropdownOptions.map((option) => (
+                      <div
+                        key={uniqid()}
+                        className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
+                        onClick={() => {
+                          setSelectedOption(option);
+                          setIsOpen(false);
+                        }}
+                      >
+                        {option}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>

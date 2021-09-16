@@ -13,11 +13,13 @@ const DeviceBuyBox = (props) => {
   console.log('devicePlanDetails :>> ', devicePlanDetails);
 
   const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
-  const [brand, setBrand] = useState(deviceDetails?.brand?.[0] || '');
-  const [value, setValue] = useState(Object.values(deviceDetails?.device_values || {})?.[0] || '');
-  const [purchaseMonth, setPurchaseMonth] = useState(deviceDetails?.purchase_month?.[0] || '');
+  const [brand, setBrand] = useState('');
+  const [value, setValue] = useState('');
+  const [purchaseMonth, setPurchaseMonth] = useState('');
   const [quoteField, setQuoteField] = useState('');
   const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
+
+  console.log('value :>> ', value);
 
   useEffect(() => {
     props.getDeviceDetails({
@@ -26,6 +28,12 @@ const DeviceBuyBox = (props) => {
       partner_code: 'Crypto',
     });
   }, [deviceType]);
+
+  useEffect(() => {
+    setBrand(deviceDetails?.brand?.[0] || '');
+    setValue(Object.keys(deviceDetails?.device_values || {})?.[0] || '');
+    setPurchaseMonth(deviceDetails?.purchase_month?.[0] || '');
+  }, [deviceDetails]);
 
   useEffect(() => {
     if (deviceType && brand && value && purchaseMonth) {
@@ -73,7 +81,7 @@ const DeviceBuyBox = (props) => {
             fieldTitle="Value"
             selectedOption={value}
             setSelectedOption={setValue}
-            dropdownOptions={Object.values(deviceDetails?.device_values || {}) || []}
+            dropdownOptions={deviceDetails?.device_values || {}}
           />
         </div>
         <div className="mb-2">

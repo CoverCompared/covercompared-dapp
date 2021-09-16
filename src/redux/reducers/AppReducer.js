@@ -1,3 +1,4 @@
+import { uniqueId } from 'lodash';
 import {
   TOGGLE_SIDEBAR,
   TOGGLE_FILTERS,
@@ -34,23 +35,15 @@ export default (state = INIT_STATE, { type, payload }) => {
       };
     }
     case ADD_ITEM_TO_CART: {
-      let cart;
-      if (state.cart.find((f) => f?.address === payload?.address)) {
-        cart = state.cart.map((m) =>
-          m.address === payload?.address ? { ...m, qty: m.qty + 1 } : m,
-        );
-      } else {
-        cart = [...state.cart, { ...payload, qty: 1 }];
-      }
       return {
         ...state,
-        cart,
+        cart: [...state.cart, { ...payload, uuid: uniqueId() }],
       };
     }
     case REMOVE_ITEM_TO_CART: {
       return {
         ...state,
-        cart: state.cart.filter((f) => f.address !== payload),
+        cart: state.cart.filter((f) => f.uuid !== payload),
       };
     }
     default:

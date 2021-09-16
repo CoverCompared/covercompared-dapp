@@ -14,15 +14,15 @@ const RangeSlider = createSliderWithTooltip(Range);
 
 const options = {
   duration_days_option: {
-    min: '15',
+    min: 15,
     max: 365,
   },
-  MSO_amout_opt: {
+  MSO_amount_opt: {
     min: 50,
     max: 115,
   },
   amount_option: {
-    min: 1,
+    min: 0.1,
     max: 20000,
   },
   companies_option: [
@@ -58,7 +58,7 @@ const options = {
   ],
   currency_option: ['ETH', 'DAI', 'USDC', 'USDT', 'MATIC', 'BNB', 'BUSD-T', 'BUSD'],
   mso_plan_type_opt: ['Single cover', 'Family cover'],
-  mso_add_on_service: ['Add on Conierge services'],
+  mso_add_on_service: ['Add on Concierge services'],
   EHR: ['EHR & Portal'],
 };
 
@@ -126,11 +126,6 @@ const RangeSliderWithMarks = ({
   defaultOpen = true,
   showSeparator = true,
 }) => {
-  const [tempValue, setTempValue] = useState(value);
-  useEffect(() => {
-    if (JSON.stringify(value) !== JSON.stringify(tempValue)) setTempValue(value);
-  }, [value]);
-  const MSO_user_Opt = { 0: 1, 33: 4, 66: 6, 100: 'unlimited' };
   return (
     <Disclosure as="div" defaultOpen={defaultOpen}>
       {({ open }) => (
@@ -153,12 +148,12 @@ const RangeSliderWithMarks = ({
             <Disclosure.Panel>
               <div className="mt-2 mb-6 px-1.5 flex flex-col">
                 <Slider
-                  min={1}
-                  defaultValue={1}
-                  marks={MSO_user_Opt}
+                  min={0}
+                  max={4}
+                  marks={marks}
                   step={null}
-                  onChange={setTempValue}
-                  onAfterChange={setValue}
+                  onChange={setValue}
+                  value={value}
                   included={false}
                 />
               </div>
@@ -288,6 +283,7 @@ const FiltersSection = (props) => {
   const { search, type, card, filtersOpen } = props;
 
   const filtersDialogRef = useRef(null);
+
   const [duration, setDuration] = useState([
     +options.duration_days_option.min,
     +options.duration_days_option.max,
@@ -296,14 +292,15 @@ const FiltersSection = (props) => {
   const [company, setCompany] = useState([]);
   const [currencyOption, setCurrencyOption] = useState([]);
   const [chianOption, setChianOption] = useState([]);
-  const [msoUser, setMsoUser] = useState([]);
+
+  const [msoAmount, setMsoAmount] = useState([
+    +options.MSO_amount_opt.min,
+    +options.MSO_amount_opt.max,
+  ]);
+  const [msoUser, setMsoUser] = useState(0);
+  const [wantEHR, setWantEHR] = useState([]);
   const [msoPlanTypeOpt, setMsoPlanTypeOpt] = useState([]);
   const [wantAddOn, setWantAddOn] = useState([]);
-  const [wantEHR, setwantEHR] = useState([]);
-  const [msoAmount, setMsoAmount] = useState([
-    +options.MSO_amout_opt.min,
-    +options.MSO_amout_opt.max,
-  ]);
 
   useEffect(() => {
     if (card !== 'smart-contract' && card !== 'crypto-exchange') return;
@@ -324,14 +321,15 @@ const FiltersSection = (props) => {
 
     let query = `?search=${search}`;
 
-    if (msoPlanTypeOpt.length) query += `&plan_type=${msoPlanTypeOpt.join(',')}`;
-    if (wantAddOn.length) query += `&add_on_service=1`;
-    if (wantEHR.length) query += `&ehr=1`;
     if (msoAmount.length) query += `&amount_min=${msoAmount[0]}`;
     if (msoAmount.length) query += `&amount_max=${msoAmount[1]}`;
+    if (msoUser) query += `&user_limit=${msoUser}`;
+    if (wantEHR.length) query += `&ehr=1`;
+    if (msoPlanTypeOpt.length) query += `&plan_type=${msoPlanTypeOpt.join(',')}`;
+    if (wantAddOn.length) query += `&add_on_service=1`;
 
     props.searchMSOList(query);
-  }, [msoPlanTypeOpt, wantAddOn, msoAmount, wantEHR]);
+  }, [msoPlanTypeOpt, wantAddOn, msoAmount, wantEHR, msoUser]);
 
   const handleResetFilter = () => {
     if (card === 'smart-contract' || card === 'crypto-exchange') {
@@ -349,11 +347,11 @@ const FiltersSection = (props) => {
     if (card === 'mso') {
       const query = `?search=${search}`;
 
-      setMsoAmount([options.MSO_amout_opt.min, +options.MSO_amout_opt.max]);
+      setMsoAmount([options.MSO_amount_opt.min, +options.MSO_amount_opt.max]);
+      setMsoUser(0);
+      setWantEHR([]);
       setMsoPlanTypeOpt([]);
       setWantAddOn([]);
-      setWantAddOn([]);
-      setwantEHR([]);
 
       return props.searchMSOList(query);
     }
@@ -422,11 +420,11 @@ const FiltersSection = (props) => {
 
         {card === 'mso' && (
           <>
-            {!!options.MSO_amout_opt && (
+            {!!options.MSO_amount_opt && (
               <MultiRangeSlider
                 {...{
                   title: 'Amount',
-                  optionsKey: 'MSO_amout_opt',
+                  optionsKey: 'MSO_amount_opt',
                   value: msoAmount,
                   setValue: setMsoAmount,
                 }}
@@ -438,6 +436,7 @@ const FiltersSection = (props) => {
                 optionsKey: 'MSO_user_Opt',
                 value: msoUser,
                 setValue: setMsoUser,
+                marks: { 0: 'All', 1: 1, 2: 4, 3: 6, 4: 'Unlimited' },
               }}
             />
             {!!options.mso_plan_type_opt && (
@@ -446,7 +445,7 @@ const FiltersSection = (props) => {
                   title: 'EHR & Portal',
                   optionsKey: 'EHR',
                   value: wantEHR,
-                  setValue: setwantEHR,
+                  setValue: setWantEHR,
                 }}
               />
             )}
@@ -468,6 +467,7 @@ const FiltersSection = (props) => {
                   optionsKey: 'mso_add_on_service',
                   value: wantAddOn,
                   setValue: setWantAddOn,
+                  showSeparator: false,
                 }}
               />
             )}

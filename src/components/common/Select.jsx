@@ -24,7 +24,7 @@ export default function Select({ fieldTitle, options, selectedOption, setSelecte
                   />
                 </span>
               ) : (
-                <span className="flex items-center justify-center border rounded-xl p-2 min-w-32 dark:bg-crypto-selected-dark-option">
+                <span className="flex items-center justify-center min-w-32 dark:bg-crypto-selected-dark-option">
                   {!!selectedOption?.icon && (
                     <img
                       src={selectedOption.icon}

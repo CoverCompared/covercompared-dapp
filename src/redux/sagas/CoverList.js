@@ -218,7 +218,7 @@ function* getDeviceDetail({ payload }) {
       }),
     );
 
-    const url = `${P4L_BASE_URL}`;
+    const url = `${API_BASE_URL}/p4l-forward`;
     const deviceDetail = yield call(axiosPost, url, payload);
 
     if (deviceDetail?.data?.data) {
@@ -261,7 +261,7 @@ function* getDevicePlanDetail({ payload }) {
       }),
     );
 
-    const url = `${P4L_BASE_URL}/plan-details`;
+    const url = `${API_BASE_URL}/p4l-forward`;
     const devicePlanDetail = yield call(axiosPost, url, payload);
 
     if (devicePlanDetail?.data?.data) {

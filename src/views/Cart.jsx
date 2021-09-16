@@ -31,12 +31,10 @@ const Cart = (props) => {
   const { cart } = props;
   const [promoCode, setPromoCode] = useState('');
 
-  console.log('cart :>> ', cart);
-
   return (
     <div className="py-6 md:px-10">
       <div className="grid xl:grid-cols-12 lg:grid-cols-2 md:grid-cols-2 xl:gap-10 lg:gap-8 md:gap-6 xl:px-40 md:px-24 lg:px-24 z-10">
-        <div className="col-span-8">
+        <div className="col-span-12 lg:col-span-8">
           <div className="font-Montserrat text-dark-blue font-semibold text-h2 mb-6 dark:text-white">
             Order Cart
           </div>
@@ -53,7 +51,8 @@ const Cart = (props) => {
             </div>
           )}
         </div>
-        <div className="col-span-4">
+
+        <div className="col-span-12 lg:col-span-4">
           <div className="font-Montserrat text-dark-blue font-semibold text-h2 mb-6 dark:text-white">
             Payment
           </div>

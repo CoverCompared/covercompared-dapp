@@ -1,6 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { ShoppingCartIcon } from '@heroicons/react/outline';
+import { toast } from 'react-toastify';
+import { connect } from 'react-redux';
+import { setCurrentProduct, addItemToCart } from '../redux/actions/AppActions';
+import BuyIcon from '../assets/icons/buy.svg';
 
 const SmallPackageCard = (props) => {
   const history = useHistory();
@@ -14,9 +17,20 @@ const SmallPackageCard = (props) => {
     MSOCoverUser,
   } = props;
 
+  const handleCardClick = () => {
+    props.setCurrentProduct(props);
+    history.push('/mso-product');
+  };
+
+  const handleAddToCart = (e) => {
+    if (e) e.stopPropagation();
+    props.addItemToCart(props);
+    toast.success('Item added to cart!');
+  };
+
   return (
     <div
-      onClick={() => history.push('/mso-product')}
+      onClick={handleCardClick}
       className="w-full group bg-gradient-to-r dark:from-featureCard-dark-bg dark:to-featureCard-dark-bg dark:hover:from-primary-gd-1 dark:hover:to-primary-gd-2 from-white to-white hover:from-primary-gd-1 hover:to-primary-gd-2 shadow-md py-3 pl-3 pr-6 rounded-xl flex justify-between items-center relative md:col-span-6 col-span-12 cursor-pointer dark:bg-featureCard-dark-bg"
     >
       <div className="flex justify-between items-center h-full">
@@ -45,15 +59,14 @@ const SmallPackageCard = (props) => {
         </div>
         <button
           type="button"
-          onClick={() => {
-            alert('added to cart');
-          }}
+          onClick={handleAddToCart}
           className="h-10 w-10 rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2"
         >
-          <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
+          <img src={BuyIcon} alt="cart" className="w-6 h-6" />
         </button>
       </div>
     </div>
   );
 };
-export default SmallPackageCard;
+
+export default connect(null, { setCurrentProduct, addItemToCart })(SmallPackageCard);

@@ -14,13 +14,13 @@ import Modal from './common/Modal';
 import 'react-circular-progressbar/dist/styles.css';
 
 const CartCard = (props) => {
-  const { name, logo, quote, qty, address } = props;
+  const { name, logo, quote, qty, uuid } = props;
   const { theme } = useContext(ThemeContext);
 
   return (
     <div className="dark:bg-featureCard-dark-bg rounded-xl shadow-md bg-white">
       <div className="py-4 px-4 md:pr-8 rounded-xl grid grid-cols-12 gap-x-1 mb-4 relative md:bg-cartCardBg bg-mobileCartCardBg bg-contain bg-100% bg-no-repeat bg-right">
-        <div className="md:col-span-5 col-span-7 flex items-center h-full">
+        <div className="md:col-span-7 col-span-7 flex items-center h-full">
           <div
             className="md:w-20 md:h-20 w-14 h-14  rounded-xl bg-white shadow-2xl p-1"
             style={{ minWidth: 'fit-content' }}
@@ -43,14 +43,6 @@ const CartCard = (props) => {
         </div>
         <div className="hidden md:col-span-2 md:flex flex-col justify-center">
           <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white">
-            Qty.
-          </div>
-          <div className="font-Montserrat text-h4 font-semibold text-dark-blue mt-2 leading-4 dark:text-white">
-            {qty}
-          </div>
-        </div>
-        <div className="hidden md:col-span-2 md:flex flex-col justify-center">
-          <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white">
             Price
           </div>
           <div className="font-Montserrat text-h4 font-semibold text-dark-blue mt-2 leading-4 dark:text-white">
@@ -58,7 +50,7 @@ const CartCard = (props) => {
           </div>
         </div>
         <div className="flex items-center justify-end md:col-span-3 col-span-5">
-          <button type="button" onClick={() => props.removeItemToCart(address)}>
+          <button type="button" onClick={() => props.removeItemToCart(uuid)}>
             <img
               src={theme === 'light' ? DeleteIcon : DeleteIconWhite}
               alt="Delete"

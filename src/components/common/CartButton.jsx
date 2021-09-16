@@ -8,7 +8,6 @@ import { ThemeContext } from '../../themeContext';
 const CartButton = ({ cart }) => {
   const history = useHistory();
   const { theme } = useContext(ThemeContext);
-  const cartItems = cart.reduce((previous, current) => previous + current.qty, 0);
 
   return (
     <button
@@ -23,7 +22,7 @@ const CartButton = ({ cart }) => {
           className="md:w-6 md:h-6 h-5 w-5"
         />
         <span className="absolute -top-3 -right-3 block h-4 w-4 rounded-full ring-2 ring-white bg-login-button-bg text-body-2xs">
-          {cartItems}
+          {cart?.length || 0}
         </span>
       </span>
     </button>

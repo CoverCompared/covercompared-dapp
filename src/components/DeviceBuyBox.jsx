@@ -2,57 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import InputWithSelect from './common/InputWithSelect';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
-import Select from './common/Select';
 
-const deviceOptions = [{ option: 'Tab' }, { option: 'Mobile' }, { option: 'Laptop' }];
-const brandOptions = [
-  {
-    option: 'Apple',
-    // icon: 'https://via.placeholder.com/100',
-  },
-  {
-    option: 'Samsung',
-    // icon: 'https://via.placeholder.com/100',
-  },
-  {
-    option: 'Oppo',
-    // icon: 'https://via.placeholder.com/100',
-  },
-  {
-    option: 'Vivo',
-    // icon: 'https://via.placeholder.com/100',
-  },
-  {
-    option: 'Motorola',
-    // icon: 'https://via.placeholder.com/100',
-  },
-];
-const valueOptions = [{ option: '$1000' }, { option: '$2000' }, { option: '$5000' }];
-const purchaseMonthOptions = [
-  { option: 'January' },
-  { option: 'February' },
-  { option: 'March' },
-  { option: 'April' },
-  { option: 'May' },
-  { option: 'June' },
-  { option: 'July' },
-  { option: 'August' },
-  { option: 'September' },
-  { option: 'October' },
-  { option: 'November' },
-  { option: 'December' },
-];
+const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 const amountOptions = ['ETH', 'BTC', 'USDT', 'USDC', 'CVR'];
 
 const DeviceBuyBox = (props) => {
   const { coverListData } = props;
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
 
-  const [deviceType, setDeviceType] = useState(null);
+  console.log('devicePlanDetails :>> ', devicePlanDetails);
+
+  const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
   const [brand, setBrand] = useState(deviceDetails?.brand?.[0] || '');
-  const [value, setValue] = useState(deviceDetails?.device_values?.[0] || '');
+  const [value, setValue] = useState(Object.values(deviceDetails?.device_values || {})?.[0] || '');
   const [purchaseMonth, setPurchaseMonth] = useState(deviceDetails?.purchase_month?.[0] || '');
-  const [quoteField, setQuoteField] = useState('350');
+  const [quoteField, setQuoteField] = useState('');
   const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
 
   useEffect(() => {
@@ -63,40 +27,65 @@ const DeviceBuyBox = (props) => {
     });
   }, [deviceType]);
 
+  useEffect(() => {
+    if (deviceType && brand && value && purchaseMonth) {
+      props.getDevicePlanDetails({
+        endpoint: 'plan-details',
+        device: deviceType,
+        brand,
+        device_value: value,
+        purchase_month: purchaseMonth,
+        tran_id: deviceDetails.tran_id,
+      });
+    }
+  }, [deviceType, brand, value, purchaseMonth]);
+
   return (
     <>
       <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
         Cover Period and Amount
       </div>
       <form onSubmit={() => {}}>
-        <Select
-          {...props}
-          fieldTitle="Device"
-          options={deviceOptions}
-          selectedOption={deviceType}
-          setSelectedOption={setDeviceType}
-        />
-        <Select
-          {...props}
-          fieldTitle="Brand"
-          options={brandOptions}
-          selectedOption={brand}
-          setSelectedOption={setBrand}
-        />
-        <Select
-          {...props}
-          fieldTitle="Device Value"
-          options={valueOptions}
-          selectedOption={value}
-          setSelectedOption={setValue}
-        />
-        <Select
-          {...props}
-          fieldTitle="Device Purchase Month"
-          options={purchaseMonthOptions}
-          selectedOption={purchaseMonth}
-          setSelectedOption={setPurchaseMonth}
-        />
+        <div className="mb-2">
+          <InputWithSelect
+            {...props}
+            showColumnLayout
+            fieldTitle="Device"
+            selectedOption={deviceType}
+            setSelectedOption={setDeviceType}
+            dropdownOptions={deviceOptions}
+          />
+        </div>
+        <div className="mb-2">
+          <InputWithSelect
+            {...props}
+            showColumnLayout
+            fieldTitle="Brand"
+            selectedOption={brand}
+            setSelectedOption={setBrand}
+            dropdownOptions={deviceDetails?.brand || []}
+          />
+        </div>
+        <div className="mb-2">
+          <InputWithSelect
+            {...props}
+            showColumnLayout
+            fieldTitle="Value"
+            selectedOption={value}
+            setSelectedOption={setValue}
+            dropdownOptions={Object.values(deviceDetails?.device_values || {}) || []}
+          />
+        </div>
+        <div className="mb-2">
+          <InputWithSelect
+            {...props}
+            showColumnLayout
+            fieldTitle="Purchase Month"
+            selectedOption={purchaseMonth}
+            setSelectedOption={setPurchaseMonth}
+            dropdownOptions={deviceDetails?.purchase_month || []}
+          />
+        </div>
 
         <InputWithSelect
           {...props}

@@ -33,7 +33,7 @@ const SmallPackageCard = (props) => {
       providerLogo = InsureAceLogo;
     }
     setProviderLogo(providerLogo);
-  });
+  }, []);
 
   const handleCardClick = () => {
     props.setCurrentProduct(props);

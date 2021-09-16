@@ -48,7 +48,7 @@ export default function InputWithSelect({
                   onChange={(e) => {
                     setFieldValue(e.target.value);
                   }}
-                  className="h-5 pr-0 text-right bg-transparent text-Montserrat text-h6 text-dark-blue dark:text-white font-medium border-0 outline-none focus:border-0 focus:outline-none focus:ring-0"
+                  className="h-5 pr-0 w-full text-right bg-transparent text-Montserrat text-h6 text-dark-blue dark:text-white font-medium border-0 outline-none focus:border-0 focus:outline-none focus:ring-0"
                 />
               ) : (
                 <Loading widthClass="w-4" heightClass="h-4" />
@@ -69,7 +69,7 @@ export default function InputWithSelect({
                   />
                 </div>
                 {isOpen && (
-                  <div className="absolute left-20 top-0">
+                  <div className="absolute left-20 top-0 z-20">
                     <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
                       {dropdownOptions.map((option) => (
                         <div
@@ -103,7 +103,7 @@ export default function InputWithSelect({
               />
             </div>
             {isOpen && (
-              <div className="absolute left-20 top-0">
+              <div className="absolute left-20 top-0 z-20">
                 <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
                   {dropdownOptions.map((option) => (
                     <div

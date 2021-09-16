@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import DiscountCard from './common/SmallPackageCard';
-import { setCurrentProduct } from '../redux/actions/AppActions';
+import { setCurrentProduct, addItemToCart } from '../redux/actions/AppActions';
 
 const MSOPackageCard = (props) => {
   const history = useHistory();
@@ -21,6 +21,12 @@ const MSOPackageCard = (props) => {
   const handleCardClick = () => {
     props.setCurrentProduct(props);
     history.push('/mso-product');
+  };
+
+  const handleAddToCart = (e) => {
+    if (e) e.stopPropagation();
+    props.addItemToCart(props);
+    toast.success('Item added to cart!');
   };
 
   return (
@@ -67,20 +73,21 @@ const MSOPackageCard = (props) => {
               {MSOPrice}
             </div>
           </div>
-          <Link to="facebook.com">
-            <button
-              type="button"
-              className="ml-3 font-Montserrat md:flex items-center md:px-5 md:py-4 py-1.5 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
-            >
-              Add to Cart
-              <div className="md:hidden font-Montserrat md:text-h4 text-body-sm font-semibold leading-4 mt-1 text-login-button-text hover:bg-white">
-                {MSOPrice}
-              </div>
-            </button>
-          </Link>
+
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className="ml-3 font-Montserrat md:flex items-center md:px-5 md:py-4 py-1.5 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
+          >
+            Add to Cart
+            <div className="md:hidden font-Montserrat md:text-h4 text-body-sm font-semibold leading-4 mt-1 text-login-button-text hover:bg-white">
+              {MSOPrice}
+            </div>
+          </button>
         </div>
       </div>
     </>
   );
 };
-export default connect(null, { setCurrentProduct })(MSOPackageCard);
+
+export default connect(null, { setCurrentProduct, addItemToCart })(MSOPackageCard);

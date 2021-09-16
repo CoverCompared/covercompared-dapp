@@ -25,7 +25,7 @@ const MSOPackageCard = (props) => {
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    props.addItemToCart(props);
+    props.addItemToCart({ ...props, name: MSOplanName, quote: JSON.parse(MSOPrice) });
     toast.success('Item added to cart!');
   };
 
@@ -54,7 +54,7 @@ const MSOPackageCard = (props) => {
         <div className="md:col-span-4 col-span-0 hidden md:flex flex-col justify-center font-Montserrat text-body-md text-dark-blue dark:text-white mr-5 my-4 md:my-0 group-hover:text-white">
           <div>
             Add on concierge service{' '}
-            <span className="font-semibold text-h6">{MSOAddOnService}</span>
+            <span className="font-semibold text-h6">{MSOAddOnService}$</span>
           </div>
           <div className="font-semibold mt-2">
             {MSOCoverUser
@@ -70,7 +70,7 @@ const MSOPackageCard = (props) => {
               Price
             </div>
             <div className="font-Montserrat text-h4 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
-              {MSOPrice}
+              {MSOPrice}$
             </div>
           </div>
 

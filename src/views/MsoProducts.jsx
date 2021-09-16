@@ -175,7 +175,7 @@ const MSOProduct = (props) => {
                 Price
               </div>
               <div className=" text-Montserrat text-h6 text-dark-blue dark:text-white font-medium">
-                {MSOPrice}
+                {MSOPrice}$
               </div>
             </div>
             <div className="flex-row mb-5 ">
@@ -187,7 +187,7 @@ const MSOProduct = (props) => {
                   onChange={() => setAddonServices(!addonServices)}
                 />
                 <span className="ml-2 text-dark-blue font-Montserrat font-semibold text-body-md dark:text-white">
-                  Add on concierge services at {MSOAddOnService}
+                  Add on concierge services at {MSOAddOnService}$
                 </span>
               </label>
             </div>

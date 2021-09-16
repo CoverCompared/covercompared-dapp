@@ -9,6 +9,7 @@ import BuyIcon from '../../assets/icons/buy.svg';
 import NsureNetworkLogo from '../../assets/img/nsure-network.svg';
 import NexusMutualLogo from '../../assets/img/nexus-mutual-icon.png';
 import InsureAceLogo from '../../assets/img/insurace-icon.png';
+import ToolTip from './ToolTip';
 
 const SmallPackageCard = (props) => {
   const history = useHistory();
@@ -58,9 +59,15 @@ const SmallPackageCard = (props) => {
           <img src={providerLogo} className="absolute right-1 bottom-1 h-3" alt="" />
         </div>
         <div className="md:ml-4 ml-2">
-          <div className="font-Montserrat md:text-body-lg text-h6 font-semibold text-dark-blue dark:text-white group-hover:text-white">
+          <div
+            className="font-Montserrat md:text-body-lg text-h6 font-semibold text-dark-blue dark:text-white group-hover:text-white"
+            data-for="search-tool-tip"
+            data-tip={name}
+            data-iscapture="true"
+          >
             {name ? (name.length > 13 ? `${name.slice(0, 13)} ....` : name) : ''}
           </div>
+          <ToolTip ToolTipId="search-tool-tip" bgColor="White" fontColor="#175186" />
           <div className="font-Montserrat md:text-body-xs text-10 font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
             {company}
           </div>

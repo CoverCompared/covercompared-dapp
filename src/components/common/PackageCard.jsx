@@ -8,6 +8,7 @@ import Loading from './Loading';
 import NsureNetworkLogo from '../../assets/img/nsure-network.svg';
 import NexusMutualLogo from '../../assets/img/nexus-mutual-icon.png';
 import InsureAceLogo from '../../assets/img/insurace-icon.png';
+import ToolTip from './ToolTip';
 
 const PackageCard = (props) => {
   const {
@@ -36,8 +37,10 @@ const PackageCard = (props) => {
   }, []);
 
   const handleCardClick = () => {
-    props.setCurrentProduct(props);
-    history.push('/product/cover');
+    if (quote !== '' && quote !== undefined) {
+      props.setCurrentProduct(props);
+      history.push('/product/cover');
+    }
   };
 
   const handleAddToCart = (e) => {
@@ -57,7 +60,12 @@ const PackageCard = (props) => {
               <img src={providerLogo} className="absolute right-1 bottom-1 max-h-5" alt="" />
             </div>
             <div className="md:ml-6 md:mr-5 mr-1 ml-3">
-              <div className="font-Montserrat text-h6 font-semibold text-dark-blue mb-1 leading-4 dark:text-white group-hover:text-white">
+              <div
+                className="font-Montserrat text-h6 font-semibold text-dark-blue mb-1 leading-4 dark:text-white group-hover:text-white"
+                data-for="search-tool-tip"
+                data-tip={name}
+                data-iscapture="true"
+              >
                 <div className="hidden md:block">
                   {name ? (name.length > 20 ? `${name.slice(0, 20)} . . .` : name) : ''}
                 </div>
@@ -65,6 +73,7 @@ const PackageCard = (props) => {
                   {name ? (name.length > 12 ? `${name.slice(0, 12)}...` : name) : ''}
                 </div>
               </div>
+              <ToolTip ToolTipId="search-tool-tip" bgColor="White" fontColor="#175186" />
               <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
                 {company}
               </div>
@@ -103,7 +112,8 @@ const PackageCard = (props) => {
             <button
               type="button"
               onClick={handleAddToCart}
-              className="ml-3 font-Montserrat md:inline-flex items-center md:px-5 md:py-4 py-1.5 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
+              disabled={quote === '' || quote === undefined}
+              className="ml-3 font-Montserrat disabled:opacity-50 md:inline-flex items-center md:px-5 md:py-4 py-1.5 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
             >
               <div>Add to Cart</div>
               <div className="mt-1 md:hidden">

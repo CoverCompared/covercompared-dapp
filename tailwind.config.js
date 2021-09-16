@@ -48,6 +48,7 @@ module.exports = {
         formPopupBg: "url('./assets/bg-img/form-bg.png')",
         formPopupMobileBg: "url('./assets/bg-img/mobile-bg/form-popup-bg.png')",
         loginPopupMobileBg: "url('./assets/bg-img/mobile-bg/login-popup-bg.png')",
+        submitclaimPopupBg: "url('./assets/bg-img/mobile-bg/submit-claim-popup-bg.png')",
       },
       colors: {
         'body-bg': '#FDFEFD',

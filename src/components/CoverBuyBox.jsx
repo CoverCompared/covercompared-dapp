@@ -1,7 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import { getQuote } from '../redux/actions/CoverList';
 import InputWithSelect from './common/InputWithSelect';
+import { addItemToCart } from '../redux/actions/AppActions';
 
 const periodOptions = ['Days', 'Week', 'Month'];
 
@@ -44,6 +46,12 @@ const CoverBuyBox = (props) => {
       coverAmount: amountField,
       supported_chain: quoteSelect,
     });
+  };
+
+  const handleAddToCart = (e) => {
+    if (e) e.stopPropagation();
+    props.addItemToCart(props.product);
+    toast.success('Item added to cart!');
   };
 
   useEffect(() => {
@@ -97,6 +105,7 @@ const CoverBuyBox = (props) => {
       <div className="grid grid-cols-12 gap-3 w-full">
         <button
           type="button"
+          onClick={handleAddToCart}
           className="col-span-5 md:px-4 py-3 mr-3 outline-none border-0 bg-white rounded-xl text-primary-gd-1 font-Montserrat font-semibold text-body-md shadow-addToCart"
         >
           Add to cart
@@ -118,4 +127,4 @@ const mapStateToProps = ({ coverList, app }) => ({
   product: app.currentProduct,
 });
 
-export default connect(mapStateToProps, { getQuote })(CoverBuyBox);
+export default connect(mapStateToProps, { getQuote, addItemToCart })(CoverBuyBox);

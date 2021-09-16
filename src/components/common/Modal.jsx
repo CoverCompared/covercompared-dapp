@@ -47,7 +47,7 @@ const Modal = ({ children, sizeClass, title, renderComponent: C, showCTA = false
                   `bg-white bg-cover rounded-lg shadow-xl transform sm:align-middle sm:w-full inline-block align-bottom transition-all dark:bg-popup-dark-bg`,
                 )}
               >
-                <div className={`${bgImg} w-full h-full sm:py-8`}>
+                <div className={`${bgImg} w-full h-full sm:py-8 rounded-lg`}>
                   <div className="px-4 pt-5 text-left sm:px-16 sm:pt-6 pb-8">
                     <div className="hidden sm:block absolute top-8 right-8">
                       {showCTA || (

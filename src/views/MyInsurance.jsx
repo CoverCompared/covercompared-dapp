@@ -39,7 +39,7 @@ const MyInsurance = (props) => {
             </button>
             <Modal
               title="Additional Details"
-              bgImg="bg-additionalDetailsBg"
+              bgImg="md:bg-additionalDetailsBg bg-loginPopupMobileBg bg-100%"
               renderComponent={<AdditionalDetails {...props} />}
             >
               <button
@@ -68,7 +68,7 @@ const MyInsurance = (props) => {
           <div className="flex md:justify-end items-center md:col-span-6 col-span-12">
             <Modal
               title="Instruction"
-              bgImg="bg-submitclaimBg bg-cover"
+              bgImg="md:bg-submitclaimBg bg-submitclaimPopupBg bg-cover"
               renderComponent={<ClaimCards {...props} />}
             >
               <button

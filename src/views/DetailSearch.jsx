@@ -19,6 +19,7 @@ import { searchCoverList, fetchMoreCovers, searchMSOList } from '../redux/action
 import { toggleFilters } from '../redux/actions/AppActions';
 import Loading from '../components/common/Loading';
 import FiltersSection from '../components/FiltersSection';
+import ToolTip from '../components/common/ToolTip';
 
 const DetailSearch = (props) => {
   const { coverListData } = props;
@@ -144,21 +145,24 @@ const DetailSearch = (props) => {
               </div>
               <div className="flex items-center">
                 <div
-                  data-for="search-tool-tip"
-                  data-tip="Hello world"
+                  data-for="info-tool-tip"
+                  data-html="true"
+                  data-tip="<ul>
+                    <li>Single Cover</li>
+                    <li>EHR and Mobile App available for entire family</li>
+                  </ul>"
                   data-iscapture="true"
                   className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
                 >
-                  i
+                  {/* <p data-tip="<p>HTML tooltip</p>" data-html={true}></p> or{' '} */}i
                 </div>
-                <ReactTooltip
-                  id="search-tool-tip"
-                  place="bottom"
-                  effect="float"
-                  border={false}
-                  borderColor="none"
-                  backgroundColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                <ToolTip
+                  ToolTipId="info-tool-tip"
+                  bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                  fontColor="#FFF"
+                  isHtml="true"
                 />
+
                 <button
                   type="button"
                   onClick={() => props.toggleFilters(true)}

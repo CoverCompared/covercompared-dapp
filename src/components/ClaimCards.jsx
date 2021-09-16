@@ -6,7 +6,7 @@ const ClaimCards = () => {
   return (
     <>
       <div className="grid grid-cols-2 md:gap-8 gap-y-6 mt-6 z-auto relative">
-        <div className="w-full z-100 relative col-span-2 md:col-span-1 pt-8 px-16 pb-11 shadow-md flex flex-col justify-center items-center rounded-2xl dark:bg-featureCard-dark-bg">
+        <div className="w-full z-100 relative col-span-2 md:col-span-1 pt-8 px-16 pb-11 shadow-md flex flex-col justify-center items-center rounded-2xl bg-white dark:bg-featureCard-dark-bg">
           <div className="py-3 px-6 mb-6 rounded-2xl border-2 border-primary-gd-1 dark:border-white border-solid text-primary-gd-1 dark:text-white font-Montserrat font-semibold text-h5 ">
             Step 1
           </div>

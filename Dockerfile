@@ -2,6 +2,7 @@ FROM node:12-alpine
 ARG SERVER_ENV
 ENV REACT_APP_NODE_ENV=$SERVER_ENV
 WORKDIR /var/app
+RUN apk add --no-cache git
 COPY ./package*.json ./
 RUN npm ci
 COPY . .

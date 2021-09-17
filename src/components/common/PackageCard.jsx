@@ -56,7 +56,7 @@ const PackageCard = (props) => {
           <DiscountCard discountPercentage={discount} />
           <div className="col-span-7 md:col-span-5 flex items-center h-full w-full">
             <div className="md:w-20 md:h-20 w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white">
-              <img src={logo} className="h-full w-full rounded-xl" alt={name} />
+              <img src={logo} className="h-full w-full rounded-xl bg-fixed" alt={name} />
               <img src={providerLogo} className="absolute right-1 bottom-1 max-h-5" alt="" />
             </div>
             <div className="md:ml-6 md:mr-5 mr-1 ml-3">

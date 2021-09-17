@@ -63,7 +63,7 @@ const LearnMore = (props) => {
   return (
     <>
       <MobilePageTitle title="Learn More" />
-      <div className="grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 md:px-14 md:pb-40 pb-14">
+      <div className="grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 md:px-14 md:pb-40 pb-0">
         {postCards.map(({ image, title, body, ctaLink }) => (
           <PostCard
             {...props}

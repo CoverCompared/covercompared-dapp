@@ -215,7 +215,7 @@ const InsuranceProduct = (props) => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-12 xl:gap-x-12 gap-x-6 gap-y-10 md:mt-20 mt-12 mb-10">
+        <div className="grid grid-cols-12 xl:gap-x-12 gap-x-6 gap-y-10 md:mt-20 mt-12 md:mb-10">
           <div className="lg:col-span-6 xl:col-span-5 col-span-12 order-2 md:order-2">
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-4 dark:text-white">
               Review

@@ -369,7 +369,7 @@ const Partner = (props) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 md:gap-y-3 gap-y-5 gap-x-8 pb-14">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 md:gap-y-3 gap-y-5 gap-x-8 md:pb-14">
         {tabs[activeTab]?.content?.map((partner, i) => (
           <PartnerCard
             {...props}

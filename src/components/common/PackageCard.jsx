@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCurrentProduct, addItemToCart } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
 import Loading from './Loading';
@@ -11,6 +11,8 @@ import InsureAceLogo from '../../assets/img/insurace-icon.png';
 import ToolTip from './ToolTip';
 
 const PackageCard = (props) => {
+  const dispatch = useDispatch();
+
   const {
     name,
     company,
@@ -38,14 +40,14 @@ const PackageCard = (props) => {
 
   const handleCardClick = () => {
     if (quote !== '' && quote !== undefined) {
-      props.setCurrentProduct(props);
+      dispatch(setCurrentProduct(props));
       history.push('/product/cover');
     }
   };
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    props.addItemToCart(props);
+    dispatch(addItemToCart(props));
     toast.success('Item added to cart!');
   };
 
@@ -135,4 +137,4 @@ const PackageCard = (props) => {
   );
 };
 
-export default connect(null, { setCurrentProduct, addItemToCart })(PackageCard);
+export default PackageCard;

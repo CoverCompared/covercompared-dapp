@@ -87,7 +87,7 @@ const ContactUs = (props) => {
           </label>
           <textarea
             onChange={(e) => SetMessage(e.target.value)}
-            className="mt-3 py-2 px-4 h-32 rounded-lg border-2 border-dark-blue focus:border-dark-blue appearance-none w-full bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm shadow-lg"
+            className="mt-3 py-2 px-4 h-32 rounded-lg border border-light-gray-border focus:border-light-gray-border appearance-none w-full bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm shadow-lg"
             placeholder="Write your message"
           />
         </div>

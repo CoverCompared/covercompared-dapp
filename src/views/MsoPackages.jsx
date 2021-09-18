@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import uniqid from 'uniqid';
 import { Disclosure } from '@headlessui/react';
@@ -131,7 +131,9 @@ const FilterSection = ({ title, name, value, setValue }) => {
 };
 
 const MsoPackages = (props) => {
-  const { coverListData } = props;
+  const dispatch = useDispatch();
+  const coverListData = useSelector((state) => state.coverList);
+
   const { loader, coverList, query, message, isFailed } = coverListData;
 
   const urlSearchParams = new URLSearchParams(query || '');
@@ -157,10 +159,12 @@ const MsoPackages = (props) => {
   }, [coverList?.list]);
 
   useEffect(() => {
-    props.searchCoverList({
-      searchString: search,
-      query: `?search=${search}&filter1=${filter1}&filter2=${filter2}`,
-    });
+    dispatch(
+      searchCoverList({
+        searchString: search,
+        query: `?search=${search}&filter1=${filter1}&filter2=${filter2}`,
+      }),
+    );
   }, [filter1, filter2]);
 
   useEffect(() => {
@@ -173,10 +177,12 @@ const MsoPackages = (props) => {
   const debounceSearch = useCallback(
     debounce(
       (text) =>
-        props.searchCoverList({
-          searchString: text,
-          query: `?search=${text}&filter1=${filter1}&filter2=${filter2}`,
-        }),
+        dispatch(
+          searchCoverList({
+            searchString: text,
+            query: `?search=${text}&filter1=${filter1}&filter2=${filter2}`,
+          }),
+        ),
       500,
     ),
     [],
@@ -281,8 +287,4 @@ const MsoPackages = (props) => {
   );
 };
 
-const mapStateToProps = ({ coverList }) => ({
-  coverListData: coverList,
-});
-
-export default connect(mapStateToProps, { searchCoverList })(MsoPackages);
+export default MsoPackages;

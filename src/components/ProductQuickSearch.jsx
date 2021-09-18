@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import uniqid from 'uniqid';
 import SearchBar from './common/SearchBar';
@@ -40,7 +40,9 @@ import Loading from './common/Loading';
 // ];
 
 const ProductQuickSearch = (props) => {
-  const { coverListData } = props;
+  const dispatch = useDispatch();
+  const coverListData = useSelector((state) => state.coverList);
+
   const { loader, coverList, query, message, isFailed } = coverListData;
 
   const urlSearchParams = new URLSearchParams(query || '');
@@ -65,7 +67,7 @@ const ProductQuickSearch = (props) => {
   };
 
   const debounceSearch = useCallback(
-    debounce((text) => props.searchCoverList(`?search=${text}`), 500),
+    debounce((text) => dispatch(searchCoverList(`?search=${text}`), 500)),
     [],
   );
 
@@ -122,8 +124,4 @@ const ProductQuickSearch = (props) => {
   );
 };
 
-const mapStateToProps = ({ coverList }) => ({
-  coverListData: coverList,
-});
-
-export default connect(mapStateToProps, { searchCoverList })(ProductQuickSearch);
+export default ProductQuickSearch;

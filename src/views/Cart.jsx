@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import CartCard from '../components/CartCard';
 import RightArrow from '../assets/img/Arrow-Right.svg';
@@ -28,7 +28,7 @@ const CartArr = [
 ];
 
 const Cart = (props) => {
-  const { cart } = props;
+  const { cart } = useSelector((state) => state.app);
   const [promoCode, setPromoCode] = useState('');
 
   return (
@@ -109,8 +109,4 @@ const Cart = (props) => {
   );
 };
 
-const mapStateToProps = ({ app }) => ({
-  cart: app.cart,
-});
-
-export default connect(mapStateToProps, null)(Cart);
+export default Cart;

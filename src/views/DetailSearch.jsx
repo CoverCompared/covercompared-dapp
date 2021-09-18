@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
-import ReactTooltip from 'react-tooltip';
 import uniqid from 'uniqid';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import PackageCard from '../components/common/PackageCard';
@@ -22,7 +21,9 @@ import FiltersSection from '../components/FiltersSection';
 import ToolTip from '../components/common/ToolTip';
 
 const DetailSearch = (props) => {
-  const { coverListData } = props;
+  const dispatch = useDispatch();
+  const coverListData = useSelector((state) => state.coverList);
+
   const { loader, coverList, query, message, isFailed, page, totalPages } = coverListData;
   // const urlSearchParams = new URLSearchParams(query || '');
   // const params = Object.fromEntries(urlSearchParams.entries()) || {};
@@ -49,9 +50,9 @@ const DetailSearch = (props) => {
   const debounceSearch = useCallback(
     debounce((text) => {
       if (card === 'smart-contract' || card === 'crypto-exchange') {
-        props.searchCoverList(`?search=${text}&type=${type}`);
+        dispatch(searchCoverList(`?search=${text}&type=${type}`));
       } else if (card === 'mso') {
-        props.searchMSOList(`?search=${text}`);
+        dispatch(searchMSOList(`?search=${text}`));
       }
     }, 500),
     [],
@@ -63,7 +64,7 @@ const DetailSearch = (props) => {
   };
 
   const fetchMoreData = () => {
-    props.fetchMoreCovers(`?search=${search}&type=${type}&page=${page + 1}`);
+    dispatch(fetchMoreCovers(`?search=${search}&type=${type}&page=${page + 1}`));
   };
 
   const renderCards = () => {
@@ -160,7 +161,7 @@ const DetailSearch = (props) => {
 
                 <button
                   type="button"
-                  onClick={() => props.toggleFilters(true)}
+                  onClick={() => dispatch(toggleFilters(true))}
                   className="focus:outline-none focus:ring-offset-0 md:mr-4"
                 >
                   <img
@@ -189,13 +190,4 @@ const DetailSearch = (props) => {
   );
 };
 
-const mapStateToProps = ({ coverList }) => ({
-  coverListData: coverList,
-});
-
-export default connect(mapStateToProps, {
-  searchCoverList,
-  searchMSOList,
-  fetchMoreCovers,
-  toggleFilters,
-})(DetailSearch);
+export default DetailSearch;

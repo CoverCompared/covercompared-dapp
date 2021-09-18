@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import uniqid from 'uniqid';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import StarRatings from 'react-star-ratings';
-import InputWithSelect from '../components/common/InputWithSelect';
 import ReviewCard from '../components/ReviewCard';
 import IdeaCard from '../assets/img/idea-icon.svg';
 import LeftArrow from '../assets/img/nav-left-arrow.svg';
@@ -93,7 +92,8 @@ const ReviewContainer = (props) => {
 };
 
 const MSOProduct = (props) => {
-  const { product } = props;
+  const { currentProduct: product } = useSelector((state) => state.app);
+
   const {
     EHR,
     InsurancePlanType,
@@ -348,8 +348,4 @@ const MSOProduct = (props) => {
   );
 };
 
-const mapStateToProps = ({ app }) => ({
-  product: app.currentProduct,
-});
-
-export default connect(mapStateToProps)(MSOProduct);
+export default MSOProduct;

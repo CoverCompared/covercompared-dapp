@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import BuyIcon from '../../assets/icons/buy.svg';
 import BuyWhiteIcon from '../../assets/dark-icons/Buy.svg';
 import { ThemeContext } from '../../themeContext';
 
-const CartButton = ({ cart }) => {
+const CartButton = () => {
   const history = useHistory();
   const { theme } = useContext(ThemeContext);
+  const { cart } = useSelector((state) => state.app);
 
   return (
     <button
@@ -29,8 +30,4 @@ const CartButton = ({ cart }) => {
   );
 };
 
-const mapStateToProps = ({ app }) => ({
-  cart: app.cart,
-});
-
-export default connect(mapStateToProps, null)(CartButton);
+export default CartButton;

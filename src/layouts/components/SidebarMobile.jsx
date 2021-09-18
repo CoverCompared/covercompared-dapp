@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import uniqid from 'uniqid';
 import { XIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../../components/common/Modal';
 import BuyInsuranceIcon from '../../assets/img/buy-insurance-icon.svg';
 import LoginIcon from '../../assets/img/Login.svg';
@@ -28,8 +28,8 @@ import AboutUsIconActive from '../../assets/active-nav-icons/about-us.svg';
 import AboutTokenIconActive from '../../assets/active-nav-icons/Ticket Star.svg';
 import ContactUsIconActive from '../../assets/active-nav-icons/Message.svg';
 import SubscribeIconActive from '../../assets/active-nav-icons/Notification.svg';
-import 'react-perfect-scrollbar/dist/css/styles.css';
 import { ThemeContext } from '../../themeContext';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const nav = [
   { name: 'Home', to: '/', icon: HomeIcon, activeIcon: HomeIconActive },
@@ -59,7 +59,9 @@ const InsuranceGrid = (props) => (
 );
 
 const Sidebar = (props) => {
-  const { path, sidebarOpen } = props;
+  const dispatch = useDispatch();
+  const { sidebarOpen } = useSelector((state) => state.app);
+  const { path } = props;
   const dialogRef = useRef(null);
   const navigation = nav.map((m) => ({ ...m, current: m.to === path }));
   const { theme } = useContext(ThemeContext);
@@ -69,7 +71,7 @@ const Sidebar = (props) => {
       <Dialog
         as="div"
         className="fixed inset-0 z-40 flex lg:hidden"
-        onClose={() => props.toggleSidebar(false)}
+        onClose={() => dispatch(toggleSidebar(false))}
         initialFocus={dialogRef}
       >
         <Transition.Child
@@ -107,7 +109,7 @@ const Sidebar = (props) => {
                   ref={dialogRef}
                   type="button"
                   className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-0"
-                  onClick={() => props.toggleSidebar(false)}
+                  onClick={() => dispatch(toggleSidebar(false))}
                 >
                   <span className="sr-only">Close sidebar</span>
                   <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
@@ -187,4 +189,4 @@ const mapStateToProps = ({ app }) => ({
   sidebarOpen: app.sidebarOpen,
 });
 
-export default connect(mapStateToProps, { toggleSidebar })(Sidebar);
+export default Sidebar;

@@ -1,12 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCurrentProduct, addItemToCart } from '../redux/actions/AppActions';
 import BuyIcon from '../assets/icons/buy.svg';
 
 const SmallPackageCard = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const {
     InsurancePlanType,
     MSOplanName,
@@ -18,13 +19,13 @@ const SmallPackageCard = (props) => {
   } = props;
 
   const handleCardClick = () => {
-    props.setCurrentProduct(props);
+    dispatch(setCurrentProduct(props));
     history.push('/mso-product');
   };
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    props.addItemToCart(props);
+    dispatch(addItemToCart(props));
     toast.success('Item added to cart!');
   };
 
@@ -69,4 +70,4 @@ const SmallPackageCard = (props) => {
   );
 };
 
-export default connect(null, { setCurrentProduct, addItemToCart })(SmallPackageCard);
+export default SmallPackageCard;

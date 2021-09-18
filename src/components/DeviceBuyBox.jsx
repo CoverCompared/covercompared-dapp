@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import InputWithSelect from './common/InputWithSelect';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
 
@@ -7,7 +7,8 @@ const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Porta
 const amountOptions = ['ETH', 'BTC', 'USDT', 'USDC', 'CVR'];
 
 const DeviceBuyBox = (props) => {
-  const { coverListData } = props;
+  const dispatch = useDispatch();
+  const coverListData = useSelector((state) => state.coverList);
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
 
   console.log('devicePlanDetails :>> ', devicePlanDetails);
@@ -19,14 +20,14 @@ const DeviceBuyBox = (props) => {
   const [quoteField, setQuoteField] = useState('');
   const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
 
-  console.log('value :>> ', value);
-
   useEffect(() => {
-    props.getDeviceDetails({
-      endpoint: 'device-details',
-      device: 'Mobile Phone',
-      partner_code: 'Crypto',
-    });
+    dispatch(
+      getDeviceDetails({
+        endpoint: 'device-details',
+        device: 'Mobile Phone',
+        partner_code: 'Crypto',
+      }),
+    );
   }, [deviceType]);
 
   useEffect(() => {
@@ -37,14 +38,16 @@ const DeviceBuyBox = (props) => {
 
   useEffect(() => {
     if (deviceType && brand && value && purchaseMonth) {
-      props.getDevicePlanDetails({
-        endpoint: 'plan-details',
-        device: deviceType,
-        brand,
-        device_value: value,
-        purchase_month: purchaseMonth,
-        tran_id: deviceDetails.tran_id,
-      });
+      dispatch(
+        getDevicePlanDetails({
+          endpoint: 'plan-details',
+          device: deviceType,
+          brand,
+          device_value: value,
+          purchase_month: purchaseMonth,
+          tran_id: deviceDetails.tran_id,
+        }),
+      );
     }
   }, [deviceType, brand, value, purchaseMonth]);
 
@@ -125,8 +128,4 @@ const DeviceBuyBox = (props) => {
   );
 };
 
-const mapStateToProps = ({ coverList }) => ({
-  coverListData: coverList,
-});
-
-export default connect(mapStateToProps, { getDeviceDetails, getDevicePlanDetails })(DeviceBuyBox);
+export default DeviceBuyBox;

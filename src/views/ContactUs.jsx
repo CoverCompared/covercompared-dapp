@@ -46,19 +46,9 @@ const ContactUs = (props) => {
   return (
     <>
       <MobilePageTitle title="Contact Us" />
-      <form className="md:pr-28 md:pl-6 mb-8 md:mt-6">
+      <form className="md:pr-28 md:pl-6 md:mb-8 md:mt-6">
         <div className="grid grid-cols-1 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12">
           <div className="relative col-span-12 md:col-span-6">
-            {/* <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
-              Name
-            </label>
-            <input
-              type="text"
-              id="rounded-name"
-              className="mt-3 py-2 px-4 rounded-lg border-2 appearance-none w-full border-contact-input-grey bg-white text-contact-input-dark-grey placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-dark-blue focus:ring-shadow-none"
-              placeholder="Fill Your Name Here"
-              onChange={(e) => SetName(e.target.value)}
-            /> */}
             <FormInput
               title="First Name"
               inputValue={name}
@@ -97,7 +87,7 @@ const ContactUs = (props) => {
           </label>
           <textarea
             onChange={(e) => SetMessage(e.target.value)}
-            className="mt-3 py-2 px-4 h-32 rounded-lg appearance-none w-full border-0 bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm"
+            className="mt-3 py-2 px-4 h-32 rounded-lg border-2 border-dark-blue focus:border-dark-blue appearance-none w-full bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm shadow-lg"
             placeholder="Write your message"
           />
         </div>

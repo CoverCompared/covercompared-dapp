@@ -12,7 +12,7 @@ const AboutUs = () => {
       </div>
       <div className="flex justify-center xl:px-28 lg:px-24 md:px-16 w-full">
         <div className="grid grid-cols-2 w-full xl:gap-x-28 gap-x-6">
-          <div className="flex justify-center">
+          <div className="flex justify-center col-span-2 md:col-span-1">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
                 {/* img here */}
@@ -24,7 +24,7 @@ const AboutUs = () => {
                 Founder, CEO
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold md:text-body-sm text-body-xs text-center mb-3 dark:text-white">
-                Heading Partnerships, Product & Market Development
+                Heading Partnerships, Product & <br /> Market Development
               </div>
               <div className="flex-col flex items-start">
                 <div className="flex justify-center items-start mb-2">
@@ -50,7 +50,7 @@ const AboutUs = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center col-span-2 md:col-span-1 mt-12 md:mt-0">
             <div className="flex-col flex items-center justify-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
                 {/* img here */}
@@ -62,10 +62,7 @@ const AboutUs = () => {
                 Co-Founder, CIO
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold md:text-body-sm text-body-xs text-center mb-3 dark:text-white">
-                Heading Operations, Systems, &{' '}
-                <span className="hidden md:flex">
-                  <br />
-                </span>{' '}
+                Heading Operations, Systems, & <br />
                 Process Setups
               </div>
               <div className="flex-col flex items-start">
@@ -106,7 +103,7 @@ const AboutUs = () => {
       </div>
       <div className="flex justify-center xl:px-28 lg:px-24 md:px-16 w-full">
         <div className="grid grid-cols-2 w-full xl:gap-x-28 gap-x-6">
-          <div className="flex justify-center">
+          <div className="flex justify-center col-span-2 md:col-span-1">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
                 {/* img here */}
@@ -122,7 +119,7 @@ const AboutUs = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center col-span-2 md:col-span-1 mt-10 md:mt-0">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
                 {/* img here */}

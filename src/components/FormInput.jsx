@@ -3,7 +3,7 @@ import EditIcon from '../assets/img/Edit.svg';
 
 const FormInput = ({ title, inputValue, setChange, showEditIcon, inputPlaceholder }) => {
   return (
-    <div className="py-2 pl-3 pr-10 w-full bg-promo-input-bg rounded-lg shadow-lg relative border-2 border-dark-blue">
+    <div className="py-2 pl-3 pr-10 w-full bg-promo-input-bg rounded-lg shadow-lg relative border border-light-gray-border">
       <div className="font-semibold text-body-2xs text-dark-blue font-Montserrat">{title}</div>
       <input
         type="text"

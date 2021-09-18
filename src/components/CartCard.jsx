@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { removeItemToCart } from '../redux/actions/AppActions';
 import EditIcon from '../assets/img/Edit.svg';
 import EditIconWhite from '../assets/dark-icons/Edit.svg';
@@ -16,6 +16,7 @@ import 'react-circular-progressbar/dist/styles.css';
 const CartCard = (props) => {
   const { name, logo, quote, qty, uuid } = props;
   const { theme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
 
   return (
     <div className="dark:bg-featureCard-dark-bg rounded-xl shadow-md bg-white">
@@ -50,7 +51,7 @@ const CartCard = (props) => {
           </div>
         </div>
         <div className="flex items-center justify-end md:col-span-3 col-span-5">
-          <button type="button" onClick={() => props.removeItemToCart(uuid)}>
+          <button type="button" onClick={() => dispatch(removeItemToCart(uuid))}>
             <img
               src={theme === 'light' ? DeleteIcon : DeleteIconWhite}
               alt="Delete"
@@ -103,4 +104,4 @@ const CartCard = (props) => {
   );
 };
 
-export default connect(null, { removeItemToCart })(CartCard);
+export default CartCard;

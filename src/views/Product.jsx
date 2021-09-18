@@ -2,8 +2,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import uniqid from 'uniqid';
 import StarRatings from 'react-star-ratings';
-import { connect } from 'react-redux';
-import { getQuote } from '../redux/actions/CoverList';
 import ReviewCard from '../components/ReviewCard';
 import CoverBuyBox from '../components/CoverBuyBox';
 import DeviceBuyBox from '../components/DeviceBuyBox';
@@ -281,10 +279,4 @@ const InsuranceProduct = (props) => {
   );
 };
 
-const mapStateToProps = ({ coverList, app }) => ({
-  quote: coverList.quote,
-  loader: coverList.loader,
-  product: app.currentProduct,
-});
-
-export default connect(mapStateToProps, { getQuote })(InsuranceProduct);
+export default InsuranceProduct;

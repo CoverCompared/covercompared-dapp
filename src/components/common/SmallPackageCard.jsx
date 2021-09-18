@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { setCurrentProduct, addItemToCart } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
@@ -13,6 +13,8 @@ import ToolTip from './ToolTip';
 
 const SmallPackageCard = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const {
     name,
     company,
@@ -37,13 +39,13 @@ const SmallPackageCard = (props) => {
   }, []);
 
   const handleCardClick = () => {
-    props.setCurrentProduct(props);
+    dispatch(setCurrentProduct(props));
     history.push('/product/cover');
   };
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    props.addItemToCart(props);
+    dispatch(addItemToCart(props));
     toast.success('Item added to cart!');
   };
 
@@ -111,4 +113,4 @@ const SmallPackageCard = (props) => {
   );
 };
 
-export default connect(null, { setCurrentProduct, addItemToCart })(SmallPackageCard);
+export default SmallPackageCard;

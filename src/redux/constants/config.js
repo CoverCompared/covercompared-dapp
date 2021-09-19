@@ -1,4 +1,18 @@
-export const API_BASE_URL = 'http://localhost:3006/api';
-export const NURSE_BASE_URL = 'https://api.nsure.network/v1';
-export const P4L_BASE_URL = 'http://localhost:3006/api/p4l-forward/';
-// export const P4L_BASE_URL = 'https://dev.protect4less.com/app-api';
+let env;
+let baseURL;
+const productionHostname = 'covercompared.polkacover.com';
+const stagingHostname = 'staging-covercompared.polkacover.com';
+
+if (window.location.hostname === productionHostname) {
+  env = 'production';
+  baseURL = 'https://covercompared.polkacover.com/api';
+} else if (window.location.hostname === stagingHostname) {
+  env = 'staging';
+  baseURL = 'https://staging-covercompared.polkacover.com/api';
+} else {
+  env = 'local';
+  baseURL = 'http://localhost:3006/api';
+}
+
+export const ENV = env;
+export const API_BASE_URL = baseURL;

@@ -42,7 +42,7 @@ const ContactUs = () => {
           </label>
           <textarea
             onChange={(e) => SetReviews(e.target.value)}
-            className="mt-3 py-2 px-4 h-32 rounded-lg appearance-none w-full border-1 border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm shadow-lg"
+            className="mt-3 py-2 px-4 h-32 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm shadow-lg"
             placeholder="Reviews"
           />
         </div>

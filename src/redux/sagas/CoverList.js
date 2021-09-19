@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { API_BASE_URL, P4L_BASE_URL } from '../constants/config';
+import { API_BASE_URL } from '../constants/config';
 import {
   SEARCH_COVER_LIST,
   SEARCH_MSO_LIST,

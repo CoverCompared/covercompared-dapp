@@ -8,7 +8,7 @@ const PhaseCard = ({ ...props }) => {
     <>
       <div className="bg-white rounded-xl pt-14 relative px-3 pb-32 md:col-span-3 col-span-12 w-full">
         <div className="absolute -top-8 left-2/4" style={{ transform: `translateX(${-50}%)` }}>
-          <span className="text-phaseNumber font-semibold font-body-md font-Montserrat">
+          <span className="text-login-button-text font-semibold font-body-md font-Montserrat">
             <svg
               version="1.1"
               id="Shape_85_1_"
@@ -44,11 +44,11 @@ const PhaseCard = ({ ...props }) => {
         <div className="flex justify-center">
           <img src={phaseIcon} alt="" />
         </div>
-        <div className="text-phaseContent font-Montserrat font-bold text-body-sm text-center mt-4 px-1 md:h-9 h-6">
+        <div className="text-phase-content font-Montserrat font-bold text-body-sm text-center mt-4 px-1 md:h-9 h-6">
           {title}
         </div>
         {descriptionArr.map((p) => (
-          <div className="font-Montserrat text-body-xs text-phaseContent md:mt-4 mt-3 text-center font-medium">
+          <div className="font-Montserrat text-body-xs text-phase-content md:mt-4 mt-3 text-center font-medium">
             {p}
           </div>
         ))}

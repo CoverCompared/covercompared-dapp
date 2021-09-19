@@ -191,14 +191,14 @@ const AboutUs = () => {
       {/* about-platform-start */}
       <div className="relative md:-ml-10 z-0 box-border mt-16 md:pb-96 md:mb-44 mb-20">
         <div className="w-full bg-platofrm-blue-bg md:px-20 p-6 md:pt-10 pb-6 md:rounded-br-full md:rounded-tr-full overflow-hidden relative">
-          <div className="text-center text-white font-Montserrat font-extrabold md:text-h1 text-h5">
+          <div className="text-center font-Montserrat font-extrabold md:text-h1 text-h5">
             A Little Bit about Our Platform
           </div>
-          <div className="font-Montserrat text-white md:text-body-lg text-body-xs font-medium text-center mt-2">
+          <div className="font-Montserrat md:text-body-lg text-body-xs font-medium text-center mt-2">
             We are building the best insurtech platform for the masses
           </div>
           <div className="pt-10 z-10 px-24 hidden md:flex justify-center">
-            <img src={ArrowFrame} alt="" className="h-44" />
+            <img src={ArrowFrame} alt="" className="h-44" style={{ width: '40vw' }} />
           </div>
           <div className="md:h-40 md:w-40 h-16 w-16 left-6 animate-bubbles1 rounded-full absolute shadow-bubbleShadow" />
           <div className="h-14 w-14 left-96 animate-bubbles rounded-full absolute shadow-bubbleShadow" />

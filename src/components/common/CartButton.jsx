@@ -22,9 +22,11 @@ const CartButton = () => {
           alt="Login"
           className="md:w-6 md:h-6 h-5 w-5"
         />
-        <span className="absolute -top-3 -right-3 block h-4 w-4 rounded-full ring-2 ring-white bg-login-button-bg text-body-2xs">
-          {cart?.length || 0}
-        </span>
+        {!!cart?.length && (
+          <span className="absolute -top-3 -right-3 block h-4 w-4 rounded-full ring-2 ring-white bg-login-button-bg text-body-2xs">
+            {cart?.length}
+          </span>
+        )}
       </span>
     </button>
   );

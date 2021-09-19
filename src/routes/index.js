@@ -135,9 +135,9 @@ const routes = [
     showBuyButton: true,
     component: AboutUs,
     title: 'About Us',
-    bgImg: 'aboutUsBg',
-    mobileBgImg: 'Mobile404Bg',
-    bgImgClass: 'bg-center bg-100% bg-no-repeat',
+    bgImg: 'HomePageBg',
+    mobileBgImg: 'HomeMobileBg',
+    bgImgClass: 'bg-100% bg-no-repeat bg-cover',
   },
   {
     path: '/my-insurance',

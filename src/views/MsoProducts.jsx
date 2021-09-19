@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import uniqid from 'uniqid';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import StarRatings from 'react-star-ratings';
-import InputWithSelect from '../components/common/InputWithSelect';
 import ReviewCard from '../components/ReviewCard';
 import IdeaCard from '../assets/img/idea-icon.svg';
 import LeftArrow from '../assets/img/nav-left-arrow.svg';
@@ -93,7 +92,8 @@ const ReviewContainer = (props) => {
 };
 
 const MSOProduct = (props) => {
-  const { product } = props;
+  const { currentProduct: product } = useSelector((state) => state.app);
+
   const {
     EHR,
     InsurancePlanType,
@@ -282,7 +282,7 @@ const MSOProduct = (props) => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-12 xl:gap-x-12 gap-x-6 gap-y-10 md:mt-20 mt-12 mb-10">
+        <div className="grid grid-cols-12 xl:gap-x-12 gap-x-6 gap-y-10 md:mt-20 mt-12 md:mb-10">
           <div className="lg:col-span-6 xl:col-span-5 col-span-12 order-2 md:order-2">
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-4 dark:text-white">
               Review
@@ -348,8 +348,4 @@ const MSOProduct = (props) => {
   );
 };
 
-const mapStateToProps = ({ app }) => ({
-  product: app.currentProduct,
-});
-
-export default connect(mapStateToProps)(MSOProduct);
+export default MSOProduct;

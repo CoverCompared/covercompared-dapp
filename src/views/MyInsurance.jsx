@@ -10,7 +10,7 @@ const MyInsurance = (props) => {
   const history = useHistory();
   return (
     <>
-      {/* <GetCVROnReview {...props} /> */}
+      <GetCVROnReview {...props} />
       <MobilePageTitle title="My Insurance" />
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
         Lorem Ipsum dolor sit amet

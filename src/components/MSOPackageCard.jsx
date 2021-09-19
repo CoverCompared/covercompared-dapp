@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import DiscountCard from './common/SmallPackageCard';
 import { setCurrentProduct, addItemToCart } from '../redux/actions/AppActions';
 
 const MSOPackageCard = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const {
     InsurancePlanType,
-    MSOplanName,
-    MSOPrice,
+    name,
+    quote,
     MSOAddOnService,
     MSOPlanType,
     MSOPlanDuration,
@@ -19,13 +21,13 @@ const MSOPackageCard = (props) => {
   } = props;
 
   const handleCardClick = () => {
-    props.setCurrentProduct(props);
+    dispatch(setCurrentProduct(props));
     history.push('/mso-product');
   };
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    props.addItemToCart({ ...props, name: MSOplanName, quote: JSON.parse(MSOPrice) });
+    dispatch(addItemToCart({ ...props, name, quote: JSON.parse(quote) }));
     toast.success('Item added to cart!');
   };
 
@@ -41,7 +43,7 @@ const MSOPackageCard = (props) => {
           </div>
           <div className="md:ml-6 ml-2">
             <div className="font-Montserrat md:text-h6 text-body-sm font-semibold text-dark-blue mb-1 leading-4 dark:text-white group-hover:text-white">
-              {MSOplanName}
+              {name}
             </div>
             <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white mb-2">
               {MSOPlanType}
@@ -70,7 +72,7 @@ const MSOPackageCard = (props) => {
               Price
             </div>
             <div className="font-Montserrat text-h4 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
-              {MSOPrice}$
+              {quote}$
             </div>
           </div>
 
@@ -81,7 +83,7 @@ const MSOPackageCard = (props) => {
           >
             Add to Cart
             <div className="md:hidden font-Montserrat md:text-h4 text-body-sm font-semibold leading-4 mt-1 text-login-button-text hover:bg-white">
-              {MSOPrice}
+              {quote}
             </div>
           </button>
         </div>
@@ -90,4 +92,4 @@ const MSOPackageCard = (props) => {
   );
 };
 
-export default connect(null, { setCurrentProduct, addItemToCart })(MSOPackageCard);
+export default MSOPackageCard;

@@ -1,16 +1,17 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCurrentProduct, addItemToCart } from '../redux/actions/AppActions';
 import BuyIcon from '../assets/icons/buy.svg';
 
 const SmallPackageCard = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const {
     InsurancePlanType,
-    MSOplanName,
-    MSOPrice,
+    name,
+    quote,
     MSOAddOnService,
     MSOPlanType,
     MSOPlanDuration,
@@ -18,13 +19,13 @@ const SmallPackageCard = (props) => {
   } = props;
 
   const handleCardClick = () => {
-    props.setCurrentProduct(props);
+    dispatch(setCurrentProduct(props));
     history.push('/mso-product');
   };
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    props.addItemToCart(props);
+    dispatch(addItemToCart({ ...props, name, quote: JSON.parse(quote) }));
     toast.success('Item added to cart!');
   };
 
@@ -39,7 +40,7 @@ const SmallPackageCard = (props) => {
         </div>
         <div className="ml-4">
           <div className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white group-hover:text-white">
-            {MSOplanName}
+            {name}
           </div>
           <div className="font-Montserrat text-body-xs font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
             {MSOPlanType}
@@ -47,7 +48,7 @@ const SmallPackageCard = (props) => {
           <div className="font-Montserrat text-body-xs text-dark-blue dark:text-white flex items-center group-hover:text-white">
             Price{' '}
             <span className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white ml-2 group-hover:text-white">
-              {MSOPrice}
+              {quote}$
             </span>
           </div>
         </div>
@@ -55,7 +56,7 @@ const SmallPackageCard = (props) => {
       <div className="h-full flex items-center">
         <div className="col-span-4 flex flex-col justify-center font-Montserrat text-h6 text-dark-blue dark:text-white mr-5 my-4 md:my-0 group-hover:text-white">
           <div className="text-body-xs">Add on service</div>
-          <div className="font-semibold">{MSOAddOnService}</div>
+          <div className="font-semibold">{MSOAddOnService}$</div>
         </div>
         <button
           type="button"
@@ -69,4 +70,4 @@ const SmallPackageCard = (props) => {
   );
 };
 
-export default connect(null, { setCurrentProduct, addItemToCart })(SmallPackageCard);
+export default SmallPackageCard;

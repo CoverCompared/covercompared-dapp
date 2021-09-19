@@ -110,7 +110,7 @@ const featureCards = [
 const Features = (props) => {
   return (
     <div className="flex flex-col items-center md:px-36 md:pb-20 pb-16 text-center">
-      <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center lg:max-w-xs dark:text-subtitle-dark-text">
+      <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center lg:max-w-xs dark:text-white">
         Save money on your insurance in 4 easy step!
       </h2>
       <p className="mt-4 text-counter-card-text text-body-md md:px-20 font-Inter leading-6 dark:text-subtitle-dark-text">

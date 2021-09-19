@@ -50,7 +50,7 @@ const Modal = (props) => {
               >
                 <div className={`${bgImg} w-full h-full sm:py-8 rounded-lg`}>
                   <div className="px-4 pt-5 text-left sm:px-16 sm:pt-6 pb-8">
-                    <div className="hidden sm:block absolute top-8 right-8">
+                    <div className="absolute top-8 right-8">
                       {showCTA || (
                         <button
                           type="button"

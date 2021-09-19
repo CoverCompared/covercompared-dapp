@@ -55,7 +55,7 @@ const CoverBuyBox = (props) => {
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    dispatch(addItemToCart(props.product));
+    dispatch(addItemToCart({ quote: JSON.parse(quoteField) }));
     toast.success('Item added to cart!');
   };
 

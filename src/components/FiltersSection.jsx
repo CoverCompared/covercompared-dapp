@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 import Slider, { createSliderWithTooltip, Range } from 'rc-slider';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
@@ -280,7 +280,9 @@ const MultiCheckValueFilter = ({
 };
 
 const FiltersSection = (props) => {
-  const { search, type, card, filtersOpen } = props;
+  const dispatch = useDispatch();
+  const { filtersOpen } = useSelector((state) => state.app);
+  const { search, type, card } = props;
 
   const filtersDialogRef = useRef(null);
 
@@ -313,7 +315,7 @@ const FiltersSection = (props) => {
     if (currencyOption.length) query += `&currency=${currencyOption.join(',')}`;
     if (chianOption.length) query += `&supported_chain=${chianOption.join(',')}`;
 
-    props.searchCoverList(query);
+    dispatch(searchCoverList(query));
   }, [duration, amount, company, currencyOption, chianOption]);
 
   useEffect(() => {
@@ -328,7 +330,7 @@ const FiltersSection = (props) => {
     if (msoPlanTypeOpt.length) query += `&plan_type=${msoPlanTypeOpt.join(',')}`;
     if (wantAddOn.length) query += `&add_on_service=1`;
 
-    props.searchMSOList(query);
+    dispatch(searchMSOList(query));
   }, [msoPlanTypeOpt, wantAddOn, msoAmount, wantEHR, msoUser]);
 
   const handleResetFilter = () => {
@@ -341,7 +343,7 @@ const FiltersSection = (props) => {
       setCurrencyOption([]);
       setChianOption([]);
 
-      return props.searchCoverList(query);
+      return dispatch(searchCoverList(query));
     }
 
     if (card === 'mso') {
@@ -353,7 +355,7 @@ const FiltersSection = (props) => {
       setMsoPlanTypeOpt([]);
       setWantAddOn([]);
 
-      return props.searchMSOList(query);
+      return dispatch(searchMSOList(query));
     }
     return null;
   };
@@ -521,7 +523,7 @@ const FiltersSection = (props) => {
                   <button
                     type="button"
                     className="focus:outline-none focus:ring-offset-0 flex items-center justify-center"
-                    onClick={() => props.toggleFilters(false)}
+                    onClick={() => dispatch(toggleFilters(false))}
                     ref={filtersDialogRef}
                   >
                     <span className="sr-only">Close menu</span>
@@ -563,10 +565,4 @@ const FiltersSection = (props) => {
   );
 };
 
-const mapStateToProps = ({ app }) => ({
-  filtersOpen: app.filtersOpen,
-});
-
-export default connect(mapStateToProps, { searchCoverList, searchMSOList, toggleFilters })(
-  FiltersSection,
-);
+export default FiltersSection;

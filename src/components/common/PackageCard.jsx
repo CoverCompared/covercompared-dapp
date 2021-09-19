@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCurrentProduct, addItemToCart } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
 import Loading from './Loading';
@@ -11,6 +11,8 @@ import InsureAceLogo from '../../assets/img/insurace-icon.png';
 import ToolTip from './ToolTip';
 
 const PackageCard = (props) => {
+  const dispatch = useDispatch();
+
   const {
     name,
     company,
@@ -38,14 +40,14 @@ const PackageCard = (props) => {
 
   const handleCardClick = () => {
     if (quote !== '' && quote !== undefined) {
-      props.setCurrentProduct(props);
+      dispatch(setCurrentProduct(props));
       history.push('/product/cover');
     }
   };
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    props.addItemToCart(props);
+    dispatch(addItemToCart(props));
     toast.success('Item added to cart!');
   };
 
@@ -56,7 +58,7 @@ const PackageCard = (props) => {
           <DiscountCard discountPercentage={discount} />
           <div className="col-span-7 md:col-span-5 flex items-center h-full w-full">
             <div className="md:w-20 md:h-20 w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white">
-              <img src={logo} className="h-full w-full rounded-xl" alt={name} />
+              <img src={logo} className="h-full w-full rounded-xl bg-fixed" alt={name} />
               <img src={providerLogo} className="absolute right-1 bottom-1 max-h-5" alt="" />
             </div>
             <div className="md:ml-6 md:mr-5 mr-1 ml-3">
@@ -135,4 +137,4 @@ const PackageCard = (props) => {
   );
 };
 
-export default connect(null, { setCurrentProduct, addItemToCart })(PackageCard);
+export default PackageCard;

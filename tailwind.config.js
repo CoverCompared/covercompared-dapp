@@ -7,6 +7,25 @@ module.exports = {
       '90%': '100% 90%',
       '100%': '100% 100%',
     },
+    keyframes: {
+      baloon: {
+        '0%': { marginTop: '100px' },
+        '100%': { marginTop: '-50%' },
+      },
+      spin: {
+        from: {
+          transform: 'rotate(0deg)',
+        },
+        to: {
+          transform: 'rotate(360deg)',
+        },
+      },
+    },
+    animation: {
+      bubbles: 'baloon 6s linear infinite',
+      bubbles1: 'baloon 7s linear infinite',
+      wheelSpin: 'spin 5s linear infinite',
+    },
     extend: {
       fontFamily: {
         Inter: ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
@@ -93,6 +112,10 @@ module.exports = {
         'popup-dark-bg': '#151B26',
         'short-review-text': '#130F26',
         'crypto-selected-dark-option': '#182229',
+        'menifesto-content-color': '#88B6D5',
+        'platofrm-blue-bg': '#266CB2',
+        phaseContent: '#0f569b',
+        phaseNumber: '#175186',
       },
       fontSize: {
         h1: '26px',
@@ -123,6 +146,8 @@ module.exports = {
         addToCart: '0px 10px 56px rgba(15, 95, 52, 0.15);',
         'shadow-none': '0 0 0 rgba(0,0,0,0)',
         homeCardShadow: '0px 25.4286px 76.2857px rgba(4, 35, 81, 0.1)',
+        bubbleShadow:
+          '0 20px 30px rgba(0, 0, 0, 0.2), inset 0px 10px 30px 5px rgba(255, 255, 255, 0.2)',
       },
       minWidth: {
         32: '8rem',

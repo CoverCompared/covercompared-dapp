@@ -10,8 +10,8 @@ const SmallPackageCard = (props) => {
   const dispatch = useDispatch();
   const {
     InsurancePlanType,
-    MSOplanName,
-    MSOPrice,
+    name,
+    quote,
     MSOAddOnService,
     MSOPlanType,
     MSOPlanDuration,
@@ -25,7 +25,7 @@ const SmallPackageCard = (props) => {
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    dispatch(addItemToCart(props));
+    dispatch(addItemToCart({ ...props, name, quote: JSON.parse(quote) }));
     toast.success('Item added to cart!');
   };
 
@@ -40,7 +40,7 @@ const SmallPackageCard = (props) => {
         </div>
         <div className="ml-4">
           <div className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white group-hover:text-white">
-            {MSOplanName}
+            {name}
           </div>
           <div className="font-Montserrat text-body-xs font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
             {MSOPlanType}
@@ -48,7 +48,7 @@ const SmallPackageCard = (props) => {
           <div className="font-Montserrat text-body-xs text-dark-blue dark:text-white flex items-center group-hover:text-white">
             Price{' '}
             <span className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white ml-2 group-hover:text-white">
-              {MSOPrice}
+              {quote}$
             </span>
           </div>
         </div>
@@ -56,7 +56,7 @@ const SmallPackageCard = (props) => {
       <div className="h-full flex items-center">
         <div className="col-span-4 flex flex-col justify-center font-Montserrat text-h6 text-dark-blue dark:text-white mr-5 my-4 md:my-0 group-hover:text-white">
           <div className="text-body-xs">Add on service</div>
-          <div className="font-semibold">{MSOAddOnService}</div>
+          <div className="font-semibold">{MSOAddOnService}$</div>
         </div>
         <button
           type="button"

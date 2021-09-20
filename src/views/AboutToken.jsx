@@ -55,7 +55,7 @@ const AboutToken = () => {
       </div>
       <div className="md:px-24">
         <div className="mt-10 grid grid-cols-1 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-4 md:grid-cols-12 lg:grid-cols-12 w-full">
-          <div className="md:col-span-5 col-span-12 md:col-end-5 md:pb-14 order-2 md:order-1 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg rounded-xl shadow-xl p-4 md:p-0">
+          <div className="md:col-span-5 col-span-12 md:col-end-5 md:pb-14 order-2 md:order-1 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent rounded-xl shadow-xl p-4 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2">
                 <img src={HealthInsurance} alt="" className="w-10" />
@@ -72,7 +72,7 @@ const AboutToken = () => {
           <div className="md:col-span-7 col-span-12 md:col-start-6 md:col-end-12 md:pb-14 pb-10 flex justify-center order-1 md:order-2">
             <img src={TokenIllustration} alt="" className="max-h-96" />
           </div>
-          <div className="md:col-span-5 col-span-12 md:col-end-5 md:pb-14 order-3 md:order-3 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg rounded-xl shadow-xl p-4 md:p-0">
+          <div className="md:col-span-5 col-span-12 md:col-end-5 md:pb-14 order-3 md:order-3 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-3">
                 <img src={InsurancePolicy} alt="" className="w-10" />
@@ -87,7 +87,7 @@ const AboutToken = () => {
               Polkacover token receive a significant discount on their policy.
             </div>
           </div>
-          <div className="col-span-12 md:col-span-7 md:col-start-6 md:col-end-12 md:pb-14 pb-10 order-4 md:order-4 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg rounded-xl shadow-xl p-4 md:p-0">
+          <div className="col-span-12 md:col-span-7 md:col-start-6 md:col-end-12 md:pb-14 pb-10 order-4 md:order-4 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2">
                 <img src={DecentrilizedIcon} alt="" className="w-10" />
@@ -102,7 +102,7 @@ const AboutToken = () => {
               one stop shop to get access to all crypto based insurance products globally.
             </div>
           </div>
-          <div className="md:pb-14 md:col-span-5 col-span-12 order-6 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg rounded-xl shadow-xl p-4 md:p-0">
+          <div className="md:pb-14 md:col-span-5 col-span-12 order-6 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2">
                 <img src={GlobalIcon} alt="" className="w-10" />
@@ -116,7 +116,7 @@ const AboutToken = () => {
               Redeem your claim through the CVR token for your favorite cryptocurrencies.
             </div>
           </div>
-          <div className="md:col-span-7 col-span-12 md:col-start-6 md:col-end-12 md:pb-14 order-7 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg rounded-xl shadow-xl p-4 md:p-0">
+          <div className="md:col-span-7 col-span-12 md:col-start-6 md:col-end-12 md:pb-14 order-7 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2">
                 <img src={RewardIcon} alt="" className="w-10" />
@@ -132,7 +132,7 @@ const AboutToken = () => {
             </div>
           </div>
         </div>
-        <div className="md:pb-14 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg rounded-xl shadow-xl p-4 md:p-0 mt-6">
+        <div className="md:pb-14 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 md:p-0 mt-6">
           <div className="flex justify-center md:justify-start">
             <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2 ">
               <img src={StakingIcon} alt="" className="w-10" />

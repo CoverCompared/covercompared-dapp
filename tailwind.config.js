@@ -132,6 +132,8 @@ module.exports = {
   variants: {
     extend: {
       boxShadow: ['active'],
+      backgroundColor: ['active'],
+      opacity: ['active'],
     },
   },
   plugins: [

@@ -5,16 +5,13 @@ import { useDispatch } from 'react-redux';
 import { setCurrentProduct, addItemToCart } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
 import Loading from './Loading';
-import NsureNetworkLogo from '../../assets/img/nsure-network.svg';
-import NexusMutualLogo from '../../assets/img/nexus-mutual-icon.png';
-import InsureAceLogo from '../../assets/img/insurace-icon.png';
 import ToolTip from './ToolTip';
 
 const PackageCard = (props) => {
   const dispatch = useDispatch();
-
   const {
     name,
+    company_icon,
     company,
     duration_days_min,
     min_eth,
@@ -26,17 +23,6 @@ const PackageCard = (props) => {
   } = props;
 
   const history = useHistory();
-  const [providerLogo, setProviderLogo] = useState(NsureNetworkLogo);
-
-  useEffect(() => {
-    let providerLogo = NsureNetworkLogo;
-    if (company === 'Nexus Mutual') {
-      providerLogo = NexusMutualLogo;
-    } else if (company === 'InsurAce') {
-      providerLogo = InsureAceLogo;
-    }
-    setProviderLogo(providerLogo);
-  }, []);
 
   const handleCardClick = () => {
     if (quote !== '' && quote !== undefined) {
@@ -59,7 +45,7 @@ const PackageCard = (props) => {
           <div className="col-span-7 md:col-span-5 flex items-center h-full w-full">
             <div className="md:w-20 md:h-20 w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white">
               <img src={logo} className="h-full w-full rounded-xl bg-fixed" alt={name} />
-              <img src={providerLogo} className="absolute right-1 bottom-1 max-h-5" alt="" />
+              <img src={company_icon} className="absolute right-1 bottom-1 max-h-5" alt="" />
             </div>
             <div className="md:ml-6 md:mr-5 mr-1 ml-3">
               <div
@@ -114,10 +100,20 @@ const PackageCard = (props) => {
             <button
               type="button"
               onClick={handleAddToCart}
-              disabled={quote === '' || quote === undefined}
+              disabled={quote !== undefined || quote === ''}
               className="ml-3 font-Montserrat disabled:opacity-50 md:inline-flex items-center md:px-5 md:py-4 py-1.5 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
             >
-              <div>Add to Cart</div>
+              <div>
+                {quote !== undefined ? (
+                  quote ? (
+                    'Add to Cart'
+                  ) : (
+                    'Add to Cart'
+                  )
+                ) : (
+                  <Loading heightClass="h-4" widthClass="w-4" />
+                )}
+              </div>
               <div className="mt-1 md:hidden">
                 {quote !== undefined ? (
                   quote ? (

@@ -189,15 +189,15 @@ const AboutUs = () => {
       {/* partner-section-end */}
 
       {/* about-platform-start */}
-      <div className="relative md:-ml-10 z-0 box-border mt-16 md:pb-96 md:mb-44 mb-20">
-        <div className="w-full bg-platofrm-blue-bg md:px-20 p-6 md:pt-10 pb-6 md:rounded-br-full md:rounded-tr-full overflow-hidden relative">
-          <div className="text-center font-Montserrat font-extrabold md:text-h1 text-h5">
+      <div className="relative mt-16 md:pb-96 md:mb-44 mb-20">
+        <div className="w-full bg-platofrm-blue-bg md:px-16 p-6 md:pt-10 pb-6 md:rounded-br-full md:rounded-tr-full overflow-hidden relative">
+          <div className="text-h1 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white">
             A Little Bit about Our Platform
           </div>
-          <div className="font-Montserrat md:text-body-lg text-body-xs font-medium text-center mt-2">
+          <div className="md:text-body-md font-medium text-center mt-2 text-counter-card-text text-body-md md:px-20 font-Inter leading-6 dark:text-subtitle-dark-text">
             We are building the best insurtech platform for the masses
           </div>
-          <div className="pt-10 z-10 px-24 hidden md:flex justify-center">
+          <div className="pt-10 z-10 px-4 hidden md:flex justify-center">
             <img src={ArrowFrame} alt="" className="h-44" style={{ width: '40vw' }} />
           </div>
           <div className="md:h-40 md:w-40 h-16 w-16 left-6 animate-bubbles1 rounded-full absolute shadow-bubbleShadow" />
@@ -207,7 +207,7 @@ const AboutUs = () => {
           <div className="h-16 w-16 right-14 animate-bubbles1 rounded-full absolute shadow-bubbleShadow" />
         </div>
 
-        <div className="grid grid-cols-12 gap-x-3 gap-y-20 md:absolute top-60 z-20 w-full md:px-20 mt-12 md:mt-0">
+        <div className="grid grid-cols-12 gap-x-3 gap-y-20 md:absolute top-60 w-full md:px-20 mt-12 md:mt-0">
           {PhaseArr.map((obj) => (
             <PhaseCard {...obj} />
           ))}
@@ -221,19 +221,19 @@ const AboutUs = () => {
       <div className="flex justify-center pt-11">
         <img src={GlobalIcon} className="text-center" alt="" />
       </div>
-      <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-bold text-center dark:text-white mt-4">
+      <h2 className="text-h1 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-4">
         &quot;Be the change you want to see in the world&quot;
       </h2>
       <div className="md:px-24 md:pt-10 pt-8">
-        <div className="font-Montserrat font-medium text-menifesto-content-color md:text-h6 text-body-md  text-center">
+        <div className="font-Montserrat font-medium text-menifesto-content-color md:text-body-lg text-body-md dark:text-subtitle-dark-text text-center">
           We live in a world that is empowered by technology and innovation every day – it touches
           nearly every aspect of our lives, changing them for the better for the most part.
         </div>
-        <div className="mt-6 font-Montserrat font-medium text-menifesto-content-color md:text-h6 text-body-md  text-center">
+        <div className="mt-5 font-Montserrat font-medium text-menifesto-content-color md:text-body-lg text-body-md dark:text-subtitle-dark-text text-center">
           One such revolutionary technological advancement was the advent of cryptocurrency - the
           currency that changed the world.
         </div>
-        <div className="mt-6 font-Montserrat font-medium text-menifesto-content-color md:text-h6 text-body-md  text-center">
+        <div className="mt-5 font-Montserrat font-medium text-menifesto-content-color md:text-body-lg text-body-md dark:text-subtitle-dark-text text-center">
           Over the years, Cryptocurrency usage has significantly increased due to rising inflation
           and demand for inflation-resistant assets. Weary users bound by the restrictive and
           capricious shackles of traditional financial instruments found themselves questioning the
@@ -242,11 +242,11 @@ const AboutUs = () => {
           novel system of finance– an alternative solution that was freer, fairer, and nearly
           immutable.
         </div>
-        <div className="mt-6 font-Montserrat font-medium text-menifesto-content-color md:text-h6 text-body-md text-center">
+        <div className="mt-5 font-Montserrat font-medium text-menifesto-content-color md:text-body-lg text-body-md dark:text-subtitle-dark-text text-center">
           This enormous boom in crypto users has proved to be revolutionary for the history of our
           species.
         </div>
-        <div className="mt-6 font-Montserrat font-medium text-menifesto-content-color md:text-h6 text-body-md text-center">
+        <div className="mt-5 font-Montserrat font-medium text-menifesto-content-color md:text-body-lg text-body-md dark:text-subtitle-dark-text text-center">
           Just during Q1 2021, crypto users have doubled from 100 million to nearly 200 million.
           Regardless of this massive growth in population, the crypto community as a whole has been
           rather neglected by traditional providers of service.
@@ -262,20 +262,20 @@ const AboutUs = () => {
         <div className="flex justify-center pt-14">
           <img src={CommunityIcon} alt="" />
         </div>
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-bold text-center dark:text-white mt-8">
+        <h2 className="text-h1 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-8">
           IF THEY CAN, WHY NOT ME?
         </h2>
-        <div className="mt-6 font-Montserrat font-medium text-menifesto-content-color md:text-h6 text-body-md text-center">
+        <div className="mt-5 font-Montserrat font-medium text-menifesto-content-color md:text-body-lg text-body-md dark:text-subtitle-dark-text text-center">
           If a holder of fiat currency wants to secure his assets, be they fiscal or otherwise,
           there exist a plethora of options for him to do so. However, if the same individual would
           like to be ensured using his crypto funds – no dice.
         </div>
-        <div className="mt-6 font-Montserrat font-medium text-menifesto-content-color md:text-h6 text-body-md text-center">
+        <div className="mt-5 font-Montserrat font-medium text-menifesto-content-color md:text-body-lg text-body-md dark:text-subtitle-dark-text text-center">
           Why does this disparity exist? Why, despite the crypto community being at the advent of
           innovative tech and growing every day, is the average crypto holder not afforded the same
           advantages as holders of more traditional instruments of payment?
         </div>
-        <div className="mt-6 font-Montserrat font-medium text-menifesto-content-color md:text-h6 text-body-md text-center">
+        <div className="mt-5 font-Montserrat font-medium text-menifesto-content-color md:text-body-lg text-body-md dark:text-subtitle-dark-text text-center">
           PolkaCover aims to right this wrong – we’re the world’s first platform that will enable
           crypto-holders to purchase not just specialized covers for their crypto-based assets, but
           also fulfill their needs in the traditional sectors of insurance such as life, health,
@@ -284,17 +284,17 @@ const AboutUs = () => {
         <div className="flex justify-center pt-14">
           <img src={VisionIcon} alt="" />
         </div>
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-bold text-center dark:text-white mt-8">
+        <h2 className="text-h1 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-8">
           OUR VISION
         </h2>
-        <div className="mt-6 font-Montserrat font-medium text-menifesto-content-color md:text-h6 text-body-md text-center">
+        <div className="mt-5 font-Montserrat font-medium text-menifesto-content-color md:text-body-lg text-body-md dark:text-subtitle-dark-text text-center">
           PolkaCover is here to address the needs of the crypto community. We understand the growing
           concerns of safety in the crypto ecosystem, and we firmly believe that every individual
           deserves the chance to protect their valuable assets without worrying about costs and
           limitations. <span className="font-extrabold">Protection shouldn’t be conditional</span>.
           It is time insurers were empathetic to the hardships faced by unprotected crypto users.
         </div>
-        <div className="mt-6 font-Montserrat font-medium text-menifesto-content-color md:text-h6 text-body-md text-center">
+        <div className="mt-5 font-Montserrat font-medium text-menifesto-content-color md:text-body-lg text-body-md dark:text-subtitle-dark-text text-center">
           PolkaCover is the world’s first platform offering crypto and traditional insurance
           products under one marketplace specially aimed to cater to the global crypto market. We
           are a user-centric insurance aggregator, working towards optimising the experience of
@@ -332,17 +332,17 @@ const AboutUs = () => {
             </svg>
           </div>
 
-          <div className="text-center md:px-10 text-white font-Montserrat font-extrabold md:text-h1 text-body-md">
+          <div className="text-center md:px-10 text-white font-Montserrat font-bold md:text-h1 text-body-md">
             THE FUTURE OF POLKACOVER
           </div>
-          <div className="font-Montserrat text-white md:text-body-lg text-body-xs font-medium text-center mt-4">
+          <div className="font-Montserrat text-white md:text-body-lg text-body-xs font-medium  text-center mt-4">
             The platform aims to bridge the gap in the insurance sector by collaborating with
             insurers and giving users historical data to make informed decisions on what cover is
             best-suited to their unique situation, as well as giving them the liberty to act upon
             this decision on their own terms. Additionally, it offers affordable covers, transparent
             pricing, and multiple payment options.
           </div>
-          <div className="font-Montserrat text-white md:text-body-lg text-body-md font-medium text-center mt-3">
+          <div className="font-Montserrat text-white md:text-body-lg text-body-md font-medium  text-center mt-4">
             PolkaCover will soon bring about a newfound era of innovation in the insurance market
             and be the first platform of its kind to offer a democratic safety net to all.
           </div>

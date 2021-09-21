@@ -212,14 +212,14 @@ export default function Home(props) {
           eleifend vitae eleifend massa imperdiet.
         </p>
         <div className="mt-10 grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 md:gap-x-12">
-          <div className="md:col-span-4 sm:col-span-4 xl:col-start-2 flex items-center col-span-12 justify-center">
+          <div className="md:col-span-4 xl:col-start-2 flex items-center col-span-12 justify-center">
             <img
               src={theme === 'light' ? CryptoInsuranceImg : CryptoInsuranceImgDark}
               alt=""
               className="md:max-h-60 max-h-52"
             />
           </div>
-          <div className="sm:col-span-8 col-span-12 xl:col-end-12 lg:col-end-13">
+          <div className="md:col-span-6 col-span-12 xl:col-end-12 lg:col-end-13">
             <div className="grid grid-cols-2 md:gap-y-12 gap-y-10 gap-x-7 md:gap-x-8 md:grid-cols-2 lg:grid-cols-2 sm:gap-4">
               <div className="text-left">
                 <div className="text-dark-blue-1 font-Montserrat text-h4 font-bold mb-2 dark:text-white">

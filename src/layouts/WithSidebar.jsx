@@ -23,10 +23,7 @@ const WithSidebar = (props) => {
             `flex-1 relative focus:outline-none bg-${mobileBgImg} md:bg-${bgImg} ${bgImgClass}`,
           )}
         >
-          <div style={{ minHeight: 'calc(100% - 3rem)' }} className="hidden md:block">
-            <div className="py-6 md:px-10 px-6">{children}</div>
-          </div>
-          <div style={{ minHeight: 'calc(100% - 9rem)' }} className="md:hidden">
+          <div className="min-h-full-9 md:min-h-full-3">
             <div className="py-6 md:px-10 px-6">{children}</div>
           </div>
           <Footer {...props} />

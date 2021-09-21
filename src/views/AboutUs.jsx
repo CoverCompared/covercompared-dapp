@@ -215,13 +215,13 @@ const AboutUs = () => {
       </div>
 
       {/* menifesto-section-start */}
-      <div className="text-32 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white pt-20">
+      <div className="text-h2 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white pt-20">
         Our Menifesto
       </div>
       <div className="flex justify-center pt-11">
         <img src={GlobalIcon} className="text-center" alt="" />
       </div>
-      <h2 className="text-h2 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-4">
+      <h2 className="text-h4 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-4">
         &quot;Be the change you want to see in the world&quot;
       </h2>
       <div className="lg:px-24 md:pt-6 pt-8">
@@ -262,7 +262,7 @@ const AboutUs = () => {
         <div className="flex justify-center pt-14">
           <img src={CommunityIcon} alt="" />
         </div>
-        <h2 className="text-h2 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-8">
+        <h2 className="text-h4 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-8">
           IF THEY CAN, WHY NOT ME?
         </h2>
         <div className="mt-5 font-Montserrat font-normal text-menifesto-content-color md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
@@ -284,7 +284,7 @@ const AboutUs = () => {
         <div className="flex justify-center pt-14">
           <img src={VisionIcon} alt="" />
         </div>
-        <h2 className="text-h2 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-8">
+        <h2 className="text-h4 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-8">
           OUR VISION
         </h2>
         <div className="mt-5 font-Montserrat font-normal text-menifesto-content-color md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
@@ -332,17 +332,17 @@ const AboutUs = () => {
             </svg>
           </div>
 
-          <div className="text-center md:px-10 text-white font-Montserrat font-bold md:text-h2 text-body-md">
+          <div className="text-center md:px-10 text-white font-Montserrat font-semibold md:text-h2 text-body-md">
             THE FUTURE OF POLKACOVER
           </div>
-          <div className="font-Montserrat text-white md:text-body-md text-body-xs font-medium text-center mt-4">
+          <div className="font-Montserrat text-white md:text-body-md text-body-xs text-center mt-4">
             The platform aims to bridge the gap in the insurance sector by collaborating with
             insurers and giving users historical data to make informed decisions on what cover is
             best-suited to their unique situation, as well as giving them the liberty to act upon
             this decision on their own terms. Additionally, it offers affordable covers, transparent
             pricing, and multiple payment options.
           </div>
-          <div className="font-Montserrat text-white md:text-body-md text-body-xs font-medium text-center mt-4">
+          <div className="font-Montserrat text-white md:text-body-md text-body-xs text-center mt-4">
             PolkaCover will soon bring about a newfound era of innovation in the insurance market
             and be the first platform of its kind to offer a democratic safety net to all.
           </div>

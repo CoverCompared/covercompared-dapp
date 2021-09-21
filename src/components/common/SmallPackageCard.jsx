@@ -14,8 +14,9 @@ const SmallPackageCard = (props) => {
 
   const {
     name,
-    company,
+    cardType,
     company_icon,
+    company,
     duration_days_min,
     min_eth,
     discount,

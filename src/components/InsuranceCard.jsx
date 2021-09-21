@@ -15,8 +15,10 @@ const InsuranceCard = ({ icon, title, subtitle, gradientClass, bgImg, redirectTo
           <img src={icon} alt={title} className="md:w-14 w-5 h-5 md:h-14" />
           <div className="md:mt-8 mt-2 flex flex-row justify-between items-center">
             <div className="flex flex-col">
-              <h2 className="font-Montserrat font-extrabold md:text-h5 text-10">{title}</h2>
-              <p className="font-light md:text-h5 text-10">{subtitle}</p>
+              <h2 className="font-Montserrat font-extrabold lg:text-h5 md:text-h6 text-body-3xs">
+                {title}
+              </h2>
+              <p className="font-light lg:text-h5 md:text-h6 text-10">{subtitle}</p>
             </div>
             <div className="bg-white bg-opacity-20 rounded-xl px-2 py-2 ml-2">
               <img src={SearchIcon} alt="Search" className="md:max-h-6 max-h-4" />

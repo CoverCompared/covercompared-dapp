@@ -14,7 +14,7 @@ const AboutToken = () => {
   return (
     <>
       <MobilePageTitle title="About the Polkacover Token" />
-      <div className="md:px-24 md:mb-8 mb-4">
+      <div className="xl:px-24 md:mb-8 mb-4 sm:px-8">
         <div className="bg-gradient-to-r from-global-banner-gd-1 to-global-banner-gd-2 rounded-2xl">
           <div className="md:px-24 md:py-16 py-6 px-8 flex justify-center items-center md:bg-aboutTokenTopBanner bg-no-repeat bg-100%">
             <div className="font-Montserrat text-white md:text-body-lg text-body-md max-w-lg font-medium text-center">
@@ -27,7 +27,7 @@ const AboutToken = () => {
       <div className="font-Montserrat text-dark-blue md:text-body-md text-body-xs text-center md:px-24 font-medium dark:text-white">
         One Coin. 2 marketplaces. 11 use cases
       </div>
-      <div className="text-center md:px-24 flex justify-center w-full mt-10 md:mb-28 mb-14">
+      <div className="text-center md:px-24 flex justify-center w-full mt-10 xl:mb-28 md:mb-16 mb-14">
         <div className="md:max-w-3xl w-full hidden md:block">
           {marketPlaces.map((name) => (
             <div className="bg-login-button-bg md:py-4 md:px-2 md:my-3 md:mx-8 md:w-40 rounded-xl inline-block text-login-button-text md:text-body-md text-body-xs font-semibold">
@@ -35,7 +35,7 @@ const AboutToken = () => {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-12 gap-x-6 gap-y-4 md:hidden w-full">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-4 md:hidden w-full sm:px-24">
           <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
             Etherscan
           </div>
@@ -53,8 +53,8 @@ const AboutToken = () => {
           </div>
         </div>
       </div>
-      <div className="md:px-24">
-        <div className="mt-10 grid grid-cols-1 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-4 md:grid-cols-12 lg:grid-cols-12 w-full">
+      <div className="xl:px-24 md:px-4">
+        <div className="mt-10 grid grid-cols-1 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-4 sm:grid-cols-12 lg:grid-cols-12 w-full">
           <div className="md:col-span-5 col-span-12 md:col-end-5 md:pb-14 order-2 md:order-1 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent rounded-xl shadow-xl p-4 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2">
@@ -87,7 +87,7 @@ const AboutToken = () => {
               Polkacover token receive a significant discount on their policy.
             </div>
           </div>
-          <div className="col-span-12 md:col-span-7 md:col-start-6 md:col-end-12 md:pb-14 pb-10 order-4 md:order-4 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 md:p-0">
+          <div className="col-span-12 md:col-span-7 md:col-start-6 md:col-end-12 md:pb-14 order-4 md:order-4 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 sm:p-8 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2">
                 <img src={DecentrilizedIcon} alt="" className="w-10" />
@@ -96,7 +96,7 @@ const AboutToken = () => {
             <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md dark:text-white text-center md:text-left">
               Traditional & Decentralized <br /> Insurance Products
             </div>
-            <div className="text-post-body-text font-Inter md:text-body-md text-body-sm md:leading-6 leading-5 max-w-lg dark:text-subtitle-dark-text text-center md:text-left">
+            <div className="text-post-body-text font-Inter md:text-body-md text-body-sm md:leading-6 leading-5 md:max-w-lg dark:text-subtitle-dark-text text-center md:text-left">
               Users will solely need to use the Polkacover token to be able to purchase any
               traditional insurer-backed or DAO governed crypto insurance products. It would be a
               one stop shop to get access to all crypto based insurance products globally.
@@ -122,11 +122,11 @@ const AboutToken = () => {
                 <img src={RewardIcon} alt="" className="w-10" />
               </div>
             </div>
-            <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md max-w-xs dark:text-white text-center md:text-left">
+            <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md md:max-w-xs dark:text-white text-center md:text-left">
               P2P Risk Assessment & <br />
               Governance Rewards
             </div>
-            <div className="text-post-body-text font-Inter md:text-body-md text-body-sm md:leading-6 leading-5 max-w-md dark:text-subtitle-dark-text text-center md:text-left">
+            <div className="text-post-body-text font-Inter md:text-body-md text-body-sm md:leading-6 leading-5 md:max-w-md dark:text-subtitle-dark-text text-center md:text-left">
               Additional member tokens are allocated as an incentive for participating in risk
               assessment & Governance
             </div>

@@ -19,7 +19,7 @@ const WithSidebar = (props) => {
         <Header {...props} {...{ title, subtitle, showBuyButton }} />
         <main
           className={classNames(
-            subtitle ? 'md:mt-36 mt-14' : 'md:mt-24 mt-14',
+            subtitle ? 'lg:mt-36 md:mt-16 mt-14' : 'lg:mt-24 md:mt-16 mt-14',
             `flex-1 relative focus:outline-none bg-${mobileBgImg} md:bg-${bgImg} ${bgImgClass}`,
           )}
         >

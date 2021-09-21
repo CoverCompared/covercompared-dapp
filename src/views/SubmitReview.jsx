@@ -16,7 +16,7 @@ const ContactUs = () => {
   return (
     <>
       <MobilePageTitle title="Submit review" />
-      <form className="md:pr-28 md:pl-6 md:mb-8 md:mt-6">
+      <form className="xl:pr-28 xl:pl-6 md:mb-8 md:mt-6">
         <div className="grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8">
           <div className="relative col-span-12 md:col-span-6">
             <FormInput

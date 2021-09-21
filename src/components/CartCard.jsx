@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import { useDispatch } from 'react-redux';
 import { removeItemToCart } from '../redux/actions/AppActions';
@@ -21,6 +21,7 @@ const CartCard = (props) => {
     logo,
     company_icon,
     quote_currency,
+    cardType,
     curency,
     qty,
     type,
@@ -36,9 +37,39 @@ const CartCard = (props) => {
     period,
     quote_chain,
     supportedChains,
+    wantAddon,
+    addOnQuote,
+    MSOCoverUser,
+    EHR,
   } = props;
+
   const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
+
+  const [totalPerPlanQuote, setQuote] = useState(quote);
+
+  useEffect(() => {
+    const totalPerPlanQuote = quote;
+    setQuote(totalPerPlanQuote);
+    console.log('ajskd');
+  }, [cardType === 'device']);
+
+  useEffect(() => {
+    let totalPerPlanQuote = 0;
+    if (cardType === 'smart-contract' || cardType === 'crypto-exchange') {
+      const quoteP = JSON.parse(quote);
+      totalPerPlanQuote = quoteP ? quoteP.toFixed(6) : '---';
+      setQuote(totalPerPlanQuote);
+    } else if (cardType === 'mso') {
+      if (wantAddon === true) {
+        totalPerPlanQuote = JSON.parse(quote) + JSON.parse(addOnQuote);
+        setQuote(totalPerPlanQuote);
+      }
+    } else if (cardType === 'device') {
+      setQuote(quote);
+      console.log(quote);
+    }
+  }, []);
 
   return (
     <div className="dark:bg-featureCard-dark-bg rounded-xl shadow-md bg-white">
@@ -46,7 +77,7 @@ const CartCard = (props) => {
         <div className="md:col-span-6 col-span-7 flex items-center h-full">
           <div
             className="md:w-20 md:h-20 w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white"
-            style={{ minWidth: 'fit-content' }}
+            // style={{ minWidth: 'fit-content' }}
           >
             <img src={logo} className="h-full w-full rounded-xl bg-fixed" alt={name} />
             <img src={company_icon} className="absolute right-1 bottom-1 max-h-5" alt="" />
@@ -60,7 +91,7 @@ const CartCard = (props) => {
                 Price
               </span>
               <span className="font-Montserrat md:text-h4 text-body-md font-semibold text-dark-blue leading-4 dark:text-white">
-                {quote ? quote.toFixed(6) : '---'} {quote_currency}
+                {totalPerPlanQuote} {quote_currency}
               </span>
             </div>
           </div>
@@ -70,8 +101,7 @@ const CartCard = (props) => {
             Price
           </div>
           <div className="font-Montserrat text-h4 font-semibold text-dark-blue mt-2 leading-4 dark:text-white">
-            {quote ? quote.toFixed(6) : '---'}{' '}
-            <span className="font-medium text-body-md">{quote_currency}</span>
+            {totalPerPlanQuote} <span className="font-medium text-body-md">{quote_currency}</span>
           </div>
         </div>
         <div className="flex items-center justify-end md:col-span-3 col-span-5">
@@ -89,39 +119,39 @@ const CartCard = (props) => {
               className="md:h-6 md:w-6 h-5"
             />
           </div>
-          <Modal
+          {/* <Modal
             title="MSO checkout form"
             bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-cover bg-no-repeat"
             // renderComponent={<CheckoutForm {...props} />}
-          >
-            <div className="h-7 w-7 cursor-pointer">
-              <CircularProgressbarWithChildren
-                value={66}
-                styles={buildStyles({
-                  pathColor: `#0CED58`,
-                  textColor: 'text-dark-blue',
-                  trailColor: '#d6d6d6',
-                })}
+          > */}
+          <div className="h-7 w-7 cursor-pointer">
+            <CircularProgressbarWithChildren
+              value={66}
+              styles={buildStyles({
+                pathColor: `#0CED58`,
+                textColor: 'text-dark-blue',
+                trailColor: '#d6d6d6',
+              })}
+            >
+              <img
+                style={{ width: '14px', height: '14px' }}
+                src={theme === 'light' ? EditIcon : EditIconWhite}
+                alt="Edit"
+              />
+              <div
+                style={{
+                  fontSize: 8,
+                  position: 'absolute',
+                  marginRight: '-10',
+                  top: '-4px',
+                  left: '-6px',
+                }}
               >
-                <img
-                  style={{ width: '14px', height: '14px' }}
-                  src={theme === 'light' ? EditIcon : EditIconWhite}
-                  alt="Edit"
-                />
-                <div
-                  style={{
-                    fontSize: 8,
-                    position: 'absolute',
-                    marginRight: '-10',
-                    top: '-4px',
-                    left: '-6px',
-                  }}
-                >
-                  <strong>66%</strong>
-                </div>
-              </CircularProgressbarWithChildren>
-            </div>
-          </Modal>
+                <strong>66%</strong>
+              </div>
+            </CircularProgressbarWithChildren>
+          </div>
+          {/* </Modal> */}
         </div>
       </div>
     </div>

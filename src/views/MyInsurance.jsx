@@ -15,9 +15,9 @@ const MyInsurance = (props) => {
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
         Lorem Ipsum dolor sit amet
       </div>
-      <div className="md:pl-5 md:pr-24">
-        <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 md:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
-          <div className="flex items-center h-full w-full md:col-span-7 col-span-12">
+      <div className="xl:pl-5 xl:pr-24">
+        <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
+          <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
             <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl bg-gray-200">
               <img
                 src="https://via.placeholder.com/400x250.png"
@@ -29,7 +29,7 @@ const MyInsurance = (props) => {
               Uniswap - Nsure Network
             </div>
           </div>
-          <div className="flex md:justify-end items-center md:col-span-5 col-span-12">
+          <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
             <button
               type="button"
               onClick={() => history.push('submit-review')}
@@ -52,8 +52,8 @@ const MyInsurance = (props) => {
           </div>
         </div>
 
-        <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 pr-8 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
-          <div className="flex items-center h-full md:col-span-6 col-span-12">
+        <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
+          <div className="flex items-center h-full sm:col-span-6 lg:col-span-7 col-span-12">
             <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl bg-gray-200">
               <img
                 src="https://via.placeholder.com/400x250.png"
@@ -65,7 +65,7 @@ const MyInsurance = (props) => {
               Uniswap - Nexus Mutual
             </div>
           </div>
-          <div className="flex md:justify-end items-center md:col-span-6 col-span-12">
+          <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-5 col-span-12">
             <Modal
               title="Instruction"
               bgImg="md:bg-submitclaimBg bg-submitclaimPopupBg bg-cover"

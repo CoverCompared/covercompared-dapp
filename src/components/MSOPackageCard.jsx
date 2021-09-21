@@ -24,17 +24,28 @@ const MSOPackageCard = (props) => {
 
   const handleCardClick = () => {
     dispatch(setCurrentProduct(props));
-    history.push('/mso-product');
+    // history.push('/mso-product');
   };
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    dispatch(addItemToCart({ type: 'mso', name, quote: JSON.parse(quote), quote_currency: '$' }));
+    dispatch(
+      addItemToCart({
+        type: 'mso',
+        name,
+        quote,
+        wantAddon: addonServices,
+        addOnQuote: MSOAddOnService,
+        quote_currency: '$',
+        MSOCoverUser,
+        EHR,
+      }),
+    );
     toast.success('Item added to cart!');
   };
 
   const totalPrice = (e) => {
-    if (e) e.stopPropagation();
+    e.stopPropagation();
     let totalPrice = msoTotalPrice;
     if (addonServices === false) {
       setAddonServices(true);
@@ -77,7 +88,7 @@ const MSOPackageCard = (props) => {
           <label className="inline-flex items-center">
             <input
               type="checkbox"
-              className="form-checkbox rounded-sm text-primary-gd-1 focus:text-dark-blue focus:ring-0 focus:border-opacity-0 duration-200 focus:shadow-0 group-hover:bg-white group-hover:text-primary-gd-1"
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:text-dark-blue focus:ring-0 focus:border-opacity-0 duration-200 focus:shadow-0"
               checked={addonServices}
               onChange={totalPrice}
             />

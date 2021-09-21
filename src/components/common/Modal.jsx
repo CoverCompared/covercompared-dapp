@@ -16,7 +16,7 @@ const Modal = (props) => {
           className="fixed z-40 inset-0 overflow-y-auto"
           onClose={() => setIsModalOpen(false)}
         >
-          <div className="flex md:items-end items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div className="flex md:items-end items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -49,7 +49,7 @@ const Modal = (props) => {
                 )}
               >
                 <div className={`${bgImg} w-full h-full sm:py-8 rounded-lg`}>
-                  <div className="px-4 pt-5 text-left sm:px-16 sm:pt-6 pb-8">
+                  <div className="px-4 pt-5 text-left sm:px-12 md:px-16 sm:pt-6 pb-8">
                     <div className="absolute top-8 right-8">
                       {showCTA || (
                         <button

@@ -5,7 +5,7 @@ const AdditionalDetails = () => {
     <>
       <div>
         <div className="grid grid-cols-12 gap-6 mt-6">
-          <div className="md:col-span-4 col-span-11 col">
+          <div className="lg:col-span-4 md:col-span-5 col-span-11">
             <img
               src="https://via.placeholder.com/1000"
               className="w-full h-52 rounded-2xl md:block hidden"
@@ -36,7 +36,7 @@ const AdditionalDetails = () => {
           </div>
         </div>
         <div className="grid grid-cols-12 md:mt-12 mt-6">
-          <div className="md:col-span-7 col-span-12">
+          <div className="lg:col-span-7 md:col-span-10 col-span-12">
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mb-2 dark:text-white text-left">
               Additional Details :
             </div>
@@ -48,7 +48,7 @@ const AdditionalDetails = () => {
           </div>
         </div>
         <div className="grid grid-cols-12 mt-6">
-          <div className="md:col-span-7 col-span-12">
+          <div className="lg:col-span-7 md:col-span-10 col-span-12">
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mb-2 dark:text-white text-left">
               Term & Condition :
             </div>

@@ -11,6 +11,7 @@ const PackageCard = (props) => {
   const dispatch = useDispatch();
   const {
     name,
+    cardType,
     company_icon,
     company,
     duration_days_min,
@@ -32,7 +33,7 @@ const PackageCard = (props) => {
   };
 
   const handleAddToCart = (e) => {
-    if (e) e.stopPropagation();
+    e.stopPropagation();
     dispatch(addItemToCart(props));
     toast.success('Item added to cart!');
   };
@@ -83,7 +84,7 @@ const PackageCard = (props) => {
                   Start From
                 </div>
                 <div className="font-Montserrat text-h4 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
-                  {quote !== undefined ? (
+                  {quote !== undefined && quote !== '' ? (
                     quote ? (
                       quote.toFixed(4)
                     ) : (
@@ -100,7 +101,6 @@ const PackageCard = (props) => {
             <button
               type="button"
               onClick={handleAddToCart}
-              disabled={quote !== undefined || quote === ''}
               className="ml-3 font-Montserrat disabled:opacity-50 md:inline-flex items-center md:px-5 md:py-4 py-1.5 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
             >
               <div>

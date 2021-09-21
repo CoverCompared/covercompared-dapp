@@ -2,16 +2,20 @@ import React, { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import { useDispatch, useSelector } from 'react-redux';
+import { useWeb3React } from '@web3-react/core';
+import useAuth from '../../hooks/useAuth';
 import { classNames } from '../../functions/utils';
 import { setModalVisible } from '../../redux/actions';
 
 const LoginModal = ({ children, sizeClass, title, renderComponent: C, showCTA = false, bgImg }) => {
+  const { account } = useWeb3React();
+  const { logout } = useAuth();
   const { modalVisible } = useSelector((state) => state.app);
   const dispatch = useDispatch();
 
   return (
     <>
-      <div onClick={(e) => dispatch(setModalVisible(true))}>{children}</div>
+      <div onClick={(e) => (account ? logout() : dispatch(setModalVisible(true)))}>{children}</div>
       <Transition.Root show={modalVisible} as={Fragment}>
         <Dialog
           as="div"

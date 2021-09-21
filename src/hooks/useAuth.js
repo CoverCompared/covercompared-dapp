@@ -22,7 +22,7 @@ const useAuth = () => {
           if (error instanceof UnsupportedChainIdError) {
             const hasSetup = await setupNetwork();
             if (hasSetup) {
-              activate(connector);
+              await activate(connector);
             }
           } else {
             window.localStorage.removeItem(connectorLocalStorageKey);

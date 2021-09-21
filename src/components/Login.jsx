@@ -10,15 +10,22 @@ const Login = () => {
   const { account } = useWeb3React();
   const { login } = useAuth();
   const dispatch = useDispatch();
+  const [connectStatus, setConnectStatus] = useState(false);
+  const [curWalletId, setCurWalletId] = useState('injected');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const tryActivation = async (connect) => {
-    console.log(connect, account);
-    login(connect);
-    dispatch(setModalVisible(false));
+    setCurWalletId(connect);
+    setConnectStatus(true);
+    await login(connect);
   };
+
+  if (connectStatus && account) {
+    setConnectStatus(false);
+    dispatch(setModalVisible(false));
+  }
 
   function getWalletOption() {
     return Object.keys(SUPPORTED_WALLETS).map((key) => {
@@ -36,7 +43,7 @@ const Login = () => {
           <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
             <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
             <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xsm md:mt-5 mt-4 dark:text-white">
-              {option.name}
+              {connectStatus && curWalletId === option.connector ? 'Connecting...' : option.name}
             </div>
           </div>
         </div>
@@ -47,9 +54,11 @@ const Login = () => {
   return (
     <>
       <div className="grid grid-cols-12 gap-6">
-        <div className="md:col-span-7 col-span-12 h-full flex items-center w-full order-2 md:order-1">
-          <div className="grid grid-cols-12 md:gap-x-6 gap-x-5 w-full">{getWalletOption()}</div>
-        </div>
+        {!account && (
+          <div className="md:col-span-7 col-span-12 h-full flex items-center w-full order-2 md:order-1">
+            <div className="grid grid-cols-12 md:gap-x-6 gap-x-5 w-full">{getWalletOption()}</div>
+          </div>
+        )}
         <div className="md:col-span-4 lg:col-start-9 xl:col-span-5 col-span-12 xl:col-start-8 w-full order-1 md:order-2">
           <div className="flex flex-col items-end justify-center h-full w-full">
             <div className="flex flex-col items-end w-full">

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
+import { useWeb3React } from '@web3-react/core';
 import CartButton from './CartButton';
 import InsuranceCards from '../InsuranceCards';
 import ThemeToggleSwitch from '../ThemeToggleSwitch';
@@ -10,6 +11,7 @@ import BuyWhiteIcon from '../../assets/dark-icons/Buy.svg';
 import Login from '../Login';
 import Modal from './Modal';
 import { ThemeContext } from '../../themeContext';
+import { shortenAddress } from '../../utils';
 
 const InsuranceGrid = (props) => (
   <div className="grid grid-cols-2 gap-4 xl:gap-y-8 md:gap-x-6 md:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
@@ -18,6 +20,7 @@ const InsuranceGrid = (props) => (
 );
 
 const HeaderCTAs = (props) => {
+  const { account } = useWeb3React();
   const history = useHistory();
   const { theme } = useContext(ThemeContext);
   const { showBuyButton } = props;
@@ -42,7 +45,7 @@ const HeaderCTAs = (props) => {
           className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
         >
           <img src={LoginIcon} alt="Login" className="mr-1" />
-          Log In
+          {account ? shortenAddress(account) : 'Log In'}
         </button>
       </Modal>
     </div>

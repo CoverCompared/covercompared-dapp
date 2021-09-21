@@ -127,6 +127,10 @@ module.exports = {
       minWidth: {
         32: '8rem',
       },
+      minHeight: {
+        'full-3': 'calc(100% - 3rem)',
+        'full-9': 'calc(100% - 9rem)',
+      },
     },
   },
   variants: {

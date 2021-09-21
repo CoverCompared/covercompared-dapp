@@ -320,7 +320,7 @@ const FiltersSection = (props) => {
     if (currencyOption.length) query += `&currency=${currencyOption.join(',')}`;
     if (chianOption.length) query += `&supported_chain=${chianOption.join(',')}`;
 
-    dispatch(searchCoverList(query));
+    // dispatch(searchCoverList(query));
   }, [duration, amount, company, currencyOption, chianOption]);
 
   useEffect(() => {

@@ -17,13 +17,9 @@ const options = {
     min: 15,
     max: 365,
   },
-  MSO_amount_opt: {
-    min: 50,
-    max: 115,
-  },
   amount_option: {
     min: 0.1,
-    max: 20000,
+    max: 20000000,
   },
   companies_option: [
     {
@@ -37,6 +33,10 @@ const options = {
     {
       name: 'InsurAce',
       code: 'insurace',
+    },
+    {
+      name: 'Uno Re',
+      code: 'unore',
     },
   ],
   type_option: ['protocol', 'custodian', 'token'],
@@ -55,8 +55,13 @@ const options = {
     'HECO',
     'xDai',
     'Solana',
+    'Arbitrum',
   ],
   currency_option: ['ETH', 'DAI', 'USDC', 'USDT', 'MATIC', 'BNB', 'BUSD-T', 'BUSD'],
+  MSO_amount_opt: {
+    min: 50,
+    max: 115,
+  },
   mso_plan_type_opt: ['Single cover', 'Family cover'],
   mso_add_on_service: ['Add on Concierge services'],
   EHR: ['EHR & Portal'],
@@ -315,7 +320,7 @@ const FiltersSection = (props) => {
     if (currencyOption.length) query += `&currency=${currencyOption.join(',')}`;
     if (chianOption.length) query += `&supported_chain=${chianOption.join(',')}`;
 
-    dispatch(searchCoverList(query));
+    // dispatch(searchCoverList(query));
   }, [duration, amount, company, currencyOption, chianOption]);
 
   useEffect(() => {

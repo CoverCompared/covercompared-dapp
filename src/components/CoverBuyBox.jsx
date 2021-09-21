@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import InputWithSelect from './common/InputWithSelect';
@@ -9,10 +10,24 @@ const periodOptions = ['Days', 'Week', 'Month'];
 
 const CoverBuyBox = (props) => {
   const dispatch = useDispatch();
+  const { card } = useParams();
   const { quote, loader } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
-
-  const { company_code, address, product_id, currency, supportedChains } = product || {};
+  console.log('=> ', product);
+  const {
+    name,
+    company_code,
+    address,
+    product_id,
+    currency,
+    supportedChains,
+    company,
+    duration_days_max,
+    duration_days_min,
+    logo,
+    company_icon,
+    currency_limit,
+  } = product || {};
 
   const [periodField, setPeriodField] = useState('30');
   const [periodSelect, setPeriodSelect] = useState(periodOptions[0]);
@@ -55,7 +70,34 @@ const CoverBuyBox = (props) => {
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    dispatch(addItemToCart({ quote: JSON.parse(quoteField) }));
+    let type = '';
+    if (card === 'smart-contract') {
+      type = 'smart-contract';
+    } else if (card === 'crypto-exchange') {
+      type = 'crypto-exchange';
+    }
+    dispatch(
+      addItemToCart({
+        type,
+        name,
+        company_code,
+        address,
+        product_id,
+        currency,
+        company,
+        logo,
+        company_icon,
+        currency_limit,
+        duration_days_max,
+        duration_days_min,
+        periodType: periodSelect,
+        period: periodField,
+        quote: quoteField,
+        quote_chain: quoteSelect,
+        quote_currency: amountSelect,
+        supportedChains,
+      }),
+    );
     toast.success('Item added to cart!');
   };
 

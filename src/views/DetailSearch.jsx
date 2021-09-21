@@ -142,21 +142,16 @@ const DetailSearch = (props) => {
               <div className="flex items-center">
                 <div
                   data-for="info-tool-tip"
-                  data-html="true"
-                  data-tip="<ul>
-                    <li>Single Cover</li>
-                    <li>EHR and Mobile App available for entire family</li>
-                  </ul>"
+                  data-tip="Hello World"
                   data-iscapture="true"
                   className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
                 >
-                  {/* <p data-tip="<p>HTML tooltip</p>" data-html={true}></p> or{' '} */}i
+                  i
                 </div>
                 <ToolTip
                   ToolTipId="info-tool-tip"
                   bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
                   fontColor="#FFF"
-                  isHtml="true"
                 />
 
                 <button

@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 const LazyLoading = () => (
-  <div className="flex justify-center items-center h-screen w-full">
+  <div className="flex justify-center items-center h-screen w-full bg-white dark:bg-gray-900">
     <Loading />
   </div>
 );

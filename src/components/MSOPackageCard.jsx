@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
@@ -8,6 +8,7 @@ import { setCurrentProduct, addItemToCart } from '../redux/actions/AppActions';
 const MSOPackageCard = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const [addonServices, setAddonServices] = useState(false);
 
   const {
     InsurancePlanType,
@@ -19,6 +20,7 @@ const MSOPackageCard = (props) => {
     MSOCoverUser,
     EHR,
   } = props;
+  const [msoTotalPrice, setMsoTotalPrice] = useState(quote);
 
   const handleCardClick = () => {
     dispatch(setCurrentProduct(props));
@@ -27,9 +29,27 @@ const MSOPackageCard = (props) => {
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    dispatch(addItemToCart({ ...props, name, quote: JSON.parse(quote) }));
+    dispatch(addItemToCart({ type: 'mso', name, quote: JSON.parse(quote), quote_currency: '$' }));
     toast.success('Item added to cart!');
   };
+
+  const totalPrice = (e) => {
+    if (e) e.stopPropagation();
+    let totalPrice = msoTotalPrice;
+    if (addonServices === false) {
+      setAddonServices(true);
+      totalPrice = JSON.parse(msoTotalPrice) + JSON.parse(MSOAddOnService);
+      setMsoTotalPrice(totalPrice);
+    } else {
+      setAddonServices(false);
+      totalPrice = JSON.parse(msoTotalPrice) - JSON.parse(MSOAddOnService);
+      setMsoTotalPrice(totalPrice);
+    }
+  };
+
+  useEffect(() => {
+    setMsoTotalPrice(msoTotalPrice);
+  }, [msoTotalPrice]);
 
   return (
     <>
@@ -53,11 +73,22 @@ const MSOPackageCard = (props) => {
             </div>
           </div>
         </div>
-        <div className="md:col-span-4 col-span-0 hidden md:flex flex-col justify-center font-Montserrat text-body-md text-dark-blue dark:text-white mr-5 my-4 md:my-0 group-hover:text-white">
-          <div>
+        <div className="md:col-span-4 col-span-0 hidden md:flex flex-col justify-center font-Montserrat text-body-md text-dark-blue dark:text-white mr-2 my-4 md:my-0 group-hover:text-white">
+          <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:text-dark-blue focus:ring-0 focus:border-opacity-0 duration-200 focus:shadow-0 group-hover:bg-white group-hover:text-primary-gd-1"
+              checked={addonServices}
+              onChange={totalPrice}
+            />
+            <span className="ml-2 font-Montserrat font-medium text-body-md text-dark-blue dark:text-white group-hover:text-white">
+              Add on concierge services at {MSOAddOnService}$
+            </span>
+          </label>
+          {/* <div>
             Add on concierge service{' '}
             <span className="font-semibold text-h6">{MSOAddOnService}$</span>
-          </div>
+          </div> */}
           <div className="font-semibold mt-2">
             {MSOCoverUser
               ? MSOCoverUser.length > 50
@@ -72,7 +103,7 @@ const MSOPackageCard = (props) => {
               Price
             </div>
             <div className="font-Montserrat text-h4 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
-              {quote}$
+              {msoTotalPrice}$
             </div>
           </div>
 
@@ -83,7 +114,7 @@ const MSOPackageCard = (props) => {
           >
             Add to Cart
             <div className="md:hidden font-Montserrat md:text-h4 text-body-sm font-semibold leading-4 mt-1 text-login-button-text hover:bg-white">
-              {quote}
+              {msoTotalPrice}$
             </div>
           </button>
         </div>

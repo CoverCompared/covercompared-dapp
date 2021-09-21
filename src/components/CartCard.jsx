@@ -14,7 +14,6 @@ import Modal from './common/Modal';
 import 'react-circular-progressbar/dist/styles.css';
 
 const CartCard = (props) => {
-  console.log(props);
   const {
     name,
     quote,

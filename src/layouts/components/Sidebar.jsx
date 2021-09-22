@@ -93,6 +93,7 @@ const Sidebar = (props) => {
                         src={item.current ? item.activeIcon : item.icon}
                         alt={item.name}
                         className="mr-2"
+                        loading="eager"
                       />
                       <div
                         style={item.current ? { WebkitTextFillColor: 'transparent' } : {}}

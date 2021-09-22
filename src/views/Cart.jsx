@@ -1,35 +1,33 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import uniqid from 'uniqid';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { emptyCart } from '../redux/actions/AppActions';
 import CartCard from '../components/CartCard';
 import RightArrow from '../assets/img/Arrow-Right.svg';
 
-const CartArr = [
-  {
-    productName: 'Product Name 1',
-    img: 'https://via.placeholder.com/400x250.png',
-    price: '100',
-  },
-  {
-    productName: 'Product Name 2',
-    img: 'https://via.placeholder.com/400x250.png',
-    price: '200',
-  },
-  {
-    productName: 'Product Name 3',
-    img: 'https://via.placeholder.com/400x250.png',
-    price: '300',
-  },
-  {
-    productName: 'Product Name 4',
-    img: 'https://via.placeholder.com/400x250.png',
-    price: '400',
-  },
-];
-
 const Cart = (props) => {
+  const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.app);
   const [promoCode, setPromoCode] = useState('');
+
+  const subTotal = cart
+    .reduce((previous, current) => {
+      const { cardType, quote, addOnQuote, wantAddon } = current;
+      if (cardType === 'mso' && wantAddon) {
+        return previous + +quote + +addOnQuote;
+      }
+      return previous + +quote;
+    }, 0)
+    .toFixed(2);
+
+  const taxAmount = 0;
+  const grandTotal = (+subTotal + +taxAmount).toFixed(2);
+
+  const handleCheckout = () => {
+    toast.success('Item(s) purchased successfully!');
+    dispatch(emptyCart());
+  };
 
   return (
     <div className="py-6 md:px-10">
@@ -62,7 +60,7 @@ const Cart = (props) => {
                 Sub Total
               </div>
               <div className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white">
-                $900
+                ${subTotal}
               </div>
             </div>
             <div className="flex justify-between items-center mt-6 mb-4">
@@ -70,7 +68,7 @@ const Cart = (props) => {
                 Tax
               </div>
               <div className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white">
-                $50
+                ${taxAmount}
               </div>
             </div>
             <div className="grid grid-cols-12">
@@ -92,11 +90,12 @@ const Cart = (props) => {
                 Total
               </div>
               <div className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white">
-                $950
+                ${grandTotal}
               </div>
             </div>
             <button
               type="button"
+              onClick={handleCheckout}
               className="w-full h-11 mt-6 flex justify-center items-center font-Montserrat font-semibold text-body-md rounded-xl text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2"
             >
               <span>Check Out</span>

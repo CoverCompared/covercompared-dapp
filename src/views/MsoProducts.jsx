@@ -160,7 +160,7 @@ const MSOProduct = (props) => {
           </div>
           <div className="md:col-span-4 col-span-12">
             <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
-              Cover Periode and Amount
+              Cover Period and Amount
             </div>
             <div className="flex-row mb-3 w-full flex justify-between py-3 px-4 bg-promo-input-bg rounded-xl dark:bg-product-input-bg-dark">
               <div className="text-dark-blue font-Montserrat font-semibold text-body-md dark:text-white">

@@ -287,7 +287,7 @@ const MultiCheckValueFilter = ({
 const FiltersSection = (props) => {
   const dispatch = useDispatch();
   const { filtersOpen } = useSelector((state) => state.app);
-  const { search, type, card } = props;
+  const { search, type, card, setFiltersQuery } = props;
 
   const filtersDialogRef = useRef(null);
 
@@ -313,13 +313,30 @@ const FiltersSection = (props) => {
     if (card !== 'smart-contract' && card !== 'crypto-exchange') return;
 
     let query = `?search=${search}&?type=${type}`;
+    let filtersQuery = '';
 
-    if (duration.length) query += `&duration=${duration.join(',')}`;
-    if (amount.length) query += `&amount=${amount.join(',')}`;
-    if (company.length) query += `&company=${company.join(',')}`;
-    if (currencyOption.length) query += `&currency=${currencyOption.join(',')}`;
-    if (chianOption.length) query += `&supported_chain=${chianOption.join(',')}`;
+    if (duration.length) {
+      query += `&duration=${duration.join(',')}`;
+      filtersQuery += `&duration=${duration.join(',')}`;
+    }
+    if (amount.length) {
+      query += `&amount=${amount.join(',')}`;
+      filtersQuery += `&amount=${amount.join(',')}`;
+    }
+    if (company.length) {
+      query += `&company=${company.join(',')}`;
+      filtersQuery += `&company=${company.join(',')}`;
+    }
+    if (currencyOption.length) {
+      query += `&currency=${currencyOption.join(',')}`;
+      filtersQuery += `&currency=${currencyOption.join(',')}`;
+    }
+    if (chianOption.length) {
+      query += `&supported_chain=${chianOption.join(',')}`;
+      filtersQuery += `&supported_chain=${chianOption.join(',')}`;
+    }
 
+    setFiltersQuery(filtersQuery);
     dispatch(searchCoverList(query));
   }, [duration, amount, company, currencyOption, chianOption]);
 
@@ -327,14 +344,34 @@ const FiltersSection = (props) => {
     if (card !== 'mso') return;
 
     let query = `?search=${search}`;
+    let filtersQuery = '';
 
-    if (msoAmount.length) query += `&amount_min=${msoAmount[0]}`;
-    if (msoAmount.length) query += `&amount_max=${msoAmount[1]}`;
-    if (msoUser) query += `&user_limit=${msoUser}`;
-    if (wantEHR.length) query += `&ehr=1`;
-    if (msoPlanTypeOpt.length) query += `&plan_type=${msoPlanTypeOpt.join(',')}`;
-    if (wantAddOn.length) query += `&add_on_service=1`;
+    if (msoAmount.length) {
+      query += `&amount_min=${msoAmount[0]}`;
+      filtersQuery += `&amount_min=${msoAmount[0]}`;
+    }
+    if (msoAmount.length) {
+      query += `&amount_max=${msoAmount[1]}`;
+      filtersQuery += `&amount_max=${msoAmount[1]}`;
+    }
+    if (msoUser) {
+      query += `&user_limit=${msoUser}`;
+      filtersQuery += `&user_limit=${msoUser}`;
+    }
+    if (wantEHR.length) {
+      query += `&ehr=1`;
+      filtersQuery += `&ehr=1`;
+    }
+    if (msoPlanTypeOpt.length) {
+      query += `&plan_type=${msoPlanTypeOpt.join(',')}`;
+      filtersQuery += `&plan_type=${msoPlanTypeOpt.join(',')}`;
+    }
+    if (wantAddOn.length) {
+      query += `&add_on_service=1`;
+      filtersQuery += `&add_on_service=1`;
+    }
 
+    setFiltersQuery(filtersQuery);
     dispatch(searchMSOList(query));
   }, [msoPlanTypeOpt, wantAddOn, msoAmount, wantEHR, msoUser]);
 
@@ -348,6 +385,7 @@ const FiltersSection = (props) => {
       setCurrencyOption([]);
       setChianOption([]);
 
+      setFiltersQuery('');
       return dispatch(searchCoverList(query));
     }
 
@@ -360,6 +398,7 @@ const FiltersSection = (props) => {
       setMsoPlanTypeOpt([]);
       setWantAddOn([]);
 
+      setFiltersQuery('');
       return dispatch(searchMSOList(query));
     }
     return null;

@@ -95,7 +95,7 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         coverList: state.coverList.map(
-          (obj) => payload.coverList.list.find((o) => o.address === obj.address) || obj,
+          (obj) => payload.coverList.list.find((o) => o.unique_id === obj.unique_id) || obj,
         ),
       };
     }

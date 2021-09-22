@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import SidebarMobile from './components/SidebarMobile';
 import HeaderNoSidebar from './components/HeaderNoSidebar';
 import Footer from './components/Footer';
+import Loading from '../components/common/Loading';
+
+const LazyLoading = () => (
+  <div className="flex justify-center items-center h-screen w-full bg-white dark:bg-gray-900">
+    <Loading />
+  </div>
+);
 
 const WithoutSidebar = (props) => {
   const { children } = props;
@@ -18,7 +25,9 @@ const WithoutSidebar = (props) => {
           className={`flex-1 relative focus:outline-none lg:mt-28 lg:pt-8 mt-16 md:bg-${bgImg} bg-${mobileBgImg} ${bgImgClass}`}
         >
           <div className="min-h-full-9 md:min-h-full-3">
-            <div className="py-6 md:px-10 px-6">{children}</div>
+            <Suspense fallback={<LazyLoading />}>
+              <div className="py-6 md:px-10 px-6">{children}</div>
+            </Suspense>
           </div>
           <Footer {...props} />
         </main>

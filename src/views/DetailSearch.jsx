@@ -33,6 +33,7 @@ const DetailSearch = (props) => {
   const [changeView, setChangeView] = useState(false);
 
   const [search, setSearch] = useState('');
+  const [filtersQuery, setFiltersQuery] = useState('');
   const [products, setProducts] = useState(coverList || []);
   const [hasMore, setHasMore] = useState(true);
 
@@ -50,9 +51,9 @@ const DetailSearch = (props) => {
   const debounceSearch = useCallback(
     debounce((text) => {
       if (card === 'smart-contract' || card === 'crypto-exchange') {
-        dispatch(searchCoverList(`?search=${text}&type=${type}`));
+        dispatch(searchCoverList(`?search=${text}&type=${type}${filtersQuery}`));
       } else if (card === 'mso') {
-        dispatch(searchMSOList(`?search=${text}`));
+        dispatch(searchMSOList(`?search=${text}${filtersQuery}`));
       }
     }, 500),
     [],
@@ -64,7 +65,7 @@ const DetailSearch = (props) => {
   };
 
   const fetchMoreData = () => {
-    dispatch(fetchMoreCovers(`?search=${search}&type=${type}&page=${page + 1}`));
+    dispatch(fetchMoreCovers(`?search=${search}&type=${type}&page=${page + 1}${filtersQuery}`));
   };
 
   const renderCards = () => {
@@ -136,7 +137,12 @@ const DetailSearch = (props) => {
         </div>
 
         <div className="grid grid-cols-12 gap-x-0 lg:gap-x-12 xl:px-12 sm:px-4">
-          <FiltersSection search={search} card={card} type={type} />
+          <FiltersSection
+            search={search}
+            card={card}
+            type={type}
+            setFiltersQuery={setFiltersQuery}
+          />
 
           <div className="md:col-span-9 col-span-12">
             <div className="flex justify-between items-center mb-4 pr-2">

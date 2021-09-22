@@ -13,8 +13,6 @@ const DeviceBuyBox = (props) => {
   const coverListData = useSelector((state) => state.coverList);
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
 
-  // console.log('devicePlanDetails :>> ', devicePlanDetails);
-
   const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
   const [brand, setBrand] = useState('');
   const [value, setValue] = useState('');
@@ -68,7 +66,7 @@ const DeviceBuyBox = (props) => {
         // quote_currency: amountSelect,
       }),
     );
-    toast.success('Item added to cart!');
+    // toast.success('Item added to cart!');
   };
 
   return (

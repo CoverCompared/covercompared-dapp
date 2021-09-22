@@ -68,7 +68,7 @@ const MyInsurance = (props) => {
           <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-5 col-span-12">
             <Modal
               title="Instruction"
-              bgImg="md:bg-submitclaimBg bg-submitclaimPopupBg bg-cover"
+              bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
               renderComponent={ClaimCards}
             >
               <button

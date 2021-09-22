@@ -94,7 +94,7 @@ const CoverBuyBox = (props) => {
         supportedChains,
       }),
     );
-    toast.success('Item added to cart!');
+    // toast.success('Item added to cart!');
   };
 
   useEffect(() => {

@@ -14,15 +14,15 @@ const SmallPackageCard = (props) => {
 
   const {
     name,
-    cardType,
     company_icon,
     company,
-    duration_days_min,
-    min_eth,
     discount,
     logo,
     quote,
     quote_chain,
+    cardType,
+    duration_days_min,
+    min_eth,
     quote_currency,
   } = props;
 
@@ -34,7 +34,7 @@ const SmallPackageCard = (props) => {
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
     dispatch(addItemToCart(props));
-    toast.success('Item added to cart!');
+    // toast.success('Item added to cart!');
   };
 
   return (

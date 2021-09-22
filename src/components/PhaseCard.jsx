@@ -18,7 +18,7 @@ const PhaseCard = ({ ...props }) => {
               width="90px"
               height="90px"
               viewBox="0 0 90 90"
-              style={{ enableBackground: 'new 0 0 90 90;' }}
+              // style={{ enableBackground: 'new 0 0 90 90;' }}
             >
               <g id="Shape_85">
                 <g>

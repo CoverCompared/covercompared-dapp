@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { transform } from 'lodash';
+import uniqId from 'uniqid';
 import PointIcon from '../assets/img/blue-point.svg';
 import Allianz from '../assets/img/allianz.svg';
 import AIGLogo from '../assets/img/aig-logo.svg';
@@ -209,7 +210,7 @@ const AboutUs = () => {
 
         <div className="grid grid-cols-12 lg:gap-x-3 md:gap-x-6 md:gap-y-14 gap-y-20 lg:absolute top-60 w-full lg:px-20 mt-12 lg:mt-0">
           {PhaseArr.map((obj) => (
-            <PhaseCard {...obj} />
+            <PhaseCard key={uniqId()} {...obj} />
           ))}
         </div>
       </div>

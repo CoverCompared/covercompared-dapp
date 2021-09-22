@@ -14,6 +14,8 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
   const { account } = useWeb3React();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [connectStatus, setConnectStatus] = useState(false);
+  const [curWalletId, setCurWalletId] = useState('injected');
 
   useEffect(() => {
     dispatch(setLoginModalVisible(true));
@@ -25,10 +27,15 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
   }, [loginModalVisible]);
 
   const tryActivation = async (connect) => {
-    console.log(connect);
+    setCurWalletId(connect);
+    setConnectStatus(true);
     login(connect);
-    dispatch(setLoginModalVisible(false));
   };
+
+  if (connectStatus && account) {
+    setConnectStatus(false);
+    dispatch(setLoginModalVisible(false));
+  }
 
   function getWalletOption() {
     return Object.keys(SUPPORTED_WALLETS).map((key) => {
@@ -46,7 +53,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
           <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
             <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
             <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xsm md:mt-5 mt-4 dark:text-white">
-              {option.name}
+              {connectStatus && curWalletId === option.connector ? 'Connecting...' : option.name}
             </div>
           </div>
         </div>

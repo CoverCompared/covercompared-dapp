@@ -1,7 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import uniqid from 'uniqid';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import StarRatings from 'react-star-ratings';
+import CheckoutForm from '../components/CheckoutForm';
+import Modal from '../components/common/Modal';
+import { addItemToCart } from '../redux/actions/AppActions';
 import ReviewCard from '../components/ReviewCard';
 import IdeaCard from '../assets/img/idea-icon.svg';
 import LeftArrow from '../assets/img/nav-left-arrow.svg';
@@ -93,22 +97,76 @@ const ReviewContainer = (props) => {
 
 const MSOProduct = (props) => {
   const { currentProduct: product } = useSelector((state) => state.app);
+  const dispatch = useDispatch();
 
   const {
     EHR,
     InsurancePlanType,
     MSOAddOnService,
-    MSOCoverUser,
     MSOPlanDuration,
     MSOPlanType,
-    MSOPrice,
-    MSOplanName,
+    quote,
+    name,
+    type,
+    MSOCoverUser,
+    logo,
+    addOnQuote,
+    wantAddon,
+    unique_id,
+    userTypeOptions,
+    noOfSpouse,
+    noOfDependent,
+    mainMemberParents,
+    spouseParents,
+    totalUsers,
   } = product;
 
-  const [addonServices, setAddonServices] = useState(false);
+  const [addonServices, setAddonServices] = useState(wantAddon);
+
   const { theme } = useContext(ThemeContext);
   const [showFilterOption, setShowFilterOption] = useState(false);
   const [filterSelect, setfilterSelect] = useState('');
+  const [msoTotalPrice, setMsoTotalPrice] = useState(+quote + +addOnQuote);
+
+  const toggleCheckbox = (e) => {
+    e.stopPropagation();
+
+    if (!addonServices) setMsoTotalPrice(+quote + +addOnQuote);
+    else setMsoTotalPrice(+quote);
+
+    setAddonServices(!addonServices);
+  };
+
+  useEffect(() => {
+    if (addonServices) {
+      setMsoTotalPrice(+quote + +addOnQuote);
+    } else setMsoTotalPrice(+quote);
+  });
+
+  const handleAddToCart = (e) => {
+    if (e) e.stopPropagation();
+    dispatch(
+      addItemToCart({
+        cardType: 'mso',
+        logo,
+        name,
+        quote,
+        wantAddon: addonServices,
+        addOnQuote: MSOAddOnService,
+        quote_currency: '$',
+        MSOCoverUser,
+        EHR,
+        unique_id,
+        userTypeOptions,
+        noOfSpouse,
+        noOfDependent,
+        mainMemberParents,
+        spouseParents,
+        totalUsers,
+      }),
+    );
+    toast.success('Item added to cart!');
+  };
 
   return (
     <>
@@ -116,37 +174,29 @@ const MSOProduct = (props) => {
         <div className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="md:col-span-4 col-span-12 flex justify-center">
             <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
-              <img
-                src="https://via.placeholder.com/400x250.png"
-                alt=""
-                className="rounded-2xl h-full w-full relative z-10"
-              />
+              <img src={logo} alt="" className="rounded-2xl h-full w-full relative z-10" />
               <img src={ProductBgDots} alt="" className="absolute -bottom-9 -right-7" />
             </div>
             <div className="md:hidden flex items-center">
-              <img
-                src="https://via.placeholder.com/400x250.png"
-                alt=""
-                className="rounded-2xl h-28 w-28"
-              />
+              <img src={logo} alt="" className="rounded-2xl h-28 w-28" />
               <div className="font-semibold text-h4 text-dark-blue font-Montserrat dark:text-white md:hidden ml-8">
-                Product Name Here
+                {name}
               </div>
             </div>
           </div>
           <div className="md:col-span-4 col-span-12 flex flex-col justify-center">
             <div className="font-semibold text-h2 text-dark-blue font-Montserrat mb-6 dark:text-white md:flex hidden">
-              {MSOplanName}
+              {name}
             </div>
             <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xs mb-5 dark:text-white">
               Details
             </div>
             <div className="flex justify-between items-center md:mb-3 mb-4">
               <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
-                Plan Type
+                EHR & Portal
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                {MSOPlanType}
+                Yes
               </div>
             </div>
             <div className="flex justify-between mb-4 md:mb-3">
@@ -175,7 +225,7 @@ const MSOProduct = (props) => {
                 Price
               </div>
               <div className=" text-Montserrat text-h6 text-dark-blue dark:text-white font-medium">
-                {MSOPrice}$
+                {msoTotalPrice}$
               </div>
             </div>
             <div className="flex-row mb-5 ">
@@ -184,10 +234,10 @@ const MSOProduct = (props) => {
                   type="checkbox"
                   className="form-checkbox rounded-sm text-primary-gd-1 focus:text-dark-blue focus:ring-0 focus:border-opacity-0 duration-200 focus:shadow-0"
                   checked={addonServices}
-                  onChange={() => setAddonServices(!addonServices)}
+                  onClick={toggleCheckbox}
                 />
                 <span className="ml-2 text-dark-blue font-Montserrat font-semibold text-body-md dark:text-white">
-                  Add on concierge services at {MSOAddOnService}$
+                  Add on concierge services at {addOnQuote}$
                 </span>
               </label>
             </div>
@@ -195,6 +245,7 @@ const MSOProduct = (props) => {
             <div className="grid grid-cols-12 gap-3 w-full">
               <button
                 type="button"
+                onClick={handleAddToCart}
                 className="col-span-5 md:px-4 py-3 mr-3 outline-none border-0 bg-white rounded-xl text-primary-gd-1 font-Montserrat font-semibold text-body-md shadow-addToCart"
               >
                 Add to cart
@@ -203,7 +254,25 @@ const MSOProduct = (props) => {
                 type="button"
                 className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
               >
-                Buy Now
+                <Modal
+                  title="MSO Checkout Form"
+                  bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-cover bg-no-repeat"
+                  renderComponent={() => (
+                    <CheckoutForm
+                      {...{
+                        unique_id,
+                        userTypeOptions,
+                        noOfSpouse,
+                        noOfDependent,
+                        mainMemberParents,
+                        spouseParents,
+                        totalUsers,
+                      }}
+                    />
+                  )}
+                >
+                  Buy Now
+                </Modal>
               </button>
             </div>
           </div>
@@ -229,10 +298,7 @@ const MSOProduct = (props) => {
                 Features
               </div>
               <ul className="list-disc pl-6">
-                <li>
-                  Single & Family coverage (immediate family - husband wife and 2 dependent
-                  children)
-                </li>
+                <li>{MSOCoverUser}</li>
                 <li>Maximum 2 consultations in a year.</li>
                 <li>Call with consulting doctor possible within 30 days of MSO REPORT</li>
                 <li>One year membership payable in 1 instalment</li>

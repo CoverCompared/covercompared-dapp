@@ -19,6 +19,13 @@ const MSOPackageCard = (props) => {
     MSOCoverUser,
     EHR,
     logo,
+    unique_id,
+    userTypeOptions,
+    noOfSpouse,
+    noOfDependent,
+    mainMemberParents,
+    spouseParents,
+    totalUsers,
   } = props;
 
   const [addonServices, setAddonServices] = useState(false);
@@ -29,7 +36,26 @@ const MSOPackageCard = (props) => {
   }, [msoTotalPrice]);
 
   const handleCardClick = () => {
-    dispatch(setCurrentProduct(props));
+    dispatch(
+      setCurrentProduct({
+        wantAddon: addonServices,
+        addOnQuote: MSOAddOnService,
+        quote,
+        MSOCoverUser,
+        name,
+        MSOAddOnService,
+        type,
+        EHR,
+        logo,
+        unique_id,
+        userTypeOptions,
+        noOfSpouse,
+        noOfDependent,
+        mainMemberParents,
+        spouseParents,
+        totalUsers,
+      }),
+    );
     history.push('/mso-product');
   };
 
@@ -55,9 +81,16 @@ const MSOPackageCard = (props) => {
         quote_currency: '$',
         MSOCoverUser,
         EHR,
+        unique_id,
+        userTypeOptions,
+        noOfSpouse,
+        noOfDependent,
+        mainMemberParents,
+        spouseParents,
+        totalUsers,
       }),
     );
-    // toast.success('Item added to cart!');
+    toast.success('Item added to cart!');
   };
 
   return (

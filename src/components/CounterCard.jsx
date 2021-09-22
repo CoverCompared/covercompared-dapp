@@ -11,7 +11,7 @@ const CounterCard = ({ title, subtitle }) => {
       >
         {title}
       </h2>
-      <p className="md:w-max font-Inter md:text-body-lg text-body-xs text-counter-card-text dark:text-white">
+      <p className="md:w-max font-Inter md:text-body-md text-body-xs text-counter-card-text dark:text-white">
         {subtitle}
       </p>
     </div>

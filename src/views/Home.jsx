@@ -272,7 +272,7 @@ export default function Home(props) {
             <div className="flex items-center text-white font-Montserrat font-bold text-30 sm:col-span-1 col-span-2 justify-center md:justify-start mb-6 md:mb-0">
               Global Policy
             </div>
-            <div className="flex items-center text-white font-Montserrat text-body-lg md:pr-20 md:leading-7 leading-6 sm:col-span-1 col-span-2 sm:justify-start justify-center text-center sm:text-left">
+            <div className="flex items-center text-white font-Montserrat text-body-md md:pr-20 md:leading-6 sm:col-span-1 col-span-2 sm:justify-start justify-center text-center sm:text-left">
               One policy, can be purchased from anywhere with the CVR token. Insurance made easy.
             </div>
           </div>

@@ -3,6 +3,7 @@ import uniqid from 'uniqid';
 import { classNames } from '../functions/utils';
 import FormInput from '../components/FormInput';
 import MobilePageTitle from '../components/common/MobilePageTitle';
+import EditIcon from '../assets/img/Edit.svg';
 
 const TypeOfUser = ['Consumer', 'Insurance Partner', 'Others'];
 const ContactUs = (props) => {
@@ -87,9 +88,10 @@ const ContactUs = (props) => {
           </label>
           <textarea
             onChange={(e) => SetMessage(e.target.value)}
-            className="mt-3 py-2 px-4 h-32 rounded-lg border border-light-gray-border focus:border-light-gray-border appearance-none w-full bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm shadow-lg"
+            className="mt-3 py-2 pl-4 pr-10 h-32 rounded-lg border border-light-gray-border focus:border-light-gray-border appearance-none w-full bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm shadow-lg"
             placeholder="Write your message"
           />
+          <img src={EditIcon} alt="Edit" className="absolute right-4 top-12" />
         </div>
 
         <div className="flex justify-end">

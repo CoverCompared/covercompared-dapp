@@ -41,7 +41,16 @@ const CartCard = (props) => {
     addOnQuote,
     MSOCoverUser,
     EHR,
+    unique_id,
+    userTypeOptions,
+    noOfSpouse,
+    noOfDependent,
+    mainMemberParents,
+    spouseParents,
+    totalUsers,
   } = props;
+
+  console.log(props);
 
   const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
@@ -131,7 +140,18 @@ const CartCard = (props) => {
           <Modal
             title={renderModalTitle()}
             bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-cover bg-no-repeat"
-            renderComponent={CheckoutForm}
+            renderComponent={
+              CheckoutForm
+              // (
+              // unique_id,
+              // userTypeOptions,
+              // noOfSpouse,
+              // noOfDependent,
+              // mainMemberParents,
+              // spouseParents,
+              // totalUsers,
+              // )
+            }
           >
             <div className="h-7 w-7 cursor-pointer">
               <CircularProgressbarWithChildren

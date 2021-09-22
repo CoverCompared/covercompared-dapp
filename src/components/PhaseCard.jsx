@@ -6,7 +6,7 @@ const PhaseCard = ({ ...props }) => {
   const { phaseNumber, phaseIcon, title, descriptionArr } = props;
   return (
     <>
-      <div className="bg-white rounded-xl relative pt-14 px-3 sm:px-10 lg:px-3 md:pb-28 sm:pb-10  md:col-span-6 lg:col-span-3 col-span-12 w-full">
+      <div className="bg-white rounded-xl relative pt-14 px-3 sm:px-10 lg:px-3 md:pb-28 pb-10  md:col-span-6 lg:col-span-3 col-span-12 w-full">
         <div className="absolute -top-8 left-2/4" style={{ transform: `translateX(${-50}%)` }}>
           <span className="text-login-button-text font-semibold font-body-md font-Montserrat">
             <svg
@@ -41,21 +41,21 @@ const PhaseCard = ({ ...props }) => {
             </b>
           </span>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-3">
           <img src={phaseIcon} alt="" />
         </div>
-        <div className="text-phase-content font-Montserrat font-semibold text-body-sm sm:text-body-lg md:text-body-md text-center mt-4 px-1 h-16">
+        <div className="text-partner-page-title font-Montserrat font-semibold text-body-sm sm:text-body-lg md:text-body-md text-center mt-4 px-1 h-16">
           {title}
         </div>
         {descriptionArr.map((p) => (
-          <div className="font-Montserrat text-body-sm text-phase-content mt-3 text-center">
+          <div className="font-Montserrat text-body-xs md:text-body-md mt-3 text-center font-medium text-text-post-body-text">
             {p}
           </div>
         ))}
-        <div className="absolute -bottom-6 left-0 w-full sm:hidden lg:block">
+        <div className="absolute -bottom-6 left-0 w-full hidden lg:block">
           <img src={MovingCart} alt="" className="w-full" />
         </div>
-        <div className="absolute -bottom-12 left-0 md:px-4 px-5 w-full sm:hidden lg:block">
+        <div className="absolute -bottom-12 left-0 md:px-4 px-5 w-full hidden lg:block">
           <div className="flex justify-between w-full">
             <img src={WheetIcon} alt="" className="animate-wheelSpin" />
             <img src={WheetIcon} alt="" className="animate-wheelSpin" />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import StarRatings from 'react-star-ratings';
 import FormInput from '../components/FormInput';
 import MobilePageTitle from '../components/common/MobilePageTitle';
+import EditIcon from '../assets/img/Edit.svg';
 
 const ContactUs = () => {
   const [name, SetName] = useState('');
@@ -36,15 +37,16 @@ const ContactUs = () => {
           </div>
         </div>
 
-        <div className=" relative mt-6">
-          <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
+        <div className="relative mt-6">
+          <label className="absolute top-5 pl-4 font-semibold text-body-sm text-dark-blue font-Montserrat">
             Reviews
           </label>
           <textarea
             onChange={(e) => SetReviews(e.target.value)}
-            className="mt-3 py-2 px-4 h-32 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm shadow-lg"
+            className="mt-3 py-2 pr-10 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
             placeholder="Reviews"
           />
+          <img src={EditIcon} alt="Edit" className="absolute right-4 top-6" />
         </div>
 
         <div className="relative mt-6">

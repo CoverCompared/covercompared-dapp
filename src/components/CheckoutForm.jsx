@@ -66,7 +66,7 @@ const CheckoutForm = (props) => {
 
   const submit = () => console.log('asd');
 
-  // console.log('users :>> ', users);
+  console.log('users :>> ', users);
 
   return (
     <>

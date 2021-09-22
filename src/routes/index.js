@@ -40,7 +40,7 @@ const routes = [
     component: LearnMore,
     title: 'Learn More',
     bgImg: 'learnMoreBg',
-    mobileBgImg: 'LearnMoremobileBg',
+    mobileBgImg: 'LearnMoreMobileBg',
     bgImgClass: 'bg-100% bg-no-repeat',
   },
   {
@@ -64,7 +64,7 @@ const routes = [
     component: Partners,
     title: 'Partners',
     bgImg: 'partnersBg',
-    mobileBgImg: 'LearnMoremobileBg',
+    mobileBgImg: 'LearnMoreMobileBg',
     bgImgClass: 'bg-100% bg-no-repeat bg-center',
   },
   {
@@ -88,7 +88,7 @@ const routes = [
     component: ContactUs,
     title: 'Contact Us',
     bgImg: 'commonSectionBg',
-    mobileBgImg: 'ContactUsmobileBg',
+    mobileBgImg: 'ContactUsMobileBg',
     bgImgClass: 'bg-100% bg-no-repeat bg-bottom',
   },
   {

@@ -6,6 +6,7 @@ import {
   LOGIN_MODAL_VISIBLE,
   ADD_ITEM_TO_CART,
   REMOVE_ITEM_TO_CART,
+  EMPTY_CART,
 } from '../constants/ActionTypes';
 
 export const toggleSidebar = (payload) => {
@@ -46,6 +47,13 @@ export const addItemToCart = (payload) => {
 export const removeItemToCart = (payload) => {
   return {
     type: REMOVE_ITEM_TO_CART,
+    payload,
+  };
+};
+
+export const emptyCart = (payload) => {
+  return {
+    type: EMPTY_CART,
     payload,
   };
 };

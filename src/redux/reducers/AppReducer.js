@@ -6,6 +6,7 @@ import {
   LOGIN_MODAL_VISIBLE,
   ADD_ITEM_TO_CART,
   REMOVE_ITEM_TO_CART,
+  EMPTY_CART,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
@@ -46,6 +47,12 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         cart: state.cart.filter((f) => f.uuid !== payload),
+      };
+    }
+    case EMPTY_CART: {
+      return {
+        ...state,
+        cart: [],
       };
     }
     case LOGIN_MODAL_VISIBLE: {

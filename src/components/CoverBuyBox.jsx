@@ -13,9 +13,10 @@ const CoverBuyBox = (props) => {
   const { card } = useParams();
   const { quote, loader } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
-  console.log('=> ', product);
+
   const {
     name,
+    cardType,
     company_code,
     address,
     product_id,
@@ -70,15 +71,10 @@ const CoverBuyBox = (props) => {
 
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
-    let type = '';
-    if (card === 'smart-contract') {
-      type = 'smart-contract';
-    } else if (card === 'crypto-exchange') {
-      type = 'crypto-exchange';
-    }
+
     dispatch(
       addItemToCart({
-        type,
+        cardType,
         name,
         company_code,
         address,
@@ -98,7 +94,7 @@ const CoverBuyBox = (props) => {
         supportedChains,
       }),
     );
-    toast.success('Item added to cart!');
+    // toast.success('Item added to cart!');
   };
 
   useEffect(() => {

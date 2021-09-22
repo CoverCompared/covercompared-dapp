@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import InputWithSelect from './common/InputWithSelect';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
+import { addItemToCart } from '../redux/actions/AppActions';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 const amountOptions = ['ETH', 'BTC', 'USDT', 'USDC', 'CVR'];
@@ -10,8 +12,6 @@ const DeviceBuyBox = (props) => {
   const dispatch = useDispatch();
   const coverListData = useSelector((state) => state.coverList);
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
-
-  console.log('devicePlanDetails :>> ', devicePlanDetails);
 
   const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
   const [brand, setBrand] = useState('');
@@ -50,6 +50,24 @@ const DeviceBuyBox = (props) => {
       );
     }
   }, [deviceType, brand, value, purchaseMonth]);
+
+  const handleAddToCart = (e) => {
+    if (e) e.stopPropagation();
+
+    dispatch(
+      addItemToCart({
+        cardType: 'device',
+        device: deviceType,
+        brand,
+        device_value: value,
+        purchase_month: purchaseMonth,
+        quote_chain: quoteSelect,
+        quote: quoteField,
+        // quote_currency: amountSelect,
+      }),
+    );
+    // toast.success('Item added to cart!');
+  };
 
   return (
     <>
@@ -113,6 +131,7 @@ const DeviceBuyBox = (props) => {
       <div className="grid grid-cols-12 gap-3 w-full">
         <button
           type="button"
+          onClick={handleAddToCart}
           className="col-span-5 px-4 py-3 mr-3 outline-none border-0 bg-white rounded-xl text-primary-gd-1 font-Montserrat font-semibold text-body-md shadow-addToCart"
         >
           Add to cart

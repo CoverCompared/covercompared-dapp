@@ -17,7 +17,7 @@ const HeaderMobile = (props) => {
       <div className="absolute w-full inset-y-0 right-0 top-8 px-4 flex items-center justify-between sm:pr-6 lg:hidden">
         <Link to="/">
           <img
-            className="h-8 w-auto"
+            className="h-8 md:h-10 w-auto"
             src={theme === 'light' ? coverComparedLogo : coverComparedWhiteLogo}
             alt="logo"
           />
@@ -30,7 +30,7 @@ const HeaderMobile = (props) => {
             onClick={() => dispatch(toggleSidebar(true))}
           >
             <span className="sr-only">Open main menu</span>
-            <MenuAlt2Icon className="block h-6 w-6" aria-hidden="true" />
+            <MenuAlt2Icon className="block md:h-8 md:w-8 h-6 w-6" aria-hidden="true" />
           </button>
         </div>
       </div>

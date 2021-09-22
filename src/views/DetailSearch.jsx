@@ -33,6 +33,7 @@ const DetailSearch = (props) => {
   const [changeView, setChangeView] = useState(false);
 
   const [search, setSearch] = useState('');
+  const [filtersQuery, setFiltersQuery] = useState('');
   const [products, setProducts] = useState(coverList || []);
   const [hasMore, setHasMore] = useState(true);
 
@@ -50,9 +51,9 @@ const DetailSearch = (props) => {
   const debounceSearch = useCallback(
     debounce((text) => {
       if (card === 'smart-contract' || card === 'crypto-exchange') {
-        dispatch(searchCoverList(`?search=${text}&type=${type}`));
+        dispatch(searchCoverList(`?search=${text}&type=${type}${filtersQuery}`));
       } else if (card === 'mso') {
-        dispatch(searchMSOList(`?search=${text}`));
+        dispatch(searchMSOList(`?search=${text}${filtersQuery}`));
       }
     }, 500),
     [],
@@ -64,7 +65,7 @@ const DetailSearch = (props) => {
   };
 
   const fetchMoreData = () => {
-    dispatch(fetchMoreCovers(`?search=${search}&type=${type}&page=${page + 1}`));
+    dispatch(fetchMoreCovers(`?search=${search}&type=${type}&page=${page + 1}${filtersQuery}`));
   };
 
   const renderCards = () => {
@@ -95,12 +96,16 @@ const DetailSearch = (props) => {
           scrollThreshold={1}
         >
           {!changeView ? (
-            products.map((obj) => <PackageCard key={uniqid()} {...obj} {...props} />)
+            products &&
+            products.map((obj) => (
+              <PackageCard key={uniqid()} {...obj} {...props} cardType={card} />
+            ))
           ) : (
             <div className="grid grid-cols-12 lg:grid-cols-12 xl:grid-col-12 gap-y-4 gap-x-5 md:gap-4 lg:gap-x-6 lg:gap-y-4 ">
-              {products.map((obj) => (
-                <SmallPackageCard key={uniqid()} {...obj} {...props} />
-              ))}
+              {products &&
+                products.map((obj) => (
+                  <SmallPackageCard key={uniqid()} {...obj} {...props} cardType={card} />
+                ))}
             </div>
           )}
         </InfiniteScroll>
@@ -127,12 +132,17 @@ const DetailSearch = (props) => {
         {/* <div className="font-Montserrat md:text-heading text-h4 font-semibold text-dark-blue text-center pb-6 dark:text-white">
           Search by address/protocol name
         </div> */}
-        <div className="md:px-40 mb-7">
+        <div className="xl:px-40 md:px-14 mb-7">
           <SearchBar {...props} {...{ search, setSearch: onSearchChange }} />
         </div>
 
-        <div className="grid grid-cols-12 gap-x-0 lg:gap-x-12 md:px-12">
-          <FiltersSection search={search} card={card} type={type} />
+        <div className="grid grid-cols-12 gap-x-0 lg:gap-x-12 xl:px-12 sm:px-4">
+          <FiltersSection
+            search={search}
+            card={card}
+            type={type}
+            setFiltersQuery={setFiltersQuery}
+          />
 
           <div className="md:col-span-9 col-span-12">
             <div className="flex justify-between items-center mb-4 pr-2">

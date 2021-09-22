@@ -3,11 +3,11 @@ module.exports = {
   purge: ['./src/**/*.{js,jsx}', './public/index.html'],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
-    backgroundSize: {
-      '90%': '100% 90%',
-      '100%': '100% 100%',
-    },
     extend: {
+      backgroundSize: {
+        '90%': '100% 90%',
+        '100%': '100% 100%',
+      },
       fontFamily: {
         Inter: ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
         Montserrat: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
@@ -137,8 +137,8 @@ module.exports = {
   variants: {
     extend: {
       boxShadow: ['active'],
-      backgroundColor: ['active'],
-      opacity: ['active'],
+      // backgroundColor: ['active'],
+      // opacity: ['active'],
     },
   },
   plugins: [

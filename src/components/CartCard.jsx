@@ -11,6 +11,7 @@ import DeleteIconWhite from '../assets/dark-icons/Delete.svg';
 import { ThemeContext } from '../themeContext';
 import CheckoutForm from './CheckoutForm';
 import Modal from './common/Modal';
+import AdditionalDetails from './AdditionalDetails';
 import 'react-circular-progressbar/dist/styles.css';
 
 const CartCard = (props) => {
@@ -50,7 +51,7 @@ const CartCard = (props) => {
     totalUsers,
   } = props;
 
-  console.log(props);
+  // console.log(props);
 
   const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
@@ -85,7 +86,7 @@ const CartCard = (props) => {
 
   return (
     <div className="dark:bg-featureCard-dark-bg rounded-xl shadow-md bg-white">
-      <div className="py-4 px-4 md:pr-8 rounded-xl grid grid-cols-12 gap-x-1 mb-4 relative md:bg-cartCardBg bg-mobileCartCardBg bg-contain bg-100% bg-no-repeat bg-right">
+      <div className="py-4 px-4 md:pr-8 rounded-xl grid grid-cols-12 gap-x-1 mb-4 relative md:bg-cartCardBg bg-mobileCartCardBg bg-100% bg-no-repeat bg-right">
         <div className="md:col-span-7 col-span-7 flex items-center h-full">
           <div
             className="md:w-20 md:h-20 w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white"
@@ -139,19 +140,20 @@ const CartCard = (props) => {
 
           <Modal
             title={renderModalTitle()}
-            bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-cover bg-no-repeat"
-            renderComponent={
-              CheckoutForm
-              // (
-              // unique_id,
-              // userTypeOptions,
-              // noOfSpouse,
-              // noOfDependent,
-              // mainMemberParents,
-              // spouseParents,
-              // totalUsers,
-              // )
-            }
+            bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-contain bg-no-repeat"
+            renderComponent={() => (
+              <CheckoutForm
+                {...{
+                  unique_id,
+                  userTypeOptions,
+                  noOfSpouse,
+                  noOfDependent,
+                  mainMemberParents,
+                  spouseParents,
+                  totalUsers,
+                }}
+              />
+            )}
           >
             <div className="h-7 w-7 cursor-pointer">
               <CircularProgressbarWithChildren

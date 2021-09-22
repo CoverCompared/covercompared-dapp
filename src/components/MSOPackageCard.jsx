@@ -90,7 +90,7 @@ const MSOPackageCard = (props) => {
         totalUsers,
       }),
     );
-    toast.success('Item added to cart!');
+    // toast.success('Item added to cart!');
   };
 
   return (

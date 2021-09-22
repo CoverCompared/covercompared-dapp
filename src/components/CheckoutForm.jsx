@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { uniqueId } from 'lodash';
 import { toast } from 'react-toastify';
-import FormInput from './FormInput';
+import CheckoutFormInput from './CheckoutFormInput';
 import EditIcon from '../assets/img/Edit.svg';
 
 const CheckoutForm = (props) => {
@@ -16,17 +16,19 @@ const CheckoutForm = (props) => {
     totalUsers,
   } = props;
 
-  console.log(props);
   const userObject = {
     userType: '',
     firstName: '',
     lastName: '',
     identity: '',
+    email: '',
+    country: '',
     typeChangeable: true,
   };
   const [users, setUsers] = useState([
     { ...userObject, userType: 'Main Member', typeChangeable: false },
   ]);
+  const [saveDetails, setSaveDetails] = useState(false);
 
   const handleAddUser = () => {
     console.log('object1');
@@ -90,8 +92,8 @@ const CheckoutForm = (props) => {
       <form onSubmit={() => {}}>
         {users.map((user, index) => (
           <div key={uniqueId()}>
-            <div className="grid grid-cols-12 gap-4 gap-y-6 w-full">
-              <div className="col-span-3">
+            <div className="grid grid-cols-12 gap-4 w-full mb-8">
+              <div className="lg:col-span-3 col-span-12">
                 <div className="py-2 pl-3 pr-10 w-full bg-promo-input-bg rounded-lg shadow-lg relative border border-light-gray-border">
                   <div className="font-semibold text-body-xs text-dark-blue font-Montserrat">
                     User Type
@@ -105,7 +107,7 @@ const CheckoutForm = (props) => {
                     disabled={!user.typeChangeable}
                   >
                     <option value="">select type</option>
-                    {userTypeOptions.map((m) => (
+                    {userTypeOptions?.map((m) => (
                       <option key={uniqueId()} value={m}>
                         {m}
                       </option>
@@ -113,80 +115,94 @@ const CheckoutForm = (props) => {
                   </select>
                 </div>
               </div>
-              <div className="col-span-3">
-                <div className="py-2 pl-3 pr-10 w-full bg-promo-input-bg rounded-lg shadow-lg relative border border-light-gray-border">
-                  <div className="font-semibold text-body-xs text-dark-blue font-Montserrat">
-                    First Name
-                  </div>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={user.firstName}
-                    placeholder="First Name"
-                    onChange={(e) => handleUserFieldChange(e, index)}
-                    className="h-3 w-full border-0 outline-none bg-transparent placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 pl-0 text-black font-Montserrat font-medium text-body-xs"
-                  />
-                  <img src={EditIcon} alt="Edit" className="absolute right-4 top-4" />
-                </div>
+              <div className="lg:col-span-3 col-span-12">
+                <CheckoutFormInput
+                  title="First Name"
+                  type="text"
+                  name="firstName"
+                  inputValue={user.firstName}
+                  inputPlaceholder="First Name"
+                  fieldChange={handleUserFieldChange}
+                  index={index}
+                />
               </div>
-              <div className="col-span-3">
-                <div className="py-2 pl-3 pr-10 w-full bg-promo-input-bg rounded-lg shadow-lg relative border border-light-gray-border">
-                  <div className="font-semibold text-body-xs text-dark-blue font-Montserrat">
-                    Last Name
-                  </div>
-                  <input
-                    type="text"
-                    name="lasttName"
-                    value={user.lasttName}
-                    placeholder="Last Name"
-                    onChange={(e) => handleUserFieldChange(e, index)}
-                    className="h-3 w-full border-0 outline-none bg-transparent placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 pl-0 text-black font-Montserrat font-medium text-body-xs"
-                  />
-                  <img src={EditIcon} alt="Edit" className="absolute right-4 top-4" />
-                </div>
+              <div className="lg:col-span-3 col-span-12">
+                <CheckoutFormInput
+                  title="Last Name"
+                  type="text"
+                  name="lastName"
+                  inputValue={user.lastName}
+                  inputPlaceholder="Last Name"
+                  fieldChange={handleUserFieldChange}
+                  index={index}
+                />
               </div>
-              <div className="col-span-3">
+              <div className="lg:col-span-3 col-span-12">
+                <CheckoutFormInput
+                  title="Identity"
+                  type="text"
+                  name="identity"
+                  inputValue={user.identity}
+                  inputPlaceholder="Aadhar or passport"
+                  fieldChange={handleUserFieldChange}
+                  index={index}
+                />
+              </div>
+              <div className="lg:col-span-3 col-span-12">
+                <CheckoutFormInput
+                  title="Email"
+                  type="text"
+                  name="email"
+                  inputValue={user.email}
+                  inputPlaceholder="Email"
+                  fieldChange={handleUserFieldChange}
+                  index={index}
+                />
+              </div>
+              <div className="lg:col-span-3 col-span-12">
+                <CheckoutFormInput
+                  title="Country where based"
+                  type="text"
+                  name="country"
+                  inputValue={user.country}
+                  inputPlaceholder="Country"
+                  fieldChange={handleUserFieldChange}
+                  index={index}
+                />
+              </div>
+              <div className="col-span-12 lg:col-span-3">
                 <div className="py-2 pl-3 pr-10 w-full bg-promo-input-bg rounded-lg shadow-lg relative border border-light-gray-border">
-                  <div className="font-semibold text-body-xs text-dark-blue font-Montserrat">
-                    Identity
+                  <div className="font-semibold text-body-sm text-dark-blue font-Montserrat">
+                    Date of Birth
                   </div>
-                  <input
-                    type="text"
-                    name="identity"
-                    value={user.identity}
-                    placeholder="Aadhar or passport"
-                    onChange={(e) => handleUserFieldChange(e, index)}
-                    className="h-3 w-full border-0 outline-none bg-transparent placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 pl-0 text-black font-Montserrat font-medium text-body-xs"
-                  />
+                  {/* Date Picker here */}
                   <img src={EditIcon} alt="Edit" className="absolute right-4 top-4" />
                 </div>
               </div>
             </div>
           </div>
         ))}
-        <div className="flex justify-end mt-6">
+        <div className="flex justify-between items-center mt-8">
+          <div>
+            <input
+              type="checkbox"
+              name="saveDetails"
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              checked={saveDetails}
+              onChange={() => setSaveDetails(!saveDetails)}
+            />
+            <span className="ml-2 font-Montserrat font-medium text-body-md text-dark-blue dark:text-white group-hover:text-white">
+              Save for future prurposes
+            </span>
+          </div>
           <button
             type="submit"
-            className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            className="py-3 px-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             Submit
           </button>
         </div>
       </form>
-      {/* <input
-            type="text"
-            name="lastName"
-            value={user.lastName}
-            placeholder="Last Name"
-            onChange={(e) => handleUserFieldChange(e, index)}
-          />
-          <input
-            type="text"
-            name="identity"
-            value={user.identity}
-            placeholder="Aadhar or passports"
-            onChange={(e) => handleUserFieldChange(e, index)}
-          /> */}
     </>
   );
 };

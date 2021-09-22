@@ -91,7 +91,7 @@ const CheckoutForm = (props) => {
       <form onSubmit={() => {}}>
         {users.map((user, index) => (
           <div key={uniqueId()}>
-            <div className="grid grid-cols-12 gap-4 w-full mb-6">
+            <div className="grid grid-cols-12 gap-4 w-full mb-8">
               <div className="lg:col-span-3 col-span-12">
                 <div className="py-2 pl-3 pr-10 w-full bg-promo-input-bg rounded-lg shadow-lg relative border border-light-gray-border">
                   <div className="font-semibold text-body-xs text-dark-blue font-Montserrat">

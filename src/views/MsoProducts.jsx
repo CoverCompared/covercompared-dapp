@@ -171,7 +171,7 @@ const MSOProduct = (props) => {
   return (
     <>
       <div className="xl:px-32 lg:px-26">
-        <div className="grid grid-cols-12 gap-x-8 gap-y-6">
+        <div className="grid grid-cols-12 gap-x-12 gap-y-6">
           <div className="md:col-span-4 col-span-12 flex justify-center">
             <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
               <img src={logo} alt="" className="rounded-2xl h-full w-full relative z-10" />
@@ -232,7 +232,7 @@ const MSOProduct = (props) => {
               <label className="inline-flex items-center">
                 <input
                   type="checkbox"
-                  className="form-checkbox rounded-sm text-primary-gd-1 focus:text-dark-blue focus:ring-0 focus:border-opacity-0 duration-200 focus:shadow-0"
+                  className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
                   checked={addonServices}
                   onClick={toggleCheckbox}
                 />
@@ -305,13 +305,13 @@ const MSOProduct = (props) => {
                 <li>8 weeks cooling period from the day of confirmation of order</li>
                 <li>Turn around time – 10 days from receipt of medical records</li>
               </ul>
-              <div className="font-Montserrat font-medium text-h6 text-dark-blue dark:text-white mb-2 mt-4">
+              <div className="font-Montserrat font-medium text-h6 text-dark-blue dark:text-white mb-2 mt-3">
                 Features EHR (from wishing well)
               </div>
               <ul className="list-disc pl-6">
                 <li>EHR with mobile app for entire family</li>
               </ul>
-              <div className="font-Montserrat font-medium text-h6 text-dark-blue dark:text-white mb-2 mt-4">
+              <div className="font-Montserrat font-medium text-h6 text-dark-blue dark:text-white mb-2 mt-3">
                 Modalities of service
               </div>
               <ul className="list-disc pl-6">

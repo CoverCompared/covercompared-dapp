@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { transform } from 'lodash';
-import uniqId from 'uniqid';
+import uniqid from 'uniqid';
 import PointIcon from '../assets/img/blue-point.svg';
 import Allianz from '../assets/img/allianz.svg';
 import AIGLogo from '../assets/img/aig-logo.svg';
@@ -73,20 +73,20 @@ const AboutUs = () => {
               <div className="text-dark-blue font-Montserrat font-normal text-body-md mb-4 dark:text-white">
                 Founder, CEO
               </div>
-              <div className="text-dark-blue font-Montserrat font-semibold md:text-body-sm text-body-xs text-center mb-3 dark:text-white">
+              <div className="text-dark-blue font-Montserrat font-semibold md:text-body-sm text-body-sm text-center mb-3 dark:text-white">
                 Heading Partnerships, Product & <br /> Market Development
               </div>
               <div className="flex-col flex items-start">
                 <div className="flex justify-center items-start mb-2">
                   <img src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-inter text-body-xs dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     Worked in a senior leadership role within an insurtech startup (Valued at over
                     $1 billion).
                   </div>
                 </div>
                 <div className="flex justify-center items-start">
                   <img src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-inter text-body-xs dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     10+ years working in insurance product development with multinational insurers
                   </div>
                 </div>
@@ -111,27 +111,27 @@ const AboutUs = () => {
               <div className="text-dark-blue font-Montserrat font-normal text-body-md mb-4 dark:text-white">
                 Co-Founder, CIO
               </div>
-              <div className="text-dark-blue font-Montserrat font-semibold md:text-body-sm text-body-xs text-center mb-3 dark:text-white">
+              <div className="text-dark-blue font-Montserrat font-semibold md:text-body-sm text-body-sm text-center mb-3 dark:text-white">
                 Heading Operations, Systems, & <br />
                 Process Setups
               </div>
               <div className="flex-col flex items-start">
                 <div className="flex justify-center items-start mb-2">
                   <img src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-inter text-body-xs dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     10 years of operational management experience across various service verticals
                   </div>
                 </div>
                 <div className="flex justify-center items-start mb-2">
                   <img src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-inter text-body-xs dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     Set up 3 operational service centres simultaneously from scratch comprising over
                     2000+ staff
                   </div>
                 </div>
                 <div className="flex justify-center items-start">
                   <img src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-inter text-body-xs dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     Created several regional backend system platforms & projects for multinational
                     insurance providers
                   </div>
@@ -190,51 +190,49 @@ const AboutUs = () => {
       {/* partner-section-end */}
 
       {/* about-platform-start */}
-      <div className="relative mt-10 lg:pb-96 lg:mb-44 mb-20">
+      <div className="relative mt-12 mb-14 md:mb-28">
         <div className="w-full bg-platofrm-blue-bg md:px-16 p-6 md:pt-10 pb-6 md:rounded-br-full md:rounded-tr-full overflow-hidden relative">
-          <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white">
+          <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
             A Little Bit about Our Platform
           </div>
           <div className="md:text-body-md font-medium text-center mt-2 text-counter-card-text text-body-md md:px-20 font-Inter leading-6 dark:text-subtitle-dark-text">
             We are building the best insurtech platform for the masses
           </div>
-          <div className="pt-10 z-10 px-4 hidden lg:flex justify-center">
-            <img src={ArrowFrame} alt="" className="h-44" style={{ width: '40vw' }} />
-          </div>
-          {/* <div className="md:h-40 md:w-40 h-16 w-16 left-6 animate-bubbles1 rounded-full absolute shadow-bubbleShadow" />
-          <div className="h-14 w-14 left-96 animate-bubbles rounded-full absolute shadow-bubbleShadow" />
-          <div className="h-28 w-28 right-96 animate-bubbles1 rounded-full absolute shadow-bubbleShadow" />
-          <div className="h-8 w-8 right-36 animate-bubbles rounded-full absolute shadow-bubbleShadow" />
-          <div className="h-16 w-16 right-14 animate-bubbles1 rounded-full absolute shadow-bubbleShadow" /> */}
         </div>
 
-        <div className="grid grid-cols-12 lg:gap-x-3 md:gap-x-6 md:gap-y-14 gap-y-20 lg:absolute top-60 w-full lg:px-20 mt-12 lg:mt-0">
+        <div className="grid grid-cols-12 lg:gap-x-3 md:gap-x-6 md:gap-y-14 gap-y-16 w-full lg:px-20 lg:mt-24 mt-8">
+          <div
+            className="absolute top-36 left-2/4 hidden lg:flex"
+            style={{ transform: `translateX(${-50}%)` }}
+          >
+            <img src={ArrowFrame} alt="" className="h-44" style={{ width: '40vw' }} />
+          </div>
           {PhaseArr.map((obj) => (
-            <PhaseCard key={uniqId()} {...obj} />
+            <PhaseCard key={uniqid()} {...obj} />
           ))}
         </div>
       </div>
 
       {/* menifesto-section-start */}
-      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white pt-36">
+      <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
         Our Menifesto
       </div>
       <div className="flex justify-center pt-11">
         <img src={GlobalIcon} className="text-center" alt="" />
       </div>
-      <h2 className="text-h4 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-4">
+      <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-4">
         &quot;Be the change you want to see in the world&quot;
       </h2>
       <div className="lg:px-24 md:pt-6 pt-8">
-        <div className="font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
+        <div className="font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           We live in a world that is empowered by technology and innovation every day – it touches
           nearly every aspect of our lives, changing them for the better for the most part.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           One such revolutionary technological advancement was the advent of cryptocurrency - the
           currency that changed the world.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Over the years, Cryptocurrency usage has significantly increased due to rising inflation
           and demand for inflation-resistant assets. Weary users bound by the restrictive and
           capricious shackles of traditional financial instruments found themselves questioning the
@@ -243,17 +241,17 @@ const AboutUs = () => {
           novel system of finance– an alternative solution that was freer, fairer, and nearly
           immutable.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           This enormous boom in crypto users has proved to be revolutionary for the history of our
           species.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Just during Q1 2021, crypto users have doubled from 100 million to nearly 200 million.
           Regardless of this massive growth in population, the crypto community as a whole has been
           rather neglected by traditional providers of service.
         </div>
         <div
-          className="bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 bg-clip-text fill-transparent font-semibold md:text-body-md text-body-xs text-center mt-6"
+          className="bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 bg-clip-text fill-transparent font-semibold md:text-body-md text-body-sm text-center mt-6"
           style={{ WebkitTextFillColor: 'transparent' }}
         >
           Specifically, when it comes to institutions that ultimately secure user’s funds, namely,
@@ -263,20 +261,20 @@ const AboutUs = () => {
         <div className="flex justify-center pt-14">
           <img src={CommunityIcon} alt="" />
         </div>
-        <h2 className="text-h4 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
+        <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
           IF THEY CAN, WHY NOT ME?
         </h2>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           If a holder of fiat currency wants to secure his assets, be they fiscal or otherwise,
           there exist a plethora of options for him to do so. However, if the same individual would
           like to be ensured using his crypto funds – no dice.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Why does this disparity exist? Why, despite the crypto community being at the advent of
           innovative tech and growing every day, is the average crypto holder not afforded the same
           advantages as holders of more traditional instruments of payment?
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           PolkaCover aims to right this wrong – we’re the world’s first platform that will enable
           crypto-holders to purchase not just specialized covers for their crypto-based assets, but
           also fulfill their needs in the traditional sectors of insurance such as life, health,
@@ -285,17 +283,17 @@ const AboutUs = () => {
         <div className="flex justify-center pt-14">
           <img src={VisionIcon} alt="" />
         </div>
-        <h2 className="text-h4 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
+        <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
           OUR VISION
         </h2>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           PolkaCover is here to address the needs of the crypto community. We understand the growing
           concerns of safety in the crypto ecosystem, and we firmly believe that every individual
           deserves the chance to protect their valuable assets without worrying about costs and
           limitations. <span className="font-semibold">Protection shouldn’t be conditional</span>.
           It is time insurers were empathetic to the hardships faced by unprotected crypto users.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           PolkaCover is the world’s first platform offering crypto and traditional insurance
           products under one marketplace specially aimed to cater to the global crypto market. We
           are a user-centric insurance aggregator, working towards optimising the experience of
@@ -336,14 +334,14 @@ const AboutUs = () => {
           <div className="text-center md:px-10 text-white font-Montserrat font-semibold md:text-h2 text-body-md">
             THE FUTURE OF POLKACOVER
           </div>
-          <div className="font-Montserrat text-white font-medium md:text-body-md text-body-xs text-center mt-4">
+          <div className="font-Montserrat text-white md:text-body-md text-body-sm text-center mt-4">
             The platform aims to bridge the gap in the insurance sector by collaborating with
             insurers and giving users historical data to make informed decisions on what cover is
             best-suited to their unique situation, as well as giving them the liberty to act upon
             this decision on their own terms. Additionally, it offers affordable covers, transparent
             pricing, and multiple payment options.
           </div>
-          <div className="font-Montserrat text-white font-medium md:text-body-md text-body-xs text-center mt-4">
+          <div className="font-Montserrat text-white md:text-body-md text-body-sm text-center mt-4">
             PolkaCover will soon bring about a newfound era of innovation in the insurance market
             and be the first platform of its kind to offer a democratic safety net to all.
           </div>

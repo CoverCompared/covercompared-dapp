@@ -17,7 +17,7 @@ const AboutToken = () => {
       <div className="xl:px-24 md:mb-8 mb-4 sm:px-8">
         <div className="bg-gradient-to-r from-global-banner-gd-1 to-global-banner-gd-2 rounded-2xl">
           <div className="md:px-24 md:py-16 py-6 px-8 flex justify-center items-center md:bg-aboutTokenTopBanner bg-no-repeat bg-100%">
-            <div className="font-Montserrat text-white md:text-body-lg text-body-md max-w-lg font-medium text-center">
+            <div className="font-Montserrat text-white md:text-body-lg text-body-md max-w-lg text-center">
               The Polkacover Token will be used throughout the platform for various activities. To
               get a full view of the activities, Take a look at our whitepaper here.
             </div>

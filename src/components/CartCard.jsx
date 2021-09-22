@@ -11,6 +11,7 @@ import DeleteIconWhite from '../assets/dark-icons/Delete.svg';
 import { ThemeContext } from '../themeContext';
 import CheckoutForm from './CheckoutForm';
 import Modal from './common/Modal';
+import MSOAdditionalDetails from './MSOAddtionalDetails';
 import AdditionalDetails from './AdditionalDetails';
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -84,6 +85,13 @@ const CartCard = (props) => {
     return '';
   };
 
+  const renderDetailsPopup = () => {
+    if (cardType === 'crypto-exchange' || cardType === 'smart-contract')
+      return <AdditionalDetails {...props} />;
+    if (cardType === 'mso') return <MSOAdditionalDetails {...props} />;
+    return '';
+  };
+
   return (
     <div className="dark:bg-featureCard-dark-bg rounded-xl shadow-md bg-white">
       <div className="py-4 px-4 md:pr-8 rounded-xl grid grid-cols-12 gap-x-1 mb-4 relative md:bg-cartCardBg bg-mobileCartCardBg bg-100% bg-no-repeat bg-right">
@@ -130,13 +138,19 @@ const CartCard = (props) => {
               className="md:h-6 md:w-6 h-5"
             />
           </button>
-          <div className="cursor-pointer md:mx-4 mx-3">
-            <img
-              src={theme === 'light' ? BookIcon : BookWhiteIcon}
-              alt="Edit"
-              className="md:h-6 md:w-6 h-5"
-            />
-          </div>
+          <Modal
+            title="MSO Additional Details"
+            bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-contain bg-no-repeat"
+            renderComponent={renderDetailsPopup}
+          >
+            <div className="cursor-pointer md:mx-4 mx-3">
+              <img
+                src={theme === 'light' ? BookIcon : BookWhiteIcon}
+                alt="Edit"
+                className="md:h-6 md:w-6 h-5"
+              />
+            </div>
+          </Modal>
 
           <Modal
             title={renderModalTitle()}

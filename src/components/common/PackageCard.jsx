@@ -104,14 +104,12 @@ const PackageCard = (props) => {
               className="ml-3 font-Montserrat disabled:opacity-50 md:inline-flex items-center md:px-5 md:py-4 py-1.5 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
             >
               <div>
-                {quote !== undefined ? (
-                  quote ? (
-                    'Add to Cart'
-                  ) : (
-                    'Add to Cart'
-                  )
+                {quote !== undefined && quote !== '' ? (
+                  'Add to Cart'
                 ) : (
-                  <Loading heightClass="h-4" widthClass="w-4" />
+                  <div className="hidden md:block">
+                    <Loading heightClass="h-4" widthClass="w-4" />
+                  </div>
                 )}
               </div>
               <div className="mt-1 md:hidden">

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { uniqueId } from 'lodash';
 import { toast } from 'react-toastify';
-import CheckoutFormInput from './checkoutFormInput';
+import CheckoutFormInput from './CheckoutFormInput';
 import EditIcon from '../assets/img/Edit.svg';
 
 const CheckoutForm = (props) => {
@@ -28,6 +28,7 @@ const CheckoutForm = (props) => {
   const [users, setUsers] = useState([
     { ...userObject, userType: 'Main Member', typeChangeable: false },
   ]);
+  const [saveDetails, setSaveDetails] = useState(false);
 
   const handleAddUser = () => {
     console.log('object1');
@@ -65,7 +66,7 @@ const CheckoutForm = (props) => {
 
   const submit = () => console.log('asd');
 
-  console.log('users :>> ', users);
+  // console.log('users :>> ', users);
 
   return (
     <>
@@ -181,10 +182,22 @@ const CheckoutForm = (props) => {
             </div>
           </div>
         ))}
-        <div className="flex justify-end mt-6">
+        <div className="flex justify-between items-center mt-8">
+          <div>
+            <input
+              type="checkbox"
+              name="saveDetails"
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              checked={saveDetails}
+              onChange={() => setSaveDetails(!saveDetails)}
+            />
+            <span className="ml-2 font-Montserrat font-medium text-body-md text-dark-blue dark:text-white group-hover:text-white">
+              Save for future prurposes
+            </span>
+          </div>
           <button
             type="submit"
-            className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            className="py-3 px-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             Submit
           </button>

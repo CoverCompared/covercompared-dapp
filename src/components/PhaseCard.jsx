@@ -44,7 +44,7 @@ const PhaseCard = ({ ...props }) => {
         <div className="flex justify-center mt-3">
           <img src={phaseIcon} alt="" />
         </div>
-        <div className="text-partner-page-title font-Montserrat font-semibold text-body-sm sm:text-body-lg md:text-body-md text-center mt-4 px-1 h-16">
+        <div className="text-dark-blue font-Montserrat font-semibold text-body-sm sm:text-body-lg md:text-body-md text-center mt-4 px-1 h-16">
           {title}
         </div>
         {descriptionArr.map((p) => (

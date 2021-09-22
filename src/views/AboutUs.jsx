@@ -57,7 +57,7 @@ const PhaseArr = [
 const AboutUs = () => {
   return (
     <>
-      <div className="text-h2 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mb-12">
+      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mb-12">
         Our Core Team
       </div>
       <div className="flex justify-center xl:px-28 lg:px-24 md:px-16 w-full">
@@ -151,7 +151,7 @@ const AboutUs = () => {
       {/* core-team-end */}
 
       {/* partner-section-start */}
-      <div className="text-h2 text-partner-page-title font-Montserrat font-semibold text-center mb-12 mt-20 dark:text-white">
+      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center mb-12 mt-20 dark:text-white">
         Our Partners
       </div>
       <div className="flex justify-center xl:px-28 lg:px-24 md:px-16 w-full">
@@ -192,7 +192,7 @@ const AboutUs = () => {
       {/* about-platform-start */}
       <div className="relative mt-10 lg:pb-96 lg:mb-44 mb-20">
         <div className="w-full bg-platofrm-blue-bg md:px-16 p-6 md:pt-10 pb-6 md:rounded-br-full md:rounded-tr-full overflow-hidden relative">
-          <div className="text-h2 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white">
+          <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white">
             A Little Bit about Our Platform
           </div>
           <div className="md:text-body-md font-medium text-center mt-2 text-counter-card-text text-body-md md:px-20 font-Inter leading-6 dark:text-subtitle-dark-text">
@@ -216,13 +216,13 @@ const AboutUs = () => {
       </div>
 
       {/* menifesto-section-start */}
-      <div className="text-h2 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white pt-36">
+      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white pt-36">
         Our Menifesto
       </div>
       <div className="flex justify-center pt-11">
         <img src={GlobalIcon} className="text-center" alt="" />
       </div>
-      <h2 className="text-h4 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-4">
+      <h2 className="text-h4 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-4">
         &quot;Be the change you want to see in the world&quot;
       </h2>
       <div className="lg:px-24 md:pt-6 pt-8">
@@ -263,7 +263,7 @@ const AboutUs = () => {
         <div className="flex justify-center pt-14">
           <img src={CommunityIcon} alt="" />
         </div>
-        <h2 className="text-h4 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-8">
+        <h2 className="text-h4 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
           IF THEY CAN, WHY NOT ME?
         </h2>
         <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">
@@ -285,7 +285,7 @@ const AboutUs = () => {
         <div className="flex justify-center pt-14">
           <img src={VisionIcon} alt="" />
         </div>
-        <h2 className="text-h4 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white mt-8">
+        <h2 className="text-h4 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
           OUR VISION
         </h2>
         <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-xs dark:text-subtitle-dark-text text-center">

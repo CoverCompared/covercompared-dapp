@@ -321,7 +321,7 @@ const Partner = (props) => {
 
   return (
     <>
-      <div className="text-h2 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white">
+      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white">
         Our Partners
       </div>
 

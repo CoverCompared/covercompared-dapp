@@ -5,6 +5,7 @@ import {
   SET_CURRENT_PRODUCT,
   LOGIN_MODAL_VISIBLE,
   ADD_ITEM_TO_CART,
+  UPDATE_CART_ITEM,
   REMOVE_ITEM_TO_CART,
   EMPTY_CART,
 } from '../constants/ActionTypes';
@@ -41,6 +42,12 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         cart: [...state.cart, { ...payload, uuid: uniqueId() }],
+      };
+    }
+    case UPDATE_CART_ITEM: {
+      return {
+        ...state,
+        cart: state.cart.map((m) => (m.uuid === payload.uuid ? { ...m, ...payload } : m)),
       };
     }
     case REMOVE_ITEM_TO_CART: {

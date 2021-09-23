@@ -5,6 +5,7 @@ import {
   SET_CURRENT_PRODUCT,
   LOGIN_MODAL_VISIBLE,
   ADD_ITEM_TO_CART,
+  UPDATE_CART_ITEM,
   REMOVE_ITEM_TO_CART,
   EMPTY_CART,
 } from '../constants/ActionTypes';
@@ -40,6 +41,13 @@ export const setLoginModalVisible = (payload) => {
 export const addItemToCart = (payload) => {
   return {
     type: ADD_ITEM_TO_CART,
+    payload,
+  };
+};
+
+export const updateCartItem = (payload) => {
+  return {
+    type: UPDATE_CART_ITEM,
     payload,
   };
 };

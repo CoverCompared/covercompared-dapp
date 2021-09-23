@@ -27,7 +27,7 @@ const WithSidebar = (props) => {
         <main
           className={classNames(
             subtitle ? 'lg:mt-36 md:mt-16 mt-14' : 'lg:mt-24 md:mt-16 mt-14',
-            `flex-1 relative focus:outline-none bg-${mobileBgImg} md:bg-${bgImg} ${bgImgClass}`,
+            `flex-1 relative focus:outline-none ${mobileBgImg} ${bgImg} ${bgImgClass}`,
           )}
         >
           <div className="min-h-full-9 md:min-h-full-3">

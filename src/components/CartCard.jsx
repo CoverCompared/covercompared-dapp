@@ -24,6 +24,7 @@ const CartCard = (props) => {
     company_icon,
     quote_currency,
     cardType,
+    formData,
     curency,
     qty,
     type,
@@ -155,23 +156,22 @@ const CartCard = (props) => {
           <Modal
             title={renderModalTitle()}
             bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-contain bg-no-repeat"
-            renderComponent={() => (
-              <CheckoutForm
-                {...{
-                  unique_id,
-                  userTypeOptions,
-                  noOfSpouse,
-                  noOfDependent,
-                  mainMemberParents,
-                  spouseParents,
-                  totalUsers,
-                }}
-              />
-            )}
+            renderComponent={CheckoutForm}
+            {...{
+              uuid,
+              formData,
+              unique_id,
+              userTypeOptions,
+              noOfSpouse,
+              noOfDependent,
+              mainMemberParents,
+              spouseParents,
+              totalUsers,
+            }}
           >
             <div className="h-7 w-7 cursor-pointer">
               <CircularProgressbarWithChildren
-                value={0}
+                value={formData ? 100 : 0}
                 styles={buildStyles({
                   pathColor: `#0CED58`,
                   textColor: 'text-dark-blue',
@@ -192,7 +192,7 @@ const CartCard = (props) => {
                     left: '-6px',
                   }}
                 >
-                  <strong>0%</strong>
+                  <strong className="text-dark-blue dark:text-white">{formData ? 100 : 0}%</strong>
                 </div>
               </CircularProgressbarWithChildren>
             </div>

@@ -1,12 +1,16 @@
 import React, { useState, useContext } from 'react';
-import { uniqueId } from 'lodash';
 import { toast } from 'react-toastify';
-import CheckoutFormInput from './CheckoutFormInput';
+import { useDispatch } from 'react-redux';
+import { updateCartItem } from '../redux/actions/AppActions';
+import CheckoutFormInput from './common/CheckoutFormInput';
+import FormInput from './FormInput';
 import EditIcon from '../assets/img/Edit.svg';
 
 const CheckoutForm = (props) => {
   // remove default values from below object once response is in this format
   const {
+    uuid,
+    formData,
     unique_id,
     userTypeOptions,
     noOfSpouse,
@@ -14,25 +18,30 @@ const CheckoutForm = (props) => {
     mainMemberParents,
     spouseParents,
     totalUsers,
+    setIsModalOpen,
   } = props;
+  const dispatch = useDispatch();
 
   const userObject = {
     userType: '',
     firstName: '',
     lastName: '',
     identity: '',
-    email: '',
-    country: '',
     typeChangeable: true,
   };
-  const [users, setUsers] = useState([
-    { ...userObject, userType: 'Main Member', typeChangeable: false },
-  ]);
-  const [saveDetails, setSaveDetails] = useState(false);
+  const [users, setUsers] = useState(
+    formData?.users || [{ ...userObject, userType: 'Main Member', typeChangeable: false }],
+  );
+  const [email, setEmail] = useState(formData?.email || '');
+  const [dob, setDob] = useState(formData?.dob || '');
+  const [country, setCountry] = useState(formData?.country || '');
+  const [saveDetails, setSaveDetails] = useState(formData?.saveDetails || false);
 
   const handleAddUser = () => {
-    console.log('object1');
-    setUsers([...users, { ...userObject }]);
+    if (totalUsers > 0 && users.length === totalUsers) {
+      return toast.warning(`Sorry! can't add more than ${totalUsers} member for the selected plan`);
+    }
+    return setUsers([...users, { ...userObject }]);
   };
 
   const handleRemoveUser = () => {
@@ -58,57 +67,76 @@ const CheckoutForm = (props) => {
     }
     return true;
   };
-  const handleUserFieldChange = (e, i) => {
+
+  const handleUserFieldChange = (i, name, value) => {
     const usersClone = [...users];
-    usersClone[i][e.target.name] = e.target.value;
+    usersClone[i][name] = value;
     if (validateUsers(usersClone)) setUsers(usersClone);
   };
 
-  const submit = () => console.log('asd');
-
-  console.log('users :>> ', users);
+  const handleSubmit = () => {
+    dispatch(
+      updateCartItem({
+        uuid,
+        formData: {
+          users,
+          email,
+          dob,
+          country,
+          saveDetails,
+        },
+      }),
+    );
+    setIsModalOpen(false);
+    toast.success('Form information saved successfully');
+  };
 
   return (
     <>
-      <div className="mb-4 flex justify-end">
-        <button
-          type="button"
-          onClick={handleAddUser}
-          className="font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
-          disabled={totalUsers > 0 && users.length === totalUsers}
-        >
-          + Add
-        </button>{' '}
-        <button
-          type="button"
-          className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
-          onClick={handleRemoveUser}
-          disabled={users.length === 1}
-        >
-          - Remove
-        </button>
+      <div className="mb-4 flex justify-between items-center">
+        <h5 className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
+          Add/Remove Family Members
+        </h5>
+        <div>
+          <button
+            type="button"
+            onClick={handleAddUser}
+            className="font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+          >
+            Add
+          </button>{' '}
+          <button
+            type="button"
+            className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+            onClick={handleRemoveUser}
+            disabled={users.length === 1}
+          >
+            Remove
+          </button>
+        </div>
       </div>
 
-      <form onSubmit={() => {}}>
-        {users.map((user, index) => (
-          <div key={uniqueId()}>
-            <div className="grid grid-cols-12 gap-4 w-full mb-8">
+      <form id="msp-checkout-form" onSubmit={handleSubmit}>
+        <div className="grid grid-cols-12 gap-4 w-full mb-8">
+          {users.map((user, index) => (
+            <React.Fragment key={index}>
               <div className="lg:col-span-3 col-span-12">
-                <div className="py-2 pl-3 pr-10 w-full bg-promo-input-bg rounded-lg shadow-lg relative border border-light-gray-border">
+                <div className="py-2 px-3 w-full bg-promo-input-bg rounded-lg shadow-lg border border-light-gray-border">
                   <div className="font-semibold text-body-xs text-dark-blue font-Montserrat">
-                    User Type
+                    Type of user
                   </div>
                   <select
-                    className="h-3 w-full border-0 outline-none bg-transparent placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 pl-0 text-black font-Montserrat font-medium text-body-xs"
+                    className="w-full border-0 outline-none bg-transparent placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 p-0 text-black font-Montserrat font-medium text-body-sm"
                     name="userType"
                     value={user.userType}
-                    placeholder="User Type"
+                    placeholder="Type of user"
                     onChange={(e) => handleUserFieldChange(e, index)}
                     disabled={!user.typeChangeable}
+                    required
                   >
-                    <option value="">select type</option>
-                    {userTypeOptions?.map((m) => (
-                      <option key={uniqueId()} value={m}>
+                    <option value="">Select user type</option>
+                    {userTypeOptions?.map((m, i) => (
+                      <option key={i} value={m}>
                         {m}
                       </option>
                     ))}
@@ -119,69 +147,74 @@ const CheckoutForm = (props) => {
                 <CheckoutFormInput
                   title="First Name"
                   type="text"
+                  id="firstName"
                   name="firstName"
                   inputValue={user.firstName}
                   inputPlaceholder="First Name"
                   fieldChange={handleUserFieldChange}
                   index={index}
+                  required
                 />
               </div>
               <div className="lg:col-span-3 col-span-12">
                 <CheckoutFormInput
                   title="Last Name"
                   type="text"
+                  id="lastName"
                   name="lastName"
                   inputValue={user.lastName}
                   inputPlaceholder="Last Name"
                   fieldChange={handleUserFieldChange}
                   index={index}
+                  required
                 />
               </div>
               <div className="lg:col-span-3 col-span-12">
                 <CheckoutFormInput
                   title="Identity"
                   type="text"
+                  id="identity"
                   name="identity"
                   inputValue={user.identity}
                   inputPlaceholder="Aadhar or passport"
                   fieldChange={handleUserFieldChange}
                   index={index}
+                  required
                 />
               </div>
-              <div className="lg:col-span-3 col-span-12">
-                <CheckoutFormInput
-                  title="Email"
-                  type="text"
-                  name="email"
-                  inputValue={user.email}
-                  inputPlaceholder="Email"
-                  fieldChange={handleUserFieldChange}
-                  index={index}
-                />
-              </div>
-              <div className="lg:col-span-3 col-span-12">
-                <CheckoutFormInput
-                  title="Country where based"
-                  type="text"
-                  name="country"
-                  inputValue={user.country}
-                  inputPlaceholder="Country"
-                  fieldChange={handleUserFieldChange}
-                  index={index}
-                />
-              </div>
-              <div className="col-span-12 lg:col-span-3">
-                <div className="py-2 pl-3 pr-10 w-full bg-promo-input-bg rounded-lg shadow-lg relative border border-light-gray-border">
-                  <div className="font-semibold text-body-sm text-dark-blue font-Montserrat">
-                    Date of Birth
-                  </div>
-                  {/* Date Picker here */}
-                  <img src={EditIcon} alt="Edit" className="absolute right-4 top-4" />
-                </div>
-              </div>
-            </div>
+            </React.Fragment>
+          ))}
+          <div className="col-span-12 lg:col-span-3">
+            <FormInput
+              type="date"
+              title="Date of Birth"
+              inputValue={dob}
+              setChange={setDob}
+              inputPlaceholder="Date of Birth"
+              required
+              noPenIcon
+            />
           </div>
-        ))}
+          <div className="lg:col-span-3 col-span-12">
+            <FormInput
+              type="email"
+              title="Email"
+              inputValue={email}
+              setChange={setEmail}
+              inputPlaceholder="Email"
+              required
+            />
+          </div>
+          <div className="lg:col-span-3 col-span-12">
+            <FormInput
+              title="Country where based"
+              inputValue={country}
+              setChange={setCountry}
+              inputPlaceholder="Country where based"
+              required
+            />
+          </div>
+        </div>
         <div className="flex justify-between items-center mt-8">
           <div>
             <input
@@ -199,7 +232,7 @@ const CheckoutForm = (props) => {
             type="submit"
             className="py-3 px-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
-            Submit
+            Save
           </button>
         </div>
       </form>

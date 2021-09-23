@@ -22,7 +22,7 @@ const WithoutSidebar = (props) => {
       <div className="flex-1 mx-auto w-full flex flex-col">
         <HeaderNoSidebar {...props} {...{ title, showBuyButton }} />
         <main
-          className={`flex-1 relative focus:outline-none lg:mt-28 lg:pt-8 mt-16 md:bg-${bgImg} bg-${mobileBgImg} ${bgImgClass}`}
+          className={`flex-1 relative focus:outline-none lg:mt-28 lg:pt-8 mt-16 ${bgImg} ${mobileBgImg} ${bgImgClass}`}
         >
           <div className="min-h-full-9 md:min-h-full-3">
             <Suspense fallback={<LazyLoading />}>

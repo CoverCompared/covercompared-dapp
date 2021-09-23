@@ -214,7 +214,7 @@ const AboutUs = () => {
       </div>
 
       {/* menifesto-section-start */}
-      <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
+      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white">
         Our Menifesto
       </div>
       <div className="flex justify-center pt-11">

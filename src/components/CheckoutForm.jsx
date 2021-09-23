@@ -127,7 +127,7 @@ const CheckoutForm = (props) => {
             <React.Fragment key={index}>
               <div className="lg:col-span-3 col-span-12">
                 <div className="py-2 px-3 w-full bg-promo-input-bg rounded-lg shadow-lg border border-light-gray-border">
-                  <div className="font-semibold text-body-xs text-dark-blue font-Montserrat">
+                  <div className="font-semibold text-body-xs text-dark-blue font-Montserrat text-left">
                     Type of user
                   </div>
                   <select
@@ -135,7 +135,7 @@ const CheckoutForm = (props) => {
                     name="userType"
                     value={user.userType}
                     placeholder="Type of user"
-                    onChange={(e) => handleUserFieldChange(e, index)}
+                    onChange={(e) => handleUserFieldChange(index, e.target.name, e.target.value)}
                     disabled={!user.typeChangeable}
                     required
                   >

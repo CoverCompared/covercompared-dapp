@@ -16,7 +16,9 @@ const CheckoutFormInput = ({
 }) => {
   return (
     <div className="py-2 pl-3 pr-10 w-full bg-promo-input-bg rounded-lg shadow-lg relative border border-light-gray-border">
-      <div className="font-semibold text-body-sm text-dark-blue font-Montserrat">{title}</div>
+      <div className="font-semibold text-body-sm text-dark-blue font-Montserrat text-left">
+        {title}
+      </div>
       <input
         required={required}
         disabled={disabled}

@@ -4,7 +4,6 @@ import {
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
   LOGIN_MODAL_VISIBLE,
-  MAIL_MODAL_VISIBLE,
   ADD_ITEM_TO_CART,
   UPDATE_CART_ITEM,
   REMOVE_ITEM_TO_CART,
@@ -35,13 +34,6 @@ export const setCurrentProduct = (payload) => {
 export const setLoginModalVisible = (payload) => {
   return {
     type: LOGIN_MODAL_VISIBLE,
-    payload,
-  };
-};
-
-export const setMailModalVisible = (payload) => {
-  return {
-    type: MAIL_MODAL_VISIBLE,
     payload,
   };
 };

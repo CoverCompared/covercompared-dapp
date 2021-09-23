@@ -3,9 +3,6 @@ import {
   SEARCH_COVER_LIST,
   SEARCH_COVER_LIST_SUCCESS,
   SET_SEARCH_COVER_LIST_LOADER,
-  SET_PROFILE_DETAILS,
-  SET_PROFILE_DETAILS_SUCCESS,
-  SET_PROFILE_DETAILS_LOADER,
   FETCH_MORE_COVERS,
   FETCH_MORE_COVERS_SUCCESS,
   SET_FETCH_MORE_COVERS_LOADER,
@@ -16,9 +13,6 @@ import {
   SEARCH_MSO_LIST,
   SEARCH_MSO_LIST_SUCCESS,
   SET_SEARCH_MSO_LIST_LOADER,
-  GET_LOGIN_DETAILS,
-  GET_LOGIN_DETAILS_SUCCESS,
-  SET_GET_LOGIN_DETAILS_LOADER,
   GET_DEVICE_DETAILS,
   GET_DEVICE_DETAILS_SUCCESS,
   SET_GET_DEVICE_DETAILS_LOADER,
@@ -55,27 +49,6 @@ export const setSearchCoverListLoader = (payload) => {
   };
 };
 
-export const setProfileDetails = (payload) => {
-  return {
-    type: SET_PROFILE_DETAILS,
-    payload,
-  };
-};
-
-export const setProfileDetailsSuccess = (payload) => {
-  return {
-    type: SET_PROFILE_DETAILS_SUCCESS,
-    payload,
-  };
-};
-
-export const setProfileDetailsLoader = (payload) => {
-  return {
-    type: SET_PROFILE_DETAILS_LOADER,
-    payload,
-  };
-};
-
 export const searchMSOList = (payload) => {
   return {
     type: SEARCH_MSO_LIST,
@@ -92,27 +65,6 @@ export const searchMSOListSuccess = (payload) => {
 export const setSearchMSOListLoader = (payload) => {
   return {
     type: SET_SEARCH_MSO_LIST_LOADER,
-    payload,
-  };
-};
-
-export const getLoginDetails = (payload) => {
-  return {
-    type: GET_LOGIN_DETAILS,
-    payload,
-  };
-};
-
-export const getLoginDetailsSuccess = (payload) => {
-  return {
-    type: GET_LOGIN_DETAILS_SUCCESS,
-    payload,
-  };
-};
-
-export const getLoginDetailsLoader = (payload) => {
-  return {
-    type: SET_GET_LOGIN_DETAILS_LOADER,
     payload,
   };
 };

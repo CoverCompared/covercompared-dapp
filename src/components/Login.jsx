@@ -5,15 +5,14 @@ import useAuth from '../hooks/useAuth';
 // import GoogleIcon from '../assets/img/google.png';
 import SUPPORTED_WALLETS from '../config/walletConfig';
 import { setLoginModalVisible, setMailModalVisible } from '../redux/actions/AppActions';
-import { getLoginDetails } from '../redux/actions/CoverList';
+import { getLoginDetails } from '../redux/actions/Auth';
 
 const Login = ({ isModalOpen, setIsModalOpen }) => {
   const { login } = useAuth();
   const dispatch = useDispatch();
   const { loginModalVisible } = useSelector((state) => state.app);
 
-  const loginDetails = useSelector((state) => state.loginDetails);
-  // console.log(loginDetails);
+  const { email } = useSelector((state) => state.auth);
 
   const { account } = useWeb3React();
   const [connectStatus, setConnectStatus] = useState(false);
@@ -37,10 +36,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
   if (connectStatus && account) {
     setConnectStatus(false);
     dispatch(setLoginModalVisible(false));
-    if (account !== null) {
-      dispatch(getLoginDetails({ wallet_address: account }));
-    }
-    // if (loginDetails.email === null) return dispatch(setMailModalVisible(true));
+    dispatch(getLoginDetails({ wallet_address: account }));
   }
 
   function getWalletOption() {

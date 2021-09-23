@@ -53,8 +53,6 @@ const CartCard = (props) => {
     totalUsers,
   } = props;
 
-  // console.log(props);
-
   const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
 

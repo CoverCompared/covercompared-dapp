@@ -3,8 +3,6 @@ import {
   SEARCH_COVER_LIST_SUCCESS,
   SET_SEARCH_MSO_LIST_LOADER,
   SEARCH_MSO_LIST_SUCCESS,
-  SET_GET_LOGIN_DETAILS_LOADER,
-  GET_LOGIN_DETAILS_SUCCESS,
   SET_FETCH_MORE_COVERS_LOADER,
   FETCH_MORE_COVERS_SUCCESS,
   FETCH_COVERS_WITH_AMOUNT_SUCCESS,
@@ -29,7 +27,6 @@ const INIT_STATE = {
   coverList: null,
   deviceDetails: null,
   devicePlanDetails: null,
-  loginDetails: null,
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -59,22 +56,6 @@ export default (state = INIT_STATE, { type, payload }) => {
       };
     }
     case SET_SEARCH_MSO_LIST_LOADER: {
-      return {
-        ...state,
-        ...payload,
-      };
-    }
-    case GET_LOGIN_DETAILS_SUCCESS: {
-      return {
-        ...state,
-        message: '',
-        loader: false,
-        isFailed: false,
-        query: payload.query,
-        loginDetails: payload.loginDetails,
-      };
-    }
-    case SET_GET_LOGIN_DETAILS_LOADER: {
       return {
         ...state,
         ...payload,

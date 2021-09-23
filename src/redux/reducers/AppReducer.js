@@ -4,7 +4,6 @@ import {
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
   LOGIN_MODAL_VISIBLE,
-  MAIL_MODAL_VISIBLE,
   ADD_ITEM_TO_CART,
   UPDATE_CART_ITEM,
   REMOVE_ITEM_TO_CART,
@@ -16,7 +15,6 @@ const INIT_STATE = {
   filtersOpen: false,
   currentProduct: null,
   loginModalVisible: false,
-  mailModalVisible: false,
   cart: [],
 };
 
@@ -68,12 +66,6 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         loginModalVisible: payload,
-      };
-    }
-    case MAIL_MODAL_VISIBLE: {
-      return {
-        ...state,
-        mailModalVisible: payload,
       };
     }
     default:

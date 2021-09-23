@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setProfileDetails } from '../redux/actions/CoverList';
+import { setProfileDetails } from '../redux/actions/Auth';
 
 const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
   const dispatch = useDispatch();
-  const { mailModalVisible } = useSelector((state) => state.app);
+  const { userDetailsModalOpen } = useSelector((state) => state.auth);
 
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-
-  // useEffect(() => {
-  //   if (!isModalOpen && mailModalVisible) setIsModalOpen(true);
-  //   if (isModalOpen && !mailModalVisible) setIsModalOpen(false);
-  // }, [mailModalVisible]);
 
   const registerEmail = () => {
     const data = {

@@ -1,135 +1,89 @@
 import { all, call, put, takeLatest, select } from 'redux-saga/effects';
-import { fallbackMessage } from '../constants/constants';
 import { API_BASE_URL } from '../constants/config';
+import { GET_LOGIN_DETAILS, SET_PROFILE_DETAILS } from '../constants/ActionTypes';
 import {
-  SIGNIN_USER,
-  SEND_RESET_PASSWORD_LINK,
-  RESET_USER_PASSWORD,
-  SIGNOUT_USER,
-} from '../constants/ActionTypes';
-import {
-  signinUserSuccess,
-  signinUserFailed,
-  setAuthLoader,
-  sendResetPasswordLinkFailure,
-  sendResetPasswordLinkSuccess,
-  resetUserPasswordSuccess,
-  resetUserPasswordFailure,
-  signoutUserSuccess,
-  signoutUserFailed,
+  setProfileDetailsSuccess,
+  setProfileDetailsLoader,
+  getLoginDetailsSuccess,
+  getLoginDetailsLoader,
 } from '../actions/Auth';
 import * as selector from '../constants/selectors';
-import { axiosPost } from '../constants/apicall'; // pass url to get,and (url,object) to post ,patch
+import { axiosPost } from '../constants/apicall';
 
-function* signInUserWithEmailPassword({ payload }) {
+function* setProfileData({ payload }) {
   try {
-    yield put(setAuthLoader({ isFailed: false, message: '', loader: true }));
-    const url = `${API_BASE_URL}login`;
-    const resp = yield call(axiosPost, url, payload);
-    if (resp.status === 200) {
-      const signInUser = resp.data;
-      yield put(signinUserSuccess(signInUser));
-    } else {
-      yield put(
-        signinUserFailed({
-          isFailed: true,
-          message: resp.data.message,
-          loader: false,
-        }),
-      );
-    }
-  } catch (error) {
     yield put(
-      signinUserFailed({
-        isFailed: true,
-        message: error.message || fallbackMessage,
+      setProfileDetailsLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/add-profile-details`;
+    const res = yield call(axiosPost, url, payload, yield select(selector.token));
+
+    if (res?.data?.data) {
+      yield put(setProfileDetailsSuccess(res.data.data));
+    }
+    return yield put(
+      setProfileDetailsLoader({
         loader: false,
-      }),
-    );
-  }
-}
-
-function* resetPasswordLink({ payload }) {
-  try {
-    yield put(setAuthLoader({ isFailed: false, message: '', loader: true }));
-    const url = `${API_BASE_URL}profile/password/forgot`;
-    const resp = yield call(axiosPost, url, payload);
-
-    if (resp.status !== 200) {
-      yield put(
-        sendResetPasswordLinkFailure({
-          message: resp.data.message || fallbackMessage,
-        }),
-      );
-    } else {
-      yield put(sendResetPasswordLinkSuccess({ message: resp.data.message }));
-    }
-  } catch (error) {
-    yield put(
-      sendResetPasswordLinkFailure({
         isFailed: true,
-        message: error.message || fallbackMessage,
+        query: null,
+        msoList: null,
+        message: res.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setProfileDetailsLoader({
         loader: false,
+        isFailed: true,
+        message: error.message,
       }),
     );
   }
 }
 
-function* resetUserPassword({ payload }) {
+function* getAccountToken({ payload }) {
   try {
-    yield put(setAuthLoader({ isFailed: false, message: '', loader: true }));
-    const url = `${API_BASE_URL}profile/password/confirm/${payload.code}`;
-    const resp = yield call(axiosPost, url, payload);
-
-    if (resp.status !== 200) {
-      yield put(
-        resetUserPasswordFailure({
-          message: resp.data.message || fallbackMessage,
-        }),
-      );
-    } else {
-      yield put(
-        resetUserPasswordSuccess({
-          message: `Password has been reset succcessfully.`,
-        }),
-      );
-    }
-  } catch (error) {
     yield put(
-      resetUserPasswordFailure({
-        message: error.message || fallbackMessage,
+      getLoginDetailsLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
       }),
     );
-  }
-}
 
-function* signoutUser() {
-  try {
-    yield put(setAuthLoader({ isFailed: false, message: '', loader: true }));
-    const url = `${API_BASE_URL}logout`;
-    const resp = yield call(axiosPost, url, {}, yield select(selector.token));
+    const url = `${API_BASE_URL}/login`;
+    const loginRes = yield call(axiosPost, url, payload);
 
-    if (resp.status !== 200) {
-      yield put(
-        signoutUserFailed({
-          message: resp.data.message || fallbackMessage,
-        }),
-      );
-    } else {
-      yield put(
-        signoutUserSuccess({
-          message: `Password has been reset succcessfully.`,
-        }),
-      );
+    if (loginRes?.data?.data) {
+      yield put(getLoginDetailsSuccess(loginRes.data.data));
     }
+
+    return yield put(
+      getLoginDetailsLoader({
+        loader: false,
+        isFailed: true,
+        query: null,
+        msoList: null,
+        message: loginRes.data.message,
+      }),
+    );
   } catch (error) {
-    yield put(signoutUserFailed({ message: error.message || fallbackMessage }));
+    return yield put(
+      getLoginDetailsLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
   }
 }
 
 export default all([
-  takeLatest(SIGNIN_USER, signInUserWithEmailPassword),
-  takeLatest(SEND_RESET_PASSWORD_LINK, resetPasswordLink),
-  takeLatest(RESET_USER_PASSWORD, resetUserPassword),
-  takeLatest(SIGNOUT_USER, signoutUser),
+  takeLatest(GET_LOGIN_DETAILS, getAccountToken),
+  takeLatest(SET_PROFILE_DETAILS, setProfileData),
 ]);

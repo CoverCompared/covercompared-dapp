@@ -1,7 +1,6 @@
 export const ACTION_METHOD_FAILED = 'ACTION_METHOD_FAILED';
 
 export const LOGIN_MODAL_VISIBLE = 'LOGIN_MODAL_VISIBLE';
-export const MAIL_MODAL_VISIBLE = 'MAIL_MODAL_VISIBLE';
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 export const TOGGLE_FILTERS = 'TOGGLE_FILTERS';
 export const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
@@ -9,25 +8,6 @@ export const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
 export const REMOVE_ITEM_TO_CART = 'REMOVE_ITEM_TO_CART';
 export const EMPTY_CART = 'EMPTY_CART';
 export const SET_CURRENT_PRODUCT = 'SET_CURRENT_PRODUCT';
-
-export const SIGNIN_USER = 'SIGNIN_USER';
-export const SIGNIN_USER_SUCCESS = 'SIGNIN_USER_SUCCESS';
-export const SIGNIN_USER_FAILED = 'SIGNIN_USER_FAILED';
-
-export const SET_LOADER = 'SET_LOADER';
-export const SET_AUTH_LOADER = 'SET_AUTH_LOADER';
-
-export const SIGNOUT_USER = 'signout_user';
-export const SIGNOUT_USER_SUCCESS = 'signout_user_success';
-export const SIGNOUT_USER_FAILED = 'signout_user_failed';
-
-export const SEND_RESET_PASSWORD_LINK = 'send_reset_password_link';
-export const SEND_RESET_PASSWORD_LINK_SUCCESS = 'send_reset_password_link_success';
-export const SEND_RESET_PASSWORD_LINK_FAILURE = 'send_reset_password_link_failure';
-
-export const RESET_USER_PASSWORD = 'reset_user_password';
-export const RESET_USER_PASSWORD_SUCCESS = 'reset_user_password_success';
-export const RESET_USER_PASSWORD_FAILURE = 'reset_user_password_failure';
 
 export const CREATE_USER = 'CREATE_USER';
 export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';

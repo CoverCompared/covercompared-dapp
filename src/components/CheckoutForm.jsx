@@ -99,20 +99,20 @@ const CheckoutForm = (props) => {
   return (
     <>
       <div className="mb-4 flex justify-between items-center">
-        <h5 className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
+        <h5 className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-body-md dark:text-white text-left">
           Add/Remove Family Members
         </h5>
-        <div>
+        <div className="flex justify-center ml-4">
           <button
             type="button"
             onClick={handleAddUser}
-            className="font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+            className="font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
           >
             Add
           </button>{' '}
           <button
             type="button"
-            className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+            className="ml-3 font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
             onClick={handleRemoveUser}
             disabled={users.length === 1}
           >
@@ -229,13 +229,13 @@ const CheckoutForm = (props) => {
               checked={saveDetails}
               onChange={() => setSaveDetails(!saveDetails)}
             />
-            <span className="ml-2 font-Montserrat font-medium text-body-md text-dark-blue dark:text-white group-hover:text-white">
+            <span className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white">
               Save for future purposes
             </span>
           </div>
           <button
             type="submit"
-            className="py-3 px-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            className="py-3 px-8 ml-3 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             {directCheckout ? 'Buy' : 'Save'}
           </button>

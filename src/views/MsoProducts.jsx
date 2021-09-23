@@ -257,19 +257,17 @@ const MSOProduct = (props) => {
                 <Modal
                   title="MSO Checkout Form"
                   bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-cover bg-no-repeat"
-                  renderComponent={() => (
-                    <CheckoutForm
-                      {...{
-                        unique_id,
-                        userTypeOptions,
-                        noOfSpouse,
-                        noOfDependent,
-                        mainMemberParents,
-                        spouseParents,
-                        totalUsers,
-                      }}
-                    />
-                  )}
+                  renderComponent={CheckoutForm}
+                  {...{
+                    unique_id,
+                    userTypeOptions,
+                    noOfSpouse,
+                    noOfDependent,
+                    mainMemberParents,
+                    spouseParents,
+                    totalUsers,
+                    directCheckout: true,
+                  }}
                 >
                   Buy Now
                 </Modal>

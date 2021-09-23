@@ -14,7 +14,7 @@ const CartButton = () => {
     <button
       type="button"
       onClick={() => history.push('/cart')}
-      className="ml-3 mr-3 flex justify-center items-center p-2 rounded-xl bg-white dark:bg-featureCard-dark-bg shadow-lg"
+      className="ml-3 flex justify-center items-center p-2 rounded-xl bg-white dark:bg-featureCard-dark-bg shadow-lg"
     >
       <span className="inline-block relative">
         <img

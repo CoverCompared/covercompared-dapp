@@ -18,6 +18,7 @@ const CheckoutForm = (props) => {
     mainMemberParents,
     spouseParents,
     totalUsers,
+    directCheckout,
     setIsModalOpen,
   } = props;
   const dispatch = useDispatch();
@@ -75,20 +76,24 @@ const CheckoutForm = (props) => {
   };
 
   const handleSubmit = () => {
-    dispatch(
-      updateCartItem({
-        uuid,
-        formData: {
-          users,
-          email,
-          dob,
-          country,
-          saveDetails,
-        },
-      }),
-    );
+    if (!directCheckout) {
+      dispatch(
+        updateCartItem({
+          uuid,
+          formData: {
+            users,
+            email,
+            dob,
+            country,
+            saveDetails,
+          },
+        }),
+      );
+    }
     setIsModalOpen(false);
-    toast.success('Form information saved successfully');
+    toast.success(
+      `${directCheckout ? 'Membership bought' : 'Form information saved'} successfully`,
+    );
   };
 
   return (
@@ -225,14 +230,14 @@ const CheckoutForm = (props) => {
               onChange={() => setSaveDetails(!saveDetails)}
             />
             <span className="ml-2 font-Montserrat font-medium text-body-md text-dark-blue dark:text-white group-hover:text-white">
-              Save for future prurposes
+              Save for future purposes
             </span>
           </div>
           <button
             type="submit"
             className="py-3 px-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
-            Save
+            {directCheckout ? 'Buy' : 'Save'}
           </button>
         </div>
       </form>

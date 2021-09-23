@@ -9,12 +9,18 @@ import {
   FETCH_MORE_COVERS,
   GET_DEVICE_DETAILS,
   GET_DEVICE_PLAN_DETAILS,
+  GET_LOGIN_DETAILS,
+  SET_PROFILE_DETAILS,
 } from '../constants/ActionTypes';
 import {
   searchCoverListSuccess,
   setSearchCoverListLoader,
   searchMSOListSuccess,
   setSearchMSOListLoader,
+  setProfileDetailsSuccess,
+  setProfileDetailsLoader,
+  getLoginDetailsSuccess,
+  getLoginDetailsLoader,
   fetchMoreCoversSuccess,
   setFetchMoreCoversLoader,
   fetchCoversWithAmountSuccess,
@@ -25,7 +31,7 @@ import {
   getDevicePlanDetailsSuccess,
   setGetDevicePlanDetailsLoader,
 } from '../actions/CoverList';
-import { axiosGet, axiosPost } from '../constants/apicall';
+import { axiosGet, axiosPost, post_with_token } from '../constants/apicall';
 
 function* searchAllCoverList({ payload }) {
   try {
@@ -114,6 +120,95 @@ function* searchMSOList({ payload }) {
   } catch (error) {
     return yield put(
       setSearchMSOListLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* setProfileData({ payload }) {
+  try {
+    yield put(
+      setProfileDetailsLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/add-profile-details`;
+    const res = yield call(
+      post_with_token,
+      url,
+      payload,
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkI…gzN30.35om2Jbn_DesVYhRWOOTilSpK5I2jY6hQVKI3S1sHRM',
+    );
+
+    if (res?.data?.data) {
+      console.log(res);
+      yield put(
+        setProfileDetailsSuccess({
+          query: payload,
+          profileDetailsRes: res.data.data,
+        }),
+      );
+    }
+    return yield put(
+      setProfileDetailsLoader({
+        loader: false,
+        isFailed: true,
+        query: null,
+        msoList: null,
+        message: res.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setProfileDetailsLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* getAccountToken({ payload }) {
+  try {
+    yield put(
+      getLoginDetailsLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/login`;
+    const loginRes = yield call(axiosPost, url, payload);
+
+    if (loginRes?.data?.data) {
+      yield put(
+        getLoginDetailsSuccess({
+          query: payload,
+          loginDetails: loginRes.data.data,
+        }),
+      );
+    }
+
+    return yield put(
+      getLoginDetailsLoader({
+        loader: false,
+        isFailed: true,
+        query: null,
+        msoList: null,
+        message: loginRes.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      getLoginDetailsLoader({
         loader: false,
         isFailed: true,
         message: error.message,
@@ -294,4 +389,6 @@ export default all([
   takeLatest(GET_QUOTE, getQuote),
   takeLatest(GET_DEVICE_DETAILS, getDeviceDetail),
   takeLatest(GET_DEVICE_PLAN_DETAILS, getDevicePlanDetail),
+  takeLatest(GET_LOGIN_DETAILS, getAccountToken),
+  takeLatest(SET_PROFILE_DETAILS, setProfileData),
 ]);

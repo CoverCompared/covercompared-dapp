@@ -141,7 +141,7 @@ const CartCard = (props) => {
           </button>
           <Modal
             title="MSO Additional Details"
-            bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-contain bg-no-repeat"
+            bgImg="md:bg-additionalDetailsBg1 bg-loginPopupMobileBg bg-right-bottom bg-no-repeat bg-contain"
             renderComponent={renderDetailsPopup}
           >
             <div className="cursor-pointer md:mx-4 mx-3">

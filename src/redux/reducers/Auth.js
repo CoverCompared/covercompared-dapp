@@ -13,6 +13,9 @@ import {
   RESET_USER_PASSWORD_SUCCESS,
   SIGNOUT_USER_SUCCESS,
   SIGNOUT_USER_FAILED,
+  GET_LOGIN_DETAILS,
+  SET_GET_LOGIN_DETAILS_LOADER,
+  GET_LOGIN_DETAILS_SUCCESS,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
@@ -21,14 +24,25 @@ const INIT_STATE = {
   isFailed: false,
   authUser: null,
   token: null,
+  loginDetails: null,
 };
 
 const AuthReducer = (state = INIT_STATE, action) => {
+  console.log(action);
   switch (action.type) {
     case SET_AUTH_LOADER: {
       return {
         ...state,
         ...action.payload,
+      };
+    }
+    case GET_LOGIN_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        loader: false,
+        message: '',
+        isFailed: false,
+        loginDetails: action.payload.loginDetails,
       };
     }
     case SIGNIN_USER_SUCCESS: {

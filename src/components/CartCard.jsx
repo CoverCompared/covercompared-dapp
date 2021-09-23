@@ -109,7 +109,7 @@ const CartCard = (props) => {
               {name}
             </div>
             {wantAddon && (
-              <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white mt-1 md:mb-0">
+              <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white mt-1 md:mb-0 hidden md:block">
                 concierge services added
               </div>
             )}

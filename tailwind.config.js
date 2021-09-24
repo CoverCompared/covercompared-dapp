@@ -43,7 +43,6 @@ module.exports = {
         ContactUsMobileBg: "url('./assets/bg-img/mobile-bg/contact-us-bg.png')",
         LearnMoreMobileBg: "url('./assets/bg-img/mobile-bg/learn-more-bg.png')",
         mobileCartCardBg: "url('./assets/bg-img/mobile-bg/cart-card-bg.png')",
-        additionalDetailsBg: "url('./assets/bg-img/addtional-details-bg.png')",
         additionalDetailsBg1: "url('./assets/bg-img/addtional-details-bg-1.png')",
         submitClaimBg: "url('./assets/bg-img/submit-claim-popup-bg.png')",
         formPopupBg: "url('./assets/bg-img/form-bg.png')",

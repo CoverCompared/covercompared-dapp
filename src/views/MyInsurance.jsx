@@ -41,7 +41,7 @@ const MyInsurance = (props) => {
             <Modal
               title="Additional Details"
               bgImg="md:bg-additionalDetailsBg1 bg-loginPopupMobileBg bg-right-bottom bg-no-repeat bg-contain"
-              renderComponent={RegisterMail}
+              renderComponent={AdditionalDetails}
             >
               <button
                 type="button"

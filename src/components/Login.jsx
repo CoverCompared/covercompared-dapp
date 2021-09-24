@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../hooks/useAuth';
 // import GoogleIcon from '../assets/img/google.png';
 import SUPPORTED_WALLETS from '../config/walletConfig';
-import { setLoginModalVisible, setMailModalVisible } from '../redux/actions/AppActions';
+import { setLoginModalVisible } from '../redux/actions/AppActions';
 import { getLoginDetails } from '../redux/actions/Auth';
 
 const Login = ({ isModalOpen, setIsModalOpen }) => {

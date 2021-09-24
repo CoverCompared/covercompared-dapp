@@ -1,99 +1,50 @@
 import {
-  SIGNIN_USER,
-  SIGNIN_USER_SUCCESS,
-  SIGNIN_USER_FAILED,
-  SET_AUTH_LOADER,
-  SIGNOUT_USER,
-  SIGNOUT_USER_SUCCESS,
-  SEND_RESET_PASSWORD_LINK,
-  SEND_RESET_PASSWORD_LINK_SUCCESS,
-  SEND_RESET_PASSWORD_LINK_FAILURE,
-  RESET_USER_PASSWORD,
-  RESET_USER_PASSWORD_FAILURE,
-  RESET_USER_PASSWORD_SUCCESS,
-  SIGNOUT_USER_FAILED,
+  GET_LOGIN_DETAILS,
+  GET_LOGIN_DETAILS_SUCCESS,
+  SET_GET_LOGIN_DETAILS_LOADER,
+  SET_PROFILE_DETAILS,
+  SET_PROFILE_DETAILS_SUCCESS,
+  SET_PROFILE_DETAILS_LOADER,
 } from '../constants/ActionTypes';
 
-export const signinUser = (payload) => {
+export const getLoginDetails = (payload) => {
   return {
-    type: SIGNIN_USER,
-    payload,
-  };
-};
-export const signinUserSuccess = (payload) => {
-  return {
-    type: SIGNIN_USER_SUCCESS,
-    payload,
-  };
-};
-export const signinUserFailed = (payload) => {
-  return {
-    type: SIGNIN_USER_FAILED,
-    payload,
-  };
-};
-export const setAuthLoader = (payload) => {
-  return {
-    type: SET_AUTH_LOADER,
-    payload,
-  };
-};
-export const signoutUser = () => {
-  return {
-    type: SIGNOUT_USER,
-  };
-};
-
-export const signoutUserSuccess = () => {
-  return {
-    type: SIGNOUT_USER_SUCCESS,
-  };
-};
-
-export const signoutUserFailed = () => {
-  return {
-    type: SIGNOUT_USER_FAILED,
-  };
-};
-
-export const sendResetPasswordLink = (payload) => {
-  return {
-    type: SEND_RESET_PASSWORD_LINK,
+    type: GET_LOGIN_DETAILS,
     payload,
   };
 };
 
-export const sendResetPasswordLinkSuccess = (payload) => {
+export const getLoginDetailsSuccess = (payload) => {
   return {
-    type: SEND_RESET_PASSWORD_LINK_SUCCESS,
+    type: GET_LOGIN_DETAILS_SUCCESS,
     payload,
   };
 };
 
-export const sendResetPasswordLinkFailure = (payload) => {
+export const getLoginDetailsLoader = (payload) => {
   return {
-    type: SEND_RESET_PASSWORD_LINK_FAILURE,
+    type: SET_GET_LOGIN_DETAILS_LOADER,
     payload,
   };
 };
 
-export const resetUserPassword = (payload) => {
+export const setProfileDetails = (payload) => {
   return {
-    type: RESET_USER_PASSWORD,
+    type: SET_PROFILE_DETAILS,
     payload,
   };
 };
 
-export const resetUserPasswordSuccess = (payload) => {
+export const setProfileDetailsSuccess = (payload) => {
   return {
-    type: RESET_USER_PASSWORD_SUCCESS,
+    type: SET_PROFILE_DETAILS_SUCCESS,
     payload,
   };
 };
 
-export const resetUserPasswordFailure = (payload) => {
+export const setProfileDetailsLoader = (payload) => {
   return {
-    type: RESET_USER_PASSWORD_FAILURE,
+    type: SET_PROFILE_DETAILS_LOADER,
     payload,
   };
 };

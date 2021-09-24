@@ -4,6 +4,7 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import routes from './routes';
 import PublicRoute from './routes/PublicRoute';
+import GetUserDetails from './components/GetUserDetails';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -22,6 +23,7 @@ const App = (props) => {
         draggable
         pauseOnHover
       />
+      <GetUserDetails />
       <Switch>
         {routes.map((m) => (
           <PublicRoute key={uniqid()} {...m} />

@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../hooks/useAuth';
-import GoogleIcon from '../assets/img/google.png';
+// import GoogleIcon from '../assets/img/google.png';
 import SUPPORTED_WALLETS from '../config/walletConfig';
-import { setLoginModalVisible } from '../redux/actions';
+import { setLoginModalVisible } from '../redux/actions/AppActions';
+import { getLoginDetails } from '../redux/actions/Auth';
 
 const Login = ({ isModalOpen, setIsModalOpen }) => {
   const { login } = useAuth();
   const dispatch = useDispatch();
   const { loginModalVisible } = useSelector((state) => state.app);
 
+  const { email } = useSelector((state) => state.auth);
+
   const { account } = useWeb3React();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [connectStatus, setConnectStatus] = useState(false);
   const [curWalletId, setCurWalletId] = useState('injected');
 
@@ -35,6 +36,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
   if (connectStatus && account) {
     setConnectStatus(false);
     dispatch(setLoginModalVisible(false));
+    dispatch(getLoginDetails({ wallet_address: account }));
   }
 
   function getWalletOption() {
@@ -43,7 +45,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
 
       return (
         <div
-          className="md:col-span-5 col-span-6"
+          className="md:col-span-5 col-span-6 h-full"
           key={key}
           id={`connect-${key}`}
           onClick={() => {
@@ -64,11 +66,14 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <>
       <div className="grid grid-cols-12 gap-6">
-        <div className="md:col-span-7 col-span-12 h-full flex items-center w-full order-2 md:order-1">
-          <div className="grid grid-cols-12 md:gap-x-6 gap-x-5 w-full">{getWalletOption()}</div>
+        <div className="md:col-span-2 col-span-12" />
+        <div className="md:col-span-8 col-span-12 flex items-center justify-center w-full">
+          <div className="grid grid-cols-10 col-start-1 md:gap-x-6 gap-x-5 w-full">
+            {getWalletOption()}
+          </div>
         </div>
-        <div className="md:col-span-4 lg:col-start-9 xl:col-span-5 col-span-12 xl:col-start-8 w-full order-1 md:order-2">
-          <div className="flex flex-col items-end justify-center h-full w-full">
+        <div className="md:col-span-2 col-span-12" />
+        {/* <div className="flex flex-col items-end justify-center h-full w-full">
             <div className="flex flex-col items-end w-full">
               <div className="font-Montserrat text-h5 font-semibold text-dark-blue mb-6 text-center w-full dark:text-white">
                 Log In with Email
@@ -105,8 +110,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
                 Google
               </button>
             </div>
-          </div>
-        </div>
+          </div> */}
       </div>
     </>
   );

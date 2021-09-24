@@ -22,7 +22,7 @@ import {
   actionMethodFailed,
   getUserById,
 } from '../actions/User';
-import { signoutUserSuccess } from '../actions/Auth';
+// import { signoutUserSuccess } from '../actions/Auth';
 import * as selector from '../constants/selectors';
 import {
   post_with_token,
@@ -43,8 +43,8 @@ function* createUser({ payload }) {
     if (user.body && user.body.email) {
       user.message = `User has been added successfully.`;
       yield put(createUserSuccess(user));
-    } else if (user.message === 'Unauthorized') {
-      yield put(signoutUserSuccess());
+      // } else if (user.message === 'Unauthorized') {
+      // yield put(signoutUserSuccess());
     } else if (user === undefined) {
       yield put(
         setUserLoader({
@@ -87,8 +87,8 @@ function* listUsersAll({ payload }) {
 
     if (listUser.body) {
       yield put(listUserSuccess(listUser));
-    } else if (listUser.message === 'Unauthorized') {
-      yield put(signoutUserSuccess());
+      // } else if (listUser.message === 'Unauthorized') {
+      //   yield put(signoutUserSuccess());
     } else if (listUser === undefined) {
       yield put(
         setListUserLoader({
@@ -142,7 +142,8 @@ function* updateUser({ payload }) {
         }),
       );
       getUserById();
-    } else if (response.status === 401) yield put(signoutUserSuccess());
+    }
+    // else if (response.status === 401) yield put(signoutUserSuccess());
     else
       yield put(
         updateUserFailed({
@@ -184,7 +185,7 @@ function* getUserByIdSaga({ payload }) {
           loader: false,
         }),
       );
-    else if (response.status === 401) yield put(signoutUserSuccess());
+    // else if (response.status === 401) yield put(signoutUserSuccess());
     else
       yield put(
         actionMethodFailed({
@@ -218,7 +219,7 @@ function* deleteUser({ payload }) {
           loader: false,
         }),
       );
-    else if (response.status === 401) yield put(signoutUserSuccess());
+    // else if (response.status === 401) yield put(signoutUserSuccess());
     else
       yield put(
         deleteUserFailed({

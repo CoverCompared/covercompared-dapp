@@ -9,25 +9,6 @@ export const REMOVE_ITEM_TO_CART = 'REMOVE_ITEM_TO_CART';
 export const EMPTY_CART = 'EMPTY_CART';
 export const SET_CURRENT_PRODUCT = 'SET_CURRENT_PRODUCT';
 
-export const SIGNIN_USER = 'SIGNIN_USER';
-export const SIGNIN_USER_SUCCESS = 'SIGNIN_USER_SUCCESS';
-export const SIGNIN_USER_FAILED = 'SIGNIN_USER_FAILED';
-
-export const SET_LOADER = 'SET_LOADER';
-export const SET_AUTH_LOADER = 'SET_AUTH_LOADER';
-
-export const SIGNOUT_USER = 'signout_user';
-export const SIGNOUT_USER_SUCCESS = 'signout_user_success';
-export const SIGNOUT_USER_FAILED = 'signout_user_failed';
-
-export const SEND_RESET_PASSWORD_LINK = 'send_reset_password_link';
-export const SEND_RESET_PASSWORD_LINK_SUCCESS = 'send_reset_password_link_success';
-export const SEND_RESET_PASSWORD_LINK_FAILURE = 'send_reset_password_link_failure';
-
-export const RESET_USER_PASSWORD = 'reset_user_password';
-export const RESET_USER_PASSWORD_SUCCESS = 'reset_user_password_success';
-export const RESET_USER_PASSWORD_FAILURE = 'reset_user_password_failure';
-
 export const CREATE_USER = 'CREATE_USER';
 export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
 export const SET_USER_LOADER = 'SET_USER_LOADER';
@@ -54,6 +35,14 @@ export const SET_SEARCH_COVER_LIST_LOADER = 'SET_SEARCH_COVER_LIST_LOADER';
 export const SEARCH_MSO_LIST = 'SEARCH_MSO_LIST';
 export const SEARCH_MSO_LIST_SUCCESS = 'SEARCH_MSO_LIST_SUCCESS';
 export const SET_SEARCH_MSO_LIST_LOADER = 'SET_SEARCH_MSO_LIST_LOADER';
+
+export const GET_LOGIN_DETAILS = 'GET_LOGIN_DETAILS';
+export const GET_LOGIN_DETAILS_SUCCESS = 'GET_LOGIN_DETAILS_SUCCESS';
+export const SET_GET_LOGIN_DETAILS_LOADER = 'SET_GET_LOGIN_DETAILS_LOADER';
+
+export const SET_PROFILE_DETAILS = 'SET_PROFILE_DETAILS';
+export const SET_PROFILE_DETAILS_SUCCESS = 'SET_PROFILE_DETAILS_SUCCESS';
+export const SET_PROFILE_DETAILS_LOADER = 'SET_PROFILE_DETAILS_LOADER';
 
 export const FETCH_MORE_COVERS = 'FETCH_MORE_COVERS';
 export const FETCH_MORE_COVERS_SUCCESS = 'FETCH_MORE_COVERS_SUCCESS';

@@ -8,15 +8,18 @@ import {
 import { useDispatch } from 'react-redux';
 import { setupNetwork } from '../utils/wallet';
 import { connectorLocalStorageKey, connectorsByName } from '../config/connectors';
+import { signinUser } from '../redux/actions';
 // import { profileClear } from 'state/profile'
 
 const useAuth = () => {
+  const { account } = useWeb3React();
   const dispatch = useDispatch();
   const { activate, deactivate } = useWeb3React();
 
   const login = useCallback(
     (connectorID) => {
       const connector = connectorsByName[connectorID];
+      window.localStorage.setItem(connectorLocalStorageKey, connectorID);
       if (connector) {
         activate(connector, async (error) => {
           if (error instanceof UnsupportedChainIdError) {
@@ -40,16 +43,21 @@ const useAuth = () => {
             }
           }
         });
+
+        if (account) {
+          dispatch(signinUser({ wallet_address: account }));
+        }
       } else {
         console.error('Unable to find connector', 'The connector config is wrong');
       }
     },
-    [activate],
+    [activate, account],
   );
 
   const logout = useCallback(() => {
     // dispatch(profileClear())
     deactivate();
+    window.localStorage.removeItem(connectorLocalStorageKey);
     // This localStorage key is set by @web3-react/walletconnect-connector
     if (window.localStorage.getItem('walletconnect')) {
       connectorsByName.walletconnect.close();

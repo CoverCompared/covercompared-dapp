@@ -82,6 +82,7 @@ export const axiosPost = (url, payload, token = null, headers = null) => {
   if (!headers) headers = {};
   if (!headers['Content-Type'] && !headers['content-type'])
     headers['Content-Type'] = 'application/json';
+  if (!headers['Access-Control-Allow-Origin']) headers['Access-Control-Allow-Origin'] = '*';
   if (token) headers.Authorization = token;
 
   return axios

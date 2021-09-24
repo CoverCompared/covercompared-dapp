@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import uniqid from 'uniqid';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import useEagerConnect from './hooks/useEagerConnect';
 import Loading from './components/common/Loading';
 import routes from './routes';
 import PublicRoute from './routes/PublicRoute';
@@ -16,6 +17,8 @@ const LazyLoading = () => (
 );
 
 const App = (props) => {
+  useEagerConnect();
+
   return (
     <BrowserRouter>
       <ToastContainer

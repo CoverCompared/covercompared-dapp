@@ -39,7 +39,7 @@ const MyInsurance = (props) => {
             </button>
             <Modal
               title="Additional Details"
-              bgImg="md:bg-additionalDetailsBg bg-loginPopupMobileBg bg-100%"
+              bgImg="md:bg-additionalDetailsBg1 bg-loginPopupMobileBg bg-right-bottom bg-no-repeat bg-contain"
               renderComponent={AdditionalDetails}
             >
               <button

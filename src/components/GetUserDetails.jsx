@@ -12,7 +12,7 @@ const GetUserDetails = (props) => {
     <Modal
       closeable={false}
       isOpen={!!(userDetailsModalOpen && account)}
-      title="Additional Details"
+      title="Login with Email"
       bgImg="md:bg-additionalDetailsBg1 bg-loginPopupMobileBg bg-right-bottom bg-no-repeat bg-contain"
       renderComponent={RegisterMail}
     />

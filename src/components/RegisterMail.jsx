@@ -23,9 +23,9 @@ const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
     <>
       <div className="grid grid-cols-11">
         <div className="grid col-span-5 col-start-4">
-          <div className="font-Montserrat text-h5 font-semibold text-dark-blue mb-6 text-center w-full dark:text-white">
+          {/* <div className="font-Montserrat text-h5 font-semibold text-dark-blue mb-6 text-center w-full dark:text-white">
             Log In with Email
-          </div>
+          </div> */}
           <input
             type="text"
             placeholder="First Name"

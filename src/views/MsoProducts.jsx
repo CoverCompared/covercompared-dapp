@@ -288,7 +288,7 @@ const MSOProduct = (props) => {
               </div>
             </div>
           </div>
-          <div className="md:col-span-4 col-span-12 flex flex-col justify-center">
+          <div className="md:col-span-4 col-span-12 flex flex-col">
             <div className="font-semibold text-h2 text-dark-blue font-Montserrat mb-6 dark:text-white md:flex hidden">
               {name}
             </div>

@@ -69,6 +69,7 @@ const Sidebar = (props) => {
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
       <Dialog
+        unmount
         as="div"
         className="fixed inset-0 z-40 flex lg:hidden"
         onClose={() => dispatch(toggleSidebar(false))}

@@ -1,10 +1,15 @@
 import {
   GET_LOGIN_DETAILS,
   GET_LOGIN_DETAILS_SUCCESS,
-  SET_GET_LOGIN_DETAILS_LOADER,
   SET_PROFILE_DETAILS,
   SET_PROFILE_DETAILS_SUCCESS,
-  SET_PROFILE_DETAILS_LOADER,
+  RESEND_VERIFICATION_EMAIL,
+  RESEND_VERIFICATION_EMAIL_SUCCESS,
+  VERIFY_OTP,
+  VERIFY_OTP_SUCCESS,
+  GET_USER_PROFILE,
+  GET_USER_PROFILE_SUCCESS,
+  SET_AUTH_LOADER,
 } from '../constants/ActionTypes';
 
 export const getLoginDetails = (payload) => {
@@ -17,13 +22,6 @@ export const getLoginDetails = (payload) => {
 export const getLoginDetailsSuccess = (payload) => {
   return {
     type: GET_LOGIN_DETAILS_SUCCESS,
-    payload,
-  };
-};
-
-export const getLoginDetailsLoader = (payload) => {
-  return {
-    type: SET_GET_LOGIN_DETAILS_LOADER,
     payload,
   };
 };
@@ -42,9 +40,51 @@ export const setProfileDetailsSuccess = (payload) => {
   };
 };
 
-export const setProfileDetailsLoader = (payload) => {
+export const verifyOTP = (payload) => {
   return {
-    type: SET_PROFILE_DETAILS_LOADER,
+    type: VERIFY_OTP,
+    payload,
+  };
+};
+
+export const verifyOTPSuccess = (payload) => {
+  return {
+    type: VERIFY_OTP_SUCCESS,
+    payload,
+  };
+};
+
+export const resendVerificationEmail = (payload) => {
+  return {
+    type: RESEND_VERIFICATION_EMAIL,
+    payload,
+  };
+};
+
+export const resendVerificationEmailSuccess = (payload) => {
+  return {
+    type: RESEND_VERIFICATION_EMAIL_SUCCESS,
+    payload,
+  };
+};
+
+export const getUserProfile = (payload) => {
+  return {
+    type: GET_USER_PROFILE,
+    payload,
+  };
+};
+
+export const getUserProfileSuccess = (payload) => {
+  return {
+    type: GET_USER_PROFILE_SUCCESS,
+    payload,
+  };
+};
+
+export const setAuthLoader = (payload) => {
+  return {
+    type: SET_AUTH_LOADER,
     payload,
   };
 };

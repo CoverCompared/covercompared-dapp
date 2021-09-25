@@ -14,6 +14,7 @@ const MyInsurance = React.lazy(() => import('../views/MyInsurance'));
 const SubmitReview = React.lazy(() => import('../views/SubmitReview'));
 const MsoPackages = React.lazy(() => import('../views/MsoPackages'));
 const MsoProducts = React.lazy(() => import('../views/MsoProducts'));
+const Blog = React.lazy(() => import('../views/Blog'));
 const ErrorPage = React.lazy(() => import('../views/ErrorPage'));
 
 const routes = [
@@ -183,6 +184,18 @@ const routes = [
     title: '',
     bgImg: 'md:bg-productBg',
     bgImgClass: 'bg-100% bg-no-repeat',
+  },
+  {
+    path: '/blog',
+    exact: true,
+    pageName: 'Blog',
+    withSidebar: true,
+    showBuyButton: true,
+    component: Blog,
+    title: 'Learn More',
+    bgImg: 'md:bg-partnersBg',
+    mobileBgImg: 'bg-LearnMoreMobileBg',
+    bgImgClass: 'bg-100% bg-no-repeat bg-center',
   },
   {
     path: '',

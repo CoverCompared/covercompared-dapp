@@ -41,7 +41,7 @@ const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <>
       <div className="grid grid-cols-11">
-        <div className="grid col-span-5 col-start-4">
+        <div className="grid md:col-span-5 col-span-12 md:col-start-4">
           {!isOTPPending ? (
             <form onSubmit={handleRegister}>
               <input
@@ -97,9 +97,15 @@ const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
               >
                 Verify
               </button>
-              <button type="button" onClick={handleResendOTP} className="underline mt-4">
-                Didn&apos;t received OTP email? click to resend OTP
-              </button>
+              <div className="flex justify-center mt-6">
+                <button
+                  type="button"
+                  onClick={handleResendOTP}
+                  className="underline dark:text-white text-black md:text-body-md px-12 md:px-2 hover:text-contact-input-grey"
+                >
+                  Didn&apos;t received OTP email? click to resend OTP
+                </button>
+              </div>
             </form>
           )}
         </div>

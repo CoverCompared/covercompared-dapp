@@ -45,7 +45,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
 
       return (
         <div
-          className="md:col-span-5 col-span-6 h-full"
+          className="md:col-span-5 col-span-5 h-full"
           key={key}
           id={`connect-${key}`}
           onClick={() => {
@@ -54,7 +54,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
         >
           <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
             <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
-            <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xsm md:mt-5 mt-4 dark:text-white">
+            <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
               {connectStatus && curWalletId === option.connector ? 'Connecting...' : option.name}
             </div>
           </div>
@@ -66,13 +66,13 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <>
       <div className="grid grid-cols-12 gap-6">
-        <div className="md:col-span-2 col-span-12" />
+        <div className="md:col-span-2 col-span-0" />
         <div className="md:col-span-8 col-span-12 flex items-center justify-center w-full">
-          <div className="grid grid-cols-10 col-start-1 md:gap-x-6 gap-x-5 w-full">
+          <div className="grid grid-cols-10 md:col-start-1 md:gap-x-6 gap-x-5 w-full">
             {getWalletOption()}
           </div>
         </div>
-        <div className="md:col-span-2 col-span-12" />
+        <div className="md:col-span-2 col-span-0" />
         {/* <div className="flex flex-col items-end justify-center h-full w-full">
             <div className="flex flex-col items-end w-full">
               <div className="font-Montserrat text-h5 font-semibold text-dark-blue mb-6 text-center w-full dark:text-white">

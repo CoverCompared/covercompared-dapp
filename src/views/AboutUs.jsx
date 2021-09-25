@@ -224,15 +224,15 @@ const AboutUs = () => {
         &quot;Be the change you want to see in the world&quot;
       </h2>
       <div className="lg:px-24 md:pt-6 pt-8">
-        <div className="font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           We live in a world that is empowered by technology and innovation every day – it touches
           nearly every aspect of our lives, changing them for the better for the most part.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           One such revolutionary technological advancement was the advent of cryptocurrency - the
           currency that changed the world.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Over the years, Cryptocurrency usage has significantly increased due to rising inflation
           and demand for inflation-resistant assets. Weary users bound by the restrictive and
           capricious shackles of traditional financial instruments found themselves questioning the
@@ -241,11 +241,11 @@ const AboutUs = () => {
           novel system of finance– an alternative solution that was freer, fairer, and nearly
           immutable.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           This enormous boom in crypto users has proved to be revolutionary for the history of our
           species.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Just during Q1 2021, crypto users have doubled from 100 million to nearly 200 million.
           Regardless of this massive growth in population, the crypto community as a whole has been
           rather neglected by traditional providers of service.
@@ -264,17 +264,17 @@ const AboutUs = () => {
         <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
           IF THEY CAN, WHY NOT ME?
         </h2>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           If a holder of fiat currency wants to secure his assets, be they fiscal or otherwise,
           there exist a plethora of options for him to do so. However, if the same individual would
           like to be ensured using his crypto funds – no dice.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Why does this disparity exist? Why, despite the crypto community being at the advent of
           innovative tech and growing every day, is the average crypto holder not afforded the same
           advantages as holders of more traditional instruments of payment?
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           PolkaCover aims to right this wrong – we’re the world’s first platform that will enable
           crypto-holders to purchase not just specialized covers for their crypto-based assets, but
           also fulfill their needs in the traditional sectors of insurance such as life, health,
@@ -286,14 +286,14 @@ const AboutUs = () => {
         <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
           OUR VISION
         </h2>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           PolkaCover is here to address the needs of the crypto community. We understand the growing
           concerns of safety in the crypto ecosystem, and we firmly believe that every individual
           deserves the chance to protect their valuable assets without worrying about costs and
-          limitations. <span className="font-semibold">Protection shouldn’t be conditional</span>.
-          It is time insurers were empathetic to the hardships faced by unprotected crypto users.
+          limitations. <span className="font-medium">Protection shouldn’t be conditional</span>. It
+          is time insurers were empathetic to the hardships faced by unprotected crypto users.
         </div>
-        <div className="mt-5 font-Montserrat font-medium text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           PolkaCover is the world’s first platform offering crypto and traditional insurance
           products under one marketplace specially aimed to cater to the global crypto market. We
           are a user-centric insurance aggregator, working towards optimising the experience of

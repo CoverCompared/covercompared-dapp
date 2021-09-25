@@ -33,6 +33,7 @@ const Modal = (props) => {
       </div>
       <Transition.Root show={isModalOpen} as={Fragment}>
         <Dialog
+          unmount
           as="div"
           className="fixed z-40 inset-0 overflow-y-auto"
           onClose={() => closeable && setIsModalOpen(false)}

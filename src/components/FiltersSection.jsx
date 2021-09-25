@@ -525,7 +525,7 @@ const FiltersSection = (props) => {
 
   return (
     <>
-      <Transition.Root show={filtersOpen} as={Fragment}>
+      <Transition.Root unmount show={filtersOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 flex z-40 lg:hidden"

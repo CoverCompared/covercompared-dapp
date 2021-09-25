@@ -116,7 +116,7 @@ const CartCard = (props) => {
                 Price
               </span>
               <span className="font-Montserrat md:text-h4 text-body-md font-semibold text-dark-blue leading-4 dark:text-white">
-                {priceQuote} {quote_currency}
+                {priceQuote}
               </span>
             </div>
           </div>
@@ -139,7 +139,7 @@ const CartCard = (props) => {
           </button>
           <Modal
             title="MSO Additional Details"
-            bgImg="md:bg-additionalDetailsBg1 bg-loginPopupMobileBg bg-right-bottom bg-no-repeat bg-contain"
+            bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
             renderComponent={renderDetailsPopup}
           >
             <div className="cursor-pointer md:mx-4 mx-3">

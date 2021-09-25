@@ -48,7 +48,7 @@ const PhaseCard = ({ ...props }) => {
           {title}
         </div>
         {descriptionArr.map((p) => (
-          <div className="font-Montserrat md:text-body-md text-body-sm mt-3 text-center font-medium text-post-body-text dark:text-subtitle-dark-text">
+          <div className="font-Inter md:text-body-md text-body-sm mt-3 text-center text-post-body-text dark:text-subtitle-dark-text">
             {p}
           </div>
         ))}

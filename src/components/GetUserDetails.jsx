@@ -13,7 +13,7 @@ const GetUserDetails = (props) => {
       closeable={false}
       isOpen={!!(userDetailsModalOpen && account)}
       title="Register"
-      bgImg="md:bg-additionalDetailsBg1 bg-loginPopupMobileBg bg-right-bottom bg-no-repeat bg-contain"
+      bgImg="md:bg-submitClaimBg bg-mobileLoginPopupBg bg-100% bg-no-repeat"
       renderComponent={RegisterMail}
     />
   );

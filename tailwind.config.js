@@ -47,7 +47,8 @@ module.exports = {
         submitClaimBg: "url('./assets/bg-img/submit-claim-popup-bg.png')",
         formPopupBg: "url('./assets/bg-img/form-bg.png')",
         formPopupMobileBg: "url('./assets/bg-img/mobile-bg/form-popup-bg.png')",
-        loginPopupMobileBg: "url('./assets/bg-img/mobile-bg/login-popup-bg.png')",
+        mobilePopupBg: "url('./assets/bg-img/mobile-bg/mobile-common-popup-bg.png')",
+        mobileLoginPopupBg: "url('./assets/bg-img/mobile-bg/login-poup-bg.png')",
         submitClaimPopupBg: "url('./assets/bg-img/mobile-bg/submit-claim-popup-bg.png')",
       },
       colors: {

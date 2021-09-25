@@ -165,7 +165,7 @@ const Sidebar = (props) => {
                     Buy Insurance
                   </button>
                 </Modal>
-                <Modal title="Log In" bgImg="bg-loginPopupMobileBg bg-100%" renderComponent={Login}>
+                <Modal title="Log In" bgImg="bg-mobileLoginPopupBg bg-100%" renderComponent={Login}>
                   <button
                     type="button"
                     className="md:ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm md:text-body-md text-body-sm leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"

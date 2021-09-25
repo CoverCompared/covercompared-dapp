@@ -101,7 +101,7 @@ const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
                 <button
                   type="button"
                   onClick={handleResendOTP}
-                  className="underline text-white md:text-body-md px-12 md:px-2 hover:text-contact-input-grey"
+                  className="underline dark:text-white text-black md:text-body-md px-12 md:px-2 hover:text-contact-input-grey"
                 >
                   Didn&apos;t received OTP email? click to resend OTP
                 </button>

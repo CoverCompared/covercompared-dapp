@@ -12,7 +12,6 @@ const Blog = () => {
         <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold dark:text-white mt-10 mb-6">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus cursus turpis bibendum.
         </div>
-
         <div className="font-Inter text-post-body-text text-body-md dark:text-subtitle-dark-text mb-5">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam elit vel amet, et, ipsum
           praesent. A, neque elementum amet, turpis quam molestie. Pharetra, ut ultricies donec vel

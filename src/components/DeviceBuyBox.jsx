@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import InputWithSelect from './common/InputWithSelect';
+import DeviceSelect from './common/DeviceSelect';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
 import { addItemToCart } from '../redux/actions/AppActions';
 
@@ -74,9 +75,9 @@ const DeviceBuyBox = (props) => {
       <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
         Cover Period and Amount
       </div>
-      <form onSubmit={() => {}}>
+      <form onSubmit={() => {}} className="relative">
         <div className="mb-2">
-          <InputWithSelect
+          <DeviceSelect
             {...props}
             showColumnLayout
             fieldTitle="Device"
@@ -84,9 +85,17 @@ const DeviceBuyBox = (props) => {
             setSelectedOption={setDeviceType}
             dropdownOptions={deviceOptions}
           />
+          {/* <InputWithSelect
+            {...props}
+            showColumnLayout
+            fieldTitle="Device"
+            selectedOption={deviceType}
+            setSelectedOption={setDeviceType}
+            dropdownOptions={deviceOptions}
+          /> */}
         </div>
         <div className="mb-2">
-          <InputWithSelect
+          <DeviceSelect
             {...props}
             showColumnLayout
             fieldTitle="Brand"
@@ -96,7 +105,7 @@ const DeviceBuyBox = (props) => {
           />
         </div>
         <div className="mb-2">
-          <InputWithSelect
+          <DeviceSelect
             {...props}
             showColumnLayout
             fieldTitle="Value"
@@ -106,7 +115,7 @@ const DeviceBuyBox = (props) => {
           />
         </div>
         <div className="mb-2">
-          <InputWithSelect
+          <DeviceSelect
             {...props}
             showColumnLayout
             fieldTitle="Purchase Month"
@@ -116,7 +125,7 @@ const DeviceBuyBox = (props) => {
           />
         </div>
 
-        <InputWithSelect
+        <DeviceSelect
           {...props}
           readOnly
           fieldTitle="Quote"

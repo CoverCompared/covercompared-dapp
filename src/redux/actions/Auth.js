@@ -1,4 +1,5 @@
 import {
+  SET_AUTH_LOADER,
   GET_LOGIN_DETAILS,
   GET_LOGIN_DETAILS_SUCCESS,
   SET_PROFILE_DETAILS,
@@ -9,8 +10,15 @@ import {
   VERIFY_OTP_SUCCESS,
   GET_USER_PROFILE,
   GET_USER_PROFILE_SUCCESS,
-  SET_AUTH_LOADER,
+  LOGOUT_USER,
 } from '../constants/ActionTypes';
+
+export const setAuthLoader = (payload) => {
+  return {
+    type: SET_AUTH_LOADER,
+    payload,
+  };
+};
 
 export const getLoginDetails = (payload) => {
   return {
@@ -82,9 +90,9 @@ export const getUserProfileSuccess = (payload) => {
   };
 };
 
-export const setAuthLoader = (payload) => {
+export const logoutUser = (payload) => {
   return {
-    type: SET_AUTH_LOADER,
+    type: LOGOUT_USER,
     payload,
   };
 };

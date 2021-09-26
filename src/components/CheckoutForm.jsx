@@ -196,6 +196,7 @@ const CheckoutForm = (props) => {
               inputValue={dob}
               setChange={setDob}
               inputPlaceholder="Date of Birth"
+              max={new Date().toLocaleDateString('en-ca')}
               required
               noPenIcon
             />

@@ -10,6 +10,7 @@ const FormInput = ({
   showEditIcon,
   inputPlaceholder,
   type = 'text',
+  max,
   required,
   disabled,
   noPenIcon,
@@ -27,6 +28,7 @@ const FormInput = ({
       <input
         required={required}
         disabled={disabled}
+        max={max}
         type={type}
         name={name}
         value={inputValue}

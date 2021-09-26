@@ -95,6 +95,7 @@ module.exports = {
         'short-review-text': '#130F26',
         'crypto-selected-dark-option': '#182229',
         'filter-blue': '#ABE2FB',
+        optionContainerBg: 'rgba(227, 227, 227, 0.72)',
       },
       fontSize: {
         heading: '28px',
@@ -132,6 +133,9 @@ module.exports = {
       minHeight: {
         'full-3': 'calc(100% - 3rem)',
         'full-9': 'calc(100% - 9rem)',
+      },
+      height: {
+        'option-container-height': 'calc(100% - 3.25rem)',
       },
     },
   },

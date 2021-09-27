@@ -149,11 +149,11 @@ const DeviceBuyBox = (props) => {
                   <div
                     className={classNames(
                       planType === option ? 'border-primary-gd-1 dark:border-white' : '',
-                      'bg-white dark:bg-featureCard-dark-bg rounded-xl cursor-pointer border-2 border-transparent shadow-devicePriceBoxShadow w-full py-4 px-2 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
+                      'bg-white dark:bg-featureCard-dark-bg rounded-xl cursor-pointer border-2 border-transparent shadow-devicePriceBoxShadow w-full py-3 px-2 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
                     )}
                   >
-                    {option.plan_type === 'monthly' ? '1 month' : '12 month'}{' '}
-                    <div className="mt-2 text-dark-blue text-body-md dark:text-white">
+                    {option.plan_type === 'monthly' ? '1 month plan' : '12 month plan'}{' '}
+                    <div className="mt-1 text-dark-blue text-body-md dark:text-white">
                       {option.plan_currency} {option.plan_total_price}
                     </div>
                   </div>

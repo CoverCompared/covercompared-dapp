@@ -205,7 +205,7 @@ const DeviceSelect = ({
                       setSelectedOption(getKeyByValue(dropdownOptions, option));
                       setIsOpen(false);
                     }}
-                    className="py-2 px-4 text-dark-blue font-semibold text-h6 font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
+                    className="py-2 px-4 text-dark-blue font-semibold md:text-h6 text-body-md font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
                   >
                     {option}
                   </div>
@@ -239,7 +239,7 @@ const DeviceSelect = ({
                       setSelectedOption(option);
                       setIsOpen(false);
                     }}
-                    className="py-2 px-4 text-dark-blue font-semibold text-h6 font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
+                    className="md:py-2 py-1.5 px-4 text-dark-blue font-semibold md:text-h6 text-body-md font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
                   >
                     {option !== 'CVR' ? (
                       option

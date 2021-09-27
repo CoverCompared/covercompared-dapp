@@ -19,6 +19,7 @@ const DeviceSelect = ({
   dropdownOptions,
   selectedOption,
   setSelectedOption,
+  showSearchOption,
 }) => {
   const { theme } = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +31,10 @@ const DeviceSelect = ({
     const options = dropdownOptions.filter((option) => option.toLowerCase().includes(value));
     setOptions(options);
   };
+
+  useEffect(() => {
+    setOptions(dropdownOptions);
+  }, []);
 
   return (
     <>
@@ -170,31 +175,86 @@ const DeviceSelect = ({
         </div>
       </div>
       {isOpen && (
-        <div className="absolute h-full w-full bg-optionContainerBg rounded-xl z-20 top-0 p-4">
-          <div className="relative">
-            <input
-              type="text"
-              value={searchValue}
-              placeholder="Search..."
-              onChange={(e) => searchOption(e.target.value)}
-              className="pl-12 w-full h-11 bg-white rounded-lg text-discount-apply-btn-text font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none"
-            />
-            <img src={Search} alt="" className="absolute left-3 top-2.5" />
-          </div>
-          <div className="bg-white rounded-lg h-option-container-height mt-2 overflow-y-scroll p-2">
-            {options.map((option) => (
+        <>
+          {isObject(options) ? (
+            <div className="absolute h-full w-full bg-optionContainerBg rounded-xl z-20 top-0 p-4">
+              {showSearchOption && (
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={searchValue}
+                    placeholder="Search..."
+                    onChange={(e) => searchOption(e.target.value)}
+                    className="pl-12 w-full h-11 bg-white rounded-lg text-discount-apply-btn-text font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none"
+                  />
+                  <img src={Search} alt="" className="absolute left-3 top-2.5" />
+                </div>
+              )}
               <div
-                onClick={() => {
-                  setSelectedOption(option);
-                  setIsOpen(false);
-                }}
-                className="py-2 px-4 text-dark-blue font-semibold text-h6 font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
+                className={classNames(
+                  showSearchOption ? 'h-option-container-height mt-2 overflow-y-scroll' : 'h-full',
+                  'bg-white rounded-lg p-2',
+                )}
               >
-                {option}
+                {Object.values(options || {}).map((option) => (
+                  <div
+                    key={uniqid()}
+                    onClick={() => {
+                      setSelectedOption(getKeyByValue(dropdownOptions, option));
+                      setIsOpen(false);
+                    }}
+                    className="py-2 px-4 text-dark-blue font-semibold text-h6 font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
+                  >
+                    {option}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          ) : (
+            <div className="absolute h-full w-full bg-optionContainerBg rounded-xl z-20 top-0 p-4">
+              {showSearchOption && (
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={searchValue}
+                    placeholder="Search..."
+                    onChange={(e) => searchOption(e.target.value)}
+                    className="pl-12 w-full h-11 bg-white rounded-lg text-discount-apply-btn-text font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none"
+                  />
+                  <img src={Search} alt="" className="absolute left-3 top-2.5" />
+                </div>
+              )}
+              <div
+                className={classNames(
+                  showSearchOption ? 'h-option-container-height mt-2 overflow-y-scroll' : 'h-full',
+                  'bg-white rounded-lg p-2',
+                )}
+              >
+                {options.map((option) => (
+                  <div
+                    key={uniqid()}
+                    onClick={() => {
+                      setSelectedOption(option);
+                      setIsOpen(false);
+                    }}
+                    className="py-2 px-4 text-dark-blue font-semibold text-h6 font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
+                  >
+                    {option !== 'CVR' ? (
+                      option
+                    ) : (
+                      <div className="flex justify-between items-center">
+                        <div>{option}</div>
+                        <div className="font-Medium font-Montserrat text-body-3xs text-discount-text h-full px-3">
+                          Use CVR to ger 50% discount
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </>
   );

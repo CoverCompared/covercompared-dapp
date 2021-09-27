@@ -165,116 +165,12 @@ const MSOProduct = (props) => {
         totalUsers,
       }),
     );
-    // toast.success('Item added to cart!');
+    toast.success('Item added to cart!');
   };
 
   return (
     <>
       <div className="xl:px-32 lg:px-26">
-        {/* <div className="grid grid-cols-12 gap-x-12 gap-y-6">
-          <div className="md:col-span-4 col-span-12 flex justify-center">
-            <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
-              <img src={logo} alt="" className="rounded-2xl h-full w-full relative z-10" />
-              <img src={ProductBgDots} alt="" className="absolute -bottom-9 -right-7" />
-            </div>
-            <div className="md:hidden flex items-center">
-              <img src={logo} alt="" className="rounded-2xl h-28 w-28" />
-              <div className="font-semibold text-h4 text-dark-blue font-Montserrat dark:text-white md:hidden ml-8">
-                {name}
-              </div>
-            </div>
-          </div>
-          <div className="md:col-span-4 col-span-12 flex flex-col justify-center">
-            <div className="font-semibold text-h2 text-dark-blue font-Montserrat mb-6 dark:text-white md:flex hidden">
-              {name}
-            </div>
-            <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xs mb-5 dark:text-white">
-              Details
-            </div>
-            <div className="flex justify-between items-center md:mb-3 mb-4">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
-                EHR & Portal
-              </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                Yes
-              </div>
-            </div>
-            <div className="flex justify-between mb-4 md:mb-3">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white mr-12">
-                Users
-              </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white text-right">
-                {MSOCoverUser}
-              </div>
-            </div>
-          </div>
-          <div className="md:col-span-4 col-span-12">
-            <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
-              Cover Period and Amount
-            </div>
-            <div className="flex-row mb-3 w-full flex justify-between py-3 px-4 bg-promo-input-bg rounded-xl dark:bg-product-input-bg-dark">
-              <div className="text-dark-blue font-Montserrat font-semibold text-body-md dark:text-white">
-                Period
-              </div>
-              <div className=" text-Montserrat text-h6 text-dark-blue dark:text-white font-medium">
-                Annual
-              </div>
-            </div>
-            <div className="flex-row mb-5 w-full flex justify-between py-3 px-4 bg-promo-input-bg rounded-xl dark:bg-product-input-bg-dark">
-              <div className="text-dark-blue font-Montserrat font-semibold text-body-md dark:text-white">
-                Price
-              </div>
-              <div className=" text-Montserrat text-h6 text-dark-blue dark:text-white font-medium">
-                {msoTotalPrice}$
-              </div>
-            </div>
-            <div className="flex-row mb-5 ">
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
-                  checked={addonServices}
-                  onClick={toggleCheckbox}
-                />
-                <span className="ml-2 text-dark-blue font-Montserrat font-semibold text-body-md dark:text-white">
-                  Add on concierge services at {addOnQuote}$
-                </span>
-              </label>
-            </div>
-
-            <div className="grid grid-cols-12 gap-3 w-full">
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                className="col-span-5 md:px-4 py-3 mr-3 outline-none border-0 bg-white rounded-xl text-primary-gd-1 font-Montserrat font-semibold text-body-md shadow-addToCart"
-              >
-                Add to cart
-              </button>
-              <button
-                type="button"
-                className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
-              >
-                <Modal
-                  title="MSO Checkout Form"
-                  bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-cover bg-no-repeat"
-                  renderComponent={CheckoutForm}
-                  {...{
-                    unique_id,
-                    userTypeOptions,
-                    noOfSpouse,
-                    noOfDependent,
-                    mainMemberParents,
-                    spouseParents,
-                    totalUsers,
-                    directCheckout: true,
-                  }}
-                >
-                  Buy Now
-                </Modal>
-              </button>
-            </div>
-          </div>
-        </div> */}
         <div className="grid grid-cols-12 xl:gap-x-8 gap-y-6">
           <div className="md:col-span-4 col-span-12 flex justify-center">
             <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">

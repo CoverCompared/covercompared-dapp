@@ -126,6 +126,7 @@ module.exports = {
         addToCart: '0px 10px 56px rgba(15, 95, 52, 0.15);',
         'shadow-none': '0 0 0 rgba(0,0,0,0)',
         homeCardShadow: '0px 25.4286px 76.2857px rgba(4, 35, 81, 0.1)',
+        devicePriceBoxShadow: '0px 10px 56px rgba(15, 95, 52, 0.09);',
       },
       minWidth: {
         32: '8rem',

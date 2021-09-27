@@ -95,6 +95,7 @@ module.exports = {
         'short-review-text': '#130F26',
         'crypto-selected-dark-option': '#182229',
         'filter-blue': '#ABE2FB',
+        optionContainerBg: 'rgba(227, 227, 227, 0.72)',
       },
       fontSize: {
         heading: '28px',
@@ -125,6 +126,7 @@ module.exports = {
         addToCart: '0px 10px 56px rgba(15, 95, 52, 0.15);',
         'shadow-none': '0 0 0 rgba(0,0,0,0)',
         homeCardShadow: '0px 25.4286px 76.2857px rgba(4, 35, 81, 0.1)',
+        devicePriceBoxShadow: '0px 10px 56px rgba(15, 95, 52, 0.09);',
       },
       minWidth: {
         32: '8rem',
@@ -132,6 +134,9 @@ module.exports = {
       minHeight: {
         'full-3': 'calc(100% - 3rem)',
         'full-9': 'calc(100% - 9rem)',
+      },
+      height: {
+        'option-container-height': 'calc(100% - 3.25rem)',
       },
     },
   },

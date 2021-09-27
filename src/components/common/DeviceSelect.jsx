@@ -33,8 +33,10 @@ const DeviceSelect = ({
   };
 
   useEffect(() => {
-    setOptions(dropdownOptions);
-  }, []);
+    if (dropdownOptions) {
+      setOptions(dropdownOptions);
+    }
+  }, [dropdownOptions]);
 
   return (
     <>

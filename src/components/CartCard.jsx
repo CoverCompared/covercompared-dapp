@@ -129,7 +129,8 @@ const CartCard = (props) => {
             {priceQuote} <span className="font-medium text-body-md">{quote_currency}</span>
           </div>
         </div>
-        <div className="flex items-center justify-end md:col-span-3 col-span-5">
+
+        <div className="flex items-center justify-end md:col-span-3 col-span-4">
           <button type="button" onClick={() => dispatch(removeCartItem(uuid))}>
             <img
               src={theme === 'light' ? DeleteIcon : DeleteIconWhite}

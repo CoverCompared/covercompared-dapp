@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import { useDispatch } from 'react-redux';
-import { removeItemToCart } from '../redux/actions/AppActions';
+import { removeCartItem } from '../redux/actions/AppActions';
 import EditIcon from '../assets/img/Edit.svg';
 import EditIconWhite from '../assets/dark-icons/Edit.svg';
 import DeleteIcon from '../assets/img/Delete.svg';
@@ -129,6 +129,7 @@ const CartCard = (props) => {
             {priceQuote} <span className="font-medium text-body-md">{quote_currency}</span>
           </div>
         </div>
+
         <div className="flex items-center justify-end md:col-span-3 col-span-4">
           <button type="button" onClick={() => dispatch(removeItemToCart(uuid))}>
             <img

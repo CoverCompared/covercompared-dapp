@@ -5,11 +5,21 @@ import {
   RESEND_VERIFICATION_EMAIL_SUCCESS,
   VERIFY_OTP_SUCCESS,
   GET_USER_PROFILE_SUCCESS,
+  LOGOUT_USER,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
+  message: '',
+  loader: false,
+  isFailed: false,
+
   email: null,
   token: null,
+  is_verified: null,
+  first_name: null,
+  last_name: null,
+  wallet_addresses: [],
+
   isOTPPending: false,
   userDetailsModalOpen: false,
 };
@@ -67,6 +77,24 @@ export default (state = INIT_STATE, action) => {
         loader: false,
         isFailed: false,
         ...action.payload,
+      };
+    }
+    case LOGOUT_USER: {
+      return {
+        ...state,
+        message: '',
+        loader: false,
+        isFailed: false,
+
+        email: null,
+        token: null,
+        is_verified: null,
+        first_name: null,
+        last_name: null,
+        wallet_addresses: [],
+
+        isOTPPending: false,
+        userDetailsModalOpen: false,
       };
     }
     default:

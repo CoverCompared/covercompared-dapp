@@ -34,7 +34,7 @@ const SmallPackageCard = (props) => {
   const handleAddToCart = (e) => {
     if (e) e.stopPropagation();
     dispatch(addItemToCart(props));
-    // toast.success('Item added to cart!');
+    toast.success('Item added to cart!');
   };
 
   return (

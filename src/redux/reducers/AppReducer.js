@@ -4,13 +4,19 @@ import {
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
   LOGIN_MODAL_VISIBLE,
-  ADD_ITEM_TO_CART,
-  UPDATE_CART_ITEM,
-  REMOVE_ITEM_TO_CART,
-  EMPTY_CART,
+  SET_APP_LOADER,
+  ADD_ITEM_TO_CART_SUCCESS,
+  UPDATE_CART_ITEM_SUCCESS,
+  REMOVE_CART_ITEM_SUCCESS,
+  EMPTY_CART_SUCCESS,
+  SYNC_CART_SUCCESS,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
+  message: '',
+  loader: false,
+  isFailed: false,
+
   sidebarOpen: false,
   filtersOpen: false,
   currentProduct: null,
@@ -38,28 +44,40 @@ export default (state = INIT_STATE, { type, payload }) => {
         currentProduct: payload,
       };
     }
-    case ADD_ITEM_TO_CART: {
+    case SET_APP_LOADER: {
       return {
         ...state,
-        cart: [...state.cart, { ...payload, uuid: uniqueId() }],
+        ...payload,
       };
     }
-    case UPDATE_CART_ITEM: {
+    case ADD_ITEM_TO_CART_SUCCESS: {
       return {
         ...state,
-        cart: state.cart.map((m) => (m.uuid === payload.uuid ? { ...m, ...payload } : m)),
+        cart: payload,
       };
     }
-    case REMOVE_ITEM_TO_CART: {
+    case UPDATE_CART_ITEM_SUCCESS: {
       return {
         ...state,
-        cart: state.cart.filter((f) => f.uuid !== payload),
+        cart: payload,
       };
     }
-    case EMPTY_CART: {
+    case REMOVE_CART_ITEM_SUCCESS: {
       return {
         ...state,
-        cart: [],
+        cart: payload,
+      };
+    }
+    case EMPTY_CART_SUCCESS: {
+      return {
+        ...state,
+        cart: payload,
+      };
+    }
+    case SYNC_CART_SUCCESS: {
+      return {
+        ...state,
+        cart: payload,
       };
     }
     case LOGIN_MODAL_VISIBLE: {

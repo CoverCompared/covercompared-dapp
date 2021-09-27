@@ -131,7 +131,7 @@ const CartCard = (props) => {
         </div>
 
         <div className="flex items-center justify-end md:col-span-3 col-span-4">
-          <button type="button" onClick={() => dispatch(removeItemToCart(uuid))}>
+          <button type="button" onClick={() => dispatch(removeCartItem(uuid))}>
             <img
               src={theme === 'light' ? DeleteIcon : DeleteIconWhite}
               alt="Delete"

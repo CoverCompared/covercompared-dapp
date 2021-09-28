@@ -312,7 +312,7 @@ const FiltersSection = (props) => {
   useEffect(() => {
     if (card !== 'smart-contract' && card !== 'crypto-exchange') return;
 
-    let query = `?search=${search}&?type=${type}`;
+    let query = `?search=${search}&type=${type}`;
     let filtersQuery = '';
 
     if (duration.length) {
@@ -377,7 +377,7 @@ const FiltersSection = (props) => {
 
   const handleResetFilter = () => {
     if (card === 'smart-contract' || card === 'crypto-exchange') {
-      const query = `?search=${search}&?type=${type}`;
+      const query = `?search=${search}&type=${type}`;
 
       setDuration([+options.duration_days_option.min, +options.duration_days_option.max]);
       setAmount([+options.amount_option.min, +options.amount_option.max]);

@@ -64,10 +64,10 @@ const LearnMore = (props) => {
     <>
       <MobilePageTitle title="Learn More" />
       <div className="grid grid-cols-12 gap-y-6 gap-x-6 xl:gap-y-8 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:pb-40 pb-0">
-        {postCards.map(({ image, title, body, ctaLink }) => (
+        {postCards.map(({ image, title, body, ctaLink }, index) => (
           <PostCard
             {...props}
-            key={title}
+            key={title + index.toString()}
             image={image}
             title={title}
             body={body}

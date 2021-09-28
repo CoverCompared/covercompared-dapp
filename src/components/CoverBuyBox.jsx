@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useWeb3React } from '@web3-react/core';
 import InputWithSelect from './common/InputWithSelect';
 import { getQuote } from '../redux/actions/CoverList';
 import { addItemToCart } from '../redux/actions/AppActions';
@@ -10,6 +11,7 @@ const periodOptions = ['Days', 'Week', 'Month'];
 
 const CoverBuyBox = (props) => {
   const dispatch = useDispatch();
+  const { account } = useWeb3React();
   const { card } = useParams();
   const { quote, loader } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
@@ -105,6 +107,12 @@ const CoverBuyBox = (props) => {
     setQuoteField(quote ? quote.toFixed(6) : quote);
   }, [quote]);
 
+  const handleClick = () => {
+    if (!account) {
+      toast.warning('You need to login in advance!');
+    }
+  };
+
   return (
     <>
       <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
@@ -156,6 +164,7 @@ const CoverBuyBox = (props) => {
         <button
           type="button"
           className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
+          onClick={handleClick}
         >
           Buy Now
         </button>

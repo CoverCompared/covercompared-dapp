@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import { toast } from 'react-toastify';
+import { useWeb3React } from '@web3-react/core';
 import InputWithSelect from './common/InputWithSelect';
 import DeviceSelect from './common/DeviceSelect';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
@@ -13,6 +14,7 @@ const amountOptions = ['ETH', 'BTC', 'USDT', 'USDC', 'CVR'];
 
 const DeviceBuyBox = (props) => {
   const dispatch = useDispatch();
+  const { account } = useWeb3React();
   const coverListData = useSelector((state) => state.coverList);
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
 
@@ -84,6 +86,12 @@ const DeviceBuyBox = (props) => {
       }),
     );
     toast.success('Item added to cart!');
+  };
+
+  const handleClick = () => {
+    if (!account) {
+      toast.warning('You need to login in advance!');
+    }
   };
 
   return (
@@ -184,6 +192,7 @@ const DeviceBuyBox = (props) => {
         <button
           type="button"
           className="col-span-6 py-3 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
+          onClick={handleClick}
         >
           Buy Now
         </button>

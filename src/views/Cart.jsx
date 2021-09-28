@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import uniqid from 'uniqid';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
+import { useWeb3React } from '@web3-react/core';
 import { emptyCart } from '../redux/actions/AppActions';
 import CartCard from '../components/CartCard';
 import DeviceCartCard from '../components/DeviceCartCard';
@@ -10,6 +11,7 @@ import RightArrow from '../assets/img/Arrow-Right.svg';
 const Cart = (props) => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.app);
+  const { account } = useWeb3React();
   const [promoCode, setPromoCode] = useState('');
 
   const subTotal = cart
@@ -26,8 +28,12 @@ const Cart = (props) => {
   const grandTotal = (+subTotal + +taxAmount).toFixed(2);
 
   const handleCheckout = () => {
-    toast.success('Item(s) purchased successfully!');
-    dispatch(emptyCart());
+    if (account) {
+      toast.success('Item(s) purchased successfully!');
+      dispatch(emptyCart());
+    } else {
+      toast.warning('You need to login in advance!');
+    }
   };
 
   return (

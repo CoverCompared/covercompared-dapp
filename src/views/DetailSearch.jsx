@@ -38,7 +38,7 @@ const DetailSearch = (props) => {
   const [hasMore, setHasMore] = useState(true);
 
   let type;
-  if (card === 'smart-contract') type = 'protocol';
+  if (card === 'smart-contract') type = 'protocol,token';
   else if (card === 'crypto-exchange') type = 'custodian';
   else type = '';
 

@@ -27,13 +27,13 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const nav = [
   { name: 'Home', to: '/', icon: HomeIcon },
-  { name: 'My Insurances', to: '/my-insurance', icon: MyInsuranceIcon },
+  { name: 'My Insurance', to: '/my-insurance', icon: MyInsuranceIcon },
   { name: 'About Us', to: '/about-us', icon: AboutUsIcon },
   { name: 'About Token', to: '/about-token', icon: AboutTokenIcon },
   { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
-  { name: 'Learn More', to: '/learn-more', icon: LearnMoreIcon },
   { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
   { name: 'Partners', to: '/partners', icon: PartnerIcon },
+  { name: 'Blogs', to: '/learn-more', icon: LearnMoreIcon },
 ];
 
 const Sidebar = (props) => {
@@ -111,7 +111,7 @@ const Sidebar = (props) => {
                   <Link
                     key={uniqid()}
                     to={item.to}
-                    className="flex items-center text-sm font-medium py-1"
+                    className="flex items-center text-sm font-medium py-1.5"
                   >
                     <item.icon className={classNames(item.current ? 'active-svg' : '', 'mr-2')} />
                     <div
@@ -120,7 +120,7 @@ const Sidebar = (props) => {
                         item.current
                           ? 'bg-clip-text bg-gradient-to-r from-primary-gd-1 to-primary-gd-2'
                           : 'text-menu-no-active',
-                        'font-Montserrat font-semibold text-body-lg',
+                        'font-Montserrat font-semibold text-h6',
                       )}
                     >
                       {item.name}

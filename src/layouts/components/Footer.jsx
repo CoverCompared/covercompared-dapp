@@ -9,12 +9,12 @@ import TwitterIcon from '../../assets/img/twitter.svg';
 
 const Footer = () => {
   const socialMedia = [
-    { href: 'https://google.com', name: 'Telegram', icon: TelegramIcon },
-    { href: 'https://google.com', name: 'Twitter', icon: TwitterIcon },
-    { href: 'https://google.com', name: 'Instagram', icon: InstagramIcon },
-    { href: 'https://google.com', name: 'Linkdin', icon: LinkdinIcon },
-    { href: 'https://google.com', name: 'Github', icon: GithubIcon },
-    { href: 'https://google.com', name: 'Gitbook', icon: GitbookIcon },
+    { href: 'https://t.me/PolkaCover', name: 'Telegram', icon: TelegramIcon },
+    { href: 'https://twitter.com/polkacover?s=11', name: 'Twitter', icon: TwitterIcon },
+    { href: 'https://www.instagram.com/polka_cover/', name: 'Instagram', icon: InstagramIcon },
+    { href: 'https://www.linkedin.com/company/polkacover/', name: 'Linkdin', icon: LinkdinIcon },
+    { href: 'https://github.com/Polkacover', name: 'Github', icon: GithubIcon },
+    { href: 'https://polkacover.gitbook.io/docs/', name: 'Gitbook', icon: GitbookIcon },
   ];
 
   return (

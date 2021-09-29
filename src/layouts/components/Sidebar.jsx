@@ -26,23 +26,23 @@ import SideBarMailIcon from '../../assets/img/side-bar-mail-icon.svg';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const socialMedia = [
-  { href: 'https://google.com', name: 'Telegram', icon: TelegramIcon },
-  { href: 'https://google.com', name: 'Twitter', icon: TwitterIcon },
-  { href: 'https://google.com', name: 'Instagram', icon: InstagramIcon },
-  { href: 'https://google.com', name: 'Linkdin', icon: LinkdinIcon },
-  { href: 'https://google.com', name: 'Github', icon: GithubIcon },
-  { href: 'https://google.com', name: 'Gitbook', icon: GitbookIcon },
+  { href: 'https://t.me/PolkaCover', name: 'Telegram', icon: TelegramIcon },
+  { href: 'https://twitter.com/polkacover?s=11', name: 'Twitter', icon: TwitterIcon },
+  { href: 'https://www.instagram.com/polka_cover/', name: 'Instagram', icon: InstagramIcon },
+  { href: 'https://www.linkedin.com/company/polkacover/', name: 'Linkdin', icon: LinkdinIcon },
+  { href: 'https://github.com/Polkacover', name: 'Github', icon: GithubIcon },
+  { href: 'https://polkacover.gitbook.io/docs/', name: 'Gitbook', icon: GitbookIcon },
 ];
 
 const nav = [
   { name: 'Home', to: '/', icon: HomeIcon },
-  { name: 'My Insurances', to: '/my-insurance', icon: MyInsuranceIcon },
+  { name: 'My Insurance', to: '/my-insurance', icon: MyInsuranceIcon },
   { name: 'About Us', to: '/about-us', icon: AboutUsIcon },
   { name: 'About Token', to: '/about-token', icon: AboutTokenIcon },
   { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
-  { name: 'Learn More', to: '/learn-more', icon: LearnMoreIcon },
   { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
   { name: 'Partners', to: '/partners', icon: PartnerIcon },
+  { name: 'Blogs', to: '/learn-more', icon: LearnMoreIcon },
 ];
 
 const Sidebar = (props) => {

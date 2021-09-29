@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import uniqid from 'uniqid';
 import StarRatings from 'react-star-ratings';
+import { useSelector } from 'react-redux';
 import ReviewCard from '../components/ReviewCard';
 import CoverBuyBox from '../components/CoverBuyBox';
 import DeviceBuyBox from '../components/DeviceBuyBox';
@@ -93,37 +94,58 @@ const ReviewContainer = (props) => {
 
 const InsuranceProduct = (props) => {
   const { type } = useParams();
+  const { currentProduct: product } = useSelector((state) => state.app);
   const { theme } = useContext(ThemeContext);
   const [filterSelect, setFilterSelect] = useState('');
   const [showFilterOption, setShowFilterOption] = useState(false);
+  const [accountNummber, setProductAddress] = useState('');
+
+  const {
+    name,
+    cardType,
+    company_code,
+    address,
+    company,
+    duration_days_max,
+    duration_days_min,
+    logo,
+    company_icon,
+    currency_limit,
+  } = product || {};
+
+  useEffect(() => {
+    let accountNummber;
+    if (address) {
+      accountNummber = `${address.substring(0, 6)}....${address.substring(42 - 6)}`;
+      setProductAddress(accountNummber);
+    }
+  }, [address]);
 
   return (
     <>
       <div className="xl:px-32 lg:px-26">
         <div className="grid grid-cols-12 xl:gap-x-8 gap-y-6">
-          <div className="md:col-span-4 col-span-12">
+          <div className="md:col-span-3 col-span-12">
             <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
-              <img
-                src="https://via.placeholder.com/400x250.png"
-                alt=""
-                className="rounded-2xl h-full w-full relative z-10"
-              />
+              <div className="h-full w-full bg-white rounded-2xl  relative z-20">
+                <img src={logo} alt="" className="rounded-2xl h-full w-full" />
+                <img src={company_icon} className="absolute right-1 bottom-1 h-8" alt="" />
+              </div>
               <img src={ProductBgDots} alt="" className="absolute -bottom-9 -right-7" />
             </div>
             <div className="md:hidden flex items-center">
-              <img
-                src="https://via.placeholder.com/400x250.png"
-                alt=""
-                className="rounded-2xl h-28 w-28"
-              />
+              <div className="relative rounded-2xl bg-white shadow-xl">
+                <img src={logo} alt="" className="rounded-2xl h-28 w-28" />
+                <img src={company_icon} className="absolute right-1 bottom-1 h-6" alt="" />
+              </div>
               <div className="font-semibold text-h4 text-dark-blue font-Montserrat dark:text-white md:hidden ml-8">
-                Product Name Here
+                {name}
               </div>
             </div>
           </div>
           <div className="md:col-span-4 col-span-12 flex flex-col">
             <div className="font-semibold text-h2 text-dark-blue font-Montserrat mb-6 dark:text-white md:flex hidden">
-              Product Name Here
+              {name}
             </div>
             <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xs mb-5 dark:text-white">
               Details
@@ -133,15 +155,7 @@ const InsuranceProduct = (props) => {
                 Address
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                Loreuam ac in amet, porta ac duis.
-              </div>
-            </div>
-            <div className="flex justify-between items-center md:mb-3 mb-4">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
-                Capacity
-              </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                Loreuam ac in amet, porta ac duis.
+                {accountNummber}
               </div>
             </div>
             <div className="flex justify-between items-center md:mb-3 mb-4">
@@ -149,19 +163,27 @@ const InsuranceProduct = (props) => {
                 Provider
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                Loreuam ac in amet, porta ac duis.
+                {company}
+              </div>
+            </div>
+            <div className="flex justify-between items-center md:mb-3 mb-4">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
+                Min & Max Days
+              </div>
+              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
+                {duration_days_min} & {duration_days_max} Days
               </div>
             </div>
             <div className="flex justify-between items-center">
               <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
-                Utilization
+                Capacity
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 Loreuam ac in amet, porta ac duis.
               </div>
             </div>
           </div>
-          <div className="md:col-span-4 col-span-12">
+          <div className="md:col-span-5 col-span-12">
             {type === 'cover' && <CoverBuyBox {...props} />}
             {type === 'device' && <DeviceBuyBox {...props} />}
           </div>

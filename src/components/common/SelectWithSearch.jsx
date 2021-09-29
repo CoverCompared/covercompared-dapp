@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import uniqid from 'uniqid';
+import _ from 'lodash';
 import DownArrow from '../../assets/img/Arrow-Down.svg';
 import DownArrowWhite from '../../assets/dark-icons/Arrow-Down.svg';
 import { ThemeContext } from '../../themeContext';
@@ -7,7 +8,7 @@ import { classNames, getKeyByValue, isObject } from '../../functions/utils';
 import Loading from './Loading';
 import Search from '../../assets/icons/Search.svg';
 
-const DeviceSelect = ({
+const SelectWithSearch = ({
   loading,
   readOnly,
   autoFocus,
@@ -26,10 +27,21 @@ const DeviceSelect = ({
   const [searchValue, setSearchValue] = useState('');
   const [options, setOptions] = useState(dropdownOptions);
 
-  const searchOption = (value) => {
-    setSearchValue(value);
-    const options = dropdownOptions.filter((option) => option.toLowerCase().includes(value));
-    setOptions(options);
+  const searchOption = (searchValue, optionType) => {
+    setSearchValue(searchValue);
+    if (optionType === 'arr') {
+      const filteredOptions = dropdownOptions.filter((option) =>
+        option.toLowerCase().includes(searchValue),
+      );
+      setOptions(filteredOptions);
+    } else if (optionType === 'obj') {
+      const filteredOptions = _.flow([
+        Object.entries,
+        (arr) => arr.filter(([key, value]) => value.includes(searchValue)),
+        Object.fromEntries,
+      ])(dropdownOptions);
+      setOptions(filteredOptions);
+    }
   };
 
   useEffect(() => {
@@ -186,7 +198,7 @@ const DeviceSelect = ({
                     type="text"
                     value={searchValue}
                     placeholder="Search..."
-                    onChange={(e) => searchOption(e.target.value)}
+                    onChange={(e) => searchOption(e.target.value, 'obj')}
                     className="pl-12 w-full h-11 bg-white rounded-lg text-discount-apply-btn-text font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none"
                   />
                   <img src={Search} alt="" className="absolute left-3 top-2.5" />
@@ -217,10 +229,11 @@ const DeviceSelect = ({
               {showSearchOption && (
                 <div className="relative">
                   <input
+                    autoFocus
                     type="text"
                     value={searchValue}
                     placeholder="Search..."
-                    onChange={(e) => searchOption(e.target.value)}
+                    onChange={(e) => searchOption(e.target.value, 'arr')}
                     className="pl-12 w-full h-11 bg-white rounded-lg text-discount-apply-btn-text font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none"
                   />
                   <img src={Search} alt="" className="absolute left-3 top-2.5" />
@@ -261,4 +274,4 @@ const DeviceSelect = ({
     </>
   );
 };
-export default DeviceSelect;
+export default SelectWithSearch;

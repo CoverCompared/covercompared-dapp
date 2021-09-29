@@ -17,7 +17,7 @@ import Innovion from '../assets/partners/Innovion.png';
 import IsraeliBlockchain from '../assets/partners/Israeli Blockchain.png';
 import LABSGroup from '../assets/partners/LABS Group.png';
 import NFTAlley from '../assets/partners/NFT_Alley_Favicon.png';
-import NsureNetwork from '../assets/partners/Nsure Network.png';
+import NsureNetwork from '../assets/partners/Nsure-Network.png';
 import OrionProtocol from '../assets/partners/orion protocol.png';
 import PaidNetwork from '../assets/partners/Paid Network.png';
 import PhantasmaChain from '../assets/partners/Phantasma Chain.png';

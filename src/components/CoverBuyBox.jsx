@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useWeb3React } from '@web3-react/core';
 import InputWithSelect from './common/InputWithSelect';
+import SelectWithSearch from './common/SelectWithSearch';
 import { getQuote } from '../redux/actions/CoverList';
 
 const periodOptions = ['Days', 'Week', 'Month'];
@@ -90,8 +91,8 @@ const CoverBuyBox = (props) => {
       <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
         Cover Period and Amount
       </div>
-      <form onSubmit={() => {}}>
-        <InputWithSelect
+      <form onSubmit={() => {}} className="relative">
+        <SelectWithSearch
           {...props}
           autoFocus
           fieldTitle="Period"
@@ -101,8 +102,9 @@ const CoverBuyBox = (props) => {
           selectedOption={periodSelect}
           setSelectedOption={setPeriodSelect}
           dropdownOptions={periodOptions}
+          showSearchOption="true"
         />
-        <InputWithSelect
+        <SelectWithSearch
           {...props}
           fieldTitle="Amount"
           fieldSubtitle="Max"
@@ -111,8 +113,9 @@ const CoverBuyBox = (props) => {
           selectedOption={amountSelect}
           setSelectedOption={setAmountSelect}
           dropdownOptions={currency}
+          showSearchOption="true"
         />
-        <InputWithSelect
+        <SelectWithSearch
           {...props}
           readOnly
           loading={loader}
@@ -122,6 +125,7 @@ const CoverBuyBox = (props) => {
           selectedOption={quoteSelect}
           setSelectedOption={setQuoteSelect}
           dropdownOptions={supportedChains}
+          showSearchOption="true"
         />
       </form>
 

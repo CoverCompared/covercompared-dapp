@@ -26,14 +26,14 @@ import { ReactComponent as PartnerIcon } from '../../assets/img/partner-icon.svg
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const nav = [
-  { name: 'HOME', to: '/', icon: HomeIcon },
-  { name: 'MY INSURANCE', to: '/my-insurance', icon: MyInsuranceIcon },
-  { name: 'ABOUT US', to: '/about-us', icon: AboutUsIcon },
-  { name: 'ABOUT TOKEN', to: '/about-token', icon: AboutTokenIcon },
-  { name: 'CONTACT US', to: '/contact-us', icon: ContactUsIcon },
-  { name: 'SUBSCRIBE', to: '/subscribe', icon: SubscribeIcon },
-  { name: 'PARTNERS', to: '/partners', icon: PartnerIcon },
-  { name: 'BLOGS', to: '/learn-more', icon: LearnMoreIcon },
+  { name: 'Home', to: '/', icon: HomeIcon },
+  { name: 'My Insurance', to: '/my-insurance', icon: MyInsuranceIcon },
+  { name: 'About Us', to: '/about-us', icon: AboutUsIcon },
+  { name: 'About Token', to: '/about-token', icon: AboutTokenIcon },
+  { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
+  { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
+  { name: 'Partners', to: '/partners', icon: PartnerIcon },
+  { name: 'Blogs', to: '/learn-more', icon: LearnMoreIcon },
 ];
 
 const Sidebar = (props) => {

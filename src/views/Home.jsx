@@ -15,22 +15,10 @@ import Stopwatch from '../assets/icons/stopwatch1.svg';
 import Strategy from '../assets/icons/strategy1.svg';
 import CryptoInsuranceImg from '../assets/img/crypto-insurance-icon.svg';
 import CryptoInsuranceImgDark from '../assets/img/crypto-orange-logo.svg';
+import NsureNetworkLogo from '../assets/partners/Nsure-Network.png';
+import UnoReLogo from '../assets/partners/UNORE.png';
+import InsureAceLogo from '../assets/partners/InsurAce.png';
 import { ThemeContext } from '../themeContext';
-
-const counterCards = [
-  {
-    title: '50+',
-    subtitle: 'Insurance Product',
-  },
-  {
-    title: '2 Days',
-    subtitle: 'Avg. Time Buying our Product.',
-  },
-  {
-    title: '300M $',
-    subtitle: 'Total covered amount',
-  },
-];
 
 const postCards = [
   {
@@ -55,31 +43,15 @@ const postCards = [
 
 const clientLogos = [
   {
-    image: 'https://via.placeholder.com/400x250.png',
+    image: NsureNetworkLogo,
     alt: 'client logo',
   },
   {
-    image: 'https://via.placeholder.com/400x250.png',
+    image: UnoReLogo,
     alt: 'client logo',
   },
   {
-    image: 'https://via.placeholder.com/400x250.png',
-    alt: 'client logo',
-  },
-  {
-    image: 'https://via.placeholder.com/400x250.png',
-    alt: 'client logo',
-  },
-  {
-    image: 'https://via.placeholder.com/400x250.png',
-    alt: 'client logo',
-  },
-  {
-    image: 'https://via.placeholder.com/400x250.png',
-    alt: 'client logo',
-  },
-  {
-    image: 'https://via.placeholder.com/400x250.png',
+    image: InsureAceLogo,
     alt: 'client logo',
   },
 ];
@@ -188,12 +160,14 @@ export default function Home(props) {
       <Features {...props} />
 
       <div className="md:pb-20 pb-16">
-        <h2 className="font-Montserrat font-semibold md:text-h2 text-h4 mb-4 text-dark-blue dark:text-white">
+        <h2 className="font-Montserrat font-semibold md:text-h2 text-h4 mb-4 text-dark-blue dark:text-white text-center">
           Our Insurance Partners
         </h2>
         <div className="text-center">
           {clientLogos.map(({ image, alt }) => (
-            <img key={uniqid()} className="md:h-36 h-24 inline-block p-2" src={image} alt={alt} />
+            <div className="md:w-28 h-24 inline-flex justify-content-center mx-2">
+              <img key={uniqid()} className="p-2 object-scale-down w-full" src={image} alt={alt} />
+            </div>
           ))}
         </div>
       </div>

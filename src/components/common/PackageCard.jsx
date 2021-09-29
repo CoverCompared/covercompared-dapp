@@ -25,7 +25,7 @@ const PackageCard = (props) => {
   const history = useHistory();
 
   const handleCardClick = () => {
-    if (quote !== '' && quote !== undefined) {
+    if (quote !== '' && quote !== undefined && quote !== false) {
       dispatch(setCurrentProduct(props));
       history.push('/product/cover');
     }

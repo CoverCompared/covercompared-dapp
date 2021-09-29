@@ -1,6 +1,7 @@
 import React from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { useDispatch } from 'react-redux';
+import SwapComponent from './SwapCurrency';
 
 import ThemeToggleSwitch from '../ThemeToggleSwitch';
 import LoginIcon from '../../assets/img/Login.svg';
@@ -22,6 +23,7 @@ const HeaderCTAs = (props) => {
 
   return (
     <div className="flex items-center">
+      {/* <SwapComponent /> */}
       <ThemeToggleSwitch />
       {!account ? (
         <Modal title="Log In" bgImg="bg-loginPopupBg" renderComponent={Login}>

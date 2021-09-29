@@ -1,4 +1,5 @@
 import React from 'react';
+import uniquId from 'uniqid';
 import HealthInsurance from '../assets/img/health-insurance.svg';
 import InsurancePolicy from '../assets/img/insurance-policy-icon.svg';
 import GlobalIcon from '../assets/img/global-icon.svg';
@@ -8,7 +9,7 @@ import DecentrilizedIcon from '../assets/img/decentrlized-box-icon.svg';
 import TokenIllustration from '../assets/img/token-page-illustration.svg';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 
-const marketPlaces = ['Etherscan', 'Uniswap', 'Coinmarketcap', 'Dextools', 'Locked Liquidity'];
+const marketPlaces = ['Etherscan', 'Uniswap', 'Coinmarketcap', 'Dextools'];
 
 const AboutToken = () => {
   return (
@@ -42,17 +43,14 @@ const AboutToken = () => {
           <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
             Etherscan
           </div>
-          <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
             Uniswap
           </div>
-          <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
             Coinmarketcap
           </div>
-          <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
             Dextools
-          </div>
-          <div className="col-span-6 col-start-4 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
-            Locked Liquidity
           </div>
         </div>
       </div>

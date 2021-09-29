@@ -1,18 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import GetCVROnReview from '../components/GetCVROnReview';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 import Modal from '../components/common/Modal';
 import ClaimCards from '../components/ClaimCards';
 import AdditionalDetails from '../components/AdditionalDetails';
-import RegisterMail from '../components/RegisterMail';
 
 const MyInsurance = (props) => {
   const history = useHistory();
+  const state = useSelector((state) => state.auth);
+  const [email, setEmail] = useState(state.email || '');
+
   return (
     <>
       <GetCVROnReview {...props} />
       <MobilePageTitle title="My Insurance" />
+      <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
+        My Profile
+      </div>
+      <div className="grid grid-cols-12 gap-x-4 gap-y-4 mb-16 xl:pl-5 xl:pr-24">
+        <div className="md:col-span-4 col-span-12 md:flex items-center">
+          <div className="font-Montserrat text-body-md font-semibold">Email</div>
+          <input
+            type="text"
+            onChange={setEmail}
+            value={email}
+            name="email"
+            placeholder="Email"
+            className="w-full md:ml-3 mt-2 md:mt-0 bg-transparent h-12 border-2 border-gray-300 rounded-xl outline-none placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 ring-0 focus:border-gray-500 focus:ring-shadow-none text-black font-Montserrat font-medium text-body-md duration-200"
+          />
+        </div>
+        <div className="flex items-center md:col-span-4 col-span-12">
+          <button
+            type="submit"
+            className="py-3 px-8 w-full md:w-min text-white font-Montserrat font-body-md rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+          >
+            Update
+          </button>
+        </div>
+      </div>
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
         Lorem Ipsum dolor sit amet
       </div>

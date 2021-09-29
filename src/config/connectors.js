@@ -3,7 +3,7 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { ALL_SUPPORTED_CHAIN_IDS, SupportedChainId } from './chains';
 
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
-
+console.log(INFURA_KEY, '<=======')
 if (typeof INFURA_KEY === 'undefined') {
   throw new Error(`REACT_APP_INFURA_KEY must be a defined environment variable`);
 }

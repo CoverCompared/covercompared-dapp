@@ -15,22 +15,10 @@ import Stopwatch from '../assets/icons/stopwatch1.svg';
 import Strategy from '../assets/icons/strategy1.svg';
 import CryptoInsuranceImg from '../assets/img/crypto-insurance-icon.svg';
 import CryptoInsuranceImgDark from '../assets/img/crypto-orange-logo.svg';
+import NsureNetworkLogo from '../assets/partners/Nsure-Network.png';
+import UnoReLogo from '../assets/partners/UNORE.png';
+import InsureAceLogo from '../assets/partners/InsurAce.png';
 import { ThemeContext } from '../themeContext';
-
-const counterCards = [
-  {
-    title: '50+',
-    subtitle: 'Insurance Product',
-  },
-  {
-    title: '2 Days',
-    subtitle: 'Avg. Time Buying our Product.',
-  },
-  {
-    title: '300M $',
-    subtitle: 'Total covered amount',
-  },
-];
 
 const postCards = [
   {
@@ -55,31 +43,15 @@ const postCards = [
 
 const clientLogos = [
   {
-    image: 'https://via.placeholder.com/400x250.png',
+    image: NsureNetworkLogo,
     alt: 'client logo',
   },
   {
-    image: 'https://via.placeholder.com/400x250.png',
+    image: UnoReLogo,
     alt: 'client logo',
   },
   {
-    image: 'https://via.placeholder.com/400x250.png',
-    alt: 'client logo',
-  },
-  {
-    image: 'https://via.placeholder.com/400x250.png',
-    alt: 'client logo',
-  },
-  {
-    image: 'https://via.placeholder.com/400x250.png',
-    alt: 'client logo',
-  },
-  {
-    image: 'https://via.placeholder.com/400x250.png',
-    alt: 'client logo',
-  },
-  {
-    image: 'https://via.placeholder.com/400x250.png',
+    image: InsureAceLogo,
     alt: 'client logo',
   },
 ];
@@ -143,11 +115,11 @@ export default function Home(props) {
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-y-6 gap-x-3 xl:gap-y-8 xl:gap-x-8 md:grid-cols-3 lg:grid-cols-3 lg:px-36 sm:px-4 md:gap-x-6 md:pb-20 px-0 pb-10">
+      {/* <div className="grid grid-cols-3 gap-y-6 gap-x-3 xl:gap-y-8 xl:gap-x-8 md:grid-cols-3 lg:grid-cols-3 lg:px-36 sm:px-4 md:gap-x-6 md:pb-20 px-0 pb-10">
         {counterCards.map(({ title, subtitle }) => (
           <CounterCard {...props} key={uniqid()} title={title} subtitle={subtitle} />
         ))}
-      </div>
+      </div> */}
 
       <div className="sm:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:px-4 md:pb-20 pb-14 sm:px-0">
         {postCards.map(({ image, title, body, ctaLink }) => (
@@ -188,12 +160,14 @@ export default function Home(props) {
       <Features {...props} />
 
       <div className="md:pb-20 pb-16">
-        <h2 className="font-Montserrat font-semibold md:text-h2 text-h4 mb-4 text-dark-blue dark:text-white">
+        <h2 className="font-Montserrat font-semibold md:text-h2 text-h4 mb-4 text-dark-blue dark:text-white text-center">
           Our Insurance Partners
         </h2>
         <div className="text-center">
           {clientLogos.map(({ image, alt }) => (
-            <img key={uniqid()} className="md:h-36 h-24 inline-block p-2" src={image} alt={alt} />
+            <div className="md:w-28 h-24 inline-flex justify-content-center mx-2">
+              <img key={uniqid()} className="p-2 object-scale-down w-full" src={image} alt={alt} />
+            </div>
           ))}
         </div>
       </div>
@@ -266,7 +240,7 @@ export default function Home(props) {
         </div>
       </div>
 
-      <div className="xl:px-28 pb-0 lg:pb-20">
+      {/* <div className="xl:px-28 pb-0 lg:pb-20">
         <div className=" bg-gradient-to-r from-global-banner-gd-1 to-global-banner-gd-2 rounded-2xl">
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:px-20 md:px-12 md:py-14 px-4 py-12 md:bg-globalPolicyBg bg-globalPolicyMobileBg bg-100%">
             <div className="flex items-center text-white font-Montserrat font-bold text-30 sm:col-span-1 col-span-2 justify-center md:justify-start mb-6 md:mb-0">
@@ -277,7 +251,7 @@ export default function Home(props) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* <div className="md:pb-24">
         <h2 className="font-Montserrat font-semibold text-h2 mb-4 text-dark-blue dark:text-white">

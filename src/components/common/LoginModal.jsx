@@ -23,7 +23,7 @@ const LoginModal = (props) => {
   // useEffect(() => {
   //   setIsModalOpen(!!isOpen);
   // }, [isOpen]);
-  
+
   return (
     <>
       <div onClick={(e) => dispatch(setLoginModalVisible(true))}>{children}</div>

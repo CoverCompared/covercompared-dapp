@@ -1,7 +1,7 @@
 import { getPriceFeedAddressBySymbol } from "./addressHelpers";
 import { getPriceFeedContract } from "./contractHelpers";
 
-export const getAssetPriceBySymbol = (symbol) => {
+export default getAssetPriceBySymbol = (symbol) => {
     const priceFeedAddress = getPriceFeedAddressBySymbol(symbol);
     const priceFeedContract = getPriceFeedContract(priceFeedAddress);
 

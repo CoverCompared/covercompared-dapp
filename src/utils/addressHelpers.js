@@ -8,3 +8,7 @@ export const getAddress = (address) => {
 export const getCoverComparedAddress = () => {
   return getAddress(addresses.coverCompared);
 }
+
+export const getPriceFeedAddressBySymbol = (symbol) => {
+  return getAddress(addresses.priceFeed[`${symbol}`]);
+}

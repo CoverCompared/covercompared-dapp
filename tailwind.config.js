@@ -18,6 +18,7 @@ module.exports = {
         homeCardBg3: "url('./assets/bg-img/home-card-3.png')",
         homeCardBg4: "url('./assets/bg-img/home-card-4.png')",
         HomePageBg: "url('./assets/bg-img/home-page-bg.png')",
+        AboutUsBg: "url('./assets/bg-img/about-us.png')",
         cartCardBg: "url('./assets/bg-img/cart-card-bg.png')",
         cartPageBg: "url('./assets/bg-img/cart-page-bg.png')",
         packagePageBg: "url('./assets/bg-img/package-page-bg.png')",

@@ -4,6 +4,7 @@ import {
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
   LOGIN_MODAL_VISIBLE,
+  REGISTER_MODAL_VISIBLE,
 } from '../constants/ActionTypes';
 
 export const toggleSidebar = (payload) => {
@@ -30,6 +31,13 @@ export const setCurrentProduct = (payload) => {
 export const setLoginModalVisible = (payload) => {
   return {
     type: LOGIN_MODAL_VISIBLE,
+    payload,
+  };
+};
+
+export const setRegisterModalVisible = (payload) => {
+  return {
+    type: REGISTER_MODAL_VISIBLE,
     payload,
   };
 };

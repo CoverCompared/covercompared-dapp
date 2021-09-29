@@ -21,7 +21,6 @@ const INIT_STATE = {
   wallet_addresses: [],
 
   isOTPPending: false,
-  userDetailsModalOpen: false,
 };
 
 export default (state = INIT_STATE, action) => {
@@ -33,7 +32,6 @@ export default (state = INIT_STATE, action) => {
         loader: false,
         isFailed: false,
         ...action.payload,
-        userDetailsModalOpen: action.payload.email === null,
       };
     }
     case SET_AUTH_LOADER: {
@@ -67,7 +65,6 @@ export default (state = INIT_STATE, action) => {
         loader: false,
         isFailed: false,
         isOTPPending: false,
-        userDetailsModalOpen: false,
       };
     }
     case GET_USER_PROFILE_SUCCESS: {
@@ -94,7 +91,6 @@ export default (state = INIT_STATE, action) => {
         wallet_addresses: [],
 
         isOTPPending: false,
-        userDetailsModalOpen: false,
       };
     }
     default:

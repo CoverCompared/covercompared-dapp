@@ -31,8 +31,8 @@ const nav = [
   { name: 'About Us', to: '/about-us', icon: AboutUsIcon },
   { name: 'About Token', to: '/about-token', icon: AboutTokenIcon },
   { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
+  { name: 'Our Partners', to: '/partners', icon: PartnerIcon },
   { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
-  { name: 'Partners', to: '/partners', icon: PartnerIcon },
   { name: 'Blogs', to: '/learn-more', icon: LearnMoreIcon },
 ];
 

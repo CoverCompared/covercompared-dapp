@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { setProfileDetails, resendVerificationEmail, verifyOTP } from '../redux/actions/Auth';
 
-const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
+const RegisterMail = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
   const { isOTPPending, loader, isFailed } = authState;

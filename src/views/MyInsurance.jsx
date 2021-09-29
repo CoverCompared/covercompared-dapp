@@ -24,7 +24,7 @@ const MyInsurance = (props) => {
           <div className="font-Montserrat text-body-md font-semibold">Email</div>
           <input
             type="text"
-            onChange={setEmail}
+            onChange={(e) => setEmail(e.target.value)}
             value={email}
             name="email"
             placeholder="Email"

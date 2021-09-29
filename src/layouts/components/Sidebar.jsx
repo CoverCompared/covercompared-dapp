@@ -40,8 +40,8 @@ const nav = [
   { name: 'About Us', to: '/about-us', icon: AboutUsIcon },
   { name: 'About Token', to: '/about-token', icon: AboutTokenIcon },
   { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
+  { name: 'Our Partners', to: '/partners', icon: PartnerIcon },
   { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
-  { name: 'Partners', to: '/partners', icon: PartnerIcon },
   { name: 'Blogs', to: '/learn-more', icon: LearnMoreIcon },
 ];
 
@@ -95,7 +95,7 @@ const Sidebar = (props) => {
               <div className="mt-3 flex flex-col items-center">
                 <div className="flex justify-center mb-2">
                   {socialMedia.map((item) => (
-                    <a key={uniqid()} href={item.href}>
+                    <a key={uniqid()} href={item.href} target="_blank" rel="noreferrer">
                       <div className="rounded-full h-5 w-5 hover:bg-bluegradient flex items-center justify-center mx-1.5">
                         <img src={item.icon} alt={item.name} className="h-4" />
                       </div>

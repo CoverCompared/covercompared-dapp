@@ -7,25 +7,13 @@ import SUPPORTED_WALLETS from '../config/walletConfig';
 import { setLoginModalVisible } from '../redux/actions/AppActions';
 import { getLoginDetails } from '../redux/actions/Auth';
 
-const Login = ({ isModalOpen, setIsModalOpen }) => {
+const Login = () => {
   const { login } = useAuth();
   const dispatch = useDispatch();
-  const { loginModalVisible } = useSelector((state) => state.app);
-
-  // const { email } = useSelector((state) => state.auth);
 
   const { account } = useWeb3React();
   const [connectStatus, setConnectStatus] = useState(false);
   const [curWalletId, setCurWalletId] = useState('injected');
-
-  // useEffect(() => {
-  //   dispatch(setLoginModalVisible(true));
-  // }, []);
-
-  useEffect(() => {
-    if (!isModalOpen && loginModalVisible) setIsModalOpen(true);
-    if (isModalOpen && !loginModalVisible) setIsModalOpen(false);
-  }, [loginModalVisible]);
 
   const tryActivation = async (connect) => {
     setCurWalletId(connect);
@@ -33,11 +21,13 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
     login(connect);
   };
 
-  if (connectStatus && account) {
-    setConnectStatus(false);
-    dispatch(setLoginModalVisible(false));
-    dispatch(getLoginDetails({ wallet_address: account }));
-  }
+  useEffect(() => {
+    if (connectStatus && account) {
+      dispatch(getLoginDetails({ wallet_address: account }));
+      setConnectStatus(false);
+      dispatch(setLoginModalVisible(false));
+    }
+  }, [connectStatus, account]);
 
   function getWalletOption() {
     return Object.keys(SUPPORTED_WALLETS).map((key) => {
@@ -66,13 +56,11 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <>
       <div className="grid grid-cols-12 gap-6">
-        <div className="md:col-span-2 col-span-0" />
-        <div className="md:col-span-8 col-span-12 flex items-center justify-center w-full">
+        <div className="col-span-12 flex items-center justify-center w-full">
           <div className="grid grid-cols-10 md:col-start-1 md:gap-x-6 gap-x-5 w-full">
             {getWalletOption()}
           </div>
         </div>
-        <div className="md:col-span-2 col-span-0" />
         {/* <div className="flex flex-col items-end justify-center h-full w-full">
             <div className="flex flex-col items-end w-full">
               <div className="font-Montserrat text-h5 font-semibold text-dark-blue mb-6 text-center w-full dark:text-white">

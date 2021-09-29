@@ -4,6 +4,7 @@ import {
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
   LOGIN_MODAL_VISIBLE,
+  REGISTER_MODAL_VISIBLE,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
@@ -11,6 +12,7 @@ const INIT_STATE = {
   filtersOpen: false,
   currentProduct: null,
   loginModalVisible: false,
+  registerModalVisible: false,
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -37,6 +39,12 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         loginModalVisible: payload,
+      };
+    }
+    case REGISTER_MODAL_VISIBLE: {
+      return {
+        ...state,
+        registerModalVisible: payload,
       };
     }
     default:

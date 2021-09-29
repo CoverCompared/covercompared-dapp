@@ -16,6 +16,7 @@ const MsoPackages = React.lazy(() => import('../views/MsoPackages'));
 const MsoProducts = React.lazy(() => import('../views/MsoProducts'));
 const Blog = React.lazy(() => import('../views/Blog'));
 const ErrorPage = React.lazy(() => import('../views/ErrorPage'));
+const MSOPlans = React.lazy(() => import('../views/MSOPlans'));
 
 const routes = [
   {
@@ -25,9 +26,8 @@ const routes = [
     withSidebar: true,
     component: Home,
     showBuyButton: true,
-    title: 'Motto of the Company',
-    subtitle:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel semper blandit euismodvitae eleifend vitae eleifend massa imperdiet.',
+    title: '',
+    subtitle: '',
     bgImg: 'md:bg-HomePageBg',
     mobileBgImg: 'bg-HomeMobileBg',
     bgImgClass: 'bg-100% bg-no-repeat bg-cover',
@@ -75,7 +75,7 @@ const routes = [
     withSidebar: true,
     showBuyButton: true,
     component: AboutToken,
-    title: 'About the Polkacover Token',
+    title: 'About $CVR Token',
     bgImg: 'md:bg-aboutTokenBg',
     mobileBgImg: 'bg-AboutTokenMobileBg',
     bgImgClass: 'bg-100% bg-no-repeat',
@@ -123,6 +123,18 @@ const routes = [
     withSidebar: false,
     showBuyButton: false,
     component: DetailSearch,
+    title: '',
+    bgImg: 'md:bg-packagePageBg',
+    mobileBgImg: 'bg-Mobile404Bg',
+    bgImgClass: 'bg-fixed bg-center bg-100% bg-no-repeat',
+  },
+  {
+    path: '/mso-plans',
+    exact: true,
+    pageName: 'Product details Search',
+    withSidebar: false,
+    showBuyButton: false,
+    component: MSOPlans,
     title: '',
     bgImg: 'md:bg-packagePageBg',
     mobileBgImg: 'bg-Mobile404Bg',

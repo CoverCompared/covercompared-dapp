@@ -50,6 +50,7 @@ module.exports = {
         mobilePopupBg: "url('./assets/bg-img/mobile-bg/mobile-common-popup-bg.png')",
         mobileLoginPopupBg: "url('./assets/bg-img/mobile-bg/login-poup-bg.png')",
         submitClaimPopupBg: "url('./assets/bg-img/mobile-bg/submit-claim-popup-bg.png')",
+        MSOCardBg: 'url(./assets/bg-img/mso-card-bg.png)',
       },
       colors: {
         'body-bg': '#FDFEFD',
@@ -96,6 +97,9 @@ module.exports = {
         'crypto-selected-dark-option': '#182229',
         'filter-blue': '#ABE2FB',
         optionContainerBg: 'rgba(227, 227, 227, 0.72)',
+        swapIconBg: '#F5F8F7',
+        'planPrice-1': 'rgba(69, 234, 154, 1)',
+        'planPrice-2': 'rgba(0, 121, 147, 1)',
       },
       fontSize: {
         heading: '28px',

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import { useWeb3React } from '@web3-react/core';
 import CartButton from './CartButton';
 import InsuranceCards from '../InsuranceCards';
+import SwapComponent from './SwapCurrency';
 import ThemeToggleSwitch from '../ThemeToggleSwitch';
 import BuyInsuranceIcon from '../../assets/img/buy-insurance-icon.svg';
 import LoginIcon from '../../assets/img/Login.svg';
@@ -26,8 +27,9 @@ const HeaderCTAs = (props) => {
   const { showBuyButton } = props;
   return (
     <div className="flex items-center">
+      {/* <SwapComponent /> */}
       <ThemeToggleSwitch />
-      {showBuyButton && (
+      {/* {showBuyButton && (
         <Modal title="Buy Insurance" sizeClass="max-w-4xl" renderComponent={InsuranceGrid}>
           <button
             type="button"
@@ -37,7 +39,7 @@ const HeaderCTAs = (props) => {
             Buy Insurance
           </button>
         </Modal>
-      )}
+      )} */}
       <CartButton />
       <Modal title="Log In" bgImg="bg-loginPopupBg" renderComponent={Login}>
         <button

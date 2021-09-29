@@ -1,4 +1,5 @@
 import React from 'react';
+import uniquId from 'uniqid';
 import HealthInsurance from '../assets/img/health-insurance.svg';
 import InsurancePolicy from '../assets/img/insurance-policy-icon.svg';
 import GlobalIcon from '../assets/img/global-icon.svg';
@@ -8,7 +9,7 @@ import DecentrilizedIcon from '../assets/img/decentrlized-box-icon.svg';
 import TokenIllustration from '../assets/img/token-page-illustration.svg';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 
-const marketPlaces = ['Etherscan', 'Uniswap', 'Coinmarketcap', 'Dextools', 'Locked Liquidity'];
+const marketPlaces = ['Etherscan', 'Uniswap', 'Coinmarketcap', 'Dextools'];
 
 const AboutToken = () => {
   return (
@@ -28,28 +29,18 @@ const AboutToken = () => {
         One Coin. 2 marketplaces. 11 use cases
       </div>
       <div className="text-center md:px-24 flex justify-center w-full mt-10 xl:mb-28 md:mb-16 mb-14">
-        <div className="md:max-w-3xl w-full hidden md:block">
-          {marketPlaces.map((name) => (
-            <div className="bg-login-button-bg md:py-4 md:px-2 md:my-3 md:mx-8 md:w-40 rounded-xl inline-block text-login-button-text md:text-body-md text-body-xs font-semibold">
-              {name}
-            </div>
-          ))}
-        </div>
-        <div className="grid grid-cols-12 gap-x-6 gap-y-4 md:hidden w-full sm:px-24">
-          <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-4 w-full sm:px-24">
+          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
             Etherscan
           </div>
-          <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
             Uniswap
           </div>
-          <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
             Coinmarketcap
           </div>
-          <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
             Dextools
-          </div>
-          <div className="col-span-6 col-start-4 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
-            Locked Liquidity
           </div>
         </div>
       </div>

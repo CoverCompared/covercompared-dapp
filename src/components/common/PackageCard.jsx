@@ -26,7 +26,7 @@ const PackageCard = (props) => {
   const history = useHistory();
 
   const handleCardClick = () => {
-    if (quote !== '' && quote !== undefined) {
+    if (quote !== '' && quote !== undefined && quote !== false) {
       dispatch(setCurrentProduct(props));
       history.push('/product/cover');
     }
@@ -34,8 +34,10 @@ const PackageCard = (props) => {
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    dispatch(addItemToCart(props));
-    // toast.success('Item added to cart!');
+    if (quote !== '' && quote !== undefined && quote !== false) {
+      dispatch(addItemToCart(props));
+      toast.success('Item added to cart!');
+    }
   };
 
   return (

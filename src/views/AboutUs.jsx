@@ -189,35 +189,11 @@ const AboutUs = () => {
       </div>
       {/* partner-section-end */}
 
-      {/* about-platform-start */}
-      <div className="relative mt-12 mb-14 md:mb-28">
-        <div className="w-full bg-platofrm-blue-bg md:px-16 p-6 md:pt-10 pb-6 md:rounded-br-full md:rounded-tr-full overflow-hidden relative">
-          <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
-            A Little Bit about Our Platform
-          </div>
-          <div className="md:text-body-md font-medium text-center mt-2 text-counter-card-text text-body-md md:px-20 font-Inter leading-6 dark:text-subtitle-dark-text">
-            We are building the best insurtech platform for the masses
-          </div>
-        </div>
-
-        <div className="grid grid-cols-12 lg:gap-x-3 md:gap-x-6 md:gap-y-14 gap-y-16 w-full lg:px-20 lg:mt-24 mt-8">
-          <div
-            className="absolute top-36 left-2/4 hidden lg:flex"
-            style={{ transform: `translateX(${-50}%)` }}
-          >
-            <img src={ArrowFrame} alt="" className="h-44" style={{ width: '40vw' }} />
-          </div>
-          {PhaseArr.map((obj) => (
-            <PhaseCard key={uniqid()} {...obj} />
-          ))}
-        </div>
-      </div>
-
       {/* menifesto-section-start */}
-      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white">
+      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mb-12 mt-20">
         Our Menifesto
       </div>
-      <div className="flex justify-center pt-11">
+      <div className="flex justify-center">
         <img src={GlobalIcon} className="text-center" alt="" />
       </div>
       <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-4">
@@ -258,10 +234,7 @@ const AboutUs = () => {
           Insurance providers, there has been a significant dearth of options available to our
           community.
         </div>
-        <div className="flex justify-center pt-14">
-          <img src={CommunityIcon} alt="" />
-        </div>
-        <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
+        <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-10">
           IF THEY CAN, WHY NOT ME?
         </h2>
         <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
@@ -300,6 +273,31 @@ const AboutUs = () => {
           purchasing insurance – whether it be bought using fiat money, or cryptocurrency.
         </div>
       </div>
+
+      {/* about-platform-start */}
+      <div className="relative mt-10">
+        <div className="w-full bg-platofrm-blue-bg md:px-16 p-6 md:pt-10 pb-6 md:rounded-br-full md:rounded-tr-full overflow-hidden relative">
+          <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
+            A Little Bit about Our Platform
+          </div>
+          <div className="md:text-body-md font-medium text-center mt-2 text-counter-card-text text-body-md md:px-20 font-Inter leading-6 dark:text-subtitle-dark-text">
+            We are building the best insurtech platform for the masses
+          </div>
+        </div>
+
+        <div className="grid grid-cols-12 lg:gap-x-3 md:gap-x-6 md:gap-y-14 gap-y-16 w-full lg:px-20 lg:mt-24 mt-8">
+          <div
+            className="absolute top-36 left-2/4 hidden lg:flex"
+            style={{ transform: `translateX(${-50}%)` }}
+          >
+            <img src={ArrowFrame} alt="" className="h-44" style={{ width: '40vw' }} />
+          </div>
+          {PhaseArr.map((obj) => (
+            <PhaseCard key={uniqid()} {...obj} />
+          ))}
+        </div>
+      </div>
+
       <div className="lg:px-20 md:px-4 md:mt-14 mt-12">
         <div className="md:rounded-2xl md:px-12 px-4 py-6 md:pt-10 md:pb-14 rounded-3xl bg-gradient-to-r from-global-banner-gd-1 to-global-banner-gd-2 relative">
           <div className="absolute bottom-0 right-0">
@@ -347,186 +345,6 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
-      {/* <div>
-        <div className="roadmap-container col-12 d-none d-md-block">
-          <div className="d-md-flex align-items-start justify-content-center">
-            <div className="col-3 mr-2 position-relative">
-              <div className="roadmap-circle roadmap-circle-active roadmap-circle-1">
-                <div className="quater-active" />
-              </div>
-              <div className="quater">
-                Q2 <span>2021</span>
-              </div>
-              <div className="roadmap-points-title">Marketplace Beta Release</div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                Crypto Insurance Marketplace - Launch on Ropsten
-              </div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                Apps and Delivery Channels Integration
-              </div>
-            </div>
-            <div className="col-3 mr-2">
-              <div className="roadmap-circle roadmap-circle-2" />
-              <div className="quater">
-                Q3 <span>2021</span>
-              </div>
-              <div className="roadmap-points-title">Marketplace Alpha Release</div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                Crypto Insurance Partner Onboarding
-              </div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                Crypto Insurance Marketplace - Launch on BSC Mainnet
-              </div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                Crypto Insurance Marketplace - Launch on Kusama/Polkadot Mainnet
-              </div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                CEX Listing
-              </div>
-            </div>
-            <div className="col-3 mr-2">
-              <div className="roadmap-circle roadmap-circle-3" />
-              <div className="quater">
-                Q4 <span>2021</span>
-              </div>
-              <div className="roadmap-points-title">P2P Platform Beta Release</div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                Tokenomics Update
-              </div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                Governance Platform launch
-              </div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                P2P Insurance Platform - Launch on Ropsten
-              </div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                Policy Management and Claims Processing Platform - Launch on Ropsten
-              </div>
-            </div>
-            <div className="col-3">
-              <div className="roadmap-circle roadmap-circle-4" />
-              <div className="quater">
-                Q1 <span>2022</span>
-              </div>
-              <div className="roadmap-points-title">P2P Platform Alpha Release</div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                P2P Insurance Platform - Launch on Kusama/Polkadot
-              </div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                Policy Management and Claims Processing Platform - Launch on Kusama/Polkadot
-              </div>
-              <div className="roadmap-point position-relative">
-                <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                Expansion in Coverage and Onboarding More Insurance Product Types
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="d-md-none col-12 px-0">
-          <div className="d-flex align-items-start ">
-            <div className="position-relative roadmap-line-container col-2 px-0">
-              <img src="images/roadmap-mobile-line.png" alt="" className="roadmap-line" />
-            </div>
-            <div className="roadmap-container col-10">
-              <div className="col-12 mb-3 position-relative">
-                <div className="roadmap-circle roadmap-circle-active roadmap-circle-1">
-                  <div className="quater-active" />
-                </div>
-                <div className="quater">
-                  Q2 <span>2021</span>
-                </div>
-                <div className="roadmap-points-title">Marketplace Beta Release</div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  Crypto Insurance Marketplace - Launch on Ropsten
-                </div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  Apps and Delivery Channels Integration
-                </div>
-              </div>
-              <div className="col-12 mb-3">
-                <div className="roadmap-circle roadmap-circle-2" />
-                <div className="quater">
-                  Q3 <span>2021</span>
-                </div>
-                <div className="roadmap-points-title">Marketplace Alpha Release</div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  Crypto Insurance Partner Onboarding
-                </div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  Crypto Insurance Marketplace - Launch on BSC Mainnet
-                </div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  Crypto Insurance Marketplace - Launch on Kusama/Polkadot Mainnet
-                </div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  CEX Listing
-                </div>
-              </div>
-              <div className="col-12 mb-3">
-                <div className="roadmap-circle roadmap-circle-3" />
-                <div className="quater">
-                  Q4 <span>2021</span>
-                </div>
-                <div className="roadmap-points-title">P2P Platform Beta Release</div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  Tokenomics Update
-                </div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  Governance Platform launch
-                </div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  P2P Insurance Platform - Launch on Ropsten
-                </div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  Policy Management and Claims Processing Platform - Launch on Ropsten
-                </div>
-              </div>
-              <div className="col-12 mb-3">
-                <div className="roadmap-circle roadmap-circle-4" />
-                <div className="quater">
-                  Q1 <span>2022</span>
-                </div>
-                <div className="roadmap-points-title">P2P Platform Alpha Release</div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  P2P Insurance Platform - Launch on Kusama/Polkadot
-                </div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  Policy Management and Claims Processing Platform - Launch on Kusama/Polkadot
-                </div>
-                <div className="roadmap-point position-relative">
-                  <img src="./images/roadmap-point.png" alt="" className="roadmap-point-icon" />
-                  Expansion in Coverage and Onboarding More Insurance Product Types
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
     </>
   );
 };

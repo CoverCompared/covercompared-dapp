@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import { toast } from 'react-toastify';
 import InputWithSelect from './common/InputWithSelect';
-import DeviceSelect from './common/DeviceSelect';
+import SelectWithSearch from './common/SelectWithSearch';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
 import { addItemToCart } from '../redux/actions/AppActions';
 import { classNames } from '../functions/utils';
@@ -25,7 +25,7 @@ const DeviceBuyBox = (props) => {
   const [devicePlans, setDevicePlans] = useState('');
   const [planPriceArr, setplanPricesArr] = useState('');
   const [planType, setPlanType] = useState('');
-
+  console.log(devicePlanDetails);
   useEffect(() => {
     dispatch(
       getDeviceDetails({
@@ -58,7 +58,7 @@ const DeviceBuyBox = (props) => {
   }, [deviceType, brand, value, purchaseMonth]);
 
   useEffect(() => {
-    if (devicePlanDetails) {
+    if (devicePlanDetails !== null) {
       setDevicePlans(devicePlanDetails);
       const plansArr = devicePlanDetails.plan_price;
       setplanPricesArr(plansArr);
@@ -93,18 +93,18 @@ const DeviceBuyBox = (props) => {
       </div>
       <form onSubmit={() => {}} className="relative">
         <div className="mb-2">
-          <DeviceSelect
+          <SelectWithSearch
             {...props}
             showColumnLayout
             fieldTitle="Device"
             selectedOption={deviceType}
             setSelectedOption={setDeviceType}
             dropdownOptions={deviceOptions}
-            showSearchOption={false}
+            showSearchOption="true"
           />
         </div>
         <div className="mb-2">
-          <DeviceSelect
+          <SelectWithSearch
             {...props}
             showColumnLayout
             fieldTitle="Brand"
@@ -115,23 +115,25 @@ const DeviceBuyBox = (props) => {
           />
         </div>
         <div className="mb-2">
-          <DeviceSelect
+          <SelectWithSearch
             {...props}
             showColumnLayout
             fieldTitle="Value"
             selectedOption={value}
             setSelectedOption={setValue}
             dropdownOptions={deviceDetails?.device_values || {}}
+            showSearchOption="true"
           />
         </div>
         <div className="mb-2">
-          <DeviceSelect
+          <SelectWithSearch
             {...props}
             showColumnLayout
             fieldTitle="Purchase Month"
             selectedOption={purchaseMonth}
             setSelectedOption={setPurchaseMonth}
             dropdownOptions={deviceDetails?.purchase_month || []}
+            showSearchOption="true"
           />
         </div>
         <div className="grid grid-cols-2 gap-x-3 mb-3">
@@ -161,7 +163,7 @@ const DeviceBuyBox = (props) => {
               ))
             : ''}
         </div>
-        {/* <DeviceSelect
+        {/* <SelectWithSearch
           {...props}
           readOnly
           fieldTitle="Quote"

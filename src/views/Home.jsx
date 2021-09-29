@@ -143,11 +143,11 @@ export default function Home(props) {
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-y-6 gap-x-3 xl:gap-y-8 xl:gap-x-8 md:grid-cols-3 lg:grid-cols-3 lg:px-36 sm:px-4 md:gap-x-6 md:pb-20 px-0 pb-10">
+      {/* <div className="grid grid-cols-3 gap-y-6 gap-x-3 xl:gap-y-8 xl:gap-x-8 md:grid-cols-3 lg:grid-cols-3 lg:px-36 sm:px-4 md:gap-x-6 md:pb-20 px-0 pb-10">
         {counterCards.map(({ title, subtitle }) => (
           <CounterCard {...props} key={uniqid()} title={title} subtitle={subtitle} />
         ))}
-      </div>
+      </div> */}
 
       <div className="sm:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:px-4 md:pb-20 pb-14 sm:px-0">
         {postCards.map(({ image, title, body, ctaLink }) => (
@@ -266,7 +266,7 @@ export default function Home(props) {
         </div>
       </div>
 
-      <div className="xl:px-28 pb-0 lg:pb-20">
+      {/* <div className="xl:px-28 pb-0 lg:pb-20">
         <div className=" bg-gradient-to-r from-global-banner-gd-1 to-global-banner-gd-2 rounded-2xl">
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:px-20 md:px-12 md:py-14 px-4 py-12 md:bg-globalPolicyBg bg-globalPolicyMobileBg bg-100%">
             <div className="flex items-center text-white font-Montserrat font-bold text-30 sm:col-span-1 col-span-2 justify-center md:justify-start mb-6 md:mb-0">
@@ -277,7 +277,7 @@ export default function Home(props) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* <div className="md:pb-24">
         <h2 className="font-Montserrat font-semibold text-h2 mb-4 text-dark-blue dark:text-white">

@@ -1,12 +1,10 @@
 import React from 'react';
-import MovingCart from '../assets/img/moving-cart.png';
-import WheetIcon from '../assets/img/wheel.png';
 
 const PhaseCard = ({ ...props }) => {
   const { phaseNumber, phaseIcon, title, descriptionArr } = props;
   return (
     <>
-      <div className="bg-white dark:bg-featureCard-dark-bg rounded-xl relative pt-14 px-3 sm:px-10 lg:px-3 md:pb-28 pb-10  md:col-span-6 lg:col-span-3 col-span-12 w-full">
+      <div className="bg-white dark:bg-featureCard-dark-bg rounded-xl relative pt-14 px-3 sm:px-10 lg:px-3 pb-10  md:col-span-6 lg:col-span-3 col-span-12 w-full">
         <div className="absolute -top-8 left-2/4" style={{ transform: `translateX(${-50}%)` }}>
           <span className="text-login-button-text font-semibold font-body-md font-Montserrat">
             <svg
@@ -52,15 +50,6 @@ const PhaseCard = ({ ...props }) => {
             {p}
           </div>
         ))}
-        <div className="absolute -bottom-6 left-0 w-full hidden lg:block">
-          <img src={MovingCart} alt="" className="w-full" />
-        </div>
-        <div className="absolute -bottom-12 left-0 md:px-4 px-5 w-full hidden lg:block">
-          <div className="flex justify-between w-full">
-            <img src={WheetIcon} alt="" className="animate-wheelSpin" />
-            <img src={WheetIcon} alt="" className="animate-wheelSpin" />
-          </div>
-        </div>
       </div>
     </>
   );

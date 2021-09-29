@@ -5,18 +5,17 @@ import FormInput from '../components/FormInput';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 import EditIcon from '../assets/img/Edit.svg';
 
-const TypeOfUser = ['Consumer', 'Insurance Partner', 'Others'];
+const TypeOfUser = ['CUSTOMER', 'PARTNER', 'OTHER'];
 const ContactUs = (props) => {
   const [name, SetName] = useState('');
   const [email, SetEmail] = useState('');
-  const [subject, SetSubject] = useState('');
   const [message, SetMessage] = useState('');
 
   const isValid = () => {
-    return !(name === '' || email === '' || subject === '' || message === '');
+    return !(name === '' || email === '' || message === '');
   };
   const RadioButtons = () => {
-    const [typeOfUser, SetUser] = useState('Consumers');
+    const [typeOfUser, SetUser] = useState('CUSTOMER');
     return (
       <>
         {TypeOfUser.map((user) => (
@@ -73,14 +72,6 @@ const ContactUs = (props) => {
         <div className="mt-3">
           <RadioButtons {...props} />
         </div>
-        <div className="mt-6">
-          <FormInput
-            title="Subject"
-            inputValue={subject}
-            setChange={SetSubject}
-            inputPlaceholder="Subject"
-          />
-        </div>
 
         <div className="relative mt-6">
           <label className="absolute top-5 pl-4 font-semibold text-body-sm text-dark-blue font-Montserrat">
@@ -88,10 +79,9 @@ const ContactUs = (props) => {
           </label>
           <textarea
             onChange={(e) => SetMessage(e.target.value)}
-            className="mt-3 py-2 pr-10 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
+            className="mt-3 py-2 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
             placeholder="Write your message"
           />
-          <img src={EditIcon} alt="Edit" className="absolute right-4 top-6" />
         </div>
 
         <div className="flex justify-end">

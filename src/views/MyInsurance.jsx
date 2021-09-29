@@ -5,6 +5,7 @@ import MobilePageTitle from '../components/common/MobilePageTitle';
 import Modal from '../components/common/Modal';
 import ClaimCards from '../components/ClaimCards';
 import AdditionalDetails from '../components/AdditionalDetails';
+import RegisterMail from '../components/RegisterMail';
 
 const MyInsurance = (props) => {
   const history = useHistory();
@@ -39,7 +40,7 @@ const MyInsurance = (props) => {
             </button>
             <Modal
               title="Additional Details"
-              bgImg="md:bg-additionalDetailsBg1 bg-loginPopupMobileBg bg-right-bottom bg-no-repeat bg-contain"
+              bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
               renderComponent={AdditionalDetails}
             >
               <button

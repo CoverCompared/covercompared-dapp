@@ -1,4 +1,6 @@
 import React from 'react';
+import uniqid from 'uniqid';
+
 import MovingCart from '../assets/img/moving-cart.png';
 import WheetIcon from '../assets/img/wheel.png';
 
@@ -6,7 +8,7 @@ const PhaseCard = ({ ...props }) => {
   const { phaseNumber, phaseIcon, title, descriptionArr } = props;
   return (
     <>
-      <div className="bg-white rounded-xl relative pt-14 px-3 sm:px-10 lg:px-3 md:pb-28 pb-10  md:col-span-6 lg:col-span-3 col-span-12 w-full">
+      <div className="bg-white dark:bg-featureCard-dark-bg rounded-xl relative pt-14 px-3 sm:px-10 lg:px-3 md:pb-28 pb-10  md:col-span-6 lg:col-span-3 col-span-12 w-full">
         <div className="absolute -top-8 left-2/4" style={{ transform: `translateX(${-50}%)` }}>
           <span className="text-login-button-text font-semibold font-body-md font-Montserrat">
             <svg
@@ -44,11 +46,14 @@ const PhaseCard = ({ ...props }) => {
         <div className="flex justify-center mt-3">
           <img src={phaseIcon} alt="" />
         </div>
-        <div className="text-dark-blue font-Montserrat font-semibold text-body-sm sm:text-body-lg md:text-body-md text-center mt-4 px-1 h-16">
+        <div className="text-dark-blue dark:text-white font-Montserrat font-semibold sm:text-body-lg md:text-body-md text-center mt-4 px-1 lg:h-16 h-12">
           {title}
         </div>
         {descriptionArr.map((p) => (
-          <div className="font-Montserrat text-body-xs md:text-body-md mt-3 text-center font-medium text-text-post-body-text">
+          <div
+            key={uniqid()}
+            className="font-Inter md:text-body-md text-body-sm mt-3 text-center text-post-body-text dark:text-subtitle-dark-text"
+          >
             {p}
           </div>
         ))}

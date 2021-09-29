@@ -2,13 +2,18 @@ import React, { Suspense } from 'react';
 import uniqid from 'uniqid';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import useEagerConnect from './hooks/useEagerConnect';
 import routes from './routes';
+import SVGGradients from './components/common/SVGGradients';
 import PublicRoute from './routes/PublicRoute';
+import GetUserDetails from './components/GetUserDetails';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 const App = (props) => {
+  useEagerConnect();
+
   return (
     <BrowserRouter>
       <ToastContainer
@@ -22,6 +27,8 @@ const App = (props) => {
         draggable
         pauseOnHover
       />
+      <SVGGradients />
+      <GetUserDetails />
       <Switch>
         {routes.map((m) => (
           <PublicRoute key={uniqid()} {...m} />

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import uniqid from 'uniqid';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/outline';
+
 import PackageCard from '../components/common/PackageCard';
 import SmallPackageCard from '../components/common/SmallPackageCard';
 import { classNames } from '../functions/utils';
@@ -9,7 +10,6 @@ import ChangeViewIcon from '../assets/img/view-change-icon.svg';
 import ChangeViewIconWhite from '../assets/dark-icons/view-change-icon.svg';
 import SearchBar from '../components/common/SearchBar';
 import { ThemeContext } from '../themeContext';
-import BuyInsurancePackageCard from '../components/BuyInsurancePackageCard';
 
 const PackagesArr = [
   {
@@ -201,9 +201,6 @@ const Packages = (props) => {
             {!changeView ? (
               PackagesArr.map((obj) => <PackageCard key={uniqid()} {...obj} {...props} />)
             ) : (
-              // BuyInsuranceArr.map((obj) => (
-              //   <BuyInsurancePackageCard key={uniqid()} {...obj} {...props} />
-              // ))
               <div className="grid grid-cols-12 md:grid-col-6 lg:grid-cols-12 xl:grid-col-12 gap-y-4 md:gap-4 lg:gap-x-6 lg:gap-y-4 w-full">
                 {PackagesArr.map((obj) => (
                   <SmallPackageCard key={uniqid()} {...obj} {...props} />

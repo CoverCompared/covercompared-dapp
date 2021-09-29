@@ -10,7 +10,7 @@ const InsuranceCard = ({ icon, title, subtitle, gradientClass, bgImg, redirectTo
       onClick={() => history.push(redirectTo)}
       className={`w-full shadow-insuranceCard duration-200 md:rounded-3xl rounded-xl flex ${gradientClass} md:rounded-3xl rounded-xl from-primary-gd-1 to-primary-gd-2 z-10 cursor-pointer`}
     >
-      <div className={`w-full  bg-${bgImg} bg-right bg-100%`}>
+      <div className={`w-full ${bgImg} bg-right bg-100%`}>
         <div className="w-full md:px-6 md:py-5 p-3 flex flex-col text-white">
           <img src={icon} alt={title} className="md:w-14 w-5 h-5 md:h-14" />
           <div className="md:mt-8 mt-2 flex flex-row justify-between items-center">

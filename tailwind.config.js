@@ -3,11 +3,11 @@ module.exports = {
   purge: ['./src/**/*.{js,jsx}', './public/index.html'],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
-    backgroundSize: {
-      '90%': '100% 90%',
-      '100%': '100% 100%',
-    },
     extend: {
+      backgroundSize: {
+        '90%': '100% 90%',
+        '100%': '100% 100%',
+      },
       fontFamily: {
         Inter: ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
         Montserrat: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
@@ -43,12 +43,12 @@ module.exports = {
         ContactUsMobileBg: "url('./assets/bg-img/mobile-bg/contact-us-bg.png')",
         LearnMoreMobileBg: "url('./assets/bg-img/mobile-bg/learn-more-bg.png')",
         mobileCartCardBg: "url('./assets/bg-img/mobile-bg/cart-card-bg.png')",
-        additionalDetailsBg: "url('./assets/bg-img/addtional-details-bg.png')",
         additionalDetailsBg1: "url('./assets/bg-img/addtional-details-bg-1.png')",
         submitClaimBg: "url('./assets/bg-img/submit-claim-popup-bg.png')",
         formPopupBg: "url('./assets/bg-img/form-bg.png')",
         formPopupMobileBg: "url('./assets/bg-img/mobile-bg/form-popup-bg.png')",
-        loginPopupMobileBg: "url('./assets/bg-img/mobile-bg/login-popup-bg.png')",
+        mobilePopupBg: "url('./assets/bg-img/mobile-bg/mobile-common-popup-bg.png')",
+        mobileLoginPopupBg: "url('./assets/bg-img/mobile-bg/login-poup-bg.png')",
         submitClaimPopupBg: "url('./assets/bg-img/mobile-bg/submit-claim-popup-bg.png')",
       },
       colors: {
@@ -95,6 +95,7 @@ module.exports = {
         'short-review-text': '#130F26',
         'crypto-selected-dark-option': '#182229',
         'filter-blue': '#ABE2FB',
+        optionContainerBg: 'rgba(227, 227, 227, 0.72)',
       },
       fontSize: {
         heading: '28px',
@@ -125,6 +126,7 @@ module.exports = {
         addToCart: '0px 10px 56px rgba(15, 95, 52, 0.15);',
         'shadow-none': '0 0 0 rgba(0,0,0,0)',
         homeCardShadow: '0px 25.4286px 76.2857px rgba(4, 35, 81, 0.1)',
+        devicePriceBoxShadow: '0px 10px 56px rgba(15, 95, 52, 0.09);',
       },
       minWidth: {
         32: '8rem',
@@ -133,13 +135,16 @@ module.exports = {
         'full-3': 'calc(100% - 3rem)',
         'full-9': 'calc(100% - 9rem)',
       },
+      height: {
+        'option-container-height': 'calc(100% - 3.25rem)',
+      },
     },
   },
   variants: {
     extend: {
       boxShadow: ['active'],
-      backgroundColor: ['active'],
-      opacity: ['active'],
+      // backgroundColor: ['active'],
+      // opacity: ['active'],
     },
   },
   plugins: [

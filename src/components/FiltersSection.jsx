@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { uniqueId } from 'lodash';
+import uniqid from 'uniqid';
 import Slider, { createSliderWithTooltip, Range } from 'rc-slider';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { RefreshIcon, XIcon } from '@heroicons/react/outline';
@@ -200,7 +200,7 @@ const MultiCheckObjectFilter = ({
             <Disclosure.Panel>
               <div className="mt-2 flex flex-col">
                 {options[optionsKey].map((m) => (
-                  <div key={uniqueId()} className="flex items-center mb-2">
+                  <div key={uniqid()} className="flex items-center mb-2">
                     <label className="text-body-sm font-Montserrat font-medium text-dark-blue-1 dark:text-white ">
                       <input
                         id={m.code}
@@ -258,7 +258,7 @@ const MultiCheckValueFilter = ({
             <Disclosure.Panel>
               <div className="mt-2 flex flex-col">
                 {options[optionsKey].map((m) => (
-                  <div key={uniqueId()} className="flex items-center mb-2">
+                  <div key={uniqid()} className="flex items-center mb-2">
                     <label className="text-body-sm font-Montserrat font-medium text-dark-blue-1 dark:text-white ">
                       <input
                         id={m}
@@ -312,7 +312,7 @@ const FiltersSection = (props) => {
   useEffect(() => {
     if (card !== 'smart-contract' && card !== 'crypto-exchange') return;
 
-    let query = `?search=${search}&?type=${type}`;
+    let query = `?search=${search}&type=${type}`;
     let filtersQuery = '';
 
     if (duration.length) {
@@ -377,7 +377,7 @@ const FiltersSection = (props) => {
 
   const handleResetFilter = () => {
     if (card === 'smart-contract' || card === 'crypto-exchange') {
-      const query = `?search=${search}&?type=${type}`;
+      const query = `?search=${search}&type=${type}`;
 
       setDuration([+options.duration_days_option.min, +options.duration_days_option.max]);
       setAmount([+options.amount_option.min, +options.amount_option.max]);
@@ -525,7 +525,7 @@ const FiltersSection = (props) => {
 
   return (
     <>
-      <Transition.Root show={filtersOpen} as={Fragment}>
+      <Transition.Root unmount show={filtersOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 flex z-40 lg:hidden"

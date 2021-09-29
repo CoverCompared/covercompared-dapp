@@ -101,7 +101,7 @@ const InsuranceProduct = (props) => {
     <>
       <div className="xl:px-32 lg:px-26">
         <div className="grid grid-cols-12 xl:gap-x-8 gap-y-6">
-          <div className="md:col-span-4 col-span-12 flex justify-center">
+          <div className="md:col-span-4 col-span-12">
             <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
               <img
                 src="https://via.placeholder.com/400x250.png"
@@ -121,7 +121,7 @@ const InsuranceProduct = (props) => {
               </div>
             </div>
           </div>
-          <div className="md:col-span-4 col-span-12 flex flex-col justify-center">
+          <div className="md:col-span-4 col-span-12 flex flex-col">
             <div className="font-semibold text-h2 text-dark-blue font-Montserrat mb-6 dark:text-white md:flex hidden">
               Product Name Here
             </div>

@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import uniqid from 'uniqid';
-import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import StarRatings from 'react-star-ratings';
 import CheckoutForm from '../components/CheckoutForm';
 import Modal from '../components/common/Modal';
-import { addItemToCart } from '../redux/actions/AppActions';
 import ReviewCard from '../components/ReviewCard';
 import IdeaCard from '../assets/img/idea-icon.svg';
 import LeftArrow from '../assets/img/nav-left-arrow.svg';
@@ -97,7 +95,6 @@ const ReviewContainer = (props) => {
 
 const MSOProduct = (props) => {
   const { currentProduct: product } = useSelector((state) => state.app);
-  const dispatch = useDispatch();
 
   const {
     EHR,
@@ -143,35 +140,10 @@ const MSOProduct = (props) => {
     } else setMsoTotalPrice(+quote);
   });
 
-  const handleAddToCart = (e) => {
-    if (e) e.stopPropagation();
-    dispatch(
-      addItemToCart({
-        cardType: 'mso',
-        logo,
-        name,
-        quote,
-        wantAddon: addonServices,
-        addOnQuote: MSOAddOnService,
-        quote_currency: '$',
-        MSOCoverUser,
-        EHR,
-        unique_id,
-        userTypeOptions,
-        noOfSpouse,
-        noOfDependent,
-        mainMemberParents,
-        spouseParents,
-        totalUsers,
-      }),
-    );
-    toast.success('Item added to cart!');
-  };
-
   return (
     <>
       <div className="xl:px-32 lg:px-26">
-        <div className="grid grid-cols-12 gap-x-8 gap-y-6">
+        <div className="grid grid-cols-12 xl:gap-x-8 gap-y-6">
           <div className="md:col-span-4 col-span-12 flex justify-center">
             <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
               <img src={logo} alt="" className="rounded-2xl h-full w-full relative z-10" />
@@ -184,7 +156,7 @@ const MSOProduct = (props) => {
               </div>
             </div>
           </div>
-          <div className="md:col-span-4 col-span-12 flex flex-col justify-center">
+          <div className="md:col-span-4 col-span-12 flex flex-col">
             <div className="font-semibold text-h2 text-dark-blue font-Montserrat mb-6 dark:text-white md:flex hidden">
               {name}
             </div>
@@ -199,7 +171,7 @@ const MSOProduct = (props) => {
                 Yes
               </div>
             </div>
-            <div className="flex justify-between mb-4 md:mb-3">
+            <div className="flex justify-between items-center md:mb-3 mb-4">
               <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white mr-12">
                 Users
               </div>
@@ -207,6 +179,22 @@ const MSOProduct = (props) => {
                 {MSOCoverUser}
               </div>
             </div>
+            {/* <div className="flex justify-between items-center md:mb-3 mb-4">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
+                Provider
+              </div>
+              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
+                Loreuam ac in amet, porta ac duis.
+              </div>
+            </div>
+            <div className="flex justify-between items-center">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
+                Utilization
+              </div>
+              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
+                Loreuam ac in amet, porta ac duis.
+              </div>
+            </div> */}
           </div>
           <div className="md:col-span-4 col-span-12">
             <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
@@ -232,7 +220,7 @@ const MSOProduct = (props) => {
               <label className="inline-flex items-center">
                 <input
                   type="checkbox"
-                  className="form-checkbox rounded-sm text-primary-gd-1 focus:text-dark-blue focus:ring-0 focus:border-opacity-0 duration-200 focus:shadow-0"
+                  className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
                   checked={addonServices}
                   onClick={toggleCheckbox}
                 />
@@ -245,31 +233,22 @@ const MSOProduct = (props) => {
             <div className="grid grid-cols-12 gap-3 w-full">
               <button
                 type="button"
-                onClick={handleAddToCart}
-                className="col-span-5 md:px-4 py-3 mr-3 outline-none border-0 bg-white rounded-xl text-primary-gd-1 font-Montserrat font-semibold text-body-md shadow-addToCart"
-              >
-                Add to cart
-              </button>
-              <button
-                type="button"
                 className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
               >
                 <Modal
                   title="MSO Checkout Form"
                   bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-cover bg-no-repeat"
-                  renderComponent={() => (
-                    <CheckoutForm
-                      {...{
-                        unique_id,
-                        userTypeOptions,
-                        noOfSpouse,
-                        noOfDependent,
-                        mainMemberParents,
-                        spouseParents,
-                        totalUsers,
-                      }}
-                    />
-                  )}
+                  renderComponent={CheckoutForm}
+                  {...{
+                    unique_id,
+                    userTypeOptions,
+                    noOfSpouse,
+                    noOfDependent,
+                    mainMemberParents,
+                    spouseParents,
+                    totalUsers,
+                    directCheckout: true,
+                  }}
                 >
                   Buy Now
                 </Modal>
@@ -305,13 +284,13 @@ const MSOProduct = (props) => {
                 <li>8 weeks cooling period from the day of confirmation of order</li>
                 <li>Turn around time – 10 days from receipt of medical records</li>
               </ul>
-              <div className="font-Montserrat font-medium text-h6 text-dark-blue dark:text-white mb-2 mt-4">
+              <div className="font-Montserrat font-medium text-h6 text-dark-blue dark:text-white mb-2 mt-3">
                 Features EHR (from wishing well)
               </div>
               <ul className="list-disc pl-6">
                 <li>EHR with mobile app for entire family</li>
               </ul>
-              <div className="font-Montserrat font-medium text-h6 text-dark-blue dark:text-white mb-2 mt-4">
+              <div className="font-Montserrat font-medium text-h6 text-dark-blue dark:text-white mb-2 mt-3">
                 Modalities of service
               </div>
               <ul className="list-disc pl-6">

@@ -1,28 +1,34 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
-import { useWeb3React } from '@web3-react/core';
-import useAuth from '../../hooks/useAuth';
 import { classNames } from '../../functions/utils';
 
 const Modal = (props) => {
-  const { children, sizeClass, title, renderComponent: C, showCTA = false, bgImg } = props;
+  const {
+    children,
+    sizeClass,
+    title,
+    renderComponent: C,
+    showCTA = false,
+    bgImg,
+    isOpen,
+    closeable = true,
+  } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { account } = useWeb3React();
-  const { logout } = useAuth();
+
+  useEffect(() => {
+    setIsModalOpen(!!isOpen);
+  }, [isOpen]);
 
   return (
     <>
-      <div
-        onClick={(e) => (account && title !== 'Buy Insurance' ? logout() : setIsModalOpen(true))}
-      >
-        {children}
-      </div>
+      <div onClick={(e) => setIsModalOpen(true)}>{children}</div>
       <Transition.Root show={isModalOpen} as={Fragment}>
         <Dialog
+          unmount
           as="div"
           className="fixed z-40 inset-0 overflow-y-auto"
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => closeable && setIsModalOpen(false)}
         >
           <div className="flex md:items-end items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block">
             <Transition.Child
@@ -59,19 +65,20 @@ const Modal = (props) => {
                 <div className={`${bgImg} w-full h-full sm:py-8 rounded-lg`}>
                   <div className="px-4 pt-5 text-left sm:px-12 md:px-16 sm:pt-6 pb-8">
                     <div className="absolute top-8 right-8">
-                      {showCTA || (
-                        <button
-                          type="button"
-                          onClick={() => setIsModalOpen(false)}
-                          className="bg-white dark:bg-transparent rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-offset-0"
-                        >
-                          <span className="sr-only">Close</span>
-                          <XIcon
-                            className="h-7 w-7 text-dark-blue dark:text-white"
-                            aria-hidden="true"
-                          />
-                        </button>
-                      )}
+                      {showCTA ||
+                        (closeable && (
+                          <button
+                            type="button"
+                            onClick={() => setIsModalOpen(false)}
+                            className="bg-white dark:bg-transparent rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-offset-0"
+                          >
+                            <span className="sr-only">Close</span>
+                            <XIcon
+                              className="h-7 w-7 text-dark-blue dark:text-white"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        ))}
                     </div>
                     <div className="mt-3 text-center sm:mt-0 sm:text-left">
                       <Dialog.Title

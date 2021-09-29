@@ -1,14 +1,13 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderCTAs from '../../components/common/HeaderCTAs';
-import coverComparedLogo from '../../assets/img/cover-compared-logo.svg';
+import coverComparedLogo from '../../assets/img/logo-final-light.svg';
 import CoverCompareDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
 import { ThemeContext } from '../../themeContext';
 import HeaderMobile from './HeaderMobile';
 
 const HeaderNoSidebar = (props) => {
   const { theme } = useContext(ThemeContext);
-  const { showBuyButton } = props;
   return (
     <>
       <HeaderMobile {...props} />
@@ -23,7 +22,7 @@ const HeaderNoSidebar = (props) => {
               />
             </Link>
             <div className="ml-4 flex items-start md:ml-6">
-              <HeaderCTAs {...props} showBuyButton={showBuyButton} />
+              <HeaderCTAs {...props} />
             </div>
           </div>
         </div>

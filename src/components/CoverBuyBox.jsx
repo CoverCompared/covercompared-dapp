@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { toast } from 'react-toastify';
+import { useWeb3React } from '@web3-react/core';
 import InputWithSelect from './common/InputWithSelect';
 import { getQuote } from '../redux/actions/CoverList';
 
@@ -9,6 +10,7 @@ const periodOptions = ['Days', 'Week', 'Month'];
 
 const CoverBuyBox = (props) => {
   const dispatch = useDispatch();
+  const { account } = useWeb3React();
   const { card } = useParams();
   const { quote, loader } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
@@ -68,11 +70,6 @@ const CoverBuyBox = (props) => {
     );
   };
 
-  const handleBuyNow = (e) => {
-    if (e) e.stopPropagation();
-    alert('Buy Now button clicked');
-  };
-
   useEffect(() => {
     callGetQuote();
   }, [periodField, periodSelect, amountField, amountSelect]);
@@ -80,6 +77,13 @@ const CoverBuyBox = (props) => {
   useEffect(() => {
     setQuoteField(quote ? quote.toFixed(6) : quote);
   }, [quote]);
+
+  const handleBuyNow = () => {
+    if (!account) {
+      toast.warning('You need to login in advance!');
+    }
+    alert('Buy Now button clicked');
+  };
 
   return (
     <>

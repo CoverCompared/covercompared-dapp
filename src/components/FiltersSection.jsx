@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { uniqueId } from 'lodash';
+import uniqid from 'uniqid';
 import Slider, { createSliderWithTooltip, Range } from 'rc-slider';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { RefreshIcon, XIcon } from '@heroicons/react/outline';
@@ -200,7 +200,7 @@ const MultiCheckObjectFilter = ({
             <Disclosure.Panel>
               <div className="mt-2 flex flex-col">
                 {options[optionsKey].map((m) => (
-                  <div key={uniqueId()} className="flex items-center mb-2">
+                  <div key={uniqid()} className="flex items-center mb-2">
                     <label className="text-body-sm font-Montserrat font-medium text-dark-blue-1 dark:text-white ">
                       <input
                         id={m.code}
@@ -258,7 +258,7 @@ const MultiCheckValueFilter = ({
             <Disclosure.Panel>
               <div className="mt-2 flex flex-col">
                 {options[optionsKey].map((m) => (
-                  <div key={uniqueId()} className="flex items-center mb-2">
+                  <div key={uniqid()} className="flex items-center mb-2">
                     <label className="text-body-sm font-Montserrat font-medium text-dark-blue-1 dark:text-white ">
                       <input
                         id={m}

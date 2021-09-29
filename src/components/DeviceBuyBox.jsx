@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
-
+import { toast } from 'react-toastify';
+import { useWeb3React } from '@web3-react/core';
+import InputWithSelect from './common/InputWithSelect';
 import DeviceSelect from './common/DeviceSelect';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
 import { classNames } from '../functions/utils';
@@ -11,6 +13,7 @@ const amountOptions = ['ETH', 'BTC', 'USDT', 'USDC', 'CVR'];
 
 const DeviceBuyBox = (props) => {
   const dispatch = useDispatch();
+  const { account } = useWeb3React();
   const coverListData = useSelector((state) => state.coverList);
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
 
@@ -64,8 +67,10 @@ const DeviceBuyBox = (props) => {
     }
   }, [devicePlanDetails]);
 
-  const handleBuyNow = (e) => {
-    if (e) e.stopPropagation();
+  const handleBuyNow = () => {
+    if (!account) {
+      toast.warning('You need to login in advance!');
+    }
     alert('Buy Now button clicked');
   };
 

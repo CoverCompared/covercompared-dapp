@@ -1,21 +1,26 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { setCurrentProduct, addItemToCart } from '../redux/actions/AppActions';
+import { useWeb3React } from '@web3-react/core';
+import { toast } from 'react-toastify';
+import { setCurrentProduct } from '../redux/actions/AppActions';
 import BuyIcon from '../assets/icons/buy.svg';
+import { setLoginModalVisible } from '../redux/actions';
 
 const SmallPackageCard = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { account } = useWeb3React();
   const {
-    InsurancePlanType,
     name,
     quote,
     MSOAddOnService,
-    MSOPlanType,
-    MSOPlanDuration,
+    type,
     MSOCoverUser,
+    EHR,
+    logo,
+    InsurancePlanType,
+    MSOPlanDuration,
   } = props;
 
   const handleCardClick = () => {
@@ -23,10 +28,14 @@ const SmallPackageCard = (props) => {
     history.push('/mso-product');
   };
 
-  const handleAddToCart = (e) => {
+  const handleBuyNow = (e) => {
     if (e) e.stopPropagation();
-    dispatch(addItemToCart({ ...props, name, quote: JSON.parse(quote) }));
-    toast.success('Item added to cart!');
+    if (!account) {
+      toast.warning('You need to login in advance!');
+      dispatch(setLoginModalVisible(true));
+      return;
+    }
+    alert('Buy Now button clicked');
   };
 
   return (
@@ -35,15 +44,15 @@ const SmallPackageCard = (props) => {
       className="w-full group bg-gradient-to-r dark:from-featureCard-dark-bg dark:to-featureCard-dark-bg dark:hover:from-primary-gd-1 dark:hover:to-primary-gd-2 from-white to-white hover:from-primary-gd-1 hover:to-primary-gd-2 shadow-md py-3 pl-3 pr-6 rounded-xl flex justify-between items-center relative md:col-span-6 col-span-12 cursor-pointer dark:bg-featureCard-dark-bg"
     >
       <div className="flex justify-between items-center h-full">
-        <div className="w-16 h-16 rounded-xl bg-gray-200">
-          {/* <img src={img} className="h-full w-full rounded-xl" alt={packName} /> */}
+        <div className="w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white">
+          <img src={logo} className="h-full w-full rounded-xl" alt={name} />
         </div>
         <div className="ml-4">
           <div className="font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white group-hover:text-white">
             {name}
           </div>
-          <div className="font-Montserrat text-body-xs font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
-            {MSOPlanType}
+          <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
+            {type}
           </div>
           <div className="font-Montserrat text-body-xs text-dark-blue dark:text-white flex items-center group-hover:text-white">
             Price{' '}
@@ -60,7 +69,7 @@ const SmallPackageCard = (props) => {
         </div>
         <button
           type="button"
-          onClick={handleAddToCart}
+          onClick={handleBuyNow}
           className="h-10 w-10 rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2"
         >
           <img src={BuyIcon} alt="cart" className="w-6 h-6" />

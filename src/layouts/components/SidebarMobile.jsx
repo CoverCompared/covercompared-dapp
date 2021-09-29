@@ -4,59 +4,37 @@ import uniqid from 'uniqid';
 import { XIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import Modal from '../../components/common/Modal';
-import BuyInsuranceIcon from '../../assets/img/buy-insurance-icon.svg';
-import LoginIcon from '../../assets/img/Login.svg';
-import InsuranceCards from '../../components/InsuranceCards';
-import ThemeToggleSwitch from '../../components/ThemeToggleSwitch';
 import Login from '../../components/Login';
+import ThemeToggleSwitch from '../../components/ThemeToggleSwitch';
 import { toggleSidebar } from '../../redux/actions/AppActions';
 import { classNames } from '../../functions/utils';
-import coverComparedLogo from '../../assets/img/cover-compared-logo.svg';
-import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
-import HomeIcon from '../../assets/img/home-icon.svg';
-import MyInsuranceIcon from '../../assets/img/dashboard-icon.svg';
-import AboutUsIcon from '../../assets/img/about-us-icon.svg';
-import AboutTokenIcon from '../../assets/img/about-token-icon.svg';
-import ContactUsIcon from '../../assets/img/contact-us-icon.svg';
-import LearnMoreIcon from '../../assets/img/learn-more-icon.svg';
-import SubscribeIcon from '../../assets/img/subscribe-icon.svg';
-import PartnerIcon from '../../assets/img/partner-icon.svg';
-import HomeIconActive from '../../assets/active-nav-icons/home-icon.svg';
-import MyInsuranceIconActive from '../../assets/active-nav-icons/my-insurance.svg';
-import AboutUsIconActive from '../../assets/active-nav-icons/about-us.svg';
-import AboutTokenIconActive from '../../assets/active-nav-icons/Ticket Star.svg';
-import ContactUsIconActive from '../../assets/active-nav-icons/Message.svg';
-import SubscribeIconActive from '../../assets/active-nav-icons/Notification.svg';
 import { ThemeContext } from '../../themeContext';
+
+import LoginIcon from '../../assets/img/Login.svg';
+import coverComparedLogo from '../../assets/img/logo-final-light.svg';
+import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
+import { ReactComponent as HomeIcon } from '../../assets/img/home-icon.svg';
+import { ReactComponent as MyInsuranceIcon } from '../../assets/img/dashboard-icon.svg';
+import { ReactComponent as AboutUsIcon } from '../../assets/img/about-us-icon.svg';
+import { ReactComponent as AboutTokenIcon } from '../../assets/img/about-token-icon.svg';
+import { ReactComponent as ContactUsIcon } from '../../assets/img/contact-us-icon.svg';
+import { ReactComponent as LearnMoreIcon } from '../../assets/img/learn-more-icon.svg';
+import { ReactComponent as SubscribeIcon } from '../../assets/img/subscribe-icon.svg';
+import { ReactComponent as PartnerIcon } from '../../assets/img/partner-icon.svg';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const nav = [
-  { name: 'Home', to: '/', icon: HomeIcon, activeIcon: HomeIconActive },
-  {
-    name: 'My Insurances',
-    to: '/my-insurance',
-    icon: MyInsuranceIcon,
-    activeIcon: MyInsuranceIconActive,
-  },
-  { name: 'About Us', to: '/about-us', icon: AboutUsIcon, activeIcon: AboutUsIconActive },
-  {
-    name: 'About Token',
-    to: '/about-token',
-    icon: AboutTokenIcon,
-    activeIcon: AboutTokenIconActive,
-  },
-  { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon, activeIcon: ContactUsIconActive },
-  { name: 'Learn More', to: '/learn-more', icon: LearnMoreIcon, activeIcon: AboutTokenIconActive },
-  { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon, activeIcon: SubscribeIconActive },
-  { name: 'Partners', to: '/partners', icon: PartnerIcon, activeIcon: PartnerIcon },
+  { name: 'Home', to: '/', icon: HomeIcon },
+  { name: 'My Insurance', to: '/my-insurance', icon: MyInsuranceIcon },
+  { name: 'About Us', to: '/about-us', icon: AboutUsIcon },
+  { name: 'About Token', to: '/about-token', icon: AboutTokenIcon },
+  { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
+  { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
+  { name: 'Partners', to: '/partners', icon: PartnerIcon },
+  { name: 'Blogs', to: '/learn-more', icon: LearnMoreIcon },
 ];
-
-const InsuranceGrid = (props) => (
-  <div className="grid grid-cols-2 gap-4 xl:gap-y-8 md:gap-x-6 md:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
-    <InsuranceCards {...props} />
-  </div>
-);
 
 const Sidebar = (props) => {
   const dispatch = useDispatch();
@@ -69,6 +47,7 @@ const Sidebar = (props) => {
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
       <Dialog
+        unmount
         as="div"
         className="fixed inset-0 z-40 flex lg:hidden"
         onClose={() => dispatch(toggleSidebar(false))}
@@ -119,7 +98,7 @@ const Sidebar = (props) => {
             <div className="flex-shrink-0 flex items-center justify-between">
               <Link to="/">
                 <img
-                  className="h-8 w-auto"
+                  className="h-10 w-auto"
                   src={theme === 'dark' ? coverComparedDarkLogo : coverComparedLogo}
                   alt="logo"
                 />
@@ -132,20 +111,16 @@ const Sidebar = (props) => {
                   <Link
                     key={uniqid()}
                     to={item.to}
-                    className="flex items-center text-sm font-medium py-1"
+                    className="flex items-center text-sm font-medium py-1.5"
                   >
-                    <img
-                      src={item.current ? item.activeIcon : item.icon}
-                      alt={item.name}
-                      className="mr-2"
-                    />
+                    <item.icon className={classNames(item.current ? 'active-svg' : '', 'mr-2')} />
                     <div
                       style={item.current ? { WebkitTextFillColor: 'transparent' } : {}}
                       className={classNames(
                         item.current
                           ? 'bg-clip-text bg-gradient-to-r from-primary-gd-1 to-primary-gd-2'
                           : 'text-menu-no-active',
-                        'font-Montserrat font-semibold text-body-md',
+                        'font-Montserrat font-semibold text-h6',
                       )}
                     >
                       {item.name}
@@ -154,17 +129,8 @@ const Sidebar = (props) => {
                 ))}
               </nav>
               <div className="border-t-2 border-grey-300 mt-5 mb-6 w-full" />
-              <div className="flex justify-between items-center mt-6">
-                <Modal title="Buy Insurance" sizeClass="max-w-4xl" renderComponent={InsuranceGrid}>
-                  <button
-                    type="button"
-                    className="md:ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-buyInsurance md:text-body-md text-body-sm leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2"
-                  >
-                    <img src={BuyInsuranceIcon} alt="Buy Insurance" className="mr-2" />
-                    Buy Insurance
-                  </button>
-                </Modal>
-                <Modal title="Log In" bgImg="bg-loginPopupMobileBg bg-100%" renderComponent={Login}>
+              <div className="flex items-center mt-6">
+                <Modal title="Log In" bgImg="bg-mobileLoginPopupBg bg-100%" renderComponent={Login}>
                   <button
                     type="button"
                     className="md:ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm md:text-body-md text-body-sm leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"

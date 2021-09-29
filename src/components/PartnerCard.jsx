@@ -10,7 +10,7 @@ const PartnerCard = ({ img, partnerName, description, ctaLink }) => {
       className="p-6 rounded-2xl shadow-md bg-white dark:bg-featureCard-dark-bg"
     >
       <div className="flex justify-center">
-        <img src={img} alt={partnerName} className="md:max-h-20 max-h-12  object-fill" />
+        <img src={img} alt={partnerName} className="lg:max-h-20 md:max-h-14 max-h-12 object-fill" />
       </div>
       <div className="text-dark-blue font-Montserrat font-semibold text-center md:my-5 my-3 font-h6 dark:text-white">
         {partnerName}

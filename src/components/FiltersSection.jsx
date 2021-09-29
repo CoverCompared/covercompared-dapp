@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { uniqueId } from 'lodash';
+import uniqid from 'uniqid';
 import Slider, { createSliderWithTooltip, Range } from 'rc-slider';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { RefreshIcon, XIcon } from '@heroicons/react/outline';
@@ -17,13 +17,9 @@ const options = {
     min: 15,
     max: 365,
   },
-  MSO_amount_opt: {
-    min: 50,
-    max: 115,
-  },
   amount_option: {
     min: 0.1,
-    max: 20000,
+    max: 20000000,
   },
   companies_option: [
     {
@@ -37,6 +33,10 @@ const options = {
     {
       name: 'InsurAce',
       code: 'insurace',
+    },
+    {
+      name: 'Uno Re',
+      code: 'unore',
     },
   ],
   type_option: ['protocol', 'custodian', 'token'],
@@ -55,8 +55,13 @@ const options = {
     'HECO',
     'xDai',
     'Solana',
+    'Arbitrum',
   ],
   currency_option: ['ETH', 'DAI', 'USDC', 'USDT', 'MATIC', 'BNB', 'BUSD-T', 'BUSD'],
+  MSO_amount_opt: {
+    min: 50,
+    max: 115,
+  },
   mso_plan_type_opt: ['Single cover', 'Family cover'],
   mso_add_on_service: ['Add on Concierge services'],
   EHR: ['EHR & Portal'],
@@ -195,7 +200,7 @@ const MultiCheckObjectFilter = ({
             <Disclosure.Panel>
               <div className="mt-2 flex flex-col">
                 {options[optionsKey].map((m) => (
-                  <div key={uniqueId()} className="flex items-center mb-2">
+                  <div key={uniqid()} className="flex items-center mb-2">
                     <label className="text-body-sm font-Montserrat font-medium text-dark-blue-1 dark:text-white ">
                       <input
                         id={m.code}
@@ -253,7 +258,7 @@ const MultiCheckValueFilter = ({
             <Disclosure.Panel>
               <div className="mt-2 flex flex-col">
                 {options[optionsKey].map((m) => (
-                  <div key={uniqueId()} className="flex items-center mb-2">
+                  <div key={uniqid()} className="flex items-center mb-2">
                     <label className="text-body-sm font-Montserrat font-medium text-dark-blue-1 dark:text-white ">
                       <input
                         id={m}
@@ -282,7 +287,7 @@ const MultiCheckValueFilter = ({
 const FiltersSection = (props) => {
   const dispatch = useDispatch();
   const { filtersOpen } = useSelector((state) => state.app);
-  const { search, type, card } = props;
+  const { search, type, card, setFiltersQuery } = props;
 
   const filtersDialogRef = useRef(null);
 
@@ -307,14 +312,31 @@ const FiltersSection = (props) => {
   useEffect(() => {
     if (card !== 'smart-contract' && card !== 'crypto-exchange') return;
 
-    let query = `?search=${search}&?type=${type}`;
+    let query = `?search=${search}&type=${type}`;
+    let filtersQuery = '';
 
-    if (duration.length) query += `&duration=${duration.join(',')}`;
-    if (amount.length) query += `&amount=${amount.join(',')}`;
-    if (company.length) query += `&company=${company.join(',')}`;
-    if (currencyOption.length) query += `&currency=${currencyOption.join(',')}`;
-    if (chianOption.length) query += `&supported_chain=${chianOption.join(',')}`;
+    if (duration.length) {
+      query += `&duration=${duration.join(',')}`;
+      filtersQuery += `&duration=${duration.join(',')}`;
+    }
+    if (amount.length) {
+      query += `&amount=${amount.join(',')}`;
+      filtersQuery += `&amount=${amount.join(',')}`;
+    }
+    if (company.length) {
+      query += `&company=${company.join(',')}`;
+      filtersQuery += `&company=${company.join(',')}`;
+    }
+    if (currencyOption.length) {
+      query += `&currency=${currencyOption.join(',')}`;
+      filtersQuery += `&currency=${currencyOption.join(',')}`;
+    }
+    if (chianOption.length) {
+      query += `&supported_chain=${chianOption.join(',')}`;
+      filtersQuery += `&supported_chain=${chianOption.join(',')}`;
+    }
 
+    setFiltersQuery(filtersQuery);
     dispatch(searchCoverList(query));
   }, [duration, amount, company, currencyOption, chianOption]);
 
@@ -322,20 +344,40 @@ const FiltersSection = (props) => {
     if (card !== 'mso') return;
 
     let query = `?search=${search}`;
+    let filtersQuery = '';
 
-    if (msoAmount.length) query += `&amount_min=${msoAmount[0]}`;
-    if (msoAmount.length) query += `&amount_max=${msoAmount[1]}`;
-    if (msoUser) query += `&user_limit=${msoUser}`;
-    if (wantEHR.length) query += `&ehr=1`;
-    if (msoPlanTypeOpt.length) query += `&plan_type=${msoPlanTypeOpt.join(',')}`;
-    if (wantAddOn.length) query += `&add_on_service=1`;
+    if (msoAmount.length) {
+      query += `&amount_min=${msoAmount[0]}`;
+      filtersQuery += `&amount_min=${msoAmount[0]}`;
+    }
+    if (msoAmount.length) {
+      query += `&amount_max=${msoAmount[1]}`;
+      filtersQuery += `&amount_max=${msoAmount[1]}`;
+    }
+    if (msoUser) {
+      query += `&user_limit=${msoUser}`;
+      filtersQuery += `&user_limit=${msoUser}`;
+    }
+    if (wantEHR.length) {
+      query += `&ehr=1`;
+      filtersQuery += `&ehr=1`;
+    }
+    if (msoPlanTypeOpt.length) {
+      query += `&plan_type=${msoPlanTypeOpt.join(',')}`;
+      filtersQuery += `&plan_type=${msoPlanTypeOpt.join(',')}`;
+    }
+    if (wantAddOn.length) {
+      query += `&add_on_service=1`;
+      filtersQuery += `&add_on_service=1`;
+    }
 
+    setFiltersQuery(filtersQuery);
     dispatch(searchMSOList(query));
   }, [msoPlanTypeOpt, wantAddOn, msoAmount, wantEHR, msoUser]);
 
   const handleResetFilter = () => {
     if (card === 'smart-contract' || card === 'crypto-exchange') {
-      const query = `?search=${search}&?type=${type}`;
+      const query = `?search=${search}&type=${type}`;
 
       setDuration([+options.duration_days_option.min, +options.duration_days_option.max]);
       setAmount([+options.amount_option.min, +options.amount_option.max]);
@@ -343,6 +385,7 @@ const FiltersSection = (props) => {
       setCurrencyOption([]);
       setChianOption([]);
 
+      setFiltersQuery('');
       return dispatch(searchCoverList(query));
     }
 
@@ -355,6 +398,7 @@ const FiltersSection = (props) => {
       setMsoPlanTypeOpt([]);
       setWantAddOn([]);
 
+      setFiltersQuery('');
       return dispatch(searchMSOList(query));
     }
     return null;
@@ -481,7 +525,7 @@ const FiltersSection = (props) => {
 
   return (
     <>
-      <Transition.Root show={filtersOpen} as={Fragment}>
+      <Transition.Root unmount show={filtersOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 flex z-40 lg:hidden"

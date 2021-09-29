@@ -1,12 +1,11 @@
 import React from 'react';
-import MovingCart from '../assets/img/moving-cart.png';
-import WheetIcon from '../assets/img/wheel.png';
+import uniqid from 'uniqid';
 
 const PhaseCard = ({ ...props }) => {
   const { phaseNumber, phaseIcon, title, descriptionArr } = props;
   return (
     <>
-      <div className="bg-white rounded-xl pt-14 relative px-3 pb-32 md:col-span-3 col-span-12 w-full">
+      <div className="bg-white dark:bg-featureCard-dark-bg rounded-xl relative pt-14 px-3 sm:px-10 lg:px-3 pb-10  md:col-span-6 lg:col-span-3 col-span-12 w-full">
         <div className="absolute -top-8 left-2/4" style={{ transform: `translateX(${-50}%)` }}>
           <span className="text-login-button-text font-semibold font-body-md font-Montserrat">
             <svg
@@ -18,7 +17,7 @@ const PhaseCard = ({ ...props }) => {
               width="90px"
               height="90px"
               viewBox="0 0 90 90"
-              style={{ enableBackground: 'new 0 0 90 90;' }}
+              // style={{ enableBackground: 'new 0 0 90 90;' }}
             >
               <g id="Shape_85">
                 <g>
@@ -41,26 +40,20 @@ const PhaseCard = ({ ...props }) => {
             </b>
           </span>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-3">
           <img src={phaseIcon} alt="" />
         </div>
-        <div className="text-phase-content font-Montserrat font-bold text-body-sm text-center mt-4 px-1 md:h-9 h-6">
+        <div className="text-dark-blue dark:text-white font-Montserrat font-semibold sm:text-body-lg md:text-body-md text-center mt-4 px-1 lg:h-16 h-12">
           {title}
         </div>
         {descriptionArr.map((p) => (
-          <div className="font-Montserrat text-body-xs text-phase-content md:mt-4 mt-3 text-center font-medium">
+          <div
+            key={uniqid()}
+            className="font-Inter md:text-body-md text-body-sm mt-3 text-center text-post-body-text dark:text-subtitle-dark-text"
+          >
             {p}
           </div>
         ))}
-        <div className="absolute -bottom-6 left-0 w-full">
-          <img src={MovingCart} alt="" className="w-full" />
-        </div>
-        <div className="absolute -bottom-12 left-0 md:px-4 px-5 w-full">
-          <div className="flex justify-between w-full">
-            <img src={WheetIcon} alt="" className="animate-wheelSpin" />
-            <img src={WheetIcon} alt="" className="animate-wheelSpin" />
-          </div>
-        </div>
       </div>
     </>
   );

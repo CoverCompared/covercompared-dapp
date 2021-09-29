@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import GetCVROnReview from '../components/GetCVROnReview';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 import Modal from '../components/common/Modal';
@@ -8,16 +9,43 @@ import AdditionalDetails from '../components/AdditionalDetails';
 
 const MyInsurance = (props) => {
   const history = useHistory();
+  const state = useSelector((state) => state.auth);
+  const [email, setEmail] = useState(state.email || '');
+
   return (
     <>
       <GetCVROnReview {...props} />
       <MobilePageTitle title="My Insurance" />
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
+        My Profile
+      </div>
+      <div className="grid grid-cols-12 gap-x-4 gap-y-4 mb-16 xl:pl-5 xl:pr-24">
+        <div className="md:col-span-4 col-span-12 md:flex items-center">
+          <div className="font-Montserrat text-body-md font-semibold">Email</div>
+          <input
+            type="text"
+            onChange={setEmail}
+            value={email}
+            name="email"
+            placeholder="Email"
+            className="w-full md:ml-3 mt-2 md:mt-0 bg-transparent h-12 border-2 border-gray-300 rounded-xl outline-none placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 ring-0 focus:border-gray-500 focus:ring-shadow-none text-black font-Montserrat font-medium text-body-md duration-200"
+          />
+        </div>
+        <div className="flex items-center md:col-span-4 col-span-12">
+          <button
+            type="submit"
+            className="py-3 px-8 w-full md:w-min text-white font-Montserrat font-body-md rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+      <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
         Lorem Ipsum dolor sit amet
       </div>
-      <div className="md:pl-5 md:pr-24">
-        <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 md:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
-          <div className="flex items-center h-full w-full md:col-span-7 col-span-12">
+      <div className="xl:pl-5 xl:pr-24">
+        <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
+          <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
             <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl bg-gray-200">
               <img
                 src="https://via.placeholder.com/400x250.png"
@@ -29,7 +57,7 @@ const MyInsurance = (props) => {
               Uniswap - Nsure Network
             </div>
           </div>
-          <div className="flex md:justify-end items-center md:col-span-5 col-span-12">
+          <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
             <button
               type="button"
               onClick={() => history.push('submit-review')}
@@ -39,7 +67,7 @@ const MyInsurance = (props) => {
             </button>
             <Modal
               title="Additional Details"
-              bgImg="md:bg-additionalDetailsBg bg-loginPopupMobileBg bg-100%"
+              bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
               renderComponent={AdditionalDetails}
             >
               <button
@@ -52,8 +80,8 @@ const MyInsurance = (props) => {
           </div>
         </div>
 
-        <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 pr-8 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
-          <div className="flex items-center h-full md:col-span-6 col-span-12">
+        <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
+          <div className="flex items-center h-full sm:col-span-6 lg:col-span-7 col-span-12">
             <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl bg-gray-200">
               <img
                 src="https://via.placeholder.com/400x250.png"
@@ -65,10 +93,10 @@ const MyInsurance = (props) => {
               Uniswap - Nexus Mutual
             </div>
           </div>
-          <div className="flex md:justify-end items-center md:col-span-6 col-span-12">
+          <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-5 col-span-12">
             <Modal
               title="Instruction"
-              bgImg="md:bg-submitclaimBg bg-submitclaimPopupBg bg-cover"
+              bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
               renderComponent={ClaimCards}
             >
               <button

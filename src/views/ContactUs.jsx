@@ -3,23 +3,23 @@ import uniqid from 'uniqid';
 import { classNames } from '../functions/utils';
 import FormInput from '../components/FormInput';
 import MobilePageTitle from '../components/common/MobilePageTitle';
+import EditIcon from '../assets/img/Edit.svg';
 
-const TypeOfUser = ['Consumer', 'Insurance Partner', 'Others'];
+const TypeOfUser = ['CUSTOMER', 'PARTNER', 'OTHER'];
 const ContactUs = (props) => {
   const [name, SetName] = useState('');
   const [email, SetEmail] = useState('');
-  const [subject, SetSubject] = useState('');
   const [message, SetMessage] = useState('');
 
   const isValid = () => {
-    return !(name === '' || email === '' || subject === '' || message === '');
+    return !(name === '' || email === '' || message === '');
   };
   const RadioButtons = () => {
-    const [typeOfUser, SetUser] = useState('Consumers');
+    const [typeOfUser, SetUser] = useState('CUSTOMER');
     return (
       <>
         {TypeOfUser.map((user) => (
-          <div className="inline-flex items-center mr-10 mb-4 md:mb-0">
+          <div className="inline-flex items-center mr-10 mb-4 md:mb-0" key={uniqid()}>
             <input
               id="sample"
               name="sample"
@@ -46,7 +46,7 @@ const ContactUs = (props) => {
   return (
     <>
       <MobilePageTitle title="Contact Us" />
-      <form className="md:pr-28 md:pl-6 md:mb-8 md:mt-6">
+      <form className="xl:pr-28 xl:pl-6 md:mb-8">
         <div className="grid grid-cols-1 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12">
           <div className="relative col-span-12 md:col-span-6">
             <FormInput
@@ -72,22 +72,14 @@ const ContactUs = (props) => {
         <div className="mt-3">
           <RadioButtons {...props} />
         </div>
-        <div className="mt-6">
-          <FormInput
-            title="Subject"
-            inputValue={subject}
-            setChange={SetSubject}
-            inputPlaceholder="Subject"
-          />
-        </div>
 
         <div className="relative mt-6">
-          <label className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
+          <label className="absolute top-5 pl-4 font-semibold text-body-sm text-dark-blue font-Montserrat">
             Message
           </label>
           <textarea
             onChange={(e) => SetMessage(e.target.value)}
-            className="mt-3 py-2 px-4 h-32 rounded-lg border border-light-gray-border focus:border-light-gray-border appearance-none w-full bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-semibold text-body-sm shadow-lg"
+            className="mt-3 py-2 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
             placeholder="Write your message"
           />
         </div>

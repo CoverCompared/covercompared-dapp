@@ -1,5 +1,5 @@
 import MetamaskIcon from '../assets/img/metamask.svg';
-import LedgerIcon from '../assets/img/ledger.svg';
+import WalletConnectIcon from '../assets/img/walletconnect-logo.svg';
 
 const SUPPORTED_WALLETS = {
   METAMASK: {
@@ -13,7 +13,7 @@ const SUPPORTED_WALLETS = {
     name: 'Wallet Connect',
     description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
     mobile: true,
-    icon: LedgerIcon,
+    icon: WalletConnectIcon,
   },
 };
 

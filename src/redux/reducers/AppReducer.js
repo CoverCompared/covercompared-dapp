@@ -4,8 +4,6 @@ import {
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
   LOGIN_MODAL_VISIBLE,
-  ADD_ITEM_TO_CART,
-  REMOVE_ITEM_TO_CART,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
@@ -13,7 +11,6 @@ const INIT_STATE = {
   filtersOpen: false,
   currentProduct: null,
   loginModalVisible: false,
-  cart: [],
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -34,18 +31,6 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         currentProduct: payload,
-      };
-    }
-    case ADD_ITEM_TO_CART: {
-      return {
-        ...state,
-        cart: [...state.cart, { ...payload, uuid: uniqueId() }],
-      };
-    }
-    case REMOVE_ITEM_TO_CART: {
-      return {
-        ...state,
-        cart: state.cart.filter((f) => f.uuid !== payload),
       };
     }
     case LOGIN_MODAL_VISIBLE: {

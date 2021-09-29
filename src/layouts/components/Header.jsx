@@ -3,13 +3,13 @@ import HeaderCTAs from '../../components/common/HeaderCTAs';
 import HeaderMobile from './HeaderMobile';
 
 const Header = (props) => {
-  const { title, subtitle, showBuyButton } = props;
+  const { title, subtitle } = props;
 
   return (
     <>
       <HeaderMobile {...props} />
       <div
-        style={{ width: 'calc(100% - 18rem)' }}
+        style={{ width: 'calc(100% - 14rem)' }}
         className={`hidden lg:flex lg:flex-shrink-0 bg-body-bg dark:bg-body-dark-bg pt-7 fixed z-20  ${
           !subtitle && 'pb-4'
         }`}
@@ -24,7 +24,7 @@ const Header = (props) => {
             )} */}
           </div>
           <div className="ml-4 flex items-start md:ml-6">
-            <HeaderCTAs {...props} showBuyButton={showBuyButton} />
+            <HeaderCTAs {...props} />
           </div>
         </div>
       </div>

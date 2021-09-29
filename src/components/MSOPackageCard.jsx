@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import DiscountCard from './common/SmallPackageCard';
-import { setCurrentProduct, addItemToCart } from '../redux/actions/AppActions';
+import { setCurrentProduct } from '../redux/actions/AppActions';
 
 const MSOPackageCard = (props) => {
   const history = useHistory();
@@ -68,29 +66,9 @@ const MSOPackageCard = (props) => {
     setAddonServices(!addonServices);
   };
 
-  const handleAddToCart = (e) => {
+  const handleBuyNow = (e) => {
     if (e) e.stopPropagation();
-    dispatch(
-      addItemToCart({
-        cardType: 'mso',
-        logo,
-        name,
-        quote,
-        wantAddon: addonServices,
-        addOnQuote: MSOAddOnService,
-        quote_currency: '$',
-        MSOCoverUser,
-        EHR,
-        unique_id,
-        userTypeOptions,
-        noOfSpouse,
-        noOfDependent,
-        mainMemberParents,
-        spouseParents,
-        totalUsers,
-      }),
-    );
-    // toast.success('Item added to cart!');
+    alert('Buy Now button clicked');
   };
 
   return (
@@ -151,10 +129,10 @@ const MSOPackageCard = (props) => {
 
           <button
             type="button"
-            onClick={handleAddToCart}
+            onClick={handleBuyNow}
             className="ml-5 font-Montserrat md:flex items-center md:px-5 md:py-4 py-1.5 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
           >
-            Add to Cart
+            Buy Now
             <div className="md:hidden font-Montserrat md:text-h4 text-body-sm font-semibold leading-4 mt-1 text-login-button-text hover:bg-white">
               {msoTotalPrice}$
             </div>

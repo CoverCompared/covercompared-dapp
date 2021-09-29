@@ -1,10 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { updateCartItem } from '../redux/actions/AppActions';
+
 import CheckoutFormInput from './common/CheckoutFormInput';
 import FormInput from './FormInput';
-import EditIcon from '../assets/img/Edit.svg';
 
 const CheckoutForm = (props) => {
   // remove default values from below object once response is in this format
@@ -18,7 +17,6 @@ const CheckoutForm = (props) => {
     mainMemberParents,
     spouseParents,
     totalUsers,
-    directCheckout,
     setIsModalOpen,
   } = props;
   const dispatch = useDispatch();
@@ -76,24 +74,8 @@ const CheckoutForm = (props) => {
   };
 
   const handleSubmit = () => {
-    if (!directCheckout) {
-      dispatch(
-        updateCartItem({
-          uuid,
-          formData: {
-            users,
-            email,
-            dob,
-            country,
-            saveDetails,
-          },
-        }),
-      );
-    }
     setIsModalOpen(false);
-    toast.success(
-      `${directCheckout ? 'Membership bought' : 'Form information saved'} successfully`,
-    );
+    toast.success('Item bought successfully');
   };
 
   return (
@@ -196,6 +178,7 @@ const CheckoutForm = (props) => {
               inputValue={dob}
               setChange={setDob}
               inputPlaceholder="Date of Birth"
+              max={new Date().toLocaleDateString('en-ca')}
               required
               noPenIcon
             />
@@ -237,7 +220,7 @@ const CheckoutForm = (props) => {
             type="submit"
             className="py-3 px-8 ml-3 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
-            {directCheckout ? 'Buy' : 'Save'}
+            Buy
           </button>
         </div>
       </form>

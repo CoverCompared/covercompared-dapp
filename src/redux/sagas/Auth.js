@@ -5,6 +5,7 @@ import {
   SET_PROFILE_DETAILS,
   VERIFY_OTP,
   RESEND_VERIFICATION_EMAIL,
+  GET_USER_PROFILE,
 } from '../constants/ActionTypes';
 import {
   setAuthLoader,
@@ -12,12 +13,13 @@ import {
   getLoginDetailsSuccess,
   verifyOTPSuccess,
   resendVerificationEmailSuccess,
+  getUserProfile,
   getUserProfileSuccess,
 } from '../actions/Auth';
 import * as selector from '../constants/selectors';
 import { axiosGet, axiosPost } from '../constants/apicall';
 
-function* getAccountToken({ payload }) {
+function* loginUser({ payload }) {
   try {
     yield put(
       setAuthLoader({
@@ -87,7 +89,7 @@ function* setProfileData({ payload }) {
   }
 }
 
-function* verifyOTPFunc({ payload }) {
+function* verifyOTP({ payload }) {
   try {
     yield put(
       setAuthLoader({
@@ -102,14 +104,7 @@ function* verifyOTPFunc({ payload }) {
 
     if (res?.data?.success) {
       yield put(verifyOTPSuccess());
-
-      const url = `${API_BASE_URL}/user/profile`;
-      const profile = yield call(axiosGet, url, yield select(selector.token));
-
-      if (profile?.data?.data) {
-        yield put(getUserProfileSuccess(profile?.data?.data));
-      }
-      return true;
+      return yield put(getUserProfile());
     }
 
     return yield put(
@@ -130,7 +125,7 @@ function* verifyOTPFunc({ payload }) {
   }
 }
 
-function* resendVerificationEmailFunc({ payload }) {
+function* resendVerificationEmail({ payload }) {
   try {
     yield put(
       setAuthLoader({
@@ -165,9 +160,45 @@ function* resendVerificationEmailFunc({ payload }) {
   }
 }
 
+function* getUserProfileSaga() {
+  try {
+    yield put(
+      setAuthLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/profile`;
+    const profile = yield call(axiosGet, url, yield select(selector.token));
+
+    if (profile?.data?.data) {
+      return yield put(getUserProfileSuccess(profile?.data?.data));
+    }
+
+    return yield put(
+      setAuthLoader({
+        loader: false,
+        isFailed: true,
+        message: profile.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setAuthLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
 export default all([
-  takeLatest(GET_LOGIN_DETAILS, getAccountToken),
+  takeLatest(GET_LOGIN_DETAILS, loginUser),
   takeLatest(SET_PROFILE_DETAILS, setProfileData),
-  takeLatest(VERIFY_OTP, verifyOTPFunc),
-  takeLatest(RESEND_VERIFICATION_EMAIL, resendVerificationEmailFunc),
+  takeLatest(VERIFY_OTP, verifyOTP),
+  takeLatest(RESEND_VERIFICATION_EMAIL, resendVerificationEmail),
+  takeLatest(GET_USER_PROFILE, getUserProfileSaga),
 ]);

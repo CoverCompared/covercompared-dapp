@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { useWeb3React } from '@web3-react/core';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import DiscountCard from './common/Discount';
 
 const BuyInsurancePackageCard = (props) => {
   const history = useHistory();
+  const { account } = useWeb3React();
   const { img, packName, ProviderName, priceRange, startPrice, discount } = props;
+
+  const handleClick = () => {
+    if (!account) {
+      toast.warning('You need to login in advance!');
+    }
+  };
+
   return (
     <>
       <div
@@ -52,6 +62,7 @@ const BuyInsurancePackageCard = (props) => {
             <button
               type="button"
               className="ml-3 font-Montserrat inline-flex items-center px-7 py-4 shadow-sm text-sm leading-4 font-semibold rounded-xl text-login-button-text bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-buy-button-gd-1 hover:to-buy-button-gd-2 duration-200 hover:text-white"
+              onClick={handleClick}
             >
               Buy Now
             </button>

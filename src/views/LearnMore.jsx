@@ -1,4 +1,5 @@
 import React from 'react';
+import { uniqueId } from 'lodash';
 import PostCard from '../components/PostCard';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 
@@ -67,7 +68,7 @@ const LearnMore = (props) => {
         {postCards.map(({ image, title, body, ctaLink }) => (
           <PostCard
             {...props}
-            key={title}
+            key={uniqueId()}
             image={image}
             title={title}
             body={body}

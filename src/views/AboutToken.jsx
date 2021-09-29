@@ -29,8 +29,18 @@ const AboutToken = () => {
         One Coin. 2 marketplaces. 11 use cases
       </div>
       <div className="text-center md:px-24 flex justify-center w-full mt-10 xl:mb-28 md:mb-16 mb-14">
-        <div className="grid grid-cols-12 gap-x-6 gap-y-4 w-full sm:px-24">
-          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+        <div className="md:max-w-3xl w-full hidden md:block">
+          {marketPlaces.map((name) => (
+            <div
+              className="bg-login-button-bg md:py-4 md:px-2 md:my-3 md:mx-8 md:w-40 rounded-xl inline-block text-login-button-text md:text-body-md text-body-xs font-semibold"
+              key={name}
+            >
+              {name}
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-12 gap-x-6 gap-y-4 md:hidden w-full sm:px-24">
+          <div className="col-span-6 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
             Etherscan
           </div>
           <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">

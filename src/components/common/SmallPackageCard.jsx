@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
-import { setCurrentProduct, addItemToCart } from '../../redux/actions/AppActions';
+import { setCurrentProduct } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
 import Loading from './Loading';
 import BuyIcon from '../../assets/icons/buy.svg';
@@ -31,10 +30,9 @@ const SmallPackageCard = (props) => {
     history.push('/product/cover');
   };
 
-  const handleAddToCart = (e) => {
+  const handleBuyNow = (e) => {
     if (e) e.stopPropagation();
-    dispatch(addItemToCart(props));
-    // toast.success('Item added to cart!');
+    alert('Buy Now button clicked');
   };
 
   return (
@@ -83,7 +81,7 @@ const SmallPackageCard = (props) => {
         </div>
         <button
           type="button"
-          onClick={handleAddToCart}
+          onClick={handleBuyNow}
           className="h-10 w-10 rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2"
         >
           {quote !== undefined ? (
@@ -99,7 +97,7 @@ const SmallPackageCard = (props) => {
       </div>
       <button
         type="button"
-        onClick={handleAddToCart}
+        onClick={handleBuyNow}
         className="md:hidden py-1.5 mt-4 w-full rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2 font-semibold text-body-xs"
       >
         Start From <br />{' '}

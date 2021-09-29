@@ -1,8 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
-import { useWeb3React } from '@web3-react/core';
-import useAuth from '../../hooks/useAuth';
 import { classNames } from '../../functions/utils';
 
 const Modal = (props) => {
@@ -17,8 +15,6 @@ const Modal = (props) => {
     closeable = true,
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { account } = useWeb3React();
-  const { logout } = useAuth();
 
   useEffect(() => {
     setIsModalOpen(!!isOpen);
@@ -26,11 +22,7 @@ const Modal = (props) => {
 
   return (
     <>
-      <div
-        onClick={(e) => (account && title !== 'Buy Insurance' ? logout() : setIsModalOpen(true))}
-      >
-        {children}
-      </div>
+      <div onClick={(e) => setIsModalOpen(true)}>{children}</div>
       <Transition.Root show={isModalOpen} as={Fragment}>
         <Dialog
           unmount

@@ -19,25 +19,28 @@ import NsureNetworkLogo from '../assets/partners/Nsure-Network.png';
 import UnoReLogo from '../assets/partners/UNORE.png';
 import InsureAceLogo from '../assets/partners/InsurAce.png';
 import { ThemeContext } from '../themeContext';
+import BlogPost1 from '../assets/blogs/blog-post-1.png';
+import BlogPost2 from '../assets/blogs/blog-post-2.png';
+import BlogPost3 from '../assets/blogs/blog-post-3.png';
 
 const postCards = [
   {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
+    image: BlogPost1,
+    title: 'InsurAce.io : our second official...',
+    body: 'Not long after Nsure was announced as our first partner, we are ecstatic to...',
+    ctaLink: 'blogs/page1',
   },
   {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
+    image: BlogPost2,
+    title: 'Nsure Network — The FIRST insurance...',
+    body: 'We are beyond thrilled to introduce Nsure Network as our FIRST insurer partner...',
+    ctaLink: 'blogs/page2',
   },
   {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
+    image: BlogPost3,
+    title: 'The traditional insurers are here!',
+    body: 'The CoverCompared network, powered by PolkaCover, has been consistently...',
+    ctaLink: 'blogs/page3',
   },
 ];
 
@@ -111,7 +114,7 @@ export default function Home(props) {
         <img
           src={InsuranceCardDotBg}
           alt=""
-          className="absolute sm: md:-top-11 -top-7 right-4 md:right-24 z-0 md:h-24 md:w-24 h-14 w-14"
+          className="absolute sm: md:-top-10 -top-7 right-4 md:right-24 z-0 md:h-24 md:w-24 h-14 w-14"
         />
       </div>
 

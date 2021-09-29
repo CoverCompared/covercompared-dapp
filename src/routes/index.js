@@ -127,7 +127,7 @@ const routes = [
     withSidebar: true,
     component: AboutUs,
     title: 'About Us',
-    bgImg: 'md:bg-HomePageBg',
+    bgImg: 'md:bg-AboutUsBg',
     mobileBgImg: 'bg-HomeMobileBg',
     bgImgClass: 'bg-100% bg-no-repeat bg-cover',
   },
@@ -173,7 +173,7 @@ const routes = [
     bgImgClass: 'bg-100% bg-no-repeat',
   },
   {
-    path: '/blog',
+    path: '/blogs/:page',
     exact: true,
     pageName: 'Blog',
     withSidebar: true,

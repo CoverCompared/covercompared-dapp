@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import DiscountCard from './common/SmallPackageCard';
-import { setCurrentProduct, addItemToCart } from '../redux/actions/AppActions';
+import { setCurrentProduct } from '../redux/actions/AppActions';
 
 const MSOPlanCard = (props) => {
   const history = useHistory();

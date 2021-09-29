@@ -7,6 +7,7 @@ import { emptyCart } from '../redux/actions/AppActions';
 import CartCard from '../components/CartCard';
 import DeviceCartCard from '../components/DeviceCartCard';
 import RightArrow from '../assets/img/Arrow-Right.svg';
+import { setLoginModalVisible } from '../redux/actions';
 
 const Cart = (props) => {
   const dispatch = useDispatch();

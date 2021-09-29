@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { useWeb3React } from '@web3-react/core';
 import InputWithSelect from './common/InputWithSelect';
 import { getQuote } from '../redux/actions/CoverList';
-import { addItemToCart } from '../redux/actions/AppActions';
 
 const periodOptions = ['Days', 'Week', 'Month'];
 
@@ -71,34 +70,6 @@ const CoverBuyBox = (props) => {
     );
   };
 
-  const handleAddToCart = (e) => {
-    if (e) e.stopPropagation();
-
-    dispatch(
-      addItemToCart({
-        cardType,
-        name,
-        company_code,
-        address,
-        product_id,
-        currency,
-        company,
-        logo,
-        company_icon,
-        currency_limit,
-        duration_days_max,
-        duration_days_min,
-        periodType: periodSelect,
-        period: periodField,
-        quote: quoteField,
-        quote_chain: quoteSelect,
-        quote_currency: amountSelect,
-        supportedChains,
-      }),
-    );
-    toast.success('Item added to cart!');
-  };
-
   useEffect(() => {
     callGetQuote();
   }, [periodField, periodSelect, amountField, amountSelect]);
@@ -107,10 +78,11 @@ const CoverBuyBox = (props) => {
     setQuoteField(quote ? quote.toFixed(6) : quote);
   }, [quote]);
 
-  const handleClick = () => {
+  const handleBuyNow = () => {
     if (!account) {
       toast.warning('You need to login in advance!');
     }
+    alert('Buy Now button clicked');
   };
 
   return (
@@ -156,15 +128,8 @@ const CoverBuyBox = (props) => {
       <div className="grid grid-cols-12 gap-3 w-full">
         <button
           type="button"
-          onClick={handleAddToCart}
-          className="col-span-5 md:px-4 py-3 mr-3 outline-none border-0 bg-white rounded-xl text-primary-gd-1 font-Montserrat font-semibold text-body-md shadow-addToCart"
-        >
-          Add to cart
-        </button>
-        <button
-          type="button"
+          onClick={handleBuyNow}
           className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
-          onClick={handleClick}
         >
           Buy Now
         </button>

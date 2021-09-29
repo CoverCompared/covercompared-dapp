@@ -16,7 +16,6 @@ import {
   getUserProfile,
   getUserProfileSuccess,
 } from '../actions/Auth';
-import { syncCart } from '../actions/AppActions';
 import * as selector from '../constants/selectors';
 import { axiosGet, axiosPost } from '../constants/apicall';
 
@@ -34,8 +33,7 @@ function* loginUser({ payload }) {
     const loginRes = yield call(axiosPost, url, payload);
 
     if (loginRes?.data?.data) {
-      yield put(getLoginDetailsSuccess(loginRes.data.data));
-      return yield put(syncCart());
+      return yield put(getLoginDetailsSuccess(loginRes.data.data));
     }
 
     return yield put(

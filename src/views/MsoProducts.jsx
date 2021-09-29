@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import uniqid from 'uniqid';
-import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import StarRatings from 'react-star-ratings';
 import CheckoutForm from '../components/CheckoutForm';
 import Modal from '../components/common/Modal';
-import { addItemToCart } from '../redux/actions/AppActions';
 import ReviewCard from '../components/ReviewCard';
 import IdeaCard from '../assets/img/idea-icon.svg';
 import LeftArrow from '../assets/img/nav-left-arrow.svg';
@@ -97,7 +95,6 @@ const ReviewContainer = (props) => {
 
 const MSOProduct = (props) => {
   const { currentProduct: product } = useSelector((state) => state.app);
-  const dispatch = useDispatch();
 
   const {
     EHR,
@@ -142,31 +139,6 @@ const MSOProduct = (props) => {
       setMsoTotalPrice(+quote + +addOnQuote);
     } else setMsoTotalPrice(+quote);
   });
-
-  const handleAddToCart = (e) => {
-    if (e) e.stopPropagation();
-    dispatch(
-      addItemToCart({
-        cardType: 'mso',
-        logo,
-        name,
-        quote,
-        wantAddon: addonServices,
-        addOnQuote: MSOAddOnService,
-        quote_currency: '$',
-        MSOCoverUser,
-        EHR,
-        unique_id,
-        userTypeOptions,
-        noOfSpouse,
-        noOfDependent,
-        mainMemberParents,
-        spouseParents,
-        totalUsers,
-      }),
-    );
-    toast.success('Item added to cart!');
-  };
 
   return (
     <>
@@ -259,13 +231,6 @@ const MSOProduct = (props) => {
             </div>
 
             <div className="grid grid-cols-12 gap-3 w-full">
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                className="col-span-5 md:px-4 py-3 mr-3 outline-none border-0 bg-white rounded-xl text-primary-gd-1 font-Montserrat font-semibold text-body-md shadow-addToCart"
-              >
-                Add to cart
-              </button>
               <button
                 type="button"
                 className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"

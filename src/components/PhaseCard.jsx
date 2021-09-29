@@ -1,4 +1,6 @@
 import React from 'react';
+import uniqid from 'uniqid';
+
 import MovingCart from '../assets/img/moving-cart.png';
 import WheetIcon from '../assets/img/wheel.png';
 
@@ -49,8 +51,8 @@ const PhaseCard = ({ ...props }) => {
         </div>
         {descriptionArr.map((p) => (
           <div
+            key={uniqid()}
             className="font-Inter md:text-body-md text-body-sm mt-3 text-center text-post-body-text dark:text-subtitle-dark-text"
-            key={p}
           >
             {p}
           </div>

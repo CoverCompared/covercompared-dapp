@@ -27,7 +27,7 @@ const DeviceBuyBox = (props) => {
   const [devicePlans, setDevicePlans] = useState('');
   const [planPriceArr, setplanPricesArr] = useState('');
   const [planType, setPlanType] = useState('');
-  
+
   useEffect(() => {
     dispatch(
       getDeviceDetails({

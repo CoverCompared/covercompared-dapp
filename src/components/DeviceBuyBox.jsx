@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
-import { toast } from 'react-toastify';
-import InputWithSelect from './common/InputWithSelect';
+
 import DeviceSelect from './common/DeviceSelect';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
-import { addItemToCart } from '../redux/actions/AppActions';
 import { classNames } from '../functions/utils';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
@@ -66,24 +64,9 @@ const DeviceBuyBox = (props) => {
     }
   }, [devicePlanDetails]);
 
-  const handleAddToCart = (e) => {
+  const handleBuyNow = (e) => {
     if (e) e.stopPropagation();
-
-    dispatch(
-      addItemToCart({
-        cardType: 'device',
-        device: deviceType,
-        brand,
-        device_value: value,
-        purchase_month: purchaseMonth,
-        quote_chain: quoteSelect,
-        quote: planType.plan_total_price,
-        planType,
-        tran_id: deviceDetails.tran_id,
-        quote_currency: planType.plan_currency,
-      }),
-    );
-    toast.success('Item added to cart!');
+    alert('Buy Now button clicked');
   };
 
   return (
@@ -176,13 +159,7 @@ const DeviceBuyBox = (props) => {
       <div className="grid grid-cols-12 gap-3 w-full">
         <button
           type="button"
-          onClick={handleAddToCart}
-          className="col-span-6 px-4 py-3 outline-none border-0 bg-white rounded-xl text-primary-gd-1 font-Montserrat font-semibold text-body-md shadow-addToCart"
-        >
-          Add to cart
-        </button>
-        <button
-          type="button"
+          onClick={handleBuyNow}
           className="col-span-6 py-3 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
         >
           Buy Now

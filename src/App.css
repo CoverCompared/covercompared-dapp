@@ -9,3 +9,7 @@
 .__react_component_tooltip::after {
   border-bottom-color: #4988b3 !important;
 }
+
+.active-svg path {
+  stroke: url(#primary-gradient);
+}

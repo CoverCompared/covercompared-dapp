@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { setCurrentProduct, addItemToCart } from '../../redux/actions/AppActions';
+import { setCurrentProduct } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
 import Loading from './Loading';
 import ToolTip from './ToolTip';
@@ -32,10 +31,9 @@ const PackageCard = (props) => {
     }
   };
 
-  const handleAddToCart = (e) => {
+  const handleBuyNow = (e) => {
     e.stopPropagation();
-    dispatch(addItemToCart(props));
-    toast.success('Item added to cart!');
+    alert('Buy Now button clicked');
   };
 
   return (
@@ -100,12 +98,12 @@ const PackageCard = (props) => {
           <div className="col-span-5 md:col-span-3 flex items-center justify-end">
             <button
               type="button"
-              onClick={handleAddToCart}
+              onClick={handleBuyNow}
               className="ml-3 font-Montserrat disabled:opacity-50 md:inline-flex items-center md:px-5 md:py-4 py-1.5 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
             >
               <div>
                 {quote !== undefined && quote !== '' ? (
-                  'Add to Cart'
+                  'Buy Now'
                 ) : (
                   <div className="hidden md:block">
                     <Loading heightClass="h-4" widthClass="w-4" />

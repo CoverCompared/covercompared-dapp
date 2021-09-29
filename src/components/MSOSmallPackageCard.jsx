@@ -1,8 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { setCurrentProduct, addItemToCart } from '../redux/actions/AppActions';
+import { setCurrentProduct } from '../redux/actions/AppActions';
 import BuyIcon from '../assets/icons/buy.svg';
 
 const SmallPackageCard = (props) => {
@@ -25,22 +24,9 @@ const SmallPackageCard = (props) => {
     history.push('/mso-product');
   };
 
-  const handleAddToCart = (e) => {
+  const handleButNow = (e) => {
     if (e) e.stopPropagation();
-    dispatch(
-      addItemToCart({
-        cardType: 'mso',
-        logo,
-        name,
-        quote,
-        wantAddon: false,
-        addOnQuote: MSOAddOnService,
-        quote_currency: '$',
-        MSOCoverUser,
-        EHR,
-      }),
-    );
-    toast.success('Item added to cart!');
+    alert('Buy Now button clicked');
   };
 
   return (
@@ -74,7 +60,7 @@ const SmallPackageCard = (props) => {
         </div>
         <button
           type="button"
-          onClick={handleAddToCart}
+          onClick={handleButNow}
           className="h-10 w-10 rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2"
         >
           <img src={BuyIcon} alt="cart" className="w-6 h-6" />

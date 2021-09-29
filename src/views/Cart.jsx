@@ -33,6 +33,7 @@ const Cart = (props) => {
       dispatch(emptyCart());
     } else {
       toast.warning('You need to login in advance!');
+      dispatch(setLoginModalVisible(true));
     }
   };
 

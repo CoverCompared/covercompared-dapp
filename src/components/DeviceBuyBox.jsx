@@ -7,6 +7,7 @@ import InputWithSelect from './common/InputWithSelect';
 import SelectWithSearch from './common/SelectWithSearch';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
 import { classNames } from '../functions/utils';
+import { setLoginModalVisible } from '../redux/actions';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 const amountOptions = ['ETH', 'BTC', 'USDT', 'USDC', 'CVR'];
@@ -26,7 +27,7 @@ const DeviceBuyBox = (props) => {
   const [devicePlans, setDevicePlans] = useState('');
   const [planPriceArr, setplanPricesArr] = useState('');
   const [planType, setPlanType] = useState('');
-  console.log(devicePlanDetails);
+  
   useEffect(() => {
     dispatch(
       getDeviceDetails({
@@ -70,6 +71,8 @@ const DeviceBuyBox = (props) => {
   const handleBuyNow = () => {
     if (!account) {
       toast.warning('You need to login in advance!');
+      dispatch(setLoginModalVisible(true));
+      return;
     }
     alert('Buy Now button clicked');
   };

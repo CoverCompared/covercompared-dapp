@@ -6,7 +6,7 @@ import { setProfileDetails, resendVerificationEmail, verifyOTP } from '../redux/
 const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
-  const { userDetailsModalOpen, isOTPPending, loader, isFailed } = authState;
+  const { isOTPPending, loader, isFailed } = authState;
 
   const [otp, setOtp] = useState('');
   const [email, setEmail] = useState('');

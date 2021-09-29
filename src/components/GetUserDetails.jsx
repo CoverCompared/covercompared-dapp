@@ -6,12 +6,12 @@ import RegisterMail from './RegisterMail';
 
 const GetUserDetails = (props) => {
   const { account } = useWeb3React();
-  const { userDetailsModalOpen } = useSelector((state) => state.auth);
+  const { email } = useSelector((state) => state.auth);
 
   return (
     <Modal
       closeable={false}
-      isOpen={!!(userDetailsModalOpen && account)}
+      isOpen={!email && account}
       title="Register"
       bgImg="md:bg-submitClaimBg bg-mobileLoginPopupBg bg-100% bg-no-repeat"
       renderComponent={RegisterMail}

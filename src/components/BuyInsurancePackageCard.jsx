@@ -3,16 +3,21 @@ import { useHistory } from 'react-router';
 import { useWeb3React } from '@web3-react/core';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import DiscountCard from './common/Discount';
+import { setLoginModalVisible } from '../redux/actions';
 
 const BuyInsurancePackageCard = (props) => {
   const history = useHistory();
   const { account } = useWeb3React();
+  const dispatch = useDispatch();
   const { img, packName, ProviderName, priceRange, startPrice, discount } = props;
 
   const handleClick = () => {
     if (!account) {
       toast.warning('You need to login in advance!');
+      dispatch(setLoginModalVisible(true));
+      return;
     }
   };
 

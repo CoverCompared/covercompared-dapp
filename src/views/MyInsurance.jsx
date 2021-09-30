@@ -86,7 +86,7 @@ const MyInsurance = (props) => {
                 type="button"
                 className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
               >
-                Additional Details
+                Policy Details
               </button>
             </Modal>
           </div>

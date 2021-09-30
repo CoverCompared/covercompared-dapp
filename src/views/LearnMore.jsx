@@ -14,7 +14,9 @@ const LearnMore = (props) => {
   const [BlogList, setBlogList] = useState(blogList);
 
   useEffect(() => {
-    setBlogList(blogList);
+    if (blogList !== null) {
+      setBlogList(blogList);
+    }
   }, [BlogList]);
 
   useEffect(() => {
@@ -38,9 +40,10 @@ const LearnMore = (props) => {
         </div>
       );
     }
-    if (BlogList?.length) {
+
+    if (BlogList) {
       return (
-        <div className="sm:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:px-4 md:pb-20 pb-14 sm:px-0">
+        <div className="grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 lg:px-14 md:px-4 md:pb-20 pb-14 sm:px-0">
           {BlogList.map((blog) => (
             <PostCard {...props} key={uniqueId()} {...blog} />
           ))}

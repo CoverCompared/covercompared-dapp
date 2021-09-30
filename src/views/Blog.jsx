@@ -10,17 +10,19 @@ const Blog = () => {
   const dispatch = useDispatch();
   const coverListData = useSelector((state) => state.coverList);
   const { loader, blog, message, isFailed, page, totalPages } = coverListData;
-  console.log(blog);
+
   const [blogTitle, setBlogTitle] = useState('');
   const [blogImage, setBlogImage] = useState('');
   const [blogContent, setBlogContent] = useState('');
   const [blogSlug, setBlogSlug] = useState('');
 
   useEffect(() => {
-    setBlogTitle(blog.title);
-    setBlogImage(blog.image);
-    setBlogContent(blog.content);
-    setBlogSlug(blog.slug);
+    if (blog !== null) {
+      setBlogTitle(blog.title);
+      setBlogImage(blog.image);
+      setBlogContent(blog.content);
+      setBlogSlug(blog.slug);
+    }
   }, [blog]);
 
   useEffect(() => {
@@ -45,8 +47,10 @@ const Blog = () => {
     }
     if (blog) {
       return (
-        <div className="px-20">
-          <img src={blogImage} alt={blogTitle} className="w-full h-72 rounded-2xl" />
+        <div className="md:px-20">
+          <div className="text-center w-full">
+            <img src={blogImage} alt={blogTitle} className="md:h-88 rounded-2xl mx-auto" />
+          </div>
           <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold dark:text-white mt-10 mb-6">
             {blogTitle}
           </div>
@@ -62,7 +66,7 @@ const Blog = () => {
 
   return (
     <>
-      <div className="px-20">{renderBlog()}</div>
+      <div className="md:px-20">{renderBlog()}</div>
     </>
   );
 };

@@ -112,13 +112,15 @@ export default function Home(props) {
   const [BlogList, setBlogList] = useState(blogList);
 
   useEffect(() => {
-    setBlogList(blogList);
-  }, [BlogList]);
-
-  useEffect(() => {
     const query = `/table?range=[0,3]`;
     dispatch(searchBlogList(query));
   }, []);
+
+  useEffect(() => {
+    if (blogList !== null) {
+      setBlogList(blogList);
+    }
+  }, [BlogList]);
 
   const RenderBlogs = () => {
     if (loader) {
@@ -138,11 +140,36 @@ export default function Home(props) {
     }
     if (BlogList?.length) {
       return (
-        <div className="sm:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:px-4 md:pb-20 pb-14 sm:px-0">
-          {BlogList.map((blog) => (
-            <PostCard {...props} key={uniqid()} {...blog} />
-          ))}
-        </div>
+        <>
+          <div className="sm:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:px-4 md:pb-20 pb-14 sm:px-0">
+            {BlogList.map((blog) => (
+              <PostCard {...props} key={uniqid()} {...blog} />
+            ))}
+          </div>
+          <div className="sm:hidden pb-14">
+            {BlogList.map((blog) => (
+              <div className="grid grid-cols-12 gap-x-3 mb-3" key={uniqid()}>
+                <div className=" col-span-4">
+                  <img src={blog.image} alt="" className="h-full w-full rounded-lg" />
+                </div>
+                <div className="col-span-8 flex flex-col justify-center">
+                  <div className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
+                    {blog.title ? `${blog.title.substring(0, 18)}. . .` : ''}
+                  </div>
+                  <div className="text-post-body-text md:text-body-md text-body-xs mt-1 mb-2 font-Inter dark:text-subtitle-dark-text">
+                    {blog.description ? `${blog.description.substring(0, 26)}. . .` : ''}
+                  </div>
+                  <Link
+                    to={`blog/${blog.slug}`}
+                    className="font-Montserrat text-dark-blue font-semibold md:text-body-md text-body-sm underline dark:text-white"
+                  >
+                    Read More...
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       );
     }
 
@@ -170,30 +197,6 @@ export default function Home(props) {
           <CounterCard {...props} key={uniqid()} title={title} subtitle={subtitle} />
         ))}
       </div> */}
-
-      <div className="sm:hidden pb-14">
-        {postCards.map(({ image, title, body, ctaLink }) => (
-          <div className="grid grid-cols-12 gap-x-3 mb-3" key={uniqid()}>
-            <div className=" col-span-4 w-full h-22">
-              <img src={image} alt="" className="h-full w-full rounded-lg" />
-            </div>
-            <div className="col-span-8 flex flex-col justify-center">
-              <div className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
-                {`${title.slice(0, 18)}. . .`}
-              </div>
-              <div className="text-post-body-text md:text-body-md text-body-xs mt-1 mb-2 font-Inter dark:text-subtitle-dark-text">
-                {`${body.slice(0, 60)}. . . `}
-              </div>
-              <Link
-                to={ctaLink}
-                className="font-Montserrat text-dark-blue font-semibold md:text-body-md text-body-sm underline dark:text-white"
-              >
-                Read More...
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
 
       <Features {...props} />
 

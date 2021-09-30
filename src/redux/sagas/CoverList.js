@@ -9,6 +9,8 @@ import {
   FETCH_MORE_COVERS,
   GET_DEVICE_DETAILS,
   GET_DEVICE_PLAN_DETAILS,
+  SEARCH_BLOG_LIST,
+  SEARCH_BLOG,
 } from '../constants/ActionTypes';
 import {
   searchCoverListSuccess,
@@ -24,6 +26,10 @@ import {
   setGetDeviceDetailsLoader,
   getDevicePlanDetailsSuccess,
   setGetDevicePlanDetailsLoader,
+  searchBlogListSuccess,
+  setSearchBlogListLoader,
+  searchBlogSuccess,
+  setSearchBlogLoader,
 } from '../actions/CoverList';
 import { axiosGet, axiosPost } from '../constants/apicall';
 
@@ -287,6 +293,88 @@ function* getDevicePlanDetail({ payload }) {
   }
 }
 
+function* searchBlogList({ payload }) {
+  try {
+    yield put(
+      setSearchBlogListLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/blogs${payload || ''}`;
+    const blogList = yield call(axiosGet, url);
+
+    if (blogList?.data?.data) {
+      yield put(
+        searchBlogListSuccess({
+          query: payload,
+          blogList: blogList.data.data,
+        }),
+      );
+    }
+
+    return yield put(
+      setSearchBlogListLoader({
+        loader: false,
+        isFailed: true,
+        query: null,
+        message: blogList.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setSearchBlogListLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* searchSingleBlog({ payload }) {
+  try {
+    yield put(
+      setSearchBlogListLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/blogs/${payload || ''}`;
+    const blog = yield call(axiosGet, url);
+
+    if (blog?.data?.data) {
+      yield put(
+        searchBlogSuccess({
+          query: payload,
+          blog: blog.data.data,
+        }),
+      );
+    }
+
+    return yield put(
+      setSearchBlogLoader({
+        loader: false,
+        isFailed: true,
+        query: null,
+        message: blog.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setSearchBlogLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
 export default all([
   takeLatest(SEARCH_COVER_LIST, searchAllCoverList),
   takeLatest(SEARCH_MSO_LIST, searchMSOList),
@@ -294,4 +382,6 @@ export default all([
   takeLatest(GET_QUOTE, getQuote),
   takeLatest(GET_DEVICE_DETAILS, getDeviceDetail),
   takeLatest(GET_DEVICE_PLAN_DETAILS, getDevicePlanDetail),
+  takeLatest(SEARCH_BLOG_LIST, searchBlogList),
+  takeLatest(SEARCH_BLOG, searchSingleBlog),
 ]);

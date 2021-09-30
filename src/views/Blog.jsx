@@ -1,37 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Markup } from 'interweave';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchBlog } from '../redux/actions/CoverList';
+import Loading from '../components/common/Loading';
 
 const Blog = () => {
-  const { page } = useParams();
+  const { blogPage } = useParams();
+  const dispatch = useDispatch();
+  const coverListData = useSelector((state) => state.coverList);
+  const { loader, blog, message, isFailed, page, totalPages } = coverListData;
+
+  const [blogTitle, setBlogTitle] = useState('');
+  const [blogImage, setBlogImage] = useState('');
+  const [blogContent, setBlogContent] = useState('');
+  const [blogSlug, setBlogSlug] = useState('');
+
+  useEffect(() => {
+    if (blog !== null) {
+      setBlogTitle(blog.title);
+      setBlogImage(blog.image);
+      setBlogContent(blog.content);
+      setBlogSlug(blog.slug);
+    }
+  }, [blog]);
+
+  useEffect(() => {
+    const query = `show/${blogPage}`;
+    dispatch(searchBlog(query));
+  }, []);
+
+  const renderBlog = () => {
+    if (loader) {
+      return (
+        <div className="text-center">
+          <Loading />
+        </div>
+      );
+    }
+    if (!loader && !blog) {
+      return (
+        <div className="mt-3 text-center dark:text-white text-h6 font-Montserrat font-medium">
+          Sorry! Couldn&apos;t found Blogs.
+        </div>
+      );
+    }
+    if (blog) {
+      return (
+        <div className="md:px-20">
+          <div className="text-center w-full">
+            <img src={blogImage} alt={blogTitle} className="md:h-88 rounded-2xl mx-auto" />
+          </div>
+          <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold dark:text-white mt-10 mb-6">
+            {blogTitle}
+          </div>
+          <div className="font-Inter text-post-body-text text-body-md dark:text-subtitle-dark-text mb-5">
+            <Markup content={blogContent} />
+          </div>
+        </div>
+      );
+    }
+
+    return <></>;
+  };
 
   return (
     <>
-      <div className="px-20">
-        <img
-          src="https://via.placeholder.com/1000"
-          alt="Blog"
-          className="w-full h-72 rounded-2xl"
-        />
-        <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold dark:text-white mt-10 mb-6">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus cursus turpis bibendum.
-        </div>
-        <div className="font-Inter text-post-body-text text-body-md dark:text-subtitle-dark-text mb-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam elit vel amet, et, ipsum
-          praesent. A, neque elementum amet, turpis quam molestie. Pharetra, ut ultricies donec vel
-          adipiscing adipiscing. Massa imperdiet orci tellus faucibus tellus mus dui. Aliquam
-          pretium tellus eleifend ipsum, amet, neque, bibendum sed ligula. Tincidunt condimentum
-          augue eget pharetra pellentesque pellentesque. Varius hendrerit sed lorem aenean. Risus
-          nisi amet dolor sed sagittis, iaculis. Nunc, nisi sed curabitur est amet.
-        </div>
-        <div className="font-Inter text-post-body-text text-body-md dark:text-subtitle-dark-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam elit vel amet, et, ipsum
-          praesent. A, neque elementum amet, turpis quam molestie. Pharetra, ut ultricies donec vel
-          adipiscing adipiscing. Massa imperdiet orci tellus faucibus tellus mus dui. Aliquam
-          pretium tellus eleifend ipsum, amet, neque, bibendum sed ligula. Tincidunt condimentum
-          augue eget pharetra pellentesque pellentesque. Varius hendrerit sed lorem aenean. Risus
-          nisi amet dolor sed sagittis, iaculis. Nunc, nisi sed curabitur est amet.
-        </div>
-      </div>
+      <div className="md:px-20">{renderBlog()}</div>
     </>
   );
 };

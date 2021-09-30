@@ -78,7 +78,7 @@ const MyInsurance = (props) => {
               Submit Review
             </button>
             <Modal
-              title="Additional Details"
+              title="Policy Details"
               bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
               renderComponent={AdditionalDetails}
             >

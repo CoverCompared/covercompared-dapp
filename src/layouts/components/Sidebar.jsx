@@ -1,10 +1,15 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
 import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { useWeb3React } from '@web3-react/core';
 
 import { ThemeContext } from '../../themeContext';
 import { classNames } from '../../functions/utils';
+import getNav from '../../data/sidebarNav';
+import { setLoginModalVisible } from '../../redux/actions';
 
 import coverComparedLogo from '../../assets/img/logo-final-light.svg';
 import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
@@ -40,14 +45,16 @@ const nav = [
   { name: 'About Us', to: '/about-us', icon: AboutUsIcon },
   { name: 'About Token', to: '/about-token', icon: AboutTokenIcon },
   { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
+  { name: 'Our Partners', to: '/partners', icon: PartnerIcon },
   { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
-  { name: 'Partners', to: '/partners', icon: PartnerIcon },
-  { name: 'Blogs', to: '/learn-more', icon: LearnMoreIcon },
+  { name: 'Blogs', to: '/blogs', icon: LearnMoreIcon },
 ];
 
 const Sidebar = (props) => {
-  const { path } = props;
-  const navigation = nav.map((m) => ({ ...m, current: m.to === path }));
+  const navigation = getNav();
+  const history = useHistory();
+  const { account } = useWeb3React();
+  const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -70,9 +77,14 @@ const Sidebar = (props) => {
               <div className="mt-1 flex flex-col">
                 <nav className="flex-1 px-2 space-y-1">
                   {navigation.map((item) => (
-                    <Link
+                    <button
+                      type="button"
                       key={uniqid()}
-                      to={item.to}
+                      onClick={() =>
+                        item.authProtected && !account
+                          ? dispatch(setLoginModalVisible(true))
+                          : history.push(item.to)
+                      }
                       className="flex items-center text-sm font-medium py-1"
                     >
                       <item.icon className={classNames(item.current ? 'active-svg' : '', 'mr-2')} />
@@ -87,7 +99,7 @@ const Sidebar = (props) => {
                       >
                         {item.name}
                       </div>
-                    </Link>
+                    </button>
                   ))}
                 </nav>
               </div>
@@ -95,7 +107,7 @@ const Sidebar = (props) => {
               <div className="mt-3 flex flex-col items-center">
                 <div className="flex justify-center mb-2">
                   {socialMedia.map((item) => (
-                    <a key={uniqid()} href={item.href}>
+                    <a key={uniqid()} href={item.href} target="_blank" rel="noreferrer">
                       <div className="rounded-full h-5 w-5 hover:bg-bluegradient flex items-center justify-center mx-1.5">
                         <img src={item.icon} alt={item.name} className="h-4" />
                       </div>

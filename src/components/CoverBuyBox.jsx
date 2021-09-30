@@ -6,6 +6,7 @@ import { useWeb3React } from '@web3-react/core';
 import InputWithSelect from './common/InputWithSelect';
 import SelectWithSearch from './common/SelectWithSearch';
 import { getQuote } from '../redux/actions/CoverList';
+import { setLoginModalVisible } from '../redux/actions';
 
 const periodOptions = ['Days', 'Week', 'Month'];
 
@@ -82,6 +83,8 @@ const CoverBuyBox = (props) => {
   const handleBuyNow = () => {
     if (!account) {
       toast.warning('You need to login in advance!');
+      dispatch(setLoginModalVisible(true));
+      return;
     }
     alert('Buy Now button clicked');
   };

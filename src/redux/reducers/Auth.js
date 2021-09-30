@@ -6,6 +6,8 @@ import {
   VERIFY_OTP_SUCCESS,
   GET_USER_PROFILE_SUCCESS,
   LOGOUT_USER,
+  LOGIN_MODAL_VISIBLE,
+  REGISTER_MODAL_VISIBLE,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
@@ -16,30 +18,28 @@ const INIT_STATE = {
   email: null,
   token: null,
   is_verified: null,
-  first_name: null,
-  last_name: null,
   wallet_addresses: [],
 
-  isOTPPending: false,
-  userDetailsModalOpen: false,
+  showOTPScreen: false,
+  loginModalVisible: false,
+  registerModalVisible: false,
 };
 
-export default (state = INIT_STATE, action) => {
-  switch (action.type) {
+export default (state = INIT_STATE, { type, payload }) => {
+  switch (type) {
     case GET_LOGIN_DETAILS_SUCCESS: {
       return {
         ...state,
         message: '',
         loader: false,
         isFailed: false,
-        ...action.payload,
-        userDetailsModalOpen: action.payload.email === null,
+        ...payload,
       };
     }
     case SET_AUTH_LOADER: {
       return {
         ...state,
-        ...action.payload,
+        ...payload,
       };
     }
     case SET_PROFILE_DETAILS_SUCCESS: {
@@ -48,7 +48,7 @@ export default (state = INIT_STATE, action) => {
         message: '',
         loader: false,
         isFailed: false,
-        isOTPPending: true,
+        showOTPScreen: true,
       };
     }
     case RESEND_VERIFICATION_EMAIL_SUCCESS: {
@@ -57,7 +57,7 @@ export default (state = INIT_STATE, action) => {
         message: '',
         loader: false,
         isFailed: false,
-        isOTPPending: true,
+        showOTPScreen: true,
       };
     }
     case VERIFY_OTP_SUCCESS: {
@@ -66,8 +66,7 @@ export default (state = INIT_STATE, action) => {
         message: '',
         loader: false,
         isFailed: false,
-        isOTPPending: false,
-        userDetailsModalOpen: false,
+        showOTPScreen: false,
       };
     }
     case GET_USER_PROFILE_SUCCESS: {
@@ -76,7 +75,7 @@ export default (state = INIT_STATE, action) => {
         message: '',
         loader: false,
         isFailed: false,
-        ...action.payload,
+        ...payload,
       };
     }
     case LOGOUT_USER: {
@@ -89,12 +88,21 @@ export default (state = INIT_STATE, action) => {
         email: null,
         token: null,
         is_verified: null,
-        first_name: null,
-        last_name: null,
         wallet_addresses: [],
 
-        isOTPPending: false,
-        userDetailsModalOpen: false,
+        showOTPScreen: false,
+      };
+    }
+    case LOGIN_MODAL_VISIBLE: {
+      return {
+        ...state,
+        loginModalVisible: payload,
+      };
+    }
+    case REGISTER_MODAL_VISIBLE: {
+      return {
+        ...state,
+        registerModalVisible: payload,
       };
     }
     default:

@@ -91,7 +91,7 @@ const MSOPlans = (props) => {
           </div>
         </div> */}
       </div>
-      <div className="xl:px-32 lg:px-24 mt-20">{renderCards()}</div>
+      <div className="xl:px-36 mt-16 mb-16 lg:px-24">{renderCards()}</div>
     </>
   );
 };

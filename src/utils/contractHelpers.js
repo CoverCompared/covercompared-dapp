@@ -8,8 +8,10 @@ import { getAddress, getCoverComparedAddress } from './addressHelpers';
 import erc20Abi from '../config/abi/erc20.json';
 import CovercomaredAbi from '../config/abi/covercompared.json';
 import AggregatorV3InterfaceABI from '../config/abi/aggregatorV3InterfaceABI.json';
+import { NETWORK_URLS } from '../config/connectors';
 
-const web3 = new Web3("https://kovan.infura.io/v3/92a35c94033b48c6a8d248ac76e7650e");
+const chainId = parseInt(process.env.CHAIN_ID, 10);
+const web3 = new Web3(NETWORK_URLS[chainId]);
 
 const getContract = (abi, address, signer) => {
   const simpleRpcProvider = ethers.getDefaultProvider('kovan');
@@ -26,5 +28,5 @@ export const getCovercomparedContract = (signer) => {
 };
 
 export const getPriceFeedContract = (address) => {
- return new web3.eth.Contract(AggregatorV3InterfaceABI, address);
+  return new web3.eth.Contract(AggregatorV3InterfaceABI, address);
 };

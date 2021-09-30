@@ -3,28 +3,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { setProfileDetails, resendVerificationEmail, verifyOTP } from '../redux/actions/Auth';
 
-const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
+const Register = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
-  const { userDetailsModalOpen, isOTPPending, loader, isFailed } = authState;
+  const { showOTPScreen, loader, isFailed } = authState;
 
   const [otp, setOtp] = useState('');
   const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
 
   useEffect(() => {
-    if (isOTPPending && isFailed && !loader) return toast.error("You've provided an invalid OTP");
-    if (isOTPPending && !loader) return toast.success('An OTP has been sent to your email');
+    if (showOTPScreen && isFailed && !loader) return toast.error("You've provided an invalid OTP");
+    if (showOTPScreen && !loader) return toast.success('An OTP has been sent to your email');
     return null;
-  }, [isOTPPending, loader, isFailed]);
+  }, [showOTPScreen, loader, isFailed]);
 
   const handleRegister = (e) => {
     if (e) e.preventDefault();
     const data = {
-      first_name: firstName,
-      last_name: lastName,
       email,
+      first_name: 'Danish',
+      last_name: 'Ejaz',
     };
     dispatch(setProfileDetails(data));
   };
@@ -40,28 +38,10 @@ const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
 
   return (
     <>
-      <div className="grid grid-cols-11">
-        <div className="grid md:col-span-5 col-span-12 md:col-start-4">
-          {!isOTPPending ? (
+      <div className="grid grid-cols-12">
+        <div className="grid col-span-12">
+          {!showOTPScreen ? (
             <form onSubmit={handleRegister}>
-              <input
-                required
-                type="text"
-                placeholder="First Name"
-                name="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                className="w-full h-12 border-2 px-4 mb-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-              />
-              <input
-                required
-                type="text"
-                placeholder="Last Name"
-                name="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                className="w-full h-12 border-2 px-4 mb-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-              />
               <input
                 required
                 type="email"
@@ -84,7 +64,6 @@ const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
               <input
                 required
                 type="number"
-                max={999999}
                 placeholder="Enter OTP"
                 name="otp"
                 value={otp}
@@ -101,7 +80,7 @@ const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
                 <button
                   type="button"
                   onClick={handleResendOTP}
-                  className="underline dark:text-white text-black md:text-body-md px-12 md:px-2 hover:text-contact-input-grey"
+                  className="underline dark:text-white text-black md:text-body-md px-12 md:px-2"
                 >
                   Didn&apos;t received OTP email? click to resend OTP
                 </button>
@@ -113,4 +92,4 @@ const RegisterMail = ({ isModalOpen, setIsModalOpen }) => {
     </>
   );
 };
-export default RegisterMail;
+export default Register;

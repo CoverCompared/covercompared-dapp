@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useWeb3React } from '@web3-react/core';
+import { toast } from 'react-toastify';
 import { setCurrentProduct } from '../redux/actions/AppActions';
+import { setLoginModalVisible, setRegisterModalVisible } from '../redux/actions';
 
 const MSOPackageCard = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { account } = useWeb3React();
 
   const {
     InsurancePlanType,
@@ -25,6 +29,8 @@ const MSOPackageCard = (props) => {
     spouseParents,
     totalUsers,
   } = props;
+
+  const { is_verified } = useSelector((state) => state.auth);
 
   const [addonServices, setAddonServices] = useState(false);
   const [msoTotalPrice, setMsoTotalPrice] = useState(quote);
@@ -68,6 +74,15 @@ const MSOPackageCard = (props) => {
 
   const handleBuyNow = (e) => {
     if (e) e.stopPropagation();
+    if (!account) {
+      dispatch(setLoginModalVisible(true));
+      dispatch(setRegisterModalVisible(true));
+      return;
+    }
+    if (is_verified === false) {
+      dispatch(setRegisterModalVisible(true));
+      return;
+    }
     alert('Buy Now button clicked');
   };
 

@@ -7,6 +7,7 @@ import { setCurrentProduct } from '../redux/actions/AppActions';
 
 const MSOPlanCard = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const {
     InsurancePlanType,
@@ -26,7 +27,7 @@ const MSOPlanCard = (props) => {
     spouseParents,
     totalUsers,
   } = props;
-
+  console.log(name);
   const [addonServices, setAddonServices] = useState(false);
   const [msoTotalPrice, setMsoTotalPrice] = useState(quote);
 
@@ -39,9 +40,36 @@ const MSOPlanCard = (props) => {
     setAddonServices(!addonServices);
   };
 
+  const handleCardClick = () => {
+    dispatch(
+      setCurrentProduct({
+        wantAddon: addonServices,
+        addOnQuote: MSOAddOnService,
+        quote,
+        MSOCoverUser,
+        name,
+        MSOAddOnService,
+        type,
+        EHR,
+        logo,
+        unique_id,
+        userTypeOptions,
+        noOfSpouse,
+        noOfDependent,
+        mainMemberParents,
+        spouseParents,
+        totalUsers,
+      }),
+    );
+    history.push('/mso-product');
+  };
+
   return (
     <>
-      <div className="bg-white rounded-xl pb-6 md:col-span-3 col-span-12  border-2 border-primary-gd-1 flex flex-col justify-between">
+      <div
+        onClick={handleCardClick}
+        className="bg-white cursor-pointer rounded-xl pb-6 md:col-span-3 col-span-12  border-2 border-transparent hover:border-primary-gd-1 flex flex-col justify-between"
+      >
         <div>
           <div className="w-full rounded-xl bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 font-semibold font-Montserrat text-white text-h6 mb-7">
             <div className="bg-MSOCardBg bg-cover py-6 px-4 h-full w-full flex justify-center">

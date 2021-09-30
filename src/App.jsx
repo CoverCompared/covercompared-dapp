@@ -6,7 +6,7 @@ import useEagerConnect from './hooks/useEagerConnect';
 import routes from './routes';
 import SVGGradients from './components/common/SVGGradients';
 import PublicRoute from './routes/PublicRoute';
-import GetUserDetails from './components/GetUserDetails';
+import PreRenderedModals from './components/PreRenderedModals';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -28,7 +28,7 @@ const App = (props) => {
         pauseOnHover
       />
       <SVGGradients />
-      <GetUserDetails />
+      <PreRenderedModals />
       <Switch>
         {routes.map((m) => (
           <PublicRoute key={uniqid()} {...m} />

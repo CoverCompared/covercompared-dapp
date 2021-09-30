@@ -1,6 +1,9 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 const Blog = () => {
+  const { page } = useParams();
+
   return (
     <>
       <div className="px-20">

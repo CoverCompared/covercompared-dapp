@@ -12,6 +12,7 @@ const Modal = (props) => {
     showCTA = false,
     bgImg,
     isOpen,
+    onClose,
     closeable = true,
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +29,7 @@ const Modal = (props) => {
           unmount
           as="div"
           className="fixed z-40 inset-0 overflow-y-auto"
-          onClose={() => closeable && setIsModalOpen(false)}
+          onClose={() => (onClose ? onClose() : setIsModalOpen(false))}
         >
           <div className="flex md:items-end items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block">
             <Transition.Child
@@ -69,7 +70,7 @@ const Modal = (props) => {
                         (closeable && (
                           <button
                             type="button"
-                            onClick={() => setIsModalOpen(false)}
+                            onClick={() => (onClose ? onClose() : setIsModalOpen(false))}
                             className="bg-white dark:bg-transparent rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-offset-0"
                           >
                             <span className="sr-only">Close</span>

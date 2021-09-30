@@ -38,7 +38,7 @@ const InsuranceCards = (props) => {
       icon: MSOIcon,
       gradientClass: 'bg-gradient-to-bl',
       bgImg: 'bg-homeCardBg4',
-      redirectTo: '/search/mso',
+      redirectTo: 'mso-plans',
     },
   ];
 

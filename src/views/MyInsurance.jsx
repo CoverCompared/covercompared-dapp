@@ -6,11 +6,17 @@ import MobilePageTitle from '../components/common/MobilePageTitle';
 import Modal from '../components/common/Modal';
 import ClaimCards from '../components/ClaimCards';
 import AdditionalDetails from '../components/AdditionalDetails';
+import { setRegisterModalVisible } from '../redux/actions';
 
 const MyInsurance = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const state = useSelector((state) => state.auth);
   const [email, setEmail] = useState(state.email || '');
+
+  const handleUpdate = (e) => {
+    if (e) e.preventDefault();
+  };
 
   return (
     <>
@@ -19,11 +25,15 @@ const MyInsurance = (props) => {
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
         My Profile
       </div>
-      <div className="grid grid-cols-12 gap-x-4 gap-y-4 mb-16 xl:pl-5 xl:pr-24">
+      <form
+        onClick={handleUpdate}
+        className="grid grid-cols-12 gap-x-4 gap-y-4 mb-16 xl:pl-5 xl:pr-24"
+      >
         <div className="md:col-span-4 col-span-12 md:flex items-center">
           <div className="font-Montserrat text-body-md font-semibold">Email</div>
           <input
-            type="text"
+            required
+            type="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             name="email"
@@ -39,7 +49,7 @@ const MyInsurance = (props) => {
             Update
           </button>
         </div>
-      </div>
+      </form>
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
         Lorem Ipsum dolor sit amet
       </div>

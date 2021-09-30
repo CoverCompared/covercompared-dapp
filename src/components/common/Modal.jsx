@@ -70,7 +70,7 @@ const Modal = (props) => {
                         (closeable && (
                           <button
                             type="button"
-                            onClick={() => setIsModalOpen(false)}
+                            onClick={() => (onClose ? onClose() : setIsModalOpen(false))}
                             className="bg-white dark:bg-transparent rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-offset-0"
                           >
                             <span className="sr-only">Close</span>

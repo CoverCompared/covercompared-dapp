@@ -1,10 +1,15 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
 import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { useWeb3React } from '@web3-react/core';
 
 import { ThemeContext } from '../../themeContext';
 import { classNames } from '../../functions/utils';
+import getNav from '../../data/sidebarNav';
+import { setLoginModalVisible } from '../../redux/actions';
 
 import coverComparedLogo from '../../assets/img/logo-final-light.svg';
 import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
@@ -42,12 +47,14 @@ const nav = [
   { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
   { name: 'Our Partners', to: '/partners', icon: PartnerIcon },
   { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
-  { name: 'Blogs', to: '/learn-more', icon: LearnMoreIcon },
+  { name: 'Blogs', to: '/blogs', icon: LearnMoreIcon },
 ];
 
 const Sidebar = (props) => {
-  const { path } = props;
-  const navigation = nav.map((m) => ({ ...m, current: m.to === path }));
+  const navigation = getNav();
+  const history = useHistory();
+  const { account } = useWeb3React();
+  const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -70,9 +77,14 @@ const Sidebar = (props) => {
               <div className="mt-1 flex flex-col">
                 <nav className="flex-1 px-2 space-y-1">
                   {navigation.map((item) => (
-                    <Link
+                    <button
+                      type="button"
                       key={uniqid()}
-                      to={item.to}
+                      onClick={() =>
+                        item.authProtected && !account
+                          ? dispatch(setLoginModalVisible(true))
+                          : history.push(item.to)
+                      }
                       className="flex items-center text-sm font-medium py-1"
                     >
                       <item.icon className={classNames(item.current ? 'active-svg' : '', 'mr-2')} />
@@ -87,7 +99,7 @@ const Sidebar = (props) => {
                       >
                         {item.name}
                       </div>
-                    </Link>
+                    </button>
                   ))}
                 </nav>
               </div>

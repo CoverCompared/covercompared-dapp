@@ -1,18 +1,10 @@
 import { uniqueId } from 'lodash';
-import {
-  TOGGLE_SIDEBAR,
-  TOGGLE_FILTERS,
-  SET_CURRENT_PRODUCT,
-  LOGIN_MODAL_VISIBLE,
-  REGISTER_MODAL_VISIBLE,
-} from '../constants/ActionTypes';
+import { TOGGLE_SIDEBAR, TOGGLE_FILTERS, SET_CURRENT_PRODUCT } from '../constants/ActionTypes';
 
 const INIT_STATE = {
   sidebarOpen: false,
   filtersOpen: false,
   currentProduct: null,
-  loginModalVisible: false,
-  registerModalVisible: false,
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -35,18 +27,7 @@ export default (state = INIT_STATE, { type, payload }) => {
         currentProduct: payload,
       };
     }
-    case LOGIN_MODAL_VISIBLE: {
-      return {
-        ...state,
-        loginModalVisible: payload,
-      };
-    }
-    case REGISTER_MODAL_VISIBLE: {
-      return {
-        ...state,
-        registerModalVisible: payload,
-      };
-    }
+
     default:
       return state;
   }

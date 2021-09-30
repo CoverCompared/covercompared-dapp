@@ -1,9 +1,11 @@
 import React, { Fragment, useRef, useContext } from 'react';
+import { useHistory } from 'react-router';
 import { Dialog, Transition } from '@headlessui/react';
 import uniqid from 'uniqid';
 import { XIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useWeb3React } from '@web3-react/core';
 
 import Modal from '../../components/common/Modal';
 import Login from '../../components/Login';
@@ -11,38 +13,22 @@ import ThemeToggleSwitch from '../../components/ThemeToggleSwitch';
 import { toggleSidebar } from '../../redux/actions/AppActions';
 import { classNames } from '../../functions/utils';
 import { ThemeContext } from '../../themeContext';
+import getNav from '../../data/sidebarNav';
+import { setLoginModalVisible } from '../../redux/actions';
 
 import LoginIcon from '../../assets/img/Login.svg';
 import coverComparedLogo from '../../assets/img/logo-final-light.svg';
 import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
-import { ReactComponent as HomeIcon } from '../../assets/img/home-icon.svg';
-import { ReactComponent as MyInsuranceIcon } from '../../assets/img/dashboard-icon.svg';
-import { ReactComponent as AboutUsIcon } from '../../assets/img/about-us-icon.svg';
-import { ReactComponent as AboutTokenIcon } from '../../assets/img/about-token-icon.svg';
-import { ReactComponent as ContactUsIcon } from '../../assets/img/contact-us-icon.svg';
-import { ReactComponent as LearnMoreIcon } from '../../assets/img/learn-more-icon.svg';
-import { ReactComponent as SubscribeIcon } from '../../assets/img/subscribe-icon.svg';
-import { ReactComponent as PartnerIcon } from '../../assets/img/partner-icon.svg';
 import 'react-perfect-scrollbar/dist/css/styles.css';
-
-const nav = [
-  { name: 'Home', to: '/', icon: HomeIcon },
-  { name: 'My Insurance', to: '/my-insurance', icon: MyInsuranceIcon },
-  { name: 'About Us', to: '/about-us', icon: AboutUsIcon },
-  { name: 'About Token', to: '/about-token', icon: AboutTokenIcon },
-  { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
-  { name: 'Our Partners', to: '/partners', icon: PartnerIcon },
-  { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
-  { name: 'Blogs', to: '/learn-more', icon: LearnMoreIcon },
-];
 
 const Sidebar = (props) => {
   const dispatch = useDispatch();
   const { sidebarOpen } = useSelector((state) => state.app);
-  const { path } = props;
+  const history = useHistory();
+  const { account } = useWeb3React();
   const dialogRef = useRef(null);
-  const navigation = nav.map((m) => ({ ...m, current: m.to === path }));
   const { theme } = useContext(ThemeContext);
+  const navigation = getNav();
 
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -108,9 +94,14 @@ const Sidebar = (props) => {
             <div className="mt-6 flex-1 h-0 overflow-y-auto">
               <nav className="space-y-1">
                 {navigation.map((item) => (
-                  <Link
+                  <button
+                    type="button"
                     key={uniqid()}
-                    to={item.to}
+                    onClick={() =>
+                      item.authProtected && !account
+                        ? dispatch(setLoginModalVisible(true))
+                        : history.push(item.to)
+                    }
                     className="flex items-center text-sm font-medium py-1.5"
                   >
                     <item.icon className={classNames(item.current ? 'active-svg' : '', 'mr-2')} />
@@ -125,7 +116,7 @@ const Sidebar = (props) => {
                     >
                       {item.name}
                     </div>
-                  </Link>
+                  </button>
                 ))}
               </nav>
               <div className="border-t-2 border-grey-300 mt-5 mb-6 w-full" />

@@ -11,6 +11,8 @@ import {
   GET_USER_PROFILE,
   GET_USER_PROFILE_SUCCESS,
   LOGOUT_USER,
+  LOGIN_MODAL_VISIBLE,
+  REGISTER_MODAL_VISIBLE,
 } from '../constants/ActionTypes';
 
 export const setAuthLoader = (payload) => {
@@ -93,6 +95,20 @@ export const getUserProfileSuccess = (payload) => {
 export const logoutUser = (payload) => {
   return {
     type: LOGOUT_USER,
+    payload,
+  };
+};
+
+export const setLoginModalVisible = (payload) => {
+  return {
+    type: LOGIN_MODAL_VISIBLE,
+    payload,
+  };
+};
+
+export const setRegisterModalVisible = (payload) => {
+  return {
+    type: REGISTER_MODAL_VISIBLE,
     payload,
   };
 };

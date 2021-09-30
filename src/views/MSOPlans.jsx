@@ -54,7 +54,7 @@ const MSOPlans = (props) => {
         </div>
       </div>
       <div className="grid grid-cols-12 gap-x-6 px-36 mt-16 mb-16">
-        {products.map((obj) => (
+        {products?.map((obj) => (
           <MSOPlanCard key={uniqid()} {...obj} {...props} />
         ))}
       </div>

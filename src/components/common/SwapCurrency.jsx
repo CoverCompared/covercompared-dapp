@@ -17,7 +17,7 @@ const SwapCurrency = () => {
 
   return (
     <>
-      <div className="relative mr-4 duration-150">
+      <div className="relative ml-3 duration-150">
         <div
           onClick={() => setISOpen(!isOpen)}
           className="p-2 rounded-xl cursor-pointer bg-white dark:bg-featureCard-dark-bg shadow-addToCart"

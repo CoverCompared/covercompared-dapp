@@ -5,9 +5,6 @@ import SwapComponent from './SwapCurrency';
 
 import ThemeToggleSwitch from '../ThemeToggleSwitch';
 import LoginIcon from '../../assets/img/Login.svg';
-import Login from '../Login';
-import LoginModal from './LoginModal';
-// import Modal from './Modal';
 import { shortenAddress } from '../../utils';
 import useAuth from '../../hooks/useAuth';
 import { logoutUser } from '../../redux/actions/Auth';
@@ -26,18 +23,17 @@ const HeaderCTAs = (props) => {
 
   return (
     <div className="flex items-center">
-      {/* <SwapComponent /> */}
       <ThemeToggleSwitch />
+      <SwapComponent />
       {!account ? (
-        <LoginModal title="Log In" bgImg="bg-loginPopupBg" renderComponent={Login}>
-          <button
-            type="button"
-            className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
-          >
-            <img src={LoginIcon} alt="Login" className="mr-1" />
-            Log In
-          </button>
-        </LoginModal>
+        <button
+          type="button"
+          onClick={() => dispatch(setLoginModalVisible(true))}
+          className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+        >
+          <img src={LoginIcon} alt="Login" className="mr-1" />
+          Log In
+        </button>
       ) : (
         <button
           type="button"

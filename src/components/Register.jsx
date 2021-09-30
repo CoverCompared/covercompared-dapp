@@ -21,8 +21,6 @@ const Register = () => {
     if (e) e.preventDefault();
     const data = {
       email,
-      first_name: 'Danish',
-      last_name: 'Ejaz',
     };
     dispatch(setProfileDetails(data));
   };

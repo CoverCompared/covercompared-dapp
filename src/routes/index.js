@@ -126,7 +126,7 @@ const routes = [
     pageName: 'MyInsurance',
     withSidebar: true,
     component: MyInsurance,
-    title: 'My Insurance',
+    title: '',
     bgImg: 'md:bg-commonSectionBg',
     mobileBgImg: 'bg-Mobile404Bg',
     bgImgClass: 'bg-100% bg-no-repeat bg-bottom',

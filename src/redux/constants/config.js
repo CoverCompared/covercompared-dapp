@@ -11,8 +11,8 @@ if (window.location.hostname === productionHostname) {
   baseURL = 'https://staging-covercompared.polkacover.com/api';
 } else {
   env = 'local';
-  baseURL = 'http://localhost:3006/api';
-  // baseURL = 'https://staging-covercompared.polkacover.com/api';
+  // baseURL = 'http://localhost:3006/api';
+  baseURL = 'https://staging-covercompared.polkacover.com/api';
 }
 
 export const ENV = env;

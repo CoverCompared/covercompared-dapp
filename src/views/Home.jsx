@@ -1,12 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchBlogList } from '../redux/actions/CoverList';
+import Loading from '../components/common/Loading';
 import InsuranceCards from '../components/InsuranceCards';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 import InsuranceCardDotBg from '../assets/bg-img/insurance-card-dot-bg.svg';
 import cryptoInsuranceDotBg from '../assets/bg-img/crypto-insurance-dot-bg.svg';
 import cryptoInsuranceOrangeDots from '../assets/img/orange-dots.svg';
-import CounterCard from '../components/CounterCard';
 import PostCard from '../components/PostCard';
 import FeatureCard from '../components/FeatureCard';
 import Balance from '../assets/icons/balance1.svg';
@@ -103,12 +105,56 @@ const Features = (props) => {
 
 export default function Home(props) {
   const { theme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+  const coverListData = useSelector((state) => state.coverList);
+  const { loader, blogList, message, isFailed, page, totalPages } = coverListData;
+
+  const [BlogList, setBlogList] = useState(blogList);
+
+  useEffect(() => {
+    setBlogList(blogList);
+  }, [BlogList]);
+
+  useEffect(() => {
+    const query = `/table?range=[0,3]`;
+    dispatch(searchBlogList(query));
+  }, []);
+
+  const RenderBlogs = () => {
+    if (loader) {
+      return (
+        <div className="text-center mb-6">
+          <Loading />
+        </div>
+      );
+    }
+
+    if (!loader && !BlogList?.length) {
+      return (
+        <div className="mt-3 text-center dark:text-white text-h6 font-Montserrat font-medium mb-6">
+          Sorry! Couldn&apos;t found Blog
+        </div>
+      );
+    }
+    if (BlogList?.length) {
+      return (
+        <div className="sm:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:px-4 md:pb-20 pb-14 sm:px-0">
+          {BlogList.map((blog) => (
+            <PostCard {...props} key={uniqid()} {...blog} />
+          ))}
+        </div>
+      );
+    }
+
+    return <></>;
+  };
+
   return (
     <div>
-      <MobilePageTitle
+      {/* <MobilePageTitle
         title="Motto of the Company"
         subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel semper blandit euismod vitae eleifend vitae eleifend massa imperdiet."
-      />
+      /> */}
       <div className="grid grid-cols-2 gap-4 xl:gap-y-8 md:gap-x-6 md:grid-cols-2 lg:grid-cols-2 xl:gap-x-8 sm:px-28 md:px-6 md:pb-20 pb-12 xl:px-40 relative">
         <InsuranceCards {...props} />
         <img
@@ -118,24 +164,13 @@ export default function Home(props) {
         />
       </div>
 
+      {RenderBlogs()}
       {/* <div className="grid grid-cols-3 gap-y-6 gap-x-3 xl:gap-y-8 xl:gap-x-8 md:grid-cols-3 lg:grid-cols-3 lg:px-36 sm:px-4 md:gap-x-6 md:pb-20 px-0 pb-10">
         {counterCards.map(({ title, subtitle }) => (
           <CounterCard {...props} key={uniqid()} title={title} subtitle={subtitle} />
         ))}
       </div> */}
 
-      <div className="sm:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:px-4 md:pb-20 pb-14 sm:px-0">
-        {postCards.map(({ image, title, body, ctaLink }) => (
-          <PostCard
-            {...props}
-            key={uniqid()}
-            image={image}
-            title={title}
-            body={body}
-            ctaLink={ctaLink}
-          />
-        ))}
-      </div>
       <div className="sm:hidden pb-14">
         {postCards.map(({ image, title, body, ctaLink }) => (
           <div className="grid grid-cols-12 gap-x-3 mb-3" key={uniqid()}>

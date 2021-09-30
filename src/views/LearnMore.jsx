@@ -1,81 +1,60 @@
-import React from 'react';
-import { uniqueId } from 'lodash';
+import React, { useState, useEffect } from 'react';
+import uniqueId from 'uniqid';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchBlogList } from '../redux/actions/CoverList';
+import Loading from '../components/common/Loading';
 import PostCard from '../components/PostCard';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 
-const postCards = [
-  {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/1000',
-    title: 'Charles Loeb: The Black Reporter Who Exposed an Atomic Bomb Lie',
-    body: 'Lorem ipsum dolor sit amet, adipisc dolor sit amet.',
-    ctaLink: '#',
-  },
-];
-
 const LearnMore = (props) => {
+  const dispatch = useDispatch();
+  const coverListData = useSelector((state) => state.coverList);
+  const { loader, blogList, message, isFailed, page, totalPages } = coverListData;
+
+  const [BlogList, setBlogList] = useState(blogList);
+
+  useEffect(() => {
+    setBlogList(blogList);
+  }, [BlogList]);
+
+  useEffect(() => {
+    const query = `/table?range=[0,9]`;
+    dispatch(searchBlogList(query));
+  }, []);
+
+  const RenderBlogs = () => {
+    if (loader) {
+      return (
+        <div className="text-center">
+          <Loading />
+        </div>
+      );
+    }
+
+    if (!loader && !BlogList?.length) {
+      return (
+        <div className="mt-3 text-center dark:text-white text-h6 font-Montserrat font-medium">
+          Sorry! Couldn&apos;t found Blogs.
+        </div>
+      );
+    }
+    if (BlogList?.length) {
+      return (
+        <div className="sm:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:px-4 md:pb-20 pb-14 sm:px-0">
+          {BlogList.map((blog) => (
+            <PostCard {...props} key={uniqueId()} {...blog} />
+          ))}
+        </div>
+      );
+    }
+
+    return <></>;
+  };
+
   return (
     <>
       <MobilePageTitle title="Learn More" />
-      <div className="grid grid-cols-12 gap-y-6 gap-x-6 xl:gap-y-8 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:pb-40 pb-0">
-        {postCards.map(({ image, title, body, ctaLink }) => (
-          <PostCard
-            {...props}
-            key={uniqueId()}
-            image={image}
-            title={title}
-            body={body}
-            ctaLink={ctaLink}
-          />
-        ))}
-      </div>
+      {RenderBlogs()}
     </>
   );
 };

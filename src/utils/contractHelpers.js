@@ -28,5 +28,6 @@ export const getCovercomparedContract = (signer) => {
 };
 
 export const getPriceFeedContract = (address) => {
-  return new web3.eth.Contract(AggregatorV3InterfaceABI, address);
+  // return new web3.eth.Contract(AggregatorV3InterfaceABI, address);
+  return getContract(AggregatorV3InterfaceABI, address, null);
 };

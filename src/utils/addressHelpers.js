@@ -1,7 +1,7 @@
 import addresses from '../config/contracts';
 
 export const getAddress = (address) => {
-  const chainId = process.env.REACT_APP_CHAIN_ID;
+  const chainId = process.env.CHAIN_ID ? process.env.CHAIN_ID : 42;
   return address[chainId] ? address[chainId] : address[1];
 };
 

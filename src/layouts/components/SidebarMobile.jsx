@@ -14,7 +14,7 @@ import { toggleSidebar } from '../../redux/actions/AppActions';
 import { classNames } from '../../functions/utils';
 import { ThemeContext } from '../../themeContext';
 import getNav from '../../data/sidebarNav';
-import { setLoginModalVisible } from '../../redux/actions';
+import { setLoginModalVisible, setRegisterModalVisible } from '../../redux/actions';
 
 import LoginIcon from '../../assets/img/Login.svg';
 import coverComparedLogo from '../../assets/img/logo-final-light.svg';
@@ -24,11 +24,17 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 const Sidebar = (props) => {
   const dispatch = useDispatch();
   const { sidebarOpen } = useSelector((state) => state.app);
+  const { is_verified } = useSelector((state) => state.auth);
   const history = useHistory();
   const { account } = useWeb3React();
   const dialogRef = useRef(null);
   const { theme } = useContext(ThemeContext);
   const navigation = getNav();
+
+  const handleLogin = () => {
+    dispatch(setLoginModalVisible(true));
+    dispatch(setRegisterModalVisible(true));
+  };
 
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -98,8 +104,8 @@ const Sidebar = (props) => {
                     type="button"
                     key={uniqid()}
                     onClick={() =>
-                      item.authProtected && !account
-                        ? dispatch(setLoginModalVisible(true))
+                      item.authProtected && !account && !is_verified
+                        ? handleLogin()
                         : history.push(item.to)
                     }
                     className="flex items-center text-sm font-medium py-1.5"

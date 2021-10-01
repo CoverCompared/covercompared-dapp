@@ -5,7 +5,7 @@ const MSOServicesCard = (props) => {
 
   return (
     <div className="w-full shadow-md md:rounded-3xl rounded-xl flex flex-col items-center bg-white px-4 py-6 dark:bg-featureCard-dark-bg col-span-12 sm:col-span-1 md:col-span-4">
-      <div className="p-2 bg-primary-gd-1 rounded-2xl dark:bg-feature-icon-dark-bg">
+      <div className="p-2 bg-primary-gd-2 rounded-2xl dark:bg-feature-icon-dark-bg">
         <img src={image} alt={title} className="md:w-10 w-8" />
       </div>
       <h5 className="mt-4 h-12 font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white text-center">

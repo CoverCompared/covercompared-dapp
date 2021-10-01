@@ -13,6 +13,10 @@ import {
   GET_DEVICE_PLAN_DETAILS_SUCCESS,
   SET_GET_DEVICE_PLAN_DETAILS_LOADER,
   ACTION_METHOD_FAILED,
+  SET_SEARCH_BLOG_LIST_LOADER,
+  SEARCH_BLOG_LIST_SUCCESS,
+  SET_SEARCH_BLOG_LOADER,
+  SEARCH_BLOG_SUCCESS,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
@@ -27,6 +31,8 @@ const INIT_STATE = {
   coverList: null,
   deviceDetails: null,
   devicePlanDetails: null,
+  blogList: null,
+  blog: null,
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -35,6 +41,40 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         ...payload,
+      };
+    }
+    case SET_SEARCH_BLOG_LIST_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case SEARCH_BLOG_LIST_SUCCESS: {
+      return {
+        ...state,
+        message: '',
+        loader: false,
+        isFailed: false,
+        query: payload.query,
+        blogList: payload.blogList,
+        // page: payload.coverList.current_page,
+        // totalPages: payload.coverList.total_page,
+      };
+    }
+    case SET_SEARCH_BLOG_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case SEARCH_BLOG_SUCCESS: {
+      return {
+        ...state,
+        message: '',
+        loader: false,
+        isFailed: false,
+        query: payload.query,
+        blog: payload.blog,
       };
     }
     case SET_SEARCH_COVER_LIST_LOADER: {

@@ -19,6 +19,12 @@ import {
   GET_DEVICE_PLAN_DETAILS,
   GET_DEVICE_PLAN_DETAILS_SUCCESS,
   SET_GET_DEVICE_PLAN_DETAILS_LOADER,
+  SEARCH_BLOG_LIST,
+  SEARCH_BLOG_LIST_SUCCESS,
+  SET_SEARCH_BLOG_LIST_LOADER,
+  SEARCH_BLOG,
+  SEARCH_BLOG_SUCCESS,
+  SET_SEARCH_BLOG_LOADER,
 } from '../constants/ActionTypes';
 
 export const actionMethodFailed = (payload) => {
@@ -156,6 +162,48 @@ export const getDevicePlanDetailsSuccess = (payload) => {
 export const setGetDevicePlanDetailsLoader = (payload) => {
   return {
     type: SET_GET_DEVICE_PLAN_DETAILS_LOADER,
+    payload,
+  };
+};
+
+export const searchBlogList = (payload) => {
+  return {
+    type: SEARCH_BLOG_LIST,
+    payload,
+  };
+};
+
+export const searchBlogListSuccess = (payload) => {
+  return {
+    type: SEARCH_BLOG_LIST_SUCCESS,
+    payload,
+  };
+};
+
+export const setSearchBlogListLoader = (payload) => {
+  return {
+    type: SET_SEARCH_BLOG_LIST_LOADER,
+    payload,
+  };
+};
+
+export const searchBlog = (payload) => {
+  return {
+    type: SEARCH_BLOG,
+    payload,
+  };
+};
+
+export const searchBlogSuccess = (payload) => {
+  return {
+    type: SEARCH_BLOG_SUCCESS,
+    payload,
+  };
+};
+
+export const setSearchBlogLoader = (payload) => {
+  return {
+    type: SET_SEARCH_BLOG_LOADER,
     payload,
   };
 };

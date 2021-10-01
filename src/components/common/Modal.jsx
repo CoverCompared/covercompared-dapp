@@ -9,11 +9,12 @@ const Modal = (props) => {
     sizeClass,
     title,
     renderComponent: C,
-    showCTA = false,
     bgImg,
     isOpen,
     onClose,
     closeable = true,
+    CTAText,
+    handleClickCTA,
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -65,28 +66,36 @@ const Modal = (props) => {
               >
                 <div className={`${bgImg} w-full h-full sm:py-8 rounded-lg`}>
                   <div className="px-4 pt-5 text-left sm:px-12 md:px-16 sm:pt-6 pb-8">
-                    <div className="absolute top-8 right-8">
-                      {showCTA ||
-                        (closeable && (
-                          <button
-                            type="button"
-                            onClick={() => (onClose ? onClose() : setIsModalOpen(false))}
-                            className="bg-white dark:bg-transparent rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-offset-0"
-                          >
-                            <span className="sr-only">Close</span>
-                            <XIcon
-                              className="h-7 w-7 text-dark-blue dark:text-white"
-                              aria-hidden="true"
-                            />
-                          </button>
-                        ))}
+                    <div className="absolute top-8 right-8 flex">
+                      {!!(CTAText && handleClickCTA) && (
+                        <button
+                          type="button"
+                          onClick={handleClickCTA}
+                          className="mr-3 py-2 px-4 shadow-lg text-login-button-text font-Montserrat font-body-md font-medium rounded-lg bg-login-button-bg"
+                        >
+                          {CTAText}
+                        </button>
+                      )}
+                      {closeable && (
+                        <button
+                          type="button"
+                          onClick={() => (onClose ? onClose() : setIsModalOpen(false))}
+                          className="rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-offset-0"
+                        >
+                          <span className="sr-only">Close</span>
+                          <XIcon
+                            className="h-7 w-7 text-dark-blue dark:text-white"
+                            aria-hidden="true"
+                          />
+                        </button>
+                      )}
                     </div>
                     <div className="mt-3 text-center sm:mt-0 sm:text-left">
                       <Dialog.Title
                         as="h1"
                         className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue text-center pb-3 dark:text-white"
                       >
-                        {title || 'Dialog'}
+                        {title ?? 'Dialog'}
                       </Dialog.Title>
                       <div className="mt-2">
                         <C {...props} {...{ isModalOpen, setIsModalOpen }} />

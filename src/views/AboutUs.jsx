@@ -290,7 +290,7 @@ const AboutUs = () => {
             className="absolute top-36 left-2/4 hidden lg:flex"
             style={{ transform: `translateX(${-50}%)` }}
           >
-            <img src={ArrowFrame} alt="" className="h-44" style={{ width: '40vw' }} />
+            <img src={ArrowFrame} alt="" className="h-44" style={{ minWidth: '42vw' }} />
           </div>
           {PhaseArr.map((obj) => (
             <PhaseCard key={uniqid()} {...obj} />

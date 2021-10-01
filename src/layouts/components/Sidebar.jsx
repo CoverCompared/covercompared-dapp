@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -9,18 +9,10 @@ import { useWeb3React } from '@web3-react/core';
 import { ThemeContext } from '../../themeContext';
 import { classNames } from '../../functions/utils';
 import getNav from '../../data/sidebarNav';
-import { setLoginModalVisible } from '../../redux/actions';
+import { setLoginModalVisible, setRegisterModalVisible } from '../../redux/actions';
 
 import coverComparedLogo from '../../assets/img/logo-final-light.svg';
 import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
-import { ReactComponent as HomeIcon } from '../../assets/img/home-icon.svg';
-import { ReactComponent as MyInsuranceIcon } from '../../assets/img/dashboard-icon.svg';
-import { ReactComponent as AboutUsIcon } from '../../assets/img/about-us-icon.svg';
-import { ReactComponent as AboutTokenIcon } from '../../assets/img/about-token-icon.svg';
-import { ReactComponent as ContactUsIcon } from '../../assets/img/contact-us-icon.svg';
-import { ReactComponent as LearnMoreIcon } from '../../assets/img/learn-more-icon.svg';
-import { ReactComponent as SubscribeIcon } from '../../assets/img/subscribe-icon.svg';
-import { ReactComponent as PartnerIcon } from '../../assets/img/partner-icon.svg';
 import TelegramIcon from '../../assets/img/telegram.svg';
 import InstagramIcon from '../../assets/img/instagram.svg';
 import LinkdinIcon from '../../assets/img/linkedin.svg';
@@ -39,23 +31,18 @@ const socialMedia = [
   { href: 'https://polkacover.gitbook.io/docs/', name: 'Gitbook', icon: GitbookIcon },
 ];
 
-const nav = [
-  { name: 'Home', to: '/', icon: HomeIcon },
-  { name: 'My Insurance', to: '/my-insurance', icon: MyInsuranceIcon },
-  { name: 'About Us', to: '/about-us', icon: AboutUsIcon },
-  { name: 'About Token', to: '/about-token', icon: AboutTokenIcon },
-  { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
-  { name: 'Our Partners', to: '/partners', icon: PartnerIcon },
-  { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
-  { name: 'Blogs', to: '/blogs', icon: LearnMoreIcon },
-];
-
 const Sidebar = (props) => {
   const navigation = getNav();
   const history = useHistory();
   const { account } = useWeb3React();
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
+  const { is_verified } = useSelector((state) => state.auth);
+
+  const handleLogin = () => {
+    dispatch(setLoginModalVisible(true));
+    dispatch(setRegisterModalVisible(true));
+  };
 
   return (
     <div className="hidden lg:flex lg:flex-shrink-0 min-h-screen ">
@@ -81,8 +68,8 @@ const Sidebar = (props) => {
                       type="button"
                       key={uniqid()}
                       onClick={() =>
-                        item.authProtected && !account
-                          ? dispatch(setLoginModalVisible(true))
+                        item.authProtected && !account && !is_verified
+                          ? handleLogin()
                           : history.push(item.to)
                       }
                       className="flex items-center text-sm font-medium py-1"

@@ -9,7 +9,7 @@ const ContactUs = React.lazy(() => import('../views/ContactUs'));
 const DetailSearch = React.lazy(() => import('../views/DetailSearch'));
 const AboutUs = React.lazy(() => import('../views/AboutUs'));
 const Product = React.lazy(() => import('../views/Product'));
-const MyInsurance = React.lazy(() => import('../views/MyInsurance'));
+const MyAccount = React.lazy(() => import('../views/MyAccount'));
 const SubmitReview = React.lazy(() => import('../views/SubmitReview'));
 const MsoPackages = React.lazy(() => import('../views/MsoPackages'));
 const MsoProducts = React.lazy(() => import('../views/MsoProducts'));
@@ -121,11 +121,11 @@ const routes = [
     bgImgClass: 'bg-100% bg-no-repeat bg-cover',
   },
   {
-    path: '/my-insurance',
+    path: '/my-account',
     exact: true,
-    pageName: 'MyInsurance',
+    pageName: 'MyAccount',
     withSidebar: true,
-    component: MyInsurance,
+    component: MyAccount,
     title: '',
     bgImg: 'md:bg-commonSectionBg',
     mobileBgImg: 'bg-Mobile404Bg',

@@ -2,15 +2,17 @@ import React, { useContext, useEffect, useState } from 'react';
 import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { searchBlogList } from '../redux/actions/CoverList';
 import Loading from '../components/common/Loading';
 import InsuranceCards from '../components/InsuranceCards';
-import MobilePageTitle from '../components/common/MobilePageTitle';
+import PostCard from '../components/PostCard';
+import FeatureCard from '../components/FeatureCard';
+import { ThemeContext } from '../themeContext';
+
 import InsuranceCardDotBg from '../assets/bg-img/insurance-card-dot-bg.svg';
 import cryptoInsuranceDotBg from '../assets/bg-img/crypto-insurance-dot-bg.svg';
 import cryptoInsuranceOrangeDots from '../assets/img/orange-dots.svg';
-import PostCard from '../components/PostCard';
-import FeatureCard from '../components/FeatureCard';
 import Balance from '../assets/icons/balance1.svg';
 import Discount from '../assets/icons/discount1.svg';
 import Stopwatch from '../assets/icons/stopwatch1.svg';
@@ -20,31 +22,6 @@ import CryptoInsuranceImgDark from '../assets/img/crypto-orange-logo.svg';
 import NsureNetworkLogo from '../assets/partners/Nsure-Network.png';
 import UnoReLogo from '../assets/partners/UNORE.png';
 import InsureAceLogo from '../assets/partners/InsurAce.png';
-import { ThemeContext } from '../themeContext';
-import BlogPost1 from '../assets/blogs/blog-post-1.png';
-import BlogPost2 from '../assets/blogs/blog-post-2.png';
-import BlogPost3 from '../assets/blogs/blog-post-3.png';
-
-const postCards = [
-  {
-    image: BlogPost1,
-    title: 'InsurAce.io : our second official...',
-    body: 'Not long after Nsure was announced as our first partner, we are ecstatic to...',
-    ctaLink: 'blogs/page1',
-  },
-  {
-    image: BlogPost2,
-    title: 'Nsure Network — The FIRST insurance...',
-    body: 'We are beyond thrilled to introduce Nsure Network as our FIRST insurer partner...',
-    ctaLink: 'blogs/page2',
-  },
-  {
-    image: BlogPost3,
-    title: 'The traditional insurers are here!',
-    body: 'The CoverCompared network, powered by PolkaCover, has been consistently...',
-    ctaLink: 'blogs/page3',
-  },
-];
 
 const clientLogos = [
   {
@@ -107,9 +84,9 @@ export default function Home(props) {
   const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
   const coverListData = useSelector((state) => state.coverList);
-  const { loader, blogList, message, isFailed, page, totalPages } = coverListData;
+  const { loader, message, isFailed, page, totalPages } = coverListData;
 
-  const [BlogList, setBlogList] = useState(blogList);
+  const [blogList, setBlogList] = useState(coverListData.blogList);
 
   useEffect(() => {
     const query = `/table?range=[0,3]`;
@@ -117,10 +94,10 @@ export default function Home(props) {
   }, []);
 
   useEffect(() => {
-    if (blogList !== null) {
-      setBlogList(blogList);
+    if (coverListData.blogList) {
+      setBlogList(coverListData.blogList);
     }
-  }, [BlogList]);
+  }, [coverListData.blogList]);
 
   const RenderBlogs = () => {
     if (loader) {
@@ -131,23 +108,23 @@ export default function Home(props) {
       );
     }
 
-    if (!loader && !BlogList?.length) {
+    if (!loader && !blogList?.length) {
       return (
         <div className="mt-3 text-center dark:text-white text-h6 font-Montserrat font-medium mb-6">
           Sorry! Couldn&apos;t found Blog
         </div>
       );
     }
-    if (BlogList?.length) {
+    if (blogList?.length) {
       return (
         <>
           <div className="sm:grid hidden grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12 lg:px-14 md:px-4 md:pb-20 pb-14 sm:px-0">
-            {BlogList.map((blog) => (
+            {blogList.map((blog) => (
               <PostCard {...props} key={uniqid()} {...blog} />
             ))}
           </div>
           <div className="sm:hidden pb-14">
-            {BlogList.map((blog) => (
+            {blogList.map((blog) => (
               <div className="grid grid-cols-12 gap-x-3 mb-3" key={uniqid()}>
                 <div className=" col-span-4">
                   <img src={blog.image} alt="" className="h-full w-full rounded-lg" />
@@ -178,10 +155,6 @@ export default function Home(props) {
 
   return (
     <div>
-      {/* <MobilePageTitle
-        title="Motto of the Company"
-        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel semper blandit euismod vitae eleifend vitae eleifend massa imperdiet."
-      /> */}
       <div className="grid grid-cols-2 gap-4 xl:gap-y-8 md:gap-x-6 md:grid-cols-2 lg:grid-cols-2 xl:gap-x-8 sm:px-28 md:px-6 md:pb-20 pb-12 xl:px-40 relative">
         <InsuranceCards {...props} />
         <img
@@ -192,11 +165,6 @@ export default function Home(props) {
       </div>
 
       {RenderBlogs()}
-      {/* <div className="grid grid-cols-3 gap-y-6 gap-x-3 xl:gap-y-8 xl:gap-x-8 md:grid-cols-3 lg:grid-cols-3 lg:px-36 sm:px-4 md:gap-x-6 md:pb-20 px-0 pb-10">
-        {counterCards.map(({ title, subtitle }) => (
-          <CounterCard {...props} key={uniqid()} title={title} subtitle={subtitle} />
-        ))}
-      </div> */}
 
       <Features {...props} />
 

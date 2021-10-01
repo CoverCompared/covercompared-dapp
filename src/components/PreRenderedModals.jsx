@@ -8,9 +8,14 @@ import Login from './Login';
 
 const PreRenderedModals = () => {
   const dispatch = useDispatch();
-  const { loginModalVisible, registerModalVisible, is_verified } = useSelector(
-    (state) => state.auth,
-  );
+  const { loginModalVisible, registerModalVisible, is_verified, showVerified, showOTPScreen } =
+    useSelector((state) => state.auth);
+
+  const modalTitle = () => {
+    if (showVerified) return '';
+    if (showOTPScreen) return 'OTP Verification';
+    return 'Register';
+  };
 
   return (
     <>
@@ -23,8 +28,13 @@ const PreRenderedModals = () => {
         bgImg="bg-loginPopupBg"
       />
       <Modal
-        isOpen={!!(is_verified === false && registerModalVisible)}
-        title="Register"
+        isOpen={
+          !!(
+            (is_verified === false && registerModalVisible) ||
+            (showVerified && registerModalVisible)
+          )
+        }
+        title={modalTitle()}
         sizeClass="max-w-lg"
         renderComponent={Register}
         onClose={() => dispatch(setRegisterModalVisible(false))}

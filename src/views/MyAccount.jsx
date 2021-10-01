@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { PencilAltIcon } from '@heroicons/react/outline';
 import { useDispatch, useSelector } from 'react-redux';
 import GetCVROnReview from '../components/GetCVROnReview';
-import MobilePageTitle from '../components/common/MobilePageTitle';
 import Modal from '../components/common/Modal';
 import ClaimCards from '../components/ClaimCards';
 import AdditionalDetails from '../components/AdditionalDetails';
 import { setRegisterModalVisible } from '../redux/actions';
 
-const MyInsurance = (props) => {
+const MyAccount = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.auth);
@@ -30,26 +30,32 @@ const MyInsurance = (props) => {
         className="grid grid-cols-12 gap-x-4 gap-y-4 mb-16 xl:pl-5 xl:pr-24"
       >
         <div className="md:col-span-4 col-span-12 md:flex items-center">
-          <div className="font-Montserrat text-body-md font-semibold dark:text-white text-dark-blue">
-            Email
+          <div className="w-full">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <div className="mt-1 flex rounded-md shadow-sm">
+              <div className="relative flex items-stretch flex-grow focus-within:z-10">
+                <input
+                  disabled
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={email}
+                  placeholder="your@email.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 bg-gray-50"
+                />
+              </div>
+              <button
+                type="button"
+                className="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-0 focus:ring-0 focus:border-0"
+              >
+                <PencilAltIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                {/* <span>Update</span> */}
+              </button>
+            </div>
           </div>
-          <input
-            required
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            name="email"
-            placeholder="Email"
-            className="w-full md:ml-3 mt-2 md:mt-0 bg-transparent h-12 border-2 border-gray-300 rounded-xl outline-none placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 ring-0 focus:border-gray-500 focus:ring-shadow-none text-black font-Montserrat font-medium text-body-md duration-200"
-          />
-        </div>
-        <div className="flex items-center md:col-span-4 col-span-12">
-          <button
-            type="submit"
-            className="py-3 px-8 w-full md:w-min text-white font-Montserrat font-body-md rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
-          >
-            Update
-          </button>
         </div>
       </form>
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
@@ -130,4 +136,4 @@ const MyInsurance = (props) => {
     </>
   );
 };
-export default MyInsurance;
+export default MyAccount;

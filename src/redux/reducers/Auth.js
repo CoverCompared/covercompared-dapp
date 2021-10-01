@@ -20,6 +20,7 @@ const INIT_STATE = {
   is_verified: null,
   wallet_addresses: [],
 
+  showVerified: false,
   showOTPScreen: false,
   loginModalVisible: false,
   registerModalVisible: false,
@@ -66,6 +67,7 @@ export default (state = INIT_STATE, { type, payload }) => {
         message: '',
         loader: false,
         isFailed: false,
+        showVerified: true,
         showOTPScreen: false,
       };
     }
@@ -90,7 +92,10 @@ export default (state = INIT_STATE, { type, payload }) => {
         is_verified: null,
         wallet_addresses: [],
 
+        showVerified: false,
         showOTPScreen: false,
+        loginModalVisible: false,
+        registerModalVisible: false,
       };
     }
     case LOGIN_MODAL_VISIBLE: {
@@ -102,6 +107,10 @@ export default (state = INIT_STATE, { type, payload }) => {
     case REGISTER_MODAL_VISIBLE: {
       return {
         ...state,
+        message: '',
+        isFailed: false,
+        showVerified: false,
+        showOTPScreen: false,
         registerModalVisible: payload,
       };
     }

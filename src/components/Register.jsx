@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { CheckCircleIcon } from '@heroicons/react/outline';
 import { setProfileDetails, resendVerificationEmail, verifyOTP } from '../redux/actions/Auth';
 
 const Register = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
-  const { showOTPScreen, loader, isFailed } = authState;
+  const { showOTPScreen, showVerified, loader, isFailed } = authState;
 
   const [otp, setOtp] = useState('');
   const [email, setEmail] = useState('');
@@ -33,6 +34,16 @@ const Register = () => {
   const handleResendOTP = () => {
     dispatch(resendVerificationEmail({ email }));
   };
+
+  if (showVerified) {
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <CheckCircleIcon className="w-28 h-28 text-green-500" />
+        <h5 className="text-Montserrat text-3xl">Thank you!</h5>
+        <p className="text-md">Your email has been registered successfully</p>
+      </div>
+    );
+  }
 
   return (
     <>

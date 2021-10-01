@@ -10,7 +10,7 @@ import { ReactComponent as PartnerIcon } from '../assets/img/partner-icon.svg';
 
 const nav = [
   { name: 'Home', to: '/', icon: HomeIcon, authProtected: false },
-  { name: 'My Insurance', to: '/my-insurance', icon: MyInsuranceIcon, authProtected: true },
+  { name: 'My Account', to: '/my-account', icon: MyInsuranceIcon, authProtected: true },
   { name: 'About Us', to: '/about-us', icon: AboutUsIcon, authProtected: false },
   { name: 'About Token', to: '/about-token', icon: AboutTokenIcon, authProtected: false },
   { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon, authProtected: false },

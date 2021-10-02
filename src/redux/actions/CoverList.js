@@ -25,6 +25,9 @@ import {
   SEARCH_BLOG,
   SEARCH_BLOG_SUCCESS,
   SET_SEARCH_BLOG_LOADER,
+  FETCH_MORE_BLOGS,
+  FETCH_MORE_BLOGS_SUCCESS,
+  SET_FETCH_MORE_BLOGS_LOADER,
 } from '../constants/ActionTypes';
 
 export const actionMethodFailed = (payload) => {
@@ -204,6 +207,27 @@ export const searchBlogSuccess = (payload) => {
 export const setSearchBlogLoader = (payload) => {
   return {
     type: SET_SEARCH_BLOG_LOADER,
+    payload,
+  };
+};
+
+export const fetchMoreBlogs = (payload) => {
+  return {
+    type: FETCH_MORE_BLOGS,
+    payload,
+  };
+};
+
+export const fetchMoreBlogsSuccess = (payload) => {
+  return {
+    type: FETCH_MORE_BLOGS_SUCCESS,
+    payload,
+  };
+};
+
+export const setFetchMoreBlogsLoader = (payload) => {
+  return {
+    type: SET_FETCH_MORE_BLOGS_LOADER,
     payload,
   };
 };

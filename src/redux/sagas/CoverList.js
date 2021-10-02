@@ -11,6 +11,7 @@ import {
   GET_DEVICE_PLAN_DETAILS,
   SEARCH_BLOG_LIST,
   SEARCH_BLOG,
+  FETCH_MORE_BLOGS,
 } from '../constants/ActionTypes';
 import {
   searchCoverListSuccess,
@@ -30,6 +31,8 @@ import {
   setSearchBlogListLoader,
   searchBlogSuccess,
   setSearchBlogLoader,
+  fetchMoreBlogsSuccess,
+  setFetchMoreBlogsLoader,
 } from '../actions/CoverList';
 import { axiosGet, axiosPost } from '../constants/apicall';
 
@@ -311,6 +314,7 @@ function* searchBlogList({ payload }) {
         searchBlogListSuccess({
           query: payload,
           blogList: blogList.data.data,
+          blogRange: blogList.data.range,
         }),
       );
     }
@@ -375,6 +379,46 @@ function* searchSingleBlog({ payload }) {
   }
 }
 
+function* fetchMoreBlogLists({ payload }) {
+  try {
+    yield put(
+      setFetchMoreBlogsLoader({
+        message: '',
+        paginationLoader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/blogs${payload || ''}`;
+    const blogList = yield call(axiosGet, url);
+
+    if (blogList?.data?.data) {
+      yield put(
+        fetchMoreBlogsSuccess({
+          blogList: blogList.data.data,
+          blogRange: blogList.data.range,
+        }),
+      );
+    }
+
+    return yield put(
+      setFetchMoreBlogsLoader({
+        isFailed: true,
+        paginationLoader: false,
+        message: blogList.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setFetchMoreBlogsLoader({
+        isFailed: true,
+        paginationLoader: false,
+        message: error.message,
+      }),
+    );
+  }
+}
+
 export default all([
   takeLatest(SEARCH_COVER_LIST, searchAllCoverList),
   takeLatest(SEARCH_MSO_LIST, searchMSOList),
@@ -384,4 +428,5 @@ export default all([
   takeLatest(GET_DEVICE_PLAN_DETAILS, getDevicePlanDetail),
   takeLatest(SEARCH_BLOG_LIST, searchBlogList),
   takeLatest(SEARCH_BLOG, searchSingleBlog),
+  takeLatest(FETCH_MORE_BLOGS, fetchMoreBlogLists),
 ]);

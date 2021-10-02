@@ -17,6 +17,8 @@ import {
   SEARCH_BLOG_LIST_SUCCESS,
   SET_SEARCH_BLOG_LOADER,
   SEARCH_BLOG_SUCCESS,
+  SET_FETCH_MORE_BLOGS_LOADER,
+  FETCH_MORE_BLOGS_SUCCESS,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
@@ -33,6 +35,7 @@ const INIT_STATE = {
   devicePlanDetails: null,
   blogList: null,
   blog: null,
+  blogRange: null,
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -57,8 +60,24 @@ export default (state = INIT_STATE, { type, payload }) => {
         isFailed: false,
         query: payload.query,
         blogList: payload.blogList,
-        // page: payload.coverList.current_page,
-        // totalPages: payload.coverList.total_page,
+        blogRange: payload.blogRange,
+      };
+    }
+    case SET_FETCH_MORE_BLOGS_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case FETCH_MORE_BLOGS_SUCCESS: {
+      return {
+        ...state,
+        message: '',
+        paginationLoader: false,
+        isFailed: false,
+        query: payload.query,
+        blogList: [...state.blogList, ...payload.blogList],
+        blogRange: payload.blogRange,
       };
     }
     case SET_SEARCH_BLOG_LOADER: {

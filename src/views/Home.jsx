@@ -22,6 +22,7 @@ import CryptoInsuranceImgDark from '../assets/img/crypto-orange-logo.svg';
 import NsureNetworkLogo from '../assets/partners/Nsure-Network.png';
 import UnoReLogo from '../assets/partners/UNORE.png';
 import InsureAceLogo from '../assets/partners/InsurAce.png';
+import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
 
 const clientLogos = [
   {
@@ -87,6 +88,8 @@ export default function Home(props) {
   const { loader, message, isFailed, page, totalPages } = coverListData;
 
   const [blogList, setBlogList] = useState(coverListData.blogList);
+
+  const ethUsdPrice = useAssetsUsdPrice('eth');
 
   useEffect(() => {
     const query = `/table?range=[0,3]`;

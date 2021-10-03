@@ -5,6 +5,7 @@ import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useWeb3React } from '@web3-react/core';
+import { Timeline } from 'react-twitter-widgets';
 
 import { ThemeContext } from '../../themeContext';
 import { classNames } from '../../functions/utils';
@@ -116,6 +117,13 @@ const Sidebar = (props) => {
                   >
                     See Details
                   </button>
+                </div>
+
+                <div className="mt-3">
+                  <Timeline
+                    dataSource={{ sourceType: 'profile', screenName: 'PolkaCover' }}
+                    options={{ chrome: 'nofooter', width: '400', height: '600' }}
+                  />
                 </div>
               </div>
             </div>

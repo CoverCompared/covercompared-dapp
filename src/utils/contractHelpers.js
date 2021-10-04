@@ -1,21 +1,20 @@
 import { ethers } from 'ethers';
-import Web3 from 'web3';
+// import Web3 from 'web3';
 
 // Addresses
-import { getAddress, getCoverComparedAddress } from './addressHelpers';
-
+import { getCoverComparedAddress } from './addressHelpers';
+import ethSimpleProvider from './providers';
 // ABI
 import erc20Abi from '../config/abi/erc20.json';
 import CovercomaredAbi from '../config/abi/covercompared.json';
 import AggregatorV3InterfaceABI from '../config/abi/aggregatorV3InterfaceABI.json';
-import { NETWORK_URLS } from '../config/connectors';
+// import { NETWORK_URLS } from '../config/connectors';
 
-const chainId = parseInt(process.env.CHAIN_ID, 10);
-const web3 = new Web3(NETWORK_URLS[chainId]);
+// const chainId = parseInt(process.env.CHAIN_ID, 10);
+// const web3 = new Web3(NETWORK_URLS[chainId]);
 
 const getContract = (abi, address, signer) => {
-  const simpleRpcProvider = ethers.getDefaultProvider('kovan');
-  const signerOrProvider = signer ?? simpleRpcProvider;
+  const signerOrProvider = signer ?? ethSimpleProvider;
   return new ethers.Contract(address, abi, signerOrProvider);
 };
 

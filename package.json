@@ -31,6 +31,7 @@
     "@web3-react/types": "^6.0.7",
     "@web3-react/walletconnect-connector": "^6.2.4",
     "axios": "^0.21.3",
+    "bignumber.js": "^9.0.1",
     "chart.js": "^3.5.1",
     "connected-react-router": "^6.9.1",
     "ethers": "^5.4.6",

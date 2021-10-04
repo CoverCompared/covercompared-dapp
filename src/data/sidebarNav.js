@@ -7,6 +7,7 @@ import { ReactComponent as ContactUsIcon } from '../assets/img/contact-us-icon.s
 import { ReactComponent as LearnMoreIcon } from '../assets/img/learn-more-icon.svg';
 import { ReactComponent as SubscribeIcon } from '../assets/img/subscribe-icon.svg';
 import { ReactComponent as PartnerIcon } from '../assets/img/partner-icon.svg';
+import { ReactComponent as FAQIcon } from '../assets/img/faq-icon.svg';
 
 const nav = [
   { name: 'Home', to: '/', icon: HomeIcon, authProtected: false },
@@ -17,6 +18,7 @@ const nav = [
   { name: 'Our Partners', to: '/partners', icon: PartnerIcon, authProtected: false },
   { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon, authProtected: false },
   { name: 'Blogs', to: '/blogs', icon: LearnMoreIcon, authProtected: false },
+  { name: 'FAQ', to: '/faq', icon: FAQIcon, authProtected: false },
 ];
 
 const navigation = () => {

@@ -5,8 +5,7 @@ import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useWeb3React } from '@web3-react/core';
-import { Timeline } from 'react-twitter-widgets';
-
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import { ThemeContext } from '../../themeContext';
 import { classNames } from '../../functions/utils';
 import getNav from '../../data/sidebarNav';
@@ -120,9 +119,14 @@ const Sidebar = (props) => {
                 </div>
 
                 <div className="mt-3">
-                  <Timeline
+                  {/* <Timeline
                     dataSource={{ sourceType: 'profile', screenName: 'PolkaCover' }}
                     options={{ chrome: 'nofooter', width: '400', height: '600' }}
+                  /> */}
+                  <TwitterTimelineEmbed
+                    sourceType="profile"
+                    screenName="PolkaCover"
+                    options={{ height: 400 }}
                   />
                 </div>
               </div>

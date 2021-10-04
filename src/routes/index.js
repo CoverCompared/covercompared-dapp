@@ -16,6 +16,7 @@ const MsoProducts = React.lazy(() => import('../views/MsoProducts'));
 const Blog = React.lazy(() => import('../views/Blog'));
 const ErrorPage = React.lazy(() => import('../views/ErrorPage'));
 const MSOPlans = React.lazy(() => import('../views/MSOPlans'));
+const FAQ = React.lazy(() => import('../views/FAQ'));
 
 const routes = [
   {
@@ -63,6 +64,17 @@ const routes = [
     bgImg: 'md:bg-aboutTokenBg',
     mobileBgImg: 'bg-AboutTokenMobileBg',
     bgImgClass: 'bg-100% bg-no-repeat',
+  },
+  {
+    path: '/FAQ',
+    exact: true,
+    pageName: 'FAQ',
+    withSidebar: true,
+    component: FAQ,
+    title: 'FAQ',
+    bgImg: 'md:bg-packagePageBg',
+    mobileBgImg: 'bg-Mobile404Bg',
+    bgImgClass: 'bg-fixed bg-center bg-100% bg-no-repeat',
   },
   {
     path: '/contact-us',

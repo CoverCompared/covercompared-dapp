@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import { searchBlogList } from '../redux/actions/CoverList';
 import Loading from '../components/common/Loading';
 import InsuranceCards from '../components/InsuranceCards';
@@ -90,6 +90,8 @@ export default function Home(props) {
   const [blogList, setBlogList] = useState(coverListData.blogList);
 
   const ethUsdPrice = useAssetsUsdPrice('eth');
+  const { balance } = useGetEthBalance();
+  const usdcBalanceStatus = useTokenBalance('0xdCFaB8057d08634279f8201b55d311c2a67897D2');
 
   useEffect(() => {
     const query = `/table?range=[0,3]`;

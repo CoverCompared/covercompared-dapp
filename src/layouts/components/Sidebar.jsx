@@ -91,8 +91,8 @@ const Sidebar = (props) => {
                 </nav>
               </div>
 
-              <div className="mt-3 flex flex-col items-center">
-                <div className="flex justify-center mb-2">
+              <div className="mt-6 flex flex-col items-center">
+                <div className="flex justify-center mb-6">
                   {socialMedia.map((item) => (
                     <a key={uniqid()} href={item.href} target="_blank" rel="noreferrer">
                       <div className="rounded-full h-5 w-5 hover:bg-bluegradient flex items-center justify-center mx-1.5">
@@ -119,10 +119,6 @@ const Sidebar = (props) => {
                 </div>
 
                 <div className="mt-3">
-                  {/* <Timeline
-                    dataSource={{ sourceType: 'profile', screenName: 'PolkaCover' }}
-                    options={{ chrome: 'nofooter', width: '400', height: '600' }}
-                  /> */}
                   <TwitterTimelineEmbed
                     sourceType="profile"
                     screenName="PolkaCover"

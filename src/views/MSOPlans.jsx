@@ -10,6 +10,8 @@ import { searchMSOList } from '../redux/actions/CoverList';
 import Loading from '../components/common/Loading';
 import ToolTip from '../components/common/ToolTip';
 import MSOServicesCard from '../components/MSOServicesCard';
+import CountrySelector from '../components/common/CountrySelector';
+import Modal from '../components/common/Modal';
 
 import MSOpartner1 from '../assets/img/mso-partners-1.jpg';
 import MSOpartner2 from '../assets/img/mso-partners-2.jpg';
@@ -20,7 +22,6 @@ import MSOpartner6 from '../assets/img/mso-partners-6.jpg';
 import MSOpartner7 from '../assets/img/mso-partners-7.jpg';
 import MSOpartner8 from '../assets/img/mso-partners-8.jpg';
 import MSOpartner9 from '../assets/img/mso-partners-9.jpg';
-
 import MSOService1 from '../assets/img/mso-service-1.png';
 import MSOService2 from '../assets/img/mso-service-2.png';
 import MSOService3 from '../assets/img/mso-service-3.png';
@@ -97,6 +98,9 @@ const MSOPartners = [
 const MSOPlans = (props) => {
   const coverListData = useSelector((state) => state.coverList);
   const { loader, coverList, query, message, isFailed, page, totalPages } = coverListData;
+  const [country, setCountry] = useState('');
+  const [notExist, setNotExist] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const [products, setProducts] = useState(coverList);
   const dispatch = useDispatch();
 
@@ -138,6 +142,20 @@ const MSOPlans = (props) => {
 
   return (
     <>
+      <Modal
+        isOpen={isModalOpen}
+        title="Select Country"
+        sizeClass="max-w-2xl"
+        renderComponent={CountrySelector}
+        onClose={() => setIsModalOpen(false)}
+        bgImg="bg-loginPopupBg"
+        {...{
+          country,
+          setCountry,
+          notExist,
+          setNotExist,
+        }}
+      />
       <div className="xl:px-48 sm:px-8">
         <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Cover Compares has partnered with{' '}

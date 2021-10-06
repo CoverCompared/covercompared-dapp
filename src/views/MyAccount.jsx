@@ -1,63 +1,51 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
-import { PencilAltIcon } from '@heroicons/react/outline';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
 import ClaimCards from '../components/ClaimCards';
 import AdditionalDetails from '../components/AdditionalDetails';
-import { setRegisterModalVisible } from '../redux/actions';
 
 const MyAccount = (props) => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const state = useSelector((state) => state.auth);
-  const [email, setEmail] = useState(state.email || '');
-
-  const handleUpdate = (e) => {
-    if (e) e.preventDefault();
-  };
+  const { email } = useSelector((state) => state.auth);
 
   return (
     <>
       <GetCVROnReview {...props} />
       {/* <MobilePageTitle title="My Insurance" /> */}
-      <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
+      <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-4 dark:text-white">
         My Profile
       </div>
-      <form
-        onClick={handleUpdate}
-        className="grid grid-cols-12 gap-x-4 gap-y-4 mb-16 xl:pl-5 xl:pr-24"
-      >
-        <div className="md:col-span-4 col-span-12 md:flex items-center">
+
+      <div className="xl:pl-5 xl:pr-24">
+        <div className="md:col-span-4 col-span-12 md:flex items-center mb-4">
           <div className="w-full">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <div className="mt-1 flex rounded-md shadow-sm">
-              <div className="relative flex items-stretch flex-grow focus-within:z-10">
-                <input
-                  disabled
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={email}
-                  placeholder="your@email.com"
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 bg-gray-50"
-                />
-              </div>
-              <button
-                type="button"
-                className="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-0 focus:ring-0 focus:border-0"
-              >
-                <PencilAltIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                {/* <span>Update</span> */}
-              </button>
-            </div>
+            <label className="text-sm font-medium text-gray-700">Email:</label>
+            <label className="text-sm font-medium text-gray-500 ml-2">{email}</label>
           </div>
+          {/* <div className="mt-1 flex rounded-md shadow-sm">
+            <div className="relative flex items-stretch flex-grow focus-within:z-10">
+              <input
+                disabled
+                type="email"
+                name="email"
+                id="email"
+                value={email}
+                placeholder="your@email.com"
+                onChange={(e) => setEmail(e.target.value)}
+                className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 bg-gray-50"
+              />
+            </div>
+            <button
+              type="button"
+              className="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-0 focus:ring-0 focus:border-0"
+            >
+              <PencilAltIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+            </button>
+          </div> */}
         </div>
-      </form>
+      </div>
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
         My Insurance
       </div>

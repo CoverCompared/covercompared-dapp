@@ -149,7 +149,9 @@ module.exports = {
     extend: {
       boxShadow: ['active'],
       // backgroundColor: ['active'],
-      // opacity: ['active'],
+      bg: ['disabled'],
+      opacity: ['disabled'],
+      backgroundColor: ['disabled'],
     },
   },
   plugins: [

@@ -95,6 +95,8 @@ const MSOPartners = [
   },
 ];
 
+const countries = ['AE', 'QA', 'OM', 'KW', 'US', 'BH', 'SA'];
+
 const MSOPlans = (props) => {
   const coverListData = useSelector((state) => state.coverList);
   const { loader, coverList, query, message, isFailed, page, totalPages } = coverListData;
@@ -154,6 +156,8 @@ const MSOPlans = (props) => {
           setCountry,
           notExist,
           setNotExist,
+          setIsModalOpen,
+          countries,
         }}
       />
       <div className="xl:px-48 sm:px-8">
@@ -183,7 +187,7 @@ const MSOPlans = (props) => {
         </h2>
         <div className="grid grid-cols-12 gap-x-5 gap-y-4 mt-8">
           {MSOServices.map((obj) => (
-            <MSOServicesCard key={uniqid()} {...obj} />
+            <MSOServicesCard key={uniqid()} {...obj} country={country} />
           ))}
         </div>
       </div>

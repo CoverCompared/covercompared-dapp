@@ -30,7 +30,7 @@ const InsuranceCards = (props) => {
       icon: DeviceIcon,
       gradientClass: 'bg-gradient-to-tl',
       bgImg: 'bg-homeCardBg3',
-      redirectTo: '/product/device',
+      redirectTo: '/device-product',
     },
     {
       title: 'MEDICAL SECOND OPINION',

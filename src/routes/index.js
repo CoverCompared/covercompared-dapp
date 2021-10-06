@@ -16,6 +16,7 @@ const MsoProducts = React.lazy(() => import('../views/MsoProducts'));
 const Blog = React.lazy(() => import('../views/Blog'));
 const ErrorPage = React.lazy(() => import('../views/ErrorPage'));
 const MSOPlans = React.lazy(() => import('../views/MSOPlans'));
+const DeviceProduct = React.lazy(() => import('../views/DeviceProduct'));
 const FAQ = React.lazy(() => import('../views/FAQ'));
 
 const routes = [
@@ -93,6 +94,17 @@ const routes = [
     pageName: 'Product',
     withSidebar: false,
     component: Product,
+    title: '',
+    bgImg: 'md:bg-productBg',
+    mobileBgImg: 'bg-productPageBg',
+    bgImgClass: 'bg-100% bg-no-repeat',
+  },
+  {
+    path: '/device-product',
+    exact: true,
+    pageName: 'Product',
+    withSidebar: false,
+    component: DeviceProduct,
     title: '',
     bgImg: 'md:bg-productBg',
     mobileBgImg: 'bg-productPageBg',

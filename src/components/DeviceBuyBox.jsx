@@ -17,6 +17,7 @@ const DeviceBuyBox = (props) => {
   const { account } = useWeb3React();
   const coverListData = useSelector((state) => state.coverList);
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
+  const { country } = props;
 
   const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
   const [brand, setBrand] = useState('');
@@ -170,7 +171,8 @@ const DeviceBuyBox = (props) => {
         <button
           type="button"
           onClick={handleBuyNow}
-          className="col-span-6 py-3 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
+          disabled={!country}
+          className="col-span-6 py-3 disabled:bg-grey-400 disabled:opacity-50 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
         >
           Buy Now
         </button>

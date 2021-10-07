@@ -59,11 +59,10 @@ export const useGetEthBalance = () => {
       } catch {
         setFetchStatus(FetchStatus.FAILED);
       }
-
-      if (account) {
-        fetchBalance();
-      }
     };
+    if (account) {
+      fetchBalance();
+    }
   }, [account, lastUpdated, setBalance, setFetchStatus]);
 
   return { balance, fetchStatus, refresh: setLastUpdated };

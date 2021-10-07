@@ -179,8 +179,8 @@ export default function Home(props) {
         </h2>
         <div className="text-center">
           {clientLogos.map(({ image, alt }) => (
-            <div className="md:w-28 h-24 inline-flex justify-content-center mx-2">
-              <img key={uniqid()} className="p-2 object-scale-down w-full" src={image} alt={alt} />
+            <div key={uniqid()} className="md:w-28 h-24 inline-flex justify-content-center mx-2">
+              <img className="p-2 object-scale-down w-full" src={image} alt={alt} />
             </div>
           ))}
         </div>

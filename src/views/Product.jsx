@@ -5,7 +5,6 @@ import StarRatings from 'react-star-ratings';
 import { useSelector } from 'react-redux';
 import ReviewCard from '../components/ReviewCard';
 import CoverBuyBox from '../components/CoverBuyBox';
-import DeviceBuyBox from '../components/DeviceBuyBox';
 import IdeaCard from '../assets/img/idea-icon.svg';
 import LeftArrow from '../assets/img/nav-left-arrow.svg';
 import RightArrow from '../assets/img/nav-right-arrow.svg';
@@ -184,8 +183,7 @@ const InsuranceProduct = (props) => {
             </div>
           </div>
           <div className="md:col-span-5 col-span-12">
-            {type === 'cover' && <CoverBuyBox {...props} />}
-            {type === 'device' && <DeviceBuyBox {...props} />}
+            <CoverBuyBox {...props} />
           </div>
         </div>
 

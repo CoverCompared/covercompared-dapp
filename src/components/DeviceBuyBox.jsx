@@ -7,7 +7,7 @@ import InputWithSelect from './common/InputWithSelect';
 import SelectWithSearch from './common/SelectWithSearch';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
 import { classNames } from '../functions/utils';
-import { setLoginModalVisible } from '../redux/actions';
+import { setLoginModalVisible, setRegisterModalVisible } from '../redux/actions';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 const amountOptions = ['ETH', 'BTC', 'USDT', 'USDC', 'CVR'];
@@ -16,6 +16,7 @@ const DeviceBuyBox = (props) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React();
   const coverListData = useSelector((state) => state.coverList);
+  const { is_verified } = useSelector((state) => state.auth);
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
 
   const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
@@ -68,10 +69,15 @@ const DeviceBuyBox = (props) => {
     }
   }, [devicePlanDetails]);
 
-  const handleBuyNow = () => {
+  const handleBuyNow = (e) => {
+    if (e) e.stopPropagation();
     if (!account) {
-      toast.warning('You need to login in advance!');
       dispatch(setLoginModalVisible(true));
+      dispatch(setRegisterModalVisible(true));
+      return;
+    }
+    if (is_verified === false) {
+      dispatch(setRegisterModalVisible(true));
       return;
     }
     alert('Buy Now button clicked');
@@ -79,11 +85,11 @@ const DeviceBuyBox = (props) => {
 
   return (
     <>
-      <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
-        Cover Period and Amount
-      </div>
       <form onSubmit={() => {}} className="relative">
-        <div className="mb-2">
+        <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
+          1- Select Device Details
+        </div>
+        <div className="grid grid-cols-2 gap-x-3 gap-y-3">
           <SelectWithSearch
             {...props}
             showColumnLayout
@@ -93,8 +99,6 @@ const DeviceBuyBox = (props) => {
             dropdownOptions={deviceOptions}
             showSearchOption="true"
           />
-        </div>
-        <div className="mb-2">
           <SelectWithSearch
             {...props}
             showColumnLayout
@@ -104,8 +108,6 @@ const DeviceBuyBox = (props) => {
             dropdownOptions={deviceDetails?.brand || []}
             showSearchOption="true"
           />
-        </div>
-        <div className="mb-2">
           <SelectWithSearch
             {...props}
             showColumnLayout
@@ -115,8 +117,6 @@ const DeviceBuyBox = (props) => {
             dropdownOptions={deviceDetails?.device_values || {}}
             showSearchOption="true"
           />
-        </div>
-        <div className="mb-2">
           <SelectWithSearch
             {...props}
             showColumnLayout
@@ -127,50 +127,66 @@ const DeviceBuyBox = (props) => {
             showSearchOption="true"
           />
         </div>
-        <div className="grid grid-cols-2 gap-x-3 mb-3">
-          {planPriceArr
-            ? planPriceArr.map((option) => (
-                <label key={uniqid()}>
-                  <input
-                    id="sample"
-                    name="sample"
-                    type="radio"
-                    className="hidden"
-                    value={option}
-                    onClick={() => setPlanType(option)}
-                  />
-                  <div
-                    className={classNames(
-                      planType === option ? 'border-primary-gd-1 dark:border-white' : '',
-                      'bg-white dark:bg-featureCard-dark-bg rounded-xl cursor-pointer border-2 border-transparent shadow-devicePriceBoxShadow w-full py-3 px-2 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
-                    )}
-                  >
-                    {option.plan_type === 'monthly' ? '1 month plan' : '12 month plan'}{' '}
-                    <div className="mt-1 text-dark-blue text-body-md dark:text-white">
-                      {option.plan_currency} {option.plan_total_price}
-                    </div>
-                  </div>
-                </label>
-              ))
-            : ''}
+
+        <div className="mt-4 font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
+          2- Select Plan
         </div>
-        {/* <SelectWithSearch
-          {...props}
-          readOnly
-          fieldTitle="Quote"
-          fieldValue={quoteField}
-          setFieldValue={setQuoteField}
-          selectedOption={quoteSelect}
-          setSelectedOption={setQuoteSelect}
-          dropdownOptions={amountOptions}
-        /> */}
+        <div className="grid grid-cols-2 gap-x-3 gap-y-3">
+          <label>
+            <input
+              id="sample"
+              name="sample"
+              type="radio"
+              className="hidden"
+              value="monthly"
+              onClick={() => setPlanType('monthly')}
+            />
+            <div
+              className={classNames(
+                planType === 'monthly'
+                  ? 'border-2 border-primary-gd-1 dark:border-white'
+                  : 'border border-gray-300',
+                'bg-white dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full py-3 px-2 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
+              )}
+            >
+              {'Monthly'}{' '}
+              <div className="mt-1 text-dark-blue text-body-md dark:text-white">
+                {/* {option.plan_currency} {option.plan_total_price} */}-
+              </div>
+            </div>
+          </label>
+          <label>
+            <input
+              id="sample"
+              name="sample"
+              type="radio"
+              className="hidden"
+              value="yearly"
+              onClick={() => setPlanType('yearly')}
+            />
+            <div
+              className={classNames(
+                planType === 'yearly'
+                  ? 'border-2 border-primary-gd-1 dark:border-white'
+                  : 'border border-gray-300',
+                'bg-white dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full py-3 px-2 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
+              )}
+            >
+              {'Yearly'}{' '}
+              <div className="mt-1 text-dark-blue text-body-md dark:text-white">
+                {/* {option.plan_currency} {option.plan_total_price} */}-
+              </div>
+            </div>
+          </label>
+        </div>
       </form>
 
-      <div className="grid grid-cols-12 gap-3 w-full">
+      <div className="w-full mt-5 flex justify-center items-center">
         <button
           type="button"
+          // disabled={!planType}
           onClick={handleBuyNow}
-          className="col-span-6 py-3 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
+          className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
         >
           Buy Now
         </button>

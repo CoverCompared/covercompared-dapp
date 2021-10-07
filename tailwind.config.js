@@ -97,6 +97,7 @@ module.exports = {
         'short-review-text': '#130F26',
         'crypto-selected-dark-option': '#182229',
         'filter-blue': '#ABE2FB',
+        'blue-border': '#2684FF',
         optionContainerBg: 'rgba(227, 227, 227, 0.72)',
         swapIconBg: '#F5F8F7',
         'planPrice-1': 'rgba(69, 234, 154, 1)',
@@ -148,8 +149,12 @@ module.exports = {
   variants: {
     extend: {
       boxShadow: ['active'],
-      // backgroundColor: ['active'],
-      // opacity: ['active'],
+      opacity: ['disabled'],
+      cursor: ['disabled'],
+      backgroundColor: ['hover', 'focus', 'disabled'],
+      backgroundImage: ['hover', 'focus', 'disabled'],
+      gradientColorStops: ['hover', 'focus', 'disabled'],
+      borderColor: ['hover', 'focus', 'checked'],
     },
   },
   plugins: [

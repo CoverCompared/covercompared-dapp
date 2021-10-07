@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Markup } from 'interweave';
 import uniqid from 'uniqid';
 import Modal from '../components/common/Modal';
 import CountrySelector from '../components/common/CountrySelector';
-import ReviewCard from '../components/ReviewCard';
-import LeftArrow from '../assets/img/nav-left-arrow.svg';
-import RightArrow from '../assets/img/nav-right-arrow.svg';
 import { ThemeContext } from '../themeContext';
 
 import MobileIcon from '../assets/icons/mobile-icon.svg';
@@ -18,6 +16,26 @@ import UpgradIcon from '../assets/icons/upgrade-download.svg';
 import OnlineClaimsIcon from '../assets/icons/online-claims.svg';
 import QuickStepIcon from '../assets/icons/quick-step-icon.svg';
 
+import CrackedScreeIcon from '../assets/icons/crackedscreen-icon.svg';
+import TouchScreenIcon from '../assets/icons/touchscreenmalfunction-icon.svg';
+import LiquidDamageIcon from '../assets/icons/liquiddamage-icon.svg';
+import TheftIcon from '../assets/icons/theft-icon.svg';
+
+import AXA from '../assets/partners/p4l-partners/axa.png';
+import Arch from '../assets/partners/p4l-partners/arch.png';
+import SwissRe from '../assets/partners/p4l-partners/swiss_re.jpg';
+
+import Axiom from '../assets/partners/p4l-partners/axiom.png';
+import BatArabiya from '../assets/partners/p4l-partners/bat-arabia.png';
+import Comtel from '../assets/partners/p4l-partners/comtel.png';
+import Ensure from '../assets/partners/p4l-partners/ensure.png';
+import Fixsquad from '../assets/partners/p4l-partners/fixsquad.png';
+import FPPRLogo from '../assets/partners/p4l-partners/FPPR_logo.png';
+import HarmanHouse from '../assets/partners/p4l-partners/harman-house.png';
+import Ifix from '../assets/partners/p4l-partners/Ifix.png';
+import TechBayt from '../assets/partners/p4l-partners/techbayt_logo.png';
+
+import P4LLogo from '../assets/img/p4l-logo.png';
 // import StarRatings from 'react-star-ratings';
 // import { useSelector } from 'react-redux';
 // import DeviceBuyBox from '../components/DeviceBuyBox';
@@ -30,30 +48,59 @@ const countries = ['AE', 'QA', 'OM', 'KW', 'US', 'BH', 'SA'];
 
 const filterOption = ['High to low', 'Low to high', 'Other'];
 
-// const ReviewContainer = (props) => {
-//   const [allReview, setAllReview] = useState(false);
-//   const arr = allReview ? [...ReviewArr] : [...ReviewArr].slice(0, 2);
+const Backers = [
+  {
+    image: AXA,
+    alt: 'Axa',
+  },
+  {
+    image: Arch,
+    alt: 'Arch',
+  },
+  {
+    image: SwissRe,
+    alt: 'SwissRe',
+  },
+];
 
-//   return (
-//     <>
-//       {arr.map((obj) => (
-//         <ReviewCard {...props} key={uniqid()} {...obj} />
-//       ))}
-//       <div
-//         className="font-Inter font-medium text-body-md text-dark-blue dark:text-white hover:underline cursor-pointer mt-6 w-full underline"
-//         onClick={() => setAllReview(true)}
-//       >
-//         {!allReview && 'See all reviews'}
-//       </div>
-//       {allReview && (
-//         <div className="flex md:justify-end justify-center items-center md:mt-8 mt-12">
-//           <img src={LeftArrow} alt="Left" className="mr-6 cursor-pointer" />
-//           <img src={RightArrow} alt="Left" className="cursor-pointer" />
-//         </div>
-//       )}
-//     </>
-//   );
-// };
+const partners = [
+  {
+    image: Axiom,
+    alt: 'Axiom',
+  },
+  {
+    image: BatArabiya,
+    alt: 'BatArabiya',
+  },
+  {
+    image: Comtel,
+    alt: 'Comtel',
+  },
+  {
+    image: Ensure,
+    alt: 'Ensure',
+  },
+  {
+    image: Fixsquad,
+    alt: 'Fixsquad',
+  },
+  {
+    image: FPPRLogo,
+    alt: 'FPPRLogo',
+  },
+  {
+    image: HarmanHouse,
+    alt: 'HarmanHouse',
+  },
+  {
+    image: Ifix,
+    alt: 'Ifix',
+  },
+  {
+    image: TechBayt,
+    alt: 'TechBayt',
+  },
+];
 
 const DeviceTypeArr = [
   {
@@ -93,31 +140,153 @@ const includedItems = [
   },
 ];
 
+const DeviceProtection = [
+  {
+    image: CrackedScreeIcon,
+    title: 'Cracked Screen',
+    price: '800',
+  },
+  {
+    image: TouchScreenIcon,
+    title: 'Touchscreen Malfunction',
+    price: '1500',
+  },
+  {
+    image: LiquidDamageIcon,
+    title: 'Liquid Damage',
+    price: '1500',
+  },
+  {
+    image: TheftIcon,
+    title: 'Theft',
+    price: 'Full Device Value',
+  },
+];
+
+const p4lTable = [
+  {
+    firstCol: 'Monthly Plans',
+    secondCol:
+      '<div><b >YES</b> <br /> Starting from <b>AED 4</b>/Month & <b>AED 40</b>/Year</div>',
+    thirdCol: '<div><b >No</b> <br /> <b>AED 499 </b> to <b>AED 799</b></div>',
+    forthCol: '<div><b >No</b> <br /> <b>AED 85 </b> to <b>AED 499</b></div>',
+    fifthCol: '<div><b >No</b> <br /> <b>10% - 12%</b> of device cost</div>',
+  },
+  {
+    firstCol: 'Protect any Phone – Old or New',
+    secondCol: '<div> <b >YES</b> <br /> Devices upto<b>12 months</b> old </div>',
+    thirdCol: '<div> <b >No</b> <br /> Devices up to <b>60</b> days old</div>',
+    forthCol: '<div> <b >No</b> <br /> Devices up to <b>30</b> days old</div>',
+    fifthCol: '<div> <b >No</b> <br /> Only when buying new device</div>',
+  },
+  {
+    firstCol: 'Pick Up & Drop Off',
+    secondCol: '<div> <b >YES</b> <br />(and FREE)</div>',
+    thirdCol: '<div> <b >No</b></div>',
+    forthCol: '<div> <b >No</b></div>',
+    fifthCol: '<div> <b >No</b></div>',
+  },
+  {
+    firstCol: 'Accidental Damage Claims	',
+    secondCol: '<div>Up to 2 per year</div>',
+    thirdCol: '<div>Up to 2 per year</div>',
+    forthCol: '<div>1 per year</div>',
+    fifthCol: '<div>1 per year</div>',
+  },
+  {
+    firstCol: 'Device Theft Coverage',
+    secondCol: '<div> <b >YES</b></div>',
+    thirdCol: '<div> <b >No</b></div>',
+    forthCol: '<div> <b >No</b></div>',
+    fifthCol: '<div> <b >No</b></div>',
+  },
+  {
+    firstCol: 'Protection for all Brands with one Account',
+    secondCol: '<div> <b >YES</b> Any brand, any make-just add it to your plan</div>',
+    thirdCol: '<div> <b >No</b></div>',
+    forthCol: '<div> <b >No</b></div>',
+    fifthCol: '<div> <b >No</b></div>',
+  },
+  {
+    firstCol: 'Deductible per Accidental Damage Claim',
+    secondCol: '<div><b>AED 49 </b> to <b>AED 199</b></div>',
+    thirdCol: '<div><b>AED 99 </b> to <b>AED 349</b></div>',
+    forthCol: '<div><b>AED 70 </b> to <b>AED 180</b></div>',
+    fifthCol: '<div>Min <b>AED 100 </b> to <b>AED 10%</b> of invoice value</div>',
+  },
+  {
+    firstCol: 'Protection for Device bought anywhere in the world',
+    secondCol: '<div><b>Yes</b></div>',
+    thirdCol: '<div><b>No</b></div>',
+    forthCol: '<div><b>No</b></div>',
+    fifthCol: '<div><b>No</b></div>',
+  },
+  {
+    firstCol: 'Protection for Device bought from e-Commerce stores',
+    secondCol: '<div><b>Yes</b></div>',
+    thirdCol: '<div><b>No</b></div>',
+    forthCol: '<div><b>No</b></div>',
+    fifthCol: '<div><b>No</b></div>',
+  },
+  {
+    firstCol: 'Wide Network of Authorized Service Centers',
+    secondCol: '<div><b>Yes</b></div>',
+    thirdCol: '<div><b>No</b></div>',
+    forthCol: '<div><b>No</b></div>',
+    fifthCol: '<div><b>No</b></div>',
+  },
+  {
+    firstCol: 'Plan Cancellation',
+    secondCol: '<div>Anytime - No Deductions</div>',
+    thirdCol: '<div>Anytime - Deductions Applied</div>',
+    forthCol: '<div>Within 30 days of plan purchase</div>',
+    fifthCol: '<div>Within 7 days of plan purchase</div>',
+  },
+];
+
 const InsuranceProduct = (props) => {
   const { type } = useParams();
   const { theme } = useContext(ThemeContext);
+  const [showFilterOption, setShowFilterOption] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [country, setCountry] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(true);
   const [notExist, setNotExist] = useState(false);
+  const [table, setTable] = useState(p4lTable);
+  const [showMore, setShowMore] = useState(false);
+
+  useEffect(() => {
+    const t = p4lTable.slice(0, 4);
+    setTable(t);
+  }, []);
+
+  useEffect(() => {
+    if (showMore) {
+      setTable(p4lTable);
+    } else {
+      const t = p4lTable.slice(0, 4);
+      setTable(t);
+    }
+  }, [showMore]);
 
   return (
     <>
-      {/* <Modal
+      <Modal
         isOpen={isModalOpen}
-        title="Select Country"
+        title="Country of Residence"
         sizeClass="max-w-2xl"
         renderComponent={CountrySelector}
         onClose={() => setIsModalOpen(false)}
-        bgImg="bg-loginPopupBg"
-        {...{
-          country,
-          setCountry,
-          notExist,
-          setNotExist,
-          setIsModalOpen,
-          countries,
-        }}
-      /> */}
+        bgImg="bg-loginPopupBg bg-cover"
+        // {...{
+        //   country,
+        //   setCountry,
+        //   notExist,
+        //   setNotExist,
+        //   setIsModalOpen,
+        //   countries,
+        // }}
+        {...{ setIsModalOpen }}
+      />
       <div className="xl:px-32 lg:px-26">
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
           We protect what you love
@@ -131,7 +300,7 @@ const InsuranceProduct = (props) => {
             {DeviceTypeArr.map((item) => (
               <div
                 key={uniqid()}
-                className="w-full shadow-md rounded-xl flex flex-col items-center bg-white px-8 py-6 dark:bg-featureCard-dark-bg col-span-12 sm:col-span-1 md:col-span-3"
+                className="w-full shadow-md rounded-xl flex flex-col items-center bg-white px-8 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-12"
               >
                 <div className="h-24 w-24 flex justify-center items-center">
                   <img src={item.image} alt="" />
@@ -151,195 +320,178 @@ const InsuranceProduct = (props) => {
         <div className="flex justify-center items-center mt-4">
           <div className="grid grid-cols-12 gap-4">
             {includedItems.map((item) => (
-              <div key={uniqid()} className="col-span-3 p-4 flex flex-col items-center">
+              <div
+                key={uniqid()}
+                className="md:col-span-3 col-span-12 p-4 flex flex-col items-center"
+              >
                 <div>
                   <img src={item.image} alt={item.name} />
                 </div>
-                <div className="mt-3 font-Montserrat font-semibold text-h6 dark:text-white text-center">
+                <div className="mt-3 font-Montserrat font-semibold text-h6 text-dark-blue dark:text-white text-center">
                   {item.title}
                 </div>
               </div>
             ))}
           </div>
         </div>
-        {/* #E5FFF2 */}
-        {/* <div className="grid grid-cols-12 xl:gap-x-8 gap-y-6">
-          <div className="md:col-span-3 col-span-12">
-            <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
-              <div className="h-full w-full bg-white rounded-2xl  relative z-20">
-                <img
-                  src="https://via.placeholder.com/1000"
-                  alt=""
-                  className="rounded-2xl h-full w-full"
-                />
-              </div>
-              <img src={ProductBgDots} alt="" className="absolute -bottom-9 -right-7" />
-            </div>
-            <div className="md:hidden flex items-center">
-              <div className="relative rounded-2xl bg-white shadow-xl">
-                <img
-                  src="https://via.placeholder.com/1000"
-                  alt=""
-                  className="rounded-2xl h-28 w-28"
-                />
-              </div>
-              <div className="font-semibold text-h4 text-dark-blue font-Montserrat dark:text-white md:hidden ml-8">
-                Test
+
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+          We protect what you love
+        </h2>
+
+        <div className="flex flex-col mt-10">
+          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+              <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                      >
+                        {' '}
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider flex justify-center"
+                      >
+                        <img src={P4LLogo} alt="" title="P4L" />
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                      >
+                        Apple Care +
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                      >
+                        Samsung Care +
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                      >
+                        Others
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {table.map(({ firstCol, secondCol, thirdCol, forthCol, fifthCol }, index) => (
+                      <tr key={uniqid()} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-200'}>
+                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-sm text-gray-900 font-Montserrat font-semibold">
+                          {firstCol}
+                        </td>
+                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                          <Markup content={secondCol} />
+                        </td>
+                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                          <Markup content={thirdCol} />
+                        </td>
+                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                          <Markup content={forthCol} />
+                        </td>
+                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                          <Markup content={fifthCol} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
-          <div className="md:col-span-4 col-span-12 flex flex-col">
-            <div className="font-semibold text-h2 text-dark-blue font-Montserrat mb-6 dark:text-white md:flex hidden">
-              Test
+        </div>
+        <div className="flex justify-center mt-4">
+          <button
+            type="button"
+            onClick={() => setShowMore(!showMore)}
+            className="font-Montserrat font-semibold font-h5 dark:text-white text-dark-blue px-2 py-2 flex items-center"
+          >
+            Show More{' '}
+            <div className="font-bold text-white bg-light-green h-5 w-5 rounded-full flex justify-center items-center ml-3">
+              +
             </div>
-            <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xs mb-5 dark:text-white">
-              Details
-            </div>
-            <div className="flex justify-between items-center md:mb-3 mb-4">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
-                Address
-              </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                Test
-              </div>
-            </div>
-            <div className="flex justify-between items-center md:mb-3 mb-4">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
-                Provider
-              </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                P4L
-              </div>
-            </div>
-            <div className="flex justify-between items-center md:mb-3 mb-4">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
-                Min & Max Days
-              </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                test
-              </div>
-            </div>
-            <div className="flex justify-between items-center">
-              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
-                Capacity
-              </div>
-              <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                Loreuam ac in amet, porta ac duis.
-              </div>
-            </div>
-          </div>
-          <div className="md:col-span-5 col-span-12">
-            <DeviceBuyBox {...props} country={country} />
-          </div>
+          </button>
         </div>
 
-        <div className="grid grid-cols-12 xl:gap-x-12 gap-x-6 gap-y-10 md:mt-20 mt-6 mb-10">
-          <div className="lg:col-span-7 xl:col-span-6 col-span-12 order-2 md:order-1">
-            <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 dark:text-white">
-              Description :
-            </div>
-            <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
-              nunc varius porta. Tincidunt vestibulum vivamus.
-            </div>
-            <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
-              Additional Details :
-            </div>
-            <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
-              nunc varius porta. Tincidunt vestibulum vivamus sed facilisi ac urna quisque etiam
-              bibendum. Sed aliquet at aliquam at nascetur hendrerit adipiscing.
-            </div>
-            <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
-              Term & Condition :
-            </div>
-            <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
-              nunc varius porta. Tincidunt vestibulum vivamus sed facilisi ac urna quisque etiam
-              bibendum. Sed aliquet at aliquam at nascetur hendrerit adipiscing.
-            </div>
-          </div>
-          <div className="xl:col-span-5 xl:col-start-8 lg:col-span-5 col-span-12 order-1 md:order-2">
-            <div className="font-Montserrat font-semibold text-19 text-dark-blue mb-4 dark:text-white">
-              Discount
-            </div>
-            <div className="w-full p-6 bg-discount-bg rounded-2xl">
-              <div className="font-Inter text-h5 text-discount-text font-medium">
-                Offer Details : 20% Loreum Dipsum
-              </div>
-              <div className="font-Inter text-body-md text-counter-card-text mt-4 mb-5 leading-6">
-                Lorem ipsum dolor sit ametsectetur adipiscing elit. Ultrices purus sit placeranunc.
-              </div>
-              <button
-                type="button"
-                className="py-3 px-8 bg-discount-apply-btn-bg rounded-2xl outline-none border-0 text-discount-apply-btn-text font-Montserrat font-semibold text-body-md"
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+          Why Get Device Protection?
+        </h2>
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+          Accidental Damage can be costly
+        </div>
+
+        <div className="flex justify-center items-center mt-4">
+          <div className="grid grid-cols-12 gap-4">
+            {DeviceProtection.map((item) => (
+              <div
+                key={uniqid()}
+                className="md:col-span-3 col-span-12 p-4 flex flex-col items-center"
               >
-                Apply
-              </button>
-            </div>
+                <div>
+                  <img src={item.image} alt={item.name} />
+                </div>
+                <div className="mt-3 font-Montserrat font-semibold text-h6 text-dark-blue dark:text-white text-center">
+                  {item.title}
+                </div>
+                <div className="mt-1 font-Montserrat font-semibold text-h5 text-light-green">
+                  {item.price} $
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="grid grid-cols-12 xl:gap-x-12 gap-x-6 gap-y-10 md:mt-20 mt-12 md:mb-10">
-          <div className="lg:col-span-6 xl:col-span-5 col-span-12 order-2 md:order-2">
-            <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-4 dark:text-white">
-              Review
+        <div className="text-center text-dark-blue font-Inter mt-4 dark:text-white">
+          (Average Cost of Repair)
+        </div>
+
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+          Device Protection Backed By Industry Leaders
+        </h2>
+
+        <div className="flex justify-center items-center mt-10 text-center">
+          {Backers.map(({ image, alt }) => (
+            <div
+              key={uniqid()}
+              className="md:w-40 w-32 inline-flex justify-content-center mx-5 rounded-xl bg-white shadow-md"
+            >
+              <img className="w-full rounded-xl" src={image} alt={alt} />
             </div>
-            <div className="font-Montserrat font-semibold text-72 text-dark-blue dark:text-white">
-              4.5<span className="text-h5">/5.0</span>
-            </div>
-            <div className="flex justify-between items-center mb-8 w-full">
-              <StarRatings
-                rating={4.5}
-                starDimension="36px"
-                starSpacing="0px"
-                starEmptyColor="rgba(196, 196, 196, 1)"
-                starRatedColor="rgba(254, 195, 45, 1)"
-                svgIconPath="M21.8912 16.092C21.5459 16.4267 21.3872 16.9107 21.4659 17.3854L22.6512 23.9454C22.7512 24.5014 22.5165 25.064 22.0512 25.3854C21.5952 25.7187 20.9885 25.7587 20.4912 25.492L14.5859 22.412C14.3805 22.3027 14.1525 22.244 13.9192 22.2374H13.5579C13.4325 22.256 13.3099 22.296 13.1979 22.3574L7.29118 25.452C6.99918 25.5987 6.66852 25.6507 6.34452 25.5987C5.55518 25.4494 5.02852 24.6974 5.15785 23.904L6.34452 17.344C6.42318 16.8654 6.26452 16.3787 5.91918 16.0387L1.10452 11.372C0.70185 10.9814 0.56185 10.3947 0.74585 9.86536C0.924517 9.33736 1.38052 8.95203 1.93118 8.86536L8.55785 7.90403C9.06185 7.85203 9.50452 7.54536 9.73118 7.09203L12.6512 1.10536C12.7205 0.972031 12.8099 0.849365 12.9179 0.745365L13.0378 0.652031C13.1005 0.582698 13.1725 0.525365 13.2525 0.478698L13.3979 0.425365L13.6245 0.332031H14.1858C14.6872 0.384031 15.1285 0.684031 15.3592 1.13203L18.3179 7.09203C18.5312 7.52803 18.9459 7.8307 19.4245 7.90403L26.0512 8.86536C26.6112 8.94536 27.0792 9.33203 27.2645 9.86536C27.4392 10.4 27.2885 10.9867 26.8779 11.372L21.8912 16.092Z"
-              />
-              <div className="mb-2 relative">
-                <div
-                  className="flex items-center cursor-pointer"
-                  onClick={() => setShowFilterOption(true)}
-                >
-                  <img src={theme === 'light' ? Filter : FilterWhite} alt="" />
-                  <div className="font-Montserrat font-semibold text-body-md ml-1 text-short-review-text dark:text-white">
-                    {filterSelect === '' ? 'Short By' : filterSelect}
-                  </div>
-                </div>
-                {showFilterOption && (
-                  <div className="absolute -right-32 top-0 z-10">
-                    <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg cursor-pointer dark:bg-product-input-bg-dark">
-                      {filterOption.map((option) => (
-                        <div
-                          key={uniqid()}
-                          className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
-                          onClick={() => {
-                            setFilterSelect(option);
-                            setShowFilterOption(false);
-                          }}
-                        >
-                          {option}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+          ))}
+        </div>
+
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+          Wide Network Of Service Partners
+        </h2>
+
+        <div className="flex justify-center items-center mt-10">
+          <div className="text-center">
+            {partners.map(({ image, alt }) => (
+              <div
+                key={uniqid()}
+                className="md:w-40 w-32 inline-flex justify-content-center mx-4 my-3 rounded-xl bg-white shadow-md"
+              >
+                <img className="w-full rounded-xl" src={image} alt={alt} />
               </div>
-            </div>
-            <ReviewContainer filterSelect={filterSelect} {...props} />
+            ))}
           </div>
-          <div className="xl:col-span-5 xl:col-start-8 lg:col-span-4 col-span-12 order-1 md:order-2">
-            <div className="py-10 px-8 flex-col flex justify-center items-center bg-discount-bg rounded-2xl">
-              <img src={IdeaCard} alt="" />
-              <div className="text-dark-blue text-19 font-Montserrat font-semibold text-center mt-4 mb-6">
-                Did you know
-              </div>
-              <div className="font-Inter text-body-md text-counter-card-text leading-6 text-center">
-                Lorem ipsum dolor sit ametsectetur adipiscing elit. Ultrices purus sit placeranunc.
-              </div>
-            </div>
-          </div>
-        </div> */}
+        </div>
+      </div>
+
+      <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        It’s easy to get started - 3 easy steps, 2 mins max!
+      </h2>
+      <div className="flex justify-center items-center mt-8">
+        <button
+          type="button"
+          onClick={() => setIsModalOpen(true)}
+          className="py-3 px-5 cursor-pointer outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
+        >
+          Get Protection
+        </button>
       </div>
     </>
   );

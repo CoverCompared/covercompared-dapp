@@ -95,13 +95,9 @@ const MSOPartners = [
   },
 ];
 
-const countries = ['AE', 'QA', 'OM', 'KW', 'US', 'BH', 'SA'];
-
 const MSOPlans = (props) => {
   const coverListData = useSelector((state) => state.coverList);
   const { loader, coverList, query, message, isFailed, page, totalPages } = coverListData;
-  const [country, setCountry] = useState('');
-  const [notExist, setNotExist] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [products, setProducts] = useState(coverList);
   const dispatch = useDispatch();
@@ -146,19 +142,12 @@ const MSOPlans = (props) => {
     <>
       <Modal
         isOpen={isModalOpen}
-        title="Select Country"
+        title="Country of Residence"
         sizeClass="max-w-2xl"
         renderComponent={CountrySelector}
         onClose={() => setIsModalOpen(false)}
         bgImg="bg-loginPopupBg"
-        {...{
-          country,
-          setCountry,
-          notExist,
-          setNotExist,
-          setIsModalOpen,
-          countries,
-        }}
+        {...{ setIsModalOpen }}
       />
       <div className="xl:px-48 sm:px-8">
         <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
@@ -187,7 +176,7 @@ const MSOPlans = (props) => {
         </h2>
         <div className="grid grid-cols-12 gap-x-5 gap-y-4 mt-8">
           {MSOServices.map((obj) => (
-            <MSOServicesCard key={uniqid()} {...obj} country={country} />
+            <MSOServicesCard key={uniqid()} {...obj} />
           ))}
         </div>
       </div>
@@ -199,8 +188,8 @@ const MSOPlans = (props) => {
 
         <div className="text-center mt-8">
           {MSOPartners.map(({ img, alt }) => (
-            <div className="md:w-44 w-32 inline-flex justify-content-center mx-2">
-              <img key={uniqid()} className="p-2 object-scale-down w-full" src={img} alt={alt} />
+            <div key={uniqid()} className="md:w-44 w-32 inline-flex justify-content-center mx-2">
+              <img className="p-2 object-scale-down w-full" src={img} alt={alt} />
             </div>
           ))}
         </div>
@@ -208,4 +197,5 @@ const MSOPlans = (props) => {
     </>
   );
 };
+
 export default MSOPlans;

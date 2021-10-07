@@ -55,7 +55,7 @@ const SelectWithSearch = ({
       <div
         className={classNames(
           showColumnLayout ? 'flex-col' : 'flex-row mb-3',
-          'w-full flex justify-between py-3 px-4 bg-promo-input-bg rounded-xl dark:bg-product-input-bg-dark',
+          'w-full flex justify-between py-3 px-4 bg-white rounded-xl dark:bg-product-input-bg-dark border border-gray-300',
         )}
       >
         <div className="text-dark-blue font-Montserrat font-semibold text-body-xs dark:text-white">
@@ -77,7 +77,7 @@ const SelectWithSearch = ({
                     onChange={(e) => {
                       setFieldValue(e.target.value);
                     }}
-                    className="h-5 pr-0 w-full text-right bg-transparent text-Montserrat text-h6 text-dark-blue dark:text-white font-medium border-0 outline-none focus:border-0 focus:outline-none focus:ring-0"
+                    className="h-5 pr-0 w-full text-right bg-transparent text-Montserrat text-body-lg text-dark-blue dark:text-white font-medium border-0 outline-none focus:border-0 focus:outline-none focus:ring-0"
                   />
                 ) : (
                   <Loading widthClass="w-4" heightClass="h-4" />
@@ -87,7 +87,7 @@ const SelectWithSearch = ({
                   style={{ minWidth: 'fit-content' }}
                 >
                   <div
-                    className="text-Montserrat text-h6 text-dark-blue font-medium flex items-center dark:text-white"
+                    className="text-Montserrat text-body-lg text-dark-blue font-medium flex items-center dark:text-white"
                     onClick={() => setIsOpen(!isOpen)}
                   >
                     {isObject(dropdownOptions) ? dropdownOptions[selectedOption] : selectedOption}{' '}
@@ -100,11 +100,11 @@ const SelectWithSearch = ({
                   {/* {isOpen && (
                     <div className="absolute left-20 top-0 z-20">
                       {isObject(dropdownOptions) ? (
-                        <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
+                        <div className="py-1 px-3.5 rounded-xl bg-white dark:bg-product-input-bg-dark">
                           {Object.values(dropdownOptions || {}).map((option) => (
                             <div
                               key={uniqid()}
-                              className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
+                              className="text-dark-blue my-2 font-Montserrat font-medium text-body-lg dark:text-white"
                               onClick={() => {
                                 setSelectedOption(getKeyByValue(dropdownOptions, option));
                                 setIsOpen(false);
@@ -115,11 +115,11 @@ const SelectWithSearch = ({
                           ))}
                         </div>
                       ) : (
-                        <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
+                        <div className="py-1 px-3.5 rounded-xl bg-white dark:bg-product-input-bg-dark">
                           {dropdownOptions.map((option) => (
                             <div
                               key={uniqid()}
-                              className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
+                              className="text-dark-blue my-2 font-Montserrat font-medium text-body-lg dark:text-white"
                               onClick={() => {
                                 setSelectedOption(option);
                                 setIsOpen(false);
@@ -138,7 +138,7 @@ const SelectWithSearch = ({
           ) : (
             <div className="flex relative h-5 items-center cursor-pointer">
               <div
-                className="text-Montserrat text-h6 text-dark-blue font-medium flex items-center dark:text-white"
+                className="text-Montserrat text-body-lg text-dark-blue font-medium flex items-center dark:text-white"
                 onClick={() => setIsOpen(!isOpen)}
               >
                 {isObject(dropdownOptions) ? dropdownOptions[selectedOption] : selectedOption}{' '}
@@ -152,11 +152,11 @@ const SelectWithSearch = ({
               {/* {isOpen && (
                 <div className="absolute left-20 top-0 z-20">
                   {isObject(dropdownOptions) ? (
-                    <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
+                    <div className="py-1 px-3.5 rounded-xl bg-white dark:bg-product-input-bg-dark">
                       {Object.values(dropdownOptions || {}).map((option) => (
                         <div
                           key={uniqid()}
-                          className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
+                          className="text-dark-blue my-2 font-Montserrat font-medium text-body-lg dark:text-white"
                           onClick={() => {
                             setSelectedOption(getKeyByValue(dropdownOptions, option));
                             setIsOpen(false);
@@ -167,11 +167,11 @@ const SelectWithSearch = ({
                       ))}
                     </div>
                   ) : (
-                    <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg dark:bg-product-input-bg-dark">
+                    <div className="py-1 px-3.5 rounded-xl bg-white dark:bg-product-input-bg-dark">
                       {dropdownOptions.map((option) => (
                         <div
                           key={uniqid()}
-                          className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
+                          className="text-dark-blue my-2 font-Montserrat font-medium text-body-lg dark:text-white"
                           onClick={() => {
                             setSelectedOption(option);
                             setIsOpen(false);
@@ -191,7 +191,7 @@ const SelectWithSearch = ({
       {isOpen && (
         <>
           {isObject(options) ? (
-            <div className="absolute h-full w-full bg-optionContainerBg rounded-xl z-20 top-0 p-4">
+            <div className="absolute h-full w-full bg-white rounded-xl z-20 top-0 p-4">
               {showSearchOption && (
                 <div className="relative">
                   <input
@@ -217,7 +217,7 @@ const SelectWithSearch = ({
                       setSelectedOption(getKeyByValue(dropdownOptions, option));
                       setIsOpen(false);
                     }}
-                    className="py-2 px-4 text-dark-blue font-semibold md:text-h6 text-body-md font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
+                    className="py-2 px-4 text-dark-blue font-semibold md:text-body-lg text-body-md font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
                   >
                     {option}
                   </div>
@@ -225,7 +225,7 @@ const SelectWithSearch = ({
               </div>
             </div>
           ) : (
-            <div className="absolute h-full w-full bg-optionContainerBg rounded-xl z-20 top-0 p-4">
+            <div className="absolute h-full w-full bg-white rounded-xl z-20 top-0 p-4">
               {showSearchOption && (
                 <div className="relative">
                   <input
@@ -252,7 +252,7 @@ const SelectWithSearch = ({
                       setSelectedOption(option);
                       setIsOpen(false);
                     }}
-                    className="md:py-2 py-1.5 px-4 text-dark-blue font-semibold md:text-h6 text-body-md font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
+                    className="md:py-2 py-1.5 px-4 text-dark-blue font-semibold md:text-body-lg text-body-md font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
                   >
                     {option !== 'CVR' ? (
                       option

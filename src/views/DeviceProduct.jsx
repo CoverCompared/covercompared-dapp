@@ -1,132 +1,108 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import uniqid from 'uniqid';
-import StarRatings from 'react-star-ratings';
-import { useSelector } from 'react-redux';
 import Modal from '../components/common/Modal';
 import CountrySelector from '../components/common/CountrySelector';
 import ReviewCard from '../components/ReviewCard';
-import DeviceBuyBox from '../components/DeviceBuyBox';
-import IdeaCard from '../assets/img/idea-icon.svg';
 import LeftArrow from '../assets/img/nav-left-arrow.svg';
 import RightArrow from '../assets/img/nav-right-arrow.svg';
-import Filter from '../assets/img/Filter.svg';
-import FilterWhite from '../assets/dark-icons/Filter.svg';
-import ProductBgDots from '../assets/bg-img/product-bg-dots.svg';
 import { ThemeContext } from '../themeContext';
 
-const ReviewArr = [
-  {
-    name: 'Dakhs Joshi',
-    image: 'https://via.placeholder.com/1000',
-    rating: 5,
-    uploaded: '2 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-  {
-    name: 'Danish Ejaz',
-    image: 'https://via.placeholder.com/1000',
-    rating: 4,
-    uploaded: '3 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-  {
-    name: 'Erfan',
-    image: 'https://via.placeholder.com/1000',
-    rating: 3,
-    uploaded: '2 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-  {
-    name: 'Dakhs Joshi',
-    image: 'https://via.placeholder.com/1000',
-    rating: 4.8,
-    uploaded: '2 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-  {
-    name: 'Dakhs Joshi',
-    image: 'https://via.placeholder.com/1000',
-    rating: 4.2,
-    uploaded: '2 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-  {
-    name: 'Dakhs Joshi',
-    image: 'https://via.placeholder.com/1000',
-    rating: 3.8,
-    uploaded: '2 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-];
+import MobileIcon from '../assets/icons/mobile-icon.svg';
+import LaptopIcon from '../assets/icons/laptop-icon.svg';
+import TabletIcon from '../assets/icons/tablet-icon.svg';
+import HeadPhoneIcon from '../assets/icons/headphone-icon.svg';
+
+import PickupIcon from '../assets/icons/pickup_dropoff.svg';
+import UpgradIcon from '../assets/icons/upgrade-download.svg';
+import OnlineClaimsIcon from '../assets/icons/online-claims.svg';
+import QuickStepIcon from '../assets/icons/quick-step-icon.svg';
+
+// import StarRatings from 'react-star-ratings';
+// import { useSelector } from 'react-redux';
+// import DeviceBuyBox from '../components/DeviceBuyBox';
+// import IdeaCard from '../assets/img/idea-icon.svg';
+// import Filter from '../assets/img/Filter.svg';
+// import FilterWhite from '../assets/dark-icons/Filter.svg';
+// import ProductBgDots from '../assets/bg-img/product-bg-dots.svg';
 
 const countries = ['AE', 'QA', 'OM', 'KW', 'US', 'BH', 'SA'];
 
 const filterOption = ['High to low', 'Low to high', 'Other'];
 
-const ReviewContainer = (props) => {
-  const [allReview, setAllReview] = useState(false);
-  const arr = allReview ? [...ReviewArr] : [...ReviewArr].slice(0, 2);
+// const ReviewContainer = (props) => {
+//   const [allReview, setAllReview] = useState(false);
+//   const arr = allReview ? [...ReviewArr] : [...ReviewArr].slice(0, 2);
 
-  return (
-    <>
-      {arr.map((obj) => (
-        <ReviewCard {...props} key={uniqid()} {...obj} />
-      ))}
-      <div
-        className="font-Inter font-medium text-body-md text-dark-blue dark:text-white hover:underline cursor-pointer mt-6 w-full underline"
-        onClick={() => setAllReview(true)}
-      >
-        {!allReview && 'See all reviews'}
-      </div>
-      {allReview && (
-        <div className="flex md:justify-end justify-center items-center md:mt-8 mt-12">
-          <img src={LeftArrow} alt="Left" className="mr-6 cursor-pointer" />
-          <img src={RightArrow} alt="Left" className="cursor-pointer" />
-        </div>
-      )}
-    </>
-  );
-};
+//   return (
+//     <>
+//       {arr.map((obj) => (
+//         <ReviewCard {...props} key={uniqid()} {...obj} />
+//       ))}
+//       <div
+//         className="font-Inter font-medium text-body-md text-dark-blue dark:text-white hover:underline cursor-pointer mt-6 w-full underline"
+//         onClick={() => setAllReview(true)}
+//       >
+//         {!allReview && 'See all reviews'}
+//       </div>
+//       {allReview && (
+//         <div className="flex md:justify-end justify-center items-center md:mt-8 mt-12">
+//           <img src={LeftArrow} alt="Left" className="mr-6 cursor-pointer" />
+//           <img src={RightArrow} alt="Left" className="cursor-pointer" />
+//         </div>
+//       )}
+//     </>
+//   );
+// };
+
+const DeviceTypeArr = [
+  {
+    image: MobileIcon,
+    title: 'Monile Phone',
+  },
+  {
+    image: LaptopIcon,
+    title: 'Laptop',
+  },
+  {
+    image: TabletIcon,
+    title: 'Tablet',
+  },
+  {
+    image: HeadPhoneIcon,
+    title: 'Accessories',
+  },
+];
+
+const includedItems = [
+  {
+    image: PickupIcon,
+    title: 'Free Pick Up & Drop Off',
+  },
+  {
+    image: QuickStepIcon,
+    title: '3 quick steps (2 minutes) to protect your device',
+  },
+  {
+    image: UpgradIcon,
+    title: 'Upgrade, Downgrade & Cancel anytime',
+  },
+  {
+    image: OnlineClaimsIcon,
+    title: 'Hassle-free online claims',
+  },
+];
 
 const InsuranceProduct = (props) => {
   const { type } = useParams();
   const { theme } = useContext(ThemeContext);
-  const [accountNummber, setProductAddress] = useState('');
-  const [filterSelect, setFilterSelect] = useState('');
-  const [showFilterOption, setShowFilterOption] = useState(false);
   const [country, setCountry] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [notExist, setNotExist] = useState(false);
 
-  // const {
-  //   name,
-  //   company_code,
-  //   address,
-  //   company,
-  //   duration_days_max,
-  //   duration_days_min,
-  //   logo,
-  //   company_icon,
-  // } = product || {};
-
-  // useEffect(() => {
-  //   let accountNummber;
-  //   if (address) {
-  //     accountNummber = `${address.substring(0, 6)}....${address.substring(42 - 6)}`;
-  //     setProductAddress(accountNummber);
-  //   }
-  // }, [address]);
-
   return (
     <>
-      <Modal
+      {/* <Modal
         isOpen={isModalOpen}
         title="Select Country"
         sizeClass="max-w-2xl"
@@ -141,9 +117,53 @@ const InsuranceProduct = (props) => {
           setIsModalOpen,
           countries,
         }}
-      />
+      /> */}
       <div className="xl:px-32 lg:px-26">
-        <div className="grid grid-cols-12 xl:gap-x-8 gap-y-6">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
+          We protect what you love
+        </h2>
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+          Protection benefits provided across a wide range of product categories
+        </div>
+
+        <div className="flex justify-center items-center mt-8">
+          <div className="grid grid-cols-12 gap-6">
+            {DeviceTypeArr.map((item) => (
+              <div
+                key={uniqid()}
+                className="w-full shadow-md rounded-xl flex flex-col items-center bg-white px-8 py-6 dark:bg-featureCard-dark-bg col-span-12 sm:col-span-1 md:col-span-3"
+              >
+                <div className="h-24 w-24 flex justify-center items-center">
+                  <img src={item.image} alt="" />
+                </div>
+                <div className="mt-3 font-Montserrat font-semibold text-body-md dark:text-white">
+                  {item.title}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+          All our plans include
+        </h2>
+
+        <div className="flex justify-center items-center mt-4">
+          <div className="grid grid-cols-12 gap-4">
+            {includedItems.map((item) => (
+              <div key={uniqid()} className="col-span-3 p-4 flex flex-col items-center">
+                <div>
+                  <img src={item.image} alt={item.name} />
+                </div>
+                <div className="mt-3 font-Montserrat font-semibold text-h6 dark:text-white text-center">
+                  {item.title}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* #E5FFF2 */}
+        {/* <div className="grid grid-cols-12 xl:gap-x-8 gap-y-6">
           <div className="md:col-span-3 col-span-12">
             <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
               <div className="h-full w-full bg-white rounded-2xl  relative z-20">
@@ -319,7 +339,7 @@ const InsuranceProduct = (props) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

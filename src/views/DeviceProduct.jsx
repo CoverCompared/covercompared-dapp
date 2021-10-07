@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import uniqid from 'uniqid';
 import StarRatings from 'react-star-ratings';
 import { useSelector } from 'react-redux';
+
 import Modal from '../components/common/Modal';
 import CountrySelector from '../components/common/CountrySelector';
 import ReviewCard from '../components/ReviewCard';
@@ -66,8 +67,6 @@ const ReviewArr = [
   },
 ];
 
-const countries = ['AE', 'QA', 'OM', 'KW', 'US', 'BH', 'SA'];
-
 const filterOption = ['High to low', 'Low to high', 'Other'];
 
 const ReviewContainer = (props) => {
@@ -101,9 +100,7 @@ const InsuranceProduct = (props) => {
   const [accountNummber, setProductAddress] = useState('');
   const [filterSelect, setFilterSelect] = useState('');
   const [showFilterOption, setShowFilterOption] = useState(false);
-  const [country, setCountry] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(true);
-  const [notExist, setNotExist] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // const {
   //   name,
@@ -128,21 +125,23 @@ const InsuranceProduct = (props) => {
     <>
       <Modal
         isOpen={isModalOpen}
-        title="Select Country"
+        title="Country of Residence"
         sizeClass="max-w-2xl"
         renderComponent={CountrySelector}
         onClose={() => setIsModalOpen(false)}
         bgImg="bg-loginPopupBg"
-        {...{
-          country,
-          setCountry,
-          notExist,
-          setNotExist,
-          setIsModalOpen,
-          countries,
-        }}
+        {...{ setIsModalOpen }}
       />
       <div className="xl:px-32 lg:px-26">
+        <div className="flex justify-center items-center">
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="py-3 px-5 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
+          >
+            Get Protection
+          </button>
+        </div>
         <div className="grid grid-cols-12 xl:gap-x-8 gap-y-6">
           <div className="md:col-span-3 col-span-12">
             <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
@@ -208,9 +207,7 @@ const InsuranceProduct = (props) => {
               </div>
             </div>
           </div>
-          <div className="md:col-span-5 col-span-12">
-            <DeviceBuyBox {...props} country={country} />
-          </div>
+          <div className="md:col-span-5 col-span-12">{/* <DeviceBuyBox {...props} /> */}</div>
         </div>
 
         <div className="grid grid-cols-12 xl:gap-x-12 gap-x-6 gap-y-10 md:mt-20 mt-6 mb-10">

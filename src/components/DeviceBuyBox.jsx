@@ -151,7 +151,7 @@ const DeviceBuyBox = (props) => {
             >
               {'Monthly'}{' '}
               <div className="mt-1 text-dark-blue text-body-md dark:text-white">
-                {/* {option.plan_currency} {option.plan_total_price} */}
+                {/* {option.plan_currency} {option.plan_total_price} */}-
               </div>
             </div>
           </label>
@@ -174,7 +174,7 @@ const DeviceBuyBox = (props) => {
             >
               {'Yearly'}{' '}
               <div className="mt-1 text-dark-blue text-body-md dark:text-white">
-                {/* {option.plan_currency} {option.plan_total_price} */}
+                {/* {option.plan_currency} {option.plan_total_price} */}-
               </div>
             </div>
           </label>

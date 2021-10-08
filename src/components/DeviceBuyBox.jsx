@@ -27,13 +27,10 @@ const DeviceBuyBox = (props) => {
   const [quoteField, setQuoteField] = useState('');
   const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
   const [devicePlans, setDevicePlans] = useState('');
-  const [planPriceArr, setplanPricesArr] = useState('');
-  const [monthlyPriceArr, setMonthlyPriceArr] = useState('');
-  const [yearlyPriceArr, setYearlyPriceArr] = useState('');
+  const [monthlyPrice, setMonthlyPrice] = useState('');
+  const [yearlyPrice, setYearlyPrice] = useState('');
   const [planType, setPlanType] = useState('');
   const [planBenefits, setPlanBenefits] = useState([]);
-
-  console.log(planBenefits);
 
   useEffect(() => {
     dispatch(
@@ -72,8 +69,14 @@ const DeviceBuyBox = (props) => {
       setPlanBenefits(devicePlanDetails.plan_benefit);
 
       const plansArr = devicePlanDetails.plan_price;
-      setplanPricesArr(plansArr);
-      setPlanType(plansArr[1]);
+      const monthlyObj = plansArr.filter((obj) => obj.plan_type === 'monthly');
+      const yearlyObj = plansArr.filter((obj) => obj.plan_type === 'yearly');
+
+      setMonthlyPrice(...monthlyObj);
+      setYearlyPrice(...yearlyObj);
+      console.log(...yearlyObj);
+      console.log(...monthlyObj);
+      setPlanType('yearly');
     }
   }, [devicePlanDetails]);
 
@@ -172,7 +175,9 @@ const DeviceBuyBox = (props) => {
             >
               {'Monthly'}{' '}
               <div className="mt-1 text-dark-blue text-body-md dark:text-white">
-                {/* {option.plan_currency} {option.plan_total_price} */}-
+                {monthlyPrice
+                  ? `${monthlyPrice.plan_total_price} ${monthlyPrice.plan_currency}`
+                  : '-'}
               </div>
             </div>
           </label>
@@ -195,7 +200,7 @@ const DeviceBuyBox = (props) => {
             >
               {'Yearly'}{' '}
               <div className="mt-1 text-dark-blue text-body-md dark:text-white">
-                {/* {option.plan_currency} {option.plan_total_price} */}-
+                {yearlyPrice ? `${yearlyPrice.plan_total_price} ${yearlyPrice.plan_currency}` : '-'}
               </div>
             </div>
           </label>

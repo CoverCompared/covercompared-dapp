@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import uniqid from 'uniqid';
 import _ from 'lodash';
 import { XIcon } from '@heroicons/react/outline';
@@ -52,6 +52,15 @@ const SelectWithSearch = ({
     }
   }, [dropdownOptions]);
 
+  const optionRef = useRef();
+  useEffect(() => {
+    document.addEventListener('mousedown', (event) => {
+      if (!optionRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    });
+  });
+
   return (
     <>
       <div
@@ -59,6 +68,7 @@ const SelectWithSearch = ({
           showColumnLayout ? 'flex-col' : 'flex-row mb-3',
           'w-full relative flex justify-between py-3 px-4 bg-white rounded-xl dark:bg-product-input-bg-dark border border-gray-300',
         )}
+        ref={optionRef}
       >
         <div className="text-dark-blue font-Montserrat font-semibold text-body-xs dark:text-white">
           {fieldTitle}
@@ -129,15 +139,15 @@ const SelectWithSearch = ({
                       value={searchValue}
                       placeholder="Search..."
                       onChange={(e) => searchOption(e.target.value, 'obj')}
-                      className="px-11 w-full h-11 bg-white dark:bg-product-input-bg-dark text-discount-apply-btn-text dark:text-white font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none rounded-t-xl"
+                      className="pl-11 w-full h-11 bg-white dark:bg-product-input-bg-dark text-discount-apply-btn-text dark:text-white font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none rounded-t-xl"
                     />
                     <img src={Search} alt="" className="absolute left-3 top-2.5" />
                     <span className="sr-only">Close</span>
-                    <XIcon
+                    {/* <XIcon
                       onClick={() => setIsOpen(false)}
                       className="h-5 text-dark-blue absolute right-3 top-3 cursor-pointer dark:text-white"
                       aria-hidden="true"
-                    />
+                    /> */}
                   </div>
                 )}
                 <div
@@ -170,15 +180,15 @@ const SelectWithSearch = ({
                       value={searchValue}
                       placeholder="Search..."
                       onChange={(e) => searchOption(e.target.value, 'arr')}
-                      className="px-11 w-full h-11 bg-white dark:bg-product-input-bg-dark text-discount-apply-btn-text dark:text-white font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none rounded-t-xl"
+                      className="pl-11 w-full h-11 bg-white dark:bg-product-input-bg-dark text-discount-apply-btn-text dark:text-white font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none rounded-t-xl"
                     />
                     <img src={Search} alt="" className="absolute left-3 top-3 h-5" />
                     <span className="sr-only">Close</span>
-                    <XIcon
+                    {/* <XIcon
                       onClick={() => setIsOpen(false)}
                       className="h-5 text-dark-blue absolute right-3 top-3 cursor-pointer dark:text-white"
                       aria-hidden="true"
-                    />
+                    /> */}
                   </div>
                 )}
                 <div
@@ -210,52 +220,6 @@ const SelectWithSearch = ({
                   ))}
                 </div>
               </div>
-
-              // <div className="absolute h-full w-full bg-red-500 left-0 rounded-xl z-20 top-16 py-4">
-              //   {showSearchOption && (
-              //     <div className="relative">
-              //       <input
-              //         autoFocus
-              //         type="text"
-              //         value={searchValue}
-              //         placeholder="Search..."
-              //         onChange={(e) => searchOption(e.target.value, 'arr')}
-              //         className="pl-12 w-full h-11 bg-white rounded-lg text-discount-apply-btn-text font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none"
-              //       />
-              //       <img src={Search} alt="" className="absolute left-3 top-2.5" />
-              //     </div>
-              //   )}
-              //   <div
-              //     className={classNames(
-              //       showSearchOption
-              //         ? 'h-option-container-height mt-2 overflow-y-scroll'
-              //         : 'h-full',
-              //       'bg-white rounded-lg p-2',
-              //     )}
-              //   >
-              //     {options.map((option) => (
-              //       <div
-              //         key={uniqid()}
-              //         onClick={() => {
-              //           setSelectedOption(option);
-              //           setIsOpen(false);
-              //         }}
-              //         className="md:py-2 py-1.5 px-4 text-dark-blue font-semibold md:text-body-lg text-body-md font-Montserrat hover:bg-login-button-bg cursor-pointer rounded-lg"
-              //       >
-              //         {option !== 'CVR' ? (
-              //           option
-              //         ) : (
-              //           <div className="flex justify-between items-center">
-              //             <div>{option}</div>
-              //             <div className="font-Medium font-Montserrat text-body-3xs text-discount-text h-full px-3">
-              //               Use CVR to ger 50% discount
-              //             </div>
-              //           </div>
-              //         )}
-              //       </div>
-              //     ))}
-              //   </div>
-              // </div>
             )}
           </>
         )}

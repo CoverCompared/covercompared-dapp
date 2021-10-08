@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Markup } from 'interweave';
 import uniqid from 'uniqid';
 import Modal from '../components/common/Modal';
-import CountrySelector from '../components/common/CountrySelector';
+import CountrySelector from '../components/common/DeviceCountrySelector';
 import { ThemeContext } from '../themeContext';
 
 import MobileIcon from '../assets/icons/mobile-icon.svg';
@@ -300,7 +300,7 @@ const InsuranceProduct = (props) => {
             {DeviceTypeArr.map((item) => (
               <div
                 key={uniqid()}
-                className="w-full shadow-md rounded-xl flex flex-col items-center bg-white px-8 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-12"
+                className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white px-8 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-12"
               >
                 <div className="h-24 w-24 flex justify-center items-center">
                   <img src={item.image} alt="" />
@@ -322,7 +322,7 @@ const InsuranceProduct = (props) => {
             {includedItems.map((item) => (
               <div
                 key={uniqid()}
-                className="md:col-span-3 col-span-12 p-4 flex flex-col items-center"
+                className="animation-wrapper md:col-span-3 col-span-12 p-4 flex flex-col items-center"
               >
                 <div>
                   <img src={item.image} alt={item.name} />
@@ -343,36 +343,36 @@ const InsuranceProduct = (props) => {
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
+                <table className="min-w-full divide-y divide-gray-200 text-center">
                   <thead className="bg-gray-50">
                     <tr>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                        className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
                       >
                         {' '}
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider flex justify-center"
+                        className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider flex justify-center"
                       >
                         <img src={P4LLogo} alt="" title="P4L" />
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                        className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
                       >
                         Apple Care +
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                        className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
                       >
                         Samsung Care +
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                        className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
                       >
                         Others
                       </th>
@@ -381,19 +381,19 @@ const InsuranceProduct = (props) => {
                   <tbody>
                     {table.map(({ firstCol, secondCol, thirdCol, forthCol, fifthCol }, index) => (
                       <tr key={uniqid()} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-200'}>
-                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-sm text-gray-900 font-Montserrat font-semibold">
+                        <td className="p-3 device-table-cell text-body-sm text-gray-900 font-Montserrat font-semibold">
                           {firstCol}
                         </td>
-                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                        <td className="p-3 device-table-cell text-xs font-Montserrat text-gray-600 text-center box-border">
                           <Markup content={secondCol} />
                         </td>
-                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                        <td className="p-3 device-table-cell text-xs font-Montserrat text-gray-600 text-center box-border">
                           <Markup content={thirdCol} />
                         </td>
-                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                        <td className="p-3 device-table-cell text-xs font-Montserrat text-gray-600 text-center box-border">
                           <Markup content={forthCol} />
                         </td>
-                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                        <td className="p-3 device-table-cell text-xs font-Montserrat text-gray-600 text-center box-border">
                           <Markup content={fifthCol} />
                         </td>
                       </tr>
@@ -410,10 +410,21 @@ const InsuranceProduct = (props) => {
             onClick={() => setShowMore(!showMore)}
             className="font-Montserrat font-semibold font-h5 dark:text-white text-dark-blue px-2 py-2 flex items-center"
           >
-            Show More{' '}
-            <div className="font-bold text-white bg-light-green h-5 w-5 rounded-full flex justify-center items-center ml-3">
-              +
-            </div>
+            {!showMore ? (
+              <>
+                <span>Show More</span>
+                <div className="font-bold text-white bg-light-green h-5 w-5 rounded-full flex justify-center items-center ml-3">
+                  +
+                </div>
+              </>
+            ) : (
+              <>
+                <span>Show Less</span>
+                <div className="font-bold text-white bg-red-500 h-5 w-5 rounded-full flex justify-center items-center ml-3">
+                  -
+                </div>
+              </>
+            )}
           </button>
         </div>
 
@@ -429,7 +440,7 @@ const InsuranceProduct = (props) => {
             {DeviceProtection.map((item) => (
               <div
                 key={uniqid()}
-                className="md:col-span-3 col-span-12 p-4 flex flex-col items-center"
+                className="animation-wrapper md:col-span-3 col-span-12 p-4 flex flex-col items-center"
               >
                 <div>
                   <img src={item.image} alt={item.name} />
@@ -456,7 +467,7 @@ const InsuranceProduct = (props) => {
           {Backers.map(({ image, alt }) => (
             <div
               key={uniqid()}
-              className="md:w-40 w-32 inline-flex justify-content-center mx-5 rounded-xl bg-white shadow-md"
+              className="animation-wrapper md:w-40 w-32 inline-flex justify-content-center mx-5 rounded-xl bg-white shadow-md"
             >
               <img className="w-full rounded-xl" src={image} alt={alt} />
             </div>
@@ -472,7 +483,7 @@ const InsuranceProduct = (props) => {
             {partners.map(({ image, alt }) => (
               <div
                 key={uniqid()}
-                className="md:w-40 w-32 inline-flex justify-content-center mx-4 my-3 rounded-xl bg-white shadow-md"
+                className="animation-wrapper md:w-40 w-32 inline-flex justify-content-center mx-4 my-3 rounded-xl bg-white shadow-md"
               >
                 <img className="w-full rounded-xl" src={image} alt={alt} />
               </div>

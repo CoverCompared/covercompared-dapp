@@ -16,7 +16,7 @@ const countries = [
   { value: 'NOT', label: 'None of Them' },
 ];
 
-const CountrySelector = ({ setIsModalOpen }) => {
+const DeviceCountrySelector = ({ setIsModalOpen, setTitle }) => {
   const [country, setCountry] = useState('');
   const [userCountry, setUserCountry] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -26,8 +26,14 @@ const CountrySelector = ({ setIsModalOpen }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (userCountry && userEmail) return setShowSuccess(true);
-    return setShowDeviceForm(true);
+    if (userCountry && userEmail) {
+      setShowSuccess(true);
+      setTitle('');
+      return;
+    }
+
+    setShowDeviceForm(true);
+    setTitle('Device Details Form');
   };
 
   const renderFormBody = () => {
@@ -59,7 +65,7 @@ const CountrySelector = ({ setIsModalOpen }) => {
                 height: 0,
                 width: '100%',
                 position: 'absolute',
-                top: 37,
+                top: 44,
               }}
               value={userCountry}
               required
@@ -72,7 +78,7 @@ const CountrySelector = ({ setIsModalOpen }) => {
             name="userEmail"
             value={userEmail}
             onChange={(e) => setUserEmail(e.target.value)}
-            className="w-full rounded-md border border-gray-300 h-9 mt-2 font-Montserrat font-medium text-body-md"
+            className="w-full rounded-md border border-gray-300 h-11 mt-2 font-Montserrat font-medium text-body-md"
             placeholder="Enter your email"
           />
         </div>
@@ -141,7 +147,7 @@ const CountrySelector = ({ setIsModalOpen }) => {
             <input
               tabIndex={-1}
               autoComplete="off"
-              style={{ opacity: 0, height: 0, width: '100%', position: 'absolute', top: 37 }}
+              style={{ opacity: 0, height: 0, width: '100%', position: 'absolute', top: 44 }}
               value={country}
               required
             />
@@ -154,4 +160,4 @@ const CountrySelector = ({ setIsModalOpen }) => {
     </div>
   );
 };
-export default CountrySelector;
+export default DeviceCountrySelector;

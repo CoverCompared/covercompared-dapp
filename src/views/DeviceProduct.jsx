@@ -144,17 +144,17 @@ const DeviceProtection = [
   {
     image: CrackedScreeIcon,
     title: 'Cracked Screen',
-    price: '800',
+    price: '215 $',
   },
   {
     image: TouchScreenIcon,
     title: 'Touchscreen Malfunction',
-    price: '1500',
+    price: '400 $',
   },
   {
     image: LiquidDamageIcon,
     title: 'Liquid Damage',
-    price: '1500',
+    price: '400 $',
   },
   {
     image: TheftIcon,
@@ -167,9 +167,9 @@ const p4lTable = [
   {
     firstCol: 'Monthly Plans',
     secondCol:
-      '<div><b >YES</b> <br /> Starting from <b>AED 4</b>/Month & <b>AED 40</b>/Year</div>',
-    thirdCol: '<div><b >No</b> <br /> <b>AED 499 </b> to <b>AED 799</b></div>',
-    forthCol: '<div><b >No</b> <br /> <b>AED 85 </b> to <b>AED 499</b></div>',
+      '<div><b >YES</b> <br /> Starting from <b>USD 1</b>/Month & <b>USD 11</b>/Year</div>',
+    thirdCol: '<div><b >No</b> <br /> <b>USD 136 </b> to <b>USD 218</b></div>',
+    forthCol: '<div><b >No</b> <br /> <b>USD 24 </b> to <b>USD 136</b></div>',
     fifthCol: '<div><b >No</b> <br /> <b>10% - 12%</b> of device cost</div>',
   },
   {
@@ -209,10 +209,10 @@ const p4lTable = [
   },
   {
     firstCol: 'Deductible per Accidental Damage Claim',
-    secondCol: '<div><b>AED 49 </b> to <b>AED 199</b></div>',
-    thirdCol: '<div><b>AED 99 </b> to <b>AED 349</b></div>',
-    forthCol: '<div><b>AED 70 </b> to <b>AED 180</b></div>',
-    fifthCol: '<div>Min <b>AED 100 </b> to <b>AED 10%</b> of invoice value</div>',
+    secondCol: '<div><b>USD 15 </b> to <b>USD 55</b></div>',
+    thirdCol: '<div><b>USD 25 </b> to <b>USD 95</b></div>',
+    forthCol: '<div><b>USD 20 </b> to <b>USD 50</b></div>',
+    fifthCol: '<div>Min <b>USD 25 </b> to <b>USD 10%</b> of invoice value</div>',
   },
   {
     firstCol: 'Protection for Device bought anywhere in the world',
@@ -449,7 +449,7 @@ const InsuranceProduct = (props) => {
                   {item.title}
                 </div>
                 <div className="mt-1 font-Montserrat font-semibold text-h5 text-light-green">
-                  {item.price} $
+                  {item.price}
                 </div>
               </div>
             ))}

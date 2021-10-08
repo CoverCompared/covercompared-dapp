@@ -380,7 +380,7 @@ const InsuranceProduct = (props) => {
                   </thead>
                   <tbody>
                     {table.map(({ firstCol, secondCol, thirdCol, forthCol, fifthCol }, index) => (
-                      <tr key={uniqid()} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-200'}>
+                      <tr key={uniqid()} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
                         <td className="px-6 py-4 w-1/5 whitespace-nowrap text-sm text-gray-900 font-Montserrat font-semibold">
                           {firstCol}
                         </td>

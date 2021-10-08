@@ -8,6 +8,7 @@ import SelectWithSearch from './common/SelectWithSearch';
 import { getDeviceDetails, getDevicePlanDetails } from '../redux/actions/CoverList';
 import { classNames } from '../functions/utils';
 import { setLoginModalVisible, setRegisterModalVisible } from '../redux/actions';
+import CheckIcon from '../assets/icons/check.png';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 const amountOptions = ['ETH', 'BTC', 'USDT', 'USDC', 'CVR'];
@@ -27,7 +28,12 @@ const DeviceBuyBox = (props) => {
   const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
   const [devicePlans, setDevicePlans] = useState('');
   const [planPriceArr, setplanPricesArr] = useState('');
+  const [monthlyPriceArr, setMonthlyPriceArr] = useState('');
+  const [yearlyPriceArr, setYearlyPriceArr] = useState('');
   const [planType, setPlanType] = useState('');
+  const [planBenefits, setPlanBenefits] = useState([]);
+
+  console.log(planBenefits);
 
   useEffect(() => {
     dispatch(
@@ -61,8 +67,10 @@ const DeviceBuyBox = (props) => {
   }, [deviceType, brand, value, purchaseMonth]);
 
   useEffect(() => {
-    if (devicePlanDetails !== null) {
+    if (devicePlanDetails) {
       setDevicePlans(devicePlanDetails);
+      setPlanBenefits(devicePlanDetails.plan_benefit);
+
       const plansArr = devicePlanDetails.plan_price;
       setplanPricesArr(plansArr);
       setPlanType(plansArr[1]);
@@ -85,7 +93,7 @@ const DeviceBuyBox = (props) => {
 
   return (
     <>
-      <form onSubmit={() => {}} className="relative">
+      <form onSubmit={() => {}}>
         <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
           1- Select Device Details
         </div>
@@ -126,6 +134,19 @@ const DeviceBuyBox = (props) => {
             dropdownOptions={deviceDetails?.purchase_month || []}
             showSearchOption="true"
           />
+        </div>
+
+        <div className="my-6">
+          <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+            {planBenefits.map((point) => (
+              <div
+                key={uniqid()}
+                className="font-semibold font-Montserrat text-body-sm text-dark-blue flex"
+              >
+                <img src={CheckIcon} alt="" className="h-4 mr-2 mt-1" /> <div>{point}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="mt-4 font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">

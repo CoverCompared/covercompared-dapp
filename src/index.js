@@ -32,7 +32,6 @@ if (!window.ethereum) {
     removeListener: (...args) => {},
     autoRefreshOnNetworkChange: false,
   };
-  web3: {}
 }
 
 ReactDOM.render(

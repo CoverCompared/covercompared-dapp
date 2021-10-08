@@ -7,7 +7,7 @@ const Modal = (props) => {
   const {
     children,
     sizeClass,
-    title,
+    title: modalTitle,
     renderComponent: C,
     bgImg,
     isOpen,
@@ -17,10 +17,21 @@ const Modal = (props) => {
     handleClickCTA,
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [maxWidth, setMaxWidth] = useState(sizeClass);
+  const [title, setTitle] = useState(modalTitle);
 
   useEffect(() => {
     setIsModalOpen(!!isOpen);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setTimeout(() => {
+        setMaxWidth(sizeClass);
+        setTitle(modalTitle);
+      }, 500);
+    }
+  }, [isModalOpen]);
 
   return (
     <>
@@ -60,7 +71,7 @@ const Modal = (props) => {
             >
               <div
                 className={classNames(
-                  sizeClass || 'max-w-5xl',
+                  maxWidth || 'max-w-5xl',
                   `bg-white bg-cover rounded-lg shadow-xl transform sm:align-middle sm:w-full inline-block align-bottom transition-all dark:bg-popup-dark-bg`,
                 )}
               >
@@ -98,7 +109,7 @@ const Modal = (props) => {
                         {title ?? 'Dialog'}
                       </Dialog.Title>
                       <div className="mt-2">
-                        <C {...props} {...{ isModalOpen, setIsModalOpen }} />
+                        <C {...props} {...{ isModalOpen, setIsModalOpen, setMaxWidth, setTitle }} />
                       </div>
                     </div>
                   </div>

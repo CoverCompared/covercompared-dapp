@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import uniqid from 'uniqid';
 import { useSelector } from 'react-redux';
 import StarRatings from 'react-star-ratings';
-import CheckoutForm from '../components/CheckoutForm';
+import MsoUserInfoForm from '../components/MsoUserInfoForm';
 import Modal from '../components/common/Modal';
 import ReviewCard from '../components/ReviewCard';
 import IdeaCard from '../assets/img/idea-icon.svg';
@@ -238,7 +238,7 @@ const MSOProduct = (props) => {
                 <Modal
                   title="MSO Checkout Form"
                   bgImg="md:bg-formPopupBg bg-formPopupMobileBg bg-cover bg-no-repeat"
-                  renderComponent={CheckoutForm}
+                  renderComponent={MsoUserInfoForm}
                   {...{
                     unique_id,
                     userTypeOptions,

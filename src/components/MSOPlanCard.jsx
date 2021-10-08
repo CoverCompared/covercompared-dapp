@@ -3,10 +3,12 @@ import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
-import DiscountCard from './common/SmallPackageCard';
-import { setCurrentProduct } from '../redux/actions/AppActions';
+
 import Modal from './common/Modal';
+import DiscountCard from './common/SmallPackageCard';
+import CountrySelector from './common/MsoCountrySelector';
 import MSOAdditionalDetails from './MSOAddtionalDetails';
+import { setCurrentProduct } from '../redux/actions/AppActions';
 import { setLoginModalVisible, setRegisterModalVisible } from '../redux/actions';
 
 const MSOPlanCard = (props) => {
@@ -31,11 +33,31 @@ const MSOPlanCard = (props) => {
     mainMemberParents,
     spouseParents,
     totalUsers,
-    country,
   } = props;
+
+  const selectedPlan = {
+    InsurancePlanType,
+    MSOPlanDuration,
+    name,
+    quote,
+    MSOAddOnService,
+    type,
+    MSOCoverUser,
+    EHR,
+    logo,
+    unique_id,
+    userTypeOptions,
+    noOfSpouse,
+    noOfDependent,
+    mainMemberParents,
+    spouseParents,
+    totalUsers,
+  };
 
   const { is_verified } = useSelector((state) => state.auth);
 
+  const [country, setCountry] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [addonServices, setAddonServices] = useState(false);
   const [msoTotalPrice, setMsoTotalPrice] = useState(quote);
 
@@ -48,49 +70,46 @@ const MSOPlanCard = (props) => {
     setAddonServices(!addonServices);
   };
 
-  const handleCardClick = () => {
-    dispatch(
-      setCurrentProduct({
-        wantAddon: addonServices,
-        addOnQuote: MSOAddOnService,
-        quote,
-        MSOCoverUser,
-        name,
-        MSOAddOnService,
-        type,
-        EHR,
-        logo,
-        unique_id,
-        userTypeOptions,
-        noOfSpouse,
-        noOfDependent,
-        mainMemberParents,
-        spouseParents,
-        totalUsers,
-      }),
-    );
-  };
+  // const handleCardClick = () => {
+  //   dispatch(
+  //     setCurrentProduct({
+  //       wantAddon: addonServices,
+  //       addOnQuote: MSOAddOnService,
+  //       quote,
+  //       MSOCoverUser,
+  //       name,
+  //       MSOAddOnService,
+  //       type,
+  //       EHR,
+  //       logo,
+  //       unique_id,
+  //       userTypeOptions,
+  //       noOfSpouse,
+  //       noOfDependent,
+  //       mainMemberParents,
+  //       spouseParents,
+  //       totalUsers,
+  //     }),
+  //   );
+  // };
 
-  const handleBuyNow = (e) => {
-    if (e) e.stopPropagation();
-    if (!account) {
-      dispatch(setLoginModalVisible(true));
-      dispatch(setRegisterModalVisible(true));
-      return;
-    }
-    if (is_verified === false) {
-      dispatch(setRegisterModalVisible(true));
-      return;
-    }
-    alert('Buy Now button clicked');
-  };
+  // const handleBuyNow = (e) => {
+  //   if (e) e.stopPropagation();
+  //   if (!account) {
+  //     dispatch(setLoginModalVisible(true));
+  //     dispatch(setRegisterModalVisible(true));
+  //     return;
+  //   }
+  //   if (is_verified === false) {
+  //     dispatch(setRegisterModalVisible(true));
+  //     return;
+  //   }
+  //   alert('Buy Now button clicked');
+  // };
 
   return (
     <>
-      <div
-        onClick={handleCardClick}
-        className="bg-white dark:bg-featureCard-dark-bg cursor-pointer rounded-xl pb-6 md:col-span-6 lg:col-span-3 col-span-12  border-2 border-opacity-0 dark:hover:border-white hover:border-primary-gd-1  flex flex-col justify-between"
-      >
+      <div className="bg-white dark:bg-featureCard-dark-bg cursor-pointer rounded-xl pb-6 md:col-span-6 lg:col-span-3 col-span-12  border-2 border-opacity-0 dark:hover:border-white hover:border-primary-gd-1  flex flex-col justify-between">
         <div>
           <div className="w-full rounded-xl bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 font-semibold font-Montserrat text-white text-h6 mb-7">
             <div className="bg-MSOCardBg bg-cover py-6 px-4 h-full w-full flex justify-center">
@@ -146,16 +165,25 @@ const MSOPlanCard = (props) => {
           <div className="flex justify-center pt-2">
             <button
               type="button"
-              disabled={country === undefined}
-              onClick={handleBuyNow}
-              className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-login-button-text bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 disabled:from-primary-gd-1 disabled:to-primary-gd-2 hover:text-white disabled:opacity-40 duration-200"
+              onClick={() => setIsModalOpen(true)}
+              className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2"
             >
               Buy Now
             </button>
           </div>
+          <Modal
+            isOpen={isModalOpen}
+            title="Country of Residence"
+            sizeClass="max-w-2xl"
+            renderComponent={CountrySelector}
+            onClose={() => setIsModalOpen(false)}
+            bgImg="bg-loginPopupBg"
+            {...{ setIsModalOpen, selectedPlan }}
+          />
         </div>
       </div>
     </>
   );
 };
+
 export default MSOPlanCard;

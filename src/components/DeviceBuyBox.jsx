@@ -24,8 +24,6 @@ const DeviceBuyBox = (props) => {
   const [brand, setBrand] = useState('');
   const [value, setValue] = useState('');
   const [purchaseMonth, setPurchaseMonth] = useState('');
-  const [quoteField, setQuoteField] = useState('');
-  const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
   const [devicePlansDetails, setDevicePlansDetails] = useState('');
   const [plans, setPlans] = useState([]);
   const [planType, setPlanType] = useState('');
@@ -158,7 +156,7 @@ const DeviceBuyBox = (props) => {
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-3">
           {plans.map((planObj) => (
-            <label>
+            <label key={uniqid()}>
               <input
                 id="sample"
                 name="sample"
@@ -184,8 +182,8 @@ const DeviceBuyBox = (props) => {
                 )}
                 <div
                   className={classNames(
-                    planObj.plan_discount > 0 ? 'pl-5' : '  ',
-                    'text-dark-blue md:text-body-md text-body-2xs dark:text-white',
+                    planObj.plan_discount > 0 ? 'pl-5 text-body-2xs' : 'text-body-xs',
+                    'text-dark-blue md:text-body-md dark:text-white',
                   )}
                 >
                   <div className="text-center mb-1">{planObj.plan_type}</div>

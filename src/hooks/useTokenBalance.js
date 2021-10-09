@@ -1,14 +1,7 @@
-import {
-  useEffect,
-  useState
-} from 'react';
-import {
-  ethers
-} from 'ethers';
+import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
-import {
-  useWeb3React
-} from '@web3-react/core';
+import { useWeb3React } from '@web3-react/core';
 import { BIG_ZERO } from '../utils/bigNumber';
 import ethSimpleProvider from '../utils/providers';
 import { getErc20Contract } from '../utils/contractHelpers';
@@ -18,7 +11,7 @@ export const FetchStatus = {
   NOT_FETCHED: 'not-fetched',
   SUCCESS: 'success',
   FAILED: 'failed',
-}
+};
 
 const useTokenBalance = (tokenAddress) => {
   const { NOT_FETCHED, SUCCESS, FAILED } = FetchStatus;
@@ -41,7 +34,7 @@ const useTokenBalance = (tokenAddress) => {
           fetchStatus: FAILED,
         }));
       }
-    }
+    };
 
     if (account) {
       fetchBalance();
@@ -49,7 +42,7 @@ const useTokenBalance = (tokenAddress) => {
   }, [account, tokenAddress, SUCCESS, FAILED]);
 
   return balanceState;
-}
+};
 
 export const useGetEthBalance = () => {
   const [fetchStatus, setFetchStatus] = useState(FetchStatus.NOT_FETCHED);
@@ -66,14 +59,13 @@ export const useGetEthBalance = () => {
       } catch {
         setFetchStatus(FetchStatus.FAILED);
       }
-
-      if (account) {
-        fetchBalance();
-      }
+    };
+    if (account) {
+      fetchBalance();
     }
   }, [account, lastUpdated, setBalance, setFetchStatus]);
 
   return { balance, fetchStatus, refresh: setLastUpdated };
-}
+};
 
 export default useTokenBalance;

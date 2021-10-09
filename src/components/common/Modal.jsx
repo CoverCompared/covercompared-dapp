@@ -72,7 +72,7 @@ const Modal = (props) => {
               <div
                 className={classNames(
                   maxWidth || 'max-w-5xl',
-                  `bg-white bg-cover rounded-lg shadow-xl transform sm:align-middle sm:w-full inline-block align-bottom transition-all dark:bg-popup-dark-bg`,
+                  `bg-white bg-cover rounded-lg shadow-xl transform sm:align-middle w-full inline-block align-bottom transition-all dark:bg-popup-dark-bg`,
                 )}
               >
                 <div className={`${bgImg} w-full h-full sm:py-8 rounded-lg`}>

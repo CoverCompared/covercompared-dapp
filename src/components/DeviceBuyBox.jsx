@@ -26,7 +26,8 @@ const DeviceBuyBox = (props) => {
   const [purchaseMonth, setPurchaseMonth] = useState('');
   const [quoteField, setQuoteField] = useState('');
   const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
-  const [devicePlans, setDevicePlans] = useState('');
+  const [devicePlansDetails, setDevicePlansDetails] = useState('');
+  const [plans, setPlans] = useState([]);
   const [monthlyPrice, setMonthlyPrice] = useState('');
   const [yearlyPrice, setYearlyPrice] = useState('');
   const [planType, setPlanType] = useState('');
@@ -65,10 +66,10 @@ const DeviceBuyBox = (props) => {
 
   useEffect(() => {
     if (devicePlanDetails) {
-      setDevicePlans(devicePlanDetails);
+      setDevicePlansDetails(devicePlanDetails);
       setPlanBenefits(devicePlanDetails.plan_benefit);
-
       const plansArr = devicePlanDetails.plan_price;
+      setPlans(plansArr);
       const monthlyObj = plansArr.filter((obj) => obj.plan_type === 'monthly');
       const yearlyObj = plansArr.filter((obj) => obj.plan_type === 'yearly');
 
@@ -76,7 +77,7 @@ const DeviceBuyBox = (props) => {
       setYearlyPrice(...yearlyObj);
       // console.log(...yearlyObj);
       // console.log(...monthlyObj);
-      setPlanType('yearly');
+      setPlanType(plansArr[1]);
     }
   }, [devicePlanDetails]);
 
@@ -165,54 +166,52 @@ const DeviceBuyBox = (props) => {
           2- Select Plan
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-3">
-          <label>
-            <input
-              id="sample"
-              name="sample"
-              type="radio"
-              className="hidden"
-              value="monthly"
-              onClick={() => setPlanType('monthly')}
-            />
-            <div
-              className={classNames(
-                planType === 'monthly'
-                  ? 'border-2 border-primary-gd-1 dark:border-white'
-                  : 'border border-gray-300',
-                'bg-white dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full py-3 px-2 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
-              )}
-            >
-              {'Monthly'}{' '}
-              <div className="mt-1 text-dark-blue text-body-md dark:text-white">
-                {monthlyPrice
-                  ? `${monthlyPrice.plan_total_price} ${monthlyPrice.plan_currency}`
-                  : '-'}
+          {plans.map((planObj) => (
+            <label>
+              <input
+                id="sample"
+                name="sample"
+                type="radio"
+                className="hidden"
+                value="monthly"
+                onClick={() => setPlanType(planObj)}
+              />
+              <div
+                className={classNames(
+                  planType === planObj
+                    ? 'border-2 border-primary-gd-1 dark:border-white'
+                    : 'border-2 border-gray-300',
+                  'bg-white relative dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full md:py-3 md:px-2 py-2 px-1 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
+                )}
+              >
+                {planObj.plan_discount > 0 ? (
+                  <div className="absolute h-full md:w-14 w-7 top-0 left-0 bg-primary-gd-1 rounded-l-xl flex justify-center items-center font-Montserrat md:text-body-md text-body-2xs text-white p-2">
+                    {planObj.plan_discount}% off
+                  </div>
+                ) : (
+                  ''
+                )}
+                <div
+                  className={classNames(
+                    planObj.plan_discount > 0 ? 'pl-5' : '  ',
+                    'text-dark-blue md:text-body-md text-body-2xs dark:text-white',
+                  )}
+                >
+                  <div className="text-center mb-1">{planObj.plan_type}</div>
+                  {planObj.plan_actual_price > planObj.plan_total_price ? (
+                    <div>
+                      {planObj.plan_currency} {planObj.plan_total_price}{' '}
+                      <del>({planObj.plan_actual_price})</del>
+                    </div>
+                  ) : (
+                    <div>
+                      {planObj.plan_currency} {planObj.plan_total_price}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </label>
-          <label>
-            <input
-              id="sample"
-              name="sample"
-              type="radio"
-              className="hidden"
-              value="yearly"
-              onClick={() => setPlanType('yearly')}
-            />
-            <div
-              className={classNames(
-                planType === 'yearly'
-                  ? 'border-2 border-primary-gd-1 dark:border-white'
-                  : 'border border-gray-300',
-                'bg-white dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full py-3 px-2 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
-              )}
-            >
-              {'Yearly'}{' '}
-              <div className="mt-1 text-dark-blue text-body-md dark:text-white">
-                {yearlyPrice ? `${yearlyPrice.plan_total_price} ${yearlyPrice.plan_currency}` : '-'}
-              </div>
-            </div>
-          </label>
+            </label>
+          ))}
         </div>
       </form>
 

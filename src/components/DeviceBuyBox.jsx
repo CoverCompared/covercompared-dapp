@@ -74,8 +74,8 @@ const DeviceBuyBox = (props) => {
 
       setMonthlyPrice(...monthlyObj);
       setYearlyPrice(...yearlyObj);
-      console.log(...yearlyObj);
-      console.log(...monthlyObj);
+      // console.log(...yearlyObj);
+      // console.log(...monthlyObj);
       setPlanType('yearly');
     }
   }, [devicePlanDetails]);
@@ -97,62 +97,71 @@ const DeviceBuyBox = (props) => {
   return (
     <>
       <form onSubmit={() => {}}>
-        <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
+        <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
           1- Select Device Details
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-3">
-          <SelectWithSearch
-            {...props}
-            showColumnLayout
-            fieldTitle="Device"
-            selectedOption={deviceType}
-            setSelectedOption={setDeviceType}
-            dropdownOptions={deviceOptions}
-            showSearchOption="true"
-          />
-          <SelectWithSearch
-            {...props}
-            showColumnLayout
-            fieldTitle="Brand"
-            selectedOption={brand}
-            setSelectedOption={setBrand}
-            dropdownOptions={deviceDetails?.brand || []}
-            showSearchOption="true"
-          />
-          <SelectWithSearch
-            {...props}
-            showColumnLayout
-            fieldTitle="Value"
-            selectedOption={value}
-            setSelectedOption={setValue}
-            dropdownOptions={deviceDetails?.device_values || {}}
-            showSearchOption="true"
-          />
-          <SelectWithSearch
-            {...props}
-            showColumnLayout
-            fieldTitle="Purchase Month"
-            selectedOption={purchaseMonth}
-            setSelectedOption={setPurchaseMonth}
-            dropdownOptions={deviceDetails?.purchase_month || []}
-            showSearchOption="true"
-          />
+          <div className="col-span-2 md:col-span-1">
+            <SelectWithSearch
+              {...props}
+              showColumnLayout
+              fieldTitle="Device"
+              selectedOption={deviceType}
+              setSelectedOption={setDeviceType}
+              dropdownOptions={deviceOptions}
+              showSearchOption="true"
+            />
+          </div>
+          <div className="col-span-2 md:col-span-1">
+            <SelectWithSearch
+              {...props}
+              showColumnLayout
+              fieldTitle="Brand"
+              selectedOption={brand}
+              setSelectedOption={setBrand}
+              dropdownOptions={deviceDetails?.brand || []}
+              showSearchOption="true"
+            />
+          </div>
+          <div className="col-span-2 md:col-span-1">
+            <SelectWithSearch
+              {...props}
+              showColumnLayout
+              fieldTitle="Value"
+              selectedOption={value}
+              setSelectedOption={setValue}
+              dropdownOptions={deviceDetails?.device_values || {}}
+              showSearchOption="true"
+            />
+          </div>
+          <div className="col-span-2 md:col-span-1">
+            <SelectWithSearch
+              {...props}
+              showColumnLayout
+              fieldTitle="Purchase Month"
+              selectedOption={purchaseMonth}
+              setSelectedOption={setPurchaseMonth}
+              dropdownOptions={deviceDetails?.purchase_month || []}
+              showSearchOption="true"
+            />
+          </div>
         </div>
 
         <div className="my-6">
-          <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+          <div className="grid grid-cols-2 md:gap-y-3 gap-y-2 gap-x-4">
             {planBenefits.map((point) => (
               <div
                 key={uniqid()}
-                className="font-semibold font-Montserrat text-body-sm text-dark-blue flex"
+                className="font-semibold font-Montserrat md:text-body-sm text-body-xs text-dark-blue flex col-span-2 md:col-span-1 text-left"
               >
-                <img src={CheckIcon} alt="" className="h-4 mr-2 mt-1" /> <div>{point}</div>
+                <img src={CheckIcon} alt="" className="md:h-4 md:w-4 h-3 w-3 mr-2 mt-1" />{' '}
+                <div>{point}</div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="mt-4 font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
+        <div className="mt-4 font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
           2- Select Plan
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-3">
@@ -212,7 +221,7 @@ const DeviceBuyBox = (props) => {
           type="button"
           // disabled={!planType}
           onClick={handleBuyNow}
-          className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+          className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
         >
           Buy Now
         </button>

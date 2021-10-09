@@ -105,7 +105,7 @@ const partners = [
 const DeviceTypeArr = [
   {
     image: MobileIcon,
-    title: 'Monile Phone',
+    title: 'Mobile Phone',
   },
   {
     image: LaptopIcon,
@@ -295,17 +295,17 @@ const InsuranceProduct = (props) => {
           Protection benefits provided across a wide range of product categories
         </div>
 
-        <div className="flex justify-center items-center mt-8">
-          <div className="grid grid-cols-12 gap-6">
+        <div className="flex justify-center items-center md:mt-10 mt-8">
+          <div className="grid grid-cols-12 md:gap-6 gap-4">
             {DeviceTypeArr.map((item) => (
               <div
                 key={uniqid()}
-                className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white px-8 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-12"
+                className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6"
               >
-                <div className="h-24 w-24 flex justify-center items-center">
-                  <img src={item.image} alt="" />
+                <div className="md:h-24 md:w-24 h-12 w-12 flex justify-center items-center">
+                  <img src={item.image} alt="" className="h-full" />
                 </div>
-                <div className="mt-3 font-Montserrat font-semibold text-body-md dark:text-white">
+                <div className="mt-3 font-Montserrat font-semibold md:text-body-md text-body-sm dark:text-white text-center">
                   {item.title}
                 </div>
               </div>
@@ -313,21 +313,21 @@ const InsuranceProduct = (props) => {
           </div>
         </div>
 
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           All our plans include
         </h2>
 
         <div className="flex justify-center items-center mt-4">
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 md:gap-4 gap-0">
             {includedItems.map((item) => (
               <div
                 key={uniqid()}
-                className="animation-wrapper md:col-span-3 col-span-12 p-4 flex flex-col items-center"
+                className="animation-wrapper md:col-span-3 col-span-6 p-4 flex flex-col items-center"
               >
                 <div>
                   <img src={item.image} alt={item.name} />
                 </div>
-                <div className="mt-3 font-Montserrat font-semibold text-h6 text-dark-blue dark:text-white text-center">
+                <div className="mt-3 font-Montserrat font-semibold md:text-h6 text-body-sm text-dark-blue dark:text-white text-center">
                   {item.title}
                 </div>
               </div>
@@ -335,11 +335,11 @@ const InsuranceProduct = (props) => {
           </div>
         </div>
 
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           We protect what you love
         </h2>
 
-        <div className="flex flex-col mt-10">
+        <div className="flex flex-col md:mt-10 mt-8">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -428,7 +428,7 @@ const InsuranceProduct = (props) => {
           </button>
         </div>
 
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           Why Get Device Protection?
         </h2>
         <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
@@ -436,54 +436,54 @@ const InsuranceProduct = (props) => {
         </div>
 
         <div className="flex justify-center items-center mt-4">
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 md:gap-4 gap-2">
             {DeviceProtection.map((item) => (
               <div
                 key={uniqid()}
-                className="animation-wrapper md:col-span-3 col-span-12 p-4 flex flex-col items-center"
+                className="animation-wrapper md:col-span-3 col-span-6 p-4 flex flex-col items-center"
               >
                 <div>
                   <img src={item.image} alt={item.name} />
                 </div>
-                <div className="mt-3 font-Montserrat font-semibold text-h6 text-dark-blue dark:text-white text-center">
+                <div className="mt-3 font-Montserrat font-semibold md:text-h6 text-body-md text-dark-blue dark:text-white text-center">
                   {item.title}
                 </div>
-                <div className="mt-1 font-Montserrat font-semibold text-h5 text-light-green">
+                <div className="mt-1 font-Montserrat font-semibold md:text-h5 text-body-sm text-light-green text-center">
                   {item.price}
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <div className="text-center text-dark-blue font-Inter mt-4 dark:text-white">
+        <div className="text-center text-dark-blue font-Inter mt-4 dark:text-white text-body-md md:text-h6">
           (Average Cost of Repair)
         </div>
 
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           Device Protection Backed By Industry Leaders
         </h2>
 
-        <div className="flex justify-center items-center mt-10 text-center">
+        <div className="flex justify-center items-center md:mt-10 mt-8 text-center">
           {Backers.map(({ image, alt }) => (
             <div
               key={uniqid()}
-              className="animation-wrapper md:w-40 w-32 inline-flex justify-content-center mx-5 rounded-xl bg-white shadow-md"
+              className="animation-wrapper md:w-40 w-32 inline-flex justify-content-center md:mx-5 mx-2 rounded-xl bg-white shadow-md"
             >
               <img className="w-full rounded-xl" src={image} alt={alt} />
             </div>
           ))}
         </div>
 
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           Wide Network Of Service Partners
         </h2>
 
-        <div className="flex justify-center items-center mt-10">
+        <div className="flex justify-center items-center md:mt-10 mt-8">
           <div className="text-center">
             {partners.map(({ image, alt }) => (
               <div
                 key={uniqid()}
-                className="animation-wrapper md:w-40 w-32 inline-flex justify-content-center mx-4 my-3 rounded-xl bg-white shadow-md"
+                className="animation-wrapper md:w-40 w-20 inline-flex justify-content-center md:mx-4 mx-1 md:my-3 my-1 rounded-xl bg-white shadow-md"
               >
                 <img className="w-full rounded-xl" src={image} alt={alt} />
               </div>
@@ -492,10 +492,10 @@ const InsuranceProduct = (props) => {
         </div>
       </div>
 
-      <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+      <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
         It’s easy to get started - 3 easy steps, 2 mins max!
       </h2>
-      <div className="flex justify-center items-center mt-8">
+      <div className="flex justify-center items-center md:mt-10 mt-8">
         <button
           type="button"
           onClick={() => setIsModalOpen(true)}

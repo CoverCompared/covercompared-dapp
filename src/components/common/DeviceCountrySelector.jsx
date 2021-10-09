@@ -41,10 +41,10 @@ const DeviceCountrySelector = ({ setIsModalOpen, setTitle }) => {
       return (
         <div className="mt-6">
           <div className="text-center mb-3">
-            <h5 className="font-Montserrat font-semibold text-h6">
+            <h5 className="font-Montserrat font-semibold md:text-h6 text-body-md">
               Please fill your information in form below
             </h5>
-            <h6 className="font-Inter font-medium text-counter-card-text text-body-md mt-1 mb-4">
+            <h6 className="font-Inter font-medium text-counter-card-text lg:text-body-md text-body-sm mt-1 mb-4">
               We will let you know when this policy is available in your country
             </h6>
           </div>
@@ -93,13 +93,13 @@ const DeviceCountrySelector = ({ setIsModalOpen, setTitle }) => {
         <button
           type="button"
           onClick={() => setIsModalOpen(false)}
-          className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl font-semibold bg-gradient-to-r from-primary-gd-2 to-primary-gd-1"
+          className="py-3 px-8 mt-8 text-white font-Montserrat lg:text-h6 text-body-md rounded-2xl font-semibold bg-gradient-to-r from-primary-gd-2 to-primary-gd-1"
         >
           skip
         </button>
         <button
           type="submit"
-          className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+          className="py-3 px-8 mt-8 text-white font-Montserrat lg:text-h6 text-body-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
         >
           submit
         </button>
@@ -108,7 +108,7 @@ const DeviceCountrySelector = ({ setIsModalOpen, setTitle }) => {
       <button
         type="submit"
         disabled={!country}
-        className="w-full py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl font-semibold bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+        className="w-full py-3 px-8 mt-8 text-white font-Montserrat lg:text-h6 text-body-md rounded-2xl font-semibold bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
       >
         Proceed
       </button>
@@ -120,10 +120,10 @@ const DeviceCountrySelector = ({ setIsModalOpen, setTitle }) => {
       <div className="flex flex-col justify-center items-center">
         <CheckCircleIcon className="w-28 h-28 text-green-500" />
         <h5 className="font-Montserrat text-3xl my-3">Thank you!</h5>
-        <p className="font-Inter text-counter-card-text text-body-md">
+        <p className="font-Inter text-counter-card-text lg:text-body-md text-body-sm">
           Your information has been submitted successfully
         </p>
-        <p className="font-Inter text-counter-card-text text-body-md">
+        <p className="font-Inter text-counter-card-text lg:text-body-md text-body-sm">
           You will receive an email when this policy is available in your country
         </p>
       </div>
@@ -134,7 +134,7 @@ const DeviceCountrySelector = ({ setIsModalOpen, setTitle }) => {
 
   return (
     <div className="grid grid-cols-12">
-      <div className="grid col-span-8 col-start-3">
+      <div className="grid md:col-span-8 col-span-12 md:col-start-3">
         <form onSubmit={handleSubmit}>
           <div className="relative">
             <Select

@@ -28,8 +28,6 @@ const DeviceBuyBox = (props) => {
   const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
   const [devicePlansDetails, setDevicePlansDetails] = useState('');
   const [plans, setPlans] = useState([]);
-  const [monthlyPrice, setMonthlyPrice] = useState('');
-  const [yearlyPrice, setYearlyPrice] = useState('');
   const [planType, setPlanType] = useState('');
   const [planBenefits, setPlanBenefits] = useState([]);
 
@@ -70,13 +68,6 @@ const DeviceBuyBox = (props) => {
       setPlanBenefits(devicePlanDetails.plan_benefit);
       const plansArr = devicePlanDetails.plan_price;
       setPlans(plansArr);
-      const monthlyObj = plansArr.filter((obj) => obj.plan_type === 'monthly');
-      const yearlyObj = plansArr.filter((obj) => obj.plan_type === 'yearly');
-
-      setMonthlyPrice(...monthlyObj);
-      setYearlyPrice(...yearlyObj);
-      // console.log(...yearlyObj);
-      // console.log(...monthlyObj);
       setPlanType(plansArr[1]);
     }
   }, [devicePlanDetails]);

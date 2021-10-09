@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Markup } from 'interweave';
 import uniqid from 'uniqid';
 import Modal from '../components/common/Modal';
-import CountrySelector from '../components/common/CountrySelector';
+import CountrySelector from '../components/common/DeviceCountrySelector';
 import { ThemeContext } from '../themeContext';
 
 import MobileIcon from '../assets/icons/mobile-icon.svg';
@@ -105,7 +105,7 @@ const partners = [
 const DeviceTypeArr = [
   {
     image: MobileIcon,
-    title: 'Monile Phone',
+    title: 'Mobile Phone',
   },
   {
     image: LaptopIcon,
@@ -144,17 +144,17 @@ const DeviceProtection = [
   {
     image: CrackedScreeIcon,
     title: 'Cracked Screen',
-    price: '800',
+    price: '215 $',
   },
   {
     image: TouchScreenIcon,
     title: 'Touchscreen Malfunction',
-    price: '1500',
+    price: '400 $',
   },
   {
     image: LiquidDamageIcon,
     title: 'Liquid Damage',
-    price: '1500',
+    price: '400 $',
   },
   {
     image: TheftIcon,
@@ -167,9 +167,9 @@ const p4lTable = [
   {
     firstCol: 'Monthly Plans',
     secondCol:
-      '<div><b >YES</b> <br /> Starting from <b>AED 4</b>/Month & <b>AED 40</b>/Year</div>',
-    thirdCol: '<div><b >No</b> <br /> <b>AED 499 </b> to <b>AED 799</b></div>',
-    forthCol: '<div><b >No</b> <br /> <b>AED 85 </b> to <b>AED 499</b></div>',
+      '<div><b >YES</b> <br /> Starting from <b>USD 1</b>/Month & <b>USD 11</b>/Year</div>',
+    thirdCol: '<div><b >No</b> <br /> <b>USD 136 </b> to <b>USD 218</b></div>',
+    forthCol: '<div><b >No</b> <br /> <b>USD 24 </b> to <b>USD 136</b></div>',
     fifthCol: '<div><b >No</b> <br /> <b>10% - 12%</b> of device cost</div>',
   },
   {
@@ -209,10 +209,10 @@ const p4lTable = [
   },
   {
     firstCol: 'Deductible per Accidental Damage Claim',
-    secondCol: '<div><b>AED 49 </b> to <b>AED 199</b></div>',
-    thirdCol: '<div><b>AED 99 </b> to <b>AED 349</b></div>',
-    forthCol: '<div><b>AED 70 </b> to <b>AED 180</b></div>',
-    fifthCol: '<div>Min <b>AED 100 </b> to <b>AED 10%</b> of invoice value</div>',
+    secondCol: '<div><b>USD 15 </b> to <b>USD 55</b></div>',
+    thirdCol: '<div><b>USD 25 </b> to <b>USD 95</b></div>',
+    forthCol: '<div><b>USD 20 </b> to <b>USD 50</b></div>',
+    fifthCol: '<div>Min <b>USD 25 </b> to <b>USD 10%</b> of invoice value</div>',
   },
   {
     firstCol: 'Protection for Device bought anywhere in the world',
@@ -295,17 +295,17 @@ const InsuranceProduct = (props) => {
           Protection benefits provided across a wide range of product categories
         </div>
 
-        <div className="flex justify-center items-center mt-8">
-          <div className="grid grid-cols-12 gap-6">
+        <div className="flex justify-center items-center md:mt-10 mt-8">
+          <div className="grid grid-cols-12 md:gap-6 gap-4">
             {DeviceTypeArr.map((item) => (
               <div
                 key={uniqid()}
-                className="w-full shadow-md rounded-xl flex flex-col items-center bg-white px-8 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-12"
+                className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6"
               >
-                <div className="h-24 w-24 flex justify-center items-center">
-                  <img src={item.image} alt="" />
+                <div className="md:h-24 md:w-24 h-12 w-12 flex justify-center items-center">
+                  <img src={item.image} alt="" className="h-full" />
                 </div>
-                <div className="mt-3 font-Montserrat font-semibold text-body-md dark:text-white">
+                <div className="mt-3 font-Montserrat font-semibold md:text-body-md text-body-sm dark:text-white text-center">
                   {item.title}
                 </div>
               </div>
@@ -313,21 +313,21 @@ const InsuranceProduct = (props) => {
           </div>
         </div>
 
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           All our plans include
         </h2>
 
         <div className="flex justify-center items-center mt-4">
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 md:gap-4 gap-0">
             {includedItems.map((item) => (
               <div
                 key={uniqid()}
-                className="md:col-span-3 col-span-12 p-4 flex flex-col items-center"
+                className="animation-wrapper md:col-span-3 col-span-6 p-4 flex flex-col items-center"
               >
                 <div>
                   <img src={item.image} alt={item.name} />
                 </div>
-                <div className="mt-3 font-Montserrat font-semibold text-h6 text-dark-blue dark:text-white text-center">
+                <div className="mt-3 font-Montserrat font-semibold md:text-h6 text-body-sm text-dark-blue dark:text-white text-center">
                   {item.title}
                 </div>
               </div>
@@ -335,44 +335,44 @@ const InsuranceProduct = (props) => {
           </div>
         </div>
 
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           We protect what you love
         </h2>
 
-        <div className="flex flex-col mt-10">
+        <div className="flex flex-col md:mt-10 mt-8">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
+                <table className="min-w-full divide-y divide-gray-200 text-center">
                   <thead className="bg-gray-50">
                     <tr>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                        className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
                       >
                         {' '}
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider flex justify-center"
+                        className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider flex justify-center"
                       >
                         <img src={P4LLogo} alt="" title="P4L" />
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                        className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
                       >
                         Apple Care +
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                        className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
                       >
                         Samsung Care +
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
+                        className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider text-center"
                       >
                         Others
                       </th>
@@ -381,19 +381,19 @@ const InsuranceProduct = (props) => {
                   <tbody>
                     {table.map(({ firstCol, secondCol, thirdCol, forthCol, fifthCol }, index) => (
                       <tr key={uniqid()} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-200'}>
-                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-sm text-gray-900 font-Montserrat font-semibold">
+                        <td className="p-3 device-table-cell text-body-sm text-gray-900 font-Montserrat font-semibold">
                           {firstCol}
                         </td>
-                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                        <td className="p-3 device-table-cell text-xs font-Montserrat text-gray-600 text-center box-border">
                           <Markup content={secondCol} />
                         </td>
-                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                        <td className="p-3 device-table-cell text-xs font-Montserrat text-gray-600 text-center box-border">
                           <Markup content={thirdCol} />
                         </td>
-                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                        <td className="p-3 device-table-cell text-xs font-Montserrat text-gray-600 text-center box-border">
                           <Markup content={forthCol} />
                         </td>
-                        <td className="px-6 py-4 w-1/5 whitespace-nowrap text-xs font-Montserrat text-gray-600 text-center box-border">
+                        <td className="p-3 device-table-cell text-xs font-Montserrat text-gray-600 text-center box-border">
                           <Markup content={fifthCol} />
                         </td>
                       </tr>
@@ -410,14 +410,25 @@ const InsuranceProduct = (props) => {
             onClick={() => setShowMore(!showMore)}
             className="font-Montserrat font-semibold font-h5 dark:text-white text-dark-blue px-2 py-2 flex items-center"
           >
-            Show More{' '}
-            <div className="font-bold text-white bg-light-green h-5 w-5 rounded-full flex justify-center items-center ml-3">
-              +
-            </div>
+            {!showMore ? (
+              <>
+                <span>Show More</span>
+                <div className="font-bold text-white bg-light-green h-5 w-5 rounded-full flex justify-center items-center ml-3">
+                  +
+                </div>
+              </>
+            ) : (
+              <>
+                <span>Show Less</span>
+                <div className="font-bold text-white bg-red-500 h-5 w-5 rounded-full flex justify-center items-center ml-3">
+                  -
+                </div>
+              </>
+            )}
           </button>
         </div>
 
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           Why Get Device Protection?
         </h2>
         <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
@@ -425,54 +436,54 @@ const InsuranceProduct = (props) => {
         </div>
 
         <div className="flex justify-center items-center mt-4">
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 md:gap-4 gap-2">
             {DeviceProtection.map((item) => (
               <div
                 key={uniqid()}
-                className="md:col-span-3 col-span-12 p-4 flex flex-col items-center"
+                className="animation-wrapper md:col-span-3 col-span-6 p-4 flex flex-col items-center"
               >
                 <div>
                   <img src={item.image} alt={item.name} />
                 </div>
-                <div className="mt-3 font-Montserrat font-semibold text-h6 text-dark-blue dark:text-white text-center">
+                <div className="mt-3 font-Montserrat font-semibold md:text-h6 text-body-md text-dark-blue dark:text-white text-center">
                   {item.title}
                 </div>
-                <div className="mt-1 font-Montserrat font-semibold text-h5 text-light-green">
-                  {item.price} $
+                <div className="mt-1 font-Montserrat font-semibold md:text-h5 text-body-sm text-light-green text-center">
+                  {item.price}
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <div className="text-center text-dark-blue font-Inter mt-4 dark:text-white">
+        <div className="text-center text-dark-blue font-Inter mt-4 dark:text-white text-body-md md:text-h6">
           (Average Cost of Repair)
         </div>
 
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           Device Protection Backed By Industry Leaders
         </h2>
 
-        <div className="flex justify-center items-center mt-10 text-center">
+        <div className="flex justify-center items-center md:mt-10 mt-8 text-center">
           {Backers.map(({ image, alt }) => (
             <div
               key={uniqid()}
-              className="md:w-40 w-32 inline-flex justify-content-center mx-5 rounded-xl bg-white shadow-md"
+              className="animation-wrapper md:w-40 w-32 inline-flex justify-content-center md:mx-5 mx-2 rounded-xl bg-white shadow-md"
             >
               <img className="w-full rounded-xl" src={image} alt={alt} />
             </div>
           ))}
         </div>
 
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           Wide Network Of Service Partners
         </h2>
 
-        <div className="flex justify-center items-center mt-10">
+        <div className="flex justify-center items-center md:mt-10 mt-8">
           <div className="text-center">
             {partners.map(({ image, alt }) => (
               <div
                 key={uniqid()}
-                className="md:w-40 w-32 inline-flex justify-content-center mx-4 my-3 rounded-xl bg-white shadow-md"
+                className="animation-wrapper md:w-40 w-20 inline-flex justify-content-center md:mx-4 mx-1 md:my-3 my-1 rounded-xl bg-white shadow-md"
               >
                 <img className="w-full rounded-xl" src={image} alt={alt} />
               </div>
@@ -481,10 +492,10 @@ const InsuranceProduct = (props) => {
         </div>
       </div>
 
-      <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white mt-16">
+      <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
         It’s easy to get started - 3 easy steps, 2 mins max!
       </h2>
-      <div className="flex justify-center items-center mt-8">
+      <div className="flex justify-center items-center md:mt-10 mt-8">
         <button
           type="button"
           onClick={() => setIsModalOpen(true)}

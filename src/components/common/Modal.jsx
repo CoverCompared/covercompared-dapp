@@ -7,7 +7,7 @@ const Modal = (props) => {
   const {
     children,
     sizeClass,
-    title,
+    title: modalTitle,
     renderComponent: C,
     bgImg,
     isOpen,
@@ -17,10 +17,21 @@ const Modal = (props) => {
     handleClickCTA,
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [maxWidth, setMaxWidth] = useState(sizeClass);
+  const [title, setTitle] = useState(modalTitle);
 
   useEffect(() => {
     setIsModalOpen(!!isOpen);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setTimeout(() => {
+        setMaxWidth(sizeClass);
+        setTitle(modalTitle);
+      }, 500);
+    }
+  }, [isModalOpen]);
 
   return (
     <>
@@ -60,13 +71,13 @@ const Modal = (props) => {
             >
               <div
                 className={classNames(
-                  sizeClass || 'max-w-5xl',
-                  `bg-white bg-cover rounded-lg shadow-xl transform sm:align-middle sm:w-full inline-block align-bottom transition-all dark:bg-popup-dark-bg`,
+                  maxWidth || 'max-w-5xl',
+                  `bg-white bg-cover rounded-lg shadow-xl transform sm:align-middle w-full inline-block align-bottom transition-all dark:bg-popup-dark-bg`,
                 )}
               >
                 <div className={`${bgImg} w-full h-full sm:py-8 rounded-lg`}>
                   <div className="px-4 pt-5 text-left sm:px-12 md:px-16 sm:pt-6 pb-8">
-                    <div className="absolute top-8 right-8 flex">
+                    <div className="absolute lg:top-8 lg:right-8 top-2 right-2 flex">
                       {!!(CTAText && handleClickCTA) && (
                         <button
                           type="button"
@@ -84,7 +95,7 @@ const Modal = (props) => {
                         >
                           <span className="sr-only">Close</span>
                           <XIcon
-                            className="h-7 w-7 text-dark-blue dark:text-white"
+                            className="lg:h-7 lg:w-7 h-5 w-5 text-dark-blue dark:text-white"
                             aria-hidden="true"
                           />
                         </button>
@@ -93,12 +104,12 @@ const Modal = (props) => {
                     <div className="mt-3 text-center sm:mt-0 sm:text-left">
                       <Dialog.Title
                         as="h1"
-                        className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue text-center pb-3 dark:text-white"
+                        className="font-Montserrat md:text-h2 text-h5 font-semibold text-dark-blue text-center pb-3 dark:text-white"
                       >
                         {title ?? 'Dialog'}
                       </Dialog.Title>
                       <div className="mt-2">
-                        <C {...props} {...{ isModalOpen, setIsModalOpen }} />
+                        <C {...props} {...{ isModalOpen, setIsModalOpen, setMaxWidth, setTitle }} />
                       </div>
                     </div>
                   </div>

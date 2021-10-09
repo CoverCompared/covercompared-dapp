@@ -18,10 +18,25 @@
   box-shadow: none !important;
   outline: none !important;
   border: none !important;
+  height: 30px;
 }
 
 .country-select input::after {
   box-shadow: none !important;
   outline: none !important;
   border: none !important;
+}
+
+.animation-wrapper img {
+  transition: 0.3s;
+}
+
+.animation-wrapper:hover img {
+  transform: scale(1.2);
+  transition: 0.3s;
+}
+
+.device-table-cell {
+  min-width: 210px;
+  max-width: 230px;
 }

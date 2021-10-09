@@ -10,7 +10,6 @@ import { searchMSOList } from '../redux/actions/CoverList';
 import Loading from '../components/common/Loading';
 import ToolTip from '../components/common/ToolTip';
 import MSOServicesCard from '../components/MSOServicesCard';
-import CountrySelector from '../components/common/CountrySelector';
 import Modal from '../components/common/Modal';
 
 import MSOpartner1 from '../assets/img/mso-partners-1.jpg';
@@ -98,7 +97,6 @@ const MSOPartners = [
 const MSOPlans = (props) => {
   const coverListData = useSelector((state) => state.coverList);
   const { loader, coverList, query, message, isFailed, page, totalPages } = coverListData;
-  const [isModalOpen, setIsModalOpen] = useState(true);
   const [products, setProducts] = useState(coverList);
   const dispatch = useDispatch();
 
@@ -140,15 +138,6 @@ const MSOPlans = (props) => {
 
   return (
     <>
-      <Modal
-        isOpen={isModalOpen}
-        title="Country of Residence"
-        sizeClass="max-w-2xl"
-        renderComponent={CountrySelector}
-        onClose={() => setIsModalOpen(false)}
-        bgImg="bg-loginPopupBg"
-        {...{ setIsModalOpen }}
-      />
       <div className="xl:px-48 sm:px-8">
         <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Cover Compares has partnered with{' '}

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import CheckoutFormInput from './common/CheckoutFormInput';
 import FormInput from './FormInput';
 
-const CheckoutForm = (props) => {
+const MsoUserInfoForm = (props) => {
   // remove default values from below object once response is in this format
   const {
     uuid,
@@ -82,7 +82,7 @@ const CheckoutForm = (props) => {
     <>
       <div className="mb-4 flex justify-between items-center">
         <h5 className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-body-md dark:text-white text-left">
-          Add/Remove Family Members
+          Member(s) Information
         </h5>
         <div className="flex justify-center ml-4">
           <button
@@ -171,6 +171,10 @@ const CheckoutForm = (props) => {
               </div>
             </React.Fragment>
           ))}
+
+          <h5 className="col-span-12 mt-5 font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-body-md dark:text-white text-left">
+            Personal Details
+          </h5>
           <div className="col-span-12 lg:col-span-3">
             <FormInput
               type="date"
@@ -227,4 +231,4 @@ const CheckoutForm = (props) => {
     </>
   );
 };
-export default CheckoutForm;
+export default MsoUserInfoForm;

@@ -130,7 +130,7 @@ const DeviceCountrySelector = ({ setIsModalOpen, setTitle }) => {
     );
   }
 
-  if (showDeviceForm) return <DeviceBuyBox />;
+  if (showDeviceForm) return <DeviceBuyBox {...{ setIsModalOpen }} />;
 
   return (
     <div className="grid grid-cols-12">

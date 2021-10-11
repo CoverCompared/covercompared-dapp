@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import uniqid from 'uniqid';
-import PackageCard from '../components/common/PackageCard';
+
 import MSOPlanCard from '../components/MSOPlanCard';
-import { ThemeContext } from '../themeContext';
-import { searchMSOList } from '../redux/actions/CoverList';
 import Loading from '../components/common/Loading';
-import ToolTip from '../components/common/ToolTip';
 import MSOServicesCard from '../components/MSOServicesCard';
+import { searchMSOList } from '../redux/actions/CoverList';
+import PackageCard from '../components/common/PackageCard';
+import { ThemeContext } from '../themeContext';
+import ToolTip from '../components/common/ToolTip';
 import Modal from '../components/common/Modal';
 
 import MSOpartner1 from '../assets/img/mso-partners-1.jpg';

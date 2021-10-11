@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Select from 'react-select';
+import { useWeb3React } from '@web3-react/core';
 import countryList from 'react-select-country-list';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 
+import useAuth from '../../hooks/useAuth';
+import SUPPORTED_WALLETS from '../../config/walletConfig';
 import MsoUserInfoForm from '../MsoUserInfoForm';
 
 const countries = [
@@ -17,6 +20,19 @@ const countries = [
 ];
 
 const MsoCountrySelector = ({ setIsModalOpen, setMaxWidth, setTitle, selectedPlan }) => {
+  useEffect(() => {
+    console.log("Hi I'm mounted> country select");
+    return () => {
+      console.log("Hi I'm un-mounted> country select");
+    };
+  }, []);
+
+  const { login } = useAuth();
+
+  const { account } = useWeb3React();
+  const [curWalletId, setCurWalletId] = useState('injected');
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const [country, setCountry] = useState('');
   const [userCountry, setUserCountry] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -32,8 +48,41 @@ const MsoCountrySelector = ({ setIsModalOpen, setMaxWidth, setTitle, selectedPla
       return;
     }
     setShowUserInfoForm(true);
-    setMaxWidth('max-w-5xl');
-    setTitle('Members Information Form');
+
+    if (account) {
+      setMaxWidth('max-w-5xl');
+      setTitle('Members Information Form');
+    } else {
+      setTitle('Login');
+    }
+  };
+
+  const tryActivation = (connect) => {
+    setCurWalletId(connect);
+    setConnectStatus(true);
+    login(connect);
+  };
+
+  const getWalletOption = () => {
+    return Object.keys(SUPPORTED_WALLETS).map((key) => {
+      const option = SUPPORTED_WALLETS[key];
+
+      return (
+        <div
+          className="md:col-span-5 col-span-5 h-full"
+          key={key}
+          id={`connect-${key}`}
+          onClick={() => tryActivation(option.connector)}
+        >
+          <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
+            <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
+            <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
+              {connectStatus && curWalletId === option.connector ? 'Connecting...' : option.name}
+            </div>
+          </div>
+        </div>
+      );
+    });
   };
 
   const renderFormBody = () => {
@@ -58,6 +107,7 @@ const MsoCountrySelector = ({ setIsModalOpen, setMaxWidth, setTitle, selectedPla
               placeholder="Select your country"
             />
             <input
+              onChange={() => {}}
               tabIndex={-1}
               autoComplete="off"
               style={{
@@ -130,7 +180,20 @@ const MsoCountrySelector = ({ setIsModalOpen, setMaxWidth, setTitle, selectedPla
     );
   }
 
-  if (showUserInfoForm) return <MsoUserInfoForm {...selectedPlan} />;
+  if (showUserInfoForm && !account) {
+    return (
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-12 flex items-center justify-center w-full">
+          <div className="grid grid-cols-10 md:col-start-1 md:gap-x-6 gap-x-5 w-full">
+            {getWalletOption()}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (showUserInfoForm)
+    return <MsoUserInfoForm {...{ ...selectedPlan, countries, country, setIsModalOpen }} />;
 
   return (
     <div className="grid grid-cols-12">
@@ -145,6 +208,7 @@ const MsoCountrySelector = ({ setIsModalOpen, setMaxWidth, setTitle, selectedPla
               placeholder="Select country of residence"
             />
             <input
+              onChange={() => {}}
               tabIndex={-1}
               autoComplete="off"
               style={{ opacity: 0, height: 0, width: '100%', position: 'absolute', top: 44 }}

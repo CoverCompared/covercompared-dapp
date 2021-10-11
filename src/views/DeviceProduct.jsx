@@ -245,12 +245,6 @@ const p4lTable = [
 ];
 
 const InsuranceProduct = (props) => {
-  const { type } = useParams();
-  const { theme } = useContext(ThemeContext);
-  const [showFilterOption, setShowFilterOption] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [country, setCountry] = useState('');
-  const [notExist, setNotExist] = useState(false);
   const [table, setTable] = useState(p4lTable);
   const [showMore, setShowMore] = useState(false);
 
@@ -270,23 +264,6 @@ const InsuranceProduct = (props) => {
 
   return (
     <>
-      <Modal
-        isOpen={isModalOpen}
-        title="Country of Residence"
-        sizeClass="max-w-2xl"
-        renderComponent={CountrySelector}
-        onClose={() => setIsModalOpen(false)}
-        bgImg="bg-loginPopupBg bg-cover"
-        // {...{
-        //   country,
-        //   setCountry,
-        //   notExist,
-        //   setNotExist,
-        //   setIsModalOpen,
-        //   countries,
-        // }}
-        {...{ setIsModalOpen }}
-      />
       <div className="xl:px-32 lg:px-26">
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
           We protect what you love
@@ -495,14 +472,20 @@ const InsuranceProduct = (props) => {
       <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
         It’s easy to get started - 3 easy steps, 2 mins max!
       </h2>
-      <div className="flex justify-center items-center md:mt-10 mt-8">
-        <button
-          type="button"
-          onClick={() => setIsModalOpen(true)}
-          className="py-3 px-5 cursor-pointer outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
+      <div className="flex justify-center items-center mt-8">
+        <Modal
+          title="Country of Residence"
+          sizeClass="max-w-2xl"
+          renderComponent={CountrySelector}
+          bgImg="bg-loginPopupBg bg-cover"
         >
-          Get Protection
-        </button>
+          <button
+            type="button"
+            className="py-3 px-5 cursor-pointer outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
+          >
+            Get Protection
+          </button>
+        </Modal>
       </div>
     </>
   );

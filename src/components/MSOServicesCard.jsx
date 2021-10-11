@@ -1,4 +1,5 @@
 import React from 'react';
+import uniqid from 'uniqid';
 
 const MSOServicesCard = (props) => {
   const { image, title, description } = props;
@@ -13,7 +14,10 @@ const MSOServicesCard = (props) => {
       </h5>
       <div className="mt-3">
         {description.map((p) => (
-          <div className="mt-1.5 font-Inter text-post-body-text text-body-md leading-6 dark:text-subtitle-dark-text text-center">
+          <div
+            key={uniqid()}
+            className="mt-1.5 font-Inter text-post-body-text text-body-md leading-6 dark:text-subtitle-dark-text text-center"
+          >
             {p}
           </div>
         ))}

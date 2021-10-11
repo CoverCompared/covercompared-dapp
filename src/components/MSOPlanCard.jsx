@@ -54,10 +54,6 @@ const MSOPlanCard = (props) => {
     totalUsers,
   };
 
-  const { is_verified } = useSelector((state) => state.auth);
-
-  const [country, setCountry] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [addonServices, setAddonServices] = useState(false);
   const [msoTotalPrice, setMsoTotalPrice] = useState(quote);
 
@@ -135,6 +131,7 @@ const MSOPlanCard = (props) => {
               className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
               checked={addonServices}
               onClick={toggleCheckbox}
+              onChange={() => {}}
             />
             <div className="ml-2 font-Montserrat font-semibold text-body-2xs text-dark-blue dark:text-white group-hover:text-white">
               Add on concierge services at {MSOAddOnService}$
@@ -162,24 +159,22 @@ const MSOPlanCard = (props) => {
             </div>
           </Modal>
 
-          <div className="flex justify-center pt-2">
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(true)}
-              className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2"
-            >
-              Buy Now
-            </button>
-          </div>
           <Modal
-            isOpen={isModalOpen}
             title="Country of Residence"
             sizeClass="max-w-2xl"
             renderComponent={CountrySelector}
-            onClose={() => setIsModalOpen(false)}
             bgImg="bg-loginPopupBg"
-            {...{ setIsModalOpen, selectedPlan }}
-          />
+            {...{ selectedPlan }}
+          >
+            <div className="flex justify-center pt-2">
+              <button
+                type="button"
+                className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2"
+              >
+                Buy Now
+              </button>
+            </div>
+          </Modal>
         </div>
       </div>
     </>

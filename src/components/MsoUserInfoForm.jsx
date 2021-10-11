@@ -1,15 +1,19 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
+import { initial } from 'lodash';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/solid';
 
 import CheckoutFormInput from './common/CheckoutFormInput';
+import { classNames } from '../functions/utils';
 import FormInput from './FormInput';
+import { setProfileDetails, resendVerificationEmail, verifyOTP } from '../redux/actions/Auth';
+import Alert from './common/Alert';
 
 const MsoUserInfoForm = (props) => {
   // remove default values from below object once response is in this format
   const {
     uuid,
-    formData,
     unique_id,
     userTypeOptions,
     noOfSpouse,
@@ -18,6 +22,7 @@ const MsoUserInfoForm = (props) => {
     spouseParents,
     totalUsers,
     setIsModalOpen,
+    countries,
   } = props;
   const dispatch = useDispatch();
 
@@ -28,17 +33,51 @@ const MsoUserInfoForm = (props) => {
     identity: '',
     typeChangeable: true,
   };
-  const [users, setUsers] = useState(
-    formData?.users || [{ ...userObject, userType: 'Main Member', typeChangeable: false }],
-  );
-  const [email, setEmail] = useState(formData?.email || '');
-  const [dob, setDob] = useState(formData?.dob || '');
-  const [country, setCountry] = useState(formData?.country || '');
-  const [saveDetails, setSaveDetails] = useState(formData?.saveDetails || false);
+
+  const authState = useSelector((state) => state.auth);
+  const { showOTPScreen, showVerified, is_verified, loader, isFailed } = authState;
+  const notRegistered = !is_verified;
+  const [users, setUsers] = useState([
+    { ...userObject, userType: 'Main Member', typeChangeable: false },
+  ]);
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertText, setAlertText] = useState('');
+  const [alertType, setAlertType] = useState('');
+
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [userOtp, setUserOtp] = useState('');
+
+  const [email, setEmail] = useState(authState.email || '');
+  const [dob, setDob] = useState('');
+  const [country, setCountry] = useState(props.country?.value || '');
+  const [saveDetails, setSaveDetails] = useState(false);
+
+  useEffect(() => {
+    if (emailSubmitted && showOTPScreen && isFailed && !loader) {
+      setShowAlert(true);
+      setAlertType('danger');
+      return setAlertText("You've provided an invalid OTP");
+    }
+    if (emailSubmitted && showOTPScreen && !loader) {
+      setShowAlert(true);
+      setAlertType('success');
+      return setAlertText('An OTP has been sent to your email');
+    }
+    if (emailSubmitted && showVerified && !loader) {
+      setShowAlert(true);
+      setAlertType('success');
+      return setAlertText('Thank you! your email has been verified successfully');
+    }
+    return null;
+  }, [showOTPScreen, showVerified, loader, isFailed, emailSubmitted]);
 
   const handleAddUser = () => {
     if (totalUsers > 0 && users.length === totalUsers) {
-      return toast.warning(`Sorry! can't add more than ${totalUsers} member for the selected plan`);
+      setShowAlert(true);
+      setAlertType('warning');
+      return setAlertText(`Sorry! can't add more than ${totalUsers} member for the selected plan`);
     }
     return setUsers([...users, { ...userObject }]);
   };
@@ -53,15 +92,21 @@ const MsoUserInfoForm = (props) => {
     const dependent = usersClone.filter((f) => f.userType === 'Dependent').length;
 
     if (mainMember > 1) {
-      toast.error('Main members cannot be more than 1');
+      setShowAlert(true);
+      setAlertType('danger');
+      setAlertText('Main members cannot be more than 1');
       return false;
     }
     if (spouse > noOfSpouse) {
-      toast.error(`Spouses cannot be more than ${noOfSpouse}`);
+      setShowAlert(true);
+      setAlertType('danger');
+      setAlertText(`Spouses cannot be more than ${noOfSpouse}`);
       return false;
     }
     if (dependent > noOfDependent) {
-      toast.error(`Dependents cannot be more than ${noOfDependent}`);
+      setShowAlert(true);
+      setAlertType('danger');
+      setAlertText(`Dependents cannot be more than ${noOfDependent}`);
       return false;
     }
     return true;
@@ -73,13 +118,94 @@ const MsoUserInfoForm = (props) => {
     if (validateUsers(usersClone)) setUsers(usersClone);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    if (e) e.preventDefault();
     setIsModalOpen(false);
-    toast.success('Item bought successfully');
+    toast.success('Policy bought successfully');
+  };
+
+  const handleSubmitEmail = (e) => {
+    if (e) e.preventDefault();
+    setEmailSubmitted(true);
+    dispatch(setProfileDetails({ email: userEmail }));
+  };
+
+  const handleSubmitOTP = async (e) => {
+    if (e) e.preventDefault();
+    await dispatch(verifyOTP({ otp: userOtp }));
   };
 
   return (
     <>
+      {!!showAlert && (
+        <div className="mb-4">
+          <Alert type={alertType} text={alertText} onClose={() => setShowAlert(false)} />
+        </div>
+      )}
+      {(userEmail || notRegistered) && (
+        <>
+          <div className="mb-4 flex justify-between items-center">
+            <h5 className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-body-md dark:text-white text-left">
+              Registration Information
+            </h5>
+          </div>
+
+          <div className="grid grid-cols-12 gap-6 w-full mb-8">
+            <form className="lg:col-span-5 col-span-12" onSubmit={handleSubmitEmail}>
+              <FormInput
+                type="email"
+                title="Email"
+                inputValue={userEmail}
+                setChange={setUserEmail}
+                inputPlaceholder="Email"
+                disabled={!notRegistered}
+                required
+              />
+              <button
+                type="submit"
+                disabled={!notRegistered}
+                className="pl-2 mt-1 text-body-md underline cursor-pointer"
+              >
+                Send verification OTP
+              </button>
+            </form>
+
+            <form className="lg:col-span-5 col-span-12" onSubmit={handleSubmitOTP}>
+              <FormInput
+                type="number"
+                title="OTP"
+                inputValue={userOtp}
+                setChange={setUserOtp}
+                inputPlaceholder="OTP"
+                disabled={!showOTPScreen || !emailSubmitted || !notRegistered}
+                required
+              />
+              <button
+                type="submit"
+                disabled={!showOTPScreen || !notRegistered}
+                className="pl-2 mt-1 text-body-md underline cursor-pointer"
+              >
+                Verify OTP
+              </button>
+            </form>
+
+            <div className="lg:col-span-2 col-span-12">
+              {notRegistered ? (
+                <div className="flex items-center mt-4">
+                  <XCircleIcon className="w-6 h-6 text-red-500" />
+                  <div className="pl-1 text-h5">Un-Verified</div>
+                </div>
+              ) : (
+                <div className="flex items-center mt-4">
+                  <CheckCircleIcon className="w-6 h-6 text-green-500" />
+                  <div className="pl-1 text-h5">Verified</div>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+
       <div className="mb-4 flex justify-between items-center">
         <h5 className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-body-md dark:text-white text-left">
           Member(s) Information
@@ -87,16 +213,17 @@ const MsoUserInfoForm = (props) => {
         <div className="flex justify-center ml-4">
           <button
             type="button"
+            disabled={notRegistered}
             onClick={handleAddUser}
-            className="font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+            className="font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg disabled:opacity-80"
           >
             Add
           </button>{' '}
           <button
             type="button"
-            className="ml-3 font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+            className="ml-3 font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg disabled:opacity-80"
             onClick={handleRemoveUser}
-            disabled={users.length === 1}
+            disabled={users.length === 1 || notRegistered}
           >
             Remove
           </button>
@@ -108,17 +235,25 @@ const MsoUserInfoForm = (props) => {
           {users.map((user, index) => (
             <React.Fragment key={index}>
               <div className="lg:col-span-3 col-span-12">
-                <div className="py-2 px-3 w-full bg-promo-input-bg rounded-lg shadow-lg border border-light-gray-border">
+                <div
+                  className={classNames(
+                    notRegistered ? 'bg-promo-input-disabled-bg' : 'bg-promo-input-bg',
+                    'py-2 px-3 w-full rounded-lg shadow-lg relative border border-light-gray-border',
+                  )}
+                >
                   <div className="font-semibold text-body-sm text-dark-blue font-Montserrat text-left">
                     Type of user
                   </div>
                   <select
-                    className="w-full border-0 outline-none bg-transparent placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 p-0 text-black font-Montserrat font-medium text-body-sm"
+                    className={classNames(
+                      notRegistered ? 'text-gray-500' : 'text-black',
+                      'w-full border-0 outline-none bg-transparent placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 p-0 font-Montserrat font-medium text-body-sm',
+                    )}
                     name="userType"
                     value={user.userType}
                     placeholder="Type of user"
                     onChange={(e) => handleUserFieldChange(index, e.target.name, e.target.value)}
-                    disabled={!user.typeChangeable}
+                    disabled={!user.typeChangeable || notRegistered}
                     required
                   >
                     <option value="">Select user type</option>
@@ -140,6 +275,7 @@ const MsoUserInfoForm = (props) => {
                   inputPlaceholder="First Name"
                   fieldChange={handleUserFieldChange}
                   index={index}
+                  disabled={notRegistered}
                   required
                 />
               </div>
@@ -153,6 +289,7 @@ const MsoUserInfoForm = (props) => {
                   inputPlaceholder="Last Name"
                   fieldChange={handleUserFieldChange}
                   index={index}
+                  disabled={notRegistered}
                   required
                 />
               </div>
@@ -166,6 +303,7 @@ const MsoUserInfoForm = (props) => {
                   inputPlaceholder="Aadhar or passport"
                   fieldChange={handleUserFieldChange}
                   index={index}
+                  disabled={notRegistered}
                   required
                 />
               </div>
@@ -183,18 +321,9 @@ const MsoUserInfoForm = (props) => {
               setChange={setDob}
               inputPlaceholder="Date of Birth"
               max={new Date().toLocaleDateString('en-ca')}
+              disabled={notRegistered}
               required
               noPenIcon
-            />
-          </div>
-          <div className="lg:col-span-3 col-span-12">
-            <FormInput
-              type="email"
-              title="Email"
-              inputValue={email}
-              setChange={setEmail}
-              inputPlaceholder="Email"
-              required
             />
           </div>
           <div className="lg:col-span-3 col-span-12">
@@ -203,7 +332,21 @@ const MsoUserInfoForm = (props) => {
               inputValue={country}
               setChange={setCountry}
               inputPlaceholder="Country where based"
+              disabled={notRegistered}
               required
+              isDropdown
+              dropdownOptions={initial(countries)}
+            />
+          </div>
+          <div className="lg:col-span-3 col-span-12">
+            <FormInput
+              type="email"
+              title="Email"
+              inputValue={userEmail && !notRegistered ? userEmail : email}
+              setChange={setEmail}
+              inputPlaceholder="Email"
+              required
+              disabled
             />
           </div>
         </div>

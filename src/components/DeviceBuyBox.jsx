@@ -20,6 +20,8 @@ const DeviceBuyBox = (props) => {
   const { is_verified } = useSelector((state) => state.auth);
   const { deviceDetails, devicePlanDetails, loader } = coverListData || {};
 
+  const { setIsModalOpen } = props;
+
   const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
   const [brand, setBrand] = useState('');
   const [value, setValue] = useState('');
@@ -81,7 +83,11 @@ const DeviceBuyBox = (props) => {
       dispatch(setRegisterModalVisible(true));
       return;
     }
-    alert('Buy Now button clicked');
+    const handleSubmit = (e) => {
+      if (e) e.preventDefault();
+      setIsModalOpen(false);
+      toast.success('Policy bought successfully');
+    };
   };
 
   return (

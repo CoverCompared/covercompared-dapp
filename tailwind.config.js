@@ -85,6 +85,7 @@ module.exports = {
         'discount-bg': '#DEFBED',
         'discount-text': '#1BA65D',
         'promo-input-bg': '#F6F8F8',
+        'promo-input-disabled-bg': '#E8E8E8',
         'discount-apply-btn-bg': '#D1D1D1',
         'discount-apply-btn-text': '#7C7C7C',
         'empty-star': '#C4C4C4',

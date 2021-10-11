@@ -40,8 +40,8 @@ const Sidebar = (props) => {
   const { is_verified } = useSelector((state) => state.auth);
 
   const handleLogin = () => {
-    dispatch(setLoginModalVisible(true));
-    dispatch(setRegisterModalVisible(true));
+    if (!account) dispatch(setLoginModalVisible(true));
+    if (!is_verified) dispatch(setRegisterModalVisible(true));
   };
 
   return (
@@ -68,7 +68,7 @@ const Sidebar = (props) => {
                       type="button"
                       key={uniqid()}
                       onClick={() =>
-                        item.authProtected && !account && !is_verified
+                        item.authProtected && (!account || !is_verified)
                           ? handleLogin()
                           : history.push(item.to)
                       }

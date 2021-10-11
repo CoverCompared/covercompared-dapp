@@ -26,11 +26,8 @@ const DeviceBuyBox = (props) => {
   const [brand, setBrand] = useState('');
   const [value, setValue] = useState('');
   const [purchaseMonth, setPurchaseMonth] = useState('');
-  const [quoteField, setQuoteField] = useState('');
-  const [quoteSelect, setQuoteSelect] = useState(amountOptions[0]);
-  const [devicePlans, setDevicePlans] = useState('');
-  const [monthlyPrice, setMonthlyPrice] = useState('');
-  const [yearlyPrice, setYearlyPrice] = useState('');
+  const [devicePlansDetails, setDevicePlansDetails] = useState('');
+  const [plans, setPlans] = useState([]);
   const [planType, setPlanType] = useState('');
   const [planBenefits, setPlanBenefits] = useState([]);
 
@@ -67,18 +64,11 @@ const DeviceBuyBox = (props) => {
 
   useEffect(() => {
     if (devicePlanDetails) {
-      setDevicePlans(devicePlanDetails);
+      setDevicePlansDetails(devicePlanDetails);
       setPlanBenefits(devicePlanDetails.plan_benefit);
-
       const plansArr = devicePlanDetails.plan_price;
-      const monthlyObj = plansArr.filter((obj) => obj.plan_type === 'monthly');
-      const yearlyObj = plansArr.filter((obj) => obj.plan_type === 'yearly');
-
-      setMonthlyPrice(...monthlyObj);
-      setYearlyPrice(...yearlyObj);
-      console.log(...yearlyObj);
-      console.log(...monthlyObj);
-      setPlanType('yearly');
+      setPlans(plansArr);
+      setPlanType(plansArr[1]);
     }
   }, [devicePlanDetails]);
 
@@ -103,113 +93,120 @@ const DeviceBuyBox = (props) => {
   return (
     <>
       <form onSubmit={() => {}}>
-        <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
+        <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
           1- Select Device Details
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-3">
-          <SelectWithSearch
-            {...props}
-            showColumnLayout
-            fieldTitle="Device"
-            selectedOption={deviceType}
-            setSelectedOption={setDeviceType}
-            dropdownOptions={deviceOptions}
-            showSearchOption="true"
-          />
-          <SelectWithSearch
-            {...props}
-            showColumnLayout
-            fieldTitle="Brand"
-            selectedOption={brand}
-            setSelectedOption={setBrand}
-            dropdownOptions={deviceDetails?.brand || []}
-            showSearchOption="true"
-          />
-          <SelectWithSearch
-            {...props}
-            showColumnLayout
-            fieldTitle="Value"
-            selectedOption={value}
-            setSelectedOption={setValue}
-            dropdownOptions={deviceDetails?.device_values || {}}
-            showSearchOption="true"
-          />
-          <SelectWithSearch
-            {...props}
-            showColumnLayout
-            fieldTitle="Purchase Month"
-            selectedOption={purchaseMonth}
-            setSelectedOption={setPurchaseMonth}
-            dropdownOptions={deviceDetails?.purchase_month || []}
-            showSearchOption="true"
-          />
+          <div className="col-span-2 md:col-span-1">
+            <SelectWithSearch
+              {...props}
+              showColumnLayout
+              fieldTitle="Device"
+              selectedOption={deviceType}
+              setSelectedOption={setDeviceType}
+              dropdownOptions={deviceOptions}
+              showSearchOption="true"
+            />
+          </div>
+          <div className="col-span-2 md:col-span-1">
+            <SelectWithSearch
+              {...props}
+              showColumnLayout
+              fieldTitle="Brand"
+              selectedOption={brand}
+              setSelectedOption={setBrand}
+              dropdownOptions={deviceDetails?.brand || []}
+              showSearchOption="true"
+            />
+          </div>
+          <div className="col-span-2 md:col-span-1">
+            <SelectWithSearch
+              {...props}
+              showColumnLayout
+              fieldTitle="Value"
+              selectedOption={value}
+              setSelectedOption={setValue}
+              dropdownOptions={deviceDetails?.device_values || {}}
+              showSearchOption="true"
+            />
+          </div>
+          <div className="col-span-2 md:col-span-1">
+            <SelectWithSearch
+              {...props}
+              showColumnLayout
+              fieldTitle="Purchase Month"
+              selectedOption={purchaseMonth}
+              setSelectedOption={setPurchaseMonth}
+              dropdownOptions={deviceDetails?.purchase_month || []}
+              showSearchOption="true"
+            />
+          </div>
         </div>
 
         <div className="my-6">
-          <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+          <div className="grid grid-cols-2 md:gap-y-3 gap-y-2 gap-x-4">
             {planBenefits.map((point) => (
               <div
                 key={uniqid()}
-                className="font-semibold font-Montserrat text-body-sm text-dark-blue flex"
+                className="font-semibold font-Montserrat md:text-body-sm text-body-xs text-dark-blue flex col-span-2 md:col-span-1 text-left"
               >
-                <img src={CheckIcon} alt="" className="h-4 mr-2 mt-1" /> <div>{point}</div>
+                <img src={CheckIcon} alt="" className="md:h-4 md:w-4 h-3 w-3 mr-2 mt-1" />{' '}
+                <div>{point}</div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="mt-4 font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
+        <div className="mt-4 font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
           2- Select Plan
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-3">
-          <label>
-            <input
-              id="sample"
-              name="sample"
-              type="radio"
-              className="hidden"
-              value="monthly"
-              onClick={() => setPlanType('monthly')}
-            />
-            <div
-              className={classNames(
-                planType === 'monthly'
-                  ? 'border-2 border-primary-gd-1 dark:border-white'
-                  : 'border border-gray-300',
-                'bg-white dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full py-3 px-2 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
-              )}
-            >
-              {'Monthly'}{' '}
-              <div className="mt-1 text-dark-blue text-body-md dark:text-white">
-                {monthlyPrice
-                  ? `${monthlyPrice.plan_total_price} ${monthlyPrice.plan_currency}`
-                  : '-'}
+          {plans.map((planObj) => (
+            <label key={uniqid()}>
+              <input
+                id="sample"
+                name="sample"
+                type="radio"
+                className="hidden"
+                value="monthly"
+                onClick={() => setPlanType(planObj)}
+              />
+              <div
+                className={classNames(
+                  planType === planObj
+                    ? 'border-2 border-primary-gd-1 dark:border-white'
+                    : 'border-2 border-gray-300',
+                  'bg-white relative dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full md:py-3 md:px-2 py-2 px-1 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
+                )}
+              >
+                {planObj.plan_discount > 0 ? (
+                  <div className="absolute h-full md:w-14 w-7 top-0 left-0 bg-primary-gd-1 rounded-l-xl flex justify-center items-center font-Montserrat md:text-body-md text-body-2xs text-white p-2">
+                    {planObj.plan_discount}% off
+                  </div>
+                ) : (
+                  ''
+                )}
+                <div
+                  className={classNames(
+                    planObj.plan_discount > 0 ? 'pl-5 text-body-2xs' : 'text-body-xs',
+                    'text-dark-blue md:text-body-md dark:text-white',
+                  )}
+                >
+                  <div className="text-center mb-1">{planObj.plan_type}</div>
+                  {planObj.plan_actual_price > planObj.plan_total_price ? (
+                    <div>
+                      {planObj.plan_currency} {planObj.plan_total_price}{' '}
+                      <del>({planObj.plan_actual_price})</del>
+                    </div>
+                  ) : (
+                    <div>
+                      {planObj.plan_currency} {planObj.plan_total_price}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </label>
-          <label>
-            <input
-              id="sample"
-              name="sample"
-              type="radio"
-              className="hidden"
-              value="yearly"
-              onClick={() => setPlanType('yearly')}
-            />
-            <div
-              className={classNames(
-                planType === 'yearly'
-                  ? 'border-2 border-primary-gd-1 dark:border-white'
-                  : 'border border-gray-300',
-                'bg-white dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full py-3 px-2 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
-              )}
-            >
-              {'Yearly'}{' '}
-              <div className="mt-1 text-dark-blue text-body-md dark:text-white">
-                {yearlyPrice ? `${yearlyPrice.plan_total_price} ${yearlyPrice.plan_currency}` : '-'}
-              </div>
-            </div>
-          </label>
+            </label>
+          ))}
         </div>
       </form>
 
@@ -218,7 +215,7 @@ const DeviceBuyBox = (props) => {
           type="button"
           // disabled={!planType}
           onClick={handleBuyNow}
-          className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+          className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
         >
           Buy Now
         </button>

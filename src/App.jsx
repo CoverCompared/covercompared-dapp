@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import uniqid from 'uniqid';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import BigNumber from 'bignumber.js';
 import useEagerConnect from './hooks/useEagerConnect';
 import routes from './routes';
 import SVGGradients from './components/common/SVGGradients';
@@ -10,6 +11,11 @@ import PreRenderedModals from './components/PreRenderedModals';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+
+BigNumber.config({
+  EXPONENTIAL_AT: 1000,
+  DECIMAL_PLACES: 80,
+});
 
 const App = (props) => {
   useEagerConnect();

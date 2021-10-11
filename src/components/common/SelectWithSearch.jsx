@@ -75,7 +75,7 @@ const SelectWithSearch = ({
         )}
         ref={optionRef}
       >
-        <div className="text-dark-blue font-Montserrat font-semibold text-body-xs dark:text-white">
+        <div className="text-dark-blue font-Montserrat font-semibold text-body-xs dark:text-white text-left">
           {fieldTitle}
         </div>
         <div className="flex-col flex items-end">
@@ -168,7 +168,7 @@ const SelectWithSearch = ({
                         setSelectedOption(getKeyByValue(dropdownOptions, option));
                         setIsOpen(false);
                       }}
-                      className="md:py-2 py-1 px-4 text-dark-blue dark:text-white dark:hover:text-dark-blue font-semibold md:text-body-md font-Montserrat hover:bg-login-button-bg cursor-pointer"
+                      className="md:py-2 py-1 px-4 text-dark-blue dark:text-white dark:hover:text-dark-blue font-semibold md:text-body-md text-body-sm font-Montserrat hover:bg-login-button-bg cursor-pointer text-left"
                     >
                       {option}
                     </div>
@@ -209,7 +209,7 @@ const SelectWithSearch = ({
                         setSelectedOption(option);
                         setIsOpen(false);
                       }}
-                      className="md:py-2 py-1 px-4 text-dark-blue dark:text-white dark:hover:text-dark-blue font-semibold md:text-body-md font-Montserrat hover:bg-login-button-bg cursor-pointer"
+                      className="md:py-2 py-1 px-4 text-dark-blue dark:text-white dark:hover:text-dark-blue font-semibold md:text-body-md text-body-sm font-Montserrat hover:bg-login-button-bg cursor-pointer text-left"
                     >
                       {option !== 'CVR' ? (
                         option

@@ -5,10 +5,11 @@ import { useWeb3React } from '@web3-react/core';
 import { toast } from 'react-toastify';
 import { setCurrentProduct } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
-import Loading from './Loading';
 import BuyIcon from '../../assets/icons/buy.svg';
 import ToolTip from './ToolTip';
 import { setLoginModalVisible } from '../../redux/actions';
+
+import Placeholder from '../../assets/img/placeholder.png';
 
 const SmallPackageCard = (props) => {
   const history = useHistory();
@@ -52,8 +53,8 @@ const SmallPackageCard = (props) => {
       <DiscountCard discountPercentage={discount} />
       <div className="flex md:justify-between items-center md:h-full">
         <div className="md:w-16 md:h-16 h-9 w-9 md:rounded-xl rounded-md relative shadow-2xl p-1 bg-white">
-          <img src={logo} className="h-full w-full rounded-xl" alt={name} />
-          <img src={company_icon} className="absolute right-1 bottom-1 h-3" alt="" />
+          <img src={logo || Placeholder} className="h-full w-full rounded-xl" alt={name} />
+          <img src={company_icon || Placeholder} className="absolute right-1 bottom-1 h-3" alt="" />
         </div>
         <div className="md:ml-4 ml-2">
           <div
@@ -74,52 +75,14 @@ const SmallPackageCard = (props) => {
         </div>
       </div>
       <div className="h-full flex items-center">
-        <div className="col-span-6 mr-3 font-Montserrat text-body-lg font-semibold text-dark-blue dark:text-white group-hover:text-white">
-          {quote !== undefined ? (
-            quote ? (
-              <div>
-                Start From <br />
-                {quote.toFixed(4)}
-              </div>
-            ) : (
-              '---'
-            )
-          ) : (
-            <Loading heightClass="h-4" widthClass="w-4" />
-          )}
-        </div>
         <button
           type="button"
           onClick={handleBuyNow}
           className="h-10 w-10 rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2"
         >
-          {quote !== undefined ? (
-            quote ? (
-              <img src={BuyIcon} alt="cart" className="w-6 h-6" />
-            ) : (
-              <img src={BuyIcon} alt="cart" className="w-6 h-6" />
-            )
-          ) : (
-            <Loading heightClass="h-4" widthClass="w-4" />
-          )}
+          <img src={BuyIcon} alt="cart" className="w-6 h-6" />
         </button>
       </div>
-      <button
-        type="button"
-        onClick={handleBuyNow}
-        className="md:hidden py-1.5 mt-4 w-full rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2 font-semibold text-body-xs"
-      >
-        Start From <br />{' '}
-        {quote !== undefined ? (
-          quote ? (
-            quote.toFixed(4)
-          ) : (
-            '---'
-          )
-        ) : (
-          <Loading heightClass="h-4" widthClass="w-4" />
-        )}
-      </button>
     </div>
   );
 };

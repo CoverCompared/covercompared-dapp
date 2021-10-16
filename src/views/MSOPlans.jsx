@@ -1,17 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { debounce } from 'lodash';
 import uniqid from 'uniqid';
 
 import MSOPlanCard from '../components/MSOPlanCard';
 import Loading from '../components/common/Loading';
 import MSOServicesCard from '../components/MSOServicesCard';
 import { searchMSOList } from '../redux/actions/CoverList';
-import PackageCard from '../components/common/PackageCard';
-import { ThemeContext } from '../themeContext';
-import ToolTip from '../components/common/ToolTip';
 import Modal from '../components/common/Modal';
+import MsoEligibilityChecker from '../components/common/MsoEligibilityChecker';
 
 import MSOpartner1 from '../assets/img/mso-partners-1.jpg';
 import MSOpartner2 from '../assets/img/mso-partners-2.jpg';
@@ -59,47 +55,50 @@ const MSOServices = [
 const MSOPartners = [
   {
     img: MSOpartner1,
-    alt: 'Partner',
+    alt: 'Partner1',
   },
   {
     img: MSOpartner2,
-    alt: 'Partner',
+    alt: 'Partner2',
   },
   {
     img: MSOpartner3,
-    alt: 'Partner',
+    alt: 'Partner3',
   },
   {
     img: MSOpartner4,
-    alt: 'Partner',
+    alt: 'Partner4',
   },
   {
     img: MSOpartner5,
-    alt: 'Partner',
+    alt: 'Partner5',
   },
   {
     img: MSOpartner6,
-    alt: 'Partner',
+    alt: 'Partner6',
   },
   {
     img: MSOpartner7,
-    alt: 'Partner',
+    alt: 'Partner7',
   },
   {
     img: MSOpartner8,
-    alt: 'Partner',
+    alt: 'Partner8',
   },
   {
     img: MSOpartner9,
-    alt: 'Partner',
+    alt: 'Partner9',
   },
 ];
 
 const MSOPlans = (props) => {
+  const dispatch = useDispatch();
   const coverListData = useSelector((state) => state.coverList);
   const { loader, coverList, query, message, isFailed, page, totalPages } = coverListData;
+
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isEligible, setIsEligible] = useState(false);
   const [products, setProducts] = useState(coverList);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(searchMSOList());
@@ -126,19 +125,33 @@ const MSOPlans = (props) => {
     }
     if (products?.length) {
       return (
-        <div className="grid grid-cols-12 lg:grid-cols-12 xl:grid-col-12 gap-y-4 gap-x-5 md:gap-4 lg:gap-x-6 lg:gap-y-4 ">
-          {products.map((obj) => (
-            <MSOPlanCard key={uniqid()} {...obj} {...props} />
-          ))}
-        </div>
+        <>
+          <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
+            Plans
+          </h2>
+          <div className="grid grid-cols-12 lg:grid-cols-12 xl:grid-col-12 gap-y-4 gap-x-5 md:gap-4 lg:gap-x-6 lg:gap-y-4 mt-8">
+            {products.map((obj) => (
+              <MSOPlanCard key={uniqid()} {...{ ...obj, isEligible }} {...props} />
+            ))}
+          </div>
+        </>
       );
     }
 
-    return <></>;
+    return null;
   };
 
   return (
     <>
+      <Modal
+        isOpen={isModalOpen}
+        title="Country of Residence"
+        sizeClass="max-w-2xl"
+        renderComponent={MsoEligibilityChecker}
+        onClose={() => setIsModalOpen(false)}
+        bgImg="bg-loginPopupBg"
+        {...{ setIsEligible }}
+      />
       <div className="xl:px-48 sm:px-8">
         <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Cover Compares has partnered with{' '}
@@ -157,8 +170,6 @@ const MSOPlans = (props) => {
           The tie up is with the institutions and not individual doctors.
         </div>
       </div>
-
-      <div className="xl:px-36 lg:px-28 md:mt-16 mt-12">{renderCards()}</div>
 
       <div className="xl:px-36 lg:px-28 md:my-20 my-12">
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
@@ -184,6 +195,20 @@ const MSOPlans = (props) => {
           ))}
         </div>
       </div>
+
+      {!isEligible && (
+        <div className="flex justify-center items-center mt-8">
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 focus:outline-none focus:ring-0"
+          >
+            Check Eligibility
+          </button>
+        </div>
+      )}
+
+      <div className="xl:px-36 lg:px-28 mt-8">{renderCards()}</div>
     </>
   );
 };

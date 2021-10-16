@@ -15,7 +15,6 @@ const FormInput = ({
   isDropdown,
   dropdownOptions,
 }) => {
-  console.log('inputValue :>> ', inputValue);
   return (
     <div
       className={classNames(

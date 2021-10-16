@@ -109,7 +109,10 @@ const Modal = (props) => {
                         {title ?? 'Dialog'}
                       </Dialog.Title>
                       <div className="mt-2">
-                        <C {...props} {...{ isModalOpen, setIsModalOpen, setMaxWidth, setTitle }} />
+                        <C
+                          {...props}
+                          {...{ isModalOpen, setIsModalOpen, onClose, setMaxWidth, setTitle }}
+                        />
                       </div>
                     </div>
                   </div>

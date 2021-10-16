@@ -17,6 +17,7 @@ const MSOPlanCard = (props) => {
   const { account } = useWeb3React();
 
   const {
+    isEligible,
     InsurancePlanType,
     MSOPlanDuration,
     name,
@@ -139,6 +140,7 @@ const MSOPlanCard = (props) => {
           </label>
           <Modal
             title="Policy Details"
+            sizeClass="max-w-3xl"
             bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
             renderComponent={MSOAdditionalDetails}
             {...{
@@ -160,8 +162,8 @@ const MSOPlanCard = (props) => {
           </Modal>
 
           <Modal
-            title="Country of Residence"
-            sizeClass="max-w-2xl"
+            title="Members Information Form"
+            sizeClass="max-w-6xl"
             renderComponent={CountrySelector}
             bgImg="bg-loginPopupBg"
             {...{ selectedPlan }}
@@ -169,7 +171,8 @@ const MSOPlanCard = (props) => {
             <div className="flex justify-center pt-2">
               <button
                 type="button"
-                className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2"
+                disabled={!isEligible}
+                className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2  focus:outline-none focus:ring-0 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
               >
                 Buy Now
               </button>

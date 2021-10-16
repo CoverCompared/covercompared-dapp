@@ -111,17 +111,6 @@ const DetailSearch = (props) => {
         </InfiniteScroll>
       );
     }
-    if (card === 'mso') {
-      return !changeView ? (
-        products.map((obj) => <MSOPackageCard key={uniqid()} {...obj} {...props} />)
-      ) : (
-        <div className="grid grid-cols-12 lg:grid-cols-12 xl:grid-col-12 gap-y-4 gap-x-5 md:gap-4 lg:gap-x-6 lg:gap-y-4 ">
-          {products.map((obj) => (
-            <MSOSmallPackageCard key={uniqid()} {...obj} {...props} />
-          ))}
-        </div>
-      );
-    }
 
     return <></>;
   };

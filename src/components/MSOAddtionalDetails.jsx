@@ -20,7 +20,7 @@ const MSOAdditionalDetails = (props) => {
               {name}
             </div>
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mt-6 mb-2 dark:text-white text-left">
-              Description :
+              Description
             </div>
             <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
               <div>{MSOCoverUser}</div>
@@ -31,9 +31,9 @@ const MSOAdditionalDetails = (props) => {
           </div>
         </div>
         <div className="grid grid-cols-12 md:mt-12 mt-6">
-          <div className="lg:col-span-7 md:col-span-10 col-span-12">
+          <div className="lg:col-span-12 md:col-span-12 col-span-12">
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mb-2 dark:text-white text-left">
-              Additional Details :
+              Additional Details
             </div>
             <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
               <div>
@@ -41,8 +41,8 @@ const MSOAdditionalDetails = (props) => {
                 class hospitals as per the list given earlier. (40 hospitals).
               </div>
               <div>Covering all major illnesses including critical illnesses</div>
-              <div className="font-Montserrat font-medium text-body-sm text-dark-blue dark:text-white mb-2 mt-3">
-                Features:
+              <div className="font-Montserrat font-semibold text-body-md text-dark-blue dark:text-white mb-2 mt-3">
+                Features
               </div>
               <ul className="list-disc pl-6">
                 <li>{MSOCoverUser}</li>
@@ -52,13 +52,13 @@ const MSOAdditionalDetails = (props) => {
                 <li>8 weeks cooling period from the day of confirmation of order</li>
                 <li>Turn around time – 10 days from receipt of medical records</li>
               </ul>
-              <div className="font-Montserrat font-medium text-body-sm text-dark-blue dark:text-white mb-2 mt-4">
+              <div className="font-Montserrat font-semibold text-body-md text-dark-blue dark:text-white mb-2 mt-4">
                 Features EHR (from wishing well)
               </div>
               <ul className="list-disc pl-6">
                 <li>EHR with mobile app for entire family</li>
               </ul>
-              <div className="font-Montserrat font-medium text-body-sm text-dark-blue dark:text-white mb-2 mt-4">
+              <div className="font-Montserrat font-semibold text-body-md text-dark-blue dark:text-white mb-2 mt-4">
                 Modalities of service
               </div>
               <ul className="list-disc pl-6">
@@ -69,9 +69,11 @@ const MSOAdditionalDetails = (props) => {
           </div>
         </div>
         <div className="grid grid-cols-12 mt-6">
-          <div className="lg:col-span-7 md:col-span-10 col-span-12">
+          <div className="lg:col-span-12 md:col-span-12 col-span-12">
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mb-2 dark:text-white text-left">
-              Term & Condition :
+              <a className="underline" href="https://google.com" target="_blank" rel="noreferrer">
+                Term & Condition
+              </a>
             </div>
             <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat

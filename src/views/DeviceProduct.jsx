@@ -36,17 +36,6 @@ import Ifix from '../assets/partners/p4l-partners/Ifix.png';
 import TechBayt from '../assets/partners/p4l-partners/techbayt_logo.png';
 
 import P4LLogo from '../assets/img/p4l-logo.png';
-// import StarRatings from 'react-star-ratings';
-// import { useSelector } from 'react-redux';
-// import DeviceBuyBox from '../components/DeviceBuyBox';
-// import IdeaCard from '../assets/img/idea-icon.svg';
-// import Filter from '../assets/img/Filter.svg';
-// import FilterWhite from '../assets/dark-icons/Filter.svg';
-// import ProductBgDots from '../assets/bg-img/product-bg-dots.svg';
-
-const countries = ['AE', 'QA', 'OM', 'KW', 'US', 'BH', 'SA'];
-
-const filterOption = ['High to low', 'Low to high', 'Other'];
 
 const Backers = [
   {
@@ -60,45 +49,6 @@ const Backers = [
   {
     image: SwissRe,
     alt: 'SwissRe',
-  },
-];
-
-const partners = [
-  {
-    image: Axiom,
-    alt: 'Axiom',
-  },
-  {
-    image: BatArabiya,
-    alt: 'BatArabiya',
-  },
-  {
-    image: Comtel,
-    alt: 'Comtel',
-  },
-  {
-    image: Ensure,
-    alt: 'Ensure',
-  },
-  {
-    image: Fixsquad,
-    alt: 'Fixsquad',
-  },
-  {
-    image: FPPRLogo,
-    alt: 'FPPRLogo',
-  },
-  {
-    image: HarmanHouse,
-    alt: 'HarmanHouse',
-  },
-  {
-    image: Ifix,
-    alt: 'Ifix',
-  },
-  {
-    image: TechBayt,
-    alt: 'TechBayt',
   },
 ];
 
@@ -449,23 +399,6 @@ const InsuranceProduct = (props) => {
               <img className="w-full rounded-xl" src={image} alt={alt} />
             </div>
           ))}
-        </div>
-
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
-          Wide Network Of Service Partners
-        </h2>
-
-        <div className="flex justify-center items-center md:mt-10 mt-8">
-          <div className="text-center">
-            {partners.map(({ image, alt }) => (
-              <div
-                key={uniqid()}
-                className="animation-wrapper md:w-40 w-20 inline-flex justify-content-center md:mx-4 mx-1 md:my-3 my-1 rounded-xl bg-white shadow-md"
-              >
-                <img className="w-full rounded-xl" src={image} alt={alt} />
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 

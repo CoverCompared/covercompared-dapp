@@ -5,9 +5,9 @@ import { useWeb3React } from '@web3-react/core';
 import { toast } from 'react-toastify';
 import { setCurrentProduct } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
-import Loading from './Loading';
 import ToolTip from './ToolTip';
 import { setLoginModalVisible } from '../../redux/actions';
+import Placeholder from '../../assets/img/placeholder.png';
 
 const PackageCard = (props) => {
   const dispatch = useDispatch();
@@ -52,8 +52,16 @@ const PackageCard = (props) => {
           <DiscountCard discountPercentage={discount} />
           <div className="col-span-7 md:col-span-5 flex items-center h-full w-full">
             <div className="md:w-20 md:h-20 w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white">
-              <img src={logo} className="h-full w-full rounded-xl bg-fixed" alt={name} />
-              <img src={company_icon} className="absolute right-1 bottom-1 max-h-5" alt="" />
+              <img
+                src={logo || Placeholder}
+                className="h-full w-full rounded-xl bg-fixed"
+                alt={name}
+              />
+              <img
+                src={company_icon || Placeholder}
+                className="absolute right-1 bottom-1 max-h-5"
+                alt=""
+              />
             </div>
             <div className="md:ml-6 md:mr-5 mr-1 ml-3">
               <div
@@ -80,26 +88,20 @@ const PackageCard = (props) => {
           </div>
           <div className="col-span-0 md:col-span-4 md:flex items-center hidden">
             <div className="grid grid-cols-12 gap-x-0 w-full">
-              <div className="col-span-6 font-Montserrat text-h6 font-semibold text-dark-blue dark:text-white group-hover:text-white">
-                <div className=" mr-5 my-4 md:my-0">{duration_days_min} days</div>
-                <div className="mr-5 my-4 md:my-0">
-                  {min_eth} {quote_currency}
+              <div className="col-span-6 mr-16 md:block hidden">
+                <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
+                  Amount
+                </div>
+                <div className="font-Montserrat text-h6 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
+                  {min_eth}
                 </div>
               </div>
               <div className="col-span-6 mr-16 md:block hidden">
                 <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
-                  Start From
+                  Duration
                 </div>
-                <div className="font-Montserrat text-h4 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
-                  {quote !== undefined && quote !== '' ? (
-                    quote ? (
-                      parseFloat(quote).toFixed(4)
-                    ) : (
-                      '---'
-                    )
-                  ) : (
-                    <Loading heightClass="h-4" widthClass="w-4" />
-                  )}
+                <div className="font-Montserrat text-h6 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
+                  {duration_days_min} days
                 </div>
               </div>
             </div>
@@ -108,28 +110,9 @@ const PackageCard = (props) => {
             <button
               type="button"
               onClick={handleBuyNow}
-              className="ml-3 font-Montserrat disabled:opacity-50 md:inline-flex items-center md:px-5 md:py-4 py-1.5 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
+              className="ml-3 font-Montserrat disabled:opacity-50 md:inline-flex items-center md:px-5 md:py-4 py-3 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
             >
-              <div>
-                {quote !== undefined && quote !== '' ? (
-                  'Buy Now'
-                ) : (
-                  <div className="hidden md:block">
-                    <Loading heightClass="h-4" widthClass="w-4" />
-                  </div>
-                )}
-              </div>
-              <div className="mt-1 md:hidden">
-                {quote !== undefined ? (
-                  quote ? (
-                    parseFloat(quote).toFixed(4)
-                  ) : (
-                    '---'
-                  )
-                ) : (
-                  <Loading heightClass="h-4" widthClass="w-4" />
-                )}
-              </div>
+              <div>Buy Now</div>
             </button>
           </div>
         </div>

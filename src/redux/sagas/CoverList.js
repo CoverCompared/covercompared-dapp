@@ -50,7 +50,7 @@ function* searchAllCoverList({ payload }) {
     const coverList = yield call(axiosGet, url);
 
     if (coverList?.data?.data) {
-      yield put(
+      return yield put(
         searchCoverListSuccess({
           query: payload,
           coverList: coverList.data.data,
@@ -58,16 +58,16 @@ function* searchAllCoverList({ payload }) {
       );
     }
 
-    const urlWithAmount = `${API_BASE_URL}/cover-list${payload ? `${payload}&` : '?'}get_quote=1`;
-    const coverListWithAmount = yield call(axiosGet, urlWithAmount);
+    // const urlWithAmount = `${API_BASE_URL}/cover-list${payload ? `${payload}&` : '?'}get_quote=1`;
+    // const coverListWithAmount = yield call(axiosGet, urlWithAmount);
 
-    if (coverListWithAmount?.data?.data) {
-      return yield put(
-        fetchCoversWithAmountSuccess({
-          coverList: coverListWithAmount.data.data,
-        }),
-      );
-    }
+    // if (coverListWithAmount?.data?.data) {
+    //   return yield put(
+    //     fetchCoversWithAmountSuccess({
+    //       coverList: coverListWithAmount.data.data,
+    //     }),
+    //   );
+    // }
 
     return yield put(
       setSearchCoverListLoader({
@@ -145,23 +145,23 @@ function* fetchMoreCoverLists({ payload }) {
     const coverList = yield call(axiosGet, url);
 
     if (coverList?.data?.data) {
-      yield put(
+      return yield put(
         fetchMoreCoversSuccess({
           coverList: coverList.data.data,
         }),
       );
     }
 
-    const urlWithAmount = `${API_BASE_URL}/cover-list${payload ? `${payload}&` : '?'}get_quote=1`;
-    const coverListWithAmount = yield call(axiosGet, urlWithAmount);
+    // const urlWithAmount = `${API_BASE_URL}/cover-list${payload ? `${payload}&` : '?'}get_quote=1`;
+    // const coverListWithAmount = yield call(axiosGet, urlWithAmount);
 
-    if (coverListWithAmount?.data?.data) {
-      return yield put(
-        fetchCoversWithAmountSuccess({
-          coverList: coverListWithAmount.data.data,
-        }),
-      );
-    }
+    // if (coverListWithAmount?.data?.data) {
+    //   return yield put(
+    //     fetchCoversWithAmountSuccess({
+    //       coverList: coverListWithAmount.data.data,
+    //     }),
+    //   );
+    // }
 
     return yield put(
       setFetchMoreCoversLoader({

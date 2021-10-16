@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { initial } from 'lodash';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/solid';
 
 import CheckoutFormInput from './common/CheckoutFormInput';
-import { classNames } from '../functions/utils';
 import FormInput from './FormInput';
 import { setProfileDetails, resendVerificationEmail, verifyOTP } from '../redux/actions/Auth';
 import Alert from './common/Alert';
@@ -21,8 +19,8 @@ const MsoUserInfoForm = (props) => {
     mainMemberParents,
     spouseParents,
     totalUsers,
-    setIsModalOpen,
     countries,
+    handleBuyNow,
   } = props;
   const dispatch = useDispatch();
 
@@ -30,6 +28,8 @@ const MsoUserInfoForm = (props) => {
     userType: '',
     firstName: '',
     lastName: '',
+    country: '',
+    dob: '',
     identity: '',
     typeChangeable: true,
   };
@@ -38,7 +38,7 @@ const MsoUserInfoForm = (props) => {
   const { showOTPScreen, showVerified, is_verified, loader, isFailed } = authState;
   const notRegistered = !is_verified;
   const [users, setUsers] = useState([
-    { ...userObject, userType: 'Main Member', typeChangeable: false },
+    { ...userObject, userType: 'Main Member', typeChangeable: true },
   ]);
 
   const [showAlert, setShowAlert] = useState(false);
@@ -120,8 +120,7 @@ const MsoUserInfoForm = (props) => {
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
-    setIsModalOpen(false);
-    toast.success('Policy bought successfully');
+    handleBuyNow(users);
   };
 
   const handleSubmitEmail = (e) => {
@@ -137,12 +136,12 @@ const MsoUserInfoForm = (props) => {
 
   return (
     <>
-      {!!showAlert && (
+      {showAlert && (
         <div className="mb-4">
           <Alert type={alertType} text={alertText} onClose={() => setShowAlert(false)} />
         </div>
       )}
-      {(userEmail || notRegistered) && (
+      {notRegistered && (
         <>
           <div className="mb-4 flex justify-between items-center">
             <h5 className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-body-md dark:text-white text-left">
@@ -190,17 +189,10 @@ const MsoUserInfoForm = (props) => {
             </form>
 
             <div className="lg:col-span-2 col-span-12">
-              {notRegistered ? (
-                <div className="flex items-center mt-4">
-                  <XCircleIcon className="w-6 h-6 text-red-500" />
-                  <div className="pl-1 text-h5">Un-Verified</div>
-                </div>
-              ) : (
-                <div className="flex items-center mt-4">
-                  <CheckCircleIcon className="w-6 h-6 text-green-500" />
-                  <div className="pl-1 text-h5">Verified</div>
-                </div>
-              )}
+              <div className="flex items-center mt-4">
+                <XCircleIcon className="w-6 h-6 text-red-500" />
+                <div className="pl-1 text-h5">Un-Verified</div>
+              </div>
             </div>
           </div>
         </>
@@ -231,41 +223,37 @@ const MsoUserInfoForm = (props) => {
       </div>
 
       <form id="msp-checkout-form" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-12 gap-4 w-full mb-8">
+        <div className="w-full border border-black mb-8">
+          <div className="grid grid-cols-12 w-full text-center bg-gray-200">
+            <div className="lg:col-span-2 col-span-12 border border-black">User type</div>
+            <div className="lg:col-span-2 col-span-12 border border-black">First Name</div>
+            <div className="lg:col-span-2 col-span-12 border border-black">Last Name</div>
+            <div className="lg:col-span-2 col-span-12 border border-black">Country</div>
+            <div className="lg:col-span-2 col-span-12 border border-black">DOB</div>
+            <div className="lg:col-span-2 col-span-12 border border-black">Identity</div>
+          </div>
+
           {users.map((user, index) => (
-            <React.Fragment key={index}>
-              <div className="lg:col-span-3 col-span-12">
-                <div
-                  className={classNames(
-                    notRegistered ? 'bg-promo-input-disabled-bg' : 'bg-promo-input-bg',
-                    'py-2 px-3 w-full rounded-lg shadow-lg relative border border-light-gray-border',
-                  )}
-                >
-                  <div className="font-semibold text-body-sm text-dark-blue font-Montserrat text-left">
-                    Type of user
-                  </div>
-                  <select
-                    className={classNames(
-                      notRegistered ? 'text-gray-500' : 'text-black',
-                      'w-full border-0 outline-none bg-transparent placeholder-contact-input-dark-grey focus:outline-none focus:ring-0 p-0 font-Montserrat font-medium text-body-sm',
-                    )}
-                    name="userType"
-                    value={user.userType}
-                    placeholder="Type of user"
-                    onChange={(e) => handleUserFieldChange(index, e.target.name, e.target.value)}
-                    disabled={!user.typeChangeable || notRegistered}
-                    required
-                  >
-                    <option value="">Select user type</option>
-                    {userTypeOptions?.map((m, i) => (
-                      <option key={i} value={m}>
-                        {m}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+            <div key={index} className="grid grid-cols-12 w-full">
+              <div className="lg:col-span-2 col-span-12 border border-black">
+                <CheckoutFormInput
+                  title="Type of user"
+                  id="userType"
+                  name="userType"
+                  inputValue={user.userType}
+                  fieldChange={handleUserFieldChange}
+                  inputPlaceholder="Type of user"
+                  index={index}
+                  disabled={!user.typeChangeable || notRegistered}
+                  required
+                  isDropdown
+                  dropdownOptions={[
+                    { label: 'Select user type', value: '' },
+                    ...userTypeOptions.map((m) => ({ label: m, value: m })),
+                  ]}
+                />
               </div>
-              <div className="lg:col-span-3 col-span-12">
+              <div className="lg:col-span-2 col-span-12 border border-black">
                 <CheckoutFormInput
                   title="First Name"
                   type="text"
@@ -279,7 +267,7 @@ const MsoUserInfoForm = (props) => {
                   required
                 />
               </div>
-              <div className="lg:col-span-3 col-span-12">
+              <div className="lg:col-span-2 col-span-12 border border-black">
                 <CheckoutFormInput
                   title="Last Name"
                   type="text"
@@ -293,7 +281,37 @@ const MsoUserInfoForm = (props) => {
                   required
                 />
               </div>
-              <div className="lg:col-span-3 col-span-12">
+              <div className="lg:col-span-2 col-span-12 border border-black">
+                <CheckoutFormInput
+                  title="Country of residence"
+                  inputValue={user.country}
+                  id="country"
+                  name="country"
+                  fieldChange={handleUserFieldChange}
+                  inputPlaceholder="Country of residence"
+                  index={index}
+                  disabled={notRegistered}
+                  required
+                  isDropdown
+                  dropdownOptions={initial(countries)}
+                />
+              </div>
+              <div className="lg:col-span-2 col-span-12 border border-black">
+                <CheckoutFormInput
+                  type="date"
+                  title="Date of Birth"
+                  inputValue={user.dob}
+                  id="dob"
+                  name="dob"
+                  fieldChange={handleUserFieldChange}
+                  inputPlaceholder="Date of Birth"
+                  max={new Date().toLocaleDateString('en-ca')}
+                  index={index}
+                  disabled={notRegistered}
+                  required
+                />
+              </div>
+              <div className="lg:col-span-2 col-span-12 border border-black">
                 <CheckoutFormInput
                   title="Identity"
                   type="text"
@@ -307,52 +325,14 @@ const MsoUserInfoForm = (props) => {
                   required
                 />
               </div>
-            </React.Fragment>
+            </div>
           ))}
-
-          <h5 className="col-span-12 mt-5 font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-body-md dark:text-white text-left">
-            Personal Details
-          </h5>
-          <div className="col-span-12 lg:col-span-3">
-            <FormInput
-              type="date"
-              title="Date of Birth"
-              inputValue={dob}
-              setChange={setDob}
-              inputPlaceholder="Date of Birth"
-              max={new Date().toLocaleDateString('en-ca')}
-              disabled={notRegistered}
-              required
-              noPenIcon
-            />
-          </div>
-          <div className="lg:col-span-3 col-span-12">
-            <FormInput
-              title="Country where based"
-              inputValue={country}
-              setChange={setCountry}
-              inputPlaceholder="Country where based"
-              disabled={notRegistered}
-              required
-              isDropdown
-              dropdownOptions={initial(countries)}
-            />
-          </div>
-          <div className="lg:col-span-3 col-span-12">
-            <FormInput
-              type="email"
-              title="Email"
-              inputValue={userEmail && !notRegistered ? userEmail : email}
-              setChange={setEmail}
-              inputPlaceholder="Email"
-              required
-              disabled
-            />
-          </div>
         </div>
+
         <div className="flex justify-between items-center mt-8">
           <div>
             <input
+              required
               type="checkbox"
               name="saveDetails"
               className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
@@ -360,14 +340,18 @@ const MsoUserInfoForm = (props) => {
               onChange={() => setSaveDetails(!saveDetails)}
             />
             <span className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white">
-              Save for future purposes
+              I have read and agree to the{' '}
+              <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
+                privacy policy
+              </a>{' '}
+              *
             </span>
           </div>
           <button
             type="submit"
             className="py-3 px-8 ml-3 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
-            Buy
+            Buy Now
           </button>
         </div>
       </form>

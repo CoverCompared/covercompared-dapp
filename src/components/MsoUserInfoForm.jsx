@@ -94,19 +94,19 @@ const MsoUserInfoForm = (props) => {
     if (mainMember > 1) {
       setShowAlert(true);
       setAlertType('danger');
-      setAlertText('Main members cannot be more than 1');
+      setAlertText('Number of main members reach its maximum limit according to policy1');
       return false;
     }
     if (spouse > noOfSpouse) {
       setShowAlert(true);
       setAlertType('danger');
-      setAlertText(`Spouses cannot be more than ${noOfSpouse}`);
+      setAlertText(`Number of spouses reach its maximum limit according to policy`);
       return false;
     }
     if (dependent > noOfDependent) {
       setShowAlert(true);
       setAlertType('danger');
-      setAlertText(`Dependents cannot be more than ${noOfDependent}`);
+      setAlertText(`Number of dependents reach its maximum limit according to policy`);
       return false;
     }
     return true;

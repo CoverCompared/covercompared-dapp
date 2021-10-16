@@ -105,7 +105,7 @@ const MsoCountrySelector = ({ setIsModalOpen, setMaxWidth, setTitle, selectedPla
             }}
             className="py-3 px-5 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
-            Confirm
+            Proceed to Pay
           </button>
         </div>
       </div>

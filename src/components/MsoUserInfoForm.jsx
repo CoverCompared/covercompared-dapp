@@ -342,7 +342,7 @@ const MsoUserInfoForm = (props) => {
             <span className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white">
               I have read and agree to the{' '}
               <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
-                privacy policy
+                terms and conditions
               </a>{' '}
               *
             </span>
@@ -351,7 +351,7 @@ const MsoUserInfoForm = (props) => {
             type="submit"
             className="py-3 px-8 ml-3 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
-            Buy Now
+            Proceed to Pay
           </button>
         </div>
       </form>

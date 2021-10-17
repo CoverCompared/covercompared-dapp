@@ -166,7 +166,7 @@ const MSOPlanCard = (props) => {
             sizeClass="max-w-6xl"
             renderComponent={CountrySelector}
             bgImg="bg-loginPopupBg"
-            {...{ selectedPlan }}
+            {...{ selectedPlan, addonServices }}
           >
             <div className="flex justify-center pt-2">
               <button

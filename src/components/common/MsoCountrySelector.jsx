@@ -2,9 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { toast } from 'react-toastify';
 
+import { PDFViewer } from '@react-pdf/renderer';
+import DownloadPolicy from './DownloadPolicy';
 import useAuth from '../../hooks/useAuth';
 import SUPPORTED_WALLETS from '../../config/walletConfig';
 import MsoUserInfoForm from '../MsoUserInfoForm';
+import MSOReceipt from '../MSOReceipt';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -94,10 +97,69 @@ const MsoCountrySelector = ({
   }
 
   if (showReceipt) {
+    const { quote = '0', MSOAddOnService = '0', tax = '5', name, logo } = selectedPlan;
+    const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
+    const discountAmount = applyDiscount ? discount : 0;
+    const total = addonServices
+      ? +quote + +MSOAddOnService + +tax - discountAmount
+      : +quote + +tax - discountAmount;
     return (
-      <div className="flex">
-        <h5>Receipt pdf comes here</h5>
-      </div>
+      <>
+        <div className="flex">
+          <PDFViewer className="w-full h-80">
+            <MSOReceipt
+              {...{
+                membersInfo,
+                quote,
+                discount,
+                total,
+                tax,
+                discountAmount,
+                addonServices,
+                applyDiscount,
+                MSOAddOnService,
+                name,
+                logo,
+              }}
+            />
+          </PDFViewer>
+        </div>
+
+        <div className="flex justify-end">
+          <DownloadPolicy
+            pdf={
+              <MSOReceipt
+                {...{
+                  membersInfo,
+                  quote,
+                  discount,
+                  total,
+                  tax,
+                  discountAmount,
+                  addonServices,
+                  applyDiscount,
+                  MSOAddOnService,
+                  name,
+                }}
+              />
+            }
+            fileName="MSO_Policy_Receipt.pdf"
+          />
+        </div>
+        {/* <button
+          type="button"
+          className="py-3 px-5 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+        >
+          <PDFDownloadLink
+            document={
+              
+            }
+            
+          >
+            {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
+          </PDFDownloadLink>
+        </button> */}
+      </>
     );
   }
 

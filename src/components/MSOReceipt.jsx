@@ -122,10 +122,11 @@ const MSOReceipt = (props) => {
               <Text>Date: {getCurrentDate()}</Text>
             </View>
           </View>
-
-          <View style={[styles.topLogo, styles.msoLogo]}>
-            <Image source={logo} />
-          </View>
+          {logo && (
+            <View style={[styles.topLogo, styles.msoLogo]}>
+              <Image source={logo} />
+            </View>
+          )}
 
           <View style={styles.total}>
             <Text>{name}</Text>

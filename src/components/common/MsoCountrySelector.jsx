@@ -211,7 +211,7 @@ const MsoCountrySelector = ({
           <h5 className="text-h6 font-medium">Total</h5>
           <h5 className="text-body-lg font-medium">{total} USD</h5>
         </div>
-        <div className="flex items-center justify-center w-full">
+        <div className="flex items-center justify-center w-full mt-6">
           <button
             type="button"
             onClick={handleConfirm}

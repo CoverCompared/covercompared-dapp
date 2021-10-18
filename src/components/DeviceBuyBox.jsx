@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
+import { PDFViewer } from '@react-pdf/renderer';
 import { toast } from 'react-toastify';
 import { useWeb3React } from '@web3-react/core';
-import InputWithSelect from './common/InputWithSelect';
+import useAuth from '../hooks/useAuth';
+import SUPPORTED_WALLETS from '../config/walletConfig';
 import SelectWithSearch from './common/SelectWithSearch';
+import DeviceReceiptCard from './DeviceReceiptCard';
+import DownloadPolicy from './common/DownloadPolicy';
 import {
   getDeviceDetails,
   getDevicePlanDetails,
@@ -21,7 +25,10 @@ const DeviceBuyBox = (props) => {
   const { setIsModalOpen, setTitle, setMaxWidth } = props;
 
   const dispatch = useDispatch();
+  const { login } = useAuth();
   const { account } = useWeb3React();
+  const [curWalletId, setCurWalletId] = useState('injected');
+  const [connectStatus, setConnectStatus] = useState(false);
   const coverListData = useSelector((state) => state.coverList);
   const { is_verified } = useSelector((state) => state.auth);
   const { deviceDetails, devicePlanDetails, deviceModelDetails, loader } = coverListData || {};
@@ -32,6 +39,7 @@ const DeviceBuyBox = (props) => {
   const [purchaseMonth, setPurchaseMonth] = useState('');
   const [model, setModel] = useState('');
   const [planType, setPlanType] = useState('');
+  const [applyDiscount, setApplyDiscount] = useState(false);
 
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
@@ -41,6 +49,7 @@ const DeviceBuyBox = (props) => {
   const [showInfoForm, setShowInfoForm] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
     dispatch(
@@ -98,14 +107,27 @@ const DeviceBuyBox = (props) => {
   }, [deviceType, brand, value, purchaseMonth, planType]);
 
   const handleProceed = () => {
-    setTitle('Personal Information');
-    setShowInfoForm(true);
+    if (!account) {
+      setTitle('Login');
+      setMaxWidth('max-w-2xl');
+      setShowLogin(true);
+    } else {
+      setTitle('Personal Information');
+      setShowInfoForm(true);
+    }
   };
 
   const handleBuyNow = (e) => {
     if (e) e.preventDefault();
+    setMaxWidth('max-w-lg');
     setTitle('Confirmation');
     setShowConfirmation(true);
+  };
+
+  const tryActivation = (connect) => {
+    setCurWalletId(connect);
+    setConnectStatus(true);
+    login(connect);
   };
 
   const handleConfirm = (e) => {
@@ -115,25 +137,125 @@ const DeviceBuyBox = (props) => {
     setShowReceipt(true);
   };
 
-  if (showReceipt) {
+  const getWalletOption = () => {
+    return Object.keys(SUPPORTED_WALLETS).map((key) => {
+      const option = SUPPORTED_WALLETS[key];
+
+      return (
+        <div
+          className="md:col-span-5 col-span-5 h-full"
+          key={key}
+          id={`connect-${key}`}
+          onClick={() => tryActivation(option.connector)}
+        >
+          <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
+            <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
+            <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
+              {connectStatus && curWalletId === option.connector ? 'Connecting...' : option.name}
+            </div>
+          </div>
+        </div>
+      );
+    });
+  };
+
+  if (!account && showLogin) {
     return (
-      <div className="text-center">
-        <div>Receipt</div>
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-12 flex items-center justify-center w-full">
+          <div className="grid grid-cols-10 md:col-start-1 md:gap-x-6 gap-x-5 w-full">
+            {getWalletOption()}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (showReceipt) {
+    const { plan_total_price, plan_currency, plan_type } = planType;
+    const tax = '5';
+    const discount = (+plan_total_price * 25) / 100;
+    const discountAmount = applyDiscount ? discount : 0;
+    const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
+    const modelDetails = deviceModelDetails?.models;
+    const selectedModel = modelDetails.filter((obj) => obj.model_code === model);
+
+    return (
+      <div>
+        <DeviceReceiptCard
+          {...{
+            quote: plan_total_price,
+            discount,
+            total,
+            tax,
+            discountAmount,
+            applyDiscount,
+            fName,
+            lName,
+            phone,
+            email,
+            plan_type,
+            model,
+            deviceType,
+            brand,
+            value,
+            purchaseMonth,
+            plan_currency,
+            selectedModel,
+          }}
+        />
       </div>
     );
   }
 
   if (showConfirmation) {
+    const { plan_total_price, plan_currency, plan_type } = planType;
+    const tax = '5';
+    const discount = (+plan_total_price * 25) / 100;
+    const discountAmount = applyDiscount ? discount : 0;
+    const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
+
     return (
-      <div className="text-center">
-        <div>Confirmation</div>
-        <button
-          type="button"
-          onClick={handleConfirm}
-          className="mt-5 py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
-        >
-          Confirm to Pay
-        </button>
+      <div>
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">
+            Premium Per {plan_type === 'yearly' ? 'Year' : 'Month'}
+          </h5>
+          <h5 className="text-body-lg font-medium">{plan_total_price} USD</h5>
+        </div>
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
+          <input
+            type="checkbox"
+            name="applyDiscount"
+            className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+            checked={applyDiscount}
+            onChange={() => setApplyDiscount(!applyDiscount)}
+          />
+        </div>
+        <hr />
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">Discount</h5>
+          <h5 className="text-body-lg font-medium">{discountAmount} USD</h5>
+        </div>
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">Tax</h5>
+          <h5 className="text-body-lg font-medium">{tax} USD</h5>
+        </div>
+        <hr />
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">Total</h5>
+          <h5 className="text-body-lg font-medium">{total} USD</h5>
+        </div>
+        <div className="flex items-center justify-center w-full mt-6">
+          <button
+            type="button"
+            onClick={handleConfirm}
+            className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+          >
+            Confirm to Pay
+          </button>
+        </div>
       </div>
     );
   }

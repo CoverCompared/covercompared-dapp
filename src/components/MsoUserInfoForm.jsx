@@ -223,7 +223,7 @@ const MsoUserInfoForm = (props) => {
       </div>
 
       <form id="msp-checkout-form" onSubmit={handleSubmit}>
-        <div className="w-full border border-black mb-8">
+        <div className="w-full mb-8">
           <div className="grid grid-cols-12 w-full text-center bg-gray-200">
             <div className="lg:col-span-2 col-span-12 border border-black">User type</div>
             <div className="lg:col-span-2 col-span-12 border border-black">First Name</div>
@@ -334,10 +334,7 @@ const MsoUserInfoForm = (props) => {
             <input
               required
               type="checkbox"
-              name="saveDetails"
               className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
-              checked={saveDetails}
-              onChange={() => setSaveDetails(!saveDetails)}
             />
             <span className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white">
               I have read and agree to the{' '}

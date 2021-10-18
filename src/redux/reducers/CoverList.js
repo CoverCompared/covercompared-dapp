@@ -12,6 +12,8 @@ import {
   SET_GET_DEVICE_DETAILS_LOADER,
   GET_DEVICE_PLAN_DETAILS_SUCCESS,
   SET_GET_DEVICE_PLAN_DETAILS_LOADER,
+  GET_DEVICE_MODEL_DETAILS_SUCCESS,
+  SET_GET_DEVICE_MODEL_DETAILS_LOADER,
   ACTION_METHOD_FAILED,
   SET_SEARCH_BLOG_LIST_LOADER,
   SEARCH_BLOG_LIST_SUCCESS,
@@ -33,6 +35,7 @@ const INIT_STATE = {
   coverList: null,
   deviceDetails: null,
   devicePlanDetails: null,
+  deviceModelDetails: null,
   blogList: null,
   blog: null,
   blogRange: null,
@@ -201,6 +204,21 @@ export default (state = INIT_STATE, { type, payload }) => {
         loader: false,
         isFailed: false,
         devicePlanDetails: payload,
+      };
+    }
+    case SET_GET_DEVICE_MODEL_DETAILS_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case GET_DEVICE_MODEL_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        message: '',
+        loader: false,
+        isFailed: false,
+        deviceModelDetails: payload,
       };
     }
     default:

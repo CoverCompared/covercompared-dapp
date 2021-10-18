@@ -4,6 +4,7 @@ import { Markup } from 'interweave';
 import uniqid from 'uniqid';
 import Modal from '../components/common/Modal';
 import CountrySelector from '../components/common/DeviceCountrySelector';
+import DeviceEligibilityChecker from '../components/common/DeviceEligibilityChecker';
 import { ThemeContext } from '../themeContext';
 
 import MobileIcon from '../assets/icons/mobile-icon.svg';
@@ -197,6 +198,8 @@ const p4lTable = [
 const InsuranceProduct = (props) => {
   const [table, setTable] = useState(p4lTable);
   const [showMore, setShowMore] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isEligible, setIsEligible] = useState(false);
 
   useEffect(() => {
     const t = p4lTable.slice(0, 4);
@@ -214,30 +217,69 @@ const InsuranceProduct = (props) => {
 
   return (
     <>
-      <div className="xl:px-32 lg:px-26">
-        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
-          We protect what you love
-        </h2>
-        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
-          Protection benefits provided across a wide range of product categories
-        </div>
+      <Modal
+        isOpen={isModalOpen}
+        title="Country of Residence"
+        sizeClass="max-w-2xl"
+        renderComponent={DeviceEligibilityChecker}
+        onClose={() => setIsModalOpen(false)}
+        bgImg="bg-loginPopupBg"
+        {...{ setIsEligible }}
+      />
+      <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
+        We protect what you love
+      </h2>
+      <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        Protection benefits provided across a wide range of product categories
+      </div>
 
-        <div className="flex justify-center items-center md:mt-10 mt-8">
-          <div className="grid grid-cols-12 md:gap-6 gap-4">
-            {DeviceTypeArr.map((item) => (
-              <div
-                key={uniqid()}
-                className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6"
-              >
-                <div className="md:h-24 md:w-24 h-12 w-12 flex justify-center items-center">
-                  <img src={item.image} alt="" className="h-full" />
-                </div>
-                <div className="mt-3 font-Montserrat font-semibold md:text-body-md text-body-sm dark:text-white text-center">
-                  {item.title}
-                </div>
+      <div className="flex justify-center items-center md:mt-10 mt-8">
+        <div className="grid grid-cols-12 md:gap-6 gap-4">
+          {DeviceTypeArr.map((item) => (
+            <div
+              key={uniqid()}
+              className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6"
+            >
+              <div className="md:h-24 md:w-24 h-12 w-12 flex justify-center items-center">
+                <img src={item.image} alt="" className="h-full" />
               </div>
-            ))}
-          </div>
+              <div className="mt-3 font-Montserrat font-semibold md:text-body-md text-body-sm dark:text-white text-center">
+                {item.title}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="xl:px-32 lg:px-26">
+        <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
+          It’s easy to get started - 3 easy steps, 2 mins max!
+        </h2>
+        <div className="flex justify-center items-center mt-8">
+          {!isEligible && (
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              className="font-Montserrat md:px-5 py-4 px-4 mr-3 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 focus:outline-none focus:ring-0"
+            >
+              Check Eligibility
+            </button>
+          )}
+
+          <Modal
+            title="Country of Residence"
+            sizeClass="max-w-2xl"
+            renderComponent={CountrySelector}
+            bgImg="bg-loginPopupBg bg-cover"
+          >
+            <button
+              type="button"
+              disabled={!isEligible}
+              className="py-3 px-5 cursor-pointer outline-none border-0 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 focus:outline-none focus:ring-0 disabled:from-buy-button-gd-2 disabled:to-buy-button-gd-2 disabled:cursor-default"
+            >
+              Get Protection
+            </button>
+          </Modal>
         </div>
 
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
@@ -400,25 +442,6 @@ const InsuranceProduct = (props) => {
             </div>
           ))}
         </div>
-      </div>
-
-      <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
-        It’s easy to get started - 3 easy steps, 2 mins max!
-      </h2>
-      <div className="flex justify-center items-center mt-8">
-        <Modal
-          title="Country of Residence"
-          sizeClass="max-w-2xl"
-          renderComponent={CountrySelector}
-          bgImg="bg-loginPopupBg bg-cover"
-        >
-          <button
-            type="button"
-            className="py-3 px-5 cursor-pointer outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
-          >
-            Get Protection
-          </button>
-        </Modal>
       </div>
     </>
   );

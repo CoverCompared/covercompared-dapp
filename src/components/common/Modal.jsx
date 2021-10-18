@@ -24,14 +24,14 @@ const Modal = (props) => {
     setIsModalOpen(!!isOpen);
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!isModalOpen) {
-      setTimeout(() => {
-        setMaxWidth(sizeClass);
-        setTitle(modalTitle);
-      }, 500);
+  const handleModalToggle = (value) => {
+    if (!value) {
+      if (onClose) onClose();
+      else setIsModalOpen(false);
+      setMaxWidth(sizeClass);
+      setTitle(modalTitle);
     }
-  }, [isModalOpen]);
+  };
 
   return (
     <>
@@ -75,7 +75,7 @@ const Modal = (props) => {
                   `bg-white bg-cover rounded-lg shadow-xl transform sm:align-middle w-full inline-block align-bottom transition-all dark:bg-popup-dark-bg`,
                 )}
               >
-                <div className={`${bgImg} w-full h-full sm:py-8 rounded-lg`}>
+                <div className={`${bgImg} w-full h-full sm:pt-8 sm:pb-2 rounded-lg`}>
                   <div className="px-4 pt-5 text-left sm:px-12 md:px-16 sm:pt-6 pb-8">
                     <div className="absolute lg:top-8 lg:right-8 top-2 right-2 flex">
                       {!!(CTAText && handleClickCTA) && (
@@ -111,7 +111,13 @@ const Modal = (props) => {
                       <div className="mt-2">
                         <C
                           {...props}
-                          {...{ isModalOpen, setIsModalOpen, onClose, setMaxWidth, setTitle }}
+                          {...{
+                            isModalOpen,
+                            setIsModalOpen: handleModalToggle,
+                            onClose,
+                            setMaxWidth,
+                            setTitle,
+                          }}
                         />
                       </div>
                     </div>

@@ -9,6 +9,7 @@ import {
   FETCH_MORE_COVERS,
   GET_DEVICE_DETAILS,
   GET_DEVICE_PLAN_DETAILS,
+  GET_DEVICE_MODEL_DETAILS,
   SEARCH_BLOG_LIST,
   SEARCH_BLOG,
   FETCH_MORE_BLOGS,
@@ -27,6 +28,8 @@ import {
   setGetDeviceDetailsLoader,
   getDevicePlanDetailsSuccess,
   setGetDevicePlanDetailsLoader,
+  getDeviceModelDetailsSuccess,
+  setGetDeviceModelDetailsLoader,
   searchBlogListSuccess,
   setSearchBlogListLoader,
   searchBlogSuccess,
@@ -231,7 +234,7 @@ function* getDeviceDetail({ payload }) {
     const deviceDetail = yield call(axiosPost, url, payload);
 
     if (deviceDetail?.data?.data) {
-      yield put(getDeviceDetailsSuccess(deviceDetail?.data?.data));
+      yield put(getDeviceDetailsSuccess(deviceDetail.data.data));
     } else if (deviceDetail === undefined) {
       yield put(
         setGetDeviceDetailsLoader({
@@ -274,7 +277,7 @@ function* getDevicePlanDetail({ payload }) {
     const devicePlanDetail = yield call(axiosPost, url, payload);
 
     if (devicePlanDetail?.data?.data) {
-      yield put(getDevicePlanDetailsSuccess(devicePlanDetail?.data?.data));
+      yield put(getDevicePlanDetailsSuccess(devicePlanDetail.data.data));
     } else {
       yield put(
         setGetDevicePlanDetailsLoader({
@@ -288,6 +291,42 @@ function* getDevicePlanDetail({ payload }) {
   } catch (error) {
     yield put(
       setGetDevicePlanDetailsLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* getDeviceModelDetail({ payload }) {
+  try {
+    yield put(
+      setGetDeviceModelDetailsLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/p4l-forward`;
+    const deviceModelDetail = yield call(axiosPost, url, payload);
+
+    if (deviceModelDetail?.data?.data) {
+      yield put(getDeviceModelDetailsSuccess(deviceModelDetail.data.data));
+    } else {
+      yield put(
+        setGetDeviceModelDetailsLoader({
+          loader: false,
+          isFailed: true,
+          deviceModelDetails: null,
+          message: deviceModelDetail.errors,
+        }),
+      );
+    }
+  } catch (error) {
+    yield put(
+      setGetDeviceModelDetailsLoader({
         loader: false,
         isFailed: true,
         message: error.message,
@@ -426,6 +465,7 @@ export default all([
   takeLatest(GET_QUOTE, getQuote),
   takeLatest(GET_DEVICE_DETAILS, getDeviceDetail),
   takeLatest(GET_DEVICE_PLAN_DETAILS, getDevicePlanDetail),
+  takeLatest(GET_DEVICE_MODEL_DETAILS, getDeviceModelDetail),
   takeLatest(SEARCH_BLOG_LIST, searchBlogList),
   takeLatest(SEARCH_BLOG, searchSingleBlog),
   takeLatest(FETCH_MORE_BLOGS, fetchMoreBlogLists),

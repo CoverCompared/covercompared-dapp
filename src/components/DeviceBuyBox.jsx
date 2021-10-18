@@ -9,6 +9,7 @@ import SUPPORTED_WALLETS from '../config/walletConfig';
 import SelectWithSearch from './common/SelectWithSearch';
 import DeviceReceiptCard from './DeviceReceiptCard';
 import DownloadPolicy from './common/DownloadPolicy';
+import DeviceReceipt from './DeviceReceipt';
 import {
   getDeviceDetails,
   getDevicePlanDetails,
@@ -177,11 +178,63 @@ const DeviceBuyBox = (props) => {
     const discount = (+plan_total_price * 25) / 100;
     const discountAmount = applyDiscount ? discount : 0;
     const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
-    const modelDetails = deviceModelDetails?.models;
-    const selectedModel = modelDetails.filter((obj) => obj.model_code === model);
+    const selectedModel = deviceModelDetails?.models.filter((obj) => obj.model_code === model);
 
     return (
       <div>
+        <div className="flex justify-end">
+          <DownloadPolicy
+            fileName="Device_protection_receipt.pdf"
+            pdf={
+              <DeviceReceipt
+                {...{
+                  quote: plan_total_price,
+                  discount,
+                  total,
+                  tax,
+                  discountAmount,
+                  applyDiscount,
+                  fName,
+                  lName,
+                  phone,
+                  email,
+                  plan_type,
+                  model,
+                  deviceType,
+                  brand,
+                  value,
+                  purchaseMonth,
+                  plan_currency,
+                  selectedModel: selectedModel[0],
+                }}
+              />
+            }
+          />
+          {/* <PDFViewer className="w-full h-80">
+            <DeviceReceipt
+              {...{
+                quote: plan_total_price,
+                discount,
+                total,
+                tax,
+                discountAmount,
+                applyDiscount,
+                fName,
+                lName,
+                phone,
+                email,
+                plan_type,
+                model,
+                deviceType,
+                brand,
+                value,
+                purchaseMonth,
+                plan_currency,
+                selectedModel: selectedModel[0],
+              }}
+            />
+          </PDFViewer> */}
+        </div>
         <DeviceReceiptCard
           {...{
             quote: plan_total_price,
@@ -201,7 +254,7 @@ const DeviceBuyBox = (props) => {
             value,
             purchaseMonth,
             plan_currency,
-            selectedModel,
+            selectedModel: selectedModel[0],
           }}
         />
       </div>

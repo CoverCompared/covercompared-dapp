@@ -25,8 +25,6 @@ const DeviceReceiptCard = (props) => {
     selectedModel,
   } = props;
 
-  console.log(selectedModel);
-
   const getCurrentDate = () => {
     const newDate = new Date();
     const date = newDate.getDate();
@@ -64,56 +62,56 @@ const DeviceReceiptCard = (props) => {
         <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
           Email : {phone}
         </div>
-        <div className="grid md:grid-cols-2 md:gap-6 gap-8 xl:gap-10 mt-6">
-          <div className="col">
+        <div className="grid md:grid-cols-12 md:gap-6 gap-8 xl:gap-10 mt-6">
+          <div className="xl:col-span-7 col-span-12">
             <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left">
               Device Details
             </div>
-            <div className="flex items-center justify-between w-full font-Montserrat">
-              <h5 className="md:text-body-md text-body-sm  font-medium mr-2">Device Model</h5>
-              <h5 className="md:text-body-sm text-body-xs font-medium text-right">
-                {selectedModel && selectedModel[0].model_name}
-              </h5>
+            <div className="flex items-center justify-between font-Montserrat">
+              <div className="md:text-body-md text-body-sm  font-medium mr-2">Device Model</div>
+              <div className="md:text-body-sm text-body-xs font-medium text-right">
+                {selectedModel && selectedModel.model_name}
+              </div>
+            </div>
+            <div className="flex items-center justify-between font-Montserrat">
+              <div className="md:text-body-md text-body-sm  font-medium">Device Type</div>
+              <div className="md:text-body-sm text-body-xs font-medium">{deviceType}</div>
             </div>
             <div className="flex items-center justify-between w-full font-Montserrat">
-              <h5 className="md:text-body-md text-body-sm  font-medium">Device Type</h5>
-              <h5 className="md:text-body-sm text-body-xs font-medium">{deviceType}</h5>
+              <div className="md:text-body-md text-body-sm  font-medium">Device Brand</div>
+              <div className="md:text-body-sm text-body-xs font-medium">{brand}</div>
             </div>
             <div className="flex items-center justify-between w-full font-Montserrat">
-              <h5 className="md:text-body-md text-body-sm  font-medium">Device Brand</h5>
-              <h5 className="md:text-body-sm text-body-xs font-medium">{brand}</h5>
-            </div>
-            <div className="flex items-center justify-between w-full font-Montserrat">
-              <h5 className="md:text-body-md text-body-sm  font-medium">Device Value</h5>
-              <h5 className="md:text-body-sm text-body-xs font-medium">
+              <div className="md:text-body-md text-body-sm  font-medium">Device Value</div>
+              <div className="md:text-body-sm text-body-xs font-medium">
                 {value} {plan_currency}
-              </h5>
+              </div>
             </div>
             <div className="flex items-center justify-between w-full font-Montserrat">
-              <h5 className="md:text-body-md text-body-sm  font-medium">Purchase Month</h5>
-              <h5 className="md:text-body-sm text-body-xs font-medium">{purchaseMonth}</h5>
+              <div className="md:text-body-md text-body-sm  font-medium">Purchase Month</div>
+              <div className="md:text-body-sm text-body-xs font-medium">{purchaseMonth}</div>
             </div>
           </div>
-          <div className="col">
+          <div className="xl:col-span-5 col-span-12">
             <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left">
               Payment Details
             </div>
             <div className="flex items-center justify-between w-full font-Montserrat">
-              <h5 className="md:text-body-md text-body-sm  font-medium">Premium</h5>
-              <h5 className="md:text-body-sm text-body-xs font-medium">{quote} USD</h5>
+              <div className="md:text-body-md text-body-sm  font-medium">Premium</div>
+              <div className="md:text-body-sm text-body-xs font-medium">{quote} USD</div>
             </div>
             <div className="flex items-center justify-between w-full font-Montserrat">
-              <h5 className="md:text-body-md text-body-sm  font-medium">Discount</h5>
-              <h5 className="md:text-body-sm text-body-xs font-medium">{discountAmount} USD</h5>
+              <div className="md:text-body-md text-body-sm  font-medium">Discount</div>
+              <div className="md:text-body-sm text-body-xs font-medium">{discountAmount} USD</div>
             </div>
             <div className="flex items-center justify-between w-full font-Montserrat">
-              <h5 className="md:text-body-md text-body-sm  font-medium">Tax</h5>
-              <h5 className="md:text-body-sm text-body-xs font-medium">{tax} USD</h5>
+              <div className="md:text-body-md text-body-sm  font-medium">Tax</div>
+              <div className="md:text-body-sm text-body-xs font-medium">{tax} USD</div>
             </div>
             <hr />
             <div className="flex items-center justify-between w-full text-body-dark-bg mt-2 font-Montserrat text-body-lg font-semibold">
-              <h5>Total</h5>
-              <h5 className="md:text-body-md">{total} USD</h5>
+              <div>Total</div>
+              <div className="md:text-body-md">{total} USD</div>
             </div>
           </div>
         </div>

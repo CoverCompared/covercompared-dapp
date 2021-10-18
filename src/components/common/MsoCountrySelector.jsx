@@ -8,6 +8,7 @@ import useAuth from '../../hooks/useAuth';
 import SUPPORTED_WALLETS from '../../config/walletConfig';
 import MsoUserInfoForm from '../MsoUserInfoForm';
 import MSOReceipt from '../MSOReceipt';
+import MSOReceiptCard from '../MSOReceiptCard';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -105,8 +106,8 @@ const MsoCountrySelector = ({
       : +quote + +tax - discountAmount;
     return (
       <>
-        <div className="flex">
-          <PDFViewer className="w-full h-80">
+        <div className="flex justify-end">
+          {/* <PDFViewer className="w-full h-80">
             <MSOReceipt
               {...{
                 membersInfo,
@@ -122,10 +123,7 @@ const MsoCountrySelector = ({
                 logo,
               }}
             />
-          </PDFViewer>
-        </div>
-
-        <div className="flex justify-end">
+          </PDFViewer> */}
           <DownloadPolicy
             pdf={
               <MSOReceipt
@@ -140,10 +138,29 @@ const MsoCountrySelector = ({
                   applyDiscount,
                   MSOAddOnService,
                   name,
+                  logo,
                 }}
               />
             }
             fileName="MSO_Policy_Receipt.pdf"
+          />
+        </div>
+
+        <div className="flex">
+          <MSOReceiptCard
+            {...{
+              membersInfo,
+              quote,
+              discount,
+              total,
+              tax,
+              discountAmount,
+              addonServices,
+              applyDiscount,
+              MSOAddOnService,
+              name,
+              logo,
+            }}
           />
         </div>
       </>
@@ -160,17 +177,17 @@ const MsoCountrySelector = ({
 
     return (
       <div>
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Premium</h5>
           <h5 className="text-body-lg font-medium">{quote} USD</h5>
         </div>
         {!!addonServices && (
-          <div className="flex items-center justify-between w-full">
+          <div className="flex items-center justify-between w-full dark:text-white">
             <h5 className="text-h6 font-medium">Add on concierge services</h5>
             <h5 className="text-body-lg font-medium">{MSOAddOnService} USD</h5>
           </div>
         )}
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
           <input
             type="checkbox"
@@ -181,16 +198,16 @@ const MsoCountrySelector = ({
           />
         </div>
         <hr />
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Discount</h5>
           <h5 className="text-body-lg font-medium">{discountAmount} USD</h5>
         </div>
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Tax</h5>
           <h5 className="text-body-lg font-medium">{tax} USD</h5>
         </div>
         <hr />
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Total</h5>
           <h5 className="text-body-lg font-medium">{total} USD</h5>
         </div>
@@ -198,7 +215,7 @@ const MsoCountrySelector = ({
           <button
             type="button"
             onClick={handleConfirm}
-            className="py-3 px-5 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             Confirm to Pay
           </button>

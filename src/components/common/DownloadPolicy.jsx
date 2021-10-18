@@ -9,7 +9,7 @@ const DownloadPolicy = (props) => {
     <>
       <button
         type="button"
-        className="py-3 px-5 mt-12 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+        className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
       >
         <PDFDownloadLink document={pdf} fileName={fileName}>
           {({ blob, url, loading, error }) =>

@@ -95,17 +95,17 @@ const DeviceProtection = [
   {
     image: CrackedScreeIcon,
     title: 'Cracked Screen',
-    price: '215 $',
+    price: '220 $',
   },
   {
     image: TouchScreenIcon,
     title: 'Touchscreen Malfunction',
-    price: '400 $',
+    price: '410 $',
   },
   {
     image: LiquidDamageIcon,
     title: 'Liquid Damage',
-    price: '400 $',
+    price: '410 $',
   },
   {
     image: TheftIcon,
@@ -118,9 +118,9 @@ const p4lTable = [
   {
     firstCol: 'Monthly Plans',
     secondCol:
-      '<div><b >YES</b> <br /> Starting from <b>USD 1</b>/Month & <b>USD 11</b>/Year</div>',
-    thirdCol: '<div><b >No</b> <br /> <b>USD 136 </b> to <b>USD 218</b></div>',
-    forthCol: '<div><b >No</b> <br /> <b>USD 24 </b> to <b>USD 136</b></div>',
+      '<div><b >YES</b> <br /> Starting from <b>USD 1</b>/Month & <b>USD 12</b>/Year</div>',
+    thirdCol: '<div><b >No</b> <br /> <b>USD 136 </b> to <b>USD 216</b></div>',
+    forthCol: '<div><b >No</b> <br /> <b>USD 23 </b> to <b>USD 135</b></div>',
     fifthCol: '<div><b >No</b> <br /> <b>10% - 12%</b> of device cost</div>',
   },
   {
@@ -160,10 +160,10 @@ const p4lTable = [
   },
   {
     firstCol: 'Deductible per Accidental Damage Claim',
-    secondCol: '<div><b>USD 15 </b> to <b>USD 55</b></div>',
-    thirdCol: '<div><b>USD 25 </b> to <b>USD 95</b></div>',
-    forthCol: '<div><b>USD 20 </b> to <b>USD 50</b></div>',
-    fifthCol: '<div>Min <b>USD 25 </b> to <b>USD 10%</b> of invoice value</div>',
+    secondCol: '<div><b>USD 13 </b> to <b>USD 54</b></div>',
+    thirdCol: '<div><b>USD 27 </b> to <b>USD 95</b></div>',
+    forthCol: '<div><b>USD 19 </b> to <b>USD 49</b></div>',
+    fifthCol: '<div>Min <b>USD 27 </b> to <b>USD 10%</b> of invoice value</div>',
   },
   {
     firstCol: 'Protection for Device bought anywhere in the world',

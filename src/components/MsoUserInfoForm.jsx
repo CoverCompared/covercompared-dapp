@@ -28,7 +28,7 @@ const MsoUserInfoForm = (props) => {
     userType: '',
     firstName: '',
     lastName: '',
-    country: '',
+    country: 'UAE',
     dob: '',
     identity: '',
     typeChangeable: true,
@@ -51,7 +51,7 @@ const MsoUserInfoForm = (props) => {
 
   const [email, setEmail] = useState(authState.email || '');
   const [dob, setDob] = useState('');
-  const [country, setCountry] = useState(props.country?.value || '');
+  const [country, setCountry] = useState(props.countries[0]?.value || '');
   const [saveDetails, setSaveDetails] = useState(false);
 
   useEffect(() => {
@@ -346,7 +346,7 @@ const MsoUserInfoForm = (props) => {
           </div>
           <button
             type="submit"
-            className="py-3 px-8 ml-3 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            className="ml-3 py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             Proceed to Pay
           </button>

@@ -2,9 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { toast } from 'react-toastify';
 
+import { PDFViewer } from '@react-pdf/renderer';
+import DownloadPolicy from './DownloadPolicy';
 import useAuth from '../../hooks/useAuth';
 import SUPPORTED_WALLETS from '../../config/walletConfig';
 import MsoUserInfoForm from '../MsoUserInfoForm';
+import MSOReceipt from '../MSOReceipt';
+import MSOReceiptCard from '../MSOReceiptCard';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -17,14 +21,21 @@ const countries = [
   { value: 'NOT', label: 'None of Them' },
 ];
 
-const MsoCountrySelector = ({ setIsModalOpen, setMaxWidth, setTitle, selectedPlan }) => {
+const MsoCountrySelector = ({
+  setIsModalOpen,
+  setMaxWidth,
+  setTitle,
+  selectedPlan,
+  addonServices,
+}) => {
   const { login } = useAuth();
-
   const { account } = useWeb3React();
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
   const [membersInfo, setMembersInfo] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showReceipt, setShowReceipt] = useState(false);
+  const [applyDiscount, setApplyDiscount] = useState(false);
 
   useEffect(() => {
     if (!account) {
@@ -44,6 +55,12 @@ const MsoCountrySelector = ({ setIsModalOpen, setMaxWidth, setTitle, selectedPla
     setShowConfirmation(true);
     setMaxWidth('max-w-lg');
     setTitle('Confirmation');
+  };
+
+  const handleConfirm = () => {
+    setShowReceipt(true);
+    setMaxWidth('max-w-5xl');
+    setTitle('Receipt');
   };
 
   const getWalletOption = () => {
@@ -80,32 +97,127 @@ const MsoCountrySelector = ({ setIsModalOpen, setMaxWidth, setTitle, selectedPla
     );
   }
 
+  if (showReceipt) {
+    const { quote = '0', MSOAddOnService = '0', tax = '5', name, logo } = selectedPlan;
+    const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
+    const discountAmount = applyDiscount ? discount : 0;
+    const total = addonServices
+      ? +quote + +MSOAddOnService + +tax - discountAmount
+      : +quote + +tax - discountAmount;
+    return (
+      <>
+        <div className="flex justify-end">
+          {/* <PDFViewer className="w-full h-80">
+            <MSOReceipt
+              {...{
+                membersInfo,
+                quote,
+                discount,
+                total,
+                tax,
+                discountAmount,
+                addonServices,
+                applyDiscount,
+                MSOAddOnService,
+                name,
+                logo,
+              }}
+            />
+          </PDFViewer> */}
+          <DownloadPolicy
+            pdf={
+              <MSOReceipt
+                {...{
+                  membersInfo,
+                  quote,
+                  discount,
+                  total,
+                  tax,
+                  discountAmount,
+                  addonServices,
+                  applyDiscount,
+                  MSOAddOnService,
+                  name,
+                  logo,
+                }}
+              />
+            }
+            fileName="MSO_Policy_Receipt.pdf"
+          />
+        </div>
+
+        <div className="flex">
+          <MSOReceiptCard
+            {...{
+              membersInfo,
+              quote,
+              discount,
+              total,
+              tax,
+              discountAmount,
+              addonServices,
+              applyDiscount,
+              MSOAddOnService,
+              name,
+              logo,
+            }}
+          />
+        </div>
+      </>
+    );
+  }
+
   if (showConfirmation) {
+    const { quote = '0', MSOAddOnService = '0', tax = '5' } = selectedPlan;
+    const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
+    const discountAmount = applyDiscount ? discount : 0;
+    const total = addonServices
+      ? +quote + +MSOAddOnService + +tax - discountAmount
+      : +quote + +tax - discountAmount;
+
     return (
       <div>
-        <div className="flex items-center justify-between w-full">
-          <h5 className="text-h6 font-medium">Sub Total</h5>
-          <h5 className="text-body-lg font-medium">120 USD</h5>
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">Premium</h5>
+          <h5 className="text-body-lg font-medium">{quote} USD</h5>
         </div>
-        <div className="flex items-center justify-between w-full">
-          <h5 className="text-h6 font-medium">Tax</h5>
-          <h5 className="text-body-lg font-medium">5 USD</h5>
+        {!!addonServices && (
+          <div className="flex items-center justify-between w-full dark:text-white">
+            <h5 className="text-h6 font-medium">Add on concierge services</h5>
+            <h5 className="text-body-lg font-medium">{MSOAddOnService} USD</h5>
+          </div>
+        )}
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
+          <input
+            type="checkbox"
+            name="applyDiscount"
+            className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+            checked={applyDiscount}
+            onChange={() => setApplyDiscount(!applyDiscount)}
+          />
         </div>
         <hr />
-        <div className="flex items-center justify-between w-full">
-          <h5 className="text-h6 font-medium">Total</h5>
-          <h5 className="text-body-lg font-medium">125 USD</h5>
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">Discount</h5>
+          <h5 className="text-body-lg font-medium">{discountAmount} USD</h5>
         </div>
-        <div className="flex items-center justify-center w-full">
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">Tax</h5>
+          <h5 className="text-body-lg font-medium">{tax} USD</h5>
+        </div>
+        <hr />
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">Total</h5>
+          <h5 className="text-body-lg font-medium">{total} USD</h5>
+        </div>
+        <div className="flex items-center justify-center w-full mt-6">
           <button
             type="button"
-            onClick={() => {
-              setIsModalOpen(false);
-              toast.success('Policy bought successfully');
-            }}
-            className="py-3 px-5 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            onClick={handleConfirm}
+            className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
-            Proceed to Pay
+            Confirm to Pay
           </button>
         </div>
       </div>

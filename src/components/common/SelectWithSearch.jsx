@@ -23,6 +23,9 @@ const SelectWithSearch = ({
   selectedOption,
   setSelectedOption,
   showSearchOption,
+  optionsAsArrayOfObjects,
+  labelKey,
+  valueKey,
 }) => {
   const { theme } = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -32,9 +35,10 @@ const SelectWithSearch = ({
   const searchOption = (searchValue, optionType) => {
     setSearchValue(searchValue);
     if (optionType === 'arr') {
-      const filteredOptions = dropdownOptions.filter((option) =>
-        option.toLowerCase().includes(searchValue),
-      );
+      const filteredOptions = dropdownOptions.filter((option) => {
+        if (typeof option === 'string') return option?.toLowerCase().includes(searchValue);
+        return option?.[labelKey]?.toLowerCase()?.includes(searchValue);
+      });
       setOptions(filteredOptions);
     } else if (optionType === 'obj') {
       const filteredOptions = _.flow([
@@ -107,7 +111,12 @@ const SelectWithSearch = ({
                     className="text-Montserrat text-body-lg text-dark-blue font-medium flex items-center dark:text-white"
                     onClick={() => setIsOpen(!isOpen)}
                   >
-                    {isObject(dropdownOptions) ? dropdownOptions[selectedOption] : selectedOption}{' '}
+                    {isObject(dropdownOptions)
+                      ? dropdownOptions[selectedOption]
+                      : optionsAsArrayOfObjects
+                      ? dropdownOptions.find((f) => f[valueKey] === selectedOption)?.[labelKey] ||
+                        ''
+                      : selectedOption}{' '}
                     <img
                       src={theme === 'light' ? DownArrow : DownArrowWhite}
                       alt="Down Arrow"
@@ -123,7 +132,11 @@ const SelectWithSearch = ({
                 className="text-Montserrat text-body-lg text-dark-blue font-medium flex items-center dark:text-white"
                 onClick={() => setIsOpen(!isOpen)}
               >
-                {isObject(dropdownOptions) ? dropdownOptions[selectedOption] : selectedOption}{' '}
+                {isObject(dropdownOptions)
+                  ? dropdownOptions[selectedOption]
+                  : optionsAsArrayOfObjects
+                  ? dropdownOptions.find((f) => f[valueKey] === selectedOption)?.[labelKey] || ''
+                  : selectedOption}{' '}
                 <img
                   src={theme === 'light' ? DownArrow : DownArrowWhite}
                   alt="Down Arrow"
@@ -206,13 +219,17 @@ const SelectWithSearch = ({
                     <div
                       key={uniqid()}
                       onClick={() => {
-                        setSelectedOption(option);
+                        setSelectedOption(optionsAsArrayOfObjects ? option[valueKey] : option);
                         setIsOpen(false);
                       }}
                       className="md:py-2 py-1 px-4 text-dark-blue dark:text-white dark:hover:text-dark-blue font-semibold md:text-body-md text-body-sm font-Montserrat hover:bg-login-button-bg cursor-pointer text-left"
                     >
                       {option !== 'CVR' ? (
-                        option
+                        optionsAsArrayOfObjects ? (
+                          option[labelKey]
+                        ) : (
+                          option
+                        )
                       ) : (
                         <div className="flex justify-between items-center">
                           <div>{option}</div>

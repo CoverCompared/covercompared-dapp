@@ -19,6 +19,9 @@ import {
   GET_DEVICE_PLAN_DETAILS,
   GET_DEVICE_PLAN_DETAILS_SUCCESS,
   SET_GET_DEVICE_PLAN_DETAILS_LOADER,
+  GET_DEVICE_MODEL_DETAILS,
+  GET_DEVICE_MODEL_DETAILS_SUCCESS,
+  SET_GET_DEVICE_MODEL_DETAILS_LOADER,
   SEARCH_BLOG_LIST,
   SEARCH_BLOG_LIST_SUCCESS,
   SET_SEARCH_BLOG_LIST_LOADER,
@@ -165,6 +168,27 @@ export const getDevicePlanDetailsSuccess = (payload) => {
 export const setGetDevicePlanDetailsLoader = (payload) => {
   return {
     type: SET_GET_DEVICE_PLAN_DETAILS_LOADER,
+    payload,
+  };
+};
+
+export const getDeviceModelDetails = (payload) => {
+  return {
+    type: GET_DEVICE_MODEL_DETAILS,
+    payload,
+  };
+};
+
+export const getDeviceModelDetailsSuccess = (payload) => {
+  return {
+    type: GET_DEVICE_MODEL_DETAILS_SUCCESS,
+    payload,
+  };
+};
+
+export const setGetDeviceModelDetailsLoader = (payload) => {
+  return {
+    type: SET_GET_DEVICE_MODEL_DETAILS_LOADER,
     payload,
   };
 };

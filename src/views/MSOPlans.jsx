@@ -171,6 +171,18 @@ const MSOPlans = (props) => {
         </div>
       </div>
 
+      {!isEligible && (
+        <div className="flex justify-center items-center mt-8">
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 focus:outline-none focus:ring-0"
+          >
+            Check Eligibility
+          </button>
+        </div>
+      )}
+
       <div className="xl:px-36 lg:px-28 md:my-20 my-12">
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
           RANGE OF SERVICES
@@ -195,18 +207,6 @@ const MSOPlans = (props) => {
           ))}
         </div>
       </div>
-
-      {!isEligible && (
-        <div className="flex justify-center items-center mt-8">
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(true)}
-            className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 focus:outline-none focus:ring-0"
-          >
-            Check Eligibility
-          </button>
-        </div>
-      )}
 
       <div className="xl:px-36 lg:px-28 mt-8">{renderCards()}</div>
     </>

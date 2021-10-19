@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const MSOAdditionalDetails = (props) => {
-  const { name, MSOCoverUser, logo, wantAddon, addOnQuote } = props;
+  const { name, MSOCoverUser, logo, wantAddon, addOnQuote, BuyButton } = props;
   return (
     <>
       <div>
@@ -81,6 +81,9 @@ const MSOAdditionalDetails = (props) => {
               bibendum. Sed aliquet at aliquam at nascetur hendrerit adipiscing.
             </div>
           </div>
+        </div>
+        <div className="mt-6 flex justify-center">
+          <BuyButton />
         </div>
       </div>
     </>

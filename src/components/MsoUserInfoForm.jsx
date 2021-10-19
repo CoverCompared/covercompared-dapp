@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { initial } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/solid';
+import { XCircleIcon } from '@heroicons/react/solid';
 
 import CheckoutFormInput from './common/CheckoutFormInput';
 import FormInput from './FormInput';
-import { setProfileDetails, resendVerificationEmail, verifyOTP } from '../redux/actions/Auth';
+import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
 import Alert from './common/Alert';
 
 const MsoUserInfoForm = (props) => {
@@ -28,7 +28,7 @@ const MsoUserInfoForm = (props) => {
     userType: '',
     firstName: '',
     lastName: '',
-    country: '',
+    country: 'UAE',
     dob: '',
     identity: '',
     typeChangeable: true,
@@ -48,11 +48,6 @@ const MsoUserInfoForm = (props) => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [userOtp, setUserOtp] = useState('');
-
-  const [email, setEmail] = useState(authState.email || '');
-  const [dob, setDob] = useState('');
-  const [country, setCountry] = useState(props.country?.value || '');
-  const [saveDetails, setSaveDetails] = useState(false);
 
   useEffect(() => {
     if (emailSubmitted && showOTPScreen && isFailed && !loader) {
@@ -163,7 +158,7 @@ const MsoUserInfoForm = (props) => {
               <button
                 type="submit"
                 disabled={!notRegistered}
-                className="pl-2 mt-1 text-body-md underline cursor-pointer"
+                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
               >
                 Send verification OTP
               </button>
@@ -182,7 +177,7 @@ const MsoUserInfoForm = (props) => {
               <button
                 type="submit"
                 disabled={!showOTPScreen || !notRegistered}
-                className="pl-2 mt-1 text-body-md underline cursor-pointer"
+                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
               >
                 Verify OTP
               </button>
@@ -223,7 +218,7 @@ const MsoUserInfoForm = (props) => {
       </div>
 
       <form id="msp-checkout-form" onSubmit={handleSubmit}>
-        <div className="w-full border border-black mb-8">
+        <div className="w-full mb-8">
           <div className="grid grid-cols-12 w-full text-center bg-gray-200">
             <div className="lg:col-span-2 col-span-12 border border-black">User type</div>
             <div className="lg:col-span-2 col-span-12 border border-black">First Name</div>
@@ -334,24 +329,21 @@ const MsoUserInfoForm = (props) => {
             <input
               required
               type="checkbox"
-              name="saveDetails"
               className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
-              checked={saveDetails}
-              onChange={() => setSaveDetails(!saveDetails)}
             />
             <span className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white">
               I have read and agree to the{' '}
               <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
-                privacy policy
+                terms and conditions
               </a>{' '}
               *
             </span>
           </div>
           <button
             type="submit"
-            className="py-3 px-8 ml-3 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            className="ml-3 py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
-            Buy Now
+            Proceed to Pay
           </button>
         </div>
       </form>

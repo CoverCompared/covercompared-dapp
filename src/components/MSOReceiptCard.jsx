@@ -1,0 +1,129 @@
+import React from 'react';
+import { uniqueId } from 'uniqid';
+import CoverComparedLogo from '../assets/img/logo-final-light.png';
+
+const MSOReceiptCard = (props) => {
+  const {
+    membersInfo,
+    quote,
+    discount,
+    total,
+    tax,
+    discountAmount,
+    addonServices,
+    applyDiscount,
+    MSOAddOnService,
+    name,
+    logo,
+  } = props;
+
+  const getCurrentDate = () => {
+    const newDate = new Date();
+    const date = newDate.getDate();
+    const month = newDate.getMonth() + 1;
+    const year = newDate.getFullYear();
+
+    return `${date > 9 ? date : 0 + date}-${month > 9 ? month : 0 + month}-${year}`;
+  };
+
+  return (
+    <>
+      <div className="bg-white rounded-lg mt-8 w-full md:p-8 px-4 py-6 shadow-lg">
+        <div className="flex justify-between">
+          <img src={CoverComparedLogo} alt="CoverCompared" className="h-9" />
+          <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">
+            Date: {getCurrentDate()}
+          </div>
+        </div>
+        <img src={logo} alt="MSO" className="h-14 w-14 my-4" />
+        <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left">
+          {name}
+        </div>
+        <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+          Policy Number: 132546
+        </div>
+
+        <div className="w-full mb-8 mt-8">
+          <div className="grid grid-cols-12 w-full text-center bg-gray-200">
+            <div className="lg:col-span-2 col-span-12 border border-black md:text-body-sm text-dark-blue font-Montserrat text-body-xs">
+              User type
+            </div>
+            <div className="lg:col-span-2 col-span-12 border border-black md:text-body-sm text-dark-blue font-Montserrat text-body-xs">
+              First Name
+            </div>
+            <div className="lg:col-span-2 col-span-12 border border-black md:text-body-sm text-dark-blue font-Montserrat text-body-xs">
+              Last Name
+            </div>
+            <div className="lg:col-span-2 col-span-12 border border-black md:text-body-sm text-dark-blue font-Montserrat text-body-xs">
+              Country
+            </div>
+            <div className="lg:col-span-2 col-span-12 border border-black md:text-body-sm text-dark-blue font-Montserrat text-body-xs">
+              DOB
+            </div>
+            <div className="lg:col-span-2 col-span-12 border border-black md:text-body-sm text-dark-blue font-Montserrat text-body-xs">
+              Identity
+            </div>
+          </div>
+
+          {membersInfo.map((member, index) => (
+            <div key={index} className="grid grid-cols-12 w-full">
+              <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
+                {member.userType}
+              </div>
+              <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
+                {member.firstName}
+              </div>
+              <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
+                {member.lastName}
+              </div>
+              <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
+                {member.country}
+              </div>
+              <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
+                {member.dob}
+              </div>
+              <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
+                {member.identity}
+              </div>
+            </div>
+          ))}
+          <div className="flex justify-end mt-8">
+            <div className="xl:w-5/12 lg:w-1/2 w-full">
+              <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left">
+                Payment Details
+              </div>
+              <div className="flex items-center justify-between w-full font-Montserrat">
+                <h5 className="md:text-body-md text-body-sm  font-medium">Premium</h5>
+                <h5 className="md:text-body-sm text-body-xs font-medium">{quote} USD</h5>
+              </div>
+              {!!addonServices && (
+                <div className="flex items-center justify-between w-full font-Montserrat">
+                  <h5 className="md:text-body-md text-body-sm  font-medium">
+                    Add on concierge services
+                  </h5>
+                  <h5 className="md:text-body-sm text-body-xs font-medium">
+                    {MSOAddOnService} USD
+                  </h5>
+                </div>
+              )}
+              <div className="flex items-center justify-between w-full font-Montserrat">
+                <h5 className="md:text-body-md text-body-sm  font-medium">Discount</h5>
+                <h5 className="md:text-body-sm text-body-xs font-medium">{discountAmount} USD</h5>
+              </div>
+              <div className="flex items-center justify-between w-full font-Montserrat">
+                <h5 className="md:text-body-md text-body-sm  font-medium">Tax</h5>
+                <h5 className="md:text-body-sm text-body-xs font-medium">{tax} USD</h5>
+              </div>
+              <hr />
+              <div className="flex items-center justify-between w-full text-body-dark-bg mt-2 font-Montserrat text-body-lg font-semibold">
+                <h5>Total</h5>
+                <h5 className="md:text-body-md">{total} USD</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+export default MSOReceiptCard;

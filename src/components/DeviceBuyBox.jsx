@@ -5,7 +5,7 @@ import { CheckIcon } from '@heroicons/react/outline';
 import { useWeb3React } from '@web3-react/core';
 
 import Alert from './common/Alert';
-import useAuth from '../hooks/useAuth';
+import { walletLogin } from '../hooks/useAuth';
 import SUPPORTED_WALLETS from '../config/walletConfig';
 import SelectWithSearch from './common/SelectWithSearch';
 import DeviceReceiptCard from './DeviceReceiptCard';
@@ -25,8 +25,8 @@ const DeviceBuyBox = (props) => {
   const { setTitle, setMaxWidth } = props;
 
   const dispatch = useDispatch();
-  const { login } = useAuth();
-  const { account } = useWeb3React();
+  // const { login } = useAuth();
+  const { account, activate } = useWeb3React();
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
   const coverListData = useSelector((state) => state.coverList);
@@ -158,7 +158,8 @@ const DeviceBuyBox = (props) => {
   const tryActivation = (connect) => {
     setCurWalletId(connect);
     setConnectStatus(true);
-    login(connect);
+    // login(connect);
+    walletLogin(connect, activate);
   };
 
   const handleConfirm = (e) => {

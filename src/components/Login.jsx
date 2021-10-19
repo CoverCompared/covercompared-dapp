@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { useDispatch } from 'react-redux';
-import useAuth from '../hooks/useAuth';
+import { walletLogin } from '../hooks/useAuth';
 // import GoogleIcon from '../assets/img/google.png';
 import SUPPORTED_WALLETS from '../config/walletConfig';
 import { setLoginModalVisible } from '../redux/actions';
 import { getLoginDetails } from '../redux/actions/Auth';
 
 const Login = () => {
-  const { login } = useAuth();
+  // const { login } = useAuth();
   const dispatch = useDispatch();
 
-  const { account } = useWeb3React();
+  const { account, activate } = useWeb3React();
   const [connectStatus, setConnectStatus] = useState(false);
   const [curWalletId, setCurWalletId] = useState('injected');
 
   const tryActivation = (connect) => {
     setCurWalletId(connect);
     setConnectStatus(true);
-    login(connect);
+    // login(connect);
+    walletLogin(connect, activate);
   };
 
   useEffect(() => {

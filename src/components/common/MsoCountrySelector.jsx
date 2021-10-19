@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import { PDFViewer } from '@react-pdf/renderer';
 import DownloadPolicy from './DownloadPolicy';
-import useAuth from '../../hooks/useAuth';
+import { walletLogin } from '../../hooks/useAuth';
 import SUPPORTED_WALLETS from '../../config/walletConfig';
 import MsoUserInfoForm from '../MsoUserInfoForm';
 import MSOReceipt from '../MSOReceipt';
@@ -28,8 +28,8 @@ const MsoCountrySelector = ({
   selectedPlan,
   addonServices,
 }) => {
-  const { login } = useAuth();
-  const { account } = useWeb3React();
+  // const { login } = useAuth();
+  const { account, activate } = useWeb3React();
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
   const [membersInfo, setMembersInfo] = useState(null);
@@ -47,7 +47,8 @@ const MsoCountrySelector = ({
   const tryActivation = (connect) => {
     setCurWalletId(connect);
     setConnectStatus(true);
-    login(connect);
+    // login(connect);
+    walletLogin(connect, activate);
   };
 
   const handleBuyNow = (members) => {

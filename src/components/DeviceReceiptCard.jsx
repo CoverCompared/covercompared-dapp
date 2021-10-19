@@ -63,12 +63,14 @@ const DeviceReceiptCard = (props) => {
           Email : {phone}
         </div>
         <div className="grid md:grid-cols-12 md:gap-6 gap-8 xl:gap-10 mt-6">
-          <div className="xl:col-span-7 col-span-12">
+          <div className="lg:col-span-7">
             <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left">
               Device Details
             </div>
             <div className="flex items-center justify-between font-Montserrat">
-              <div className="md:text-body-md text-body-sm  font-medium mr-2">Device Model</div>
+              <div className="md:text-body-md text-body-sm  font-medium mr-2 text-left">
+                Device Model
+              </div>
               <div className="md:text-body-sm text-body-xs font-medium text-right">
                 {selectedModel && selectedModel.model_name}
               </div>
@@ -92,7 +94,7 @@ const DeviceReceiptCard = (props) => {
               <div className="md:text-body-sm text-body-xs font-medium">{purchaseMonth}</div>
             </div>
           </div>
-          <div className="xl:col-span-5 col-span-12">
+          <div className="lg:col-span-5">
             <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left">
               Payment Details
             </div>

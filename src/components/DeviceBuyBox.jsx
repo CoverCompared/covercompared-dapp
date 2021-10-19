@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
-import { PDFViewer } from '@react-pdf/renderer';
-import { toast } from 'react-toastify';
+import { CheckIcon } from '@heroicons/react/outline';
 import { useWeb3React } from '@web3-react/core';
+
+import Alert from './common/Alert';
 import useAuth from '../hooks/useAuth';
 import SUPPORTED_WALLETS from '../config/walletConfig';
 import SelectWithSearch from './common/SelectWithSearch';
@@ -15,15 +16,13 @@ import {
   getDevicePlanDetails,
   getDeviceModelDetails,
 } from '../redux/actions/CoverList';
+import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
 import { classNames } from '../functions/utils';
-import { setLoginModalVisible, setRegisterModalVisible } from '../redux/actions';
-import CheckIcon from '../assets/icons/check.png';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
-const amountOptions = ['ETH', 'BTC', 'USDT', 'USDC', 'CVR'];
 
 const DeviceBuyBox = (props) => {
-  const { setIsModalOpen, setTitle, setMaxWidth } = props;
+  const { setTitle, setMaxWidth } = props;
 
   const dispatch = useDispatch();
   const { login } = useAuth();
@@ -31,8 +30,15 @@ const DeviceBuyBox = (props) => {
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
   const coverListData = useSelector((state) => state.coverList);
-  const { is_verified } = useSelector((state) => state.auth);
-  const { deviceDetails, devicePlanDetails, deviceModelDetails, loader } = coverListData || {};
+  const { showOTPScreen, showVerified, is_verified, loader, isFailed } = useSelector(
+    (state) => state.auth,
+  );
+  const notRegistered = !is_verified;
+  const { deviceDetails, devicePlanDetails, deviceModelDetails } = coverListData || {};
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertText, setAlertText] = useState('');
+  const [alertType, setAlertType] = useState('');
 
   const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
   const [brand, setBrand] = useState('');
@@ -40,12 +46,17 @@ const DeviceBuyBox = (props) => {
   const [purchaseMonth, setPurchaseMonth] = useState('');
   const [model, setModel] = useState('');
   const [planType, setPlanType] = useState('');
+  const [useForRegistration, setUseForRegistration] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
 
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
-  const [phone, setEmail] = useState('');
-  const [email, setPhone] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [userOtp, setUserOtp] = useState('');
 
   const [showInfoForm, setShowInfoForm] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -100,12 +111,31 @@ const DeviceBuyBox = (props) => {
       dispatch(
         getDeviceModelDetails({
           endpoint: 'initiate-policy',
-          tran_id: deviceDetails.tran_id,
           plan_id: planType.plan_id,
+          tran_id: devicePlanDetails.tran_id,
         }),
       );
     }
   }, [deviceType, brand, value, purchaseMonth, planType]);
+
+  useEffect(() => {
+    if (emailSubmitted && showOTPScreen && isFailed && !loader) {
+      setShowAlert(true);
+      setAlertType('danger');
+      return setAlertText("You've provided an invalid OTP");
+    }
+    if (emailSubmitted && showOTPScreen && !loader) {
+      setShowAlert(true);
+      setAlertType('success');
+      return setAlertText('An OTP has been sent to your email');
+    }
+    if (emailSubmitted && showVerified && !loader) {
+      setShowAlert(true);
+      setAlertType('success');
+      return setAlertText('Thank you! your email has been verified successfully');
+    }
+    return null;
+  }, [showOTPScreen, showVerified, loader, isFailed, emailSubmitted]);
 
   const handleProceed = () => {
     if (!account) {
@@ -136,6 +166,17 @@ const DeviceBuyBox = (props) => {
     setTitle('Receipt');
     setMaxWidth('max-w-5xl');
     setShowReceipt(true);
+  };
+
+  const handleSubmitEmail = (e) => {
+    if (e) e.preventDefault();
+    setEmailSubmitted(true);
+    dispatch(setProfileDetails({ email: userEmail }));
+  };
+
+  const handleSubmitOTP = (e) => {
+    if (e) e.preventDefault();
+    dispatch(verifyOTP({ otp: userOtp }));
   };
 
   const getWalletOption = () => {
@@ -210,30 +251,6 @@ const DeviceBuyBox = (props) => {
               />
             }
           />
-          {/* <PDFViewer className="w-full h-80">
-            <DeviceReceipt
-              {...{
-                quote: plan_total_price,
-                discount,
-                total,
-                tax,
-                discountAmount,
-                applyDiscount,
-                fName,
-                lName,
-                phone,
-                email,
-                plan_type,
-                model,
-                deviceType,
-                brand,
-                value,
-                purchaseMonth,
-                plan_currency,
-                selectedModel: selectedModel[0],
-              }}
-            />
-          </PDFViewer> */}
         </div>
         <DeviceReceiptCard
           {...{
@@ -315,7 +332,13 @@ const DeviceBuyBox = (props) => {
 
   if (showInfoForm) {
     return (
-      <form onSubmit={handleBuyNow}>
+      <>
+        {showAlert && (
+          <div className="mb-4">
+            <Alert type={alertType} text={alertText} onClose={() => setShowAlert(false)} />
+          </div>
+        )}
+        {/* <form onSubmit={handleBuyNow}> */}
         <div className="grid grid-cols-2 gap-3">
           <input
             required
@@ -341,7 +364,7 @@ const DeviceBuyBox = (props) => {
             type="tel"
             placeholder="Mobile"
             name="mobile"
-            value={email}
+            value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
           />
@@ -350,40 +373,118 @@ const DeviceBuyBox = (props) => {
             type="email"
             placeholder="Email"
             name="email"
-            value={phone}
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
           />
         </div>
-        <div className="mt-4">
+
+        {notRegistered && (
+          <div className="mt-6">
+            <div className="flex justify-center items-center">
+              <h5 className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-body-md dark:text-white">
+                Registration Information
+              </h5>
+            </div>
+
+            <input
+              type="checkbox"
+              id="useForRegistration"
+              name="useForRegistration"
+              className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              checked={useForRegistration}
+              onChange={() => setUseForRegistration(!useForRegistration)}
+            />
+            <label
+              htmlFor="useForRegistration"
+              className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
+            >
+              Use above email for account registration
+            </label>
+
+            <div className="mt-4 grid grid-cols-12 gap-3 w-full">
+              <form className="lg:col-span-6 col-span-12" onSubmit={handleSubmitEmail}>
+                <input
+                  required
+                  disabled={!notRegistered || useForRegistration}
+                  type="email"
+                  placeholder="Email"
+                  name="userEmail"
+                  value={userEmail}
+                  onChange={(e) => setUserEmail(e.target.value)}
+                  className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0 disabled:bg-gray-100"
+                />
+                <button
+                  type="submit"
+                  disabled={!notRegistered || useForRegistration}
+                  className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                >
+                  Send verification OTP
+                </button>
+              </form>
+
+              <form className="lg:col-span-6 col-span-12" onSubmit={handleSubmitOTP}>
+                <input
+                  required
+                  disabled={
+                    !showOTPScreen || !emailSubmitted || !notRegistered || useForRegistration
+                  }
+                  type="number"
+                  placeholder="OTP"
+                  name="userOtp"
+                  value={userOtp}
+                  onChange={(e) => setUserOtp(e.target.value)}
+                  className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0  disabled:bg-gray-100"
+                />
+                <button
+                  type="submit"
+                  disabled={
+                    !showOTPScreen || !emailSubmitted || !notRegistered || useForRegistration
+                  }
+                  className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                >
+                  Verify OTP
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        <div className="mt-6">
           <input
             required
+            id="terms"
             type="checkbox"
             className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
           />
-          <span className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white">
+          <label
+            htmlFor="terms"
+            className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
+          >
             I have read and agree to the{' '}
             <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
               terms and conditions
             </a>{' '}
             *
-          </span>
+          </label>
         </div>
         <div className="mt-6 flex justify-center">
           <button
-            type="submit"
+            type="button"
+            onClick={handleBuyNow}
             className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
           >
             Buy Now
           </button>
         </div>
-      </form>
+        {/* </form> */}
+      </>
     );
   }
 
   return (
     <>
-      <form onSubmit={() => {}}>
+      <form onSubmit={(e) => e.preventDefault()}>
         <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
           1- Device Details
         </div>
@@ -470,6 +571,11 @@ const DeviceBuyBox = (props) => {
                   'bg-white relative dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full md:py-3 md:px-2 py-2 px-1 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
                 )}
               >
+                {JSON.stringify(planType) === JSON.stringify(planObj) && (
+                  <div className="absolute top-0 left-0 bg-primary-gd-1 text-white pl-2 pr-3 py-1 rounded-br-3xl rounded-tl-lg">
+                    <CheckIcon className="w-5 h-4" />
+                  </div>
+                )}
                 {planObj.plan_discount > 0 ? (
                   <div className="absolute h-full md:w-14 w-7 top-0 left-0 bg-primary-gd-1 rounded-l-xl flex justify-center items-center font-Montserrat md:text-body-md text-body-2xs text-white p-2">
                     {planObj.plan_discount}% off
@@ -528,6 +634,7 @@ const DeviceBuyBox = (props) => {
       <div className="w-full mt-5 flex justify-center items-center">
         <button
           type="button"
+          disabled={!model}
           onClick={handleProceed}
           className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
         >

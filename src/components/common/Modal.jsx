@@ -24,12 +24,17 @@ const Modal = (props) => {
     setIsModalOpen(!!isOpen);
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isModalOpen) {
+      setMaxWidth(sizeClass);
+      setTitle(modalTitle);
+    }
+  }, [isModalOpen]);
+
   const handleModalToggle = (value) => {
     if (!value) {
       if (onClose) onClose();
       else setIsModalOpen(false);
-      setMaxWidth(sizeClass);
-      setTitle(modalTitle);
     }
   };
 

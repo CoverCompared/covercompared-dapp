@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { initial } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/solid';
+import { XCircleIcon } from '@heroicons/react/solid';
 
 import CheckoutFormInput from './common/CheckoutFormInput';
 import FormInput from './FormInput';
-import { setProfileDetails, resendVerificationEmail, verifyOTP } from '../redux/actions/Auth';
+import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
 import Alert from './common/Alert';
 
 const MsoUserInfoForm = (props) => {
@@ -48,11 +48,6 @@ const MsoUserInfoForm = (props) => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [userOtp, setUserOtp] = useState('');
-
-  const [email, setEmail] = useState(authState.email || '');
-  const [dob, setDob] = useState('');
-  const [country, setCountry] = useState(props.countries[0]?.value || '');
-  const [saveDetails, setSaveDetails] = useState(false);
 
   useEffect(() => {
     if (emailSubmitted && showOTPScreen && isFailed && !loader) {
@@ -163,7 +158,7 @@ const MsoUserInfoForm = (props) => {
               <button
                 type="submit"
                 disabled={!notRegistered}
-                className="pl-2 mt-1 text-body-md underline cursor-pointer"
+                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
               >
                 Send verification OTP
               </button>
@@ -182,7 +177,7 @@ const MsoUserInfoForm = (props) => {
               <button
                 type="submit"
                 disabled={!showOTPScreen || !notRegistered}
-                className="pl-2 mt-1 text-body-md underline cursor-pointer"
+                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
               >
                 Verify OTP
               </button>

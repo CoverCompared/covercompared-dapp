@@ -267,7 +267,7 @@ const InsuranceProduct = (props) => {
           )}
 
           <Modal
-            title="Country of Residence"
+            title="Device Details"
             sizeClass="max-w-2xl"
             renderComponent={CountrySelector}
             bgImg="bg-loginPopupBg bg-cover"

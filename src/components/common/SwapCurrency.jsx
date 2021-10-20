@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+
 import SwapIcon from '../../assets/img/swap-icon.svg';
 import SwapWhiteIcon from '../../assets/img/swap-white-icon.svg';
 import { ThemeContext } from '../../themeContext';

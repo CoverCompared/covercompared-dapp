@@ -1,5 +1,5 @@
 import React from 'react';
-import uniquId from 'uniqid';
+
 import HealthInsurance from '../assets/img/health-insurance.svg';
 import InsurancePolicy from '../assets/img/insurance-policy-icon.svg';
 import GlobalIcon from '../assets/img/global-icon.svg';

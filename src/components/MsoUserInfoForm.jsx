@@ -328,16 +328,20 @@ const MsoUserInfoForm = (props) => {
           <div>
             <input
               required
+              id="terms"
               type="checkbox"
               className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
             />
-            <span className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white">
+            <label
+              htmlFor="terms"
+              className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
+            >
               I have read and agree to the{' '}
               <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
                 terms and conditions
               </a>{' '}
               *
-            </span>
+            </label>
           </div>
           <button
             type="submit"

@@ -1,7 +1,7 @@
 import { Fragment, useState, useContext } from 'react';
-import uniqid from 'uniqid';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpIcon } from '@heroicons/react/solid';
+
 import { classNames } from '../../functions/utils';
 import { ThemeContext } from '../../themeContext';
 

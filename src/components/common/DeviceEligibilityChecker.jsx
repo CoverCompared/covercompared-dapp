@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import { CheckCircleIcon } from '@heroicons/react/outline';

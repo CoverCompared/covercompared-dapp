@@ -1,5 +1,5 @@
 import React from 'react';
-import { uniqueId } from 'uniqid';
+
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 
 const MSOReceiptCard = (props) => {
@@ -15,6 +15,7 @@ const MSOReceiptCard = (props) => {
     MSOAddOnService,
     name,
     logo,
+    MSOCoverUser,
   } = props;
 
   const getCurrentDate = () => {
@@ -30,17 +31,29 @@ const MSOReceiptCard = (props) => {
     <>
       <div className="bg-white rounded-lg mt-8 w-full md:p-8 px-4 py-6 shadow-lg">
         <div className="flex justify-between">
-          <img src={CoverComparedLogo} alt="CoverCompared" className="h-9" />
+          <div className="flex">
+            <img src={CoverComparedLogo} alt="CoverCompared" className="h-10" />
+            <img src={logo} alt="MSO" className="h-14 ml-2" />
+          </div>
           <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">
             Date: {getCurrentDate()}
           </div>
         </div>
-        <img src={logo} alt="MSO" className="h-14 w-14 my-4" />
-        <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left">
-          {name}
-        </div>
-        <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-          Policy Number: 132546
+        <div className="flex justify-between">
+          <div>
+            <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left">
+              {name}
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              {MSOCoverUser}
+            </div>
+          </div>
+
+          <div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Policy Number: 132546
+            </div>
+          </div>
         </div>
 
         <div className="w-full mb-8 mt-8">

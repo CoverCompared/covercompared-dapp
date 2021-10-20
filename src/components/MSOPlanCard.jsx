@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
-import { useWeb3React } from '@web3-react/core';
+import React, { useState, useEffect } from 'react';
 
 import Modal from './common/Modal';
-import DiscountCard from './common/SmallPackageCard';
 import CountrySelector from './common/MsoCountrySelector';
 import MSOAdditionalDetails from './MSOAddtionalDetails';
-import { setCurrentProduct } from '../redux/actions/AppActions';
-import { setLoginModalVisible, setRegisterModalVisible } from '../redux/actions';
 
 const MSOPlanCard = (props) => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const { account } = useWeb3React();
-
   const {
     isEligible,
     InsurancePlanType,
@@ -58,6 +47,13 @@ const MSOPlanCard = (props) => {
   const [addonServices, setAddonServices] = useState(false);
   const [msoTotalPrice, setMsoTotalPrice] = useState(quote);
 
+  useEffect(() => {
+    console.log('Plans Card Mounted');
+    return () => {
+      console.log('Plans Card Un-Mounted');
+    };
+  }, []);
+
   const toggleCheckbox = (e) => {
     e.stopPropagation();
 
@@ -65,51 +61,6 @@ const MSOPlanCard = (props) => {
     else setMsoTotalPrice(+quote);
 
     setAddonServices(!addonServices);
-  };
-
-  // const handleCardClick = () => {
-  //   dispatch(
-  //     setCurrentProduct({
-  //       wantAddon: addonServices,
-  //       addOnQuote: MSOAddOnService,
-  //       quote,
-  //       MSOCoverUser,
-  //       name,
-  //       MSOAddOnService,
-  //       type,
-  //       EHR,
-  //       logo,
-  //       unique_id,
-  //       userTypeOptions,
-  //       noOfSpouse,
-  //       noOfDependent,
-  //       mainMemberParents,
-  //       spouseParents,
-  //       totalUsers,
-  //     }),
-  //   );
-  // };
-
-  const BuyButton = () => {
-    return (
-      <Modal
-        title="Members Information Form"
-        sizeClass="max-w-6xl"
-        renderComponent={CountrySelector}
-        bgImg="bg-loginPopupBg"
-        {...{ selectedPlan, addonServices }}
-      >
-        <div className="flex justify-center pt-2">
-          <button
-            type="button"
-            disabled={!isEligible}
-            className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2  focus:outline-none focus:ring-0 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
-          >
-            Buy Now
-          </button>
-        </div>
-      </Modal>
-    );
   };
 
   return (
@@ -152,6 +103,9 @@ const MSOPlanCard = (props) => {
             bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
             renderComponent={MSOAdditionalDetails}
             {...{
+              selectedPlan,
+              addonServices,
+              isEligible,
               name,
               quote,
               MSOAddOnService,
@@ -159,7 +113,6 @@ const MSOPlanCard = (props) => {
               MSOCoverUser,
               EHR,
               logo,
-              BuyButton,
             }}
           >
             <div
@@ -170,7 +123,23 @@ const MSOPlanCard = (props) => {
             </div>
           </Modal>
 
-          <BuyButton />
+          <Modal
+            title="Members Information Form"
+            sizeClass="max-w-6xl"
+            renderComponent={CountrySelector}
+            bgImg="bg-loginPopupBg"
+            {...{ selectedPlan, addonServices }}
+          >
+            <div className="flex justify-center pt-2">
+              <button
+                type="button"
+                disabled={!isEligible}
+                className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2  focus:outline-none focus:ring-0 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+              >
+                Buy Now
+              </button>
+            </div>
+          </Modal>
         </div>
       </div>
     </>

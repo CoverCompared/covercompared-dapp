@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import Slider, { createSliderWithTooltip, Range } from 'rc-slider';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { RefreshIcon, XIcon } from '@heroicons/react/outline';
 import { MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid';
+
 import { searchCoverList, searchMSOList } from '../redux/actions/CoverList';
 import { toggleFilters } from '../redux/actions/AppActions';
 import { classNames } from '../functions/utils';

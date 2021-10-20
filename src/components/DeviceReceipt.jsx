@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/renderer';
-import { uniqueId } from 'uniqid';
+
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import P4LLogo from '../assets/img/p4l-logo.png';
 
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     index: '499',
   },
   container: {
-    paddingHorizontal: 40,
+    paddingHorizontal: 24,
     paddingVertical: 40,
   },
   row: {
@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
   justify_between: {
     justifyContent: 'space-between',
   },
+  justify_end: {
+    justifyContent: 'flex-end',
+  },
   topLogo: {
     width: 100,
   },
@@ -31,30 +34,37 @@ const styles = StyleSheet.create({
   },
   total: {
     color: '#011b41',
-    fontSize: '16pt',
+    fontSize: '14pt',
     fontWeight: 'semibold',
   },
   paymentetails: {
     marginVertical: 4,
-    fontSize: '12pt',
+    fontSize: '10pt',
   },
   mt: {
     marginTop: '30pt',
   },
-  paymentDetailsContainer: {
-    width: '40%',
+  personalInfoContainer: {
+    width: '30%',
   },
   deviceDetailsContainer: {
-    width: '80%',
+    width: '50%',
   },
   deviceDetails: {
-    marginRight: '12pt',
+    marginRight: '6pt',
   },
   border_bottom: {
     borderBottom: '1pt solid black',
   },
   borderMY: {
     marginVertical: 6,
+  },
+  text_right: {
+    textAlign: 'right',
+  },
+  modelDetails: {
+    marginLeft: 16,
+    textAlign: 'right',
   },
 });
 
@@ -105,109 +115,116 @@ const DeviceReceipt = (props) => {
             <Image source={P4LLogo} />
           </View>
 
-          <View style={[styles.total]}>
-            <Text>Device Insurance</Text>
-          </View>
-          <View style={[styles.total, styles.paymentetails]}>
-            <Text>Policy ID: 123654</Text>
-          </View>
-          <View style={[styles.total, styles.paymentetails]}>
-            <Text>First Name: {fName}</Text>
-          </View>
-          <View style={[styles.total, styles.paymentetails]}>
-            <Text>Last Name: {lName}</Text>
-          </View>
-          <View style={[styles.total, styles.paymentetails]}>
-            <Text>Phone: {phone}</Text>
-          </View>
-          <View style={[styles.total, styles.paymentetails]}>
-            <Text>Email: {email}</Text>
-          </View>
-
-          <View style={[styles.deviceDetailsContainer, styles.mt]}>
-            <View style={styles.total}>
-              <Text>Device Details</Text>
-            </View>
-            <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-              <View style={styles.deviceDetails}>
-                <Text>Device Model</Text>
+          <View style={[styles.row, styles.justify_between]}>
+            <View>
+              <View style={[styles.total]}>
+                <Text>Device Insurance</Text>
               </View>
-              <View wrap="true">
-                <Text>{selectedModel && selectedModel.model_name}</Text>
+              <View style={[styles.total, styles.paymentetails]}>
+                <Text>Policy ID: 123654</Text>
               </View>
-            </View>
-            <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-              <View style={styles.deviceDetails}>
-                <Text>Device Type</Text>
+              <View style={[styles.total, styles.paymentetails]}>
+                <Text>First Name: {fName}</Text>
               </View>
-              <View>
-                <Text>{deviceType}</Text>
+              <View style={[styles.total, styles.paymentetails]}>
+                <Text>Last Name: {lName}</Text>
               </View>
-            </View>
-            <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-              <View style={styles.deviceDetails}>
-                <Text>Device Brand</Text>
+              <View style={[styles.total, styles.paymentetails]}>
+                <Text>Phone: {phone}</Text>
               </View>
-              <View>
-                <Text>{brand}</Text>
-              </View>
-            </View>
-            <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-              <View style={styles.deviceDetails}>
-                <Text>Device Value</Text>
-              </View>
-              <View>
-                <Text>
-                  {value} {plan_currency}
-                </Text>
-              </View>
-            </View>
-            <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-              <View style={styles.deviceDetails}>
-                <Text>Purchase Month</Text>
-              </View>
-              <View>
-                <Text>{purchaseMonth}</Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.paymentDetailsContainer, styles.mt]}>
-            <View style={styles.total}>
-              <Text>Payment Details</Text>
-            </View>
-            <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-              <View style={styles.deviceDetails}>
-                <Text>Premium</Text>
-              </View>
-              <View>
-                <Text>{quote} USD</Text>
-              </View>
-            </View>
-            <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-              <View style={styles.deviceDetails}>
-                <Text>Discount</Text>
-              </View>
-              <View>
-                <Text>{discountAmount} USD</Text>
-              </View>
-            </View>
-            <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-              <View style={styles.deviceDetails}>
-                <Text>Tax</Text>
-              </View>
-              <View>
-                <Text>{tax} USD</Text>
+              <View style={[styles.total, styles.paymentetails]}>
+                <Text>Email: {email}</Text>
               </View>
             </View>
 
-            <View style={[styles.border_bottom, styles.borderMY]} />
-
-            <View style={[styles.row, styles.justify_between, styles.paymentetails, styles.total]}>
-              <View>
-                <Text>Total</Text>
+            <View style={styles.deviceDetailsContainer}>
+              <View style={styles.total}>
+                <Text>Device Details</Text>
               </View>
-              <View>
-                <Text>{total} USD</Text>
+              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                <View style={styles.deviceDetails}>
+                  <Text>Device Type</Text>
+                </View>
+                <View>
+                  <Text>{deviceType}</Text>
+                </View>
+              </View>
+              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                <View style={styles.deviceDetails}>
+                  <Text>Device Brand</Text>
+                </View>
+                <View>
+                  <Text>{brand}</Text>
+                </View>
+              </View>
+              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                <View style={styles.deviceDetails}>
+                  <Text>Device Value</Text>
+                </View>
+                <View>
+                  <Text>
+                    {value} {plan_currency}
+                  </Text>
+                </View>
+              </View>
+              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                <View style={styles.deviceDetails}>
+                  <Text>Purchase Month</Text>
+                </View>
+                <View>
+                  <Text>{purchaseMonth}</Text>
+                </View>
+              </View>
+              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                <View style={styles.deviceDetails}>
+                  <Text>Device Model</Text>
+                </View>
+                <View style={[styles.row, styles.modelDetails]}>
+                  <Text>{selectedModel && selectedModel.model_name}</Text>
+                </View>
+              </View>
+
+              <View style={styles.mt}>
+                <View style={styles.total}>
+                  <Text>Payment Details</Text>
+                </View>
+                <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                  <View style={styles.deviceDetails}>
+                    <Text>Premium</Text>
+                  </View>
+                  <View>
+                    <Text>{quote} USD</Text>
+                  </View>
+                </View>
+                <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                  <View style={styles.deviceDetails}>
+                    <Text>Discount</Text>
+                  </View>
+                  <View>
+                    <Text>{discountAmount} USD</Text>
+                  </View>
+                </View>
+                <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                  <View style={styles.deviceDetails}>
+                    <Text>Tax</Text>
+                  </View>
+                  <View>
+                    <Text>{tax} USD</Text>
+                  </View>
+                </View>
+
+                <View style={[styles.border_bottom, styles.borderMY]} />
+
+                <View
+                  style={[styles.row, styles.justify_between, styles.paymentetails, styles.total]}
+                >
+                  <View>
+                    <Text>Total</Text>
+                  </View>
+                  <View>
+                    <Text>{total} USD</Text>
+                  </View>
+                </View>
               </View>
             </View>
           </View>

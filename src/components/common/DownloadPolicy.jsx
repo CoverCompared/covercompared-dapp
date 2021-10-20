@@ -1,6 +1,5 @@
 import React from 'react';
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
-import MSOReceipt from '../MSOReceipt';
 
 const DownloadPolicy = (props) => {
   const { pdf, fileName } = props;

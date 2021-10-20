@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import uniqid from 'uniqid';
+
 import InfiniteScroll from 'react-infinite-scroll-component';
 import PackageCard from '../components/common/PackageCard';
 import SmallPackageCard from '../components/common/SmallPackageCard';
-// import MSOPackageCard from '../components/MSOPackageCard';
-// import MSOSmallPackageCard from '../components/MSOSmallPackageCard';
+
 import ChangeViewIcon from '../assets/img/view-change-icon.svg';
 import MobileFilterIcon from '../assets/icons/mobile-filter.svg';
 import MobileFilterWhiteIcon from '../assets/dark-icons/mobile-filter-white.svg';

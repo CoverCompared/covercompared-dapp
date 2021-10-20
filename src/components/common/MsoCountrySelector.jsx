@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useWeb3React } from '@web3-react/core';
+// import { PDFViewer } from '@react-pdf/renderer';
 
 import DownloadPolicy from './DownloadPolicy';
 import { walletLogin } from '../../hooks/useAuth';
@@ -135,7 +136,6 @@ const MsoCountrySelector = ({
             fileName="MSO_Policy_Receipt.pdf"
           />
         </div>
-
         <div className="flex">
           <MSOReceiptCard
             {...{

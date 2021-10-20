@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PDFViewer } from '@react-pdf/renderer';
 import uniqid from 'uniqid';
 import { CheckIcon } from '@heroicons/react/outline';
 import { useWeb3React } from '@web3-react/core';

@@ -33,7 +33,7 @@ const MSOReceiptCard = (props) => {
         <div className="flex justify-between">
           <div className="flex">
             <img src={CoverComparedLogo} alt="CoverCompared" className="h-10" />
-            <img src={logo} alt="MSO" className="h-14" />
+            <img src={logo} alt="MSO" className="h-14 ml-2" />
           </div>
           <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">
             Date: {getCurrentDate()}

@@ -46,7 +46,7 @@ const DeviceReceiptCard = (props) => {
         <img src={P4LLogo} alt="MSO" className="w-24 h-auto my-5" />
 
         <div className="grid md:grid-cols-12 md:gap-6 gap-8 xl:gap-10 mt-6">
-          <div className="col-span-12 lg:col-span-7">
+          <div className="col-span-12 lg:col-span-5">
             <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left mb-2">
               Device Insurance
             </div>
@@ -67,7 +67,7 @@ const DeviceReceiptCard = (props) => {
             </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-5">
+          <div className="col-span-12 lg:col-span-7">
             <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left mb-2">
               Device Details
             </div>
@@ -115,21 +115,31 @@ const DeviceReceiptCard = (props) => {
         </div>
 
         <div className="grid md:grid-cols-12 md:gap-6 gap-8 xl:gap-10 mt-8">
-          <div className="col-span-12 col-start-1 lg:col-span-5 lg:col-start-8">
+          <div className="col-span-12 col-start-1 lg:col-span-7 lg:col-start-6">
             <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left">
               Payment Details
             </div>
             <div className="flex items-center justify-between w-full font-Montserrat">
-              <div className="md:text-body-md text-body-sm  font-medium">Premium</div>
-              <div className="md:text-body-sm text-body-xs font-medium">{quote} USD</div>
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
+                Premium
+              </div>
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
+                {quote} USD
+              </div>
             </div>
             <div className="flex items-center justify-between w-full font-Montserrat">
-              <div className="md:text-body-md text-body-sm  font-medium">Discount</div>
-              <div className="md:text-body-sm text-body-xs font-medium">{discountAmount} USD</div>
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
+                Discount
+              </div>
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
+                {discountAmount} USD
+              </div>
             </div>
             <div className="flex items-center justify-between w-full font-Montserrat">
-              <div className="md:text-body-md text-body-sm  font-medium">Tax</div>
-              <div className="md:text-body-sm text-body-xs font-medium">{tax} USD</div>
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">Tax</div>
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
+                {tax} USD
+              </div>
             </div>
             <hr />
             <div className="flex items-center justify-between w-full text-body-dark-bg mt-2 font-Montserrat text-body-lg font-semibold">

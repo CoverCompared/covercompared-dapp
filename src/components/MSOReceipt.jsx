@@ -19,13 +19,19 @@ const styles = StyleSheet.create({
   justify_between: {
     justifyContent: 'space-between',
   },
+  align_center: {
+    alignItems: 'center',
+  },
+  align_start: {
+    alignItems: 'flex-start',
+  },
   topLogo: {
     width: 100,
   },
   msoLogo: {
-    height: '80pt',
-    width: '80pt',
-    marginTop: 10,
+    height: '40pt',
+    width: '40pt',
+    marginLeft: '6pt',
   },
   border_right: {
     borderRight: '1pt solid black',
@@ -60,6 +66,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   mt: {
     marginTop: '30pt',
@@ -71,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   borderMY: {
-    marginVertical: 10,
+    marginVertical: 6,
   },
   paymentetails: {
     marginVertical: 4,
@@ -115,24 +122,33 @@ const MSOReceipt = (props) => {
       <Page style={styles.page}>
         <View style={styles.container}>
           <View style={[styles.row, styles.justify_between]}>
-            <View style={styles.topLogo}>
-              <Image source={CoverComparedLogo} />
+            <View style={styles.row}>
+              <View style={styles.topLogo}>
+                <Image source={CoverComparedLogo} />
+              </View>
+              {logo && (
+                <View style={styles.msoLogo}>
+                  <Image source={logo} />
+                </View>
+              )}
             </View>
             <View>
               <Text>Date: {getCurrentDate()}</Text>
             </View>
           </View>
-          {logo && (
-            <View style={[styles.topLogo, styles.msoLogo]}>
-              <Image source={logo} />
-            </View>
-          )}
 
-          <View style={styles.total}>
-            <Text>{name}</Text>
-          </View>
-          <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-            <Text>Policy Number: 123654</Text>
+          <View style={[styles.row, styles.justify_between, styles.align_start, styles.mt]}>
+            <View>
+              <View style={styles.total}>
+                <Text>{name}</Text>
+              </View>
+              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                <Text>{MSOCoverUser}</Text>
+              </View>
+            </View>
+            <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+              <Text>Policy Number: 123654</Text>
+            </View>
           </View>
 
           <View

@@ -37,6 +37,13 @@ const MsoCountrySelector = ({
   const [applyDiscount, setApplyDiscount] = useState(false);
 
   useEffect(() => {
+    console.log('Selector Mounted');
+    return () => {
+      console.log('Selector Un-Mounted');
+    };
+  }, []);
+
+  useEffect(() => {
     if (!account) {
       setTitle('Login');
       setMaxWidth('max-w-2xl');
@@ -46,8 +53,9 @@ const MsoCountrySelector = ({
   const tryActivation = (connect) => {
     setCurWalletId(connect);
     setConnectStatus(true);
-    // login(connect);
     walletLogin(connect, activate);
+    setMaxWidth('max-w-6xl');
+    setTitle('Members Information Form');
   };
 
   const handleBuyNow = (members) => {

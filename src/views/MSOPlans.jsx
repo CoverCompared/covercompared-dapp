@@ -130,8 +130,8 @@ const MSOPlans = (props) => {
             Plans
           </h2>
           <div className="grid grid-cols-12 lg:grid-cols-12 xl:grid-col-12 gap-y-4 gap-x-5 md:gap-4 lg:gap-x-6 lg:gap-y-4 mt-8">
-            {products.map((obj) => (
-              <MSOPlanCard key={uniqid()} {...{ ...obj, isEligible }} {...props} />
+            {products.map((obj, i) => (
+              <MSOPlanCard key={i} {...{ ...obj, isEligible }} {...props} />
             ))}
           </div>
         </>

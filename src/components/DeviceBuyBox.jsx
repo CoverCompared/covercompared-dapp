@@ -162,8 +162,10 @@ const DeviceBuyBox = (props) => {
   const tryActivation = (connect) => {
     setCurWalletId(connect);
     setConnectStatus(true);
-    // login(connect);
     walletLogin(connect, activate);
+
+    setTitle('Personal Information');
+    setShowInfoForm(true);
   };
 
   const handleConfirm = (e) => {

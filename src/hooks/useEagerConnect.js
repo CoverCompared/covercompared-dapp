@@ -1,16 +1,18 @@
 import { useEffect } from 'react';
-import useAuth from './useAuth';
+import { useWeb3React } from '@web3-react/core';
+import { walletLogin } from './useAuth';
 import { connectorLocalStorageKey } from '../config/connectors';
 
 const useEagerConnect = () => {
-  const { login } = useAuth();
+  // const { login } = useAuth();
+  const { account, activate } = useWeb3React();
 
   useEffect(() => {
     const connectorId = window.localStorage.getItem(connectorLocalStorageKey);
-    if (connectorId) {
-      login(connectorId);
+    if (connectorId && !account) {
+      walletLogin(connectorId, activate);
     }
-  }, [login]);
+  }, []);
 };
 
 export default useEagerConnect;

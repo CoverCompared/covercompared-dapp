@@ -1,9 +1,8 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import uniqid from 'uniqid';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import BigNumber from 'bignumber.js';
-import useEagerConnect from './hooks/useEagerConnect';
 import routes from './routes';
 import SVGGradients from './components/common/SVGGradients';
 import PublicRoute from './routes/PublicRoute';
@@ -18,8 +17,6 @@ BigNumber.config({
 });
 
 const App = (props) => {
-  useEagerConnect();
-
   return (
     <BrowserRouter>
       <ToastContainer

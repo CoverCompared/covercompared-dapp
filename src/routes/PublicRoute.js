@@ -1,15 +1,26 @@
 import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
+import { useWeb3React } from '@web3-react/core';
 import WithSidebar from '../layouts/WithSidebar';
 import WithoutSidebar from '../layouts/WithoutSidebar';
+import { walletLogin, walletLogout } from '../hooks/useAuth';
+import { connectorLocalStorageKey } from '../config/connectors';
 
 const PublicRoute = (props) => {
   const { component, withSidebar, ...rest } = props;
+  const { account, activate, deactivate } = useWeb3React();
 
   useEffect(() => {
     console.log(`Hi I'm mounted> page`);
+    const connectorId = window.localStorage.getItem(connectorLocalStorageKey);
+    if (connectorId && !account) {
+      walletLogin(connectorId, activate);
+    }
     return () => {
       console.log(`Hi I'm un-mounted> page`);
+      if (account) {
+        walletLogout(deactivate);
+      }
     };
   }, []);
 

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useWeb3React } from '@web3-react/core';
-import InputWithSelect from './common/InputWithSelect';
+
 import SelectWithSearch from './common/SelectWithSearch';
 import { getQuote } from '../redux/actions/CoverList';
 import { setLoginModalVisible } from '../redux/actions';

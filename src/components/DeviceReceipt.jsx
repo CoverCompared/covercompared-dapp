@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/renderer';
-import { uniqueId } from 'uniqid';
+
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import P4LLogo from '../assets/img/p4l-logo.png';
 

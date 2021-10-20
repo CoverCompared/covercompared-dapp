@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { transform } from 'lodash';
+import React from 'react';
 import uniqid from 'uniqid';
+
 import PointIcon from '../assets/img/blue-point.svg';
 import Allianz from '../assets/img/allianz.svg';
 import AIGLogo from '../assets/img/aig-logo.svg';
 import NextCare from '../assets/img/Nextcare.svg';
 import GlobalIcon from '../assets/img/manifesto-global-icon.svg';
-import CommunityIcon from '../assets/img/manifesto-community-icon.svg';
 import VisionIcon from '../assets/img/manifesto-vision-icon.svg';
 import ArrowFrame from '../assets/img/about-polkacover-frames.gif';
 import PhaseIcon1 from '../assets/img/phase-icon-1.png';

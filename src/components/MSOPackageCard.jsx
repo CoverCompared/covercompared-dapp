@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
-import { toast } from 'react-toastify';
+
 import { setCurrentProduct } from '../redux/actions/AppActions';
 import { setLoginModalVisible, setRegisterModalVisible } from '../redux/actions';
 

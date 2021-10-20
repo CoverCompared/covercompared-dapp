@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/renderer';
-import { uniqueId } from 'uniqid';
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 
 const styles = StyleSheet.create({
@@ -108,6 +107,7 @@ const MSOReceipt = (props) => {
     MSOAddOnService,
     name,
     logo,
+    MSOCoverUser,
   } = props;
 
   return (

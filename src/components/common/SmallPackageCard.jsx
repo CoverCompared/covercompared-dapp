@@ -3,12 +3,12 @@ import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { toast } from 'react-toastify';
+
 import { setCurrentProduct } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
 import BuyIcon from '../../assets/icons/buy.svg';
 import ToolTip from './ToolTip';
 import { setLoginModalVisible } from '../../redux/actions';
-
 import Placeholder from '../../assets/img/placeholder.png';
 
 const SmallPackageCard = (props) => {

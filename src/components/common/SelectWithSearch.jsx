@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import uniqid from 'uniqid';
 import _ from 'lodash';
-import { XIcon } from '@heroicons/react/outline';
 
 import DownArrow from '../../assets/img/Arrow-Down.svg';
 import DownArrowWhite from '../../assets/dark-icons/Arrow-Down.svg';
@@ -127,9 +126,9 @@ const SelectWithSearch = ({
               </div>
             </>
           ) : (
-            <div className="flex relative h-5 items-center cursor-pointer">
+            <div className="w-full relative h-5 cursor-pointer">
               <div
-                className="text-Montserrat text-body-lg text-dark-blue font-medium flex items-center dark:text-white"
+                className="text-Montserrat w-full h-full text-body-lg text-dark-blue font-medium flex justify-end items-center dark:text-white"
                 onClick={() => setIsOpen(!isOpen)}
               >
                 {isObject(dropdownOptions)

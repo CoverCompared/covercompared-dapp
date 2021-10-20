@@ -46,22 +46,27 @@ const DeviceBuyBox = (props) => {
   const [purchaseMonth, setPurchaseMonth] = useState('');
   const [model, setModel] = useState('');
   const [planType, setPlanType] = useState('');
-  const [useForRegistration, setUseForRegistration] = useState(false);
-  const [applyDiscount, setApplyDiscount] = useState(false);
 
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
 
+  const [applyDiscount, setApplyDiscount] = useState(false);
+
+  const [useForRegistration, setUseForRegistration] = useState(false);
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [userOtp, setUserOtp] = useState('');
 
+  const [showLogin, setShowLogin] = useState(false);
   const [showInfoForm, setShowInfoForm] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
+
+  const hasFirstStep = deviceType && brand && value && purchaseMonth;
+  const hasFirstTwoStep = hasFirstStep && planType;
+  const hasAllStep = hasFirstTwoStep && model;
 
   useEffect(() => {
     dispatch(
@@ -71,16 +76,13 @@ const DeviceBuyBox = (props) => {
         partner_code: 'Crypto',
       }),
     );
+    setBrand('');
+    setValue('');
+    setPurchaseMonth('');
   }, [deviceType]);
 
   useEffect(() => {
-    setBrand(deviceDetails?.brand?.[0] || '');
-    setValue(Object.keys(deviceDetails?.device_values || {})?.[0] || '');
-    setPurchaseMonth(deviceDetails?.purchase_month?.[0] || '');
-  }, [deviceDetails]);
-
-  useEffect(() => {
-    if (deviceType && brand && value && purchaseMonth) {
+    if (hasFirstStep) {
       dispatch(
         getDevicePlanDetails({
           endpoint: 'plan-details',
@@ -107,7 +109,7 @@ const DeviceBuyBox = (props) => {
   }, [deviceModelDetails]);
 
   useEffect(() => {
-    if (deviceType && brand && value && purchaseMonth && planType) {
+    if (hasFirstTwoStep) {
       dispatch(
         getDeviceModelDetails({
           endpoint: 'initiate-policy',
@@ -137,7 +139,8 @@ const DeviceBuyBox = (props) => {
     return null;
   }, [showOTPScreen, showVerified, loader, isFailed, emailSubmitted]);
 
-  const handleProceed = () => {
+  const handleProceed = (e) => {
+    if (e) e.preventDefault();
     if (!account) {
       setTitle('Login');
       setMaxWidth('max-w-2xl');
@@ -169,15 +172,24 @@ const DeviceBuyBox = (props) => {
     setShowReceipt(true);
   };
 
-  const handleSubmitEmail = (e) => {
-    if (e) e.preventDefault();
-    setEmailSubmitted(true);
-    dispatch(setProfileDetails({ email: userEmail }));
+  const handleSubmitEmail = (email = null) => {
+    if (userEmail || email) {
+      setEmailSubmitted(true);
+      dispatch(setProfileDetails({ email: userEmail || email }));
+    }
   };
 
   const handleSubmitOTP = (e) => {
     if (e) e.preventDefault();
-    dispatch(verifyOTP({ otp: userOtp }));
+    if (userOtp) dispatch(verifyOTP({ otp: userOtp }));
+  };
+
+  const toggleRegisterCheckbox = () => {
+    setUseForRegistration(!useForRegistration);
+    if (!useForRegistration && email) {
+      setUserEmail(email);
+      handleSubmitEmail(email);
+    }
   };
 
   const getWalletOption = () => {
@@ -339,153 +351,150 @@ const DeviceBuyBox = (props) => {
             <Alert type={alertType} text={alertText} onClose={() => setShowAlert(false)} />
           </div>
         )}
-        {/* <form onSubmit={handleBuyNow}> */}
-        <div className="grid grid-cols-2 gap-3">
-          <input
-            required
-            type="text"
-            placeholder="First Name"
-            name="first_name"
-            value={fName}
-            onChange={(e) => setFName(e.target.value)}
-            className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-          />
-
-          <input
-            required
-            type="text"
-            placeholder="Last Name"
-            name="last_name"
-            value={lName}
-            onChange={(e) => setLName(e.target.value)}
-            className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-          />
-          <input
-            required
-            type="tel"
-            placeholder="Mobile"
-            name="mobile"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-          />
-          <input
-            required
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-          />
-        </div>
-
-        {notRegistered && (
-          <div className="mt-6">
-            <div className="flex justify-center items-center">
-              <h5 className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-body-md dark:text-white">
-                Registration Information
-              </h5>
-            </div>
-
+        <form onSubmit={handleBuyNow}>
+          <div className="grid grid-cols-2 gap-3">
             <input
+              required
+              type="text"
+              placeholder="First Name"
+              name="first_name"
+              value={fName}
+              onChange={(e) => setFName(e.target.value)}
+              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+            />
+            <input
+              required
+              type="text"
+              placeholder="Last Name"
+              name="last_name"
+              value={lName}
+              onChange={(e) => setLName(e.target.value)}
+              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+            />
+            <input
+              required
+              type="tel"
+              placeholder="Mobile"
+              name="mobile"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+            />
+            <input
+              required
+              type="email"
+              placeholder="Email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+            />
+          </div>
+
+          {notRegistered && (
+            <div className="mt-6">
+              <div className="flex justify-center items-center">
+                <h5 className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-body-md dark:text-white">
+                  Registration Information
+                </h5>
+              </div>
+
+              <input
+                type="checkbox"
+                id="useForRegistration"
+                name="useForRegistration"
+                className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+                checked={useForRegistration}
+                onChange={toggleRegisterCheckbox}
+              />
+              <label
+                htmlFor="useForRegistration"
+                className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
+              >
+                Use above email for account registration
+              </label>
+
+              <div className="mt-4 grid grid-cols-12 gap-3 w-full">
+                <div className="lg:col-span-6 col-span-12">
+                  <input
+                    required
+                    disabled={!notRegistered}
+                    type="email"
+                    placeholder="Email"
+                    name="userEmail"
+                    value={userEmail}
+                    onChange={(e) => setUserEmail(e.target.value)}
+                    className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0 disabled:bg-gray-100"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSubmitEmail}
+                    disabled={!notRegistered}
+                    className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                  >
+                    Send verification OTP
+                  </button>
+                </div>
+
+                <div className="lg:col-span-6 col-span-12">
+                  <input
+                    required
+                    disabled={!showOTPScreen || !emailSubmitted || !notRegistered}
+                    type="number"
+                    placeholder="OTP"
+                    name="userOtp"
+                    value={userOtp}
+                    onChange={(e) => setUserOtp(e.target.value)}
+                    className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0  disabled:bg-gray-100"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSubmitOTP}
+                    disabled={!showOTPScreen || !emailSubmitted || !notRegistered}
+                    className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                  >
+                    Verify OTP
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="mt-6">
+            <input
+              required
+              id="terms"
               type="checkbox"
-              id="useForRegistration"
-              name="useForRegistration"
-              className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
-              checked={useForRegistration}
-              onChange={() => setUseForRegistration(!useForRegistration)}
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
             />
             <label
-              htmlFor="useForRegistration"
+              htmlFor="terms"
               className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
             >
-              Use above email for account registration
+              I have read and agree to the{' '}
+              <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
+                terms and conditions
+              </a>{' '}
+              *
             </label>
-
-            <div className="mt-4 grid grid-cols-12 gap-3 w-full">
-              <form className="lg:col-span-6 col-span-12" onSubmit={handleSubmitEmail}>
-                <input
-                  required
-                  disabled={!notRegistered || useForRegistration}
-                  type="email"
-                  placeholder="Email"
-                  name="userEmail"
-                  value={userEmail}
-                  onChange={(e) => setUserEmail(e.target.value)}
-                  className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0 disabled:bg-gray-100"
-                />
-                <button
-                  type="submit"
-                  disabled={!notRegistered || useForRegistration}
-                  className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
-                >
-                  Send verification OTP
-                </button>
-              </form>
-
-              <form className="lg:col-span-6 col-span-12" onSubmit={handleSubmitOTP}>
-                <input
-                  required
-                  disabled={
-                    !showOTPScreen || !emailSubmitted || !notRegistered || useForRegistration
-                  }
-                  type="number"
-                  placeholder="OTP"
-                  name="userOtp"
-                  value={userOtp}
-                  onChange={(e) => setUserOtp(e.target.value)}
-                  className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0  disabled:bg-gray-100"
-                />
-                <button
-                  type="submit"
-                  disabled={
-                    !showOTPScreen || !emailSubmitted || !notRegistered || useForRegistration
-                  }
-                  className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
-                >
-                  Verify OTP
-                </button>
-              </form>
-            </div>
           </div>
-        )}
-
-        <div className="mt-6">
-          <input
-            required
-            id="terms"
-            type="checkbox"
-            className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
-          />
-          <label
-            htmlFor="terms"
-            className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
-          >
-            I have read and agree to the{' '}
-            <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
-              terms and conditions
-            </a>{' '}
-            *
-          </label>
-        </div>
-        <div className="mt-6 flex justify-center">
-          <button
-            type="button"
-            onClick={handleBuyNow}
-            className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
-          >
-            Buy Now
-          </button>
-        </div>
-        {/* </form> */}
+          <div className="mt-6 flex justify-center">
+            <button
+              type="submit"
+              disabled={notRegistered}
+              className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+            >
+              Buy Now
+            </button>
+          </div>
+        </form>
       </>
     );
   }
 
   return (
     <>
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={handleProceed}>
         <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
           1- Device Details
         </div>
@@ -550,64 +559,68 @@ const DeviceBuyBox = (props) => {
           </div>
         </div> */}
 
-        <div className="mt-4 font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
-          2- Purchase Plan
-        </div>
-        <div className="grid grid-cols-2 gap-x-3 gap-y-3">
-          {devicePlanDetails?.plan_price?.map((planObj) => (
-            <label key={uniqid()}>
-              <input
-                id="sample"
-                name="sample"
-                type="radio"
-                className="hidden"
-                value="monthly"
-                onClick={() => setPlanType(planObj)}
-              />
-              <div
-                className={classNames(
-                  JSON.stringify(planType) === JSON.stringify(planObj)
-                    ? 'border-2 border-primary-gd-1 dark:border-white'
-                    : 'border-2 border-gray-300',
-                  'bg-white relative dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full md:py-3 md:px-2 py-2 px-1 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
-                )}
-              >
-                {JSON.stringify(planType) === JSON.stringify(planObj) && (
-                  <div className="absolute top-0 left-0 bg-primary-gd-1 text-white pl-2 pr-3 py-1 rounded-br-3xl rounded-tl-lg">
-                    <CheckIcon className="w-5 h-4" />
-                  </div>
-                )}
-                {planObj.plan_discount > 0 ? (
-                  <div className="absolute h-full md:w-14 w-7 top-0 left-0 bg-primary-gd-1 rounded-l-xl flex justify-center items-center font-Montserrat md:text-body-md text-body-2xs text-white p-2">
-                    {planObj.plan_discount}% off
-                  </div>
-                ) : (
-                  ''
-                )}
-                <div
-                  className={classNames(
-                    planObj.plan_discount > 0 ? 'pl-5 text-body-2xs' : 'text-body-xs',
-                    'text-dark-blue md:text-body-md dark:text-white',
-                  )}
-                >
-                  <div className="text-center mb-1">{planObj.plan_type}</div>
-                  {planObj.plan_actual_price > planObj.plan_total_price ? (
-                    <div>
-                      {planObj.plan_currency} {planObj.plan_total_price}{' '}
-                      <del>({planObj.plan_actual_price})</del>
+        {hasFirstTwoStep && (
+          <>
+            <div className="mt-4 font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
+              2- Choose Payment Plan
+            </div>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-3">
+              {devicePlanDetails?.plan_price?.map((planObj) => (
+                <label key={uniqid()}>
+                  <input
+                    id="sample"
+                    name="sample"
+                    type="radio"
+                    className="hidden"
+                    value="monthly"
+                    onClick={() => setPlanType(planObj)}
+                  />
+                  <div
+                    className={classNames(
+                      JSON.stringify(planType) === JSON.stringify(planObj)
+                        ? 'border-2 border-primary-gd-1 dark:border-white'
+                        : 'border-2 border-gray-300',
+                      'bg-white relative dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full md:py-3 md:px-2 py-2 px-1 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
+                    )}
+                  >
+                    {JSON.stringify(planType) === JSON.stringify(planObj) && (
+                      <div className="absolute top-0 left-0 bg-primary-gd-1 text-white pl-2 pr-3 py-1 rounded-br-3xl rounded-tl-lg">
+                        <CheckIcon className="w-5 h-4" />
+                      </div>
+                    )}
+                    {planObj.plan_discount > 0 ? (
+                      <div className="absolute h-full md:w-14 w-7 top-0 left-0 bg-primary-gd-1 rounded-l-xl flex justify-center items-center font-Montserrat md:text-body-md text-body-2xs text-white p-2">
+                        {planObj.plan_discount}% off
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                    <div
+                      className={classNames(
+                        planObj.plan_discount > 0 ? 'pl-5 text-body-2xs' : 'text-body-xs',
+                        'text-dark-blue md:text-body-md dark:text-white',
+                      )}
+                    >
+                      <div className="text-center mb-1">{planObj.plan_type}</div>
+                      {planObj.plan_actual_price > planObj.plan_total_price ? (
+                        <div>
+                          {planObj.plan_currency} {planObj.plan_total_price}{' '}
+                          <del>({planObj.plan_actual_price})</del>
+                        </div>
+                      ) : (
+                        <div>
+                          {planObj.plan_currency} {planObj.plan_total_price}
+                        </div>
+                      )}
                     </div>
-                  ) : (
-                    <div>
-                      {planObj.plan_currency} {planObj.plan_total_price}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </label>
-          )) || null}
-        </div>
+                  </div>
+                </label>
+              )) || null}
+            </div>
+          </>
+        )}
 
-        {!!deviceModelDetails?.models?.length && (
+        {!!(deviceModelDetails?.models?.length && hasFirstTwoStep) && (
           <>
             <div className="mt-4 font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
               3- Device Specification
@@ -630,18 +643,17 @@ const DeviceBuyBox = (props) => {
             </div>
           </>
         )}
-      </form>
 
-      <div className="w-full mt-5 flex justify-center items-center">
-        <button
-          type="button"
-          disabled={!model}
-          onClick={handleProceed}
-          className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
-        >
-          Proceed
-        </button>
-      </div>
+        <div className="w-full mt-5 flex justify-center items-center">
+          <button
+            type="submit"
+            disabled={!hasAllStep}
+            className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+          >
+            Proceed
+          </button>
+        </div>
+      </form>
     </>
   );
 };

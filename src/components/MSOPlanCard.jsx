@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
-import { useWeb3React } from '@web3-react/core';
+import React, { useState } from 'react';
 
 import Modal from './common/Modal';
-import DiscountCard from './common/SmallPackageCard';
 import CountrySelector from './common/MsoCountrySelector';
 import MSOAdditionalDetails from './MSOAddtionalDetails';
-import { setCurrentProduct } from '../redux/actions/AppActions';
-import { setLoginModalVisible, setRegisterModalVisible } from '../redux/actions';
 
 const MSOPlanCard = (props) => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const { account } = useWeb3React();
-
   const {
     isEligible,
     InsurancePlanType,
@@ -66,29 +55,6 @@ const MSOPlanCard = (props) => {
 
     setAddonServices(!addonServices);
   };
-
-  // const handleCardClick = () => {
-  //   dispatch(
-  //     setCurrentProduct({
-  //       wantAddon: addonServices,
-  //       addOnQuote: MSOAddOnService,
-  //       quote,
-  //       MSOCoverUser,
-  //       name,
-  //       MSOAddOnService,
-  //       type,
-  //       EHR,
-  //       logo,
-  //       unique_id,
-  //       userTypeOptions,
-  //       noOfSpouse,
-  //       noOfDependent,
-  //       mainMemberParents,
-  //       spouseParents,
-  //       totalUsers,
-  //     }),
-  //   );
-  // };
 
   const BuyButton = () => {
     return (

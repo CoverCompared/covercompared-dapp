@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import uniqid from 'uniqid';
+
 import PartnerCard from '../components/PartnerCard';
+import { classNames } from '../functions/utils';
+
 import AudaceIcon from '../assets/partners/audace.png';
 import Insurance971 from '../assets/partners/971 insurance.png';
 import BandProtocol from '../assets/partners/Band Protocol.png';
@@ -31,7 +34,6 @@ import Uniswap from '../assets/partners/uniswap.png';
 import Unmarshal from '../assets/partners/Unmarshal.png';
 import Unore from '../assets/partners/UNORE.png';
 import VitorServices from '../assets/partners/Vitor services.png';
-import { classNames } from '../functions/utils';
 
 const tabs = [
   {

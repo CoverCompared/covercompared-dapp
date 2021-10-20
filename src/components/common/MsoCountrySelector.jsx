@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { toast } from 'react-toastify';
 
-import { PDFViewer } from '@react-pdf/renderer';
 import DownloadPolicy from './DownloadPolicy';
 import { walletLogin } from '../../hooks/useAuth';
 import SUPPORTED_WALLETS from '../../config/walletConfig';
@@ -99,7 +97,14 @@ const MsoCountrySelector = ({
   }
 
   if (showReceipt) {
-    const { quote = '0', MSOAddOnService = '0', tax = '5', name, logo } = selectedPlan;
+    const {
+      quote = '0',
+      MSOAddOnService = '0',
+      tax = '5',
+      name,
+      logo,
+      MSOCoverUser,
+    } = selectedPlan;
     const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
     const discountAmount = applyDiscount ? discount : 0;
     const total = addonServices
@@ -108,23 +113,6 @@ const MsoCountrySelector = ({
     return (
       <>
         <div className="flex justify-end">
-          {/* <PDFViewer className="w-full h-80">
-            <MSOReceipt
-              {...{
-                membersInfo,
-                quote,
-                discount,
-                total,
-                tax,
-                discountAmount,
-                addonServices,
-                applyDiscount,
-                MSOAddOnService,
-                name,
-                logo,
-              }}
-            />
-          </PDFViewer> */}
           <DownloadPolicy
             pdf={
               <MSOReceipt
@@ -140,6 +128,7 @@ const MsoCountrySelector = ({
                   MSOAddOnService,
                   name,
                   logo,
+                  MSOCoverUser,
                 }}
               />
             }
@@ -161,6 +150,7 @@ const MsoCountrySelector = ({
               MSOAddOnService,
               name,
               logo,
+              MSOCoverUser,
             }}
           />
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import StarRatings from 'react-star-ratings';
 
 const ReviewCard = ({ name, image, rating, uploaded, description }) => {

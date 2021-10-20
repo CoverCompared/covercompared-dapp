@@ -1,11 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { Markup } from 'interweave';
 import uniqid from 'uniqid';
 import Modal from '../components/common/Modal';
 import CountrySelector from '../components/common/DeviceCountrySelector';
 import DeviceEligibilityChecker from '../components/common/DeviceEligibilityChecker';
-import { ThemeContext } from '../themeContext';
 
 import MobileIcon from '../assets/icons/mobile-icon.svg';
 import LaptopIcon from '../assets/icons/laptop-icon.svg';
@@ -25,16 +23,6 @@ import TheftIcon from '../assets/icons/theft-icon.svg';
 import AXA from '../assets/partners/p4l-partners/axa.png';
 import Arch from '../assets/partners/p4l-partners/arch.png';
 import SwissRe from '../assets/partners/p4l-partners/swiss_re.jpg';
-
-import Axiom from '../assets/partners/p4l-partners/axiom.png';
-import BatArabiya from '../assets/partners/p4l-partners/bat-arabia.png';
-import Comtel from '../assets/partners/p4l-partners/comtel.png';
-import Ensure from '../assets/partners/p4l-partners/ensure.png';
-import Fixsquad from '../assets/partners/p4l-partners/fixsquad.png';
-import FPPRLogo from '../assets/partners/p4l-partners/FPPR_logo.png';
-import HarmanHouse from '../assets/partners/p4l-partners/harman-house.png';
-import Ifix from '../assets/partners/p4l-partners/Ifix.png';
-import TechBayt from '../assets/partners/p4l-partners/techbayt_logo.png';
 
 import P4LLogo from '../assets/img/p4l-logo.png';
 

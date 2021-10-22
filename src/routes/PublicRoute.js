@@ -16,12 +16,6 @@ const PublicRoute = (props) => {
     if (connectorId && !account) {
       walletLogin(connectorId, activate);
     }
-    return () => {
-      console.log(`Hi I'm un-mounted> page`);
-      if (account) {
-        walletLogout(deactivate);
-      }
-    };
   }, []);
 
   const renderComponentWithSidebarOrNot = (prop, C) => {

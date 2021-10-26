@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
 
 const DeviceReceipt = (props) => {
   const {
+    txn_hash,
     quote,
     discount,
     total,
@@ -121,7 +122,7 @@ const DeviceReceipt = (props) => {
                 <Text>Device Insurance</Text>
               </View>
               <View style={[styles.total, styles.paymentetails]}>
-                <Text>Policy ID: 123654</Text>
+                <Text>Policy ID: {txn_hash}</Text>
               </View>
               <View style={[styles.total, styles.paymentetails]}>
                 <Text>First Name: {fName}</Text>

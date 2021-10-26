@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PDFViewer } from '@react-pdf/renderer';
 import uniqid from 'uniqid';
 import { CheckIcon } from '@heroicons/react/outline';
 import { useWeb3React } from '@web3-react/core';
@@ -18,6 +17,7 @@ import {
   getDeviceModelDetails,
 } from '../redux/actions/CoverList';
 import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
+import { buyDeviceInsurance } from '../redux/actions/DeviceInsurance';
 import { classNames } from '../functions/utils';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
@@ -31,6 +31,7 @@ const DeviceBuyBox = (props) => {
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
   const coverListData = useSelector((state) => state.coverList);
+  const { txn_hash } = useSelector((state) => state.deviceInsurance);
   const { showOTPScreen, showVerified, is_verified, loader, isFailed } = useSelector(
     (state) => state.auth,
   );
@@ -68,6 +69,13 @@ const DeviceBuyBox = (props) => {
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
   const hasFirstTwoStep = hasFirstStep && planType;
   const hasAllStep = hasFirstTwoStep && model;
+
+  const { plan_total_price, plan_currency, plan_type } = planType;
+  const tax = '5';
+  const discount = (+plan_total_price * 25) / 100;
+  const discountAmount = applyDiscount ? discount : 0;
+  const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
+  const selectedModel = deviceModelDetails?.models.filter((obj) => obj.model_code === model);
 
   useEffect(() => {
     dispatch(
@@ -170,6 +178,27 @@ const DeviceBuyBox = (props) => {
 
   const handleConfirm = (e) => {
     if (e) e.preventDefault();
+
+    dispatch(
+      buyDeviceInsurance({
+        device_type: deviceType,
+        brand,
+        value,
+        purchase_month: purchaseMonth,
+        model,
+        plan_type: 'monthly',
+        first_name: fName,
+        last_name: lName,
+        email,
+        phone,
+        currency: plan_currency,
+        amount: plan_total_price,
+        discount_amount: discountAmount,
+        tax: '5',
+        total_amount: total,
+      }),
+    );
+
     setTitle('Receipt');
     setMaxWidth('max-w-5xl');
     setShowReceipt(true);
@@ -230,13 +259,6 @@ const DeviceBuyBox = (props) => {
   }
 
   if (showReceipt) {
-    const { plan_total_price, plan_currency, plan_type } = planType;
-    const tax = '5';
-    const discount = (+plan_total_price * 25) / 100;
-    const discountAmount = applyDiscount ? discount : 0;
-    const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
-    const selectedModel = deviceModelDetails?.models.filter((obj) => obj.model_code === model);
-
     return (
       <div>
         <div className="flex justify-end">
@@ -245,6 +267,7 @@ const DeviceBuyBox = (props) => {
             pdf={
               <DeviceReceipt
                 {...{
+                  txn_hash,
                   quote: plan_total_price,
                   discount,
                   total,
@@ -259,7 +282,7 @@ const DeviceBuyBox = (props) => {
                   model,
                   deviceType,
                   brand,
-                  value,
+                  value: deviceDetails?.device_values[value] || '',
                   purchaseMonth,
                   plan_currency,
                   selectedModel: selectedModel[0],
@@ -270,6 +293,7 @@ const DeviceBuyBox = (props) => {
         </div>
         <DeviceReceiptCard
           {...{
+            txn_hash,
             quote: plan_total_price,
             discount,
             total,
@@ -284,7 +308,7 @@ const DeviceBuyBox = (props) => {
             model,
             deviceType,
             brand,
-            value,
+            value: deviceDetails?.device_values[value] || '',
             purchaseMonth,
             plan_currency,
             selectedModel: selectedModel[0],
@@ -295,12 +319,6 @@ const DeviceBuyBox = (props) => {
   }
 
   if (showConfirmation) {
-    const { plan_total_price, plan_currency, plan_type } = planType;
-    const tax = '5';
-    const discount = (+plan_total_price * 25) / 100;
-    const discountAmount = applyDiscount ? discount : 0;
-    const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
-
     return (
       <div>
         <div className="flex items-center justify-between w-full dark:text-white">

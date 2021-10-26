@@ -5,6 +5,7 @@ import P4LLogo from '../assets/img/p4l-logo.png';
 
 const DeviceReceiptCard = (props) => {
   const {
+    txn_hash,
     quote,
     discount,
     total,
@@ -24,6 +25,8 @@ const DeviceReceiptCard = (props) => {
     plan_currency,
     selectedModel,
   } = props;
+
+  console.log('props :>> ', props);
 
   const getCurrentDate = () => {
     const newDate = new Date();
@@ -51,7 +54,7 @@ const DeviceReceiptCard = (props) => {
               Device Insurance
             </div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Policy ID : 132546
+              Policy ID : {txn_hash}
             </div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
               First Name : {fName}

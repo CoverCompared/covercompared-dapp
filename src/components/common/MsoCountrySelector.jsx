@@ -8,6 +8,7 @@ import SUPPORTED_WALLETS from '../../config/walletConfig';
 import MsoUserInfoForm from '../MsoUserInfoForm';
 import MSOReceipt from '../MSOReceipt';
 import MSOReceiptCard from '../MSOReceiptCard';
+import { buyMsoInsurance } from '../../redux/actions/MsoInsurance';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -36,12 +37,20 @@ const MsoCountrySelector = ({
   const [showReceipt, setShowReceipt] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
 
-  useEffect(() => {
-    console.log('Selector Mounted');
-    return () => {
-      console.log('Selector Un-Mounted');
-    };
-  }, []);
+  console.log('object :>> ', {
+    curWalletId,
+    connectStatus,
+    membersInfo,
+    showConfirmation,
+    showReceipt,
+    applyDiscount,
+
+    setIsModalOpen,
+    setMaxWidth,
+    setTitle,
+    selectedPlan,
+    addonServices,
+  });
 
   useEffect(() => {
     if (!account) {
@@ -66,6 +75,31 @@ const MsoCountrySelector = ({
   };
 
   const handleConfirm = () => {
+    buyMsoInsurance({
+      plan_type: selectedPlan.name,
+      country: 'UAE',
+      quote: selectedPlan.quote,
+      name: 'Romik Makavana',
+      mso_cover_user: '1',
+      currency: 'USD',
+      mso_addon_service: '15',
+      amount: '65',
+      discount_amount: '16.25',
+      tax: '5',
+      total_amount: '53.75',
+      MSOMembers: [
+        {
+          user_type: 'Main Member',
+          first_name: 'Romik',
+          last_name: 'Makavana',
+          country: 'IND',
+          dob: '14-12-1998',
+          identity_type: 'passport',
+          identity: '123456',
+        },
+      ],
+    });
+
     setShowReceipt(true);
     setMaxWidth('max-w-5xl');
     setTitle('Receipt');

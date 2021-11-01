@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
 import ClaimCards from '../components/ClaimCards';
 import AdditionalDetails from '../components/AdditionalDetails';
+import { getUserPolicies } from '../redux/actions/UserProfile';
 
 const MyAccount = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const { email } = useSelector((state) => state.auth);
+  const { policies } = useSelector((state) => state.userProfile);
+
+  useEffect(() => {
+    dispatch(getUserPolicies());
+  }, []);
+
+  console.log('policies :>> ', policies);
 
   return (
     <>

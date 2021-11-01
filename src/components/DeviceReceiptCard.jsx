@@ -26,8 +26,6 @@ const DeviceReceiptCard = (props) => {
     selectedModel,
   } = props;
 
-  console.log('props :>> ', props);
-
   const getCurrentDate = () => {
     const newDate = new Date();
     const date = newDate.getDate();

@@ -2,9 +2,19 @@ import { all } from 'redux-saga/effects';
 import Auth from './Auth';
 import CoverList from './CoverList';
 import DeviceInsurance from './DeviceInsurance';
+import EligibilityChecker from './EligibilityChecker';
 import MsoInsurance from './MsoInsurance';
 import User from './User';
+import UserProfile from './UserProfile';
 
 export default function* rootSaga(getState) {
-  yield all([Auth, CoverList, DeviceInsurance, MsoInsurance, User]);
+  yield all([
+    Auth,
+    CoverList,
+    DeviceInsurance,
+    EligibilityChecker,
+    MsoInsurance,
+    User,
+    UserProfile,
+  ]);
 }

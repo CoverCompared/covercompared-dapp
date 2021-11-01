@@ -37,20 +37,12 @@ const MsoCountrySelector = ({
   const [showReceipt, setShowReceipt] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
 
-  console.log('object :>> ', {
-    curWalletId,
-    connectStatus,
-    membersInfo,
-    showConfirmation,
-    showReceipt,
-    applyDiscount,
-
-    setIsModalOpen,
-    setMaxWidth,
-    setTitle,
-    selectedPlan,
-    addonServices,
-  });
+  const { quote = '0', MSOAddOnService = '0', tax = '5', name, logo, MSOCoverUser } = selectedPlan;
+  const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
+  const discountAmount = applyDiscount ? discount : 0;
+  const total = addonServices
+    ? +quote + +MSOAddOnService + +tax - discountAmount
+    : +quote + +tax - discountAmount;
 
   useEffect(() => {
     if (!account) {
@@ -76,28 +68,22 @@ const MsoCountrySelector = ({
 
   const handleConfirm = () => {
     buyMsoInsurance({
-      plan_type: selectedPlan.name,
-      country: 'UAE',
-      quote: selectedPlan.quote,
-      name: 'Romik Makavana',
-      mso_cover_user: '1',
-      currency: 'USD',
-      mso_addon_service: '15',
-      amount: '65',
-      discount_amount: '16.25',
-      tax: '5',
-      total_amount: '53.75',
-      MSOMembers: [
-        {
-          user_type: 'Main Member',
-          first_name: 'Romik',
-          last_name: 'Makavana',
-          country: 'IND',
-          dob: '14-12-1998',
-          identity_type: 'passport',
-          identity: '123456',
-        },
-      ],
+      plan_type: selectedPlan.unique_id,
+      quote,
+      currency: applyDiscount ? 'CVR' : 'USD',
+      mso_addon_service: MSOAddOnService,
+      amount: selectedPlan.quote,
+      discount_amount: discountAmount,
+      tax,
+      total_amount: total,
+      MSOMembers: membersInfo.map((m) => ({
+        user_type: m.userType,
+        first_name: m.firstName,
+        last_name: m.lastName,
+        country: m.country,
+        dob: m.dob,
+        identity: m.identity,
+      })),
     });
 
     setShowReceipt(true);
@@ -140,19 +126,6 @@ const MsoCountrySelector = ({
   }
 
   if (showReceipt) {
-    const {
-      quote = '0',
-      MSOAddOnService = '0',
-      tax = '5',
-      name,
-      logo,
-      MSOCoverUser,
-    } = selectedPlan;
-    const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
-    const discountAmount = applyDiscount ? discount : 0;
-    const total = addonServices
-      ? +quote + +MSOAddOnService + +tax - discountAmount
-      : +quote + +tax - discountAmount;
     return (
       <>
         <div className="flex justify-end">
@@ -201,13 +174,6 @@ const MsoCountrySelector = ({
   }
 
   if (showConfirmation) {
-    const { quote = '0', MSOAddOnService = '0', tax = '5' } = selectedPlan;
-    const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
-    const discountAmount = applyDiscount ? discount : 0;
-    const total = addonServices
-      ? +quote + +MSOAddOnService + +tax - discountAmount
-      : +quote + +tax - discountAmount;
-
     return (
       <div>
         <div className="flex items-center justify-between w-full dark:text-white">

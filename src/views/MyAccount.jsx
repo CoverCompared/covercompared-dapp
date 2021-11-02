@@ -7,12 +7,13 @@ import Modal from '../components/common/Modal';
 import ClaimCards from '../components/ClaimCards';
 import AdditionalDetails from '../components/AdditionalDetails';
 import { getUserPolicies } from '../redux/actions/UserProfile';
+import OverlayLoading from '../components/common/OverlayLoading';
 
 const MyAccount = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.auth);
-  const { policies } = useSelector((state) => state.userProfile);
+  const { policies, loader } = useSelector((state) => state.userProfile);
 
   useEffect(() => {
     dispatch(getUserPolicies());
@@ -22,6 +23,7 @@ const MyAccount = (props) => {
 
   return (
     <>
+      {loader && <OverlayLoading />}
       <GetCVROnReview {...props} />
       {/* <MobilePageTitle title="My Insurance" /> */}
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-4 dark:text-white">
@@ -34,7 +36,7 @@ const MyAccount = (props) => {
             <label className="text-sm font-medium text-gray-700">Email:</label>
             <label className="text-sm font-medium text-gray-500 ml-2">{email}</label>
           </div>
-          {/* <div className="mt-1 flex rounded-md shadow-sm">
+          {/* <div className="mt-1 flex rounded-md shadow-sm">  
             <div className="relative flex items-stretch flex-grow focus-within:z-10">
               <input
                 disabled
@@ -61,18 +63,39 @@ const MyAccount = (props) => {
       </div>
       <div className="xl:pl-5 xl:pr-24">
         <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
-          <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
-            <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl bg-gray-200">
-              <img
-                src="https://via.placeholder.com/400x250.png"
-                alt=""
-                className="h-full w-full rounded-xl"
-              />
-            </div>
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white">
-              Uniswap - Nsure Network
-            </div>
-          </div>
+          {policies?.map((m, i) => {
+            if (m.product_type === 'device_insurance') {
+              return (
+                <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+                  <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl bg-gray-200">
+                    <img
+                      src="https://via.placeholder.com/400x250.png"
+                      alt=""
+                      className="h-full w-full rounded-xl"
+                    />
+                  </div>
+                  <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white">
+                    Uniswap - Nsure Network
+                  </div>
+                </div>
+              );
+            }
+            return (
+              <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+                <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl bg-gray-200">
+                  <img
+                    src="https://via.placeholder.com/400x250.png"
+                    alt=""
+                    className="h-full w-full rounded-xl"
+                  />
+                </div>
+                <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white">
+                  Uniswap - Nsure Network
+                </div>
+              </div>
+            );
+          })}
+
           <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
             <button
               type="button"

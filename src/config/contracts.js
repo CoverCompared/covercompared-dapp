@@ -97,7 +97,7 @@ export default {
     crv: {
       decimal: 8,
       1: '0xCd627aA160A6fA45Eb793D19Ef54f5062F20f33f',
-      42: '',
+      42: '0xCd627aA160A6fA45Eb793D19Ef54f5062F20f33a',
     },
     doge: {
       decimal: 8,

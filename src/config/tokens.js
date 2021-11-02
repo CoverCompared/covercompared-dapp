@@ -17,6 +17,12 @@ export default {
     56: '',
     97: '',
   },
+  crv: {
+    1: '0xD533a949740bb3306d119CC777fa900bA034cd52',
+    42: '0xB8EEb94cFf33EfACf0c6def6967FD8852DcECDdB',
+    56: '',
+    97: '',
+  },
   'busd-t': {
     1: '',
     42: '',

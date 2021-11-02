@@ -23,6 +23,7 @@ import NsureNetworkLogo from '../assets/partners/Nsure-Network.png';
 import UnoReLogo from '../assets/partners/UNORE.png';
 import InsureAceLogo from '../assets/partners/InsurAce.png';
 import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
+import useConverUsdtToCRV from '../hooks/useConverUsdtToCRV';
 
 const clientLogos = [
   {
@@ -92,6 +93,7 @@ export default function Home(props) {
   const ethUsdPrice = useAssetsUsdPrice('eth');
   const { balance } = useGetEthBalance();
   const usdcBalanceStatus = useTokenBalance('0xdCFaB8057d08634279f8201b55d311c2a67897D2');
+  const crvAmt = useConverUsdtToCRV(100);
 
   useEffect(() => {
     const query = `/table?range=[0,3]`;

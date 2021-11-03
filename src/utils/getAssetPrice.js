@@ -6,10 +6,14 @@ export const getBalanceNumberByDecimal = (balance, decimals = 8) => {
 };
 
 const getAssetPriceBySymbol = async (symbol) => {
-  const priceFeedAddress = getPriceFeedAddressBySymbol(symbol);
-  const priceFeedContract = getPriceFeedContract(priceFeedAddress);
-  const res = await priceFeedContract.latestRoundData();
-  return res ? getBalanceNumberByDecimal(res.answer) : 0;
+  try {
+    const priceFeedAddress = getPriceFeedAddressBySymbol(symbol);
+    const priceFeedContract = getPriceFeedContract(priceFeedAddress);
+    const res = await priceFeedContract.latestRoundData();
+    return res ? getBalanceNumberByDecimal(res.answer) : 0;
+  } catch (err) {
+    return 0;
+  }
 };
 
 export default getAssetPriceBySymbol;

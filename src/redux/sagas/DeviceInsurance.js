@@ -7,7 +7,7 @@ import { setBuyDeviceInsuranceLoader, buyDeviceInsuranceSuccess } from '../actio
 import { axiosGet, axiosPost } from '../constants/apicall';
 import * as selector from '../constants/selectors';
 
-function* searchSingleBlog({ payload }) {
+function* buyDeviceInsurance({ payload }) {
   try {
     yield put(
       setBuyDeviceInsuranceLoader({
@@ -46,4 +46,4 @@ function* searchSingleBlog({ payload }) {
   }
 }
 
-export default all([takeLatest(BUY_DEVICE_INSURANCE, searchSingleBlog)]);
+export default all([takeLatest(BUY_DEVICE_INSURANCE, buyDeviceInsurance)]);

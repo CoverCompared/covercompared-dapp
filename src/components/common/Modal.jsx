@@ -21,13 +21,6 @@ const Modal = (props) => {
   const [title, setTitle] = useState(modalTitle);
 
   useEffect(() => {
-    console.log('Modal Mounted');
-    return () => {
-      console.log('Modal Un-Mounted');
-    };
-  }, []);
-
-  useEffect(() => {
     setIsModalOpen(!!isOpen);
   }, [isOpen]);
 

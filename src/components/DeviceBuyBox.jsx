@@ -68,7 +68,7 @@ const DeviceBuyBox = (props) => {
 
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
   const hasFirstTwoStep = hasFirstStep && planType;
-  const hasAllStep = hasFirstTwoStep && model;
+  const hasAllStep = hasFirstTwoStep && (model || !deviceModelDetails?.models?.length);
 
   const { plan_total_price, plan_currency, plan_type } = planType;
   const tax = '5';
@@ -295,17 +295,13 @@ const DeviceBuyBox = (props) => {
           {...{
             txn_hash,
             quote: plan_total_price,
-            discount,
             total,
             tax,
             discountAmount,
-            applyDiscount,
             fName,
             lName,
             phone,
             email,
-            plan_type,
-            model,
             deviceType,
             brand,
             value: deviceDetails?.device_values[value] || '',

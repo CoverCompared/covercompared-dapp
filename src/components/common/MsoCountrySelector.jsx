@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
-// import { PDFViewer } from '@react-pdf/renderer';
 
 import DownloadPolicy from './DownloadPolicy';
 import { walletLogin } from '../../hooks/useAuth';
@@ -29,6 +29,7 @@ const MsoCountrySelector = ({
   addonServices,
 }) => {
   // const { login } = useAuth();
+  const dispatch = useDispatch();
   const { account, activate } = useWeb3React();
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
@@ -67,25 +68,26 @@ const MsoCountrySelector = ({
   };
 
   const handleConfirm = () => {
-    buyMsoInsurance({
-      plan_type: selectedPlan.unique_id,
-      quote,
-      currency: applyDiscount ? 'CVR' : 'USD',
-      mso_addon_service: MSOAddOnService,
-      amount: selectedPlan.quote,
-      discount_amount: discountAmount,
-      tax,
-      total_amount: total,
-      MSOMembers: membersInfo.map((m) => ({
-        user_type: m.userType,
-        first_name: m.firstName,
-        last_name: m.lastName,
-        country: m.country,
-        dob: m.dob,
-        identity: m.identity,
-      })),
-    });
-
+    dispatch(
+      buyMsoInsurance({
+        plan_type: selectedPlan.unique_id,
+        quote,
+        currency: applyDiscount ? 'CVR' : 'USD',
+        mso_addon_service: MSOAddOnService,
+        amount: addonServices ? quote + MSOAddOnService : quote,
+        discount_amount: discountAmount,
+        tax,
+        total_amount: total,
+        MSOMembers: membersInfo.map((m) => ({
+          user_type: m.userType,
+          first_name: m.firstName,
+          last_name: m.lastName,
+          country: m.country,
+          dob: m.dob,
+          identity: m.identity,
+        })),
+      }),
+    );
     setShowReceipt(true);
     setMaxWidth('max-w-5xl');
     setTitle('Receipt');

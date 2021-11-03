@@ -7,7 +7,7 @@ import { setBuyMsoInsuranceLoader, buyMsoInsuranceSuccess } from '../actions/Mso
 import { axiosGet, axiosPost } from '../constants/apicall';
 import * as selector from '../constants/selectors';
 
-function* searchSingleBlog({ payload }) {
+function* buyMsoInsurance({ payload }) {
   try {
     yield put(
       setBuyMsoInsuranceLoader({
@@ -16,6 +16,8 @@ function* searchSingleBlog({ payload }) {
         isFailed: false,
       }),
     );
+
+    console.log('object :>>');
 
     const url = `${API_BASE_URL}/user/policies-mso`;
     const res = yield call(axiosPost, url, payload, yield select(selector.token));
@@ -46,4 +48,4 @@ function* searchSingleBlog({ payload }) {
   }
 }
 
-export default all([takeLatest(BUY_MSO_INSURANCE, searchSingleBlog)]);
+export default all([takeLatest(BUY_MSO_INSURANCE, buyMsoInsurance)]);

@@ -186,8 +186,9 @@ const MSOReceipt = (props) => {
             </View>
           </View>
 
-          {membersInfo.map((member) => (
+          {membersInfo.map((member, i) => (
             <View
+              key={i}
               style={[styles.row, styles.border_bottom, styles.border_left, styles.border_right]}
             >
               <View

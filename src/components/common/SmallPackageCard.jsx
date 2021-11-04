@@ -30,24 +30,20 @@ const SmallPackageCard = (props) => {
     quote_currency,
   } = props;
 
-  const handleCardClick = () => {
-    dispatch(setCurrentProduct(props));
-    history.push('/product/cover');
-  };
-
   const handleBuyNow = (e) => {
-    if (e) e.stopPropagation();
+    // if (e) e.stopPropagation();
     if (!account) {
       toast.warning('You need to login in advance!');
       dispatch(setLoginModalVisible(true));
-      return;
+    } else {
+      dispatch(setCurrentProduct(props));
+      history.push('/product/cover');
     }
-    alert('Buy Now button clicked');
   };
 
   return (
     <div
-      onClick={handleCardClick}
+      onClick={handleBuyNow}
       className="group bg-gradient-to-r dark:from-featureCard-dark-bg dark:to-featureCard-dark-bg dark:hover:from-primary-gd-1 dark:hover:to-primary-gd-2 from-white to-white hover:from-primary-gd-1 hover:to-primary-gd-2 shadow-md md:py-3 md:pl-3 md:pr-6 px-3 py-4 rounded-xl md:flex justify-between items-center relative col-span-6 cursor-pointer dark:bg-featureCard-dark-bg box-content"
     >
       <DiscountCard discountPercentage={discount} />

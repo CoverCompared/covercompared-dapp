@@ -1,7 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { submitSubscribeEmail } from '../redux/actions/UserProfile';
 
 const Subscribe = () => {
+  const dispatch = useDispatch();
+  const subscriptionData = useSelector((state) => state.userProfile);
+  const { isFailed, loader, message, subscribeData } = subscriptionData;
   const [email, setEmail] = useState('');
+
+  const subscribe = () => {
+    if (email) {
+      const payload = { email };
+      dispatch(submitSubscribeEmail(payload));
+    }
+  };
+
+  useEffect(() => {
+    if (subscribeData) {
+      if (subscribeData?.success) {
+        toast.success(subscribeData.message);
+        setEmail('');
+      } else {
+        const errorMessage = subscribeData.data.email.message;
+        toast.warning(errorMessage);
+      }
+    }
+  }, [subscribeData]);
+
   return (
     <>
       <div className="md:px-28">
@@ -23,6 +49,7 @@ const Subscribe = () => {
               />
               <button
                 type="button"
+                onClick={subscribe}
                 className="outline-none md:h-12 h-11 py-0.75 px-5 md:px-12 bg-white text-primary-gd-1 font-Montserrat font-semibold md:rounded-lg rounded-xl ml-2.5 text-body-sm"
               >
                 Send

@@ -5,7 +5,7 @@ import uniqid from 'uniqid';
 import MSOPlanCard from '../components/MSOPlanCard';
 import Loading from '../components/common/Loading';
 import MSOServicesCard from '../components/MSOServicesCard';
-import { searchMSOList } from '../redux/actions/CoverList';
+import { searchMSOList } from '../redux/actions/MsoInsurance';
 import Modal from '../components/common/Modal';
 import MsoEligibilityChecker from '../components/common/MsoEligibilityChecker';
 
@@ -93,7 +93,7 @@ const MSOPartners = [
 
 const MSOPlans = (props) => {
   const dispatch = useDispatch();
-  const coverListData = useSelector((state) => state.coverList);
+  const coverListData = useSelector((state) => state.msoInsurance);
   const { loader, coverList, query, message, isFailed, page, totalPages } = coverListData;
 
   const [isModalOpen, setIsModalOpen] = useState(true);

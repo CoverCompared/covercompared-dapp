@@ -11,13 +11,14 @@ import SelectWithSearch from './common/SelectWithSearch';
 import DeviceReceiptCard from './DeviceReceiptCard';
 import DownloadPolicy from './common/DownloadPolicy';
 import DeviceReceipt from './DeviceReceipt';
+
+import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
 import {
+  buyDeviceInsurance,
   getDeviceDetails,
   getDevicePlanDetails,
   getDeviceModelDetails,
-} from '../redux/actions/CoverList';
-import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
-import { buyDeviceInsurance } from '../redux/actions/DeviceInsurance';
+} from '../redux/actions/DeviceInsurance';
 import { classNames } from '../functions/utils';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
@@ -30,7 +31,7 @@ const DeviceBuyBox = (props) => {
   const { account, activate } = useWeb3React();
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
-  const coverListData = useSelector((state) => state.coverList);
+  const coverListData = useSelector((state) => state.deviceInsurance);
   const { txn_hash } = useSelector((state) => state.deviceInsurance);
   const { showOTPScreen, showVerified, is_verified, loader, isFailed } = useSelector(
     (state) => state.auth,

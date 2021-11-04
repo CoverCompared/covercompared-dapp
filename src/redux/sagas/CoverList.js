@@ -4,12 +4,11 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { API_BASE_URL } from '../constants/config';
 import {
   SEARCH_COVER_LIST,
-  SEARCH_MSO_LIST,
   GET_QUOTE,
   FETCH_MORE_COVERS,
-  GET_DEVICE_DETAILS,
-  GET_DEVICE_PLAN_DETAILS,
-  GET_DEVICE_MODEL_DETAILS,
+  // GET_DEVICE_DETAILS,
+  // GET_DEVICE_PLAN_DETAILS,
+  // GET_DEVICE_MODEL_DETAILS,
   SEARCH_BLOG_LIST,
   SEARCH_BLOG,
   FETCH_MORE_BLOGS,
@@ -17,19 +16,17 @@ import {
 import {
   searchCoverListSuccess,
   setSearchCoverListLoader,
-  searchMSOListSuccess,
-  setSearchMSOListLoader,
   fetchMoreCoversSuccess,
   setFetchMoreCoversLoader,
   fetchCoversWithAmountSuccess,
   getQuoteSuccess,
   setGetQuoteLoader,
-  getDeviceDetailsSuccess,
-  setGetDeviceDetailsLoader,
-  getDevicePlanDetailsSuccess,
-  setGetDevicePlanDetailsLoader,
-  getDeviceModelDetailsSuccess,
-  setGetDeviceModelDetailsLoader,
+  // getDeviceDetailsSuccess,
+  // setGetDeviceDetailsLoader,
+  // getDevicePlanDetailsSuccess,
+  // setGetDevicePlanDetailsLoader,
+  // getDeviceModelDetailsSuccess,
+  // setGetDeviceModelDetailsLoader,
   searchBlogListSuccess,
   setSearchBlogListLoader,
   searchBlogSuccess,
@@ -84,48 +81,6 @@ function* searchAllCoverList({ payload }) {
   } catch (error) {
     return yield put(
       setSearchCoverListLoader({
-        loader: false,
-        isFailed: true,
-        message: error.message,
-      }),
-    );
-  }
-}
-
-function* searchMSOList({ payload }) {
-  try {
-    yield put(
-      setSearchMSOListLoader({
-        message: '',
-        loader: true,
-        isFailed: false,
-      }),
-    );
-
-    const url = `${API_BASE_URL}/mso-list${payload || ''}`;
-    const coverList = yield call(axiosGet, url);
-
-    if (coverList?.data?.data) {
-      yield put(
-        searchMSOListSuccess({
-          query: payload,
-          coverList: coverList.data.data,
-        }),
-      );
-    }
-
-    return yield put(
-      setSearchMSOListLoader({
-        loader: false,
-        isFailed: true,
-        query: null,
-        msoList: null,
-        message: coverList.data.message,
-      }),
-    );
-  } catch (error) {
-    return yield put(
-      setSearchMSOListLoader({
         loader: false,
         isFailed: true,
         message: error.message,
@@ -212,121 +167,6 @@ function* getQuote({ payload }) {
   } catch (error) {
     yield put(
       setGetQuoteLoader({
-        loader: false,
-        isFailed: true,
-        message: error.message,
-      }),
-    );
-  }
-}
-
-function* getDeviceDetail({ payload }) {
-  try {
-    yield put(
-      setGetDeviceDetailsLoader({
-        message: '',
-        loader: true,
-        isFailed: false,
-      }),
-    );
-
-    const url = `${API_BASE_URL}/p4l-forward`;
-    const deviceDetail = yield call(axiosPost, url, payload);
-
-    if (deviceDetail?.data?.data) {
-      yield put(getDeviceDetailsSuccess(deviceDetail.data.data));
-    } else if (deviceDetail === undefined) {
-      yield put(
-        setGetDeviceDetailsLoader({
-          isFailed: false,
-          loader: true,
-        }),
-      );
-    } else {
-      yield put(
-        setGetDeviceDetailsLoader({
-          loader: false,
-          isFailed: true,
-          deviceDetails: null,
-          message: deviceDetail.errors,
-        }),
-      );
-    }
-  } catch (error) {
-    yield put(
-      setGetDeviceDetailsLoader({
-        loader: false,
-        isFailed: true,
-        message: error.message,
-      }),
-    );
-  }
-}
-
-function* getDevicePlanDetail({ payload }) {
-  try {
-    yield put(
-      setGetDevicePlanDetailsLoader({
-        message: '',
-        loader: true,
-        isFailed: false,
-      }),
-    );
-
-    const url = `${API_BASE_URL}/p4l-forward`;
-    const devicePlanDetail = yield call(axiosPost, url, payload);
-
-    if (devicePlanDetail?.data?.data) {
-      yield put(getDevicePlanDetailsSuccess(devicePlanDetail.data.data));
-    } else {
-      yield put(
-        setGetDevicePlanDetailsLoader({
-          loader: false,
-          isFailed: true,
-          devicePlanDetails: null,
-          message: devicePlanDetail.errors,
-        }),
-      );
-    }
-  } catch (error) {
-    yield put(
-      setGetDevicePlanDetailsLoader({
-        loader: false,
-        isFailed: true,
-        message: error.message,
-      }),
-    );
-  }
-}
-
-function* getDeviceModelDetail({ payload }) {
-  try {
-    yield put(
-      setGetDeviceModelDetailsLoader({
-        message: '',
-        loader: true,
-        isFailed: false,
-      }),
-    );
-
-    const url = `${API_BASE_URL}/p4l-forward`;
-    const deviceModelDetail = yield call(axiosPost, url, payload);
-
-    if (deviceModelDetail?.data?.data) {
-      yield put(getDeviceModelDetailsSuccess(deviceModelDetail.data.data));
-    } else {
-      yield put(
-        setGetDeviceModelDetailsLoader({
-          loader: false,
-          isFailed: true,
-          deviceModelDetails: null,
-          message: deviceModelDetail.errors,
-        }),
-      );
-    }
-  } catch (error) {
-    yield put(
-      setGetDeviceModelDetailsLoader({
         loader: false,
         isFailed: true,
         message: error.message,
@@ -460,12 +300,8 @@ function* fetchMoreBlogLists({ payload }) {
 
 export default all([
   takeLatest(SEARCH_COVER_LIST, searchAllCoverList),
-  takeLatest(SEARCH_MSO_LIST, searchMSOList),
   takeLatest(FETCH_MORE_COVERS, fetchMoreCoverLists),
   takeLatest(GET_QUOTE, getQuote),
-  takeLatest(GET_DEVICE_DETAILS, getDeviceDetail),
-  takeLatest(GET_DEVICE_PLAN_DETAILS, getDevicePlanDetail),
-  takeLatest(GET_DEVICE_MODEL_DETAILS, getDeviceModelDetail),
   takeLatest(SEARCH_BLOG_LIST, searchBlogList),
   takeLatest(SEARCH_BLOG, searchSingleBlog),
   takeLatest(FETCH_MORE_BLOGS, fetchMoreBlogLists),

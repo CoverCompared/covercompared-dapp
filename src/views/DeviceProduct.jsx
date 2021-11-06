@@ -293,7 +293,7 @@ const InsuranceProduct = (props) => {
         </div>
 
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
-          We protect what you love
+          Now less means more!
         </h2>
 
         <div className="flex flex-col md:mt-10 mt-8">

@@ -6,7 +6,8 @@ import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { RefreshIcon, XIcon } from '@heroicons/react/outline';
 import { MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid';
 
-import { searchCoverList, searchMSOList } from '../redux/actions/CoverList';
+import { searchCoverList } from '../redux/actions/CoverList';
+import { searchMSOList } from '../redux/actions/MsoInsurance';
 import { toggleFilters } from '../redux/actions/AppActions';
 import { classNames } from '../functions/utils';
 import 'rc-slider/assets/index.css';

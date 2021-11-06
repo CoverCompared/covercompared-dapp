@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import StarRatings from 'react-star-ratings';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { submitReview } from '../redux/actions/UserProfile';
 import FormInput from '../components/FormInput';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 import EditIcon from '../assets/img/Edit.svg';
 
 const ContactUs = () => {
-  const [name, SetName] = useState('');
-  const [email, SetEmail] = useState('');
-  const [reviews, SetReviews] = useState('');
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const submitReviewRes = useSelector((state) => state.userProfile);
+  const { reviewData, isFailed, loader, message } = submitReviewRes;
+  const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
   const [ratingStates, setRatingStates] = useState('How is the quality of this product?');
 
   const isValid = () => {
-    return !(name === '' || email === '' || reviews === '' || rating === '');
+    return !(review === '' || rating === '');
   };
 
   useEffect(() => {
@@ -23,40 +29,36 @@ const ContactUs = () => {
     else if (rating === 5) setRatingStates('Very Good');
   }, [rating]);
 
+  const submitRatings = (e) => {
+    e.preventDefault();
+    const obj = {
+      review,
+      rating,
+    };
+    const query = `user/policies/${id}/add-review`;
+    const payload = {
+      obj,
+      query,
+    };
+    dispatch(submitReview(payload));
+  };
+
+  useEffect(() => {
+    if (reviewData) {
+      if (reviewData?.success) {
+        setReview('');
+        setRating('');
+        toast.success('Review Submitted');
+      } else {
+        toast.warning(reviewData.message);
+      }
+    }
+  }, [reviewData]);
+
   return (
     <>
       <MobilePageTitle title="Submit review" />
-      <form className="xl:pr-28 xl:pl-6 md:mb-8 md:mt-6">
-        <div className="grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8">
-          <div className="relative col-span-12 md:col-span-6">
-            <FormInput
-              title="First Name"
-              inputValue={name}
-              setChange={SetName}
-              inputPlaceholder="Enter your Name"
-            />
-          </div>
-          <div className="relative col-span-12 md:col-span-6">
-            <FormInput
-              title="Email"
-              inputValue={email}
-              setChange={SetEmail}
-              inputPlaceholder="Enter your Email"
-            />
-          </div>
-        </div>
-
-        <div className="relative mt-6">
-          <label className="absolute top-5 pl-4 font-semibold text-body-sm text-dark-blue font-Montserrat">
-            Reviews
-          </label>
-          <textarea
-            onChange={(e) => SetReviews(e.target.value)}
-            className="mt-3 py-2 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
-            placeholder="Reviews"
-          />
-        </div>
-
+      <form className="xl:pr-28 xl:pl-6 md:mb-8 md:mt-6" onSubmit={submitRatings}>
         <div className="relative mt-6">
           <div className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
             Ratings
@@ -81,6 +83,16 @@ const ContactUs = () => {
               {ratingStates}
             </div>
           </div>
+        </div>
+        <div className="relative mt-6">
+          <label className="absolute top-5 pl-4 font-semibold text-body-sm text-dark-blue font-Montserrat">
+            Reviews
+          </label>
+          <textarea
+            onChange={(e) => setReview(e.target.value)}
+            className="mt-3 py-2 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
+            placeholder="Review"
+          />
         </div>
 
         <div className="flex justify-end">

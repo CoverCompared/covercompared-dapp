@@ -28,26 +28,20 @@ const PackageCard = (props) => {
 
   const history = useHistory();
 
-  const handleCardClick = () => {
-    if (quote !== '' && quote !== undefined && quote !== false) {
+  const handleBuyNow = (e) => {
+    // if (e) e.stopPropagation();
+    if (!account) {
+      toast.warning('You need to login in advance!');
+      dispatch(setLoginModalVisible(true));
+    } else {
       dispatch(setCurrentProduct(props));
       history.push('/product/cover');
     }
   };
 
-  const handleBuyNow = (e) => {
-    e.stopPropagation();
-    if (!account) {
-      toast.warning('You need to login in advance!');
-      dispatch(setLoginModalVisible(true));
-      return;
-    }
-    alert('Buy Now button clicked');
-  };
-
   return (
     <>
-      <div className="w-full" onClick={handleCardClick}>
+      <div className="w-full" onClick={handleBuyNow}>
         <div className="grid grid-cols-12 gap-x-0 w-full group bg-gradient-to-r dark:from-featureCard-dark-bg dark:to-featureCard-dark-bg dark:hover:from-primary-gd-1 dark:hover:to-primary-gd-2 from-white to-white hover:from-primary-gd-1 hover:to-primary-gd-2 shadow-md py-4 md:pl-4 md:pr-8 px-4 rounded-xl mb-4 relative cursor-pointer">
           <DiscountCard discountPercentage={discount} />
           <div className="col-span-7 md:col-span-5 flex items-center h-full w-full">

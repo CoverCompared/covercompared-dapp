@@ -5,10 +5,9 @@ import { toast } from 'react-toastify';
 import { classNames } from '../functions/utils';
 import FormInput from '../components/FormInput';
 import MobilePageTitle from '../components/common/MobilePageTitle';
-import EditIcon from '../assets/img/Edit.svg';
 import { submitContactDetails } from '../redux/actions/UserProfile';
 
-const TypeOfUser = ['CUSTOMER', 'PARTNER', 'OTHER'];
+const userOptions = ['CUSTOMER', 'PARTNER', 'OTHER'];
 
 const ContactUs = (props) => {
   const dispatch = useDispatch();
@@ -17,18 +16,14 @@ const ContactUs = (props) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [contactMessage, setContactMessage] = useState('');
-  const [typeOfUser, setUser] = useState('CUSTOMER');
-
-  const isValid = () => {
-    return !(name === '' || email === '' || contactMessage === '');
-  };
+  const [user, setUser] = useState(userOptions[0]);
 
   const submitDetails = (e) => {
     e.preventDefault();
     const payload = {
       name,
       email,
-      user_type: typeOfUser,
+      user_type: user,
       message: contactMessage,
     };
     dispatch(submitContactDetails(payload));
@@ -40,7 +35,7 @@ const ContactUs = (props) => {
         setName('');
         setEmail('');
         setContactMessage('');
-        toast.success('Details Sent Successfully');
+        toast.success('Form submitted Successfully');
       } else {
         toast.warning('Please enter valid details');
       }
@@ -50,25 +45,28 @@ const ContactUs = (props) => {
   const RadioButtons = () => {
     return (
       <>
-        {TypeOfUser.map((user) => (
+        {userOptions.map((option) => (
           <div className="inline-flex items-center mr-10 mb-4 md:mb-0" key={uniqid()}>
             <input
-              id="sample"
-              name="sample"
+              id="user"
+              name="user"
               type="radio"
               className="focus:ring-dark-blue h-4 w-4 text-dark-blue-1 border-gray-300 border-2"
-              onClick={() => setUser(user)}
+              onChange={() => setUser(option)}
+              checked={user === option}
+              required
             />
-            <span
+            <label
+              htmlFor={option}
               className={classNames(
-                typeOfUser === user
+                option === user
                   ? 'text-dark-blue font-semibold dark:text-white'
                   : 'text-contact-input-dark-grey font-medium',
                 'ml-2 text-h6 ring-0',
               )}
             >
-              {user}
-            </span>
+              {option}
+            </label>
           </div>
         ))}
       </>
@@ -82,6 +80,7 @@ const ContactUs = (props) => {
         <div className="grid grid-cols-1 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8 md:grid-cols-12 lg:grid-cols-12">
           <div className="relative col-span-12 md:col-span-6">
             <FormInput
+              required
               title="First Name"
               inputValue={name}
               setChange={setName}
@@ -90,6 +89,7 @@ const ContactUs = (props) => {
           </div>
           <div className="relative col-span-12 md:col-span-6">
             <FormInput
+              required
               title="Email"
               inputValue={email}
               setChange={setEmail}
@@ -108,6 +108,7 @@ const ContactUs = (props) => {
             Message
           </label>
           <textarea
+            required
             value={contactMessage}
             onChange={(e) => setContactMessage(e.target.value)}
             className="mt-3 py-2 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
@@ -118,10 +119,10 @@ const ContactUs = (props) => {
         <div className="flex justify-end">
           <button
             type="submit"
-            disabled={!isValid()}
-            className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            disabled={loader}
+            className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2"
           >
-            Submit
+            {loader ? 'Submitting' : 'Submit'}
           </button>
         </div>
       </form>

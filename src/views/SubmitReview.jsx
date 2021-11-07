@@ -4,9 +4,7 @@ import StarRatings from 'react-star-ratings';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitReview } from '../redux/actions/UserProfile';
-import FormInput from '../components/FormInput';
 import MobilePageTitle from '../components/common/MobilePageTitle';
-import EditIcon from '../assets/img/Edit.svg';
 
 const ContactUs = () => {
   const { id } = useParams();
@@ -14,12 +12,8 @@ const ContactUs = () => {
   const submitReviewRes = useSelector((state) => state.userProfile);
   const { reviewData, isFailed, loader, message } = submitReviewRes;
   const [review, setReview] = useState('');
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState();
   const [ratingStates, setRatingStates] = useState('How is the quality of this product?');
-
-  const isValid = () => {
-    return !(review === '' || rating === '');
-  };
 
   useEffect(() => {
     if (rating === 1) setRatingStates('Very Bad');
@@ -65,7 +59,15 @@ const ContactUs = () => {
           </div>
           <div className="md:flex items-center">
             <div className="mt-4">
+              <input
+                type="text"
+                className="h-0 w-0 border-transparent p-0 focus:ring-0 focus:ring-offset-0 focus:border-transparent"
+                required
+                value={rating}
+                onChange={setRating}
+              />
               <StarRatings
+                required
                 rating={rating}
                 value={rating}
                 starEmptyColor="rgba(196, 196, 196, 1)"
@@ -89,6 +91,7 @@ const ContactUs = () => {
             Reviews
           </label>
           <textarea
+            required
             onChange={(e) => setReview(e.target.value)}
             className="mt-3 py-2 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
             placeholder="Review"
@@ -98,10 +101,10 @@ const ContactUs = () => {
         <div className="flex justify-end">
           <button
             type="submit"
-            disabled={!isValid()}
-            className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            disabled={loader}
+            className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2"
           >
-            Submit
+            {loader ? 'Submitting' : 'Submit'}
           </button>
         </div>
       </form>

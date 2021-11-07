@@ -4,14 +4,13 @@ import CoverComparedLogo from '../assets/img/logo-final-light.png';
 
 const MSOReceiptCard = (props) => {
   const {
+    txn_hash,
     membersInfo,
     quote,
-    discount,
     total,
     tax,
     discountAmount,
     addonServices,
-    applyDiscount,
     MSOAddOnService,
     name,
     logo,
@@ -51,7 +50,7 @@ const MSOReceiptCard = (props) => {
 
           <div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Policy Number: 132546
+              Policy Number: {txn_hash || '-'}
             </div>
           </div>
         </div>

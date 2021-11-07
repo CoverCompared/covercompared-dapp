@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 
 import DownloadPolicy from './DownloadPolicy';
@@ -38,6 +38,9 @@ const MsoCountrySelector = ({
   const [showReceipt, setShowReceipt] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
 
+  const coverListData = useSelector((state) => state.msoInsurance);
+  const { txn_hash } = coverListData || {};
+
   const { quote = '0', MSOAddOnService = '0', tax = '5', name, logo, MSOCoverUser } = selectedPlan;
   const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
   const discountAmount = applyDiscount ? discount : 0;
@@ -74,7 +77,7 @@ const MsoCountrySelector = ({
         quote,
         currency: applyDiscount ? 'CVR' : 'USD',
         mso_addon_service: MSOAddOnService,
-        amount: addonServices ? quote + MSOAddOnService : quote,
+        amount: addonServices ? +quote + +MSOAddOnService : quote,
         discount_amount: discountAmount,
         tax,
         total_amount: total,
@@ -135,6 +138,7 @@ const MsoCountrySelector = ({
             pdf={
               <MSOReceipt
                 {...{
+                  txn_hash,
                   membersInfo,
                   quote,
                   discount,
@@ -156,6 +160,7 @@ const MsoCountrySelector = ({
         <div className="flex">
           <MSOReceiptCard
             {...{
+              txn_hash,
               membersInfo,
               quote,
               discount,

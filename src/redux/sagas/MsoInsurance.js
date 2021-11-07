@@ -22,8 +22,6 @@ function* buyMsoInsurance({ payload }) {
       }),
     );
 
-    console.log('object :>>');
-
     const url = `${API_BASE_URL}/user/policies-mso`;
     const res = yield call(axiosPost, url, payload, yield select(selector.token));
 

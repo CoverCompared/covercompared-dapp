@@ -103,14 +103,13 @@ const getCurrentDate = () => {
 
 const MSOReceipt = (props) => {
   const {
+    txn_hash,
     membersInfo,
     quote,
-    discount,
     total,
     tax,
     discountAmount,
     addonServices,
-    applyDiscount,
     MSOAddOnService,
     name,
     logo,
@@ -147,7 +146,7 @@ const MSOReceipt = (props) => {
               </View>
             </View>
             <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-              <Text>Policy Number: 123654</Text>
+              <Text>Policy Number: {txn_hash || '-'}</Text>
             </View>
           </View>
 

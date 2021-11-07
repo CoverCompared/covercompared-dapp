@@ -32,12 +32,11 @@ const DeviceBuyBox = (props) => {
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
   const coverListData = useSelector((state) => state.deviceInsurance);
-  const { txn_hash } = useSelector((state) => state.deviceInsurance);
   const { showOTPScreen, showVerified, is_verified, loader, isFailed } = useSelector(
     (state) => state.auth,
   );
   const notRegistered = !is_verified;
-  const { deviceDetails, devicePlanDetails, deviceModelDetails } = coverListData || {};
+  const { deviceDetails, devicePlanDetails, deviceModelDetails, txn_hash } = coverListData || {};
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertText, setAlertText] = useState('');

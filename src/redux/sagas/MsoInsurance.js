@@ -26,8 +26,6 @@ function* buyMsoInsurance({ payload }) {
     const url = `${API_BASE_URL}/user/policies-mso`;
     const res = yield call(axiosPost, url, payload, yield select(selector.token));
 
-    console.log('res :>> ', res);
-
     if (res?.data?.success) {
       return yield put(buyMsoInsuranceSuccess(res?.data?.data));
     }

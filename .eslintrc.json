@@ -19,6 +19,7 @@
     "camelcase": "off",
     "no-console": "off",
     "no-unused-vars": "off",
+    "import/no-cycle": "off",
     "react/prop-types": "off",
     "no-nested-ternary": "off",
     "jsx-a11y/no-autofocus": "off",

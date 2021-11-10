@@ -2,6 +2,8 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 import { fallbackMessage } from './constants';
+import configureStore from '../store';
+import { logoutUser } from '../actions/Auth';
 
 export const patch = async (url, obj) => {
   await fetch(url, {
@@ -89,6 +91,13 @@ export const axiosPost = (url, payload, token = null, headers = null) => {
       headers,
     })
     .then((res) => {
+      if (!res?.data?.success && res?.data?.message === 'Unauthorized.') {
+        if (configureStore) {
+          const store = configureStore()?.store;
+          store.dispatch(logoutUser());
+        }
+      }
+
       return res;
     })
     .catch((error) => {

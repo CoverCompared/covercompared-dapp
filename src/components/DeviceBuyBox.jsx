@@ -75,7 +75,7 @@ const DeviceBuyBox = (props) => {
   const discount = (+plan_total_price * 25) / 100;
   const discountAmount = applyDiscount ? discount : 0;
   const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
-  const selectedModel = deviceModelDetails?.models.filter((obj) => obj.model_code === model);
+  const selectedModel = deviceModelDetails?.models?.filter((obj) => obj.model_code === model) || [];
 
   useEffect(() => {
     dispatch(

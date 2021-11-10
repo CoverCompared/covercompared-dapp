@@ -7,7 +7,7 @@ import {
   setSubmitUserCountryLoader,
   submitUserCountrySuccess,
 } from '../actions/EligibilityChecker';
-import { axiosGet, axiosPost } from '../constants/apicall';
+import { axiosPost } from '../constants/apicall';
 import * as selector from '../constants/selectors';
 
 function* searchSingleBlog({ payload }) {
@@ -24,7 +24,7 @@ function* searchSingleBlog({ payload }) {
     const res = yield call(axiosPost, url, payload, yield select(selector.token));
 
     if (res?.data?.data) {
-      yield put(submitUserCountrySuccess(res?.data?.data));
+      return yield put(submitUserCountrySuccess(res?.data?.data));
     }
 
     return yield put(

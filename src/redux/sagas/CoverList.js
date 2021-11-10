@@ -189,7 +189,7 @@ function* searchBlogList({ payload }) {
     const blogList = yield call(axiosGet, url);
 
     if (blogList?.data?.data) {
-      yield put(
+      return yield put(
         searchBlogListSuccess({
           query: payload,
           blogList: blogList.data.data,
@@ -231,7 +231,7 @@ function* searchSingleBlog({ payload }) {
     const blog = yield call(axiosGet, url);
 
     if (blog?.data?.data) {
-      yield put(
+      return yield put(
         searchBlogSuccess({
           query: payload,
           blog: blog.data.data,
@@ -272,7 +272,7 @@ function* fetchMoreBlogLists({ payload }) {
     const blogList = yield call(axiosGet, url);
 
     if (blogList?.data?.data) {
-      yield put(
+      return yield put(
         fetchMoreBlogsSuccess({
           blogList: blogList.data.data,
           blogRange: blogList.data.range,

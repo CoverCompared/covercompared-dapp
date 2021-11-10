@@ -8,11 +8,10 @@ import {
 const INIT_STATE = {
   message: '',
   loader: false,
-  paginationLoader: false,
+  listLoader: false,
   isFailed: false,
   quote: null,
-  query: null,
-  coverList: null,
+  msoList: null,
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -27,18 +26,19 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         ...payload,
+        loader: false,
+        isFailed: false,
       };
     }
     case SEARCH_MSO_LIST_SUCCESS: {
       return {
         ...state,
         message: '',
-        loader: false,
+        listLoader: false,
         isFailed: false,
-        query: payload.query,
-        coverList: payload.coverList.list,
-        page: payload.coverList.current_page,
-        totalPages: payload.coverList.total_page,
+        msoList: payload.list,
+        page: payload.current_page,
+        totalPages: payload.total_page,
       };
     }
     case SET_SEARCH_MSO_LIST_LOADER: {

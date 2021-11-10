@@ -35,7 +35,7 @@ function* buyDeviceInsurance({ payload }) {
     const res = yield call(axiosPost, url, payload, yield select(selector.token));
 
     if (res?.data?.data) {
-      yield put(buyDeviceInsuranceSuccess(res?.data?.data));
+      return yield put(buyDeviceInsuranceSuccess(res?.data?.data));
     }
 
     return yield put(

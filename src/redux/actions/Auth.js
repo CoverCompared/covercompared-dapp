@@ -11,6 +11,7 @@ import {
   GET_USER_PROFILE,
   GET_USER_PROFILE_SUCCESS,
   LOGOUT_USER,
+  LOGOUT_USER_SUCCESS,
   LOGIN_MODAL_VISIBLE,
   REGISTER_MODAL_VISIBLE,
 } from '../constants/ActionTypes';
@@ -95,6 +96,13 @@ export const getUserProfileSuccess = (payload) => {
 export const logoutUser = (payload) => {
   return {
     type: LOGOUT_USER,
+    payload,
+  };
+};
+
+export const logoutUserSuccess = (payload) => {
+  return {
+    type: LOGOUT_USER_SUCCESS,
     payload,
   };
 };

@@ -17,9 +17,9 @@ const HeaderCTAs = (props) => {
 
   const handleLogout = () => {
     // logout();
-    walletLogout(deactivate);
+    // walletLogout(deactivate);
     dispatch(logoutUser());
-    dispatch(setLoginModalVisible(false));
+    // dispatch(setLoginModalVisible(false));
   };
 
   return (

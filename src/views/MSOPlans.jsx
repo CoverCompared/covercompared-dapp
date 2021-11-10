@@ -93,30 +93,29 @@ const MSOPartners = [
 
 const MSOPlans = (props) => {
   const dispatch = useDispatch();
-  const coverListData = useSelector((state) => state.msoInsurance);
-  const { loader, coverList, query, message, isFailed, page, totalPages } = coverListData;
+  const { listLoader, msoList } = useSelector((state) => state.msoInsurance);
 
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isEligible, setIsEligible] = useState(false);
-  const [products, setProducts] = useState(coverList);
+  const [products, setProducts] = useState(msoList);
 
   useEffect(() => {
     dispatch(searchMSOList());
   }, []);
 
   useEffect(() => {
-    setProducts(coverList);
-  }, [coverList]);
+    setProducts(msoList);
+  }, [msoList]);
 
   const renderCards = () => {
-    if (loader) {
+    if (listLoader) {
       return (
         <div className="text-center">
           <Loading />
         </div>
       );
     }
-    if (!loader && !products?.length) {
+    if (!listLoader && !products?.length) {
       return (
         <div className="mt-3 text-center dark:text-white text-h6 font-Montserrat font-medium w-full">
           Sorry! No results found

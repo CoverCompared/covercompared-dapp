@@ -35,7 +35,7 @@ function* searchSingleBlog({ payload }) {
     const res = yield call(axiosGet, url, yield select(selector.token));
 
     if (res?.data?.data?.policies) {
-      yield put(getUserPoliciesSuccess(res.data.data.policies));
+      return yield put(getUserPoliciesSuccess(res.data.data.policies));
     }
 
     return yield put(
@@ -70,7 +70,7 @@ function* submitSubscribeEmail({ payload }) {
     const res = yield call(axiosPost, url, payload);
 
     if (res?.data) {
-      yield put(submitSubscribeEmailSuccess(res.data));
+      return yield put(submitSubscribeEmailSuccess(res.data));
     }
 
     return yield put(
@@ -105,7 +105,7 @@ function* submitContactDetails({ payload }) {
     const res = yield call(axiosPost, url, payload);
 
     if (res?.data) {
-      yield put(submitContactDetailsSuccess(res.data));
+      return yield put(submitContactDetailsSuccess(res.data));
     }
 
     return yield put(
@@ -140,7 +140,7 @@ function* submitReview({ payload }) {
     const res = yield call(axiosPost, url, payload.obj, yield select(selector.token));
 
     if (res?.data) {
-      yield put(submitReviewSuccess(res.data));
+      return yield put(submitReviewSuccess(res.data));
     }
 
     return yield put(

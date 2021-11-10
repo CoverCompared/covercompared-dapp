@@ -5,7 +5,7 @@ import {
   RESEND_VERIFICATION_EMAIL_SUCCESS,
   VERIFY_OTP_SUCCESS,
   GET_USER_PROFILE_SUCCESS,
-  LOGOUT_USER,
+  LOGOUT_USER_SUCCESS,
   LOGIN_MODAL_VISIBLE,
   REGISTER_MODAL_VISIBLE,
 } from '../constants/ActionTypes';
@@ -80,7 +80,7 @@ export default (state = INIT_STATE, { type, payload }) => {
         ...payload,
       };
     }
-    case LOGOUT_USER: {
+    case LOGOUT_USER_SUCCESS: {
       return {
         ...state,
         message: '',

@@ -25,8 +25,6 @@ const MyAccount = (props) => {
     dispatch(getUserPolicies());
   }, []);
 
-  console.log('policies :>> ', policies);
-
   const renderDeviceCard = (device) => {
     const {
       _id,

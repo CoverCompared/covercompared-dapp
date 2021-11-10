@@ -9,6 +9,7 @@ import {
   searchMSOListSuccess,
   setSearchMSOListLoader,
 } from '../actions/MsoInsurance';
+import { logoutUser } from '../actions/Auth';
 import { axiosGet, axiosPost } from '../constants/apicall';
 import * as selector from '../constants/selectors';
 
@@ -25,8 +26,14 @@ function* buyMsoInsurance({ payload }) {
     const url = `${API_BASE_URL}/user/policies-mso`;
     const res = yield call(axiosPost, url, payload, yield select(selector.token));
 
-    if (res?.data?.data) {
-      yield put(buyMsoInsuranceSuccess(res?.data?.data));
+    console.log('res :>> ', res);
+
+    if (res?.data?.success) {
+      return yield put(buyMsoInsuranceSuccess(res?.data?.data));
+    }
+
+    if (!res?.data?.success && res?.data?.message === 'Unauthorized.') {
+      return yield put(logoutUser());
     }
 
     return yield put(
@@ -39,6 +46,7 @@ function* buyMsoInsurance({ payload }) {
       }),
     );
   } catch (error) {
+    console.log('error :>> ', error);
     return yield put(
       setBuyMsoInsuranceLoader({
         _id: null,
@@ -56,36 +64,29 @@ function* searchMSOList({ payload }) {
     yield put(
       setSearchMSOListLoader({
         message: '',
-        loader: true,
+        listLoader: true,
         isFailed: false,
       }),
     );
 
-    const url = `${API_BASE_URL}/mso-list${payload || ''}`;
-    const coverList = yield call(axiosGet, url);
+    const url = `${API_BASE_URL}/mso-list`;
+    const msoList = yield call(axiosGet, url);
 
-    if (coverList?.data?.data) {
-      yield put(
-        searchMSOListSuccess({
-          query: payload,
-          coverList: coverList.data.data,
-        }),
-      );
+    if (msoList?.data?.data) {
+      return yield put(searchMSOListSuccess(msoList.data.data));
     }
 
     return yield put(
       setSearchMSOListLoader({
-        loader: false,
+        listLoader: false,
         isFailed: true,
-        query: null,
-        msoList: null,
-        message: coverList.data.message,
+        message: msoList.data.message,
       }),
     );
   } catch (error) {
     return yield put(
       setSearchMSOListLoader({
-        loader: false,
+        listLoader: false,
         isFailed: true,
         message: error.message,
       }),

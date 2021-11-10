@@ -9,6 +9,7 @@ import MsoUserInfoForm from '../MsoUserInfoForm';
 import MSOReceipt from '../MSOReceipt';
 import MSOReceiptCard from '../MSOReceiptCard';
 import { buyMsoInsurance } from '../../redux/actions/MsoInsurance';
+import Alert from './Alert';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -38,8 +39,9 @@ const MsoCountrySelector = ({
   const [showReceipt, setShowReceipt] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
 
-  const coverListData = useSelector((state) => state.msoInsurance);
-  const { txn_hash } = coverListData || {};
+  const msoData = useSelector((state) => state.msoInsurance);
+  const { txn_hash, loader, message, isFailed } = msoData || {};
+  const [showAlert, setShowAlert] = useState(isFailed);
 
   const { quote = '0', MSOAddOnService = '0', tax = '5', name, logo, MSOCoverUser } = selectedPlan;
   const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
@@ -47,6 +49,10 @@ const MsoCountrySelector = ({
   const total = addonServices
     ? +quote + +MSOAddOnService + +tax - discountAmount
     : +quote + +tax - discountAmount;
+
+  useEffect(() => {
+    if (isFailed) setShowAlert(true);
+  }, [isFailed]);
 
   useEffect(() => {
     if (!account) {
@@ -130,7 +136,7 @@ const MsoCountrySelector = ({
     );
   }
 
-  if (showReceipt) {
+  if (showReceipt && !loader && !isFailed) {
     return (
       <>
         <div className="flex justify-end">
@@ -183,6 +189,11 @@ const MsoCountrySelector = ({
   if (showConfirmation) {
     return (
       <div>
+        {showAlert && (
+          <div className="mb-4">
+            <Alert type="danger" text={message} onClose={() => setShowAlert(false)} />
+          </div>
+        )}
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Premium</h5>
           <h5 className="text-body-lg font-medium">{quote} USD</h5>

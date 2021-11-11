@@ -91,13 +91,6 @@ export const axiosPost = (url, payload, token = null, headers = null) => {
       headers,
     })
     .then((res) => {
-      if (!res?.data?.success && res?.data?.message === 'Unauthorized.') {
-        if (configureStore) {
-          const store = configureStore()?.store;
-          store.dispatch(logoutUser());
-        }
-      }
-
       return res;
     })
     .catch((error) => {
@@ -118,6 +111,13 @@ export const axiosPost = (url, payload, token = null, headers = null) => {
         data = {
           message: error.message || fallbackMessage,
         };
+      }
+
+      if (!data?.success && data?.message === 'Unauthorized.') {
+        if (configureStore) {
+          const store = configureStore()?.store;
+          store.dispatch(logoutUser());
+        }
       }
 
       return {

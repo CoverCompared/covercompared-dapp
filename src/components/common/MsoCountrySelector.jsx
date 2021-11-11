@@ -39,9 +39,8 @@ const MsoCountrySelector = ({
   const [showReceipt, setShowReceipt] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
 
-  const msoData = useSelector((state) => state.msoInsurance);
-  const { txn_hash, loader, message, isFailed } = msoData || {};
-  const [showAlert, setShowAlert] = useState(isFailed);
+  const { txn_hash, loader, message, isFailed } = useSelector((state) => state.msoInsurance);
+  const [showAlert, setShowAlert] = useState(false);
 
   const { quote = '0', MSOAddOnService = '0', tax = '5', name, logo, MSOCoverUser } = selectedPlan;
   const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
@@ -53,6 +52,14 @@ const MsoCountrySelector = ({
   useEffect(() => {
     if (isFailed) setShowAlert(true);
   }, [isFailed]);
+
+  useEffect(() => {
+    if (txn_hash && !loader && !isFailed) {
+      setShowReceipt(true);
+      setMaxWidth('max-w-5xl');
+      setTitle('Receipt');
+    }
+  }, [txn_hash]);
 
   useEffect(() => {
     if (!account) {
@@ -97,9 +104,6 @@ const MsoCountrySelector = ({
         })),
       }),
     );
-    setShowReceipt(true);
-    setMaxWidth('max-w-5xl');
-    setTitle('Receipt');
   };
 
   const getWalletOption = () => {

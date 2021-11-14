@@ -1,7 +1,4 @@
 import { all, call, put, takeLatest, select } from 'redux-saga/effects';
-import { useWeb3React } from '@web3-react/core';
-
-import { walletLogout } from '../../hooks/useAuth';
 import { API_BASE_URL } from '../constants/config';
 import {
   GET_LOGIN_DETAILS,
@@ -61,8 +58,6 @@ function* loginUser({ payload }) {
 }
 
 function* logoutUser() {
-  const { deactivate } = useWeb3React();
-  yield put(walletLogout(deactivate));
   yield put(logoutUserSuccess());
   yield put(setLoginModalVisible(false));
 }

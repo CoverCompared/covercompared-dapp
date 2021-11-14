@@ -11,7 +11,7 @@ import {
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
-  message: '',
+  message: null,
   loader: false,
   isFailed: false,
 
@@ -31,7 +31,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case GET_LOGIN_DETAILS_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: null,
         loader: false,
         isFailed: false,
         ...payload,
@@ -46,7 +46,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case SET_PROFILE_DETAILS_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: null,
         loader: false,
         isFailed: false,
         showOTPScreen: true,
@@ -55,7 +55,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case RESEND_VERIFICATION_EMAIL_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: null,
         loader: false,
         isFailed: false,
         showOTPScreen: true,
@@ -64,7 +64,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case VERIFY_OTP_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: null,
         loader: false,
         isFailed: false,
         showVerified: true,
@@ -74,7 +74,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case GET_USER_PROFILE_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: null,
         loader: false,
         isFailed: false,
         ...payload,
@@ -83,7 +83,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case LOGOUT_USER_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: 'Unauthorized',
         loader: false,
         isFailed: false,
 
@@ -107,7 +107,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case REGISTER_MODAL_VISIBLE: {
       return {
         ...state,
-        message: '',
+        message: null,
         isFailed: false,
         showVerified: false,
         showOTPScreen: false,

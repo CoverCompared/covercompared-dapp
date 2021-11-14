@@ -89,7 +89,7 @@ const MsoCountrySelector = ({
         plan_type: selectedPlan.unique_id,
         quote,
         currency: applyDiscount ? 'CVR' : 'USD',
-        mso_addon_service: MSOAddOnService,
+        mso_addon_service: addonServices ? MSOAddOnService : 0,
         amount: addonServices ? +quote + +MSOAddOnService : quote,
         discount_amount: discountAmount,
         tax,

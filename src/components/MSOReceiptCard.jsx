@@ -1,5 +1,5 @@
 import React from 'react';
-
+import dayjs from 'dayjs';
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 
 const MSOReceiptCard = (props) => {
@@ -80,19 +80,19 @@ const MSOReceiptCard = (props) => {
           {membersInfo.map((member, index) => (
             <div key={index} className="grid grid-cols-12 w-full">
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
-                {member.userType}
+                {member.userType || member.user_type || ''}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
-                {member.firstName}
+                {member.firstName || member.first_name || ''}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
-                {member.lastName}
+                {member.lastName || member.last_name || ''}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
                 {member.country}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
-                {member.dob}
+                {dayjs(member.dob).format('DD/MM/YYYY')}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
                 {member.identity}

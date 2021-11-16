@@ -4,15 +4,21 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
-import ClaimCards from '../components/ClaimCards';
-import AdditionalDetails from '../components/AdditionalDetails';
+// import ClaimCards from '../components/ClaimCards';
+// import AdditionalDetails from '../components/AdditionalDetails';
 import { getUserPolicies } from '../redux/actions/UserProfile';
 import OverlayLoading from '../components/common/OverlayLoading';
 import MSOReceiptCard from '../components/MSOReceiptCard';
 import DeviceReceiptCard from '../components/DeviceReceiptCard';
 
+import p4lLogo from '../assets/img/p4l-logo.png';
+
 const DeviceCard = (props) => {
   return <DeviceReceiptCard {...props} />;
+};
+
+const MSOCard = (props) => {
+  return <MSOReceiptCard {...props} />;
 };
 
 const MyAccount = (props) => {
@@ -49,12 +55,8 @@ const MyAccount = (props) => {
     return (
       <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
         <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
-          <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl bg-gray-200">
-            <img
-              src="https://via.placeholder.com/400x250.png"
-              alt=""
-              className="h-full w-full rounded-xl"
-            />
+          <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white flex items-center justify-center">
+            <img src={p4lLogo} alt="" className="h-auto w-full" />
           </div>
           <div className="flex flex-col">
             <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${device_type} - ${brand} `}</div>
@@ -92,6 +94,69 @@ const MyAccount = (props) => {
               purchaseMonth: purchase_month,
               plan_currency: currency,
               selectedModel: model,
+            }}
+          >
+            <button
+              type="button"
+              className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+            >
+              Policy Details
+            </button>
+          </Modal>
+        </div>
+      </div>
+    );
+  };
+
+  const renderMSOCard = (device) => {
+    const {
+      _id,
+      tax,
+      amount,
+      txn_hash,
+      total_amount,
+      discount_amount,
+      details: { MSOMembers, quote, mso_addon_service },
+      plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
+    } = device;
+    return (
+      <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
+        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+          <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
+            <img src={logo} alt={name} className="h-full w-full rounded-xl" />
+          </div>
+          <div className="flex flex-col">
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${MSOPlanDuration} `}</div>
+            <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
+              {MSOCoverUser}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
+          <button
+            type="button"
+            onClick={() => history.push(`submit-review/${_id}`)}
+            className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+          >
+            Submit Review
+          </button>
+          <Modal
+            title="Policy Details"
+            bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
+            renderComponent={MSOCard}
+            {...{
+              txn_hash,
+              membersInfo: MSOMembers,
+              quote,
+              total: total_amount,
+              tax,
+              discountAmount: discount_amount,
+              addonServices: !!mso_addon_service,
+              MSOAddOnService: mso_addon_service,
+              name,
+              logo,
+              MSOCoverUser,
             }}
           >
             <button
@@ -150,6 +215,9 @@ const MyAccount = (props) => {
         {policies?.map((m, i) => {
           if (m.product_type === 'device_insurance') {
             return renderDeviceCard(m);
+          }
+          if (m.product_type === 'mso_policy') {
+            return renderMSOCard(m);
           }
 
           return <></>;

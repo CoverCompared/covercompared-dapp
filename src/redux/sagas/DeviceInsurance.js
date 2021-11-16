@@ -34,8 +34,8 @@ function* buyDeviceInsurance({ payload }) {
     const url = `${API_BASE_URL}/user/policies-device-insurance`;
     const res = yield call(axiosPost, url, payload, yield select(selector.token));
 
-    if (res?.data?.data) {
-      return yield put(buyDeviceInsuranceSuccess(res?.data?.data));
+    if (res?.data?.success) {
+      return yield put(buyDeviceInsuranceSuccess(res.data.data));
     }
 
     return yield put(
@@ -150,17 +150,17 @@ function* getDeviceModelDetail({ payload }) {
     );
 
     const url = `${API_BASE_URL}/p4l-forward`;
-    const deviceModelDetail = yield call(axiosPost, url, payload);
+    const res = yield call(axiosPost, url, payload);
 
-    if (deviceModelDetail?.data?.data) {
-      yield put(getDeviceModelDetailsSuccess(deviceModelDetail.data.data));
+    if (!res?.data?.error_message) {
+      yield put(getDeviceModelDetailsSuccess(res.data.data));
     } else {
       yield put(
         setGetDeviceModelDetailsLoader({
           loader: false,
           isFailed: true,
           deviceModelDetails: null,
-          message: deviceModelDetail.errors,
+          message: res.data.error_message,
         }),
       );
     }

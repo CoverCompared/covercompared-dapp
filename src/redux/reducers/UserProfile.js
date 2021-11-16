@@ -31,6 +31,9 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         policies: payload,
+        message: '',
+        loader: false,
+        isFailed: false,
       };
     }
     case SET_SUBMIT_SUBSCRIBE_EMAIL_LOADER: {
@@ -68,6 +71,9 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         reviewData: payload,
+        message: '',
+        loader: false,
+        isFailed: false,
       };
     }
     default:

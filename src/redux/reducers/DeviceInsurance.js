@@ -30,6 +30,9 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         ...payload,
+        message: '',
+        loader: false,
+        isFailed: false,
       };
     }
     case SET_GET_DEVICE_DETAILS_LOADER: {

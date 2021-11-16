@@ -8,6 +8,7 @@ import MSOServicesCard from '../components/MSOServicesCard';
 import { searchMSOList } from '../redux/actions/MsoInsurance';
 import Modal from '../components/common/Modal';
 import MsoEligibilityChecker from '../components/common/MsoEligibilityChecker';
+import OverlayLoading from '../components/common/OverlayLoading';
 
 import MSOpartner1 from '../assets/img/mso-partners-1.jpg';
 import MSOpartner2 from '../assets/img/mso-partners-2.jpg';
@@ -93,7 +94,7 @@ const MSOPartners = [
 
 const MSOPlans = (props) => {
   const dispatch = useDispatch();
-  const { listLoader, msoList } = useSelector((state) => state.msoInsurance);
+  const { listLoader, msoList, loader } = useSelector((state) => state.msoInsurance);
 
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isEligible, setIsEligible] = useState(false);
@@ -142,6 +143,7 @@ const MSOPlans = (props) => {
 
   return (
     <>
+      {loader && <OverlayLoading />}
       <Modal
         isOpen={isModalOpen}
         title="Country of Residence"

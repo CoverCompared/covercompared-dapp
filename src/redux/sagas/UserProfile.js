@@ -21,7 +21,7 @@ import {
 import { axiosGet, axiosPost, post } from '../constants/apicall';
 import * as selector from '../constants/selectors';
 
-function* searchSingleBlog({ payload }) {
+function* getUserPolicies({ payload }) {
   try {
     yield put(
       setGetUserPoliciesLoader({
@@ -139,7 +139,7 @@ function* submitReview({ payload }) {
     const url = `${API_BASE_URL}/${payload.query}`;
     const res = yield call(axiosPost, url, payload.obj, yield select(selector.token));
 
-    if (res?.data) {
+    if (res?.data?.success) {
       return yield put(submitReviewSuccess(res.data));
     }
 
@@ -162,7 +162,7 @@ function* submitReview({ payload }) {
 }
 
 export default all([
-  takeLatest(GET_USER_POLICIES, searchSingleBlog),
+  takeLatest(GET_USER_POLICIES, getUserPolicies),
   takeLatest(SUBMIT_SUBSCRIBE_EMAIL, submitSubscribeEmail),
   takeLatest(SUBMIT_CONTACT_DETAILS, submitContactDetails),
   takeLatest(SUBMIT_REVIEW, submitReview),

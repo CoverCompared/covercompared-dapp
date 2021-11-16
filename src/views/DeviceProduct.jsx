@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Markup } from 'interweave';
 import uniqid from 'uniqid';
+import { useSelector } from 'react-redux';
+
 import Modal from '../components/common/Modal';
 import CountrySelector from '../components/common/DeviceCountrySelector';
 import DeviceEligibilityChecker from '../components/common/DeviceEligibilityChecker';
+import OverlayLoading from '../components/common/OverlayLoading';
 
 import MobileIcon from '../assets/icons/mobile-icon.svg';
 import LaptopIcon from '../assets/icons/laptop-icon.svg';
@@ -183,11 +186,13 @@ const p4lTable = [
   },
 ];
 
-const InsuranceProduct = (props) => {
+const DeviceProduct = (props) => {
   const [table, setTable] = useState(p4lTable);
   const [showMore, setShowMore] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isEligible, setIsEligible] = useState(false);
+
+  const { loader } = useSelector((state) => state.deviceInsurance);
 
   useEffect(() => {
     const t = p4lTable.slice(0, 4);
@@ -205,6 +210,7 @@ const InsuranceProduct = (props) => {
 
   return (
     <>
+      {loader && <OverlayLoading />}
       <Modal
         isOpen={isModalOpen}
         title="Country of Residence"
@@ -435,4 +441,4 @@ const InsuranceProduct = (props) => {
   );
 };
 
-export default InsuranceProduct;
+export default DeviceProduct;

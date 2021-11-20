@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
     height: 'auto',
   },
   tableHeader: {
-    fontSize: '12pt',
     backgroundColor: '#e5e7eb',
   },
   tableNamecol: {
@@ -137,7 +136,7 @@ const MSOReceipt = (props) => {
             </View>
           </View>
 
-          <View style={[styles.row, styles.justify_between, styles.align_start, styles.mt]}>
+          <View style={[styles.row, styles.justify_between, styles.mt]}>
             <View>
               <View style={styles.total}>
                 <Text>{name}</Text>

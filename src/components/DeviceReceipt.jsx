@@ -31,11 +31,13 @@ const styles = StyleSheet.create({
   p4lLogo: {
     width: '90pt',
     marginVertical: 15,
+    marginLeft: '6pt',
   },
   total: {
     color: '#011b41',
     fontSize: '14pt',
     fontWeight: 'semibold',
+    marginBottom: '6pt',
   },
   paymentetails: {
     marginVertical: 4,
@@ -65,6 +67,8 @@ const styles = StyleSheet.create({
   modelDetails: {
     marginLeft: 16,
     textAlign: 'right',
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
 });
 
@@ -72,17 +76,13 @@ const DeviceReceipt = (props) => {
   const {
     txn_hash,
     quote,
-    discount,
     total,
     tax,
     discountAmount,
-    applyDiscount,
     fName,
     lName,
     phone,
     email,
-    plan_type,
-    model,
     deviceType,
     brand,
     value,
@@ -105,15 +105,17 @@ const DeviceReceipt = (props) => {
       <Page style={styles.page}>
         <View style={styles.container}>
           <View style={[styles.row, styles.justify_between]}>
-            <View style={styles.topLogo}>
-              <Image source={CoverComparedLogo} />
+            <View style={styles.row}>
+              <View style={styles.topLogo}>
+                <Image source={CoverComparedLogo} />
+              </View>
+              <View style={styles.p4lLogo}>
+                <Image source={P4LLogo} />
+              </View>
             </View>
             <View>
               <Text>Date: {getCurrentDate()}</Text>
             </View>
-          </View>
-          <View style={styles.p4lLogo}>
-            <Image source={P4LLogo} />
           </View>
 
           <View style={[styles.row, styles.justify_between]}>

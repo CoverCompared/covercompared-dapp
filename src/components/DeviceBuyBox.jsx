@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import { CheckIcon } from '@heroicons/react/outline';
 import { useWeb3React } from '@web3-react/core';
+import { PDFViewer } from '@react-pdf/renderer';
 
 import Alert from './common/Alert';
 import { walletLogin } from '../hooks/useAuth';
@@ -283,6 +284,31 @@ const DeviceBuyBox = (props) => {
   if (showReceipt) {
     return (
       <div>
+        {/* <PDFViewer className="fixed h-96 w-full">
+          <DeviceReceipt
+            {...{
+              txn_hash,
+              quote: plan_total_price,
+              discount,
+              total,
+              tax,
+              discountAmount,
+              applyDiscount,
+              fName,
+              lName,
+              phone,
+              email,
+              plan_type,
+              model,
+              deviceType,
+              brand,
+              value: deviceDetails?.device_values[value] || '',
+              purchaseMonth,
+              plan_currency,
+              selectedModel: selectedModel[0],
+            }}
+          />
+        </PDFViewer> */}
         <div className="flex justify-end">
           <DownloadPolicy
             fileName="Device_protection_receipt.pdf"

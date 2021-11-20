@@ -6,16 +6,15 @@ const DownloadPolicy = (props) => {
 
   return (
     <>
-      <button
-        type="button"
+      <PDFDownloadLink
+        document={pdf}
+        fileName={fileName}
         className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
       >
-        <PDFDownloadLink document={pdf} fileName={fileName}>
-          {({ blob, url, loading, error }) =>
-            loading ? 'Loading document...' : 'Download Policy Receipt'
-          }
-        </PDFDownloadLink>
-      </button>
+        {({ blob, url, loading, error }) =>
+          loading ? 'Loading document...' : 'Download Policy Receipt'
+        }
+      </PDFDownloadLink>
     </>
   );
 };

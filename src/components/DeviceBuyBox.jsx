@@ -13,6 +13,7 @@ import DownloadPolicy from './common/DownloadPolicy';
 import DeviceReceipt from './DeviceReceipt';
 import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
 import {
+  resetDeviceInsurance,
   buyDeviceInsurance,
   getDeviceDetails,
   getDevicePlanDetails,
@@ -77,10 +78,14 @@ const DeviceBuyBox = (props) => {
 
   const { plan_total_price, plan_currency, plan_type } = planType;
   const tax = '5';
-  const discount = (+plan_total_price * 25) / 100;
+  const discount = +((+plan_total_price * 25) / 100).toFixed(2);
   const discountAmount = applyDiscount ? discount : 0;
   const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
   const selectedModel = deviceModelDetails?.models?.filter((obj) => obj.model_code === model) || [];
+
+  useEffect(() => {
+    dispatch(resetDeviceInsurance());
+  }, []);
 
   useEffect(() => {
     if (deviceIsFailed) setShowAlert(true);
@@ -91,6 +96,10 @@ const DeviceBuyBox = (props) => {
       setTitle('Receipt');
       setMaxWidth('max-w-5xl');
       setShowReceipt(true);
+    } else {
+      setTitle('Device Details');
+      setMaxWidth('max-w-2xl');
+      setShowReceipt(false);
     }
   }, [txn_hash]);
 
@@ -140,7 +149,7 @@ const DeviceBuyBox = (props) => {
         getDeviceModelDetails({
           endpoint: 'initiate-policy',
           plan_id: planType.plan_id,
-          tran_id: devicePlanDetails.tran_id,
+          tran_id: devicePlanDetails?.tran_id,
         }),
       );
     }

@@ -5,9 +5,9 @@ import {
   RESEND_VERIFICATION_EMAIL_SUCCESS,
   VERIFY_OTP_SUCCESS,
   GET_USER_PROFILE_SUCCESS,
-  LOGOUT_USER_SUCCESS,
   LOGIN_MODAL_VISIBLE,
   REGISTER_MODAL_VISIBLE,
+  LOGOUT_USER,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
@@ -80,10 +80,10 @@ export default (state = INIT_STATE, { type, payload }) => {
         ...payload,
       };
     }
-    case LOGOUT_USER_SUCCESS: {
+    case LOGOUT_USER: {
       return {
         ...state,
-        message: 'Unauthorized',
+        message: '',
         loader: false,
         isFailed: false,
 

@@ -1,4 +1,5 @@
 import {
+  RESET_MSO_INSURANCE,
   SET_BUY_MSO_INSURANCE_LOADER,
   BUY_MSO_INSURANCE_SUCCESS,
   SET_SEARCH_MSO_LIST_LOADER,
@@ -16,6 +17,16 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, { type, payload }) => {
   switch (type) {
+    case RESET_MSO_INSURANCE: {
+      return {
+        message: '',
+        loader: false,
+        listLoader: false,
+        isFailed: false,
+        quote: null,
+        msoList: null,
+      };
+    }
     case SET_BUY_MSO_INSURANCE_LOADER: {
       return {
         ...state,

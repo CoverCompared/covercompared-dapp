@@ -1,4 +1,5 @@
 import {
+  RESET_MSO_INSURANCE,
   BUY_MSO_INSURANCE,
   BUY_MSO_INSURANCE_SUCCESS,
   SET_BUY_MSO_INSURANCE_LOADER,
@@ -6,6 +7,13 @@ import {
   SEARCH_MSO_LIST_SUCCESS,
   SET_SEARCH_MSO_LIST_LOADER,
 } from '../constants/ActionTypes';
+
+export const resetMsoInsurance = (payload) => {
+  return {
+    type: RESET_MSO_INSURANCE,
+    payload,
+  };
+};
 
 export const buyMsoInsurance = (payload) => {
   return {

@@ -6,7 +6,6 @@ import {
   VERIFY_OTP,
   RESEND_VERIFICATION_EMAIL,
   GET_USER_PROFILE,
-  LOGOUT_USER,
 } from '../constants/ActionTypes';
 import {
   setAuthLoader,
@@ -16,8 +15,6 @@ import {
   resendVerificationEmailSuccess,
   getUserProfile,
   getUserProfileSuccess,
-  setLoginModalVisible,
-  logoutUserSuccess,
 } from '../actions/Auth';
 import * as selector from '../constants/selectors';
 import { axiosGet, axiosPost } from '../constants/apicall';
@@ -55,11 +52,6 @@ function* loginUser({ payload }) {
       }),
     );
   }
-}
-
-function* logoutUser() {
-  yield put(logoutUserSuccess());
-  yield put(setLoginModalVisible(false));
 }
 
 function* setProfileData({ payload }) {
@@ -205,7 +197,6 @@ function* getUserProfileSaga() {
 
 export default all([
   takeLatest(GET_LOGIN_DETAILS, loginUser),
-  takeLatest(LOGOUT_USER, logoutUser),
   takeLatest(SET_PROFILE_DETAILS, setProfileData),
   takeLatest(VERIFY_OTP, verifyOTP),
   takeLatest(RESEND_VERIFICATION_EMAIL, resendVerificationEmail),

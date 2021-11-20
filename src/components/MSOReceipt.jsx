@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/renderer';
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 
@@ -193,7 +194,7 @@ const MSOReceipt = (props) => {
               <View
                 style={[styles.center, styles.tableCol, styles.border_right, styles.tableContent]}
               >
-                <Text> {member.userType} </Text>
+                <Text> {member.userType || member.user_type || ''} </Text>
               </View>
               <View
                 style={[
@@ -204,7 +205,7 @@ const MSOReceipt = (props) => {
                   styles.tableNamecol,
                 ]}
               >
-                <Text> {member.firstName} </Text>
+                <Text> {member.firstName || member.first_name || ''} </Text>
               </View>
               <View
                 style={[
@@ -215,7 +216,7 @@ const MSOReceipt = (props) => {
                   styles.tableNamecol,
                 ]}
               >
-                <Text> {member.lastName} </Text>
+                <Text> {member.lastName || member.last_name || ''} </Text>
               </View>
               <View
                 style={[styles.center, styles.tableCol, styles.border_right, styles.tableContent]}
@@ -225,7 +226,7 @@ const MSOReceipt = (props) => {
               <View
                 style={[styles.center, styles.tableCol, styles.border_right, styles.tableContent]}
               >
-                <Text> {member.dob} </Text>
+                <Text> {dayjs(member.dob).format('DD/MM/YYYY')} </Text>
               </View>
               <View style={[styles.center, styles.tableCol, styles.tableContent]}>
                 <Text> {member.identity} </Text>

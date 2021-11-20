@@ -6,6 +6,7 @@ import { XCircleIcon } from '@heroicons/react/solid';
 import CheckoutFormInput from './common/CheckoutFormInput';
 import FormInput from './FormInput';
 import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
+import { resetDeviceInsurance } from '../redux/actions/DeviceInsurance';
 import Alert from './common/Alert';
 
 const MsoUserInfoForm = (props) => {
@@ -48,6 +49,10 @@ const MsoUserInfoForm = (props) => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [userOtp, setUserOtp] = useState('');
+
+  useEffect(() => {
+    dispatch(resetDeviceInsurance());
+  }, []);
 
   useEffect(() => {
     if (emailSubmitted && showOTPScreen && isFailed && !loader) {

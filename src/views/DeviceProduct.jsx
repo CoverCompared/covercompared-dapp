@@ -4,7 +4,7 @@ import uniqid from 'uniqid';
 import { useSelector } from 'react-redux';
 
 import Modal from '../components/common/Modal';
-import CountrySelector from '../components/common/DeviceCountrySelector';
+import DeviceBuyBox from '../components/DeviceBuyBox';
 import DeviceEligibilityChecker from '../components/common/DeviceEligibilityChecker';
 import OverlayLoading from '../components/common/OverlayLoading';
 
@@ -263,7 +263,7 @@ const DeviceProduct = (props) => {
           <Modal
             title="Device Details"
             sizeClass="max-w-2xl"
-            renderComponent={CountrySelector}
+            renderComponent={DeviceBuyBox}
             bgImg="bg-loginPopupBg bg-cover"
           >
             <button

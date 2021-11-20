@@ -1,4 +1,5 @@
 import {
+  RESET_DEVICE_INSURANCE,
   SET_BUY_DEVICE_INSURANCE_LOADER,
   BUY_DEVICE_INSURANCE_SUCCESS,
   GET_DEVICE_DETAILS_SUCCESS,
@@ -16,10 +17,23 @@ const INIT_STATE = {
   deviceDetails: null,
   devicePlanDetails: null,
   deviceModelDetails: null,
+  txn_hash: null,
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
   switch (type) {
+    case RESET_DEVICE_INSURANCE: {
+      return {
+        ...state,
+        message: '',
+        loader: false,
+        isFailed: false,
+        deviceDetails: null,
+        devicePlanDetails: null,
+        deviceModelDetails: null,
+        txn_hash: null,
+      };
+    }
     case SET_BUY_DEVICE_INSURANCE_LOADER: {
       return {
         ...state,

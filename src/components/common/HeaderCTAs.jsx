@@ -6,15 +6,18 @@ import SwapComponent from './SwapCurrency';
 import ThemeToggleSwitch from '../ThemeToggleSwitch';
 import LoginIcon from '../../assets/img/Login.svg';
 import { shortenAddress } from '../../utils';
-import { logoutUser } from '../../redux/actions/Auth';
+import { walletLogout } from '../../hooks/useAuth';
 import { setLoginModalVisible } from '../../redux/actions';
+import { logoutUser } from '../../redux/actions/Auth';
 
 const HeaderCTAs = (props) => {
-  const { account } = useWeb3React();
+  const { account, deactivate } = useWeb3React();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
+    walletLogout(deactivate);
     dispatch(logoutUser());
+    dispatch(setLoginModalVisible(false));
   };
 
   return (

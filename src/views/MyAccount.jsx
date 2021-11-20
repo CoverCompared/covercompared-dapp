@@ -8,17 +8,39 @@ import Modal from '../components/common/Modal';
 // import AdditionalDetails from '../components/AdditionalDetails';
 import { getUserPolicies } from '../redux/actions/UserProfile';
 import OverlayLoading from '../components/common/OverlayLoading';
+import MSOReceipt from '../components/MSOReceipt';
 import MSOReceiptCard from '../components/MSOReceiptCard';
+import DeviceReceipt from '../components/DeviceReceipt';
 import DeviceReceiptCard from '../components/DeviceReceiptCard';
+import DownloadPolicy from '../components/common/DownloadPolicy';
 
 import p4lLogo from '../assets/img/p4l-logo.png';
 
 const DeviceCard = (props) => {
-  return <DeviceReceiptCard {...props} />;
+  return (
+    <>
+      <div className="flex justify-end">
+        <DownloadPolicy
+          pdf={<DeviceReceipt {...props} />}
+          fileName="Device_protection_receipt.pdf"
+        />
+      </div>
+      <DeviceReceiptCard {...props} />
+    </>
+  );
 };
 
 const MSOCard = (props) => {
-  return <MSOReceiptCard {...props} />;
+  return (
+    <>
+      <div className="flex justify-end">
+        <DownloadPolicy pdf={<MSOReceipt {...props} />} fileName="MSO_Policy_Receipt.pdf" />
+      </div>
+      <div className="flex">
+        <MSOReceiptCard {...props} />
+      </div>
+    </>
+  );
 };
 
 const MyAccount = (props) => {

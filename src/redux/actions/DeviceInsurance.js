@@ -1,4 +1,5 @@
 import {
+  RESET_DEVICE_INSURANCE,
   BUY_DEVICE_INSURANCE,
   BUY_DEVICE_INSURANCE_SUCCESS,
   SET_BUY_DEVICE_INSURANCE_LOADER,
@@ -12,6 +13,13 @@ import {
   GET_DEVICE_MODEL_DETAILS_SUCCESS,
   SET_GET_DEVICE_MODEL_DETAILS_LOADER,
 } from '../constants/ActionTypes';
+
+export const resetDeviceInsurance = (payload) => {
+  return {
+    type: RESET_DEVICE_INSURANCE,
+    payload,
+  };
+};
 
 export const buyDeviceInsurance = (payload) => {
   return {

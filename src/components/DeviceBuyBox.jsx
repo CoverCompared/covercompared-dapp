@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PDFViewer } from '@react-pdf/renderer';
 import uniqid from 'uniqid';
 import { CheckIcon } from '@heroicons/react/outline';
 import { useWeb3React } from '@web3-react/core';
+import { PDFViewer } from '@react-pdf/renderer';
 
 import Alert from './common/Alert';
 import { walletLogin } from '../hooks/useAuth';
@@ -13,11 +13,18 @@ import DeviceReceiptCard from './DeviceReceiptCard';
 import DownloadPolicy from './common/DownloadPolicy';
 import DeviceReceipt from './DeviceReceipt';
 import {
+  setProfileDetails,
+  verifyOTP,
+  getLoginDetails,
+  setLoginModalVisible,
+} from '../redux/actions/Auth';
+import {
+  resetDeviceInsurance,
+  buyDeviceInsurance,
   getDeviceDetails,
   getDevicePlanDetails,
   getDeviceModelDetails,
-} from '../redux/actions/CoverList';
-import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
+} from '../redux/actions/DeviceInsurance';
 import { classNames } from '../functions/utils';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
@@ -26,16 +33,22 @@ const DeviceBuyBox = (props) => {
   const { setTitle, setMaxWidth } = props;
 
   const dispatch = useDispatch();
-  // const { login } = useAuth();
   const { account, activate } = useWeb3React();
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
-  const coverListData = useSelector((state) => state.coverList);
   const { showOTPScreen, showVerified, is_verified, loader, isFailed } = useSelector(
     (state) => state.auth,
   );
   const notRegistered = !is_verified;
-  const { deviceDetails, devicePlanDetails, deviceModelDetails } = coverListData || {};
+  const {
+    deviceDetails,
+    devicePlanDetails,
+    deviceModelDetails,
+    txn_hash,
+    loader: deviceLoader,
+    message: deviceMessage,
+    isFailed: deviceIsFailed,
+  } = useSelector((state) => state.deviceInsurance);
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertText, setAlertText] = useState('');
@@ -67,7 +80,34 @@ const DeviceBuyBox = (props) => {
 
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
   const hasFirstTwoStep = hasFirstStep && planType;
-  const hasAllStep = hasFirstTwoStep && model;
+  const hasAllStep = hasFirstTwoStep && (model || !deviceModelDetails?.models?.length);
+
+  const { plan_total_price, plan_currency, plan_type } = planType;
+  const tax = '5';
+  const discount = +((+plan_total_price * 25) / 100).toFixed(2);
+  const discountAmount = applyDiscount ? discount : 0;
+  const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
+  const selectedModel = deviceModelDetails?.models?.filter((obj) => obj.model_code === model) || [];
+
+  useEffect(() => {
+    dispatch(resetDeviceInsurance());
+  }, []);
+
+  useEffect(() => {
+    if (deviceIsFailed) setShowAlert(true);
+  }, [deviceIsFailed]);
+
+  useEffect(() => {
+    if (txn_hash && !deviceLoader && !deviceIsFailed) {
+      setTitle('Receipt');
+      setMaxWidth('max-w-5xl');
+      setShowReceipt(true);
+    } else {
+      setTitle('Device Details');
+      setMaxWidth('max-w-2xl');
+      setShowReceipt(false);
+    }
+  }, [txn_hash]);
 
   useEffect(() => {
     dispatch(
@@ -115,7 +155,7 @@ const DeviceBuyBox = (props) => {
         getDeviceModelDetails({
           endpoint: 'initiate-policy',
           plan_id: planType.plan_id,
-          tran_id: devicePlanDetails.tran_id,
+          tran_id: devicePlanDetails?.tran_id,
         }),
       );
     }
@@ -139,6 +179,13 @@ const DeviceBuyBox = (props) => {
     }
     return null;
   }, [showOTPScreen, showVerified, loader, isFailed, emailSubmitted]);
+
+  useEffect(() => {
+    if (connectStatus && account) {
+      dispatch(getLoginDetails({ wallet_address: account }));
+      setConnectStatus(false);
+    }
+  }, [connectStatus, account]);
 
   const handleProceed = (e) => {
     if (e) e.preventDefault();
@@ -170,9 +217,27 @@ const DeviceBuyBox = (props) => {
 
   const handleConfirm = (e) => {
     if (e) e.preventDefault();
-    setTitle('Receipt');
-    setMaxWidth('max-w-5xl');
-    setShowReceipt(true);
+
+    dispatch(
+      buyDeviceInsurance({
+        device_type: deviceType,
+        brand,
+        value,
+        purchase_month: purchaseMonth,
+        model: model || 'OTHERS',
+        plan_type: 'monthly',
+        first_name: fName,
+        last_name: lName,
+        email,
+        phone,
+        currency: plan_currency,
+        amount: plan_total_price,
+        discount_amount: discountAmount,
+        tax: '5',
+        total_amount: total,
+        wallet_address: account,
+      }),
+    );
   };
 
   const handleSubmitEmail = (email = null) => {
@@ -209,7 +274,9 @@ const DeviceBuyBox = (props) => {
           <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
             <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
             <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
-              {connectStatus && curWalletId === option.connector ? 'Connecting...' : option.name}
+              {(connectStatus && curWalletId === option.connector) || loader
+                ? 'Connecting...'
+                : option.name}
             </div>
           </div>
         </div>
@@ -217,7 +284,7 @@ const DeviceBuyBox = (props) => {
     });
   };
 
-  if (!account && showLogin) {
+  if ((!account && showLogin) || (account && loader)) {
     return (
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 flex items-center justify-center w-full">
@@ -230,21 +297,40 @@ const DeviceBuyBox = (props) => {
   }
 
   if (showReceipt) {
-    const { plan_total_price, plan_currency, plan_type } = planType;
-    const tax = '5';
-    const discount = (+plan_total_price * 25) / 100;
-    const discountAmount = applyDiscount ? discount : 0;
-    const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
-    const selectedModel = deviceModelDetails?.models.filter((obj) => obj.model_code === model);
-
     return (
       <div>
+        {/* <PDFViewer className="fixed h-96 w-full">
+          <DeviceReceipt
+            {...{
+              txn_hash,
+              quote: plan_total_price,
+              discount,
+              total,
+              tax,
+              discountAmount,
+              applyDiscount,
+              fName,
+              lName,
+              phone,
+              email,
+              plan_type,
+              model,
+              deviceType,
+              brand,
+              value: deviceDetails?.device_values[value] || '',
+              purchaseMonth,
+              plan_currency,
+              selectedModel: selectedModel[0],
+            }}
+          />
+        </PDFViewer> */}
         <div className="flex justify-end">
           <DownloadPolicy
             fileName="Device_protection_receipt.pdf"
             pdf={
               <DeviceReceipt
                 {...{
+                  txn_hash,
                   quote: plan_total_price,
                   discount,
                   total,
@@ -259,7 +345,7 @@ const DeviceBuyBox = (props) => {
                   model,
                   deviceType,
                   brand,
-                  value,
+                  value: deviceDetails?.device_values[value] || '',
                   purchaseMonth,
                   plan_currency,
                   selectedModel: selectedModel[0],
@@ -270,21 +356,18 @@ const DeviceBuyBox = (props) => {
         </div>
         <DeviceReceiptCard
           {...{
+            txn_hash,
             quote: plan_total_price,
-            discount,
             total,
             tax,
             discountAmount,
-            applyDiscount,
             fName,
             lName,
             phone,
             email,
-            plan_type,
-            model,
             deviceType,
             brand,
-            value,
+            value: deviceDetails?.device_values[value] || '',
             purchaseMonth,
             plan_currency,
             selectedModel: selectedModel[0],
@@ -295,14 +378,13 @@ const DeviceBuyBox = (props) => {
   }
 
   if (showConfirmation) {
-    const { plan_total_price, plan_currency, plan_type } = planType;
-    const tax = '5';
-    const discount = (+plan_total_price * 25) / 100;
-    const discountAmount = applyDiscount ? discount : 0;
-    const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
-
     return (
       <div>
+        {showAlert && (
+          <div className="mb-4">
+            <Alert type="danger" text={deviceMessage} onClose={() => setShowAlert(false)} />
+          </div>
+        )}
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">
             Premium Per {plan_type === 'yearly' ? 'Year' : 'Month'}
@@ -346,7 +428,7 @@ const DeviceBuyBox = (props) => {
     );
   }
 
-  if (showInfoForm) {
+  if (showInfoForm && !loader) {
     return (
       <>
         {showAlert && (
@@ -497,6 +579,11 @@ const DeviceBuyBox = (props) => {
 
   return (
     <>
+      {showAlert && (
+        <div className="mb-4">
+          <Alert type={alertType} text={alertText} onClose={() => setShowAlert(false)} />
+        </div>
+      )}
       <form onSubmit={handleProceed}>
         <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
           1- Device Details

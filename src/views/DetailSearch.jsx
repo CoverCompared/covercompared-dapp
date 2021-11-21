@@ -14,7 +14,8 @@ import MobileFilterWhiteIcon from '../assets/dark-icons/mobile-filter-white.svg'
 import ChangeViewIconWhite from '../assets/dark-icons/view-change-icon.svg';
 import SearchBar from '../components/common/SearchBar';
 import { ThemeContext } from '../themeContext';
-import { searchCoverList, fetchMoreCovers, searchMSOList } from '../redux/actions/CoverList';
+import { searchCoverList, fetchMoreCovers } from '../redux/actions/CoverList';
+import { searchMSOList } from '../redux/actions/MsoInsurance';
 import { toggleFilters } from '../redux/actions/AppActions';
 import Loading from '../components/common/Loading';
 import FiltersSection from '../components/FiltersSection';

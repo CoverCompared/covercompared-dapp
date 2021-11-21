@@ -5,13 +5,13 @@ import {
   RESEND_VERIFICATION_EMAIL_SUCCESS,
   VERIFY_OTP_SUCCESS,
   GET_USER_PROFILE_SUCCESS,
-  LOGOUT_USER,
   LOGIN_MODAL_VISIBLE,
   REGISTER_MODAL_VISIBLE,
+  LOGOUT_USER,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
-  message: '',
+  message: null,
   loader: false,
   isFailed: false,
 
@@ -31,10 +31,11 @@ export default (state = INIT_STATE, { type, payload }) => {
     case GET_LOGIN_DETAILS_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: null,
         loader: false,
         isFailed: false,
         ...payload,
+        wallet_addresses: [payload.wallet_address, ...state.wallet_addresses],
       };
     }
     case SET_AUTH_LOADER: {
@@ -46,7 +47,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case SET_PROFILE_DETAILS_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: null,
         loader: false,
         isFailed: false,
         showOTPScreen: true,
@@ -55,7 +56,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case RESEND_VERIFICATION_EMAIL_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: null,
         loader: false,
         isFailed: false,
         showOTPScreen: true,
@@ -64,7 +65,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case VERIFY_OTP_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: null,
         loader: false,
         isFailed: false,
         showVerified: true,
@@ -74,7 +75,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case GET_USER_PROFILE_SUCCESS: {
       return {
         ...state,
-        message: '',
+        message: null,
         loader: false,
         isFailed: false,
         ...payload,
@@ -107,7 +108,7 @@ export default (state = INIT_STATE, { type, payload }) => {
     case REGISTER_MODAL_VISIBLE: {
       return {
         ...state,
-        message: '',
+        message: null,
         isFailed: false,
         showVerified: false,
         showOTPScreen: false,

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Markup } from 'interweave';
 import uniqid from 'uniqid';
+import { useSelector } from 'react-redux';
+
 import Modal from '../components/common/Modal';
-import CountrySelector from '../components/common/DeviceCountrySelector';
+import DeviceBuyBox from '../components/DeviceBuyBox';
 import DeviceEligibilityChecker from '../components/common/DeviceEligibilityChecker';
+import OverlayLoading from '../components/common/OverlayLoading';
 
 import MobileIcon from '../assets/icons/mobile-icon.svg';
 import LaptopIcon from '../assets/icons/laptop-icon.svg';
@@ -183,11 +186,13 @@ const p4lTable = [
   },
 ];
 
-const InsuranceProduct = (props) => {
+const DeviceProduct = (props) => {
   const [table, setTable] = useState(p4lTable);
   const [showMore, setShowMore] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isEligible, setIsEligible] = useState(false);
+
+  const { loader } = useSelector((state) => state.deviceInsurance);
 
   useEffect(() => {
     const t = p4lTable.slice(0, 4);
@@ -205,6 +210,7 @@ const InsuranceProduct = (props) => {
 
   return (
     <>
+      {loader && <OverlayLoading />}
       <Modal
         isOpen={isModalOpen}
         title="Country of Residence"
@@ -257,7 +263,7 @@ const InsuranceProduct = (props) => {
           <Modal
             title="Device Details"
             sizeClass="max-w-2xl"
-            renderComponent={CountrySelector}
+            renderComponent={DeviceBuyBox}
             bgImg="bg-loginPopupBg bg-cover"
           >
             <button
@@ -293,7 +299,7 @@ const InsuranceProduct = (props) => {
         </div>
 
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
-          We protect what you love
+          Now less means more!
         </h2>
 
         <div className="flex flex-col md:mt-10 mt-8">
@@ -435,4 +441,4 @@ const InsuranceProduct = (props) => {
   );
 };
 
-export default InsuranceProduct;
+export default DeviceProduct;

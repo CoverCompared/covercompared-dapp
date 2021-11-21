@@ -47,13 +47,6 @@ const MSOPlanCard = (props) => {
   const [addonServices, setAddonServices] = useState(false);
   const [msoTotalPrice, setMsoTotalPrice] = useState(quote);
 
-  useEffect(() => {
-    console.log('Plans Card Mounted');
-    return () => {
-      console.log('Plans Card Un-Mounted');
-    };
-  }, []);
-
   const toggleCheckbox = (e) => {
     e.stopPropagation();
 

@@ -156,7 +156,7 @@ const routes = [
     bgImgClass: 'bg-100% bg-no-repeat bg-bottom',
   },
   {
-    path: '/submit-review',
+    path: '/submit-review/:id',
     exact: true,
     pageName: 'Submit Review',
     withSidebar: true,

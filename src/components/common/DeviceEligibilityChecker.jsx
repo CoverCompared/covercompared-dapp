@@ -1,7 +1,9 @@
 import React, { useState, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import { CheckCircleIcon } from '@heroicons/react/outline';
+import { submitUserCountry } from '../../redux/actions/EligibilityChecker';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -15,6 +17,8 @@ const countries = [
 ];
 
 const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitle }) => {
+  const dispatch = useDispatch();
+
   const [country, setCountry] = useState('');
   const [userCountry, setUserCountry] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -27,6 +31,13 @@ const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setT
     if (userCountry && userEmail) {
       setShowSuccess(true);
       setTitle('');
+      dispatch(
+        submitUserCountry({
+          product_type: 'mso_policy',
+          country: userCountry.value,
+          email: userEmail,
+        }),
+      );
       return;
     }
 

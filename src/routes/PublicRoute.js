@@ -11,7 +11,6 @@ const PublicRoute = (props) => {
   const { account, activate, deactivate } = useWeb3React();
 
   useEffect(() => {
-    console.log(`Hi I'm mounted> page`);
     const connectorId = window.localStorage.getItem(connectorLocalStorageKey);
     if (connectorId && !account) {
       walletLogin(connectorId, activate);

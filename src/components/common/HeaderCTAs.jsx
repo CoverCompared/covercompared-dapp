@@ -7,16 +7,14 @@ import ThemeToggleSwitch from '../ThemeToggleSwitch';
 import LoginIcon from '../../assets/img/Login.svg';
 import { shortenAddress } from '../../utils';
 import { walletLogout } from '../../hooks/useAuth';
-import { logoutUser } from '../../redux/actions/Auth';
 import { setLoginModalVisible } from '../../redux/actions';
+import { logoutUser } from '../../redux/actions/Auth';
 
 const HeaderCTAs = (props) => {
   const { account, deactivate } = useWeb3React();
-  // const { logout } = useAuth();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    // logout();
     walletLogout(deactivate);
     dispatch(logoutUser());
     dispatch(setLoginModalVisible(false));

@@ -5,9 +5,10 @@ import uniqid from 'uniqid';
 import MSOPlanCard from '../components/MSOPlanCard';
 import Loading from '../components/common/Loading';
 import MSOServicesCard from '../components/MSOServicesCard';
-import { searchMSOList } from '../redux/actions/CoverList';
+import { searchMSOList } from '../redux/actions/MsoInsurance';
 import Modal from '../components/common/Modal';
 import MsoEligibilityChecker from '../components/common/MsoEligibilityChecker';
+import OverlayLoading from '../components/common/OverlayLoading';
 
 import MSOpartner1 from '../assets/img/mso-partners-1.jpg';
 import MSOpartner2 from '../assets/img/mso-partners-2.jpg';
@@ -93,30 +94,29 @@ const MSOPartners = [
 
 const MSOPlans = (props) => {
   const dispatch = useDispatch();
-  const coverListData = useSelector((state) => state.coverList);
-  const { loader, coverList, query, message, isFailed, page, totalPages } = coverListData;
+  const { listLoader, msoList, loader } = useSelector((state) => state.msoInsurance);
 
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isEligible, setIsEligible] = useState(false);
-  const [products, setProducts] = useState(coverList);
+  const [products, setProducts] = useState(msoList);
 
   useEffect(() => {
     dispatch(searchMSOList());
   }, []);
 
   useEffect(() => {
-    setProducts(coverList);
-  }, [coverList]);
+    setProducts(msoList);
+  }, [msoList]);
 
   const renderCards = () => {
-    if (loader) {
+    if (listLoader) {
       return (
         <div className="text-center">
           <Loading />
         </div>
       );
     }
-    if (!loader && !products?.length) {
+    if (!listLoader && !products?.length) {
       return (
         <div className="mt-3 text-center dark:text-white text-h6 font-Montserrat font-medium w-full">
           Sorry! No results found
@@ -143,6 +143,7 @@ const MSOPlans = (props) => {
 
   return (
     <>
+      {loader && <OverlayLoading />}
       <Modal
         isOpen={isModalOpen}
         title="Country of Residence"

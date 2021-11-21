@@ -33,7 +33,9 @@ function* loginUser({ payload }) {
     const loginRes = yield call(axiosPost, url, payload);
 
     if (loginRes?.data?.data) {
-      return yield put(getLoginDetailsSuccess(loginRes.data.data));
+      return yield put(
+        getLoginDetailsSuccess({ ...loginRes.data.data, wallet_address: payload.wallet_address }),
+      );
     }
 
     return yield put(

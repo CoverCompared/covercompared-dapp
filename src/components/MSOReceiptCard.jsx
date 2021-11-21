@@ -1,17 +1,16 @@
 import React from 'react';
-
+import dayjs from 'dayjs';
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 
 const MSOReceiptCard = (props) => {
   const {
+    txn_hash,
     membersInfo,
     quote,
-    discount,
     total,
     tax,
     discountAmount,
     addonServices,
-    applyDiscount,
     MSOAddOnService,
     name,
     logo,
@@ -51,7 +50,7 @@ const MSOReceiptCard = (props) => {
 
           <div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Policy Number: 132546
+              Policy Number: {txn_hash || '-'}
             </div>
           </div>
         </div>
@@ -81,19 +80,19 @@ const MSOReceiptCard = (props) => {
           {membersInfo.map((member, index) => (
             <div key={index} className="grid grid-cols-12 w-full">
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
-                {member.userType}
+                {member.userType || member.user_type || ''}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
-                {member.firstName}
+                {member.firstName || member.first_name || ''}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
-                {member.lastName}
+                {member.lastName || member.last_name || ''}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
                 {member.country}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
-                {member.dob}
+                {dayjs(member.dob).format('DD/MM/YYYY')}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
                 {member.identity}
@@ -134,6 +133,14 @@ const MSOReceiptCard = (props) => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex w-full text-body-dark-bg mt-10 font-Montserrat text-body-sm font-medium">
+          <h5>
+            Note - Membership pack including the certificate and plan details will be emailed
+            directly by the Medical Second Option team to the email address shared at the time of
+            purchase. You will receive all the necessary information via email within 10 working
+            days from the date of issue of this receipt.
+          </h5>
         </div>
       </div>
     </>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
-// import { PDFViewer } from '@react-pdf/renderer';
 
 import DownloadPolicy from './DownloadPolicy';
 import { walletLogin } from '../../hooks/useAuth';
@@ -8,6 +8,9 @@ import SUPPORTED_WALLETS from '../../config/walletConfig';
 import MsoUserInfoForm from '../MsoUserInfoForm';
 import MSOReceipt from '../MSOReceipt';
 import MSOReceiptCard from '../MSOReceiptCard';
+import { getLoginDetails } from '../../redux/actions/Auth';
+import { buyMsoInsurance } from '../../redux/actions/MsoInsurance';
+import Alert from './Alert';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -28,6 +31,7 @@ const MsoCountrySelector = ({
   addonServices,
 }) => {
   // const { login } = useAuth();
+  const dispatch = useDispatch();
   const { account, activate } = useWeb3React();
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
@@ -36,12 +40,27 @@ const MsoCountrySelector = ({
   const [showReceipt, setShowReceipt] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
 
+  const { txn_hash, loader, message, isFailed } = useSelector((state) => state.msoInsurance);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const { quote = '0', MSOAddOnService = '0', tax = '5', name, logo, MSOCoverUser } = selectedPlan;
+  const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
+  const discountAmount = applyDiscount ? discount : 0;
+  const total = addonServices
+    ? +quote + +MSOAddOnService + +tax - discountAmount
+    : +quote + +tax - discountAmount;
+
   useEffect(() => {
-    console.log('Selector Mounted');
-    return () => {
-      console.log('Selector Un-Mounted');
-    };
-  }, []);
+    if (isFailed) setShowAlert(true);
+  }, [isFailed]);
+
+  useEffect(() => {
+    if (txn_hash && !loader && !isFailed) {
+      setShowReceipt(true);
+      setMaxWidth('max-w-5xl');
+      setTitle('Receipt');
+    }
+  }, [txn_hash]);
 
   useEffect(() => {
     if (!account) {
@@ -49,6 +68,13 @@ const MsoCountrySelector = ({
       setMaxWidth('max-w-2xl');
     }
   }, []);
+
+  useEffect(() => {
+    if (connectStatus && account) {
+      dispatch(getLoginDetails({ wallet_address: account }));
+      setConnectStatus(false);
+    }
+  }, [connectStatus, account]);
 
   const tryActivation = (connect) => {
     setCurWalletId(connect);
@@ -66,9 +92,27 @@ const MsoCountrySelector = ({
   };
 
   const handleConfirm = () => {
-    setShowReceipt(true);
-    setMaxWidth('max-w-5xl');
-    setTitle('Receipt');
+    dispatch(
+      buyMsoInsurance({
+        plan_type: selectedPlan.unique_id,
+        quote,
+        currency: applyDiscount ? 'CVR' : 'USD',
+        mso_addon_service: addonServices ? MSOAddOnService : 0,
+        amount: addonServices ? +quote + +MSOAddOnService : quote,
+        discount_amount: discountAmount,
+        tax,
+        total_amount: total,
+        MSOMembers: membersInfo.map((m) => ({
+          user_type: m.userType,
+          first_name: m.firstName,
+          last_name: m.lastName,
+          country: m.country,
+          dob: m.dob,
+          identity: m.identity,
+        })),
+        wallet_address: account,
+      }),
+    );
   };
 
   const getWalletOption = () => {
@@ -105,20 +149,7 @@ const MsoCountrySelector = ({
     );
   }
 
-  if (showReceipt) {
-    const {
-      quote = '0',
-      MSOAddOnService = '0',
-      tax = '5',
-      name,
-      logo,
-      MSOCoverUser,
-    } = selectedPlan;
-    const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
-    const discountAmount = applyDiscount ? discount : 0;
-    const total = addonServices
-      ? +quote + +MSOAddOnService + +tax - discountAmount
-      : +quote + +tax - discountAmount;
+  if (showReceipt && !loader && !isFailed) {
     return (
       <>
         <div className="flex justify-end">
@@ -126,6 +157,7 @@ const MsoCountrySelector = ({
             pdf={
               <MSOReceipt
                 {...{
+                  txn_hash,
                   membersInfo,
                   quote,
                   discount,
@@ -147,14 +179,13 @@ const MsoCountrySelector = ({
         <div className="flex">
           <MSOReceiptCard
             {...{
+              txn_hash,
               membersInfo,
               quote,
-              discount,
               total,
               tax,
               discountAmount,
               addonServices,
-              applyDiscount,
               MSOAddOnService,
               name,
               logo,
@@ -167,15 +198,13 @@ const MsoCountrySelector = ({
   }
 
   if (showConfirmation) {
-    const { quote = '0', MSOAddOnService = '0', tax = '5' } = selectedPlan;
-    const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
-    const discountAmount = applyDiscount ? discount : 0;
-    const total = addonServices
-      ? +quote + +MSOAddOnService + +tax - discountAmount
-      : +quote + +tax - discountAmount;
-
     return (
       <div>
+        {showAlert && (
+          <div className="mb-4">
+            <Alert type="danger" text={message} onClose={() => setShowAlert(false)} />
+          </div>
+        )}
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Premium</h5>
           <h5 className="text-body-lg font-medium">{quote} USD</h5>

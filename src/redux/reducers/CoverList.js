@@ -1,19 +1,11 @@
 import {
   SET_SEARCH_COVER_LIST_LOADER,
   SEARCH_COVER_LIST_SUCCESS,
-  SET_SEARCH_MSO_LIST_LOADER,
-  SEARCH_MSO_LIST_SUCCESS,
   SET_FETCH_MORE_COVERS_LOADER,
   FETCH_MORE_COVERS_SUCCESS,
   FETCH_COVERS_WITH_AMOUNT_SUCCESS,
   SET_GET_QUOTE_LOADER,
   GET_QUOTE_SUCCESS,
-  GET_DEVICE_DETAILS_SUCCESS,
-  SET_GET_DEVICE_DETAILS_LOADER,
-  GET_DEVICE_PLAN_DETAILS_SUCCESS,
-  SET_GET_DEVICE_PLAN_DETAILS_LOADER,
-  GET_DEVICE_MODEL_DETAILS_SUCCESS,
-  SET_GET_DEVICE_MODEL_DETAILS_LOADER,
   ACTION_METHOD_FAILED,
   SET_SEARCH_BLOG_LIST_LOADER,
   SEARCH_BLOG_LIST_SUCCESS,
@@ -33,9 +25,6 @@ const INIT_STATE = {
   page: 1,
   totalPages: 1,
   coverList: null,
-  deviceDetails: null,
-  devicePlanDetails: null,
-  deviceModelDetails: null,
   blogList: null,
   blog: null,
   blogRange: null,
@@ -105,24 +94,6 @@ export default (state = INIT_STATE, { type, payload }) => {
         ...payload,
       };
     }
-    case SEARCH_MSO_LIST_SUCCESS: {
-      return {
-        ...state,
-        message: '',
-        loader: false,
-        isFailed: false,
-        query: payload.query,
-        coverList: payload.coverList.list,
-        page: payload.coverList.current_page,
-        totalPages: payload.coverList.total_page,
-      };
-    }
-    case SET_SEARCH_MSO_LIST_LOADER: {
-      return {
-        ...state,
-        ...payload,
-      };
-    }
     case SEARCH_COVER_LIST_SUCCESS: {
       return {
         ...state,
@@ -174,51 +145,6 @@ export default (state = INIT_STATE, { type, payload }) => {
         loader: false,
         isFailed: false,
         quote: payload,
-      };
-    }
-    case SET_GET_DEVICE_DETAILS_LOADER: {
-      return {
-        ...state,
-        ...payload,
-      };
-    }
-    case GET_DEVICE_DETAILS_SUCCESS: {
-      return {
-        ...state,
-        message: '',
-        loader: false,
-        isFailed: false,
-        deviceDetails: payload,
-      };
-    }
-    case SET_GET_DEVICE_PLAN_DETAILS_LOADER: {
-      return {
-        ...state,
-        ...payload,
-      };
-    }
-    case GET_DEVICE_PLAN_DETAILS_SUCCESS: {
-      return {
-        ...state,
-        message: '',
-        loader: false,
-        isFailed: false,
-        devicePlanDetails: payload,
-      };
-    }
-    case SET_GET_DEVICE_MODEL_DETAILS_LOADER: {
-      return {
-        ...state,
-        ...payload,
-      };
-    }
-    case GET_DEVICE_MODEL_DETAILS_SUCCESS: {
-      return {
-        ...state,
-        message: '',
-        loader: false,
-        isFailed: false,
-        deviceModelDetails: payload,
       };
     }
     default:

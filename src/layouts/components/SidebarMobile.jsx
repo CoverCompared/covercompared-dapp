@@ -13,7 +13,7 @@ import ThemeToggleSwitch from '../../components/ThemeToggleSwitch';
 import { toggleSidebar } from '../../redux/actions/AppActions';
 import { classNames } from '../../functions/utils';
 import { ThemeContext } from '../../themeContext';
-import getNav from '../../data/sidebarNav';
+import getNav from '../../components/common/sidebarNav';
 import { setLoginModalVisible, setRegisterModalVisible } from '../../redux/actions';
 
 import LoginIcon from '../../assets/img/Login.svg';

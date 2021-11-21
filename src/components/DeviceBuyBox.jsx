@@ -12,7 +12,12 @@ import SelectWithSearch from './common/SelectWithSearch';
 import DeviceReceiptCard from './DeviceReceiptCard';
 import DownloadPolicy from './common/DownloadPolicy';
 import DeviceReceipt from './DeviceReceipt';
-import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
+import {
+  setProfileDetails,
+  verifyOTP,
+  getLoginDetails,
+  setLoginModalVisible,
+} from '../redux/actions/Auth';
 import {
   resetDeviceInsurance,
   buyDeviceInsurance,
@@ -175,6 +180,13 @@ const DeviceBuyBox = (props) => {
     return null;
   }, [showOTPScreen, showVerified, loader, isFailed, emailSubmitted]);
 
+  useEffect(() => {
+    if (connectStatus && account) {
+      dispatch(getLoginDetails({ wallet_address: account }));
+      setConnectStatus(false);
+    }
+  }, [connectStatus, account]);
+
   const handleProceed = (e) => {
     if (e) e.preventDefault();
     if (!account) {
@@ -223,6 +235,7 @@ const DeviceBuyBox = (props) => {
         discount_amount: discountAmount,
         tax: '5',
         total_amount: total,
+        wallet_address: account,
       }),
     );
   };
@@ -261,7 +274,9 @@ const DeviceBuyBox = (props) => {
           <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
             <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
             <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
-              {connectStatus && curWalletId === option.connector ? 'Connecting...' : option.name}
+              {(connectStatus && curWalletId === option.connector) || loader
+                ? 'Connecting...'
+                : option.name}
             </div>
           </div>
         </div>
@@ -269,7 +284,7 @@ const DeviceBuyBox = (props) => {
     });
   };
 
-  if (!account && showLogin) {
+  if ((!account && showLogin) || (account && loader)) {
     return (
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 flex items-center justify-center w-full">
@@ -413,7 +428,7 @@ const DeviceBuyBox = (props) => {
     );
   }
 
-  if (showInfoForm) {
+  if (showInfoForm && !loader) {
     return (
       <>
         {showAlert && (

@@ -145,6 +145,7 @@ function* submitReview({ payload }) {
 
     return yield put(
       setSubmitReviewLoader({
+        reviewData: null,
         loader: false,
         isFailed: true,
         message: res.data.message,
@@ -153,6 +154,7 @@ function* submitReview({ payload }) {
   } catch (error) {
     return yield put(
       setSubmitReviewLoader({
+        reviewData: null,
         loader: false,
         isFailed: true,
         message: error.message,

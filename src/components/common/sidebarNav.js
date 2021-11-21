@@ -1,13 +1,13 @@
 import { useHistory } from 'react-router';
-import { ReactComponent as HomeIcon } from '../assets/img/home-icon.svg';
-import { ReactComponent as MyInsuranceIcon } from '../assets/img/dashboard-icon.svg';
-import { ReactComponent as AboutUsIcon } from '../assets/img/about-us-icon.svg';
-import { ReactComponent as AboutTokenIcon } from '../assets/img/about-token-icon.svg';
-import { ReactComponent as ContactUsIcon } from '../assets/img/contact-us-icon.svg';
-import { ReactComponent as LearnMoreIcon } from '../assets/img/learn-more-icon.svg';
-import { ReactComponent as SubscribeIcon } from '../assets/img/subscribe-icon.svg';
-import { ReactComponent as PartnerIcon } from '../assets/img/partner-icon.svg';
-import { ReactComponent as FAQIcon } from '../assets/img/faq-icon.svg';
+import { ReactComponent as HomeIcon } from '../../assets/img/home-icon.svg';
+import { ReactComponent as MyInsuranceIcon } from '../../assets/img/dashboard-icon.svg';
+import { ReactComponent as AboutUsIcon } from '../../assets/img/about-us-icon.svg';
+import { ReactComponent as AboutTokenIcon } from '../../assets/img/about-token-icon.svg';
+import { ReactComponent as ContactUsIcon } from '../../assets/img/contact-us-icon.svg';
+import { ReactComponent as LearnMoreIcon } from '../../assets/img/learn-more-icon.svg';
+import { ReactComponent as SubscribeIcon } from '../../assets/img/subscribe-icon.svg';
+import { ReactComponent as PartnerIcon } from '../../assets/img/partner-icon.svg';
+import { ReactComponent as FAQIcon } from '../../assets/img/faq-icon.svg';
 
 const nav = [
   { name: 'Home', to: '/', icon: HomeIcon, authProtected: false },

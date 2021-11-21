@@ -2,6 +2,8 @@ import {
   RESET_MSO_INSURANCE,
   SET_BUY_MSO_INSURANCE_LOADER,
   BUY_MSO_INSURANCE_SUCCESS,
+  SET_CONFIRM_BUY_MSO_INSURANCE_LOADER,
+  CONFIRM_BUY_MSO_INSURANCE_SUCCESS,
   SET_SEARCH_MSO_LIST_LOADER,
   SEARCH_MSO_LIST_SUCCESS,
 } from '../constants/ActionTypes';
@@ -37,6 +39,22 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         ...payload,
+        message: '',
+        loader: false,
+        isFailed: false,
+      };
+    }
+    case SET_CONFIRM_BUY_MSO_INSURANCE_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case CONFIRM_BUY_MSO_INSURANCE_SUCCESS: {
+      return {
+        ...state,
+        ...payload,
+        message: '',
         loader: false,
         isFailed: false,
       };

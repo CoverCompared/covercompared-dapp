@@ -3,6 +3,9 @@ import {
   BUY_DEVICE_INSURANCE,
   BUY_DEVICE_INSURANCE_SUCCESS,
   SET_BUY_DEVICE_INSURANCE_LOADER,
+  CONFIRM_BUY_DEVICE_INSURANCE,
+  CONFIRM_BUY_DEVICE_INSURANCE_SUCCESS,
+  SET_CONFIRM_BUY_DEVICE_INSURANCE_LOADER,
   GET_DEVICE_DETAILS,
   GET_DEVICE_DETAILS_SUCCESS,
   SET_GET_DEVICE_DETAILS_LOADER,
@@ -38,6 +41,27 @@ export const buyDeviceInsuranceSuccess = (payload) => {
 export const setBuyDeviceInsuranceLoader = (payload) => {
   return {
     type: SET_BUY_DEVICE_INSURANCE_LOADER,
+    payload,
+  };
+};
+
+export const confirmBuyDeviceInsurance = (payload) => {
+  return {
+    type: CONFIRM_BUY_DEVICE_INSURANCE,
+    payload,
+  };
+};
+
+export const confirmBuyDeviceInsuranceSuccess = (payload) => {
+  return {
+    type: CONFIRM_BUY_DEVICE_INSURANCE_SUCCESS,
+    payload,
+  };
+};
+
+export const setConfirmBuyDeviceInsuranceLoader = (payload) => {
+  return {
+    type: SET_CONFIRM_BUY_DEVICE_INSURANCE_LOADER,
     payload,
   };
 };

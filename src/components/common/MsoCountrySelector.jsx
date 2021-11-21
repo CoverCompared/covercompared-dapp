@@ -8,6 +8,7 @@ import SUPPORTED_WALLETS from '../../config/walletConfig';
 import MsoUserInfoForm from '../MsoUserInfoForm';
 import MSOReceipt from '../MSOReceipt';
 import MSOReceiptCard from '../MSOReceiptCard';
+import { getLoginDetails } from '../../redux/actions/Auth';
 import { buyMsoInsurance } from '../../redux/actions/MsoInsurance';
 import Alert from './Alert';
 
@@ -68,6 +69,13 @@ const MsoCountrySelector = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (connectStatus && account) {
+      dispatch(getLoginDetails({ wallet_address: account }));
+      setConnectStatus(false);
+    }
+  }, [connectStatus, account]);
+
   const tryActivation = (connect) => {
     setCurWalletId(connect);
     setConnectStatus(true);
@@ -102,6 +110,7 @@ const MsoCountrySelector = ({
           dob: m.dob,
           identity: m.identity,
         })),
+        wallet_address: account,
       }),
     );
   };

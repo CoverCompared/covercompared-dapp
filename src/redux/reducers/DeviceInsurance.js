@@ -2,6 +2,8 @@ import {
   RESET_DEVICE_INSURANCE,
   SET_BUY_DEVICE_INSURANCE_LOADER,
   BUY_DEVICE_INSURANCE_SUCCESS,
+  SET_CONFIRM_BUY_DEVICE_INSURANCE_LOADER,
+  CONFIRM_BUY_DEVICE_INSURANCE_SUCCESS,
   GET_DEVICE_DETAILS_SUCCESS,
   SET_GET_DEVICE_DETAILS_LOADER,
   GET_DEVICE_PLAN_DETAILS_SUCCESS,
@@ -41,6 +43,21 @@ export default (state = INIT_STATE, { type, payload }) => {
       };
     }
     case BUY_DEVICE_INSURANCE_SUCCESS: {
+      return {
+        ...state,
+        ...payload,
+        message: '',
+        loader: false,
+        isFailed: false,
+      };
+    }
+    case SET_CONFIRM_BUY_DEVICE_INSURANCE_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case CONFIRM_BUY_DEVICE_INSURANCE_SUCCESS: {
       return {
         ...state,
         ...payload,

@@ -8,7 +8,7 @@ import { useWeb3React } from '@web3-react/core';
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import { ThemeContext } from '../../themeContext';
 import { classNames } from '../../functions/utils';
-import getNav from '../../data/sidebarNav';
+import getNav from '../../components/common/sidebarNav';
 import { setLoginModalVisible, setRegisterModalVisible } from '../../redux/actions';
 
 import coverComparedLogo from '../../assets/img/logo-final-light.svg';

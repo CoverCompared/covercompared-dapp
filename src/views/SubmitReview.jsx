@@ -9,11 +9,13 @@ import MobilePageTitle from '../components/common/MobilePageTitle';
 const ContactUs = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const submitReviewRes = useSelector((state) => state.userProfile);
-  const { reviewData, isFailed, loader, message } = submitReviewRes;
+  const { reviewData, isFailed, loader, message } = useSelector((state) => state.userProfile);
+  const [submitted, setSubmitted] = useState(false);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState();
   const [ratingStates, setRatingStates] = useState('How is the quality of this product?');
+
+  console.log('reviewData :>> ', { reviewData, isFailed, loader, message });
 
   useEffect(() => {
     if (rating === 1) setRatingStates('Very Bad');
@@ -21,6 +23,7 @@ const ContactUs = () => {
     else if (rating === 3) setRatingStates('Enough');
     else if (rating === 4) setRatingStates('Good');
     else if (rating === 5) setRatingStates('Very Good');
+    else setRatingStates('');
   }, [rating]);
 
   const submitRatings = (e) => {
@@ -35,19 +38,22 @@ const ContactUs = () => {
       query,
     };
     dispatch(submitReview(payload));
+    setSubmitted(true);
   };
 
   useEffect(() => {
-    if (reviewData) {
-      if (reviewData?.success) {
+    if (submitted) {
+      if (!isFailed && !loader && reviewData) {
+        setRating();
         setReview('');
-        setRating('');
+        setSubmitted(false);
         toast.success('Review Submitted');
-      } else {
-        toast.warning(reviewData.message);
+      } else if (isFailed && message) {
+        toast.warning(message);
+        setSubmitted(false);
       }
     }
-  }, [reviewData]);
+  }, [reviewData, isFailed, loader, message]);
 
   return (
     <>
@@ -92,6 +98,7 @@ const ContactUs = () => {
           </label>
           <textarea
             required
+            value={review}
             onChange={(e) => setReview(e.target.value)}
             className="mt-3 py-2 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
             placeholder="Review"

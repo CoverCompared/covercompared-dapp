@@ -134,6 +134,14 @@ const MSOReceiptCard = (props) => {
             </div>
           </div>
         </div>
+        <div className="flex w-full text-body-dark-bg mt-10 font-Montserrat text-body-sm font-medium">
+          <h5>
+            Note - Membership pack including the certificate and plan details will be emailed
+            directly by the Medical Second Option team to the email address shared at the time of
+            purchase. You will receive all the necessary information via email within 10 working
+            days from the date of issue of this receipt.
+          </h5>
+        </div>
       </div>
     </>
   );

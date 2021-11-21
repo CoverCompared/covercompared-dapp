@@ -4,7 +4,7 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import BigNumber from 'bignumber.js';
 import routes from './routes';
-import useEagerDisconnect from './hooks/useEagerDisconnect';
+// import useEagerDisconnect from './hooks/useEagerDisconnect';
 import SVGGradients from './components/common/SVGGradients';
 import PublicRoute from './routes/PublicRoute';
 import PreRenderedModals from './components/PreRenderedModals';
@@ -18,7 +18,7 @@ BigNumber.config({
 });
 
 const App = (props) => {
-  useEagerDisconnect();
+  // useEagerDisconnect();
   return (
     <BrowserRouter>
       <ToastContainer

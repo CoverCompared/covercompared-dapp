@@ -35,6 +35,7 @@ export default (state = INIT_STATE, { type, payload }) => {
         loader: false,
         isFailed: false,
         ...payload,
+        wallet_addresses: [payload.wallet_address, ...state.wallet_addresses],
       };
     }
     case SET_AUTH_LOADER: {

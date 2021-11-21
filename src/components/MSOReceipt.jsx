@@ -90,6 +90,11 @@ const styles = StyleSheet.create({
   policyNumber: {
     fontSize: '12pt',
   },
+  bottomNote: {
+    fontSize: '12pt',
+    fontWeight: 'bold',
+    marginTop: 40,
+  },
 });
 
 const getCurrentDate = () => {
@@ -283,6 +288,16 @@ const MSOReceipt = (props) => {
                   <Text>{total} USD</Text>
                 </View>
               </View>
+            </View>
+          </View>
+          <View style={[styles.row, styles.bottomNote]}>
+            <View>
+              <Text>
+                Note - Membership pack including the certificate and plan details will be emailed
+                directly by the Medical Second Option team to the email address shared at the time
+                of purchase. You will receive all the necessary information via email within 10
+                working days from the date of issue of this receipt.
+              </Text>
             </View>
           </View>
         </View>

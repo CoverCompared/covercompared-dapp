@@ -29,13 +29,15 @@ const INIT_STATE = {
 export default (state = INIT_STATE, { type, payload }) => {
   switch (type) {
     case GET_LOGIN_DETAILS_SUCCESS: {
+      console.log('Payload Test', payload);
       return {
         ...state,
         message: null,
         loader: false,
         isFailed: false,
-        ...payload,
-        wallet_addresses: [payload.wallet_address, ...state.wallet_addresses],
+        wallet_addresses: payload.wallet_address
+          ? [payload.wallet_address, ...state.wallet_addresses]
+          : [...state.wallet_addresses],
       };
     }
     case SET_AUTH_LOADER: {

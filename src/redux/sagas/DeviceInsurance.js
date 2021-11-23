@@ -35,7 +35,14 @@ function* buyDeviceInsurance({ payload }) {
     );
 
     const url = `${API_BASE_URL}/user/policies-device-insurance`;
-    const res = yield call(axiosPost, url, payload, yield select(selector.token));
+    // const res = yield call(axiosPost, url, payload, yield select(selector.token));
+    const res = yield call(
+      axiosPost,
+      url,
+      payload,
+      yield select(selector.token),
+      yield select(selector.wallet_address),
+    );
 
     if (res?.data?.success && res?.data?.data?._id) {
       const confirmUrl = `${API_BASE_URL}/user/policies-device-insurance/${res.data.data._id}/confirm-payment`;
@@ -49,11 +56,18 @@ function* buyDeviceInsurance({ payload }) {
         wallet_address: payload.wallet_address,
         paid_amount: payload.total_amount,
       };
+      // const confirmRes = yield call(
+      //   axiosPost,
+      //   confirmUrl,
+      //   dummyPayload,
+      //   yield select(selector.token),
+      // );
       const confirmRes = yield call(
         axiosPost,
         confirmUrl,
         dummyPayload,
         yield select(selector.token),
+        yield select(selector.wallet_address),
       );
 
       if (confirmRes?.data?.success)
@@ -93,7 +107,14 @@ function* confirmBuyDeviceInsurance({ payload }) {
     );
 
     const url = `${API_BASE_URL}/user/policies-device-insurance/${payload._id}/confirm-payment`;
-    const res = yield call(axiosPost, url, payload, yield select(selector.token));
+    // const res = yield call(axiosPost, url, payload, yield select(selector.token));
+    const res = yield call(
+      axiosPost,
+      url,
+      payload,
+      yield select(selector.token),
+      yield select(selector.wallet_address),
+    );
 
     if (res?.data?.success) {
       return yield put(confirmBuyDeviceInsuranceSuccess(res.data.data));

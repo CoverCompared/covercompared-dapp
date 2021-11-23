@@ -48,7 +48,7 @@ const MyAccount = (props) => {
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.auth);
   const { policies, loader } = useSelector((state) => state.userProfile);
-
+  const auth = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(getUserPolicies());
   }, []);

@@ -218,6 +218,7 @@ const DeviceBuyBox = (props) => {
   const handleConfirm = (e) => {
     if (e) e.preventDefault();
 
+    console.log('Selected Model', selectedModel);
     dispatch(
       buyDeviceInsurance({
         device_type: deviceType,
@@ -225,6 +226,7 @@ const DeviceBuyBox = (props) => {
         value,
         purchase_month: purchaseMonth,
         model: model || 'OTHERS',
+        model_name: selectedModel?.model_name || 'Others',
         plan_type: 'monthly',
         first_name: fName,
         last_name: lName,

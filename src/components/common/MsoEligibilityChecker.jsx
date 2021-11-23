@@ -6,13 +6,22 @@ import { CheckCircleIcon } from '@heroicons/react/outline';
 import { submitUserCountry } from '../../redux/actions/EligibilityChecker';
 
 const countries = [
-  { value: 'UAE', label: 'United Arab Emirates' },
-  { value: 'QAT', label: 'Qatar' },
+  { value: 'SWE', label: 'Switzerland' },
+  { value: 'TUR', label: 'Turkey' },
+  { value: 'POL', label: 'Poland' },
+  { value: 'KEN', label: 'Kenya' },
+  { value: 'NER', label: 'Nigeria' },
+  { value: 'EST', label: 'Estonia' },
+  { value: 'DEU', label: 'Germany' },
+  { value: 'SVN', label: 'Slovenia' },
+  { value: 'ZAF', label: 'South Africa' },
+  { value: 'RUS', label: 'Russia' },
+  { value: 'ARE', label: 'United Arab Emirates' },
+  { value: 'BHR', label: 'Bahrain' },
   { value: 'OMN', label: 'Oman' },
   { value: 'KWT', label: 'Kuwait' },
-  { value: 'USA', label: 'United States' },
-  { value: 'BHR', label: 'Bahrain' },
   { value: 'SAU', label: 'Saudi Arabia' },
+  { value: 'QAT', label: 'Qatar' },
   { value: 'NOT', label: 'None of Them' },
 ];
 

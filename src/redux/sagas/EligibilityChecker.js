@@ -21,7 +21,14 @@ function* searchSingleBlog({ payload }) {
     );
 
     const url = `${API_BASE_URL}/policy-request`;
-    const res = yield call(axiosPost, url, payload, yield select(selector.token));
+    // const res = yield call(axiosPost, url, payload, yield select(selector.token));
+    const res = yield call(
+      axiosPost,
+      url,
+      payload,
+      yield select(selector.token),
+      yield select(selector.wallet_address),
+    );
 
     if (res?.data?.data) {
       return yield put(submitUserCountrySuccess(res?.data?.data));

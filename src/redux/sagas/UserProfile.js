@@ -18,7 +18,7 @@ import {
   submitReviewSuccess,
   setSubmitReviewLoader,
 } from '../actions/UserProfile';
-import { axiosGet, axiosPost, post } from '../constants/apicall';
+import { axiosGet, axiosPost } from '../constants/apicall';
 import * as selector from '../constants/selectors';
 
 function* getUserPolicies({ payload }) {

@@ -33,7 +33,13 @@ function* createUser({ payload }) {
   try {
     yield put(setUserLoader({ isFailed: false, message: '', loader: true }));
     const url = `${API_BASE_URL}users`;
-    const user = yield call(axiosPost, url, payload, yield select(selector.token));
+    // const user = yield call(axiosPost, url, payload, yield select(selector.token));
+    const user = yield call(
+      axiosPost,
+      url,
+      yield select(selector.token),
+      yield select(selector.wallet_address),
+    );
     if (user.body && user.body.email) {
       user.message = `User has been added successfully.`;
       yield put(createUserSuccess(user));
@@ -77,7 +83,12 @@ function* listUsersAll({ payload }) {
       }),
     );
     const url = `${API_BASE_URL}users`;
-    const listUser = yield call(axiosGet, url, yield select(selector.token));
+    const listUser = yield call(
+      axiosGet,
+      url,
+      yield select(selector.token),
+      yield select(selector.wallet_address),
+    );
 
     if (listUser.body) {
       yield put(listUserSuccess(listUser));
@@ -125,7 +136,13 @@ function* updateUser({ payload }) {
         payload.portal_access ? 'enabled' : 'disabled'
       } successfully.`;
 
-    const response = yield call(axiosPut, url, payload, yield select(selector.token));
+    // const response = yield call(axiosPut, url, payload, yield select(selector.token));
+    const response = yield call(
+      axiosPut,
+      url,
+      yield select(selector.token),
+      yield select(selector.wallet_address),
+    );
     if (response.status === 200) {
       yield put(
         updateUserSuccess({
@@ -162,9 +179,20 @@ function* getUserByIdSaga({ payload }) {
     yield put(setUserLoader({ isFailed: false, message: '', loader: true }));
     const url = `${API_BASE_URL}users/${payload.id}`;
     const urlProfile = `${API_BASE_URL}user-profile/${payload.id}`;
-    const response = yield call(axiosGet, url, yield select(selector.token));
-    const responseProfile = yield call(axiosGet, urlProfile, yield select(selector.token));
-
+    // const response = yield call(axiosGet, url, yield select(selector.token));
+    const response = yield call(
+      axiosGet,
+      url,
+      yield select(selector.token),
+      yield select(selector.wallet_address),
+    );
+    // const responseProfile = yield call(axiosGet, urlProfile, yield select(selector.token));
+    const responseProfile = yield call(
+      axiosGet,
+      urlProfile,
+      yield select(selector.token),
+      yield select(selector.wallet_address),
+    );
     let res = {};
     if (response.status === 200) {
       res = response.data.body;
@@ -204,7 +232,13 @@ function* deleteUser({ payload }) {
     yield put(setUserLoader({ isFailed: false, message: '', loader: true }));
     const url = `${API_BASE_URL}users/${payload.id}`;
 
-    const response = yield call(axiosDelete, url, yield select(selector.token));
+    // const response = yield call(axiosDelete, url, yield select(selector.token));
+    const response = yield call(
+      axiosDelete,
+      url,
+      yield select(selector.token),
+      yield select(selector.wallet_address),
+    );
     if (response.status === 200)
       yield put(
         deleteUserSuccess({

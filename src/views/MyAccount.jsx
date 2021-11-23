@@ -48,7 +48,7 @@ const MyAccount = (props) => {
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.auth);
   const { policies, loader } = useSelector((state) => state.userProfile);
-
+  const auth = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(getUserPolicies());
   }, []);
@@ -72,6 +72,7 @@ const MyAccount = (props) => {
         purchase_month,
         currency,
         model,
+        model_name,
       },
     } = device;
     return (
@@ -83,7 +84,7 @@ const MyAccount = (props) => {
           <div className="flex flex-col">
             <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${device_type} - ${brand} `}</div>
             <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
-              {model || ''}
+              {model_name || model || 'Others'}
             </div>
           </div>
         </div>
@@ -115,7 +116,7 @@ const MyAccount = (props) => {
               deviceType: device_type,
               purchaseMonth: purchase_month,
               plan_currency: currency,
-              selectedModel: model,
+              selectedModel: model_name || model || 'Others',
             }}
           >
             <button

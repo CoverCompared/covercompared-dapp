@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core';
+import { Web3ReactProvider } from '@web3-react/core';
 
 // imports for redux
 import { Provider } from 'react-redux';
@@ -18,37 +18,46 @@ import reportWebVitals from './reportWebVitals';
 // imports for component and styles
 import App from './App';
 import './index.css';
-import { NetworkContextName } from './config';
+// import { NetworkContextName } from './config';
 import getLibrary from './utils/getLibrary';
 
 export const { persistor, store } = configureStore();
 
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
+// const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
 if (!window.ethereum) {
   window.ethereum = {
     isMetaMask: true,
     on: (...args) => {},
+    request: (...args) => {},
     removeListener: (...args) => {},
-    autoRefreshOnNetworkChange: false,
+    autoRefreshOnNetworkChange: true,
   };
+}
+
+if (!window.web3) {
+  window.web3 = {}
+}
+
+if (!window.ethereumChain) {
+  window.ethereumChain = {
+    ethSign: (address, message) => {}
+  }
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ConnectedRouter history={history}>
-          <Web3ReactProvider getLibrary={getLibrary}>
-            <Web3ProviderNetwork getLibrary={getLibrary}>
-              <ThemeProvider>
-                <App />
-              </ThemeProvider>
-            </Web3ProviderNetwork>
-          </Web3ReactProvider>
-        </ConnectedRouter>
-      </PersistGate>
-    </Provider>
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ConnectedRouter history={history}>
+            <ThemeProvider>
+              <App />
+            </ThemeProvider>
+          </ConnectedRouter>
+        </PersistGate>
+      </Provider>
+    </Web3ReactProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

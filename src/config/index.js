@@ -1,6 +1,6 @@
 export const BASE_SCAN_URLS = {
   1: 'https://etherscan.io',
-  42: 'https://kovan.etherscan.io',
+  4: 'https://rinkeby.etherscan.io',
 };
 
 export const NetworkContextName = 'NETWORK';

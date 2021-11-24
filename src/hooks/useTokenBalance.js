@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
-import { useWeb3React } from '@web3-react/core';
+import useActiveWeb3React from './useActiveWeb3React';
 import { BIG_ZERO } from '../utils/bigNumber';
 import ethSimpleProvider from '../utils/providers';
 import { getErc20Contract } from '../utils/contractHelpers';
@@ -19,7 +19,7 @@ const useTokenBalance = (tokenAddress) => {
     balance: BIG_ZERO,
     fetchStatus: NOT_FETCHED,
   });
-  const { account } = useWeb3React();
+  const { account } = useActiveWeb3React();
 
   useEffect(() => {
     const fetchBalance = async () => {
@@ -47,7 +47,7 @@ const useTokenBalance = (tokenAddress) => {
 export const useGetEthBalance = () => {
   const [fetchStatus, setFetchStatus] = useState(FetchStatus.NOT_FETCHED);
   const [balance, setBalance] = useState(ethers.BigNumber.from(0));
-  const { account } = useWeb3React();
+  const { account } = useActiveWeb3React();
   const { lastUpdated, setLastUpdated } = useLastUpdated();
 
   useEffect(() => {

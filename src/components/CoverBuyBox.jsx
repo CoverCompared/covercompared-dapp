@@ -17,6 +17,7 @@ const CoverBuyBox = (props) => {
   const { quote, loader } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
 
+  // console.log("selected product ::", product);
   const {
     name,
     cardType,

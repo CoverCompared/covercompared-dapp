@@ -3,7 +3,7 @@ import { BASE_URL } from '../config';
 export const setupNetwork = async () => {
   const provider = window.ethereum;
   if (provider) {
-    const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID, 10) : 42;
+    const chainId = process.env.REACT_APP_CHAIN_ID ? parseInt(process.env.REACT_APP_CHAIN_ID, 10) : 1;
 
     try {
       await provider.request({

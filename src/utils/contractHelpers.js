@@ -1,19 +1,15 @@
 import { ethers } from 'ethers';
-// import Web3 from 'web3';
-
 // Addresses
-import { getCoverComparedAddress } from './addressHelpers';
+import { getCoverComparedAddress, getMSOAddress, getP4LAddress } from './addressHelpers';
 import ethSimpleProvider from './providers';
 // ABI
 import erc20Abi from '../config/abi/erc20.json';
+import msoAbi from '../config/abi/mso.json';
+import p4lAbi from '../config/abi/p4l.json';
 import CovercomaredAbi from '../config/abi/covercompared.json';
 import AggregatorV3InterfaceABI from '../config/abi/aggregatorV3InterfaceABI.json';
-// import { NETWORK_URLS } from '../config/connectors';
 
-// const chainId = parseInt(process.env.CHAIN_ID, 10);
-// const web3 = new Web3(NETWORK_URLS[chainId]);
-
-const getContract = (abi, address, signer) => {
+export const getContract = (abi, address, signer) => {
   const signerOrProvider = signer ?? ethSimpleProvider;
   return new ethers.Contract(address, abi, signerOrProvider);
 };
@@ -26,7 +22,14 @@ export const getCovercomparedContract = (signer) => {
   return getContract(CovercomaredAbi, getCoverComparedAddress(), signer);
 };
 
+export const getMSOContract = (signer) => {
+  return getContract(msoAbi, getMSOAddress(), signer);
+}
+
+export const getP4LContract = (signer) => {
+  return getContract(p4lAbi, getP4LAddress(), signer);
+}
+
 export const getPriceFeedContract = (address) => {
-  // return new web3.eth.Contract(AggregatorV3InterfaceABI, address);
   return getContract(AggregatorV3InterfaceABI, address, null);
 };

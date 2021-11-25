@@ -5,6 +5,7 @@ import { CheckIcon } from '@heroicons/react/outline';
 import { useWeb3React } from '@web3-react/core';
 import { PDFViewer } from '@react-pdf/renderer';
 
+import { toast } from 'react-toastify';
 import Alert from './common/Alert';
 import { walletLogin } from '../hooks/useAuth';
 import SUPPORTED_WALLETS from '../config/walletConfig';
@@ -35,7 +36,6 @@ import getETHAmountForUSDC, { getTokenAmountForUSDC } from '../utils/getETHAmoun
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import { getCrvAddress } from '../utils/addressHelpers';
 import { getBalanceNumber } from '../utils/formatBalance';
-import { toast } from 'react-toastify';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 
@@ -91,7 +91,7 @@ const DeviceBuyBox = (props) => {
 
   const { onStake } = useStakeForDevice();
   const { onApprove } = useTokenApprove();
-  const {crvAllowance, handleAllowance} = useGetAllowanceOfToken();
+  const { crvAllowance, handleAllowance } = useGetAllowanceOfToken();
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance(getCrvAddress());
 
@@ -106,8 +106,8 @@ const DeviceBuyBox = (props) => {
   const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
   const selectedModel = deviceModelDetails?.models?.filter((obj) => obj.model_code === model) || [];
 
-  
   useEffect(() => {
+    handleAllowance();
     dispatch(resetDeviceInsurance());
   }, []);
 
@@ -245,12 +245,15 @@ const DeviceBuyBox = (props) => {
     const ethAmount = await getETHAmountForUSDC(total);
     const crvAmount = await getTokenAmountForUSDC(getCrvAddress(), discountAmount);
     if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(balance)) {
-      toast.warning("Insufficient ETH balance!");
+      toast.warning('Insufficient ETH balance!');
       setTxPending(false);
       return;
     }
-    if (getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalanceStatus.balance) && discountAmount > 0) {
-      toast.warning("Insufficient CRV balance!");
+    if (
+      getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalanceStatus.balance) &&
+      discountAmount > 0
+    ) {
+      toast.warning('Insufficient CRV balance!');
       setApplyDiscount(false);
       setTxPending(false);
       return;
@@ -465,19 +468,17 @@ const DeviceBuyBox = (props) => {
           <h5 className="text-body-lg font-medium">{total} USD</h5>
         </div>
         <div className="flex items-center justify-center w-full mt-6">
-          {
-            txPending ?
-            <Loading widthClass="w-4" heightClass="h-4" />:
+          {txPending ? (
+            <Loading widthClass="w-4" heightClass="h-4" />
+          ) : (
             <button
               type="button"
               onClick={handleConfirm}
               className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
             >
-              {
-                discountAmount > 0 && !crvAllowance ? 'Approve CRV' : 'Confirm to Pay'
-              }
+              {discountAmount > 0 && !crvAllowance ? 'Approve CRV' : 'Confirm to Pay'}
             </button>
-          }
+          )}
         </div>
       </div>
     );

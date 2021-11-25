@@ -23,7 +23,7 @@ export default function Updater() {
           return { chainId, blockNumber: Math.max(blockNumber, prev.blockNumber) };
         }
         return prev;
-      })
+      });
     },
     [chainId, setState],
   );
@@ -42,15 +42,15 @@ export default function Updater() {
     library.on('block', blockNumberCallback);
     return () => {
       library.removeListener('block', blockNumberCallback);
-    }
+    };
   }, [dispatch, chainId, library, blockNumberCallback, windowVisible]);
 
-  const debouncedState = useDebounce(state, 100);
+  // const debouncedState = useDebounce(state, 100);
 
-  useEffect(() => {
-    if (!debouncedState.chainId || !debouncedState.blockNumber || !windowVisible) return null;
-    // dispatch(updateBlockNumber({ chainId: debouncedState.chainId, blockNumber: debouncedState.blockNumber }))
-  }, [windowVisible, dispatch, debouncedState.blockNumber, debouncedState.chainId]);
+  // useEffect(() => {
+  //   if (!debouncedState.chainId || !debouncedState.blockNumber || !windowVisible) return null;
+  //   // dispatch(updateBlockNumber({ chainId: debouncedState.chainId, blockNumber: debouncedState.blockNumber }))
+  // }, [windowVisible, dispatch, debouncedState.blockNumber, debouncedState.chainId]);
 
   return null;
 }

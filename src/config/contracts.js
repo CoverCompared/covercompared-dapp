@@ -11,6 +11,10 @@ export default {
     1: '',
     4: '0x1d2258C21019a1bb6cD58BB4DEE5Bb4024cDB018'
   },
+  exchangeAgent: {
+    1: '',
+    4: '0x1eEF7bF547aC2EFeFd2B0582d208Bef5ae0d92d6'
+  },
   priceFeed: {
     eth: {
       decimal: 8,

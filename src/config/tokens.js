@@ -19,7 +19,7 @@ export default {
   },
   crv: {
     1: '0xD533a949740bb3306d119CC777fa900bA034cd52',
-    42: '0xB8EEb94cFf33EfACf0c6def6967FD8852DcECDdB',
+    4: '0xd3e48FAcD30A73609ffA60AE84851e72d10fEa52',
     56: '',
     97: '',
   },
@@ -35,6 +35,12 @@ export default {
     56: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
     97: '0x8301F2213c0eeD49a7E28Ae4c3e91722919B8B47',
   },
+  uno: {
+    1: '',
+    4: '0x2777975Ed61122A40e7DB7Fc876c05d88052Df1E',
+    56: '',
+    97: '',
+  }
 };
 
 export const nativeCurrencies = ['eth', 'bnb', 'matic'];

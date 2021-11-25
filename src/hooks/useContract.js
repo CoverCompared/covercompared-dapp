@@ -17,15 +17,18 @@ export const useP4LContract = () => {
     return useMemo(() => getP4LContract(library.getSigner()), [library]);
 }
 
+export const useTokenContract = (address) => {
+  const { library } = useActiveWeb3React();
+  return useMemo(() => getContract(erc20Abi, address, library.getSigner()), [library]);
+}
+
 // returns null on errors
 function useContract(address, ABI, withSignerIfPossible = true) {
     const { library, account } = useActiveWeb3React();
 
     return useMemo(() => {
-      if (!address || !ABI || !library) return null;
+      // if (!address || !ABI || !library) return null;
       try {
-        console.log("library ::", address, ABI, withSignerIfPossible, account);
-
         return getContract(address, ABI, library, withSignerIfPossible && account ? account : undefined);
       } catch (error) {
         console.error('Failed to get contract', error);
@@ -34,6 +37,6 @@ function useContract(address, ABI, withSignerIfPossible = true) {
     }, [address, ABI, library, withSignerIfPossible, account]);
 }
   
-export function useTokenContract(tokenAddress, withSignerIfPossible = true) {
-    return useContract(tokenAddress, erc20Abi, withSignerIfPossible);
-}
+// export function useTokenContract(tokenAddress, withSignerIfPossible = true) {
+//     return useContract(tokenAddress, erc20Abi, withSignerIfPossible);
+// }

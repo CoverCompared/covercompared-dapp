@@ -1,4 +1,5 @@
 import addresses from '../config/contracts';
+import tokens from '../config/tokens';
 
 export const getAddress = (address) => {
   const chainId = process.env.REACT_APP_CHAIN_ID ? process.env.REACT_APP_CHAIN_ID : 1;
@@ -19,4 +20,12 @@ export const getP4LAddress = () => {
 
 export const getMSOAddress = () => {
   return getAddress(addresses.mso);
+}
+
+export const getCrvAddress = () => {
+  return getAddress(tokens.crv);
+}
+
+export const getExchangeAgentAddress = () => {
+  return getAddress(addresses.exchangeAgent);
 }

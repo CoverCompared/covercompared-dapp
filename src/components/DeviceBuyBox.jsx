@@ -12,6 +12,8 @@ import SelectWithSearch from './common/SelectWithSearch';
 import DeviceReceiptCard from './DeviceReceiptCard';
 import DownloadPolicy from './common/DownloadPolicy';
 import DeviceReceipt from './DeviceReceipt';
+import Loading from './common/Loading';
+
 import {
   setProfileDetails,
   verifyOTP,
@@ -26,6 +28,14 @@ import {
   getDeviceModelDetails,
 } from '../redux/actions/DeviceInsurance';
 import { classNames } from '../functions/utils';
+import useStakeForDevice from '../hooks/useStakeForDevice';
+import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
+import useTokenApprove from '../hooks/useTokenApprove';
+import getETHAmountForUSDC, { getTokenAmountForUSDC } from '../utils/getETHAmountForUSDC';
+import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
+import { getCrvAddress } from '../utils/addressHelpers';
+import { getBalanceNumber } from '../utils/formatBalance';
+import { toast } from 'react-toastify';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 
@@ -67,6 +77,7 @@ const DeviceBuyBox = (props) => {
   const [email, setEmail] = useState('');
 
   const [applyDiscount, setApplyDiscount] = useState(false);
+  const [txPending, setTxPending] = useState(false);
 
   const [useForRegistration, setUseForRegistration] = useState(false);
   const [emailSubmitted, setEmailSubmitted] = useState(false);
@@ -77,6 +88,12 @@ const DeviceBuyBox = (props) => {
   const [showInfoForm, setShowInfoForm] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
+
+  const { onStake } = useStakeForDevice();
+  const { onApprove } = useTokenApprove();
+  const {crvAllowance, handleAllowance} = useGetAllowanceOfToken();
+  const { balance } = useGetEthBalance();
+  const crvBalanceStatus = useTokenBalance(getCrvAddress());
 
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
   const hasFirstTwoStep = hasFirstStep && planType;
@@ -89,6 +106,7 @@ const DeviceBuyBox = (props) => {
   const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
   const selectedModel = deviceModelDetails?.models?.filter((obj) => obj.model_code === model) || [];
 
+  
   useEffect(() => {
     dispatch(resetDeviceInsurance());
   }, []);
@@ -215,31 +233,60 @@ const DeviceBuyBox = (props) => {
     setShowInfoForm(true);
   };
 
-  const handleConfirm = (e) => {
+  const handleConfirm = async (e) => {
     if (e) e.preventDefault();
+    setTxPending(true);
+    if (discountAmount > 0 && !crvAllowance) {
+      await onApprove();
+      await handleAllowance();
+      setTxPending(false);
+      return;
+    }
+    const ethAmount = await getETHAmountForUSDC(total);
+    const crvAmount = await getTokenAmountForUSDC(getCrvAddress(), discountAmount);
+    if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(balance)) {
+      toast.warning("Insufficient ETH balance!");
+      setTxPending(false);
+      return;
+    }
+    if (getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalanceStatus.balance) && discountAmount > 0) {
+      toast.warning("Insufficient CRV balance!");
+      setApplyDiscount(false);
+      setTxPending(false);
+      return;
+    }
 
-    console.log('Selected Model', selectedModel);
-    dispatch(
-      buyDeviceInsurance({
-        device_type: deviceType,
-        brand,
-        value,
-        purchase_month: purchaseMonth,
-        model: model || 'OTHERS',
-        model_name: selectedModel?.model_name || 'Others',
-        plan_type: 'monthly',
-        first_name: fName,
-        last_name: lName,
-        email,
-        phone,
-        currency: plan_currency,
-        amount: plan_total_price,
-        discount_amount: discountAmount,
-        tax: '5',
-        total_amount: total,
-        wallet_address: account,
-      }),
-    );
+    const param = {
+      device_type: deviceType,
+      brand,
+      value,
+      purchase_month: purchaseMonth,
+      model: model || 'OTHERS',
+      model_name: selectedModel?.model_name || 'Others',
+      plan_type: 'monthly',
+      first_name: fName,
+      last_name: lName,
+      email,
+      phone,
+      currency: plan_currency,
+      amount: plan_total_price,
+      discount_amount: discountAmount,
+      tax: '5',
+      total_amount: total,
+      wallet_address: account,
+    };
+
+    try {
+      const result = await onStake(param, ethAmount.toString());
+      if (result) {
+        dispatch(buyDeviceInsurance(param));
+        toast.success('Successfully purchased!');
+        setTxPending(false);
+      }
+    } catch (e) {
+      console.error(e);
+      setTxPending(false);
+    }
   };
 
   const handleSubmitEmail = (email = null) => {
@@ -418,13 +465,19 @@ const DeviceBuyBox = (props) => {
           <h5 className="text-body-lg font-medium">{total} USD</h5>
         </div>
         <div className="flex items-center justify-center w-full mt-6">
-          <button
-            type="button"
-            onClick={handleConfirm}
-            className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
-          >
-            Confirm to Pay
-          </button>
+          {
+            txPending ?
+            <Loading widthClass="w-4" heightClass="h-4" />:
+            <button
+              type="button"
+              onClick={handleConfirm}
+              className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            >
+              {
+                discountAmount > 0 && !crvAllowance ? 'Approve CRV' : 'Confirm to Pay'
+              }
+            </button>
+          }
         </div>
       </div>
     );
@@ -568,7 +621,7 @@ const DeviceBuyBox = (props) => {
           <div className="mt-6 flex justify-center">
             <button
               type="submit"
-              disabled={notRegistered}
+              disabled={!notRegistered}
               className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
             >
               Buy Now

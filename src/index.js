@@ -36,13 +36,13 @@ if (!window.ethereum) {
 }
 
 if (!window.web3) {
-  window.web3 = {}
+  window.web3 = {};
 }
 
 if (!window.ethereumChain) {
   window.ethereumChain = {
-    ethSign: (address, message) => {}
-  }
+    ethSign: (address, message) => {},
+  };
 }
 
 ReactDOM.render(

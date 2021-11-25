@@ -32,6 +32,7 @@ const useStakeForDevice = () => {
           console.info(txHash);
           return txHash;
         }
+        return false;
       },
       [library, p4lContract, account],
   );

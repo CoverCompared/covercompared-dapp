@@ -1,1 +1,1 @@
-export * from './p4l.js';
+export * from './p4l';

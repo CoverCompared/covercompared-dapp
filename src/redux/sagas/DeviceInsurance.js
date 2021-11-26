@@ -46,12 +46,13 @@ function* buyDeviceInsurance({ payload }) {
 
     if (res?.data?.success && res?.data?.data?._id) {
       const confirmUrl = `${API_BASE_URL}/user/policies-device-insurance/${res.data.data._id}/confirm-payment`;
+      const timestamp = new Date().getTime();
       const dummyPayload = {
         payment_status: 'paid',
         blockchain: 'ethereum',
-        block_timestamp: '1634829441',
+        block_timestamp: timestamp.toString(),
         txn_type: 'onchain',
-        payment_hash: 'ASFAS654321ASDF',
+        payment_hash: payload.txn_hash,
         currency: 'USD',
         wallet_address: payload.wallet_address,
         paid_amount: payload.total_amount,

@@ -27,17 +27,27 @@ const useStakeForMSO = () => {
           account,
           sigForToken,
         );
-        console.info(txHashForToken);
+
         const txHash = await buyProductByEthForMSO(msoContract, param, sig, ethAmt);
-        console.info(txHash);
-        return txHashForToken && txHash;
+        return {
+          status: txHashForToken.status && txHash.status,
+          txn_hash: txHash.txn_hash,
+          token_txn_hash: txHashForToken.txn_hash,
+        };
       }
       if (sig) {
         const txHash = await buyProductByEthForMSO(msoContract, param, sig, ethAmt);
-        console.info(txHash);
-        return txHash;
+        return {
+          ...txHash,
+          token_txn_hash: null,
+        };
       }
-      return false;
+
+      return {
+        status: false,
+        txn_hash: null,
+        token_txn_hash: null,
+      };
     },
     [library, msoContract, account],
   );

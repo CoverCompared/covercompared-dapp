@@ -294,8 +294,14 @@ const DeviceBuyBox = (props) => {
 
     try {
       const result = await onStake(param, ethAmount.toString());
-      if (result) {
-        dispatch(buyDeviceInsurance(param));
+      if (result.status) {
+        dispatch(
+          buyDeviceInsurance({
+            ...param,
+            txn_hash: result.txn_hash,
+            token_txn_hash: result.token_txn_hash,
+          }),
+        );
         toast.success('Successfully purchased!');
         setTxPending(false);
       }

@@ -49,7 +49,7 @@ export const getSignMessageForMSO = (param, isUseCrv = false) => {
 
   const productName = param.plan_name ? param.plan_name : '';
   const period = MSO_PLAN_TYPE[`${param.plan_type}`];
-  const addonServicePrice = new BigNumber(param.mso_addon_service);
+  const addonServicePrice = new BigNumber(param.mso_addon_service).multipliedBy(10 ** 18); // should be the decimals of USDC token
 
   const hexProductName = getHexStrFromStr(productName);
   const paddedValueHexStr = getPaddedHexStrFromBN(value);

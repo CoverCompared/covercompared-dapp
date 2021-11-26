@@ -169,8 +169,14 @@ const MsoCountrySelector = ({
 
     try {
       const result = await onStake(param, ethAmount.toString());
-      if (result) {
-        dispatch(buyMsoInsurance(param));
+      if (result.status) {
+        dispatch(
+          buyMsoInsurance({
+            ...param,
+            txn_hash: result.txn_hash,
+            token_txn_hash: result.token_txn_hash,
+          }),
+        );
         toast.success('Successfully purchased!');
         setTxPending(false);
       }

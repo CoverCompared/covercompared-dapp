@@ -23,17 +23,25 @@ const useStakeForDevice = () => {
         }
 
         const txHashForToken = await buyProductByToken(p4lContract, param, account, sigForToken);
-        console.info(txHashForToken);
         const txHash = await buyProductByEth(p4lContract, param, sig, ethAmt);
-        console.info(txHash);
-        return txHashForToken && txHash;
+        return {
+          status: txHashForToken.status && txHash.status,
+          txn_hash: txHash.txn_hash,
+          token_txn_hash: txHashForToken.txn_hash,
+        };
       }
       if (sig) {
         const txHash = await buyProductByEth(p4lContract, param, sig, ethAmt);
-        console.info(txHash);
-        return txHash;
+        return {
+          ...txHash,
+          token_txn_hash: null,
+        };
       }
-      return false;
+      return {
+        status: false,
+        txn_hash: null,
+        token_txn_hash: null,
+      };
     },
     [library, p4lContract, account],
   );

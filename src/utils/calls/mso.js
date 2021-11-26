@@ -26,7 +26,10 @@ export const buyProductByTokenForMSO = async (contract, param, account, sig) => 
   );
   const receipt = await tx.wait();
 
-  return receipt.status;
+  return {
+    status: receipt.status,
+    txn_hash: tx.hash,
+  };
 };
 
 export const buyProductByEthForMSO = async (contract, param, sig, ethAmt) => {
@@ -48,7 +51,11 @@ export const buyProductByEthForMSO = async (contract, param, sig, ethAmt) => {
     sig,
     option,
   );
+
   const receipt = await tx.wait();
 
-  return receipt.status;
+  return {
+    status: receipt.status,
+    txn_hash: tx.hash,
+  };
 };

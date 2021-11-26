@@ -28,7 +28,10 @@ export const buyProductByToken = async (contract, param, account, sig) => {
   );
   const receipt = await tx.wait();
 
-  return receipt.status;
+  return {
+    status: receipt.status,
+    txn_hash: tx.hash,
+  };
 };
 
 export const buyProductByEth = async (contract, param, sig, ethAmt) => {
@@ -46,5 +49,8 @@ export const buyProductByEth = async (contract, param, sig, ethAmt) => {
   const tx = await contract.buyProductByETH(device, brand, value, purchMonth, durPlan, sig, option);
   const receipt = await tx.wait();
 
-  return receipt.status;
+  return {
+    status: receipt.status,
+    txn_hash: tx.hash,
+  };
 };

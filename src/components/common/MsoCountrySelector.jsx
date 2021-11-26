@@ -68,6 +68,10 @@ const MsoCountrySelector = ({
   const { onStake } = useStakeForMSO();
 
   useEffect(() => {
+    handleAllowance();
+  }, []);
+
+  useEffect(() => {
     if (isFailed) setShowAlert(true);
   }, [isFailed]);
 
@@ -80,7 +84,6 @@ const MsoCountrySelector = ({
   }, [txn_hash]);
 
   useEffect(() => {
-    handleAllowance();
     if (!account) {
       setTitle('Login');
       setMaxWidth('max-w-2xl');
@@ -112,9 +115,14 @@ const MsoCountrySelector = ({
   const handleConfirm = async () => {
     setTxPending(true);
     if (discountAmount > 0 && !crvAllowance) {
-      await onApprove();
-      await handleAllowance();
-      toast.success('CRV token approved.');
+      try {
+        await onApprove();
+        await handleAllowance();
+        toast.success('CRV token approved.');
+      } catch (e) {
+        toast.warning('CRV token approving rejected.');
+        console.error(e);
+      }
       setTxPending(false);
       return;
     }

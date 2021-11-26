@@ -108,6 +108,9 @@ const DeviceBuyBox = (props) => {
 
   useEffect(() => {
     handleAllowance();
+  }, []);
+
+  useEffect(() => {
     dispatch(resetDeviceInsurance());
   }, []);
 
@@ -237,9 +240,14 @@ const DeviceBuyBox = (props) => {
     if (e) e.preventDefault();
     setTxPending(true);
     if (discountAmount > 0 && !crvAllowance) {
-      await onApprove();
-      await handleAllowance();
-      toast.success('CRV token approved.');
+      try {
+        await onApprove();
+        await handleAllowance();
+        toast.success('CRV token approved.');
+      } catch (e) {
+        toast.warning('CRV token approving rejected.');
+        console.error(e);
+      }
       setTxPending(false);
       return;
     }

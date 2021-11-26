@@ -12,7 +12,7 @@ import MSOReceiptCard from '../MSOReceiptCard';
 import { getLoginDetails } from '../../redux/actions/Auth';
 import { buyMsoInsurance } from '../../redux/actions/MsoInsurance';
 import Alert from './Alert';
-import Loading from './Loading';
+import Loading from './TxLoading';
 
 import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
@@ -312,17 +312,19 @@ const MsoCountrySelector = ({
           <h5 className="text-body-lg font-medium">{total} USD</h5>
         </div>
         <div className="flex items-center justify-center w-full mt-6">
-          {txPending ? (
-            <Loading widthClass="w-4" heightClass="h-4" />
-          ) : (
-            <button
-              type="button"
-              onClick={handleConfirm}
-              className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
-            >
-              {discountAmount > 0 && !crvAllowance ? 'Approve CRV' : 'Confirm to Pay'}
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={handleConfirm}
+            className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+          >
+            {txPending ? (
+              <Loading widthClass="w-4" heightClass="h-4" />
+            ) : discountAmount > 0 && !crvAllowance ? (
+              'Approve CRV'
+            ) : (
+              'Confirm to Pay'
+            )}
+          </button>
         </div>
       </div>
     );

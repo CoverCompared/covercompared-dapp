@@ -13,7 +13,7 @@ import SelectWithSearch from './common/SelectWithSearch';
 import DeviceReceiptCard from './DeviceReceiptCard';
 import DownloadPolicy from './common/DownloadPolicy';
 import DeviceReceipt from './DeviceReceipt';
-import Loading from './common/Loading';
+import Loading from './common/TxLoading';
 
 import {
   setProfileDetails,
@@ -488,17 +488,19 @@ const DeviceBuyBox = (props) => {
           <h5 className="text-body-lg font-medium">{total} USD</h5>
         </div>
         <div className="flex items-center justify-center w-full mt-6">
-          {txPending ? (
-            <Loading widthClass="w-4" heightClass="h-4" />
-          ) : (
-            <button
-              type="button"
-              onClick={handleConfirm}
-              className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
-            >
-              {discountAmount > 0 && !crvAllowance ? 'Approve CRV' : 'Confirm to Pay'}
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={handleConfirm}
+            className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+          >
+            {txPending ? (
+              <Loading widthClass="w-4" heightClass="h-4" />
+            ) : discountAmount > 0 && !crvAllowance ? (
+              'Approve CRV'
+            ) : (
+              'Confirm to Pay'
+            )}
+          </button>
         </div>
       </div>
     );

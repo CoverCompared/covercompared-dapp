@@ -5,11 +5,11 @@ export default {
   },
   p4l: {
     1: '',
-    4: '0x1F2A661B5104E9FD3076576db2b20f0Eee8733E1',
+    4: '0x9eDe625814EE1d422Bab6Ec0089bb590Efb5C639',
   },
   mso: {
     1: '',
-    4: '0x1d2258C21019a1bb6cD58BB4DEE5Bb4024cDB018',
+    4: '0xEe9acb5A56cfc232A60397a2027a97ABDFDC6E27',
   },
   exchangeAgent: {
     1: '',

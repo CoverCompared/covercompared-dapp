@@ -24,5 +24,7 @@ export const signMessage = async (provider, account, message) => {
   //   return signature
   // }
 
-  return provider.getSigner(account).signMessage(ethers.utils.arrayify(ethers.utils.keccak256(message)))
-}
+  return provider
+    .getSigner(account)
+    .signMessage(ethers.utils.arrayify(ethers.utils.keccak256(message)));
+};

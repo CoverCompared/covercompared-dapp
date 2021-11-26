@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import configureStore, { history } from './redux/store';
-import ApplicationUpdater from './utils/updater'
+import ApplicationUpdater from './utils/updater';
 
 // imports for context provider
 import { ThemeProvider } from './themeContext';
@@ -51,7 +51,7 @@ function Updaters() {
     <>
       <ApplicationUpdater />
     </>
-  )
+  );
 }
 
 ReactDOM.render(

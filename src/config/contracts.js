@@ -5,15 +5,15 @@ export default {
   },
   p4l: {
     1: '',
-    4: '0x1F2A661B5104E9FD3076576db2b20f0Eee8733E1'
+    4: '0x1F2A661B5104E9FD3076576db2b20f0Eee8733E1',
   },
   mso: {
     1: '',
-    4: '0x1d2258C21019a1bb6cD58BB4DEE5Bb4024cDB018'
+    4: '0x1d2258C21019a1bb6cD58BB4DEE5Bb4024cDB018',
   },
   exchangeAgent: {
     1: '',
-    4: '0x1eEF7bF547aC2EFeFd2B0582d208Bef5ae0d92d6'
+    4: '0x1eEF7bF547aC2EFeFd2B0582d208Bef5ae0d92d6',
   },
   priceFeed: {
     eth: {

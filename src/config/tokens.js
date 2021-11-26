@@ -40,7 +40,7 @@ export default {
     4: '0x2777975Ed61122A40e7DB7Fc876c05d88052Df1E',
     56: '',
     97: '',
-  }
+  },
 };
 
 export const nativeCurrencies = ['eth', 'bnb', 'matic'];

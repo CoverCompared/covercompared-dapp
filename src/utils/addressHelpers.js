@@ -16,16 +16,16 @@ export const getPriceFeedAddressBySymbol = (symbol) => {
 
 export const getP4LAddress = () => {
   return getAddress(addresses.p4l);
-}
+};
 
 export const getMSOAddress = () => {
   return getAddress(addresses.mso);
-}
+};
 
 export const getCrvAddress = () => {
   return getAddress(tokens.crv);
-}
+};
 
 export const getExchangeAgentAddress = () => {
   return getAddress(addresses.exchangeAgent);
-}
+};

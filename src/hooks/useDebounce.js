@@ -15,7 +15,7 @@ export default function useDebounce(value, delay) {
     // .. within the delay period. Timeout gets cleared and restarted.
     return () => {
       clearTimeout(handler);
-    }
+    };
   }, [value, delay]);
 
   return debouncedValue;

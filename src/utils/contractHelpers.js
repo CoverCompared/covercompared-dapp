@@ -1,6 +1,11 @@
 import { ethers } from 'ethers';
 // Addresses
-import { getCoverComparedAddress, getExchangeAgentAddress, getMSOAddress, getP4LAddress } from './addressHelpers';
+import {
+  getCoverComparedAddress,
+  getExchangeAgentAddress,
+  getMSOAddress,
+  getP4LAddress,
+} from './addressHelpers';
 import ethSimpleProvider from './providers';
 // ABI
 import erc20Abi from '../config/abi/erc20.json';
@@ -25,11 +30,11 @@ export const getCovercomparedContract = (signer) => {
 
 export const getMSOContract = (signer) => {
   return getContract(msoAbi, getMSOAddress(), signer);
-}
+};
 
 export const getP4LContract = (signer) => {
   return getContract(p4lAbi, getP4LAddress(), signer);
-}
+};
 
 export const getPriceFeedContract = (address) => {
   return getContract(AggregatorV3InterfaceABI, address, null);
@@ -37,4 +42,4 @@ export const getPriceFeedContract = (address) => {
 
 export const getExchangeAgentContract = () => {
   return getContract(exchaneAgentAbi, getExchangeAgentAddress(), null);
-}
+};

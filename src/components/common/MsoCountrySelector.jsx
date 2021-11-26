@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 
+import { toast } from 'react-toastify';
 import DownloadPolicy from './DownloadPolicy';
 import { walletLogin } from '../../hooks/useAuth';
 import SUPPORTED_WALLETS from '../../config/walletConfig';
@@ -11,6 +12,15 @@ import MSOReceiptCard from '../MSOReceiptCard';
 import { getLoginDetails } from '../../redux/actions/Auth';
 import { buyMsoInsurance } from '../../redux/actions/MsoInsurance';
 import Alert from './Alert';
+import Loading from './Loading';
+
+import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
+import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
+import useStakeForMSO from '../../hooks/useStakeForMSO';
+import { getCrvAddress, getMSOAddress } from '../../utils/addressHelpers';
+import { getBalanceNumber } from '../../utils/formatBalance';
+import useTokenApprove from '../../hooks/useTokenApprove';
+import getETHAmountForUSDC, { getTokenAmountForUSDC } from '../../utils/getETHAmountForUSDC';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -42,6 +52,7 @@ const MsoCountrySelector = ({
 
   const { txn_hash, loader, message, isFailed } = useSelector((state) => state.msoInsurance);
   const [showAlert, setShowAlert] = useState(false);
+  const [txPending, setTxPending] = useState(false);
 
   const { quote = '0', MSOAddOnService = '0', tax = '5', name, logo, MSOCoverUser } = selectedPlan;
   const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
@@ -49,6 +60,12 @@ const MsoCountrySelector = ({
   const total = addonServices
     ? +quote + +MSOAddOnService + +tax - discountAmount
     : +quote + +tax - discountAmount;
+
+  const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getMSOAddress());
+  const { balance } = useGetEthBalance();
+  const crvBalanceStatus = useTokenBalance(getCrvAddress());
+  const { onApprove } = useTokenApprove(getMSOAddress());
+  const { onStake } = useStakeForMSO();
 
   useEffect(() => {
     if (isFailed) setShowAlert(true);
@@ -63,6 +80,7 @@ const MsoCountrySelector = ({
   }, [txn_hash]);
 
   useEffect(() => {
+    handleAllowance();
     if (!account) {
       setTitle('Login');
       setMaxWidth('max-w-2xl');
@@ -91,28 +109,64 @@ const MsoCountrySelector = ({
     setTitle('Confirmation');
   };
 
-  const handleConfirm = () => {
-    dispatch(
-      buyMsoInsurance({
-        plan_type: selectedPlan.unique_id,
-        quote,
-        currency: applyDiscount ? 'CVR' : 'USD',
-        mso_addon_service: addonServices ? MSOAddOnService : 0,
-        amount: addonServices ? +quote + +MSOAddOnService : quote,
-        discount_amount: discountAmount,
-        tax,
-        total_amount: total,
-        MSOMembers: membersInfo.map((m) => ({
-          user_type: m.userType,
-          first_name: m.firstName,
-          last_name: m.lastName,
-          country: m.country,
-          dob: m.dob,
-          identity: m.identity,
-        })),
-        wallet_address: account,
-      }),
-    );
+  const handleConfirm = async () => {
+    setTxPending(true);
+    if (discountAmount > 0 && !crvAllowance) {
+      await onApprove();
+      await handleAllowance();
+      toast.success('CRV token approved.');
+      setTxPending(false);
+      return;
+    }
+    const ethAmount = await getETHAmountForUSDC(total + parseInt(MSOAddOnService, 10));
+    const crvAmount = await getTokenAmountForUSDC(getCrvAddress(), discountAmount);
+    if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(balance)) {
+      toast.warning('Insufficient ETH balance!');
+      setTxPending(false);
+      return;
+    }
+    if (
+      getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalanceStatus.balance) &&
+      discountAmount > 0
+    ) {
+      toast.warning('Insufficient CRV balance!');
+      setApplyDiscount(false);
+      setTxPending(false);
+      return;
+    }
+    const param = {
+      plan_type: selectedPlan.unique_id,
+      plan_name: selectedPlan.name,
+      quote,
+      currency: applyDiscount ? 'CVR' : 'USD',
+      mso_addon_service: addonServices ? MSOAddOnService : 0,
+      amount: addonServices ? +quote + +MSOAddOnService : quote,
+      discount_amount: discountAmount,
+      tax,
+      total_amount: total,
+      MSOMembers: membersInfo.map((m) => ({
+        user_type: m.userType,
+        first_name: m.firstName,
+        last_name: m.lastName,
+        country: m.country,
+        dob: m.dob,
+        identity: m.identity,
+      })),
+      wallet_address: account,
+    };
+
+    try {
+      const result = await onStake(param, ethAmount.toString());
+      if (result) {
+        dispatch(buyMsoInsurance(param));
+        toast.success('Successfully purchased!');
+        setTxPending(false);
+      }
+    } catch (e) {
+      console.error(e);
+      toast.warning('User rejected the transaction.');
+      setTxPending(false);
+    }
   };
 
   const getWalletOption = () => {
@@ -240,13 +294,17 @@ const MsoCountrySelector = ({
           <h5 className="text-body-lg font-medium">{total} USD</h5>
         </div>
         <div className="flex items-center justify-center w-full mt-6">
-          <button
-            type="button"
-            onClick={handleConfirm}
-            className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
-          >
-            Confirm to Pay
-          </button>
+          {txPending ? (
+            <Loading widthClass="w-4" heightClass="h-4" />
+          ) : (
+            <button
+              type="button"
+              onClick={handleConfirm}
+              className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            >
+              {discountAmount > 0 && !crvAllowance ? 'Approve CRV' : 'Confirm to Pay'}
+            </button>
+          )}
         </div>
       </div>
     );

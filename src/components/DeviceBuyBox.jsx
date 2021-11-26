@@ -34,7 +34,7 @@ import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenApprove from '../hooks/useTokenApprove';
 import getETHAmountForUSDC, { getTokenAmountForUSDC } from '../utils/getETHAmountForUSDC';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
-import { getCrvAddress } from '../utils/addressHelpers';
+import { getCrvAddress, getP4LAddress } from '../utils/addressHelpers';
 import { getBalanceNumber } from '../utils/formatBalance';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
@@ -90,8 +90,8 @@ const DeviceBuyBox = (props) => {
   const [showReceipt, setShowReceipt] = useState(false);
 
   const { onStake } = useStakeForDevice();
-  const { onApprove } = useTokenApprove();
-  const { crvAllowance, handleAllowance } = useGetAllowanceOfToken();
+  const { onApprove } = useTokenApprove(getP4LAddress());
+  const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance(getCrvAddress());
 
@@ -239,6 +239,7 @@ const DeviceBuyBox = (props) => {
     if (discountAmount > 0 && !crvAllowance) {
       await onApprove();
       await handleAllowance();
+      toast.success('CRV token approved.');
       setTxPending(false);
       return;
     }
@@ -288,6 +289,7 @@ const DeviceBuyBox = (props) => {
       }
     } catch (e) {
       console.error(e);
+      toast.warning('User rejected the transaction.');
       setTxPending(false);
     }
   };

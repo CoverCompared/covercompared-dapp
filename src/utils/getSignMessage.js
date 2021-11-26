@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
+import { MSO_PLAN_TYPE } from '../config';
 
 const getHexStrFromStr = (str) => {
   const strBytes = ethers.utils.toUtf8Bytes(str);
@@ -19,7 +20,7 @@ const getPaddedHexStrFromINT = (bn) => {
 const getSignMessage = (param, isUseCrv = false) => {
   const value = isUseCrv
     ? new BigNumber(param.discount_amount).multipliedBy(10 ** 18)
-    : new BigNumber(param.total_amount).multipliedBy(10 ** 18);
+    : new BigNumber(param.total_amount).multipliedBy(10 ** 18); // should be the decimals of USDC token
 
   const device = param.device_type;
   const brand = param.brand === '' ? 'ACER' : param.brand;
@@ -38,6 +39,28 @@ const getSignMessage = (param, isUseCrv = false) => {
     paddedValueHexStr.slice(2) +
     paddedPurchMonthHexStr.slice(2) +
     paddedDurPlanHexStr.slice(2)
+  );
+};
+
+export const getSignMessageForMSO = (param, isUseCrv = false) => {
+  const value = isUseCrv
+    ? new BigNumber(param.discount_amount).multipliedBy(10 ** 18)
+    : new BigNumber(param.total_amount).multipliedBy(10 ** 18); // should be the decimals of USDC token
+
+  const productName = param.plan_name ? param.plan_name : '';
+  const period = MSO_PLAN_TYPE[`${param.plan_type}`];
+  const addonServicePrice = new BigNumber(param.mso_addon_service);
+
+  const hexProductName = getHexStrFromStr(productName);
+  const paddedValueHexStr = getPaddedHexStrFromBN(value);
+  const paddedPeriod = getPaddedHexStrFromINT(period);
+  const paddedAddonServicePrice = getPaddedHexStrFromBN(addonServicePrice);
+
+  return (
+    hexProductName +
+    paddedValueHexStr.slice(2) +
+    paddedPeriod.slice(2) +
+    paddedAddonServicePrice.slice(2)
   );
 };
 

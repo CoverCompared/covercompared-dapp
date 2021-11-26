@@ -7,7 +7,7 @@ const options = {
 };
 
 export const buyProductByToken = async (contract, param, account, sig) => {
-  const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString();
+  const value = new BigNumber(param.discount_amount).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
 
   const device = param.device_type;
   const { brand } = param;

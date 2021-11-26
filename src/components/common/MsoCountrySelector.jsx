@@ -116,9 +116,13 @@ const MsoCountrySelector = ({
     setTxPending(true);
     if (discountAmount > 0 && !crvAllowance) {
       try {
-        await onApprove();
+        const result = await onApprove();
         await handleAllowance();
-        toast.success('CRV token approved.');
+        if (result) {
+          toast.success('CRV token approved.');
+        } else {
+          toast.warning('CRV token approving failed.');
+        }
       } catch (e) {
         toast.warning('CRV token approving rejected.');
         console.error(e);

@@ -35,7 +35,6 @@ function* buyDeviceInsurance({ payload }) {
     );
 
     const url = `${API_BASE_URL}/user/policies-device-insurance`;
-    // const res = yield call(axiosPost, url, payload, yield select(selector.token));
     const res = yield call(
       axiosPost,
       url,
@@ -57,12 +56,7 @@ function* buyDeviceInsurance({ payload }) {
         wallet_address: payload.wallet_address,
         paid_amount: payload.total_amount,
       };
-      // const confirmRes = yield call(
-      //   axiosPost,
-      //   confirmUrl,
-      //   dummyPayload,
-      //   yield select(selector.token),
-      // );
+      
       const confirmRes = yield call(
         axiosPost,
         confirmUrl,

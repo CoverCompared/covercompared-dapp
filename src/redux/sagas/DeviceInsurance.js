@@ -56,7 +56,7 @@ function* buyDeviceInsurance({ payload }) {
         wallet_address: payload.wallet_address,
         paid_amount: payload.total_amount,
       };
-      
+
       const confirmRes = yield call(
         axiosPost,
         confirmUrl,

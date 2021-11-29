@@ -112,10 +112,10 @@ const MSOProduct = (props) => {
     wantAddon,
     unique_id,
     userTypeOptions,
-    noOfSpouse,
-    noOfDependent,
-    mainMemberParents,
-    spouseParents,
+    // noOfSpouse,
+    // noOfDependent,
+    // mainMemberParents,
+    // spouseParents,
     totalUsers,
   } = product;
 
@@ -243,10 +243,10 @@ const MSOProduct = (props) => {
                   {...{
                     unique_id,
                     userTypeOptions,
-                    noOfSpouse,
-                    noOfDependent,
-                    mainMemberParents,
-                    spouseParents,
+                    // noOfSpouse,
+                    // noOfDependent,
+                    // mainMemberParents,
+                    // spouseParents,
                     totalUsers,
                     directCheckout: true,
                   }}

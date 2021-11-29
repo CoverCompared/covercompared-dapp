@@ -15,10 +15,10 @@ const MsoUserInfoForm = (props) => {
     uuid,
     unique_id,
     userTypeOptions,
-    noOfSpouse,
-    noOfDependent,
-    mainMemberParents,
-    spouseParents,
+    // noOfSpouse,
+    // noOfDependent,
+    // mainMemberParents,
+    // spouseParents,
     totalUsers,
     countries,
     handleBuyNow,
@@ -86,36 +86,37 @@ const MsoUserInfoForm = (props) => {
     setUsers(users.slice(0, -1));
   };
 
-  const validateUsers = (usersClone) => {
-    const mainMember = usersClone.filter((f) => f.userType === 'Main Member').length;
-    const spouse = usersClone.filter((f) => f.userType === 'Spouse').length;
-    const dependent = usersClone.filter((f) => f.userType === 'Dependent').length;
+  // const validateUsers = (usersClone) => {
+  //   const mainMember = usersClone.filter((f) => f.userType === 'Main Member').length;
+  //   const spouse = usersClone.filter((f) => f.userType === 'Spouse').length;
+  //   const dependent = usersClone.filter((f) => f.userType === 'Dependent').length;
 
-    if (mainMember > 1) {
-      setShowAlert(true);
-      setAlertType('danger');
-      setAlertText('Number of main members reach its maximum limit according to policy1');
-      return false;
-    }
-    if (spouse > noOfSpouse) {
-      setShowAlert(true);
-      setAlertType('danger');
-      setAlertText(`Number of spouses reach its maximum limit according to policy`);
-      return false;
-    }
-    if (dependent > noOfDependent) {
-      setShowAlert(true);
-      setAlertType('danger');
-      setAlertText(`Number of dependents reach its maximum limit according to policy`);
-      return false;
-    }
-    return true;
-  };
+  //   if (mainMember > 1) {
+  //     setShowAlert(true);
+  //     setAlertType('danger');
+  //     setAlertText('Number of main members reach its maximum limit according to policy1');
+  //     return false;
+  //   }
+  //   if (spouse > noOfSpouse) {
+  //     setShowAlert(true);
+  //     setAlertType('danger');
+  //     setAlertText(`Number of spouses reach its maximum limit according to policy`);
+  //     return false;
+  //   }
+  //   if (dependent > noOfDependent) {
+  //     setShowAlert(true);
+  //     setAlertType('danger');
+  //     setAlertText(`Number of dependents reach its maximum limit according to policy`);
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const handleUserFieldChange = (i, name, value) => {
     const usersClone = [...users];
     usersClone[i][name] = value;
-    if (validateUsers(usersClone)) setUsers(usersClone);
+    setUsers(usersClone);
+    // if (validateUsers(usersClone)) setUsers(usersClone);
   };
 
   const handleSubmit = (e) => {

@@ -30,7 +30,6 @@ export const getLoginDetails = (payload) => {
 };
 
 export const getLoginDetailsSuccess = (payload) => {
-  console.log('Action', payload);
   return {
     type: GET_LOGIN_DETAILS_SUCCESS,
     payload,

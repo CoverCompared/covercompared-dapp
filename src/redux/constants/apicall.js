@@ -21,7 +21,6 @@ export const axiosGet = (url, token = null, wallet_address = null) => {
       let code = null;
       let data = null;
       let headers = null;
-      console.log('Status', error.response.data.status);
       if (error.response) {
         code = error.response.status;
         data = error.response.data;

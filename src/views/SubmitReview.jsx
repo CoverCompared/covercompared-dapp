@@ -15,8 +15,6 @@ const ContactUs = () => {
   const [rating, setRating] = useState();
   const [ratingStates, setRatingStates] = useState('How is the quality of this product?');
 
-  console.log('reviewData :>> ', { reviewData, isFailed, loader, message });
-
   useEffect(() => {
     if (rating === 1) setRatingStates('Very Bad');
     else if (rating === 2) setRatingStates('Bad');

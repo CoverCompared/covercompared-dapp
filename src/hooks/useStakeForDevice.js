@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import useActiveWeb3React from './useActiveWeb3React';
 import { useP4LContract } from './useContract';
-import { buyProductByToken, buyProductByEth } from '../utils/calls';
+import p4l from '../utils/calls/p4l';
 import getSignMessage from '../utils/getSignMessage';
 import { signMessage } from '../utils/getLibrary';
 
@@ -22,8 +22,13 @@ const useStakeForDevice = () => {
           return false;
         }
 
-        const txHashForToken = await buyProductByToken(p4lContract, param, account, sigForToken);
-        const txHash = await buyProductByEth(p4lContract, param, sig, ethAmt);
+        const txHashForToken = await p4l.buyProductByToken(
+          p4lContract,
+          param,
+          account,
+          sigForToken,
+        );
+        const txHash = await p4l.buyProductByEth(p4lContract, param, sig, ethAmt);
         return {
           status: txHashForToken.status && txHash.status,
           txn_hash: txHash.txn_hash,
@@ -31,7 +36,7 @@ const useStakeForDevice = () => {
         };
       }
       if (sig) {
-        const txHash = await buyProductByEth(p4lContract, param, sig, ethAmt);
+        const txHash = await p4l.buyProductByEth(p4lContract, param, sig, ethAmt);
         return {
           ...txHash,
           token_txn_hash: null,

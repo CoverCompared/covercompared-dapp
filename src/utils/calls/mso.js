@@ -6,7 +6,7 @@ const options = {
   gasLimit: DEFAULT_GAS_LIMIT,
 };
 
-export const buyProductByTokenForMSO = async (contract, param, account, sig) => {
+const buyProductByTokenForMSO = async (contract, param, account, sig) => {
   const value = new BigNumber(param.discount_amount).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
 
   const productName = param.plan_name;
@@ -32,7 +32,7 @@ export const buyProductByTokenForMSO = async (contract, param, account, sig) => 
   };
 };
 
-export const buyProductByEthForMSO = async (contract, param, sig, ethAmt) => {
+const buyProductByEthForMSO = async (contract, param, sig, ethAmt) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString();
 
   const productName = param.plan_name;
@@ -58,4 +58,9 @@ export const buyProductByEthForMSO = async (contract, param, sig, ethAmt) => {
     status: receipt.status,
     txn_hash: tx.hash,
   };
+};
+
+export default {
+  buyProductByTokenForMSO,
+  buyProductByEthForMSO,
 };

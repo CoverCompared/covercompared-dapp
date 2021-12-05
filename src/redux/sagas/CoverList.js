@@ -20,6 +20,7 @@ import {
   setFetchMoreCoversLoader,
   fetchCoversWithAmountSuccess,
   getQuoteSuccess,
+  getQuoteDetailSuccess,
   setGetQuoteLoader,
   // getDeviceDetailsSuccess,
   // setGetDeviceDetailsLoader,
@@ -149,11 +150,13 @@ function* getQuote({ payload }) {
       }),
     );
 
-    const url = `${API_BASE_URL}/cover-min-quote`;
+    let url = `${API_BASE_URL}/cover-min-quote`;
     const quote = yield call(axiosPost, url, payload);
-
-    if (quote?.data?.data || quote?.data?.quote) {
+    url = `${API_BASE_URL}/cover-quote`;
+    const quoteDetail = yield call(axiosPost, url, payload);
+    if ((quote?.data?.data || quote?.data?.quote) && quoteDetail?.data?.data) {
       yield put(getQuoteSuccess(quote?.data?.data || quote?.data?.quote));
+      yield put(getQuoteDetailSuccess(quoteDetail?.data?.data));
     } else {
       yield put(
         setGetQuoteLoader({

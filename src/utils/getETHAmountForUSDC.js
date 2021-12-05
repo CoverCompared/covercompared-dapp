@@ -20,4 +20,13 @@ export const getTokenAmountForUSDC = async (token, desiredAmount) => {
   return new BigNumber(tokenAmount.toString());
 };
 
+export const getTokenAmountForETH = async (token, desiredAmount) => {
+  let tokenAmount = BIG_ZERO;
+  const exchangeAgentContract = await getExchangeAgentContract();
+  const big_desiredAmount = new BigNumber(desiredAmount).multipliedBy(10 ** 18).toString();
+  tokenAmount = await exchangeAgentContract.getTokenAmountForETH(token, big_desiredAmount);
+
+  return new BigNumber(tokenAmount.toString());
+};
+
 export default getETHAmountForUSDC;

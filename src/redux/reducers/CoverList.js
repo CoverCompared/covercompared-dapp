@@ -6,6 +6,7 @@ import {
   FETCH_COVERS_WITH_AMOUNT_SUCCESS,
   SET_GET_QUOTE_LOADER,
   GET_QUOTE_SUCCESS,
+  GET_QUOTE_DETAIL_SUCCESS,
   ACTION_METHOD_FAILED,
   SET_SEARCH_BLOG_LIST_LOADER,
   SEARCH_BLOG_LIST_SUCCESS,
@@ -145,6 +146,12 @@ export default (state = INIT_STATE, { type, payload }) => {
         loader: false,
         isFailed: false,
         quote: payload,
+      };
+    }
+    case GET_QUOTE_DETAIL_SUCCESS: {
+      return {
+        ...state,
+        quoteDetail: payload,
       };
     }
     default:

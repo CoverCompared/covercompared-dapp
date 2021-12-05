@@ -187,4 +187,8 @@ export const chainIds = {
   },
 };
 
-export const ALL_SUPPORTED_CHAIN_IDS = [SupportedChainId.MAINNET, SupportedChainId.RINKEBY];
+export const ALL_SUPPORTED_CHAIN_IDS = [
+  SupportedChainId.MAINNET,
+  SupportedChainId.RINKEBY,
+  SupportedChainId.KOVAN,
+];

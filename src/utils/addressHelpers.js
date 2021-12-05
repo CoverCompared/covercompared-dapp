@@ -3,6 +3,7 @@ import tokens from '../config/tokens';
 
 export const getAddress = (address) => {
   const chainId = process.env.REACT_APP_CHAIN_ID ? process.env.REACT_APP_CHAIN_ID : 1;
+  // const chainId = '42';
   return address[chainId] ? address[chainId] : address[1];
 };
 
@@ -28,4 +29,12 @@ export const getCrvAddress = () => {
 
 export const getExchangeAgentAddress = () => {
   return getAddress(addresses.exchangeAgent);
+};
+
+export const getNexusMutualAddress = () => {
+  return getAddress(addresses.nexusMutual);
+};
+
+export const getInsureAceAddress = () => {
+  return getAddress(addresses.insureAce);
 };

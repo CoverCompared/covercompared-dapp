@@ -18,6 +18,7 @@ export const connectorLocalStorageKey = 'connectorIdPolcacover';
 export const NETWORK_URLS = {
   [SupportedChainId.MAINNET]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
   [SupportedChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
+  [SupportedChainId.KOVAN]: `https://kovan.infura.io/v3/${INFURA_KEY}`,
 };
 
 export const injected = new InjectedConnector({

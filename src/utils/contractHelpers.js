@@ -5,6 +5,8 @@ import {
   getExchangeAgentAddress,
   getMSOAddress,
   getP4LAddress,
+  getNexusMutualAddress,
+  getInsureAceAddress,
 } from './addressHelpers';
 import ethSimpleProvider from './providers';
 // ABI
@@ -14,6 +16,8 @@ import p4lAbi from '../config/abi/p4l.json';
 import CovercomaredAbi from '../config/abi/covercompared.json';
 import AggregatorV3InterfaceABI from '../config/abi/aggregatorV3InterfaceABI.json';
 import exchaneAgentAbi from '../config/abi/exchaneAgentAbi.json';
+import nexusMutualAbi from '../config/abi/nexusMutualAbi.json';
+import insureAceAbi from '../config/abi/insureAceAbi.json';
 
 export const getContract = (abi, address, signer) => {
   const signerOrProvider = signer ?? ethSimpleProvider;
@@ -42,4 +46,12 @@ export const getPriceFeedContract = (address) => {
 
 export const getExchangeAgentContract = () => {
   return getContract(exchaneAgentAbi, getExchangeAgentAddress(), null);
+};
+
+export const getNexusMutualContract = (signer) => {
+  return getContract(nexusMutualAbi, getNexusMutualAddress(), signer);
+};
+
+export const getInsureAceContract = (signer) => {
+  return getContract(insureAceAbi, getInsureAceAddress(), signer);
 };

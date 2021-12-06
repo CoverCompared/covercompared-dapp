@@ -44,8 +44,8 @@ export const getPriceFeedContract = (address) => {
   return getContract(AggregatorV3InterfaceABI, address, null);
 };
 
-export const getExchangeAgentContract = () => {
-  return getContract(exchaneAgentAbi, getExchangeAgentAddress(), null);
+export const getExchangeAgentContract = (signer) => {
+  return getContract(exchaneAgentAbi, getExchangeAgentAddress(), signer);
 };
 
 export const getNexusMutualContract = (signer) => {

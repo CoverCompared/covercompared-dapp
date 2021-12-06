@@ -4,6 +4,7 @@ import {
   getContract,
   getMSOContract,
   getP4LContract,
+  getExchangeAgentContract,
   getNexusMutualContract,
   getInsureAceContract,
 } from '../utils/contractHelpers';
@@ -22,6 +23,11 @@ export const useP4LContract = () => {
 export const useTokenContract = (address) => {
   const { library } = useActiveWeb3React();
   return useMemo(() => getContract(erc20Abi, address, library.getSigner()), [library]);
+};
+
+export const useExchangeAgentContract = () => {
+  const { library } = useActiveWeb3React();
+  return useMemo(() => getExchangeAgentContract(library.getSigner()), [library]);
 };
 
 export const useNexusMutualContract = () => {

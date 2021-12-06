@@ -32,8 +32,8 @@ import { classNames } from '../functions/utils';
 import useStakeForDevice from '../hooks/useStakeForDevice';
 import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenApprove from '../hooks/useTokenApprove';
-import getETHAmountForUSDC, { getTokenAmountForUSDC } from '../utils/getETHAmountForUSDC';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
+import useTokenAmount from '../hooks/useTokenAmount';
 import { getCrvAddress, getP4LAddress } from '../utils/addressHelpers';
 import { getBalanceNumber } from '../utils/formatBalance';
 
@@ -95,6 +95,7 @@ const DeviceBuyBox = (props) => {
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance(getCrvAddress());
 
+  const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
   const hasFirstTwoStep = hasFirstStep && planType;
   const hasAllStep = hasFirstTwoStep && (model || !deviceModelDetails?.models?.length);

@@ -73,7 +73,7 @@ const MyAccount = (props) => {
         currency,
         model,
         model_name,
-      },
+      } = {},
     } = device;
     return (
       <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
@@ -139,7 +139,7 @@ const MyAccount = (props) => {
       txn_hash,
       total_amount,
       discount_amount,
-      details: { MSOMembers, quote, mso_addon_service },
+      details: { MSOMembers, quote, mso_addon_service } = {},
       plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
     } = device;
     return (
@@ -170,7 +170,7 @@ const MyAccount = (props) => {
             renderComponent={MSOCard}
             {...{
               txn_hash,
-              membersInfo: MSOMembers,
+              membersInfo: MSOMembers || [],
               quote,
               total: total_amount,
               tax,

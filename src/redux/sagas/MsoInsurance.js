@@ -38,7 +38,7 @@ function* buyMsoInsurance({ payload }) {
       null,
       yield select(selector.wallet_address),
     );
-    console.log('first res ::', res);
+
     if (res?.data?.success && res?.data?.data?._id) {
       const confirmUrl = `${API_BASE_URL}/user/policies-mso/${res.data.data._id}/confirm-payment`;
       const timestamp = new Date().getTime();
@@ -61,8 +61,6 @@ function* buyMsoInsurance({ payload }) {
         null,
         yield select(selector.wallet_address),
       );
-
-      console.log('confirmRes res ::', confirmRes);
 
       if (confirmRes?.data?.success)
         return yield put(confirmBuyMsoInsuranceSuccess(confirmRes.data.data));

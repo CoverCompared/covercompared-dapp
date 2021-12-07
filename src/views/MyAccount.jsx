@@ -76,7 +76,10 @@ const MyAccount = (props) => {
       } = {},
     } = device;
     return (
-      <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
+      <div
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
+        key={_id}
+      >
         <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white flex items-center justify-center">
             <img src={p4lLogo} alt="" className="h-auto w-full" />
@@ -143,7 +146,10 @@ const MyAccount = (props) => {
       plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
     } = device;
     return (
-      <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
+      <div
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
+        key={_id}
+      >
         <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
             <img src={logo} alt={name} className="h-full w-full rounded-xl" />

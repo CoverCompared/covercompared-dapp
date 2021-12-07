@@ -29,11 +29,13 @@ function* buyMsoInsurance({ payload }) {
     );
 
     const url = `${API_BASE_URL}/user/policies-mso`;
+
     const res = yield call(
       axiosPost,
       url,
       payload,
       yield select(selector.token),
+      null,
       yield select(selector.wallet_address),
     );
 
@@ -56,6 +58,7 @@ function* buyMsoInsurance({ payload }) {
         confirmUrl,
         dummyPayload,
         yield select(selector.token),
+        null,
         yield select(selector.wallet_address),
       );
 
@@ -102,6 +105,7 @@ function* confirmBuyMsoInsurance({ payload }) {
       url,
       payload,
       yield select(selector.token),
+      null,
       yield select(selector.wallet_address),
     );
 

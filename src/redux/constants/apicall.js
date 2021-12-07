@@ -83,6 +83,7 @@ export const axiosPost = (url, payload, token = null, headers = null, wallet_add
       return res;
     })
     .catch(async (error) => {
+      console.log('error in axio call :: ', error);
       let code = null;
       let data = null;
       let headers = null;

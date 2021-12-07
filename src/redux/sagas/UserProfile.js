@@ -148,7 +148,9 @@ function* submitReview({ payload }) {
     const res = yield call(
       axiosPost,
       url,
+      payload.obj,
       yield select(selector.token),
+      null,
       yield select(selector.wallet_address),
     );
 

@@ -37,7 +37,9 @@ function* createUser({ payload }) {
     const user = yield call(
       axiosPost,
       url,
+      payload,
       yield select(selector.token),
+      null,
       yield select(selector.wallet_address),
     );
     if (user.body && user.body.email) {
@@ -140,7 +142,9 @@ function* updateUser({ payload }) {
     const response = yield call(
       axiosPut,
       url,
+      payload,
       yield select(selector.token),
+      null,
       yield select(selector.wallet_address),
     );
     if (response.status === 200) {

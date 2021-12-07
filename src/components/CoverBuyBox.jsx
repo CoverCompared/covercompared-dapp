@@ -28,7 +28,6 @@ const CoverBuyBox = (props) => {
   const { card } = useParams();
   const { quote, quoteDetail, loader } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
-
   const { crvAllowance: crvAllowanceForNM, handleAllowance: handleAllowanceForNM } =
     useGetAllowanceOfToken(getNexusMutualAddress());
   const { crvAllowance: crvAllowanceForIA, handleAllowance: handleAllowanceForIA } =

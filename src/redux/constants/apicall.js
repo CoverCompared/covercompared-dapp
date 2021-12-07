@@ -75,6 +75,7 @@ export const axiosPost = (url, payload, token = null, headers = null, wallet_add
     headers['Content-Type'] = 'application/json';
   if (token) headers.Authorization = token;
 
+  console.log(headers, '<===== axiosPost headers', payload);
   return axios
     .post(url, payload, {
       headers,

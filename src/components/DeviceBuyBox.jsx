@@ -244,12 +244,12 @@ const DeviceBuyBox = (props) => {
         const result = await onApprove();
         await handleAllowance();
         if (result) {
-          toast.success('CRV token approved.');
+          toast.success('CVR token approved.');
         } else {
-          toast.warning('CRV token approving failed.');
+          toast.warning('CVR token approving failed.');
         }
       } catch (e) {
-        toast.warning('CRV token approving rejected.');
+        toast.warning('CVR token approving rejected.');
         console.error(e);
       }
       setTxPending(false);
@@ -266,7 +266,7 @@ const DeviceBuyBox = (props) => {
       getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalanceStatus.balance) &&
       discountAmount > 0
     ) {
-      toast.warning('Insufficient CRV balance!');
+      toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);
       return;
@@ -496,7 +496,7 @@ const DeviceBuyBox = (props) => {
             {txPending ? (
               <Loading widthClass="w-4" heightClass="h-4" />
             ) : discountAmount > 0 && !crvAllowance ? (
-              'Approve CRV'
+              'Approve CVR'
             ) : (
               'Confirm to Pay'
             )}

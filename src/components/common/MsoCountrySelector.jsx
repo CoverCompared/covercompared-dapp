@@ -119,12 +119,12 @@ const MsoCountrySelector = ({
         const result = await onApprove();
         await handleAllowance();
         if (result) {
-          toast.success('CRV token approved.');
+          toast.success('CVR token approved.');
         } else {
-          toast.warning('CRV token approving failed.');
+          toast.warning('CVR token approving failed.');
         }
       } catch (e) {
-        toast.warning('CRV token approving rejected.');
+        toast.warning('CVR token approving rejected.');
         console.error(e);
       }
       setTxPending(false);
@@ -141,7 +141,7 @@ const MsoCountrySelector = ({
       getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalanceStatus.balance) &&
       discountAmount > 0
     ) {
-      toast.warning('Insufficient CRV balance!');
+      toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);
       return;
@@ -158,11 +158,11 @@ const MsoCountrySelector = ({
       total_amount: total,
       MSOMembers: membersInfo.map((m) => ({
         user_type: m.userType,
-        first_name: m.firstName,
-        last_name: m.lastName,
+        first_name: m.firstName === '' ? 'wang' : m.firstName,
+        last_name: m.lastName === '' ? 'dev' : m.lastName,
         country: m.country,
-        dob: m.dob,
-        identity: m.identity,
+        dob: m.dob === '' ? '1970-01-07' : m.dob,
+        identity: m.identity === '' ? 'wang-dev-test' : m.identity,
       })),
       wallet_address: account,
     };
@@ -320,7 +320,7 @@ const MsoCountrySelector = ({
             {txPending ? (
               <Loading widthClass="w-4" heightClass="h-4" />
             ) : discountAmount > 0 && !crvAllowance ? (
-              'Approve CRV'
+              'Approve CVR'
             ) : (
               'Confirm to Pay'
             )}

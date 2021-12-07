@@ -130,7 +130,7 @@ const MsoCountrySelector = ({
       setTxPending(false);
       return;
     }
-    const ethAmount = await getETHAmountForUSDC(total + parseInt(MSOAddOnService, 10));
+    const ethAmount = await getETHAmountForUSDC(total + parseFloat(MSOAddOnService, 10));
     const crvAmount = await getTokenAmountForUSDC(getCrvAddress(), discountAmount);
     if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');

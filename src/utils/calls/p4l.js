@@ -6,7 +6,7 @@ const options = {
   gasLimit: DEFAULT_GAS_LIMIT,
 };
 
-export const buyProductByToken = async (contract, param, account, sig) => {
+const buyProductByToken = async (contract, param, account, sig) => {
   const value = new BigNumber(param.discount_amount).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
 
   const device = param.device_type;
@@ -34,7 +34,7 @@ export const buyProductByToken = async (contract, param, account, sig) => {
   };
 };
 
-export const buyProductByEth = async (contract, param, sig, ethAmt) => {
+const buyProductByEth = async (contract, param, sig, ethAmt) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString();
 
   const device = param.device_type;
@@ -53,4 +53,9 @@ export const buyProductByEth = async (contract, param, sig, ethAmt) => {
     status: receipt.status,
     txn_hash: tx.hash,
   };
+};
+
+export default {
+  buyProductByToken,
+  buyProductByEth,
 };

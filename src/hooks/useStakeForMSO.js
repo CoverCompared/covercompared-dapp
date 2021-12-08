@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import useActiveWeb3React from './useActiveWeb3React';
 import { useMSOContract } from './useContract';
-import { buyProductByTokenForMSO, buyProductByEthForMSO } from '../utils/calls';
+import mso from '../utils/calls/mso';
 import { getSignMessageForMSO } from '../utils/getSignMessage';
 import { signMessage } from '../utils/getLibrary';
 
@@ -21,14 +21,14 @@ const useStakeForMSO = () => {
           return false;
         }
 
-        const txHashForToken = await buyProductByTokenForMSO(
+        const txHashForToken = await mso.buyProductByTokenForMSO(
           msoContract,
           param,
           account,
           sigForToken,
         );
 
-        const txHash = await buyProductByEthForMSO(msoContract, param, sig, ethAmt);
+        const txHash = await mso.buyProductByEthForMSO(msoContract, param, sig, ethAmt);
         return {
           status: txHashForToken.status && txHash.status,
           txn_hash: txHash.txn_hash,
@@ -36,7 +36,7 @@ const useStakeForMSO = () => {
         };
       }
       if (sig) {
-        const txHash = await buyProductByEthForMSO(msoContract, param, sig, ethAmt);
+        const txHash = await mso.buyProductByEthForMSO(msoContract, param, sig, ethAmt);
         return {
           ...txHash,
           token_txn_hash: null,

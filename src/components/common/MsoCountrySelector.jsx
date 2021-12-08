@@ -20,7 +20,7 @@ import useStakeForMSO from '../../hooks/useStakeForMSO';
 import { getCrvAddress, getMSOAddress } from '../../utils/addressHelpers';
 import { getBalanceNumber } from '../../utils/formatBalance';
 import useTokenApprove from '../../hooks/useTokenApprove';
-import getETHAmountForUSDC, { getTokenAmountForUSDC } from '../../utils/getETHAmountForUSDC';
+import useTokenAmount from '../../hooks/useTokenAmount';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -64,6 +64,7 @@ const MsoCountrySelector = ({
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getMSOAddress());
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance(getCrvAddress());
+  const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
   const { onApprove } = useTokenApprove(getMSOAddress());
   const { onStake } = useStakeForMSO();
 

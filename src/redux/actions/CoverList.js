@@ -9,6 +9,7 @@ import {
   FETCH_COVERS_WITH_AMOUNT_SUCCESS,
   GET_QUOTE,
   GET_QUOTE_SUCCESS,
+  GET_QUOTE_DETAIL_SUCCESS,
   SET_GET_QUOTE_LOADER,
   SEARCH_BLOG_LIST,
   SEARCH_BLOG_LIST_SUCCESS,
@@ -87,6 +88,13 @@ export const getQuote = (payload) => {
 export const getQuoteSuccess = (payload) => {
   return {
     type: GET_QUOTE_SUCCESS,
+    payload,
+  };
+};
+
+export const getQuoteDetailSuccess = (payload) => {
+  return {
+    type: GET_QUOTE_DETAIL_SUCCESS,
     payload,
   };
 };

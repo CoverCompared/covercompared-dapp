@@ -19,11 +19,10 @@ const useTokenBalance = (tokenAddress) => {
     balance: BIG_ZERO,
     fetchStatus: NOT_FETCHED,
   });
-  const { account } = useActiveWeb3React();
-
+  const { account, library } = useActiveWeb3React();
   useEffect(() => {
     const fetchBalance = async () => {
-      const contract = getErc20Contract(tokenAddress);
+      const contract = getErc20Contract(tokenAddress, library);
       try {
         const res = await contract.balanceOf(account);
         setBalanceState({ balance: new BigNumber(res.toString()), fetchStatus: SUCCESS });

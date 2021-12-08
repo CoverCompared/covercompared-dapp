@@ -644,7 +644,7 @@ const DeviceBuyBox = (props) => {
           <div className="mt-6 flex justify-center">
             <button
               type="submit"
-              disabled={!notRegistered}
+              disabled={notRegistered}
               className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
             >
               Buy Now

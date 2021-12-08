@@ -46,7 +46,7 @@ const DeviceBuyBox = (props) => {
   const { account, activate } = useWeb3React();
   const [curWalletId, setCurWalletId] = useState('injected');
   const [connectStatus, setConnectStatus] = useState(false);
-  const { showOTPScreen, showVerified, is_verified, loader, isFailed } = useSelector(
+  const { showOTPScreen, showVerified, is_verified, loader, authLoader, isFailed } = useSelector(
     (state) => state.auth,
   );
   const notRegistered = !is_verified;
@@ -356,7 +356,7 @@ const DeviceBuyBox = (props) => {
     });
   };
 
-  if ((!account && showLogin) || (account && loader)) {
+  if ((!account && showLogin) || (account && loader && !authLoader)) {
     return (
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 flex items-center justify-center w-full">
@@ -506,7 +506,7 @@ const DeviceBuyBox = (props) => {
     );
   }
 
-  if (showInfoForm && !loader) {
+  if (showInfoForm) {
     return (
       <>
         {showAlert && (
@@ -644,7 +644,7 @@ const DeviceBuyBox = (props) => {
           <div className="mt-6 flex justify-center">
             <button
               type="submit"
-              disabled={!notRegistered}
+              disabled={notRegistered}
               className="py-3 px-5 outline-none border-0 rounded-xl text-white font-Montserrat font-semibold md:text-h6 text-body-md shadow-buyInsurance bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
             >
               Buy Now
@@ -730,60 +730,67 @@ const DeviceBuyBox = (props) => {
         {hasFirstTwoStep && (
           <>
             <div className="mt-4 font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white text-left">
-              2- Choose Payment Plan
+              2- Payment Plan
             </div>
             <div className="grid grid-cols-2 gap-x-3 gap-y-3">
-              {devicePlanDetails?.plan_price?.map((planObj) => (
-                <label key={uniqid()}>
-                  <input
-                    id="sample"
-                    name="sample"
-                    type="radio"
-                    className="hidden"
-                    value="monthly"
-                    onClick={() => setPlanType(planObj)}
-                  />
-                  <div
-                    className={classNames(
-                      JSON.stringify(planType) === JSON.stringify(planObj)
-                        ? 'border-2 border-primary-gd-1 dark:border-white'
-                        : 'border-2 border-gray-300',
-                      'bg-white relative dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full md:py-3 md:px-2 py-2 px-1 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
-                    )}
-                  >
-                    {JSON.stringify(planType) === JSON.stringify(planObj) && (
-                      <div className="absolute top-0 left-0 bg-primary-gd-1 text-white pl-2 pr-3 py-1 rounded-br-3xl rounded-tl-lg">
-                        <CheckIcon className="w-5 h-4" />
-                      </div>
-                    )}
-                    {planObj.plan_discount > 0 ? (
-                      <div className="absolute h-full md:w-14 w-7 top-0 left-0 bg-primary-gd-1 rounded-l-xl flex justify-center items-center font-Montserrat md:text-body-md text-body-2xs text-white p-2">
-                        {planObj.plan_discount}% off
-                      </div>
-                    ) : (
-                      ''
-                    )}
+              {devicePlanDetails?.plan_price
+                ?.filter((f) => f.plan_type === 'yearly')
+                .map((planObj) => (
+                  <label key={uniqid()} className="col-span-2">
+                    <input
+                      id="sample"
+                      name="sample"
+                      type="radio"
+                      className="hidden"
+                      value="monthly"
+                      onClick={() => setPlanType(planObj)}
+                    />
                     <div
                       className={classNames(
-                        planObj.plan_discount > 0 ? 'pl-5 text-body-2xs' : 'text-body-xs',
-                        'text-dark-blue md:text-body-md dark:text-white',
+                        JSON.stringify(planType) === JSON.stringify(planObj)
+                          ? 'border-2 border-primary-gd-1 dark:border-white'
+                          : 'border-2 border-gray-300',
+                        'bg-white relative dark:bg-featureCard-dark-bg rounded-xl cursor-pointer shadow-devicePriceBoxShadow w-full md:py-3 md:px-2 py-2 px-1 text-center font-Montserrat text-body-xs text-black dark:text-white font-semibold',
                       )}
                     >
-                      <div className="text-center mb-1">{planObj.plan_type}</div>
-                      {planObj.plan_actual_price > planObj.plan_total_price ? (
-                        <div>
-                          {planObj.plan_currency} {planObj.plan_total_price}{' '}
-                          <del>({planObj.plan_actual_price})</del>
-                        </div>
-                      ) : (
-                        <div>
-                          {planObj.plan_currency} {planObj.plan_total_price}
+                      {JSON.stringify(planType) === JSON.stringify(planObj) && (
+                        <div className="absolute top-0 left-0 bg-primary-gd-1 text-white pl-2 pr-3 py-1 rounded-br-3xl rounded-tl-lg">
+                          <CheckIcon className="w-5 h-4" />
                         </div>
                       )}
+                      {planObj.plan_discount > 0 ? (
+                        <div className="absolute h-full md:w-14 w-7 top-0 left-0 bg-primary-gd-1 rounded-l-xl flex justify-center items-center font-Montserrat md:text-body-md text-body-2xs text-white p-2">
+                          {planObj.plan_discount}% off
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                      <div
+                        className={classNames(
+                          planObj.plan_discount > 0 ? 'pl-5 text-body-2xs' : 'text-body-xs',
+                          'text-dark-blue md:text-body-md dark:text-white',
+                        )}
+                      >
+                        <div className="font-Montserrat font-semibold text-body-xs dark:text-white mb-1">
+                          {planObj.plan_type}
+                        </div>
+
+                        <div className="text-Montserrat text-body-lg text-dark-blue font-medium dark:text-white">
+                          {planObj.plan_actual_price > planObj.plan_total_price ? (
+                            <div>
+                              {planObj.plan_total_price} {planObj.plan_currency}{' '}
+                              <del>({planObj.plan_actual_price})</del>
+                            </div>
+                          ) : (
+                            <div>
+                              {planObj.plan_total_price} {planObj.plan_currency}
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </label>
-              )) || null}
+                  </label>
+                )) || null}
             </div>
           </>
         )}

@@ -27,6 +27,7 @@ function* searchSingleBlog({ payload }) {
       url,
       payload,
       yield select(selector.token),
+      null,
       yield select(selector.wallet_address),
     );
 

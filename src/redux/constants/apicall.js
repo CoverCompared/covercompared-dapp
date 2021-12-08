@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable camelcase */
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 import { fallbackMessage } from './constants';
 import configureStore from '../store';
 import { logoutUser, getLoginDetailsSuccess } from '../actions/Auth';
@@ -53,7 +55,8 @@ export const axiosGet = (url, token = null, wallet_address = null) => {
             axiosGet(url, loginRes.data.data.token);
           }
         }
-      } catch {
+      } catch (err) {
+        console.log('err :>> ', err);
         return {
           status: code,
           data,
@@ -61,6 +64,7 @@ export const axiosGet = (url, token = null, wallet_address = null) => {
         };
       }
 
+      console.log('error :>> ', error);
       return {
         status: code,
         data,
@@ -83,6 +87,7 @@ export const axiosPost = (url, payload, token = null, headers = null, wallet_add
       return res;
     })
     .catch(async (error) => {
+      console.log('error in axio call :: ', error);
       let code = null;
       let data = null;
       let headers = null;
@@ -118,7 +123,8 @@ export const axiosPost = (url, payload, token = null, headers = null, wallet_add
             axiosPost(url, payload, loginRes.data.data.token, headers);
           }
         }
-      } catch {
+      } catch (err) {
+        console.log('err :>> ', err);
         return {
           status: code,
           data,
@@ -126,6 +132,7 @@ export const axiosPost = (url, payload, token = null, headers = null, wallet_add
         };
       }
 
+      console.log('error :>> ', error);
       return {
         status: code,
         data,
@@ -182,7 +189,8 @@ export const axiosPut = (url, obj, token, headers = null, wallet_address = null)
             axiosPut(url, obj, loginRes.data.data.token, headers);
           }
         }
-      } catch {
+      } catch (err) {
+        console.log('err :>> ', err);
         return {
           status: code,
           data,
@@ -190,6 +198,7 @@ export const axiosPut = (url, obj, token, headers = null, wallet_address = null)
         };
       }
 
+      console.log('error :>> ', error);
       return {
         status: code,
         data,
@@ -244,7 +253,8 @@ export const axiosDelete = (url, token, wallet_address = null) => {
             axiosDelete(url, loginRes.data.data.token);
           }
         }
-      } catch {
+      } catch (err) {
+        console.log('err :>> ', err);
         return {
           status: code,
           data,
@@ -252,6 +262,7 @@ export const axiosDelete = (url, token, wallet_address = null) => {
         };
       }
 
+      console.log('error :>> ', error);
       return {
         status: code,
         data,

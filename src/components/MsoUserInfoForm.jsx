@@ -15,10 +15,10 @@ const MsoUserInfoForm = (props) => {
     uuid,
     unique_id,
     userTypeOptions,
-    // noOfSpouse,
-    // noOfDependent,
-    // mainMemberParents,
-    // spouseParents,
+    noOfSpouse,
+    noOfDependent,
+    mainMemberParents,
+    spouseParents,
     totalUsers,
     countries,
     handleBuyNow,
@@ -121,7 +121,12 @@ const MsoUserInfoForm = (props) => {
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
-    handleBuyNow(users);
+    if (notRegistered) {
+      setShowAlert(true);
+      setAlertType('Warning!');
+      return setAlertText("You're not registered.");
+    }
+    return handleBuyNow(users);
   };
 
   const handleSubmitEmail = (e) => {

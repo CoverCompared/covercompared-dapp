@@ -40,6 +40,7 @@ function* buyDeviceInsurance({ payload }) {
       url,
       payload,
       yield select(selector.token),
+      null,
       yield select(selector.wallet_address),
     );
 
@@ -62,6 +63,7 @@ function* buyDeviceInsurance({ payload }) {
         confirmUrl,
         dummyPayload,
         yield select(selector.token),
+        null,
         yield select(selector.wallet_address),
       );
 
@@ -108,6 +110,7 @@ function* confirmBuyDeviceInsurance({ payload }) {
       url,
       payload,
       yield select(selector.token),
+      null,
       yield select(selector.wallet_address),
     );
 

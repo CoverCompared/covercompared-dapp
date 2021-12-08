@@ -28,6 +28,7 @@ const CoverBuyBox = (props) => {
   const { card } = useParams();
   const { quote, quoteDetail, loader } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
+
   const { crvAllowance: crvAllowanceForNM, handleAllowance: handleAllowanceForNM } =
     useGetAllowanceOfToken(getNexusMutualAddress());
   const { crvAllowance: crvAllowanceForIA, handleAllowance: handleAllowanceForIA } =
@@ -42,6 +43,7 @@ const CoverBuyBox = (props) => {
   const { onApprove: onApproveForIA } = useTokenApprove(getInsureAceAddress());
   const { onNMStake, onIAStake } = useStakeForCover();
   // console.log("selected product ::", product);
+
   const {
     name,
     cardType,

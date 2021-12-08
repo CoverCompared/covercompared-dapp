@@ -126,7 +126,7 @@ const MsoUserInfoForm = (props) => {
       setAlertType('Warning!');
       return setAlertText("You're not registered.");
     }
-    handleBuyNow(users);
+    return handleBuyNow(users);
   };
 
   const handleSubmitEmail = (e) => {

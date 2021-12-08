@@ -15,20 +15,23 @@ import SelectWithSearch from './common/SelectWithSearch';
 import { getQuote } from '../redux/actions/CoverList';
 import { setLoginModalVisible } from '../redux/actions';
 import Loading from './common/TxLoading';
-import { getCrvAddress, getNexusMutualAddress, getInsureAceAddress } from '../utils/addressHelpers';
 import { getBalanceNumber } from '../utils/formatBalance';
+import { setupNetwork } from '../utils/wallet';
 import { axiosPost } from '../redux/constants/apicall';
 import { API_BASE_URL } from '../redux/constants/config';
+import useAddress from '../hooks/useAddress';
+import { SupportedChainId } from '../config/chains';
 
 const periodOptions = ['Days', 'Week', 'Month'];
 
 const CoverBuyBox = (props) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React();
+  const { account, chainId } = useWeb3React();
   const { card } = useParams();
   const { quote, quoteDetail, loader } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
 
+  const { getCrvAddress, getNexusMutualAddress, getInsureAceAddress } = useAddress();
   const { crvAllowance: crvAllowanceForNM, handleAllowance: handleAllowanceForNM } =
     useGetAllowanceOfToken(getNexusMutualAddress());
   const { crvAllowance: crvAllowanceForIA, handleAllowance: handleAllowanceForIA } =
@@ -95,6 +98,7 @@ const CoverBuyBox = (props) => {
         address,
         period,
         product_id,
+        owner_id: account,
         company: company_code,
         currency: amountSelect,
         coverAmount: amountField,
@@ -104,8 +108,29 @@ const CoverBuyBox = (props) => {
   };
 
   useEffect(() => {
-    callGetQuote();
-  }, [period, amountField, amountSelect]);
+    (async () => {
+      const { company_code } = product;
+      let _chainId = SupportedChainId.RINKEBY;
+      switch (company_code) {
+        case 'nexus':
+          _chainId = SupportedChainId.KOVAN;
+          break;
+        case 'insurace':
+          _chainId = SupportedChainId.RINKEBY;
+          break;
+        case 'nsure':
+          break;
+        default:
+          break;
+      }
+      if (chainId !== _chainId) {
+        await setupNetwork(_chainId);
+      }
+    })();
+  }, [product]);
+  useEffect(() => {
+    if (account && period && amountField && amountSelect) callGetQuote();
+  }, [period, amountField, amountSelect, account]);
 
   useEffect(() => {
     setQuoteField(quote ? quote.toFixed(6) : quote);
@@ -123,7 +148,7 @@ const CoverBuyBox = (props) => {
     }
     const crvAmount = await getTokenAmountForETH(getCrvAddress(), amountField);
     if (getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalance.balance)) {
-      toast.warning('Insufficient CRV balance!');
+      toast.warning('Insufficient CVR balance!');
       return;
     }
     if (!quote || !quoteDetail) {
@@ -140,16 +165,17 @@ const CoverBuyBox = (props) => {
             const result = await onApproveForNM();
             await handleAllowanceForNM();
             if (result) {
-              toast.success('CRV token approved.');
+              toast.success('CVR token approved.');
             } else {
-              toast.warning('CRV token approving failed.');
+              toast.warning('CVR token approving failed.');
             }
           } catch (e) {
             setTxPending(false);
-            toast.warning('CRV token approving rejected.');
+            toast.warning('CVR token approving rejected.');
             console.error(e);
           }
         }
+        console.log(quoteDetail);
         const data = ethers.utils.defaultAbiCoder.encode(
           ['uint', 'uint', 'uint', 'uint', 'uint8', 'bytes32', 'bytes32'],
           [
@@ -177,13 +203,13 @@ const CoverBuyBox = (props) => {
             const result = await onApproveForIA();
             await handleAllowanceForIA();
             if (result) {
-              toast.success('CRV token approved.');
+              toast.success('CVR token approved.');
             } else {
-              toast.warning('CRV token approving failed.');
+              toast.warning('CVR token approving failed.');
             }
           } catch (e) {
             setTxPending(false);
-            toast.warning('CRV token approving rejected.');
+            toast.warning('CVR token approving rejected.');
             console.error(e);
           }
         }

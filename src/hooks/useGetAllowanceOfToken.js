@@ -1,13 +1,13 @@
 import { useCallback, useState } from 'react';
-import { getCrvAddress } from '../utils/addressHelpers';
 import { useTokenContract } from './useContract';
 import useActiveWeb3React from './useActiveWeb3React';
+import useAddress from './useAddress';
 
 const useGetAllowanceOfToken = (address) => {
   const { account } = useActiveWeb3React();
   const [crvAllowance, setAllowance] = useState(false);
+  const { getCrvAddress } = useAddress();
   const crvAddress = getCrvAddress();
-  // const p4lAddress = getP4LAddress();
   const crvContract = useTokenContract(crvAddress);
 
   const handleAllowance = useCallback(() => {

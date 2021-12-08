@@ -34,8 +34,8 @@ import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenApprove from '../hooks/useTokenApprove';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import useTokenAmount from '../hooks/useTokenAmount';
-import { getCrvAddress, getP4LAddress } from '../utils/addressHelpers';
 import { getBalanceNumber } from '../utils/formatBalance';
+import useAddress from '../hooks/useAddress';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 
@@ -88,7 +88,7 @@ const DeviceBuyBox = (props) => {
   const [showInfoForm, setShowInfoForm] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
-
+  const { getCrvAddress, getP4LAddress } = useAddress();
   const { onStake } = useStakeForDevice();
   const { onApprove } = useTokenApprove(getP4LAddress());
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
@@ -294,7 +294,7 @@ const DeviceBuyBox = (props) => {
     };
 
     try {
-      const result = await onStake(param, ethAmount.toString());
+      const result = await onStake({ ...param, token: getCrvAddress() }, ethAmount.toString());
       if (result.status) {
         dispatch(
           buyDeviceInsurance({

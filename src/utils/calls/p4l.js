@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import { DEFAULT_GAS_LIMIT } from '../../config';
-import { getCrvAddress } from '../addressHelpers';
 
 const options = {
   gasLimit: DEFAULT_GAS_LIMIT,
@@ -13,7 +12,7 @@ const buyProductByToken = async (contract, param, account, sig) => {
   const { brand } = param;
   const purchMonth = new Date().getMonth() + 1;
   const durPlan = param.puchase_month === 'Less than 12 months' ? 1 : 2;
-  const token = await getCrvAddress();
+  const { token } = param;
 
   const tx = await contract.buyProductByToken(
     device,

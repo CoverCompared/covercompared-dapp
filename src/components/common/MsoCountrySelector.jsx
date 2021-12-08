@@ -17,10 +17,10 @@ import Loading from './TxLoading';
 import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
 import useStakeForMSO from '../../hooks/useStakeForMSO';
-import { getCrvAddress, getMSOAddress } from '../../utils/addressHelpers';
 import { getBalanceNumber } from '../../utils/formatBalance';
 import useTokenApprove from '../../hooks/useTokenApprove';
 import useTokenAmount from '../../hooks/useTokenAmount';
+import useAddress from '../../hooks/useAddress';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -60,7 +60,7 @@ const MsoCountrySelector = ({
   const total = addonServices
     ? +quote + +MSOAddOnService + +tax - discountAmount
     : +quote + +tax - discountAmount;
-
+  const { getCrvAddress, getMSOAddress } = useAddress();
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getMSOAddress());
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance(getCrvAddress());
@@ -169,7 +169,7 @@ const MsoCountrySelector = ({
     };
 
     try {
-      const result = await onStake(param, ethAmount.toString());
+      const result = await onStake({ ...param, token: getCrvAddress() }, ethAmount.toString());
       if (result.status) {
         dispatch(
           buyMsoInsurance({

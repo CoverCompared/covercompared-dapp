@@ -62,6 +62,7 @@ function* setProfileData({ payload }) {
       setAuthLoader({
         message: '',
         loader: true,
+        authLoader: true,
         isFailed: false,
       }),
     );
@@ -76,6 +77,7 @@ function* setProfileData({ payload }) {
     return yield put(
       setAuthLoader({
         loader: false,
+        authLoader: false,
         isFailed: true,
         message: res.data.message,
       }),
@@ -84,6 +86,7 @@ function* setProfileData({ payload }) {
     return yield put(
       setAuthLoader({
         loader: false,
+        authLoader: false,
         isFailed: true,
         message: error.message,
       }),
@@ -97,6 +100,7 @@ function* verifyOTP({ payload }) {
       setAuthLoader({
         message: '',
         loader: true,
+        authLoader: true,
         isFailed: false,
       }),
     );
@@ -112,6 +116,7 @@ function* verifyOTP({ payload }) {
     return yield put(
       setAuthLoader({
         loader: false,
+        authLoader: false,
         isFailed: true,
         message: res.data.message,
       }),
@@ -120,6 +125,7 @@ function* verifyOTP({ payload }) {
     return yield put(
       setAuthLoader({
         loader: false,
+        authLoader: false,
         isFailed: true,
         message: error.message,
       }),

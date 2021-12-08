@@ -294,7 +294,7 @@ const DeviceBuyBox = (props) => {
     };
 
     try {
-      const result = await onStake({ ...param, token: getCrvAddress() }, ethAmount.toString());
+      const result = await onStake(param, ethAmount.toString());
       if (result.status) {
         dispatch(
           buyDeviceInsurance({

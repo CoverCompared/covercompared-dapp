@@ -4,11 +4,12 @@ import { useMSOContract } from './useContract';
 import mso from '../utils/calls/mso';
 import { getSignMessageForMSO } from '../utils/getSignMessage';
 import { signMessage } from '../utils/getLibrary';
+import useAddress from './useAddress';
 
 const useStakeForMSO = () => {
   const { library, account } = useActiveWeb3React();
   const msoContract = useMSOContract();
-
+  const { getCrvAddress } = useAddress();
   const handleStake = useCallback(
     async (param, ethAmt) => {
       const message = await getSignMessageForMSO(param);
@@ -20,14 +21,12 @@ const useStakeForMSO = () => {
         if (!sigForToken) {
           return false;
         }
-
         const txHashForToken = await mso.buyProductByTokenForMSO(
           msoContract,
-          param,
+          { ...param, token: getCrvAddress() },
           account,
           sigForToken,
         );
-
         const txHash = await mso.buyProductByEthForMSO(msoContract, param, sig, ethAmt);
         return {
           status: txHashForToken.status && txHash.status,

@@ -1,13 +1,4 @@
 import { ethers } from 'ethers';
-// Addresses
-import {
-  getCoverComparedAddress,
-  getExchangeAgentAddress,
-  getMSOAddress,
-  getP4LAddress,
-  getNexusMutualAddress,
-  getInsureAceAddress,
-} from './addressHelpers';
 import ethSimpleProvider from './providers';
 // ABI
 import erc20Abi from '../config/abi/erc20.json';

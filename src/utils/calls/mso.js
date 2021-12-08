@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import { DEFAULT_GAS_LIMIT, MSO_PLAN_TYPE } from '../../config';
-import { getCrvAddress } from '../addressHelpers';
 
 const options = {
   gasLimit: DEFAULT_GAS_LIMIT,

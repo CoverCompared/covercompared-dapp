@@ -142,9 +142,12 @@ const MyAccount = (props) => {
       txn_hash,
       total_amount,
       discount_amount,
-      details: { MSOMembers, quote, mso_addon_service } = {},
-      plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
+      details,
+      // plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
     } = device;
+    const { MSOMembers, quote, mso_addon_service, plan_details } = details;
+    const { name, logo, MSOCoverUser, MSOPlanDuration } = plan_details;
+
     return (
       <div
         className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"

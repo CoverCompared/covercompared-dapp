@@ -1,6 +1,8 @@
 import React from 'react';
 import dayjs from 'dayjs';
+
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
+import msoLogo from '../assets/img/mso-logo.png';
 
 const MSOReceiptCard = (props) => {
   const {
@@ -13,7 +15,7 @@ const MSOReceiptCard = (props) => {
     addonServices,
     MSOAddOnService,
     name,
-    logo,
+    logo = msoLogo,
     MSOCoverUser,
   } = props;
 

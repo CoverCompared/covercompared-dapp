@@ -20,6 +20,7 @@ const DeviceReceiptCard = (props) => {
     purchaseMonth,
     plan_currency,
     selectedModel,
+    logo = P4LLogo,
   } = props;
 
   const getCurrentDate = () => {
@@ -37,7 +38,7 @@ const DeviceReceiptCard = (props) => {
         <div className="flex justify-between">
           <div className="flex items-end">
             <img src={CoverComparedLogo} alt="CoverCompared" className="h-10" />
-            <img src={P4LLogo} alt="MSO" className="h-5 ml-2" />
+            <img src={logo} alt="MSO" className="h-5 ml-2" />
           </div>
 
           <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">

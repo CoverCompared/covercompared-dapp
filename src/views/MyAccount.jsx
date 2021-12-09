@@ -147,7 +147,7 @@ const MyAccount = (props) => {
       // plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
     } = device;
     const { MSOMembers, quote, mso_addon_service, plan_details } = details;
-    const { name, logo, MSOCoverUser, MSOPlanDuration } = plan_details;
+    const { name, logo = msoLogo, MSOCoverUser, MSOPlanDuration } = plan_details;
 
     return (
       <div
@@ -156,7 +156,7 @@ const MyAccount = (props) => {
       >
         <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
-            <img src={logo || msoLogo} alt={name} className="h-full w-full rounded-xl" />
+            <img src={logo} alt={name} className="h-full w-full rounded-xl" />
           </div>
           <div className="flex flex-col">
             <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${MSOPlanDuration} `}</div>

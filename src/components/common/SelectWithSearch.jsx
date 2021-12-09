@@ -173,9 +173,9 @@ const SelectWithSearch = ({
                     'py-2 rounded-b-xl bg-white dark:bg-product-input-bg-dark',
                   )}
                 >
-                  {Object.values(options || {}).map((option) => (
+                  {Object.values(options || {}).map((option, idx) => (
                     <div
-                      key={uniqid()}
+                      key={idx}
                       onClick={() => {
                         setSelectedOption(getKeyByValue(dropdownOptions, option));
                         setIsOpen(false);
@@ -214,9 +214,9 @@ const SelectWithSearch = ({
                     ' py-2 rounded-b-xl bg-white dark:bg-product-input-bg-dark',
                   )}
                 >
-                  {options.map((option) => (
+                  {options.map((option, idx) => (
                     <div
-                      key={uniqid()}
+                      key={idx}
                       onClick={() => {
                         setSelectedOption(optionsAsArrayOfObjects ? option[valueKey] : option);
                         setIsOpen(false);

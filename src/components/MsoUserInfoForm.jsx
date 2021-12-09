@@ -229,110 +229,115 @@ const MsoUserInfoForm = (props) => {
       </div>
 
       <form id="msp-checkout-form" onSubmit={handleSubmit}>
-        <div className="w-full mb-8">
-          <div className="grid grid-cols-12 w-full text-center bg-gray-200">
-            <div className="lg:col-span-2 col-span-12 border border-black">User type</div>
-            <div className="lg:col-span-2 col-span-12 border border-black">First Name</div>
-            <div className="lg:col-span-2 col-span-12 border border-black">Last Name</div>
-            <div className="lg:col-span-2 col-span-12 border border-black">Country</div>
-            <div className="lg:col-span-2 col-span-12 border border-black">DOB</div>
-            <div className="lg:col-span-2 col-span-12 border border-black">Identity</div>
-          </div>
-
-          {users.map((user, index) => (
-            <div key={index} className="grid grid-cols-12 w-full">
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  title="Type of user"
-                  id="userType"
-                  name="userType"
-                  inputValue={user.userType}
-                  fieldChange={handleUserFieldChange}
-                  inputPlaceholder="Type of user"
-                  index={index}
-                  disabled={!user.typeChangeable || notRegistered}
-                  required
-                  isDropdown
-                  dropdownOptions={[
-                    { label: 'Select user type', value: '' },
-                    ...userTypeOptions.map((m) => ({ label: m, value: m })),
-                  ]}
-                />
-              </div>
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  title="First Name"
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  inputValue={user.firstName}
-                  inputPlaceholder="First Name"
-                  fieldChange={handleUserFieldChange}
-                  index={index}
-                  disabled={notRegistered}
-                  required
-                />
-              </div>
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  title="Last Name"
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  inputValue={user.lastName}
-                  inputPlaceholder="Last Name"
-                  fieldChange={handleUserFieldChange}
-                  index={index}
-                  disabled={notRegistered}
-                  required
-                />
-              </div>
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  title="Country of residence"
-                  inputValue={user.country}
-                  id="country"
-                  name="country"
-                  fieldChange={handleUserFieldChange}
-                  inputPlaceholder="Country of residence"
-                  index={index}
-                  disabled={notRegistered}
-                  required
-                  isDropdown
-                  dropdownOptions={initial(countries)}
-                />
-              </div>
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  type="date"
-                  title="Date of Birth"
-                  inputValue={user.dob}
-                  id="dob"
-                  name="dob"
-                  fieldChange={handleUserFieldChange}
-                  inputPlaceholder="Date of Birth"
-                  max={new Date().toLocaleDateString('en-ca')}
-                  index={index}
-                  disabled={notRegistered}
-                  required
-                />
-              </div>
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  title="Identity"
-                  type="text"
-                  id="identity"
-                  name="identity"
-                  inputValue={user.identity}
-                  inputPlaceholder="Aadhar or passport"
-                  fieldChange={handleUserFieldChange}
-                  index={index}
-                  disabled={notRegistered}
-                  required
-                />
-              </div>
-            </div>
-          ))}
+        <div className="w-full mb-8 overflow-x-auto rounded-lg shadow-lg px-0.5px">
+          <table className="w-full">
+            <thead>
+              <tr className="font-Montserrat text-sm tracking-wide text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 uppercase">
+                <th className="p-2 font-medium">User type</th>
+                <th className="p-2 font-medium">First Name</th>
+                <th className="p-2 font-medium">Last Name</th>
+                <th className="p-2 font-medium">Country</th>
+                <th className="p-2 font-medium">DOB</th>
+                <th className="p-2 font-medium">Identity</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white">
+              {users.map((user, index) => (
+                <tr key={index} className="text-gray-700">
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      title="Type of user"
+                      id="userType"
+                      name="userType"
+                      inputValue={user.userType}
+                      fieldChange={handleUserFieldChange}
+                      inputPlaceholder="Type of user"
+                      index={index}
+                      disabled={!user.typeChangeable || notRegistered}
+                      required
+                      isDropdown
+                      dropdownOptions={[
+                        { label: 'Select user type', value: '' },
+                        ...userTypeOptions.map((m) => ({ label: m, value: m })),
+                      ]}
+                    />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      title="First Name"
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      inputValue={user.firstName}
+                      inputPlaceholder="First Name"
+                      fieldChange={handleUserFieldChange}
+                      index={index}
+                      disabled={notRegistered}
+                      required
+                    />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      title="Last Name"
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      inputValue={user.lastName}
+                      inputPlaceholder="Last Name"
+                      fieldChange={handleUserFieldChange}
+                      index={index}
+                      disabled={notRegistered}
+                      required
+                    />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      title="Country of residence"
+                      inputValue={user.country}
+                      id="country"
+                      name="country"
+                      fieldChange={handleUserFieldChange}
+                      inputPlaceholder="Country of residence"
+                      index={index}
+                      disabled={notRegistered}
+                      required
+                      isDropdown
+                      dropdownOptions={initial(countries)}
+                    />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      type="date"
+                      title="Date of Birth"
+                      inputValue={user.dob}
+                      id="dob"
+                      name="dob"
+                      fieldChange={handleUserFieldChange}
+                      inputPlaceholder="Date of Birth"
+                      max={new Date().toLocaleDateString('en-ca')}
+                      index={index}
+                      disabled={notRegistered}
+                      required
+                    />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      title="Identity"
+                      type="text"
+                      id="identity"
+                      name="identity"
+                      inputValue={user.identity}
+                      inputPlaceholder="Aadhar or passport"
+                      fieldChange={handleUserFieldChange}
+                      index={index}
+                      disabled={notRegistered}
+                      required
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         <div className="flex justify-between items-center mt-8">

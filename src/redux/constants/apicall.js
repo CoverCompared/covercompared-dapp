@@ -56,7 +56,6 @@ export const axiosGet = (url, token = null, wallet_address = null) => {
           }
         }
       } catch (err) {
-        console.log('err :>> ', err);
         return {
           status: code,
           data,
@@ -64,7 +63,7 @@ export const axiosGet = (url, token = null, wallet_address = null) => {
         };
       }
 
-      console.log('error :>> ', error);
+      toast.error(`${code} - ${data.message}`);
       return {
         status: code,
         data,
@@ -124,7 +123,6 @@ export const axiosPost = (url, payload, token = null, headers = null, wallet_add
           }
         }
       } catch (err) {
-        console.log('err :>> ', err);
         return {
           status: code,
           data,
@@ -132,7 +130,7 @@ export const axiosPost = (url, payload, token = null, headers = null, wallet_add
         };
       }
 
-      console.log('error :>> ', error);
+      toast.error(`${code} - ${data.message}`);
       return {
         status: code,
         data,
@@ -190,7 +188,6 @@ export const axiosPut = (url, obj, token, headers = null, wallet_address = null)
           }
         }
       } catch (err) {
-        console.log('err :>> ', err);
         return {
           status: code,
           data,
@@ -198,7 +195,7 @@ export const axiosPut = (url, obj, token, headers = null, wallet_address = null)
         };
       }
 
-      console.log('error :>> ', error);
+      toast.error(`${code} - ${data.message}`);
       return {
         status: code,
         data,
@@ -254,7 +251,6 @@ export const axiosDelete = (url, token, wallet_address = null) => {
           }
         }
       } catch (err) {
-        console.log('err :>> ', err);
         return {
           status: code,
           data,
@@ -262,7 +258,7 @@ export const axiosDelete = (url, token, wallet_address = null) => {
         };
       }
 
-      console.log('error :>> ', error);
+      toast.error(`${code} - ${data.message}`);
       return {
         status: code,
         data,

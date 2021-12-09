@@ -145,6 +145,9 @@ module.exports = {
       height: {
         'option-container-height': 'calc(100% - 3.25rem)',
       },
+      spacing: {
+        '0.5px': '0.5px',
+      },
     },
   },
   variants: {

@@ -15,6 +15,7 @@ import DeviceReceiptCard from '../components/DeviceReceiptCard';
 import DownloadPolicy from '../components/common/DownloadPolicy';
 
 import p4lLogo from '../assets/img/p4l-logo.png';
+import msoLogo from '../assets/img/mso-logo.png';
 
 const DeviceCard = (props) => {
   return (
@@ -155,7 +156,7 @@ const MyAccount = (props) => {
       >
         <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
-            <img src={logo} alt={name} className="h-full w-full rounded-xl" />
+            <img src={logo || msoLogo} alt={name} className="h-full w-full rounded-xl" />
           </div>
           <div className="flex flex-col">
             <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${MSOPlanDuration} `}</div>
@@ -254,6 +255,7 @@ const MyAccount = (props) => {
 
           return <></>;
         })}
+        {policies.name.gfg}
 
         {/* <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
           <div className="flex items-center h-full sm:col-span-6 lg:col-span-7 col-span-12">

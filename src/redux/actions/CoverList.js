@@ -1,5 +1,11 @@
 import {
   ACTION_METHOD_FAILED,
+  BUY_COVER,
+  BUY_COVER_SUCCESS,
+  SET_BUY_COVER_LOADER,
+  CONFIRM_BUY_COVER,
+  CONFIRM_BUY_COVER_SUCCESS,
+  SET_CONFIRM_BUY_COVER_LOADER,
   SEARCH_COVER_LIST,
   SEARCH_COVER_LIST_SUCCESS,
   SET_SEARCH_COVER_LIST_LOADER,
@@ -25,6 +31,43 @@ import {
 export const actionMethodFailed = (payload) => {
   return {
     type: ACTION_METHOD_FAILED,
+    payload,
+  };
+};
+
+export const buyCover = (payload) => {
+  return {
+    type: BUY_COVER,
+    payload,
+  };
+};
+export const buyCoverSuccess = (payload) => {
+  return {
+    type: BUY_COVER_SUCCESS,
+    payload,
+  };
+};
+export const setBuyCoverLoader = (payload) => {
+  return {
+    type: SET_BUY_COVER_LOADER,
+    payload,
+  };
+};
+export const confirmBuyCover = (payload) => {
+  return {
+    type: CONFIRM_BUY_COVER,
+    payload,
+  };
+};
+export const confirmBuyCoverSuccess = (payload) => {
+  return {
+    type: CONFIRM_BUY_COVER_SUCCESS,
+    payload,
+  };
+};
+export const setConfirmBuyCoverLoader = (payload) => {
+  return {
+    type: SET_CONFIRM_BUY_COVER_LOADER,
     payload,
   };
 };

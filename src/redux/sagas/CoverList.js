@@ -1,8 +1,14 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest, select } from 'redux-saga/effects';
 import { API_BASE_URL } from '../constants/config';
 import {
+  BUY_COVER,
+  BUY_COVER_SUCCESS,
+  SET_BUY_COVER_LOADER,
+  CONFIRM_BUY_COVER,
+  CONFIRM_BUY_COVER_SUCCESS,
+  SET_CONFIRM_BUY_COVER_LOADER,
   SEARCH_COVER_LIST,
   GET_QUOTE,
   FETCH_MORE_COVERS,
@@ -14,6 +20,9 @@ import {
   FETCH_MORE_BLOGS,
 } from '../constants/ActionTypes';
 import {
+  setBuyCoverLoader,
+  confirmBuyCoverSuccess,
+  setConfirmBuyCoverLoader,
   searchCoverListSuccess,
   setSearchCoverListLoader,
   fetchMoreCoversSuccess,
@@ -36,6 +45,122 @@ import {
   setFetchMoreBlogsLoader,
 } from '../actions/CoverList';
 import { axiosGet, axiosPost } from '../constants/apicall';
+import * as selector from '../constants/selectors';
+
+function* buyCover({ payload }) {
+  try {
+    yield put(
+      setBuyCoverLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/policies-smart-contract`;
+    const res = yield call(
+      axiosPost,
+      url,
+      payload,
+      yield select(selector.token),
+      null,
+      yield select(selector.wallet_address),
+    );
+    if (res?.data?.success && res?.data?.data?._id) {
+      const confirmUrl = `${API_BASE_URL}/user/policies-smart-contract/${res.data.data._id}/confirm-payment`;
+      const timestamp = new Date().getTime();
+      const dummyPayload = {
+        payment_status: 'paid',
+        blockchain: 'ethereum',
+        block_timestamp: timestamp.toString(),
+        txn_type: 'onchain',
+        payment_hash: payload.txn_hash,
+        crypto_currency: payload.crypto_currency,
+        crypto_amount: payload.crypto_amount,
+        currency: 'USD',
+        wallet_address: payload.wallet_address,
+        paid_amount: payload.crypto_amount,
+      };
+
+      const confirmRes = yield call(
+        axiosPost,
+        confirmUrl,
+        dummyPayload,
+        yield select(selector.token),
+        null,
+        yield select(selector.wallet_address),
+      );
+      if (confirmRes?.data?.success) return yield put(confirmBuyCoverSuccess(confirmRes.data.data));
+    }
+
+    return yield put(
+      setBuyCoverLoader({
+        _id: null,
+        txn_hash: null,
+        loader: false,
+        isFailed: true,
+        message: res.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setBuyCoverLoader({
+        _id: null,
+        txn_hash: null,
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* confirmBuyCover({ payload }) {
+  try {
+    yield put(
+      setConfirmBuyCoverLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/policies-smart-contract/${payload._id}/confirm-payment`;
+    // const res = yield call(axiosPost, url, payload, yield select(selector.token));
+    const res = yield call(
+      axiosPost,
+      url,
+      payload,
+      yield select(selector.token),
+      null,
+      yield select(selector.wallet_address),
+    );
+
+    if (res?.data?.success) {
+      return yield put(confirmBuyCoverSuccess(res.data.data));
+    }
+
+    return yield put(
+      setConfirmBuyCoverLoader({
+        _id: null,
+        txn_hash: null,
+        loader: false,
+        isFailed: true,
+        message: res.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setConfirmBuyCoverLoader({
+        _id: null,
+        txn_hash: null,
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
 
 function* searchAllCoverList({ payload }) {
   try {
@@ -302,6 +427,8 @@ function* fetchMoreBlogLists({ payload }) {
 }
 
 export default all([
+  takeLatest(BUY_COVER, buyCover),
+  takeLatest(CONFIRM_BUY_COVER, confirmBuyCover),
   takeLatest(SEARCH_COVER_LIST, searchAllCoverList),
   takeLatest(FETCH_MORE_COVERS, fetchMoreCoverLists),
   takeLatest(GET_QUOTE, getQuote),

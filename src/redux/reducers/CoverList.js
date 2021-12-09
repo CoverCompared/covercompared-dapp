@@ -1,4 +1,8 @@
 import {
+  SET_BUY_COVER_LOADER,
+  BUY_COVER_SUCCESS,
+  SET_CONFIRM_BUY_COVER_LOADER,
+  CONFIRM_BUY_COVER_SUCCESS,
   SET_SEARCH_COVER_LIST_LOADER,
   SEARCH_COVER_LIST_SUCCESS,
   SET_FETCH_MORE_COVERS_LOADER,
@@ -37,6 +41,36 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         ...payload,
+      };
+    }
+    case SET_BUY_COVER_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case BUY_COVER_SUCCESS: {
+      return {
+        ...state,
+        ...payload,
+        message: '',
+        loader: false,
+        isFailed: false,
+      };
+    }
+    case SET_CONFIRM_BUY_COVER_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case CONFIRM_BUY_COVER_SUCCESS: {
+      return {
+        ...state,
+        ...payload,
+        message: '',
+        loader: false,
+        isFailed: false,
       };
     }
     case SET_SEARCH_BLOG_LIST_LOADER: {

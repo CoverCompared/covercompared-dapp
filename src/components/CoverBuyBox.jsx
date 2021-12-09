@@ -12,7 +12,7 @@ import useTokenApprove from '../hooks/useTokenApprove';
 import useStakeForCover from '../hooks/useStakeForCover';
 import useTokenAmount from '../hooks/useTokenAmount';
 import SelectWithSearch from './common/SelectWithSearch';
-import { getQuote } from '../redux/actions/CoverList';
+import { buyCover, getQuote } from '../redux/actions/CoverList';
 import { setLoginModalVisible } from '../redux/actions';
 import Loading from './common/TxLoading';
 import { getBalanceNumber } from '../utils/formatBalance';
@@ -158,6 +158,19 @@ const CoverBuyBox = (props) => {
     setTxPending(true);
     try {
       const { company_code } = product;
+      const policy = {
+        company_code: product.company_code,
+        unique_id: product.unique_id,
+        address: product.address,
+        name: product.name,
+        type: product.type,
+        duration_days: period,
+        chain: 'ethereum',
+        crypto_currency: amountSelect,
+        crypto_amount: amountField,
+        wallet_address: account,
+      };
+      let transaction = null;
       if (company_code === 'nexus') {
         // Buy Nexus Mutual Cover
         if (!crvAllowanceForNM) {
@@ -175,7 +188,6 @@ const CoverBuyBox = (props) => {
             console.error(e);
           }
         }
-        console.log(quoteDetail);
         const data = ethers.utils.defaultAbiCoder.encode(
           ['uint', 'uint', 'uint', 'uint', 'uint8', 'bytes32', 'bytes32'],
           [
@@ -188,7 +200,7 @@ const CoverBuyBox = (props) => {
             quoteDetail.s,
           ],
         );
-        const result = await onNMStake({
+        transaction = await onNMStake({
           contractAddress: address,
           coverAsset: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', // ETH stands address
           sumAssured: ethers.utils.parseEther(amountField),
@@ -217,7 +229,7 @@ const CoverBuyBox = (props) => {
           ...quoteDetail,
           chain: 'ETH',
         });
-        const result = await onIAStake({
+        transaction = await onIAStake({
           data: confirmInfo?.data?.data,
           premium: quoteDetail.premiumAmount,
         });
@@ -225,7 +237,12 @@ const CoverBuyBox = (props) => {
         // Buy Nsure Network Cover
       }
       setTxPending(false);
-      toast.success('Purchasing cover succeed.');
+      if (transaction && transaction.status) {
+        dispatch(buyCover({ ...policy, txn_hash: transaction.txn_hash }));
+        toast.success('Purchasing cover succeed.');
+      } else {
+        toast.error('Purchasing cover failed.');
+      }
     } catch (error) {
       setTxPending(false);
       toast.warning('User rejected the transaction.');

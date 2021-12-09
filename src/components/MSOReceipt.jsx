@@ -1,7 +1,9 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/renderer';
+
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
+import msoLogo from '../assets/img/mso-logo.png';
 
 const styles = StyleSheet.create({
   page: {
@@ -117,7 +119,7 @@ const MSOReceipt = (props) => {
     addonServices,
     MSOAddOnService,
     name,
-    logo,
+    logo = msoLogo,
     MSOCoverUser,
   } = props;
 

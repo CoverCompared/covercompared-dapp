@@ -89,6 +89,7 @@ const DeviceReceipt = (props) => {
     purchaseMonth,
     plan_currency,
     selectedModel,
+    logo = P4LLogo,
   } = props;
 
   const getCurrentDate = () => {
@@ -110,7 +111,7 @@ const DeviceReceipt = (props) => {
                 <Image source={CoverComparedLogo} />
               </View>
               <View style={styles.p4lLogo}>
-                <Image source={P4LLogo} />
+                <Image source={logo} />
               </View>
             </View>
             <View>

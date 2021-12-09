@@ -61,6 +61,7 @@ const MyAccount = (props) => {
       amount,
       txn_hash,
       total_amount,
+      logo = p4lLogo,
       discount_amount,
       details: {
         email,
@@ -83,7 +84,7 @@ const MyAccount = (props) => {
       >
         <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white flex items-center justify-center">
-            <img src={p4lLogo} alt="" className="h-auto w-full" />
+            <img src={logo} alt="" className="h-auto w-full" />
           </div>
           <div className="flex flex-col">
             <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${device_type} - ${brand} `}</div>
@@ -117,6 +118,7 @@ const MyAccount = (props) => {
               phone,
               brand,
               value,
+              logo,
               deviceType: device_type,
               purchaseMonth: purchase_month,
               plan_currency: currency,
@@ -140,14 +142,15 @@ const MyAccount = (props) => {
       _id,
       tax,
       amount,
+      details,
       txn_hash,
       total_amount,
+      logo = msoLogo,
       discount_amount,
-      details,
       // plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
     } = device;
     const { MSOMembers, quote, mso_addon_service, plan_details } = details;
-    const { name, logo = msoLogo, MSOCoverUser, MSOPlanDuration } = plan_details;
+    const { name, MSOCoverUser, MSOPlanDuration } = plan_details;
 
     return (
       <div

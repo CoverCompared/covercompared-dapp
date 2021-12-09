@@ -169,7 +169,7 @@ const MsoUserInfoForm = (props) => {
               <button
                 type="submit"
                 disabled={!notRegistered}
-                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default dark:text-white"
               >
                 Send verification OTP
               </button>
@@ -188,7 +188,7 @@ const MsoUserInfoForm = (props) => {
               <button
                 type="submit"
                 disabled={!showOTPScreen || !notRegistered}
-                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default dark:text-white"
               >
                 Verify OTP
               </button>
@@ -197,7 +197,7 @@ const MsoUserInfoForm = (props) => {
             <div className="lg:col-span-2 col-span-12">
               <div className="flex items-center mt-4">
                 <XCircleIcon className="w-6 h-6 text-red-500" />
-                <div className="pl-1 text-h5">Un-Verified</div>
+                <div className="pl-1 text-h5 dark:text-white">Un-Verified</div>
               </div>
             </div>
           </div>

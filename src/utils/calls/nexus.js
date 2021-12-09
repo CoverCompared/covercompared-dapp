@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import { DEFAULT_GAS_LIMIT, MSO_PLAN_TYPE } from '../../config';
-import { getCrvAddress } from '../addressHelpers';
 
 const options = {
   gasLimit: DEFAULT_GAS_LIMIT,
@@ -45,10 +44,18 @@ const buyCoverByETH = async (contract, param) => {
 };
 
 const buyCoverByToken = async (contract, param) => {
-  const { contractAddress, coverAsset, sumAssured, coverPeriod, coverType, maxPriceWithFee, data } =
-    param;
+  const {
+    contractAddress,
+    coverAsset,
+    sumAssured,
+    coverPeriod,
+    coverType,
+    maxPriceWithFee,
+    token,
+    data,
+  } = param;
   const tx = await contract.buyCoverByToken(
-    [getCrvAddress(), contractAddress, coverAsset],
+    [token, contractAddress, coverAsset],
     sumAssured,
     coverPeriod,
     coverType,

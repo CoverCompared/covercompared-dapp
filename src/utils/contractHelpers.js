@@ -1,13 +1,4 @@
 import { ethers } from 'ethers';
-// Addresses
-import {
-  getCoverComparedAddress,
-  getExchangeAgentAddress,
-  getMSOAddress,
-  getP4LAddress,
-  getNexusMutualAddress,
-  getInsureAceAddress,
-} from './addressHelpers';
 import ethSimpleProvider from './providers';
 // ABI
 import erc20Abi from '../config/abi/erc20.json';
@@ -28,30 +19,30 @@ export const getErc20Contract = (address, signer) => {
   return getContract(erc20Abi, address, signer);
 };
 
-export const getCovercomparedContract = (signer) => {
-  return getContract(CovercomaredAbi, getCoverComparedAddress(), signer);
+export const getCovercomparedContract = (address, signer) => {
+  return getContract(CovercomaredAbi, address, signer);
 };
 
-export const getMSOContract = (signer) => {
-  return getContract(msoAbi, getMSOAddress(), signer);
+export const getMSOContract = (address, signer) => {
+  return getContract(msoAbi, address, signer);
 };
 
-export const getP4LContract = (signer) => {
-  return getContract(p4lAbi, getP4LAddress(), signer);
+export const getP4LContract = (address, signer) => {
+  return getContract(p4lAbi, address, signer);
 };
 
-export const getPriceFeedContract = (address) => {
-  return getContract(AggregatorV3InterfaceABI, address, null);
+export const getPriceFeedContract = (address, signer) => {
+  return getContract(AggregatorV3InterfaceABI, address, signer);
 };
 
-export const getExchangeAgentContract = (signer) => {
-  return getContract(exchaneAgentAbi, getExchangeAgentAddress(), signer);
+export const getExchangeAgentContract = (address, signer) => {
+  return getContract(exchaneAgentAbi, address, signer);
 };
 
-export const getNexusMutualContract = (signer) => {
-  return getContract(nexusMutualAbi, getNexusMutualAddress(), signer);
+export const getNexusMutualContract = (address, signer) => {
+  return getContract(nexusMutualAbi, address, signer);
 };
 
-export const getInsureAceContract = (signer) => {
-  return getContract(insureAceAbi, getInsureAceAddress(), signer);
+export const getInsureAceContract = (address, signer) => {
+  return getContract(insureAceAbi, address, signer);
 };

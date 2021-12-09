@@ -1,11 +1,12 @@
 import { useCallback } from 'react';
 import { ethers } from 'ethers';
-import { getCrvAddress } from '../utils/addressHelpers';
 import { useTokenContract } from './useContract';
 import useActiveWeb3React from './useActiveWeb3React';
+import useAddress from './useAddress';
 
 const useTokenApprove = (address) => {
   const { account, library } = useActiveWeb3React();
+  const { getCrvAddress } = useAddress();
   const crvAddress = getCrvAddress();
   const crvContract = useTokenContract(crvAddress);
 

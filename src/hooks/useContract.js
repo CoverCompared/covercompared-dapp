@@ -1,9 +1,11 @@
 import { useMemo } from 'react';
 import useActiveWeb3React from './useActiveWeb3React';
+import useAddress from './useAddress';
 import {
   getContract,
   getMSOContract,
   getP4LContract,
+  getPriceFeedContract,
   getExchangeAgentContract,
   getNexusMutualContract,
   getInsureAceContract,
@@ -12,12 +14,14 @@ import erc20Abi from '../config/abi/erc20.json';
 
 export const useMSOContract = () => {
   const { library } = useActiveWeb3React();
-  return useMemo(() => getMSOContract(library.getSigner()), [library]);
+  const { getMSOAddress } = useAddress();
+  return useMemo(() => getMSOContract(getMSOAddress(), library.getSigner()), [library]);
 };
 
 export const useP4LContract = () => {
   const { library } = useActiveWeb3React();
-  return useMemo(() => getP4LContract(library.getSigner()), [library]);
+  const { getP4LAddress } = useAddress();
+  return useMemo(() => getP4LContract(getP4LAddress(), library.getSigner()), [library]);
 };
 
 export const useTokenContract = (address) => {
@@ -25,17 +29,35 @@ export const useTokenContract = (address) => {
   return useMemo(() => getContract(erc20Abi, address, library.getSigner()), [library]);
 };
 
+export const usePriceFeedContract = (symbol) => {
+  const { library } = useActiveWeb3React();
+  const { getPriceFeedAddressBySymbol } = useAddress();
+  return useMemo(
+    () => getPriceFeedContract(getPriceFeedAddressBySymbol(symbol), library.getSigner()),
+    [library],
+  );
+};
+
 export const useExchangeAgentContract = () => {
   const { library } = useActiveWeb3React();
-  return useMemo(() => getExchangeAgentContract(library.getSigner()), [library]);
+  const { getExchangeAgentAddress } = useAddress();
+  return useMemo(
+    () => getExchangeAgentContract(getExchangeAgentAddress(), library.getSigner()),
+    [library],
+  );
 };
 
 export const useNexusMutualContract = () => {
   const { library } = useActiveWeb3React();
-  return useMemo(() => getNexusMutualContract(library.getSigner()), [library]);
+  const { getNexusMutualAddress } = useAddress();
+  return useMemo(
+    () => getNexusMutualContract(getNexusMutualAddress(), library.getSigner()),
+    [library],
+  );
 };
 
 export const useInsureAceContract = () => {
   const { library } = useActiveWeb3React();
-  return useMemo(() => getInsureAceContract(library.getSigner()), [library]);
+  const { getInsureAceAddress } = useAddress();
+  return useMemo(() => getInsureAceContract(getInsureAceAddress(), library.getSigner()), [library]);
 };

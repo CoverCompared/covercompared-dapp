@@ -13,14 +13,15 @@ import { getLoginDetails } from '../../redux/actions/Auth';
 import { buyMsoInsurance } from '../../redux/actions/MsoInsurance';
 import Alert from './Alert';
 import Loading from './TxLoading';
+import PageLoader from './PageLoader';
 
 import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
 import useStakeForMSO from '../../hooks/useStakeForMSO';
-import { getCrvAddress, getMSOAddress } from '../../utils/addressHelpers';
 import { getBalanceNumber } from '../../utils/formatBalance';
 import useTokenApprove from '../../hooks/useTokenApprove';
 import useTokenAmount from '../../hooks/useTokenAmount';
+import useAddress from '../../hooks/useAddress';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -60,7 +61,7 @@ const MsoCountrySelector = ({
   const total = addonServices
     ? +quote + +MSOAddOnService + +tax - discountAmount
     : +quote + +tax - discountAmount;
-
+  const { getCrvAddress, getMSOAddress } = useAddress();
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getMSOAddress());
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance(getCrvAddress());
@@ -272,62 +273,65 @@ const MsoCountrySelector = ({
 
   if (showConfirmation) {
     return (
-      <div>
-        {showAlert && (
-          <div className="mb-4">
-            <Alert type="danger" text={message} onClose={() => setShowAlert(false)} />
-          </div>
-        )}
-        <div className="flex items-center justify-between w-full dark:text-white">
-          <h5 className="text-h6 font-medium">Premium</h5>
-          <h5 className="text-body-lg font-medium">{quote} USD</h5>
-        </div>
-        {!!addonServices && (
+      <>
+        <div>
+          {showAlert && (
+            <div className="mb-4">
+              <Alert type="danger" text={message} onClose={() => setShowAlert(false)} />
+            </div>
+          )}
           <div className="flex items-center justify-between w-full dark:text-white">
-            <h5 className="text-h6 font-medium">Add on concierge services</h5>
-            <h5 className="text-body-lg font-medium">{MSOAddOnService} USD</h5>
+            <h5 className="text-h6 font-medium">Premium</h5>
+            <h5 className="text-body-lg font-medium">{quote} USD</h5>
           </div>
-        )}
-        <div className="flex items-center justify-between w-full dark:text-white">
-          <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
-          <input
-            type="checkbox"
-            name="applyDiscount"
-            className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
-            checked={applyDiscount}
-            onChange={() => setApplyDiscount(!applyDiscount)}
-          />
+          {!!addonServices && (
+            <div className="flex items-center justify-between w-full dark:text-white">
+              <h5 className="text-h6 font-medium">Add on concierge services</h5>
+              <h5 className="text-body-lg font-medium">{MSOAddOnService} USD</h5>
+            </div>
+          )}
+          <div className="flex items-center justify-between w-full dark:text-white">
+            <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
+            <input
+              type="checkbox"
+              name="applyDiscount"
+              className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              checked={applyDiscount}
+              onChange={() => setApplyDiscount(!applyDiscount)}
+            />
+          </div>
+          <hr />
+          <div className="flex items-center justify-between w-full dark:text-white">
+            <h5 className="text-h6 font-medium">Discount</h5>
+            <h5 className="text-body-lg font-medium">{discountAmount} USD</h5>
+          </div>
+          <div className="flex items-center justify-between w-full dark:text-white">
+            <h5 className="text-h6 font-medium">Tax</h5>
+            <h5 className="text-body-lg font-medium">{tax} USD</h5>
+          </div>
+          <hr />
+          <div className="flex items-center justify-between w-full dark:text-white">
+            <h5 className="text-h6 font-medium">Total</h5>
+            <h5 className="text-body-lg font-medium">{total} USD</h5>
+          </div>
+          <div className="flex items-center justify-center w-full mt-6">
+            <button
+              type="button"
+              onClick={handleConfirm}
+              className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            >
+              {txPending ? (
+                <Loading widthClass="w-4" heightClass="h-4" />
+              ) : discountAmount > 0 && !crvAllowance ? (
+                'Approve CVR'
+              ) : (
+                'Confirm to Pay'
+              )}
+            </button>
+          </div>
         </div>
-        <hr />
-        <div className="flex items-center justify-between w-full dark:text-white">
-          <h5 className="text-h6 font-medium">Discount</h5>
-          <h5 className="text-body-lg font-medium">{discountAmount} USD</h5>
-        </div>
-        <div className="flex items-center justify-between w-full dark:text-white">
-          <h5 className="text-h6 font-medium">Tax</h5>
-          <h5 className="text-body-lg font-medium">{tax} USD</h5>
-        </div>
-        <hr />
-        <div className="flex items-center justify-between w-full dark:text-white">
-          <h5 className="text-h6 font-medium">Total</h5>
-          <h5 className="text-body-lg font-medium">{total} USD</h5>
-        </div>
-        <div className="flex items-center justify-center w-full mt-6">
-          <button
-            type="button"
-            onClick={handleConfirm}
-            className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
-          >
-            {txPending ? (
-              <Loading widthClass="w-4" heightClass="h-4" />
-            ) : discountAmount > 0 && !crvAllowance ? (
-              'Approve CVR'
-            ) : (
-              'Confirm to Pay'
-            )}
-          </button>
-        </div>
-      </div>
+        {txPending && <PageLoader text="Please wait while the policy is being purchased" />}
+      </>
     );
   }
 

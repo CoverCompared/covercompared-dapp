@@ -4,10 +4,12 @@ import { useP4LContract } from './useContract';
 import p4l from '../utils/calls/p4l';
 import getSignMessage from '../utils/getSignMessage';
 import { signMessage } from '../utils/getLibrary';
+import useAddress from './useAddress';
 
 const useStakeForDevice = () => {
   const { library, account } = useActiveWeb3React();
   const p4lContract = useP4LContract();
+  const { getCrvAddress } = useAddress();
 
   const handleStake = useCallback(
     async (param, ethAmt) => {
@@ -24,7 +26,7 @@ const useStakeForDevice = () => {
 
         const txHashForToken = await p4l.buyProductByToken(
           p4lContract,
-          param,
+          { ...param, token: getCrvAddress() },
           account,
           sigForToken,
         );

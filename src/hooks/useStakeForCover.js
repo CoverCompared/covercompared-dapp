@@ -11,21 +11,30 @@ const useStakeForCover = () => {
   const nexusContract = useNexusMutualContract();
   const insuraceContract = useInsureAceContract();
   const handleNexusMutualStake = useCallback(
-    async (param) => {
+    async (param, applyDiscount) => {
       const maxPriceWithFee = await nexus.getProductPrice(nexusContract, param);
-      // const result = await nexus.buyCoverByETH(nexusContract, { ...param, maxPriceWithFee });
-      const result = await nexus.buyCoverByToken(nexusContract, {
-        ...param,
-        maxPriceWithFee,
-        token: getCrvAddress(),
-      });
+      let result = null;
+      if (applyDiscount) {
+        result = await nexus.buyCoverByToken(nexusContract, {
+          ...param,
+          maxPriceWithFee,
+          token: getCrvAddress(),
+        });
+      } else {
+        result = await nexus.buyCoverByETH(nexusContract, { ...param, maxPriceWithFee });
+      }
       return { ...result };
     },
     [library, nexusContract, account],
   );
   const handleInsureAceStake = useCallback(
-    async (param) => {
-      const result = await insure.buyCoverByToken(insuraceContract, param);
+    async (param, applyDiscount) => {
+      let result = null;
+      if (applyDiscount) {
+        result = await insure.buyCoverByToken(insuraceContract, param);
+      } else {
+        result = await insure.buyCoverByETH(insuraceContract, param);
+      }
       return { ...result };
     },
     [library, insuraceContract, account],

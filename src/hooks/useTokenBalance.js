@@ -46,13 +46,13 @@ const useTokenBalance = (tokenAddress) => {
 export const useGetEthBalance = () => {
   const [fetchStatus, setFetchStatus] = useState(FetchStatus.NOT_FETCHED);
   const [balance, setBalance] = useState(ethers.BigNumber.from(0));
-  const { account } = useActiveWeb3React();
+  const { account, chainId, library } = useActiveWeb3React();
   const { lastUpdated, setLastUpdated } = useLastUpdated();
 
   useEffect(() => {
     const fetchBalance = async () => {
       try {
-        const walletBalance = await ethSimpleProvider.getBalance(account);
+        const walletBalance = await library.getBalance(account);
         setBalance(walletBalance);
         setFetchStatus(FetchStatus.SUCCESS);
       } catch {
@@ -62,7 +62,7 @@ export const useGetEthBalance = () => {
     if (account) {
       fetchBalance();
     }
-  }, [account, lastUpdated, setBalance, setFetchStatus]);
+  }, [account, chainId, library, lastUpdated, setBalance, setFetchStatus]);
 
   return { balance, fetchStatus, refresh: setLastUpdated };
 };

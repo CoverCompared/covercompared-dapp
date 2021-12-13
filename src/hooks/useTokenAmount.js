@@ -11,7 +11,10 @@ const useTokenAmount = () => {
   const getETHAmountForUSDC = useCallback(
     async (desiredAmount) => {
       let ethAmount = BIG_ZERO;
-      const big_desiredAmount = new BigNumber(desiredAmount).multipliedBy(10 ** 18).toString();
+      const big_desiredAmount = new BigNumber(desiredAmount)
+        .multipliedBy(10 ** 18)
+        .toFixed(0)
+        .toString();
       ethAmount = await exchangeAgentContract.getETHAmountForUSDC(big_desiredAmount);
 
       return new BigNumber(ethAmount.toString());
@@ -21,7 +24,10 @@ const useTokenAmount = () => {
   const getTokenAmountForUSDC = useCallback(
     async (token, desiredAmount) => {
       let tokenAmount = BIG_ZERO;
-      const big_desiredAmount = new BigNumber(desiredAmount).multipliedBy(10 ** 18).toString();
+      const big_desiredAmount = new BigNumber(desiredAmount)
+        .multipliedBy(10 ** 18)
+        .toFixed(0)
+        .toString();
       tokenAmount = await exchangeAgentContract.getTokenAmountForUSDC(token, big_desiredAmount);
 
       return new BigNumber(tokenAmount.toString());
@@ -31,7 +37,10 @@ const useTokenAmount = () => {
   const getTokenAmountForETH = useCallback(
     async (token, desiredAmount) => {
       let tokenAmount = BIG_ZERO;
-      const big_desiredAmount = new BigNumber(desiredAmount).multipliedBy(10 ** 18).toString();
+      const big_desiredAmount = new BigNumber(desiredAmount)
+        .multipliedBy(10 ** 18)
+        .toFixed(0)
+        .toString();
       tokenAmount = await exchangeAgentContract.getTokenAmountForETH(token, big_desiredAmount);
 
       return new BigNumber(tokenAmount.toString());

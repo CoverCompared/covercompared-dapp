@@ -105,7 +105,9 @@ const ConfirmModal = (props) => {
       return;
     }
     const ethAmount = await getETHAmountForUSDC(total);
-    const crvAmount = await getTokenAmountForETH(getCrvAddress(), (quote * 75) / 100);
+    // const crvAmount = await getTokenAmountForETH(getCrvAddress(), (quote * 75) / 100);
+    const crvAmount = await getTokenAmountForUSDC(getCrvAddress(), discountAmount);
+
     if (
       !applyDiscount &&
       getBalanceNumber(ethAmount) >= ethers.utils.formatEther(ethBalance.balance)
@@ -154,6 +156,7 @@ const ConfirmModal = (props) => {
             console.error(e);
           }
         }
+
         const data = ethers.utils.defaultAbiCoder.encode(
           ['uint', 'uint', 'uint', 'uint', 'uint8', 'bytes32', 'bytes32'],
           [
@@ -356,6 +359,7 @@ const CoverBuyBox = (props) => {
       }
     })();
   }, [product]);
+
   useEffect(() => {
     if (account && period && amountField) callGetQuote();
   }, [period, amountField, amountSelect, account]);

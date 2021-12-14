@@ -10,6 +10,7 @@ const useStakeForCover = () => {
   const { getCrvAddress } = useAddress();
   const nexusContract = useNexusMutualContract();
   const insuraceContract = useInsureAceContract();
+
   const handleNexusMutualStake = useCallback(
     async (param, applyDiscount) => {
       const maxPriceWithFee = await nexus.getProductPrice(nexusContract, param);
@@ -27,6 +28,7 @@ const useStakeForCover = () => {
     },
     [library, nexusContract, account],
   );
+
   const handleInsureAceStake = useCallback(
     async (param, applyDiscount) => {
       let result = null;

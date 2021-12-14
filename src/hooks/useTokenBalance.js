@@ -3,7 +3,6 @@ import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
 import useActiveWeb3React from './useActiveWeb3React';
 import { BIG_ZERO } from '../utils/bigNumber';
-import ethSimpleProvider from '../utils/providers';
 import { getErc20Contract } from '../utils/contractHelpers';
 import useLastUpdated from './useLastUpdated';
 

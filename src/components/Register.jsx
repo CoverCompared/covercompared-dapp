@@ -39,8 +39,8 @@ const Register = () => {
     return (
       <div className="flex flex-col justify-center items-center">
         <CheckCircleIcon className="w-28 h-28 text-green-500" />
-        <h5 className="text-Montserrat text-3xl">Thank you!</h5>
-        <p className="text-md">Your email has been registered successfully</p>
+        <h5 className="text-Montserrat text-3xl dark:text-white">Thank you!</h5>
+        <p className="text-md dark:text-white">Your email has been registered successfully</p>
       </div>
     );
   }

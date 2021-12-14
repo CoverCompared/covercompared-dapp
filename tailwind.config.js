@@ -155,6 +155,7 @@ module.exports = {
       boxShadow: ['active'],
       opacity: ['disabled'],
       cursor: ['disabled'],
+      textColor: ['hover', 'focus', 'disabled'],
       backgroundColor: ['hover', 'focus', 'disabled'],
       backgroundImage: ['hover', 'focus', 'disabled'],
       gradientColorStops: ['hover', 'focus', 'disabled'],

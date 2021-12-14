@@ -16,6 +16,7 @@ import DownloadPolicy from '../components/common/DownloadPolicy';
 
 import p4lLogo from '../assets/img/p4l-logo.png';
 import msoLogo from '../assets/img/mso-logo.png';
+import placeholderLogo from '../assets/img/placeholder.png';
 
 const DeviceCard = (props) => {
   return (
@@ -137,7 +138,7 @@ const MyAccount = (props) => {
     );
   };
 
-  const renderMSOCard = (device) => {
+  const renderMSOCard = (policy) => {
     const {
       _id,
       tax,
@@ -148,7 +149,7 @@ const MyAccount = (props) => {
       logo = msoLogo,
       discount_amount,
       // plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
-    } = device;
+    } = policy;
     const { MSOMembers, quote, mso_addon_service, plan_details } = details;
     const { name, MSOCoverUser, MSOPlanDuration } = plan_details;
 
@@ -207,6 +208,66 @@ const MyAccount = (props) => {
     );
   };
 
+  const renderCryptoCard = (policy) => {
+    const { _id, details, logo = placeholderLogo, crypto_amount, crypto_currency } = policy;
+    const { company_code, name, duration_days } = details;
+
+    return (
+      <div
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
+        key={_id}
+      >
+        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+          <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
+            <img src={logo} alt={name} className="h-full w-full rounded-xl" />
+          </div>
+          <div className="flex flex-col">
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${company_code} `}</div>
+            <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
+              {`${crypto_amount} ${crypto_currency} - ${duration_days} days`}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
+          <button
+            type="button"
+            onClick={() => history.push(`submit-review/${_id}`)}
+            className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+          >
+            Submit Review
+          </button>
+          {/* <Modal
+            title="Policy Details"
+            bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
+            renderComponent={MSOCard}
+            {...{
+              txn_hash,
+              membersInfo: MSOMembers || [],
+              quote,
+              total: total_amount,
+              tax,
+              discountAmount: discount_amount,
+              addonServices: !!mso_addon_service,
+              MSOAddOnService: mso_addon_service,
+              name,
+              logo,
+              MSOCoverUser,
+            }}
+          > */}
+          <button
+            disabled
+            type="button"
+            className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:text-white hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+          >
+            Policy Details
+          </button>
+          {/* </Modal> */}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       {loader && <OverlayLoading />}
@@ -254,6 +315,9 @@ const MyAccount = (props) => {
           }
           if (m.product_type === 'mso_policy') {
             return renderMSOCard(m);
+          }
+          if (m.product_type === 'crypto_exchange') {
+            return renderCryptoCard(m);
           }
 
           return <></>;

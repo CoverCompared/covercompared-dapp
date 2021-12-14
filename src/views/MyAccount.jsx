@@ -309,19 +309,23 @@ const MyAccount = (props) => {
         My Insurance
       </div>
       <div className="xl:pl-5 xl:pr-24">
-        {policies?.map((m, i) => {
-          if (m.product_type === 'device_insurance') {
-            return renderDeviceCard(m);
-          }
-          if (m.product_type === 'mso_policy') {
-            return renderMSOCard(m);
-          }
-          if (m.product_type === 'crypto_exchange') {
-            return renderCryptoCard(m);
-          }
+        {policies?.length ? (
+          policies.map((m, i) => {
+            if (m.product_type === 'device_insurance') {
+              return renderDeviceCard(m);
+            }
+            if (m.product_type === 'mso_policy') {
+              return renderMSOCard(m);
+            }
+            if (m.product_type === 'crypto_exchange') {
+              return renderCryptoCard(m);
+            }
 
-          return <></>;
-        })}
+            return <></>;
+          })
+        ) : (
+          <div className="text-md font-medium text-gray-500">No insurance policies to display</div>
+        )}
 
         {/* <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
           <div className="flex items-center h-full sm:col-span-6 lg:col-span-7 col-span-12">

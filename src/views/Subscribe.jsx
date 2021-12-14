@@ -17,11 +17,10 @@ const Subscribe = () => {
   useEffect(() => {
     if (subscribeData) {
       if (subscribeData?.success) {
-        toast.success(subscribeData.message);
+        toast.success(subscribeData?.message || '');
         setEmail('');
       } else {
-        const errorMessage = subscribeData.data.email.message;
-        toast.warning(errorMessage);
+        toast.warning(subscribeData?.message || '');
       }
     }
   }, [subscribeData]);

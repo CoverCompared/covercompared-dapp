@@ -13,6 +13,7 @@ const ContactUs = (props) => {
   const dispatch = useDispatch();
   const contactData = useSelector((state) => state.userProfile);
   const { isFailed, loader, message, contacUsData } = contactData;
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [contactMessage, setContactMessage] = useState('');
@@ -27,10 +28,11 @@ const ContactUs = (props) => {
       message: contactMessage,
     };
     dispatch(submitContactDetails(payload));
+    setIsSubmitted(true);
   };
 
   useEffect(() => {
-    if (contacUsData) {
+    if (isSubmitted) {
       if (contacUsData?.success) {
         setName('');
         setEmail('');
@@ -39,6 +41,7 @@ const ContactUs = (props) => {
       } else {
         toast.warning('Please enter valid details');
       }
+      setIsSubmitted(false);
     }
   }, [contacUsData]);
 
@@ -48,12 +51,13 @@ const ContactUs = (props) => {
         {userOptions.map((option) => (
           <div className="inline-flex items-center mr-10 mb-4 md:mb-0" key={uniqid()}>
             <input
-              id="user"
+              id={option}
               name="user"
               type="radio"
               className="focus:ring-dark-blue h-4 w-4 text-dark-blue-1 border-gray-300 border-2"
               onChange={() => setUser(option)}
               checked={user === option}
+              value={option}
               required
             />
             <label

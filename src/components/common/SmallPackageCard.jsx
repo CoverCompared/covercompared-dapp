@@ -73,7 +73,6 @@ const SmallPackageCard = (props) => {
       <div className="h-full flex items-center">
         <button
           type="button"
-          onClick={handleBuyNow}
           className="h-10 w-10 rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2"
         >
           <img src={BuyIcon} alt="cart" className="w-6 h-6" />

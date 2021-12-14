@@ -30,6 +30,7 @@ const ConfirmModal = (props) => {
   const {
     setTitle,
     setMaxWidth,
+    onConfirmed,
     period,
     product,
     account,
@@ -217,6 +218,7 @@ const ConfirmModal = (props) => {
       } else {
         toast.error('Purchasing cover failed.');
       }
+      onConfirmed();
     } catch (error) {
       setTxPending(false);
       toast.warning(error.message);
@@ -329,9 +331,9 @@ const CoverBuyBox = (props) => {
         product_id,
         owner_id: account,
         company: company_code,
-        currency: amountSelect,
+        currency: amountSelect || 'ETH',
         coverAmount: amountField,
-        supported_chain: quoteSelect,
+        supported_chain: 'Ethereum',
       }),
     );
   };
@@ -359,12 +361,16 @@ const CoverBuyBox = (props) => {
   }, [product]);
 
   useEffect(() => {
-    if (account && period && amountField && amountSelect) callGetQuote();
+    if (account && period && amountField) callGetQuote();
   }, [period, amountField, amountSelect, account]);
 
   useEffect(() => {
     setQuoteField(quote ? quote.toFixed(6) : quote);
   }, [quote]);
+
+  const onConfirmed = () => {
+    callGetQuote();
+  };
 
   return (
     <>
@@ -414,7 +420,16 @@ const CoverBuyBox = (props) => {
         sizeClass="max-w-6xl"
         renderComponent={ConfirmModal}
         bgImg="bg-loginPopupBg"
-        {...{ period, product, account, amountField, amountSelect, quote, quoteDetail }}
+        {...{
+          period,
+          product,
+          account,
+          amountField,
+          amountSelect,
+          quote,
+          quoteDetail,
+          onConfirmed,
+        }}
       >
         <div className="grid grid-cols-12 gap-3 w-full">
           <button

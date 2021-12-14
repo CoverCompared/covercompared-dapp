@@ -29,7 +29,7 @@ import {
   getDeviceModelDetails,
 } from '../redux/actions/DeviceInsurance';
 import { classNames } from '../functions/utils';
-import useStakeForDevice from '../hooks/useStakeForDevice';
+import useStakeForDevice, { useStakeForDeviceByToken } from '../hooks/useStakeForDevice';
 import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenApprove from '../hooks/useTokenApprove';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
@@ -90,6 +90,7 @@ const DeviceBuyBox = (props) => {
   const [showReceipt, setShowReceipt] = useState(false);
   const { getCrvAddress, getP4LAddress } = useAddress();
   const { onStake } = useStakeForDevice();
+  const { onStakeByToken } = useStakeForDeviceByToken();
   const { onApprove } = useTokenApprove(getP4LAddress());
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
   const { balance } = useGetEthBalance();
@@ -295,12 +296,13 @@ const DeviceBuyBox = (props) => {
 
     try {
       const result = await onStake(param, ethAmount.toString());
-      if (result.status) {
+      const resultByToken = await onStakeByToken(param);
+      if (result.status && resultByToken.status) {
         dispatch(
           buyDeviceInsurance({
             ...param,
             txn_hash: result.txn_hash,
-            token_txn_hash: result.token_txn_hash,
+            token_txn_hash: resultByToken.txn_hash,
           }),
         );
         toast.success('Successfully purchased!');
@@ -308,7 +310,7 @@ const DeviceBuyBox = (props) => {
       }
     } catch (e) {
       console.error(e);
-      toast.warning('User rejected the transaction.');
+      toast.warning(e.message);
       setTxPending(false);
     }
   };

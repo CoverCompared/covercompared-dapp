@@ -216,8 +216,7 @@ const ConfirmModal = (props) => {
       }
     } catch (error) {
       setTxPending(false);
-      toast.warning('User rejected the transaction.');
-      console.log(error);
+      toast.warning(error.message);
     }
   };
 

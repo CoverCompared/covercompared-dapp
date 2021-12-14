@@ -17,7 +17,7 @@ import PageLoader from './PageLoader';
 
 import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
-import useStakeForMSO from '../../hooks/useStakeForMSO';
+import useStakeForMSO, { useStakeForMSOByToken } from '../../hooks/useStakeForMSO';
 import { getBalanceNumber } from '../../utils/formatBalance';
 import useTokenApprove from '../../hooks/useTokenApprove';
 import useTokenAmount from '../../hooks/useTokenAmount';
@@ -68,6 +68,7 @@ const MsoCountrySelector = ({
   const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
   const { onApprove } = useTokenApprove(getMSOAddress());
   const { onStake } = useStakeForMSO();
+  const { onStakeByToken } = useStakeForMSOByToken();
 
   useEffect(() => {
     handleAllowance();
@@ -171,12 +172,13 @@ const MsoCountrySelector = ({
 
     try {
       const result = await onStake(param, ethAmount.toString());
-      if (result.status) {
+      const resultByToken = await onStakeByToken(param);
+      if (result.status && resultByToken.status) {
         dispatch(
           buyMsoInsurance({
             ...param,
             txn_hash: result.txn_hash,
-            token_txn_hash: result.token_txn_hash,
+            token_txn_hash: resultByToken.token_txn_hash,
           }),
         );
         toast.success('Successfully purchased!');
@@ -184,7 +186,7 @@ const MsoCountrySelector = ({
       }
     } catch (e) {
       console.error(e);
-      toast.warning('User rejected the transaction.');
+      toast.warning(e.message);
       setTxPending(false);
     }
   };

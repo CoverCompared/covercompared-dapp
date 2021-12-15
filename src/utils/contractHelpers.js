@@ -50,4 +50,4 @@ export const getInsureAceContract = (address, signer) => {
 
 export const getDistributorContract = (address, signer) => {
   return getContract(distributorAbi, address, signer);
-}
+};

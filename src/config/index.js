@@ -24,5 +24,5 @@ export const MSO_PLAN_TYPE = {
 export const MORALIS_API_KEY = 'XnOD4AuQqplP3ioRL3WlSSLesYTVduIy7KjNs2NQBC4XM4ezTL3XEu1cncph0CpP';
 
 export const MORALIS_BASE_URL = 'https://deep-index.moralis.io/api/v2/';
-export const MORALIS_ID = "PfG90wSG0miS1U9UMYLlIXPUZR6rYQxTTBB4iDqa"
-export const SERVER_URL = "https://nwiwttzvan6s.usemoralis.com:2053/server"
+export const MORALIS_ID = 'PfG90wSG0miS1U9UMYLlIXPUZR6rYQxTTBB4iDqa';
+export const SERVER_URL = 'https://nwiwttzvan6s.usemoralis.com:2053/server';

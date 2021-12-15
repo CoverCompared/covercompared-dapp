@@ -215,7 +215,9 @@ const ConfirmModal = (props) => {
       setTxPending(false);
       if (transaction && transaction.status) {
         // console.log({ ...policy, txn_hash: transaction.txn_hash, token_id: transaction.token_id })
-        dispatch(buyCover({ ...policy, txn_hash: transaction.txn_hash, token_id: transaction.token_id }));
+        dispatch(
+          buyCover({ ...policy, txn_hash: transaction.txn_hash, token_id: transaction.token_id }),
+        );
         toast.success('Purchasing cover succeed.');
       } else {
         toast.error('Purchasing cover failed.');

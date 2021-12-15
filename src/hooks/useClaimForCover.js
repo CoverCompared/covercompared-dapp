@@ -10,7 +10,7 @@ const useClaimForCover = () => {
 
   const handleClaimForNexus = useCallback(
     async (tokenId, data) => {
-      const result = await distributor.submitClaim(distributorContract, {tokenId, data});
+      const result = await distributor.submitClaim(distributorContract, { tokenId, data });
       return { ...result };
     },
     [library, distributorContract, account],
@@ -18,7 +18,7 @@ const useClaimForCover = () => {
 
   const handleRedeemForNexus = useCallback(
     async (tokenId, claimId) => {
-      const result = await distributor.submitRedeem(distributorContract, {tokenId, claimId});
+      const result = await distributor.submitRedeem(distributorContract, { tokenId, claimId });
       return { ...result };
     },
     [library, distributorContract, account],

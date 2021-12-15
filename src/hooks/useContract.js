@@ -66,5 +66,8 @@ export const useInsureAceContract = () => {
 export const useDistributorContract = () => {
   const { library } = useActiveWeb3React();
   const { getDistributorAddress } = useAddress();
-  return useMemo(() => getDistributorContract(getDistributorAddress(), library.getSigner()), [library]);
+  return useMemo(
+    () => getDistributorContract(getDistributorAddress(), library.getSigner()),
+    [library],
+  );
 };

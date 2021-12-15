@@ -44,14 +44,14 @@ const buyCoverByETH = async (contract, param) => {
 
   if (receipt.status) {
     events = receipt.events;
-    buyNMEvent = events?.filter((_e) => _e.event === "BuyNexusMutual")[0];
-    pId = buyNMEvent?.args?.pid.toString()
+    buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
+    pId = buyNMEvent?.args?.pid.toString();
   }
 
   return {
     status: receipt.status,
     txn_hash: tx.hash,
-    token_id: pId ? pId : "",
+    token_id: pId,
   };
 };
 
@@ -83,14 +83,14 @@ const buyCoverByToken = async (contract, param) => {
 
   if (receipt.status) {
     events = receipt.events;
-    buyNMEvent = events?.filter((_e) => _e.event === "BuyNexusMutual")[0];
-    pId = buyNMEvent?.args?.pid.toString()
+    buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
+    pId = buyNMEvent?.args?.pid.toString();
   }
 
   return {
     status: receipt.status,
     txn_hash: tx.hash,
-    token_id: pId ? pId : "",
+    token_id: pId,
   };
 };
 

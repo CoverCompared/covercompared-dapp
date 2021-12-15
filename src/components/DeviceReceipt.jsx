@@ -92,6 +92,8 @@ const DeviceReceipt = (props) => {
     logo = P4LLogo,
   } = props;
 
+  console.log('selectedModel :>> ', selectedModel);
+
   const getCurrentDate = () => {
     const newDate = new Date();
     const date = newDate.getDate();
@@ -184,7 +186,11 @@ const DeviceReceipt = (props) => {
                   <Text>Device Model</Text>
                 </View>
                 <View style={[styles.row, styles.modelDetails]}>
-                  <Text>{selectedModel && selectedModel.model_name}</Text>
+                  <Text>
+                    {typeof selectedModel === 'string'
+                      ? selectedModel
+                      : selectedModel?.model_name || ''}
+                  </Text>
                 </View>
               </View>
 

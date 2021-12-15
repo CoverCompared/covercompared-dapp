@@ -52,6 +52,7 @@ const MyAccount = (props) => {
   const { policies, loader } = useSelector((state) => state.userProfile);
   const auth = useSelector((state) => state.auth);
   useEffect(() => {
+    console.log('mounted');
     dispatch(getUserPolicies());
   }, []);
 

@@ -90,40 +90,39 @@ const MSOPlanCard = (props) => {
               Add on concierge services at {MSOAddOnService}$
             </div>
           </label>
-          <Modal
-            title="Policy Details"
-            sizeClass="max-w-3xl"
-            bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
-            renderComponent={MSOAdditionalDetails}
-            {...{
-              selectedPlan,
-              addonServices,
-              isEligible,
-              name,
-              quote,
-              MSOAddOnService,
-              type,
-              MSOCoverUser,
-              EHR,
-              logo,
-            }}
+          <div
+            className="text-center font-bold font-Montserrat text-body-md bg-gradient-to-r from-planPrice-1 to-planPrice-2 bg-clip-text fill-transparent my-5"
+            style={{ WebkitTextFillColor: 'transparent' }}
           >
-            <div
-              className="text-center font-bold font-Montserrat text-body-md bg-gradient-to-r from-planPrice-1 to-planPrice-2 bg-clip-text fill-transparent my-5"
-              style={{ WebkitTextFillColor: 'transparent' }}
+            <Modal
+              title="Policy Details"
+              sizeClass="max-w-3xl"
+              bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
+              renderComponent={MSOAdditionalDetails}
+              {...{
+                selectedPlan,
+                addonServices,
+                isEligible,
+                name,
+                quote,
+                MSOAddOnService,
+                type,
+                MSOCoverUser,
+                EHR,
+                logo,
+              }}
             >
               Read More
-            </div>
-          </Modal>
-
-          <Modal
-            title="Members Information Form"
-            sizeClass="max-w-6xl"
-            renderComponent={CountrySelector}
-            bgImg="bg-loginPopupBg"
-            {...{ selectedPlan, addonServices }}
-          >
-            <div className="flex justify-center pt-2">
+            </Modal>
+          </div>
+          <div className="flex justify-center pt-2">
+            <Modal
+              title="Members Information Form"
+              sizeClass="max-w-6xl"
+              renderComponent={CountrySelector}
+              bgImg="bg-loginPopupBg"
+              {...{ selectedPlan, addonServices }}
+            >
               <button
                 type="button"
                 disabled={!isEligible}
@@ -131,8 +130,8 @@ const MSOPlanCard = (props) => {
               >
                 Buy Now
               </button>
-            </div>
-          </Modal>
+            </Modal>
+          </div>
         </div>
       </div>
     </>

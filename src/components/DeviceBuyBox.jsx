@@ -40,7 +40,7 @@ import useAddress from '../hooks/useAddress';
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 
 const DeviceBuyBox = (props) => {
-  const { setTitle, setMaxWidth } = props;
+  const { setTitle, setMaxWidth, setIsNotCloseable } = props;
 
   const dispatch = useDispatch();
   const { account, activate } = useWeb3React();
@@ -241,6 +241,7 @@ const DeviceBuyBox = (props) => {
   const handleConfirm = async (e) => {
     if (e) e.preventDefault();
     setTxPending(true);
+    setIsNotCloseable(true);
     if (discountAmount > 0 && !crvAllowance) {
       try {
         const result = await onApprove();
@@ -255,6 +256,7 @@ const DeviceBuyBox = (props) => {
         console.error(e);
       }
       setTxPending(false);
+      setIsNotCloseable(false);
       return;
     }
     const ethAmount = await getETHAmountForUSDC(total);
@@ -262,6 +264,7 @@ const DeviceBuyBox = (props) => {
     if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
       setTxPending(false);
+      setIsNotCloseable(false);
       return;
     }
     if (
@@ -271,6 +274,7 @@ const DeviceBuyBox = (props) => {
       toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);
+      setIsNotCloseable(false);
       return;
     }
 
@@ -306,13 +310,13 @@ const DeviceBuyBox = (props) => {
           }),
         );
         toast.success('Successfully purchased!');
-        setTxPending(false);
       }
     } catch (e) {
       console.error(e);
       toast.warning(e.message);
-      setTxPending(false);
     }
+    setTxPending(false);
+    setIsNotCloseable(false);
   };
 
   const handleSubmitEmail = (email = null) => {

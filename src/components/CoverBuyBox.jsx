@@ -304,6 +304,8 @@ const CoverBuyBox = (props) => {
   const [quoteField, setQuoteField] = useState(quote || 0);
   const [quoteSelect, setQuoteSelect] = useState(supportedChains[0]);
 
+  const [forceClose, setForceClose] = useState(false);
+
   const period = useMemo(() => {
     let val = 1;
     switch (periodSelect) {
@@ -370,6 +372,7 @@ const CoverBuyBox = (props) => {
   }, [quote]);
 
   const onConfirmed = () => {
+    setForceClose(true);
     callGetQuote();
   };
 
@@ -420,6 +423,7 @@ const CoverBuyBox = (props) => {
         title="Members Information Form"
         sizeClass="max-w-6xl"
         renderComponent={ConfirmModal}
+        forceClose={forceClose}
         bgImg="bg-loginPopupBg"
         {...{
           period,

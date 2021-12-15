@@ -38,6 +38,7 @@ const ConfirmModal = (props) => {
     amountSelect,
     quote,
     quoteDetail,
+    setIsModalOpen,
   } = props;
 
   const dispatch = useDispatch();
@@ -219,6 +220,7 @@ const ConfirmModal = (props) => {
         toast.error('Purchasing cover failed.');
       }
       onConfirmed();
+      if (setIsModalOpen) setIsModalOpen();
     } catch (error) {
       setTxPending(false);
       toast.warning(error.message);

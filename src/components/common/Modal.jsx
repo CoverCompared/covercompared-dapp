@@ -11,6 +11,7 @@ const Modal = (props) => {
     renderComponent: C,
     bgImg,
     isOpen,
+    forceClose,
     onClose,
     closeable = true,
     CTAText,
@@ -23,6 +24,10 @@ const Modal = (props) => {
   useEffect(() => {
     setIsModalOpen(!!isOpen);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (forceClose) setIsModalOpen(false);
+  }, [forceClose]);
 
   useEffect(() => {
     if (!isModalOpen) {

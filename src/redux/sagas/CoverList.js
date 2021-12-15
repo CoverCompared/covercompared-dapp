@@ -69,7 +69,6 @@ function* buyCover({ payload }) {
     if (res?.data?.success && res?.data?.data?._id) {
       const confirmUrl = `${API_BASE_URL}/user/policies-smart-contract/${res.data.data._id}/confirm-payment`;
       const timestamp = new Date().getTime();
-      
       const dummyPayload = {
         payment_status: 'paid',
         blockchain: 'ethereum',

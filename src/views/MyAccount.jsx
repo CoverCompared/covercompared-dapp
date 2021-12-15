@@ -63,14 +63,13 @@ const MyAccount = (props) => {
   const [proofPending, setProofPending] = useState(false);
   const [nexusIndex, setNexusIndex] = useState(-1);
 
-  const nexusPolicies = policies.filter((m) => m.product_type === 'smart_contract');
-  const removedNexus = policies.filter((m) => m.product_type !== 'smart_contract');
+  // const nexusPolicies = policies.filter((m) => m.product_type === 'smart_contract');
+  // const removedNexus = policies.filter((m) => m.product_type !== 'smart_contract');
 
   const { onNMClaim, onNMRedeemClaim } = useClaimForCover();
 
-  const eventsForNM = useGetNexusMutualCover(nexusPolicies);
-
-  const renderData = eventsForNM ? [...eventsForNM, ...removedNexus] : [];
+  // const eventsForNM = useGetNexusMutualCover(nexusPolicies);
+  // const renderData = eventsForNM ? [...eventsForNM, ...removedNexus] : [];
 
   const { account } = useWeb3React();
 
@@ -93,20 +92,25 @@ const MyAccount = (props) => {
   }, [chainId]);
 
   const handleSubmitToClaim = async (policy, i) => {
-    const { token_id, wallet_address } = policy;
+    const { details, wallet_address } = policy;
+    const { token_id } = details;
+    if (token_id === undefined) {
+      toast.warning('This item is invalid!');
+      return;
+    }
     const newPageUrl = `https://app.nexusmutual.io/home/proof-of-loss/add-affected-addresses?coverId=${token_id}&owner=${wallet_address}`;
     window.open(newPageUrl, '_blank');
 
     setProofPending(true);
     setNexusIndex(i);
     try {
-      const tx = await onNMClaim(policy.token_id, '0x00');
+      const tx = await onNMClaim(token_id, '0x00');
 
       if (tx.status) {
         const ev = tx.events.filter((e) => e.event === 'ClaimSubmitted')[0];
         const claimId = parseInt(ev.args.claimId, 10);
         // console.log(claimId, policy.token_id)
-        const txRedeem = await onNMRedeemClaim(policy.token_id, claimId);
+        const txRedeem = await onNMRedeemClaim(token_id, claimId);
         if (txRedeem.status) {
           toast.success('Claim requested successfully!');
         }
@@ -340,10 +344,9 @@ const MyAccount = (props) => {
       crypto_amount,
       crypto_currency,
       txn_hash,
-      token_id,
       wallet_address,
     } = policy;
-    const { company_code, name, duration_days } = details;
+    const { company_code, name, duration_days, token_id } = details;
 
     return (
       <div
@@ -371,7 +374,7 @@ const MyAccount = (props) => {
             Submit Review
           </button>
           <button
-            disabled={proofPending && nexusIndex === index}
+            disabled={(proofPending && nexusIndex === index) || token_id === undefined}
             onClick={() => handleSubmitToClaim(policy, index)}
             type="button"
             className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:text-white hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
@@ -428,8 +431,8 @@ const MyAccount = (props) => {
         My Insurance
       </div>
       <div className="xl:pl-5 xl:pr-24">
-        {renderData?.length ? (
-          renderData.map((m, i) => {
+        {policies?.length ? (
+          policies.map((m, i) => {
             if (m.product_type === 'device_insurance') {
               return renderDeviceCard(m);
             }

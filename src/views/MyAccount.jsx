@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 
+import { toast } from 'react-toastify';
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
 import ClaimCards from '../components/ClaimCards';
@@ -24,7 +25,6 @@ import useClaimForCover from '../hooks/useClaimForCover';
 import { SupportedChainId } from '../config/chains';
 import { setupNetwork } from '../utils/wallet';
 import Loading from '../components/common/TxLoading';
-import { toast } from 'react-toastify';
 
 const DeviceCard = (props) => {
   return (
@@ -70,17 +70,14 @@ const MyAccount = (props) => {
 
   const eventsForNM = useGetNexusMutualCover(nexusPolicies);
 
-  const renderData = eventsForNM ? [
-    ...eventsForNM,
-    ...removedNexus
-  ]: [];
+  const renderData = eventsForNM ? [...eventsForNM, ...removedNexus] : [];
 
   const { account } = useWeb3React();
 
   useEffect(() => {
     if (!account) history.push('/');
   });
-  
+
   useEffect(() => {
     if (account) dispatch(getUserPolicies());
   }, []);
@@ -88,9 +85,9 @@ const MyAccount = (props) => {
   // this hooks for testing. Should be remove in production.
   useEffect(() => {
     (async () => {
-      let _chainId = SupportedChainId.KOVAN;
+      const _chainId = SupportedChainId.KOVAN;
       if (chainId !== _chainId) {
-        await setupNetwork(_chainId); 
+        await setupNetwork(_chainId);
       }
     })();
   }, [chainId]);
@@ -110,17 +107,17 @@ const MyAccount = (props) => {
         const claimId = parseInt(ev.args.claimId, 10);
         // console.log(claimId, policy.token_id)
         const txRedeem = await onNMRedeemClaim(policy.token_id, claimId);
-        if (txRedeem.status){
+        if (txRedeem.status) {
           toast.success('Claim requested successfully!');
         }
       }
       setProofPending(false);
       setNexusIndex(-1);
-    } catch(err) {
+    } catch (err) {
       setProofPending(false);
       toast.error(err.message);
     }
-  }
+  };
 
   const renderDeviceCard = (device) => {
     const {
@@ -336,7 +333,16 @@ const MyAccount = (props) => {
   };
 
   const renderNexusCard = (policy, index) => {
-    const { _id, details, logo = placeholderLogo, crypto_amount, crypto_currency, txn_hash, token_id, wallet_address } = policy;
+    const {
+      _id,
+      details,
+      logo = placeholderLogo,
+      crypto_amount,
+      crypto_currency,
+      txn_hash,
+      token_id,
+      wallet_address,
+    } = policy;
     const { company_code, name, duration_days } = details;
 
     return (
@@ -365,21 +371,21 @@ const MyAccount = (props) => {
             Submit Review
           </button>
           <button
-            disabled = {proofPending && nexusIndex === index}
+            disabled={proofPending && nexusIndex === index}
             onClick={() => handleSubmitToClaim(policy, index)}
             type="button"
             className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:text-white hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
           >
-            {
-              proofPending && nexusIndex === index ?
-              <Loading widthClass="w-4" heightClass="h-4" />:
+            {proofPending && nexusIndex === index ? (
+              <Loading widthClass="w-4" heightClass="h-4" />
+            ) : (
               'Submit Claim'
-            }
+            )}
           </button>
         </div>
       </div>
     );
-  }
+  };
 
   return (
     <>
@@ -436,7 +442,7 @@ const MyAccount = (props) => {
             if (m.product_type === 'crypto_exchange') {
               return renderCryptoCard(m);
             }
-            // return <></>;
+            return <></>;
           })
         ) : (
           <div className="text-md font-medium text-gray-500">No insurance policies to display</div>

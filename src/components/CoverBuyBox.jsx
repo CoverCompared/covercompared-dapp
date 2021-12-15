@@ -134,7 +134,7 @@ const ConfirmModal = (props) => {
         type: product.type,
         duration_days: period,
         chain: 'ethereum',
-        crypto_currency: amountSelect,
+        crypto_currency: amountSelect || 'ETH',
         crypto_amount: amountField,
         wallet_address: account,
       };

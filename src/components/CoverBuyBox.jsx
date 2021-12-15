@@ -287,7 +287,6 @@ const CoverBuyBox = (props) => {
     address,
     product_id,
     currency,
-    supportedChains,
     company,
     duration_days_max,
     duration_days_min,
@@ -295,6 +294,8 @@ const CoverBuyBox = (props) => {
     company_icon,
     currency_limit,
   } = product || {};
+
+  const supportedChains = product?.supportedChains?.length ? product.supportedChains : ['ETH'];
 
   const [periodField, setPeriodField] = useState('30');
   const [periodSelect, setPeriodSelect] = useState(periodOptions[0]);

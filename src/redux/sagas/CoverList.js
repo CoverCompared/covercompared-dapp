@@ -75,6 +75,7 @@ function* buyCover({ payload }) {
         block_timestamp: timestamp.toString(),
         txn_type: 'onchain',
         payment_hash: payload.txn_hash,
+        token_id: payload.token_id,
         crypto_currency: payload.crypto_currency,
         crypto_amount: payload.crypto_amount,
         currency: 'USD',

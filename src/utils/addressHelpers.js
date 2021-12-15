@@ -35,6 +35,10 @@ export const getNexusMutualAddress = () => {
   return getAddress(addresses.nexusMutual);
 };
 
+export const getDistributorAddress = () => {
+  return addresses.distributor[42];
+};
+
 export const getInsureAceAddress = () => {
   return getAddress(addresses.insureAce);
 };

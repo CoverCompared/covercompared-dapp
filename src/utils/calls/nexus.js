@@ -37,9 +37,21 @@ const buyCoverByETH = async (contract, param) => {
     { value: maxPriceWithFee },
   );
   const receipt = await tx.wait();
+
+  let events = null;
+  let buyNMEvent = null;
+  let pId = null;
+
+  if (receipt.status) {
+    events = receipt.events;
+    buyNMEvent = events?.filter((_e) => _e.event === "BuyNexusMutual")[0];
+    pId = buyNMEvent?.args?.pid.toString()
+  }
+
   return {
     status: receipt.status,
     txn_hash: tx.hash,
+    token_id: pId ? pId : "",
   };
 };
 
@@ -65,9 +77,20 @@ const buyCoverByToken = async (contract, param) => {
   );
   const receipt = await tx.wait();
 
+  let events = null;
+  let buyNMEvent = null;
+  let pId = null;
+
+  if (receipt.status) {
+    events = receipt.events;
+    buyNMEvent = events?.filter((_e) => _e.event === "BuyNexusMutual")[0];
+    pId = buyNMEvent?.args?.pid.toString()
+  }
+
   return {
     status: receipt.status,
     txn_hash: tx.hash,
+    token_id: pId ? pId : "",
   };
 };
 

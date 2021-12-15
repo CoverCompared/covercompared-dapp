@@ -9,6 +9,7 @@ import AggregatorV3InterfaceABI from '../config/abi/aggregatorV3InterfaceABI.jso
 import exchaneAgentAbi from '../config/abi/exchaneAgentAbi.json';
 import nexusMutualAbi from '../config/abi/nexusMutualAbi.json';
 import insureAceAbi from '../config/abi/insureAceAbi.json';
+import distributorAbi from '../config/abi/distributor.json';
 
 export const getContract = (abi, address, signer) => {
   const signerOrProvider = signer ?? ethSimpleProvider;
@@ -46,3 +47,7 @@ export const getNexusMutualContract = (address, signer) => {
 export const getInsureAceContract = (address, signer) => {
   return getContract(insureAceAbi, address, signer);
 };
+
+export const getDistributorContract = (address, signer) => {
+  return getContract(distributorAbi, address, signer);
+}

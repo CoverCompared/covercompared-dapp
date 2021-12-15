@@ -22,9 +22,9 @@ const Login = () => {
     walletLogin(connect, activate);
   };
 
-  useEffect(() => {
-    dispatch(getUserProfile());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getUserProfile());
+  // }, []);
 
   useEffect(() => {
     if (connectStatus && account) {

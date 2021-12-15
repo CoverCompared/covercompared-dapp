@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
+import { useWeb3React } from '@web3-react/core';
 
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
@@ -50,10 +51,14 @@ const MyAccount = (props) => {
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.auth);
   const { policies, loader } = useSelector((state) => state.userProfile);
-  const auth = useSelector((state) => state.auth);
+  const { account } = useWeb3React();
+
   useEffect(() => {
-    console.log('mounted');
-    dispatch(getUserPolicies());
+    if (!account) history.push('/');
+  });
+
+  useEffect(() => {
+    if (account) dispatch(getUserPolicies());
   }, []);
 
   const renderDeviceCard = (device) => {

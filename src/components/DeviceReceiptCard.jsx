@@ -61,10 +61,10 @@ const DeviceReceiptCard = (props) => {
               Last Name : {lName}
             </div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Phone : {email}
+              Phone : {phone}
             </div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Email : {phone}
+              Email : {email}
             </div>
           </div>
 
@@ -72,14 +72,7 @@ const DeviceReceiptCard = (props) => {
             <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left mb-2">
               Device Details
             </div>
-            <div className="flex items-center justify-between font-Montserrat">
-              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm mr-2 text-left">
-                Device Model
-              </div>
-              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm text-right">
-                {selectedModel && selectedModel.model_name}
-              </div>
-            </div>
+
             <div className="flex items-center justify-between font-Montserrat">
               <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
                 Device Type
@@ -110,6 +103,16 @@ const DeviceReceiptCard = (props) => {
               </div>
               <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
                 {purchaseMonth}
+              </div>
+            </div>
+            <div className="flex items-center justify-between font-Montserrat">
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm mr-2 text-left">
+                Device Model
+              </div>
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm text-right">
+                {typeof selectedModel === 'string'
+                  ? selectedModel
+                  : selectedModel?.model_name || ''}
               </div>
             </div>
           </div>

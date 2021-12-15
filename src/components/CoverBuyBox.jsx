@@ -30,6 +30,7 @@ const ConfirmModal = (props) => {
   const {
     setTitle,
     setMaxWidth,
+    onConfirmed,
     period,
     product,
     account,
@@ -37,6 +38,7 @@ const ConfirmModal = (props) => {
     amountSelect,
     quote,
     quoteDetail,
+    setIsModalOpen,
   } = props;
 
   const dispatch = useDispatch();
@@ -133,7 +135,7 @@ const ConfirmModal = (props) => {
         type: product.type,
         duration_days: period,
         chain: 'ethereum',
-        crypto_currency: amountSelect,
+        crypto_currency: amountSelect || 'ETH',
         crypto_amount: amountField,
         wallet_address: account,
       };
@@ -218,6 +220,8 @@ const ConfirmModal = (props) => {
       } else {
         toast.error('Purchasing cover failed.');
       }
+      onConfirmed();
+      if (setIsModalOpen) setIsModalOpen();
     } catch (error) {
       setTxPending(false);
       toast.warning(error.message);
@@ -286,7 +290,6 @@ const CoverBuyBox = (props) => {
     address,
     product_id,
     currency,
-    supportedChains,
     company,
     duration_days_max,
     duration_days_min,
@@ -295,12 +298,16 @@ const CoverBuyBox = (props) => {
     currency_limit,
   } = product || {};
 
+  const supportedChains = product?.supportedChains?.length ? product.supportedChains : ['ETH'];
+
   const [periodField, setPeriodField] = useState('30');
   const [periodSelect, setPeriodSelect] = useState(periodOptions[0]);
   const [amountField, setAmountField] = useState('1');
   const [amountSelect, setAmountSelect] = useState(currency[0]);
   const [quoteField, setQuoteField] = useState(quote || 0);
   const [quoteSelect, setQuoteSelect] = useState(supportedChains[0]);
+
+  const [forceClose, setForceClose] = useState(false);
 
   const period = useMemo(() => {
     let val = 1;
@@ -330,9 +337,9 @@ const CoverBuyBox = (props) => {
         product_id,
         owner_id: account,
         company: company_code,
-        currency: amountSelect,
+        currency: amountSelect || 'ETH',
         coverAmount: amountField,
-        supported_chain: quoteSelect,
+        supported_chain: 'Ethereum',
       }),
     );
   };
@@ -360,12 +367,17 @@ const CoverBuyBox = (props) => {
   }, [product]);
 
   useEffect(() => {
-    if (account && period && amountField && amountSelect) callGetQuote();
+    if (account && period && amountField) callGetQuote();
   }, [period, amountField, amountSelect, account]);
 
   useEffect(() => {
     setQuoteField(quote ? quote.toFixed(6) : quote);
   }, [quote]);
+
+  const onConfirmed = () => {
+    setForceClose(true);
+    callGetQuote();
+  };
 
   return (
     <>
@@ -414,8 +426,18 @@ const CoverBuyBox = (props) => {
         title="Members Information Form"
         sizeClass="max-w-6xl"
         renderComponent={ConfirmModal}
+        forceClose={forceClose}
         bgImg="bg-loginPopupBg"
-        {...{ period, product, account, amountField, amountSelect, quote, quoteDetail }}
+        {...{
+          period,
+          product,
+          account,
+          amountField,
+          amountSelect,
+          quote,
+          quoteDetail,
+          onConfirmed,
+        }}
       >
         <div className="grid grid-cols-12 gap-3 w-full">
           <button

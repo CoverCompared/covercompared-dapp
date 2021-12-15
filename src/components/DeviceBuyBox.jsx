@@ -277,10 +277,10 @@ const DeviceBuyBox = (props) => {
     const param = {
       device_type: deviceType,
       brand,
-      value,
+      value: deviceDetails?.device_values[value],
       purchase_month: purchaseMonth,
       model: model || 'OTHERS',
-      model_name: selectedModel?.model_name || 'Others',
+      model_name: selectedModel?.[0]?.model_name || 'Others',
       plan_type: 'monthly',
       first_name: fName,
       last_name: lName,

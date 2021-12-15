@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
+import { useWeb3React } from '@web3-react/core';
 
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
-// import ClaimCards from '../components/ClaimCards';
+import ClaimCards from '../components/ClaimCards';
 // import AdditionalDetails from '../components/AdditionalDetails';
 import { getUserPolicies } from '../redux/actions/UserProfile';
 import OverlayLoading from '../components/common/OverlayLoading';
@@ -74,8 +75,14 @@ const MyAccount = (props) => {
     ...removedNexus
   ]: [];
 
+  const { account } = useWeb3React();
+
   useEffect(() => {
-    dispatch(getUserPolicies());
+    if (!account) history.push('/');
+  });
+  
+  useEffect(() => {
+    if (account) dispatch(getUserPolicies());
   }, []);
 
   // this hooks for testing. Should be remove in production.
@@ -293,36 +300,36 @@ const MyAccount = (props) => {
           <button
             type="button"
             onClick={() => history.push(`submit-review/${_id}`)}
-            className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+            className="md:px-5 p-3 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
           >
             Submit Review
           </button>
-          {/* <Modal
-            title="Policy Details"
-            bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
-            renderComponent={MSOCard}
-            {...{
-              txn_hash,
-              membersInfo: MSOMembers || [],
-              quote,
-              total: total_amount,
-              tax,
-              discountAmount: discount_amount,
-              addonServices: !!mso_addon_service,
-              MSOAddOnService: mso_addon_service,
-              name,
-              logo,
-              MSOCoverUser,
-            }}
-          > */}
-          <button
-            disabled
-            type="button"
-            className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:text-white hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-          >
-            Policy Details
-          </button>
-          {/* </Modal> */}
+
+          {company_code === 'nexus' ? (
+            // replace the true with condition which check whether claim is submitted or not
+            true ? (
+              <Modal
+                title="Instruction"
+                bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
+                sizeClass="max-w-3xl"
+                renderComponent={ClaimCards}
+              >
+                <button
+                  type="button"
+                  className="md:px-6 py-3 px-4 md:ml-4 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+                >
+                  Submit Claim
+                </button>
+              </Modal>
+            ) : (
+              <button
+                type="button"
+                className="md:px-6 py-3 px-4 md:ml-4 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+              >
+                Redeem Claim
+              </button>
+            )
+          ) : null}
         </div>
       </div>
     );
@@ -429,7 +436,7 @@ const MyAccount = (props) => {
             if (m.product_type === 'crypto_exchange') {
               return renderCryptoCard(m);
             }
-            return <></>;
+            // return <></>;
           })
         ) : (
           <div className="text-md font-medium text-gray-500">No insurance policies to display</div>
@@ -474,20 +481,3 @@ const MyAccount = (props) => {
   );
 };
 export default MyAccount;
-
-
-// amount: "1"
-// block_number: "28767677"
-// block_number_minted: "28767677"
-// contract_type: "ERC721"
-// frozen: 0
-// is_valid: 0
-// metadata: null
-// name: "PolkaCover Distributor"
-// owner_of: "0xab27b8ad1fcfc5b5b5b55f700cc718ef6a626131"
-// symbol: "PCD"
-// synced_at: null
-// syncing: 1
-// token_address: "0xe77250450fc9f682edeff9f0d252836189c01b53"
-// token_id: "154"
-// token_uri: null

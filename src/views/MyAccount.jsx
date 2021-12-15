@@ -320,6 +320,9 @@ const MyAccount = (props) => {
             if (m.product_type === 'crypto_exchange') {
               return renderCryptoCard(m);
             }
+            if (m.product_type === 'smart_contract') {
+              return renderCryptoCard(m);
+            }
 
             return <></>;
           })

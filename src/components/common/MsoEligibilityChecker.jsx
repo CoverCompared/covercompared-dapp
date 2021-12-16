@@ -135,8 +135,10 @@ const MsoEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitl
     return (
       <div className="flex flex-col justify-center items-center">
         <CheckCircleIcon className="w-28 h-28 text-green-500" />
-        <h5 className="font-Montserrat text-3xl my-3">Thank you for sharing your details</h5>
-        <p className="font-Inter text-counter-card-text text-body-md text-center">
+        <h5 className="font-Montserrat text-3xl my-3 dark:text-white">
+          Thank you for sharing your details
+        </h5>
+        <p className="font-Inter text-counter-card-text dark:text-white text-body-md text-center">
           Medical Second Opinion products are currently unavailable in your country, we will let you
           know once they are available.
         </p>

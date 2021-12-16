@@ -1,9 +1,4 @@
 import BigNumber from 'bignumber.js';
-import { DEFAULT_GAS_LIMIT } from '../../config';
-
-const options = {
-  gasLimit: DEFAULT_GAS_LIMIT,
-};
 
 const buyProductByToken = async (contract, param, account, sig) => {
   const value = new BigNumber(param.discount_amount).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
@@ -23,7 +18,6 @@ const buyProductByToken = async (contract, param, account, sig) => {
     token,
     account,
     sig,
-    options,
   );
   const receipt = await tx.wait();
 
@@ -42,7 +36,6 @@ const buyProductByEth = async (contract, param, sig, ethAmt) => {
   const durPlan = param.puchase_month === 'Less than 12 months' ? 1 : 2;
 
   const option = {
-    gasLimit: DEFAULT_GAS_LIMIT,
     value: ethAmt,
   };
   const tx = await contract.buyProductByETH(device, brand, value, purchMonth, durPlan, sig, option);

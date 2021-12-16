@@ -1,10 +1,3 @@
-import BigNumber from 'bignumber.js';
-import { DEFAULT_GAS_LIMIT } from '../../config';
-
-const options = {
-  gasLimit: DEFAULT_GAS_LIMIT,
-};
-
 const submitClaim = async (contract, param) => {
   const { tokenId, data } = param;
   const result = await contract.submitClaim(tokenId.toString(), data);
@@ -14,7 +7,7 @@ const submitClaim = async (contract, param) => {
 
 const submitRedeem = async (contract, param) => {
   const { tokenId, claimId } = param;
-  const result = await contract.redeemClaim(tokenId.toString(), claimId.toString(), options);
+  const result = await contract.redeemClaim(tokenId.toString(), claimId.toString());
   const res = await result.wait();
   return res;
 };

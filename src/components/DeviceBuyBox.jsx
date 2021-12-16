@@ -76,6 +76,7 @@ const DeviceBuyBox = (props) => {
   const [lName, setLName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [termsCheck, setTermsCheck] = useState(false);
 
   const [applyDiscount, setApplyDiscount] = useState(false);
   const [txPending, setTxPending] = useState(false);
@@ -136,9 +137,9 @@ const DeviceBuyBox = (props) => {
   useEffect(() => {
     dispatch(
       getDeviceDetails({
-        endpoint: 'device-details',
-        device: 'Mobile Phone',
+        device: deviceType,
         partner_code: 'Crypto',
+        endpoint: 'device-details',
       }),
     );
     setBrand('');
@@ -517,7 +518,11 @@ const DeviceBuyBox = (props) => {
       <>
         {showAlert && (
           <div className="mb-4">
-            <Alert type={alertType} text={alertText} onClose={() => setShowAlert(false)} />
+            <Alert
+              type={alertType || 'danger'}
+              text={alertText || deviceMessage}
+              onClose={() => setShowAlert(false)}
+            />
           </div>
         )}
         <form onSubmit={handleBuyNow}>
@@ -633,7 +638,10 @@ const DeviceBuyBox = (props) => {
             <input
               required
               id="terms"
+              name="terms"
               type="checkbox"
+              checked={termsCheck}
+              onChange={() => setTermsCheck(!termsCheck)}
               className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
             />
             <label
@@ -665,7 +673,11 @@ const DeviceBuyBox = (props) => {
     <>
       {showAlert && (
         <div className="mb-4">
-          <Alert type={alertType} text={alertText} onClose={() => setShowAlert(false)} />
+          <Alert
+            type={alertType || 'danger'}
+            text={alertText || deviceMessage}
+            onClose={() => setShowAlert(false)}
+          />
         </div>
       )}
       <form onSubmit={handleProceed}>

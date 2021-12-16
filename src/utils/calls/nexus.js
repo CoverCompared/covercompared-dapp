@@ -1,9 +1,9 @@
-import BigNumber from 'bignumber.js';
-import { DEFAULT_GAS_LIMIT, MSO_PLAN_TYPE } from '../../config';
+// import BigNumber from 'bignumber.js';
+// import { DEFAULT_GAS_LIMIT, MSO_PLAN_TYPE } from '../../config';
 
-const options = {
-  gasLimit: DEFAULT_GAS_LIMIT,
-};
+// const options = {
+//   gasLimit: DEFAULT_GAS_LIMIT,
+// };
 
 const getProductPrice = async (contract, param) => {
   const { contractAddress, coverAsset, sumAssured, coverPeriod, coverType, data } = param;
@@ -73,7 +73,6 @@ const buyCoverByToken = async (contract, param) => {
     coverType,
     maxPriceWithFee,
     data,
-    options,
   );
   const receipt = await tx.wait();
 

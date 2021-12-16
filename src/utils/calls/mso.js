@@ -1,9 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { DEFAULT_GAS_LIMIT, MSO_PLAN_TYPE } from '../../config';
-
-const options = {
-  gasLimit: DEFAULT_GAS_LIMIT,
-};
+import { MSO_PLAN_TYPE } from '../../config';
 
 const buyProductByTokenForMSO = async (contract, param, account, sig) => {
   const value = new BigNumber(param.discount_amount).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
@@ -21,7 +17,6 @@ const buyProductByTokenForMSO = async (contract, param, account, sig) => {
     account,
     conciergePrice,
     sig,
-    options,
   );
   const receipt = await tx.wait();
 
@@ -39,7 +34,6 @@ const buyProductByEthForMSO = async (contract, param, sig, ethAmt) => {
   const conciergePrice = new BigNumber(param.mso_addon_service).multipliedBy(10 ** 18).toString();
 
   const option = {
-    gasLimit: DEFAULT_GAS_LIMIT,
     value: ethAmt,
   };
   const tx = await contract.buyProductByETH(

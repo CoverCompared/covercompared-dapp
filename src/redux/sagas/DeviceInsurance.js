@@ -168,7 +168,7 @@ function* getDeviceDetail({ payload }) {
           loader: false,
           isFailed: true,
           deviceDetails: null,
-          message: deviceDetail.errors,
+          message: deviceDetail.data.error_message,
         }),
       );
     }
@@ -177,6 +177,7 @@ function* getDeviceDetail({ payload }) {
       setGetDeviceDetailsLoader({
         loader: false,
         isFailed: true,
+        deviceDetails: null,
         message: error.message,
       }),
     );
@@ -196,6 +197,8 @@ function* getDevicePlanDetail({ payload }) {
     const url = `${API_BASE_URL}/p4l-forward`;
     const devicePlanDetail = yield call(axiosPost, url, payload);
 
+    console.log('devicePlanDetail :>> ', devicePlanDetail);
+
     if (devicePlanDetail?.data?.data) {
       yield put(getDevicePlanDetailsSuccess(devicePlanDetail.data.data));
     } else {
@@ -204,7 +207,7 @@ function* getDevicePlanDetail({ payload }) {
           loader: false,
           isFailed: true,
           devicePlanDetails: null,
-          message: devicePlanDetail.errors,
+          message: devicePlanDetail.data.error_message,
         }),
       );
     }
@@ -213,6 +216,7 @@ function* getDevicePlanDetail({ payload }) {
       setGetDevicePlanDetailsLoader({
         loader: false,
         isFailed: true,
+        devicePlanDetails: null,
         message: error.message,
       }),
     );
@@ -249,6 +253,7 @@ function* getDeviceModelDetail({ payload }) {
       setGetDeviceModelDetailsLoader({
         loader: false,
         isFailed: true,
+        deviceModelDetails: null,
         message: error.message,
       }),
     );

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 
+import { toast } from 'react-toastify';
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
 import ClaimCards from '../components/ClaimCards';
@@ -18,6 +19,12 @@ import DownloadPolicy from '../components/common/DownloadPolicy';
 import p4lLogo from '../assets/img/p4l-logo.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import placeholderLogo from '../assets/img/placeholder.png';
+import useGetNexusMutualCover from '../hooks/useFetchEvents';
+import useActiveWeb3React from '../hooks/useActiveWeb3React';
+import useClaimForCover from '../hooks/useClaimForCover';
+import { SupportedChainId } from '../config/chains';
+import { setupNetwork } from '../utils/wallet';
+import Loading from '../components/common/TxLoading';
 
 const DeviceCard = (props) => {
   return (
@@ -49,8 +56,21 @@ const MSOCard = (props) => {
 const MyAccount = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { chainId } = useActiveWeb3React();
   const { email } = useSelector((state) => state.auth);
   const { policies, loader } = useSelector((state) => state.userProfile);
+  const auth = useSelector((state) => state.auth);
+  const [proofPending, setProofPending] = useState(false);
+  const [nexusIndex, setNexusIndex] = useState(-1);
+
+  // const nexusPolicies = policies.filter((m) => m.product_type === 'smart_contract');
+  // const removedNexus = policies.filter((m) => m.product_type !== 'smart_contract');
+
+  const { onNMClaim, onNMRedeemClaim } = useClaimForCover();
+
+  // const eventsForNM = useGetNexusMutualCover(nexusPolicies);
+  // const renderData = eventsForNM ? [...eventsForNM, ...removedNexus] : [];
+
   const { account } = useWeb3React();
 
   useEffect(() => {
@@ -60,6 +80,48 @@ const MyAccount = (props) => {
   useEffect(() => {
     if (account) dispatch(getUserPolicies());
   }, []);
+
+  // this hooks for testing. Should be remove in production.
+  useEffect(() => {
+    (async () => {
+      const _chainId = SupportedChainId.KOVAN;
+      if (chainId !== _chainId) {
+        await setupNetwork(_chainId);
+      }
+    })();
+  }, [chainId]);
+
+  const handleSubmitToClaim = async (policy, i) => {
+    const { details, wallet_address } = policy;
+    const { token_id } = details;
+    if (token_id === undefined) {
+      toast.warning('This item is invalid!');
+      return;
+    }
+    const newPageUrl = `https://app.nexusmutual.io/home/proof-of-loss/add-affected-addresses?coverId=${token_id}&owner=${wallet_address}`;
+    window.open(newPageUrl, '_blank');
+
+    setProofPending(true);
+    setNexusIndex(i);
+    try {
+      const tx = await onNMClaim(token_id, '0x00');
+
+      if (tx.status) {
+        const ev = tx.events.filter((e) => e.event === 'ClaimSubmitted')[0];
+        const claimId = parseInt(ev.args.claimId, 10);
+        // console.log(claimId, policy.token_id)
+        const txRedeem = await onNMRedeemClaim(token_id, claimId);
+        if (txRedeem.status) {
+          toast.success('Claim requested successfully!');
+        }
+      }
+      setProofPending(false);
+      setNexusIndex(-1);
+    } catch (err) {
+      setProofPending(false);
+      toast.error(err.message);
+    }
+  };
 
   const renderDeviceCard = (device) => {
     const {
@@ -274,6 +336,60 @@ const MyAccount = (props) => {
     );
   };
 
+  const renderNexusCard = (policy, index) => {
+    const {
+      _id,
+      details,
+      logo = placeholderLogo,
+      crypto_amount,
+      crypto_currency,
+      txn_hash,
+      wallet_address,
+    } = policy;
+    const { company_code, name, duration_days, token_id } = details;
+
+    return (
+      <div
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
+        key={_id}
+      >
+        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+          <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
+            <img src={logo} alt={name} className="h-full w-full rounded-xl" />
+          </div>
+          <div className="flex flex-col">
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${company_code} `}</div>
+            <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
+              {`${crypto_amount} ${crypto_currency} - ${duration_days} days`}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
+          <button
+            type="button"
+            onClick={() => history.push(`submit-review/${_id}`)}
+            className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+          >
+            Submit Review
+          </button>
+          <button
+            disabled={(proofPending && nexusIndex === index) || token_id === undefined}
+            onClick={() => handleSubmitToClaim(policy, index)}
+            type="button"
+            className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:text-white hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+          >
+            {proofPending && nexusIndex === index ? (
+              <Loading widthClass="w-4" heightClass="h-4" />
+            ) : (
+              'Submit Claim'
+            )}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       {loader && <OverlayLoading />}
@@ -323,13 +439,12 @@ const MyAccount = (props) => {
             if (m.product_type === 'mso_policy') {
               return renderMSOCard(m);
             }
+            if (m.product_type === 'smart_contract') {
+              return renderNexusCard(m, i);
+            }
             if (m.product_type === 'crypto_exchange') {
               return renderCryptoCard(m);
             }
-            if (m.product_type === 'smart_contract') {
-              return renderCryptoCard(m);
-            }
-
             return <></>;
           })
         ) : (

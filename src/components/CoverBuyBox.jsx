@@ -39,6 +39,7 @@ const ConfirmModal = (props) => {
     quote,
     quoteDetail,
     setIsModalOpen,
+    setIsNotCloseable,
   } = props;
 
   const dispatch = useDispatch();
@@ -96,13 +97,16 @@ const ConfirmModal = (props) => {
   }, [quoteInUSD, discountAmount]);
 
   const handleConfirm = async () => {
+    setIsNotCloseable(true);
     if (!account) {
       toast.warning('You need to login in advance!');
       dispatch(setLoginModalVisible(true));
+      setIsNotCloseable(false);
       return;
     }
     if (period < 30) {
       toast.warning('Period should be equal to 30 or larger than that.');
+      setIsNotCloseable(false);
       return;
     }
     const ethAmount = await getETHAmountForUSDC(total);
@@ -114,14 +118,17 @@ const ConfirmModal = (props) => {
       getBalanceNumber(ethAmount) >= ethers.utils.formatEther(ethBalance.balance)
     ) {
       toast.warning('Insufficient ETH balance!');
+      setIsNotCloseable(false);
       return;
     }
     if (applyDiscount && getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalance.balance)) {
       toast.warning('Insufficient CVR balance!');
+      setIsNotCloseable(false);
       return;
     }
     if (!quote || !quoteDetail) {
       toast.warning('Cover quote info is not loaded correctly.');
+      setIsNotCloseable(false);
       return;
     }
     setTxPending(true);
@@ -214,7 +221,10 @@ const ConfirmModal = (props) => {
       }
       setTxPending(false);
       if (transaction && transaction.status) {
-        dispatch(buyCover({ ...policy, txn_hash: transaction.txn_hash }));
+        // console.log({ ...policy, txn_hash: transaction.txn_hash, token_id: transaction.token_id })
+        dispatch(
+          buyCover({ ...policy, txn_hash: transaction.txn_hash, token_id: transaction.token_id }),
+        );
         toast.success('Purchasing cover succeed.');
       } else {
         toast.error('Purchasing cover failed.');
@@ -225,6 +235,7 @@ const ConfirmModal = (props) => {
       setTxPending(false);
       toast.warning(error.message);
     }
+    setIsNotCloseable(false);
   };
 
   return (

@@ -40,6 +40,7 @@ const MsoCountrySelector = ({
   setTitle,
   selectedPlan,
   addonServices,
+  setIsNotCloseable,
 }) => {
   // const { login } = useAuth();
   const dispatch = useDispatch();
@@ -117,6 +118,7 @@ const MsoCountrySelector = ({
 
   const handleConfirm = async () => {
     setTxPending(true);
+    setIsNotCloseable(true);
     if (discountAmount > 0 && !crvAllowance) {
       try {
         const result = await onApprove();
@@ -131,6 +133,7 @@ const MsoCountrySelector = ({
         console.error(e);
       }
       setTxPending(false);
+      setIsNotCloseable(false);
       return;
     }
     const ethAmount = await getETHAmountForUSDC(total + parseFloat(MSOAddOnService, 10));
@@ -138,6 +141,7 @@ const MsoCountrySelector = ({
     if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
       setTxPending(false);
+      setIsNotCloseable(false);
       return;
     }
     if (
@@ -147,6 +151,7 @@ const MsoCountrySelector = ({
       toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);
+      setIsNotCloseable(false);
       return;
     }
     const param = {
@@ -182,13 +187,14 @@ const MsoCountrySelector = ({
           }),
         );
         toast.success('Successfully purchased!');
-        setTxPending(false);
       }
     } catch (e) {
       console.error(e);
       toast.warning(e.message);
-      setTxPending(false);
     }
+    setTxPending(false);
+    setIsNotCloseable(false);
+    setIsModalOpen(false);
   };
 
   const getWalletOption = () => {

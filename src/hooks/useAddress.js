@@ -32,6 +32,11 @@ const useAddress = () => {
   );
   const getCrvAddress = useCallback(async () => getAddress(tokens.crv), [library, chainId]);
 
+  const getDistributorAddress = useCallback(
+    async () => getAddress(addresses.distributor),
+    [library, chainId],
+  );
+
   return {
     getMSOAddress,
     getP4LAddress,
@@ -41,6 +46,7 @@ const useAddress = () => {
     getCoverComparedAddress,
     getPriceFeedAddressBySymbol,
     getCrvAddress,
+    getDistributorAddress,
   };
 };
 

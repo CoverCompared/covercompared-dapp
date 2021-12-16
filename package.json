@@ -39,6 +39,7 @@
     "dayjs": "^1.10.7",
     "ethereum-multicall": "^2.9.0",
     "ethers": "^5.4.6",
+    "firebase": "^9.6.1",
     "history": "4.10.1",
     "interweave": "^12.8.0",
     "lodash": "^4.17.21",

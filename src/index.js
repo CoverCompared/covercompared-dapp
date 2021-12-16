@@ -61,12 +61,12 @@ ReactDOM.render(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <ConnectedRouter history={history}>
-            <MoralisProvider appId={MORALIS_ID} serverUrl={SERVER_URL}>
-              <ThemeProvider>
+            <ThemeProvider>
+              <MoralisProvider appId={MORALIS_ID} serverUrl={SERVER_URL}>
                 {/* <Updaters /> */}
                 <App />
-              </ThemeProvider>
-            </MoralisProvider>
+              </MoralisProvider>
+            </ThemeProvider>
           </ConnectedRouter>
         </PersistGate>
       </Provider>

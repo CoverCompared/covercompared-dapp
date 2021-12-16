@@ -1,10 +1,9 @@
 import axios from 'axios';
-import Moralis from 'moralis';
 
-import { MORALIS_BASE_URL, MORALIS_API_KEY, MORALIS_ID, SERVER_URL } from '../config';
+import { MORALIS_BASE_URL, MORALIS_API_KEY } from '../config';
 
-Moralis.initialize(MORALIS_ID);
-Moralis.serverURL = SERVER_URL;
+// Moralis.initialize(MORALIS_ID);
+// Moralis.serverURL = SERVER_URL;
 
 export const axiosPost = (endpoint, payload, headers = null) => {
   const url = `${MORALIS_BASE_URL}${endpoint}`;

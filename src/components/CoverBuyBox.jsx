@@ -49,7 +49,7 @@ const ConfirmModal = (props) => {
   const { getCrvAddress, getNexusMutualAddress, getInsureAceAddress } = useAddress();
 
   const ethBalance = useGetEthBalance();
-  const crvBalance = useTokenBalance(getCrvAddress());
+  const crvBalance = useTokenBalance();
   const { getTokenAmountForETH, getTokenAmountForUSDC, getETHAmountForUSDC } = useTokenAmount();
   const { onApprove: onApproveForNM } = useTokenApprove(getNexusMutualAddress());
   const { onApprove: onApproveForIA } = useTokenApprove(getInsureAceAddress());

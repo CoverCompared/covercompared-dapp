@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Web3ReactProvider } from '@web3-react/core';
-
+import { MoralisProvider } from 'react-moralis';
 // imports for redux
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import configureStore, { history } from './redux/store';
-import ApplicationUpdater from './utils/updater';
+// import ApplicationUpdater from './utils/updater';
 
 // imports for context provider
 import { ThemeProvider } from './themeContext';
@@ -21,6 +21,7 @@ import App from './App';
 import './index.css';
 // import { NetworkContextName } from './config';
 import getLibrary from './utils/getLibrary';
+import { MORALIS_ID, SERVER_URL } from './config';
 
 export const { persistor, store } = configureStore();
 
@@ -46,13 +47,13 @@ if (!window.EthereumChain) {
   };
 }
 
-function Updaters() {
-  return (
-    <>
-      <ApplicationUpdater />
-    </>
-  );
-}
+// function Updaters() {
+//   return (
+//     <>
+//       <ApplicationUpdater />
+//     </>
+//   );
+// }
 
 ReactDOM.render(
   <React.StrictMode>
@@ -61,8 +62,10 @@ ReactDOM.render(
         <PersistGate loading={null} persistor={persistor}>
           <ConnectedRouter history={history}>
             <ThemeProvider>
-              <Updaters />
-              <App />
+              <MoralisProvider appId={MORALIS_ID} serverUrl={SERVER_URL}>
+                {/* <Updaters /> */}
+                <App />
+              </MoralisProvider>
             </ThemeProvider>
           </ConnectedRouter>
         </PersistGate>

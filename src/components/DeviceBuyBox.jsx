@@ -14,6 +14,7 @@ import DeviceReceiptCard from './DeviceReceiptCard';
 import DownloadPolicy from './common/DownloadPolicy';
 import DeviceReceipt from './DeviceReceipt';
 import Loading from './common/TxLoading';
+import PageLoader from './common/PageLoader';
 
 import {
   setProfileDetails,
@@ -95,7 +96,7 @@ const DeviceBuyBox = (props) => {
   const { onApprove } = useTokenApprove(getP4LAddress());
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
   const { balance } = useGetEthBalance();
-  const crvBalanceStatus = useTokenBalance(getCrvAddress());
+  const crvBalanceStatus = useTokenBalance();
 
   const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
@@ -256,9 +257,6 @@ const DeviceBuyBox = (props) => {
         toast.warning('CVR token approving rejected.');
         console.error(e);
       }
-      setTxPending(false);
-      setIsNotCloseable(false);
-      return;
     }
     const ethAmount = await getETHAmountForUSDC(total);
     const crvAmount = await getTokenAmountForUSDC(getCrvAddress(), discountAmount);
@@ -510,6 +508,7 @@ const DeviceBuyBox = (props) => {
             )}
           </button>
         </div>
+        {txPending && <PageLoader text="Please wait while the policy is being purchased" />}
       </div>
     );
   }

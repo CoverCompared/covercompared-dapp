@@ -27,6 +27,10 @@ export const getCrvAddress = () => {
   return getAddress(tokens.crv);
 };
 
+export const getCrvAddressByChainId = (chainId) => {
+  return tokens.crv[`${chainId}`];
+};
+
 export const getExchangeAgentAddress = () => {
   return getAddress(addresses.exchangeAgent);
 };

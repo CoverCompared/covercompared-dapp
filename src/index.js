@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import configureStore, { history } from './redux/store';
-import ApplicationUpdater from './utils/updater';
+// import ApplicationUpdater from './utils/updater';
 
 // imports for context provider
 import { ThemeProvider } from './themeContext';
@@ -46,13 +46,13 @@ if (!window.EthereumChain) {
   };
 }
 
-function Updaters() {
-  return (
-    <>
-      <ApplicationUpdater />
-    </>
-  );
-}
+// function Updaters() {
+//   return (
+//     <>
+//       <ApplicationUpdater />
+//     </>
+//   );
+// }
 
 ReactDOM.render(
   <React.StrictMode>
@@ -61,7 +61,7 @@ ReactDOM.render(
         <PersistGate loading={null} persistor={persistor}>
           <ConnectedRouter history={history}>
             <ThemeProvider>
-              <Updaters />
+              {/* <Updaters /> */}
               <App />
             </ThemeProvider>
           </ConnectedRouter>

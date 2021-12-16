@@ -94,7 +94,7 @@ const DeviceBuyBox = (props) => {
   const { onApprove } = useTokenApprove(getP4LAddress());
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
   const { balance } = useGetEthBalance();
-  const crvBalanceStatus = useTokenBalance(getCrvAddress());
+  const crvBalanceStatus = useTokenBalance();
 
   const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
   const hasFirstStep = deviceType && brand && value && purchaseMonth;

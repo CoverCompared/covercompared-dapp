@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Markup } from 'interweave';
 import uniqid from 'uniqid';
 import { useSelector } from 'react-redux';
-
+import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import Modal from '../components/common/Modal';
 import DeviceBuyBox from '../components/DeviceBuyBox';
 import DeviceEligibilityChecker from '../components/common/DeviceEligibilityChecker';
@@ -28,6 +28,8 @@ import Arch from '../assets/partners/p4l-partners/arch.png';
 import SwissRe from '../assets/partners/p4l-partners/swiss_re.jpg';
 
 import P4LLogo from '../assets/img/p4l-logo.png';
+import { SupportedChainId } from '../config/chains';
+import { setupNetwork } from '../utils/wallet';
 
 const Backers = [
   {
@@ -187,12 +189,23 @@ const p4lTable = [
 ];
 
 const DeviceProduct = (props) => {
+  const { chainId } = useActiveWeb3React();
   const [table, setTable] = useState(p4lTable);
   const [showMore, setShowMore] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isEligible, setIsEligible] = useState(false);
 
   const { loader } = useSelector((state) => state.deviceInsurance);
+
+  // this hooks for testing. Should be remove in production.
+  useEffect(() => {
+    (async () => {
+      const _chainId = SupportedChainId.RINKEBY;
+      if (chainId !== _chainId) {
+        await setupNetwork(_chainId);
+      }
+    })();
+  }, [chainId]);
 
   useEffect(() => {
     const t = p4lTable.slice(0, 4);

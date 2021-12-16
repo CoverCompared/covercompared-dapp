@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
+import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import { searchBlogList } from '../redux/actions/CoverList';
 import Loading from '../components/common/Loading';
 import InsuranceCards from '../components/InsuranceCards';
@@ -22,8 +22,8 @@ import CryptoInsuranceImgDark from '../assets/img/crypto-orange-logo.svg';
 import NsureNetworkLogo from '../assets/partners/Nsure-Network.png';
 import UnoReLogo from '../assets/partners/UNORE.png';
 import InsureAceLogo from '../assets/partners/InsurAce.png';
-// import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
-// import useConverUsdtToCRV from '../hooks/useConverUsdtToCRV';
+import { SupportedChainId } from '../config/chains';
+import { setupNetwork } from '../utils/wallet';
 
 const clientLogos = [
   {
@@ -84,16 +84,22 @@ const Features = (props) => {
 
 export default function Home(props) {
   const { theme } = useContext(ThemeContext);
+  const { chainId } = useActiveWeb3React();
   const dispatch = useDispatch();
   const coverListData = useSelector((state) => state.coverList);
   const { loader, message, isFailed, page, totalPages } = coverListData;
 
   const [blogList, setBlogList] = useState(coverListData.blogList);
 
-  // const ethUsdPrice = useAssetsUsdPrice('eth');
-  // const { balance } = useGetEthBalance();
-  // const usdcBalanceStatus = useTokenBalance('0xeb8f08a975ab53e34d8a0330e0d34de942c95926');
-  // const crvAmt = useConverUsdtToCRV(100);
+  // this hooks for testing. Should be remove in production.
+  useEffect(() => {
+    (async () => {
+      const _chainId = SupportedChainId.RINKEBY;
+      if (chainId !== _chainId) {
+        await setupNetwork(_chainId);
+      }
+    })();
+  }, [chainId]);
 
   useEffect(() => {
     const query = `/table?range=[0,3]`;

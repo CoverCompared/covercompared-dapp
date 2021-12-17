@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Web3ReactProvider } from '@web3-react/core';
-import { MoralisProvider } from 'react-moralis';
+// import { MoralisProvider } from 'react-moralis';
 // imports for redux
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
@@ -62,10 +62,10 @@ ReactDOM.render(
         <PersistGate loading={null} persistor={persistor}>
           <ConnectedRouter history={history}>
             <ThemeProvider>
-              <MoralisProvider appId={MORALIS_ID} serverUrl={SERVER_URL}>
-                {/* <Updaters /> */}
-                <App />
-              </MoralisProvider>
+              {/* <MoralisProvider appId={MORALIS_ID} serverUrl={SERVER_URL}> */}
+              {/* <Updaters /> */}
+              <App />
+              {/* </MoralisProvider> */}
             </ThemeProvider>
           </ConnectedRouter>
         </PersistGate>

@@ -10,6 +10,8 @@ import {
   getNexusMutualContract,
   getInsureAceContract,
   getDistributorContract,
+  getClaimContract,
+  getClaimRewardContract,
 } from '../utils/contractHelpers';
 import erc20Abi from '../config/abi/erc20.json';
 
@@ -68,6 +70,21 @@ export const useDistributorContract = () => {
   const { getDistributorAddress } = useAddress();
   return useMemo(
     () => getDistributorContract(getDistributorAddress(), library.getSigner()),
+    [library],
+  );
+};
+
+export const useClaimContract = () => {
+  const { library } = useActiveWeb3React();
+  const { getClaimAddress } = useAddress();
+  return useMemo(() => getClaimContract(getClaimAddress(), library.getSigner()), [library]);
+};
+
+export const useClaimRewardContract = () => {
+  const { library } = useActiveWeb3React();
+  const { getClaimRewardAddress } = useAddress();
+  return useMemo(
+    () => getClaimRewardContract(getClaimRewardAddress(), library.getSigner()),
     [library],
   );
 };

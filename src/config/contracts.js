@@ -23,8 +23,8 @@ export default {
     eth: {
       decimal: 8,
       1: '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419',
-      4: '0x8A753747A1Fa494EC906cE90E9f37563A8AF630e',
-      42: '0x9326BFA02ADD2366b30bacB125260Af641031331',
+      4: '0xc86718f161412Ace9c0dC6F81B26EfD4D3A8F5e0',
+      42: '0xb3dEcC8bAAd6226835BdB92C19f082Fba443Ad3a',
     },
     bnb: {
       decimal: 8,
@@ -131,8 +131,8 @@ export default {
     crv: {
       decimal: 8,
       1: '0xCd627aA160A6fA45Eb793D19Ef54f5062F20f33f',
-      4: '',
-      42: '0xCd627aA160A6fA45Eb793D19Ef54f5062F20f33a',
+      4: '0x8d6D6eeA128a40EFbC0d0a04D7aaC36689F12A46',
+      42: '0x1962ab2E748D202BEEf87a71b1E26dCDeD9456Ac',
     },
     doge: {
       decimal: 8,

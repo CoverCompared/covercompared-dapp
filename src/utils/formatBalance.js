@@ -7,7 +7,7 @@ import { BIG_TEN } from './bigNumber';
  * Take a formatted amount, e.g. 15 ETH and convert it to full decimal value, e.g. 15000000000000000
  */
 export const getDecimalAmount = (amount, decimals = 18) => {
-  return new BigNumber(amount).times(BIG_TEN.pow(decimals));
+  return new BigNumber(amount.toFixed(decimals)).times(BIG_TEN.pow(decimals));
 };
 
 export const getBalanceAmount = (amount, decimals = 18) => {

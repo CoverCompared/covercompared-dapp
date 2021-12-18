@@ -18,10 +18,10 @@ import PageLoader from './PageLoader';
 import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
 import useStakeForMSO, { useStakeForMSOByToken } from '../../hooks/useStakeForMSO';
-import { getBalanceNumber } from '../../utils/formatBalance';
+import { getBalanceNumber, getDecimalAmount } from '../../utils/formatBalance';
 import useTokenApprove from '../../hooks/useTokenApprove';
-import useTokenAmount from '../../hooks/useTokenAmount';
 import useAddress from '../../hooks/useAddress';
+import useAssetsUsdPrice from '../../hooks/useAssetsUsdPrice';
 
 const countries = [
   { value: 'UAE', label: 'United Arab Emirates' },
@@ -62,11 +62,14 @@ const MsoCountrySelector = ({
   const total = addonServices
     ? +quote + +MSOAddOnService + +tax - discountAmount
     : +quote + +tax - discountAmount;
-  const { getCrvAddress, getMSOAddress } = useAddress();
+  const { getMSOAddress } = useAddress();
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getMSOAddress());
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance();
-  const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
+
+  const ethPrice = useAssetsUsdPrice('eth');
+  const crvPrice = useAssetsUsdPrice('crv');
+
   const { onApprove } = useTokenApprove(getMSOAddress());
   const { onStake } = useStakeForMSO();
   const { onStakeByToken } = useStakeForMSOByToken();
@@ -136,18 +139,17 @@ const MsoCountrySelector = ({
       setIsNotCloseable(false);
       return;
     }
-    const ethAmount = await getETHAmountForUSDC(total + parseFloat(MSOAddOnService, 10));
-    const crvAmount = await getTokenAmountForUSDC(getCrvAddress(), discountAmount);
-    if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(balance)) {
+
+    const ethAmount = (total + parseFloat(MSOAddOnService, 10)) / ethPrice;
+    const crvAmount = discountAmount / crvPrice;
+
+    if (ethAmount + 0.01 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
       setTxPending(false);
       setIsNotCloseable(false);
       return;
     }
-    if (
-      getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalanceStatus.balance) &&
-      discountAmount > 0
-    ) {
+    if (crvAmount >= getBalanceNumber(crvBalanceStatus.balance) && discountAmount > 0) {
       toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);
@@ -174,9 +176,8 @@ const MsoCountrySelector = ({
       })),
       wallet_address: account,
     };
-
     try {
-      const result = await onStake(param, ethAmount.toString());
+      const result = await onStake(param, getDecimalAmount(ethAmount).toString());
       const resultByToken = await onStakeByToken(param);
       if (result.status && resultByToken.status) {
         dispatch(
@@ -322,6 +323,13 @@ const MsoCountrySelector = ({
             <h5 className="text-h6 font-medium">Total</h5>
             <h5 className="text-body-lg font-medium">{total} USD</h5>
           </div>
+          {applyDiscount && (
+            <div className="flex items-center justify-center w-full mt-2 dark:text-white">
+              <h5 className="text-h6 font-medium">{`${(discountAmount / crvPrice).toFixed(
+                2,
+              )} CVR will be used for 25% discount`}</h5>
+            </div>
+          )}
           <div className="flex items-center justify-center w-full mt-6">
             <button
               type="button"

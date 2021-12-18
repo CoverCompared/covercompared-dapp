@@ -6,6 +6,7 @@ import msoAbi from '../config/abi/mso.json';
 import p4lAbi from '../config/abi/p4l.json';
 import CovercomaredAbi from '../config/abi/covercompared.json';
 import AggregatorV3InterfaceABI from '../config/abi/aggregatorV3InterfaceABI.json';
+import TwapPriceFeedAbi from '../config/abi/TwapPriceFeedAbi.json';
 import exchaneAgentAbi from '../config/abi/exchaneAgentAbi.json';
 import nexusMutualAbi from '../config/abi/nexusMutualAbi.json';
 import insureAceAbi from '../config/abi/insureAceAbi.json';
@@ -33,7 +34,8 @@ export const getP4LContract = (address, signer) => {
 };
 
 export const getPriceFeedContract = (address, signer) => {
-  return getContract(AggregatorV3InterfaceABI, address, signer);
+  // return getContract(AggregatorV3InterfaceABI, address, signer);
+  return getContract(TwapPriceFeedAbi, address, signer);
 };
 
 export const getExchangeAgentContract = (address, signer) => {

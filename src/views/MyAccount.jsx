@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
-
+import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
@@ -19,7 +19,7 @@ import DownloadPolicy from '../components/common/DownloadPolicy';
 import p4lLogo from '../assets/img/p4l-logo.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import placeholderLogo from '../assets/img/placeholder.png';
-import useGetNexusMutualCover from '../hooks/useFetchEvents';
+// import useGetNexusMutualCover from '../hooks/useFetchEvents';
 import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import useClaimForCover from '../hooks/useClaimForCover';
 import { SupportedChainId } from '../config/chains';
@@ -56,22 +56,15 @@ const MSOCard = (props) => {
 const MyAccount = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { chainId } = useActiveWeb3React();
+  const { chainId, account } = useActiveWeb3React();
   const { email } = useSelector((state) => state.auth);
   const { policies, loader } = useSelector((state) => state.userProfile);
   const auth = useSelector((state) => state.auth);
   const [proofPending, setProofPending] = useState(false);
   const [nexusIndex, setNexusIndex] = useState(-1);
 
-  // const nexusPolicies = policies.filter((m) => m.product_type === 'smart_contract');
-  // const removedNexus = policies.filter((m) => m.product_type !== 'smart_contract');
-
-  const { onNMClaim, onNMRedeemClaim } = useClaimForCover();
-
-  // const eventsForNM = useGetNexusMutualCover(nexusPolicies);
-  // const renderData = eventsForNM ? [...eventsForNM, ...removedNexus] : [];
-
-  const { account } = useWeb3React();
+  const { onNMClaim, onNMRedeemClaim, onSubmitCAVote, getCheckVoteClosing, onCloseClaim } =
+    useClaimForCover();
 
   useEffect(() => {
     if (!account) history.push('/');
@@ -104,20 +97,63 @@ const MyAccount = (props) => {
     setProofPending(true);
     setNexusIndex(i);
     try {
-      const tx = await onNMClaim(token_id, '0x00');
+      const emptyData = ethers.utils.defaultAbiCoder.encode([], []);
 
-      if (tx.status) {
-        const ev = tx.events.filter((e) => e.event === 'ClaimSubmitted')[0];
-        const claimId = parseInt(ev.args.claimId, 10);
-        // console.log(claimId, policy.token_id)
-        const txRedeem = await onNMRedeemClaim(token_id, claimId);
-        if (txRedeem.status) {
-          toast.success('Claim requested successfully!');
-        }
+      const tx = await onNMClaim(token_id, emptyData);
+
+      console.log('claim tx ::', tx);
+
+      if (!tx.status) {
+        toast.warning('Failed to submit claim!');
+        return;
       }
+      const ev = tx.events.filter((e) => e.event === 'ClaimSubmitted')[0];
+      const claimId = parseInt(ev.args.claimId, 10);
+      // console.log(claimId, policy.token_id)
+      console.log('claimId ::', claimId);
+
+      const voteStatusBeforeFirst = await getCheckVoteClosing(claimId);
+      console.log('voteStatusBeforeFirst ::', voteStatusBeforeFirst.toString());
+
+      const voteTx = await onSubmitCAVote(claimId);
+      console.log('onSubmitCAVote ::', voteTx);
+      if (!voteTx.status) {
+        toast.warning('Vote on claim failed!');
+        return;
+      }
+
+      const voteStatusBefore = await getCheckVoteClosing(claimId);
+      console.log('voteStatusBefore ::', voteStatusBefore.toString());
+      if (voteStatusBefore.toString() !== '1') {
+        toast.warning('Not allowed vote closing!');
+        return;
+      }
+
+      const closeClaimTx = await onCloseClaim(claimId);
+      console.log('closeClaimTx ::', closeClaimTx);
+      if (!closeClaimTx.status) {
+        toast.warning('Failed to close claim!');
+        return;
+      }
+
+      const voteStatusAfter = await getCheckVoteClosing(claimId);
+      console.log('voteStatusAfter ::', voteStatusAfter.toString());
+      if (voteStatusAfter.toString() !== '-1') {
+        toast.warning('Not Closed vote claim!');
+        return;
+      }
+
+      const txRedeem = await onNMRedeemClaim(token_id, claimId);
+      if (txRedeem.status) {
+        toast.success('Claim requested successfully!');
+      } else {
+        toast.warning('Failed to redeem claim!');
+      }
+
       setProofPending(false);
       setNexusIndex(-1);
     } catch (err) {
+      console.log(err);
       setProofPending(false);
       toast.error(err.message);
     }

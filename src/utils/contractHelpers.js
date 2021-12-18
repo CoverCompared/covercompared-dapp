@@ -11,6 +11,8 @@ import exchaneAgentAbi from '../config/abi/exchaneAgentAbi.json';
 import nexusMutualAbi from '../config/abi/nexusMutualAbi.json';
 import insureAceAbi from '../config/abi/insureAceAbi.json';
 import distributorAbi from '../config/abi/distributor.json';
+import claimAbi from '../config/abi/claims.json';
+import claimRewardAbi from '../config/abi/claimsReward.json';
 
 export const getContract = (abi, address, signer) => {
   const signerOrProvider = signer ?? ethSimpleProvider;
@@ -52,4 +54,12 @@ export const getInsureAceContract = (address, signer) => {
 
 export const getDistributorContract = (address, signer) => {
   return getContract(distributorAbi, address, signer);
+};
+
+export const getClaimContract = (address, signer) => {
+  return getContract(claimAbi, address, signer);
+};
+
+export const getClaimRewardContract = (address, signer) => {
+  return getContract(claimRewardAbi, address, signer);
 };

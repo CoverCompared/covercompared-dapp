@@ -42,6 +42,13 @@ const useAddress = () => {
     [library, chainId],
   );
 
+  const getClaimAddress = useCallback(async () => getAddress(addresses.claims), [library, chainId]);
+
+  const getClaimRewardAddress = useCallback(
+    async () => getAddress(addresses.claimsReward),
+    [library, chainId],
+  );
+
   return {
     getMSOAddress,
     getP4LAddress,
@@ -53,6 +60,8 @@ const useAddress = () => {
     getCrvAddress,
     getTokenAddress,
     getDistributorAddress,
+    getClaimAddress,
+    getClaimRewardAddress,
   };
 };
 

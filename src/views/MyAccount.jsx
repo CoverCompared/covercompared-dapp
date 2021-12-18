@@ -110,6 +110,11 @@ const MyAccount = (props) => {
       const ev = tx.events.filter((e) => e.event === 'ClaimSubmitted')[0];
       const claimId = parseInt(ev.args.claimId, 10);
       // console.log(claimId, policy.token_id)
+      console.log('claimId ::', claimId);
+
+      const voteStatusBeforeFirst = await getCheckVoteClosing(claimId);
+      console.log('voteStatusBeforeFirst ::', voteStatusBeforeFirst.toString());
+
       const voteTx = await onSubmitCAVote(claimId);
       console.log('onSubmitCAVote ::', voteTx);
       if (!voteTx.status) {

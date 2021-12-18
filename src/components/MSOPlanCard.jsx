@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import Modal from './common/Modal';
 import CountrySelector from './common/MsoCountrySelector';
@@ -45,9 +45,11 @@ const MSOPlanCard = (props) => {
     totalUsers,
   };
 
+  const btnEl = useRef(null);
+
   const [addonServices, setAddonServices] = useState(false);
   const [msoTotalPrice, setMsoTotalPrice] = useState(quote);
-
+  const [isInEligibilitlyCheck, setIsInEligibilityCheck] = useState(false);
   const toggleCheckbox = (e) => {
     e.stopPropagation();
 
@@ -56,6 +58,20 @@ const MSOPlanCard = (props) => {
 
     setAddonServices(!addonServices);
   };
+
+  const handleBuy = () => {
+    if (setIsModalOpen) {
+      setIsModalOpen(true);
+      setIsInEligibilityCheck(true);
+    }
+  };
+
+  useEffect(() => {
+    if (isEligible && isInEligibilitlyCheck) {
+      setIsInEligibilityCheck(false);
+      btnEl.current.click();
+    }
+  }, [isEligible, isInEligibilitlyCheck]);
 
   return (
     <>
@@ -128,6 +144,7 @@ const MSOPlanCard = (props) => {
                 <button
                   type="button"
                   className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2  focus:outline-none focus:ring-0 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+                  ref={btnEl}
                 >
                   Buy Now
                 </button>
@@ -135,7 +152,7 @@ const MSOPlanCard = (props) => {
             ) : (
               <button
                 type="button"
-                onClick={() => (setIsModalOpen ? setIsModalOpen(true) : {})}
+                onClick={handleBuy}
                 className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2  focus:outline-none focus:ring-0 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
               >
                 Buy Now

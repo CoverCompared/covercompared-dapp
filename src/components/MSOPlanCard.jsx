@@ -120,6 +120,7 @@ const MSOPlanCard = (props) => {
                 selectedPlan,
                 addonServices,
                 isEligible,
+                handleBuy,
                 name,
                 quote,
                 MSOAddOnService,

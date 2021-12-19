@@ -140,8 +140,8 @@ const MsoCountrySelector = ({
       return;
     }
 
-    const ethAmount = (total + parseFloat(MSOAddOnService, 10)) / ethPrice;
-    const crvAmount = discountAmount / crvPrice;
+    const ethAmount = total / ethPrice;
+    const crvAmount = total / crvPrice;
 
     if (ethAmount + 0.01 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
@@ -325,7 +325,7 @@ const MsoCountrySelector = ({
           </div>
           {applyDiscount && (
             <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-              <h5 className="text-h6 font-medium">{`${(discountAmount / crvPrice).toFixed(
+              <h5 className="text-h6 font-medium">{`${(total / crvPrice).toFixed(
                 2,
               )} CVR will be used for 25% discount`}</h5>
             </div>

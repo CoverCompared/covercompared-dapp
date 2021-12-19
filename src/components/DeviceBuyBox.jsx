@@ -34,8 +34,8 @@ import useStakeForDevice, { useStakeForDeviceByToken } from '../hooks/useStakeFo
 import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenApprove from '../hooks/useTokenApprove';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
-import useTokenAmount from '../hooks/useTokenAmount';
-import { getBalanceNumber } from '../utils/formatBalance';
+import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
+import { getBalanceNumber, getDecimalAmount } from '../utils/formatBalance';
 import useAddress from '../hooks/useAddress';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
@@ -90,7 +90,7 @@ const DeviceBuyBox = (props) => {
   const [showInfoForm, setShowInfoForm] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
-  const { getCrvAddress, getP4LAddress } = useAddress();
+  const { getP4LAddress } = useAddress();
   const { onStake } = useStakeForDevice();
   const { onStakeByToken } = useStakeForDeviceByToken();
   const { onApprove } = useTokenApprove(getP4LAddress());
@@ -98,7 +98,9 @@ const DeviceBuyBox = (props) => {
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance();
 
-  const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
+  const ethPrice = useAssetsUsdPrice('eth');
+  const crvPrice = useAssetsUsdPrice('crv');
+
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
   const hasFirstTwoStep = hasFirstStep && planType;
   const hasAllStep = hasFirstTwoStep && (model || !deviceModelDetails?.models?.length);
@@ -258,18 +260,17 @@ const DeviceBuyBox = (props) => {
         console.error(e);
       }
     }
-    const ethAmount = await getETHAmountForUSDC(total);
-    const crvAmount = await getTokenAmountForUSDC(getCrvAddress(), discountAmount);
-    if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(balance)) {
+
+    const ethAmount = total / ethPrice;
+    const crvAmount = discountAmount / crvPrice;
+
+    if (ethAmount + 0.01 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
       setTxPending(false);
       setIsNotCloseable(false);
       return;
     }
-    if (
-      getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalanceStatus.balance) &&
-      discountAmount > 0
-    ) {
+    if (crvAmount >= getBalanceNumber(crvBalanceStatus.balance) && discountAmount > 0) {
       toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);
@@ -298,7 +299,7 @@ const DeviceBuyBox = (props) => {
     };
 
     try {
-      const result = await onStake(param, ethAmount.toString());
+      const result = await onStake(param, getDecimalAmount(ethAmount).toString());
       const resultByToken = await onStakeByToken(param);
       if (result.status && resultByToken.status) {
         dispatch(
@@ -493,6 +494,13 @@ const DeviceBuyBox = (props) => {
           <h5 className="text-h6 font-medium">Total</h5>
           <h5 className="text-body-lg font-medium">{total} USD</h5>
         </div>
+        {applyDiscount && (
+          <div className="flex items-center justify-center w-full mt-2 dark:text-white">
+            <h5 className="text-h6 font-medium">{`${(discountAmount / crvPrice).toFixed(
+              2,
+            )} CVR will be used for 25% discount`}</h5>
+          </div>
+        )}
         <div className="flex items-center justify-center w-full mt-6">
           <button
             type="button"

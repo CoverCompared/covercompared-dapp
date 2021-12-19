@@ -8,6 +8,7 @@ const CheckoutFormInput = ({
   key,
   id,
   name,
+  min,
   max,
   index,
   inputPlaceholder,
@@ -113,6 +114,7 @@ const CheckoutFormInput = ({
       type={type}
       id={id}
       name={name}
+      min={min}
       max={max}
       value={inputValue}
       placeholder={inputPlaceholder}

@@ -1,6 +1,8 @@
 import React from 'react';
 import uniqid from 'uniqid';
 
+import PhaseCard from '../components/PhaseCard';
+
 import PointIcon from '../assets/img/blue-point.svg';
 import Allianz from '../assets/img/allianz.svg';
 import AIGLogo from '../assets/img/aig-logo.svg';
@@ -12,7 +14,10 @@ import PhaseIcon1 from '../assets/img/phase-icon-1.png';
 import PhaseIcon2 from '../assets/img/phase-icon-2.png';
 import PhaseIcon3 from '../assets/img/phase-icon-3.png';
 import PhaseIcon4 from '../assets/img/phase-icon-4.png';
-import PhaseCard from '../components/PhaseCard';
+import Anthony from '../assets/about-us/Anthony Thomas.png';
+import DuckDao from '../assets/about-us/DuckDao.png';
+import Jaskanwar from '../assets/about-us/Jaskanwar Singh.png';
+import Kunal from '../assets/about-us/Kunal-Sadani.png';
 
 const PhaseArr = [
   {
@@ -63,8 +68,9 @@ const AboutUs = () => {
         <div className="grid grid-cols-2 w-full xl:gap-x-28 gap-x-6">
           <div className="flex justify-center col-span-2 sm:col-span-1">
             <div className="flex-col flex items-center">
-              <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
+              <div className="md:h-32 md:w-32 h-16 w-16 rounded-full md:mb-6 mb-4">
                 {/* img here */}
+                <img src={Kunal} alt="Kunal" className="rounded-full" />
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold text-h6 dark:text-white">
                 Kunal Sadani
@@ -102,7 +108,7 @@ const AboutUs = () => {
           <div className="flex justify-center col-span-2 sm:col-span-1 mt-12 sm:mt-0">
             <div className="flex-col flex items-center justify-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
-                {/* img here */}
+                <img src={Anthony} alt="Anthony" className="rounded-full" />
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold text-h6 dark:text-white text-">
                 Anthony Thomas
@@ -158,7 +164,7 @@ const AboutUs = () => {
           <div className="flex justify-center col-span-2 sm:col-span-1">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
-                {/* img here */}
+                <img src={Jaskanwar} alt="Jaskanwar" className="rounded-full" />
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold text-h6 dark:text-white text-center">
                 Jaskanwar “Jas” Singh
@@ -174,7 +180,7 @@ const AboutUs = () => {
           <div className="flex justify-center col-span-2 sm:col-span-1 mt-10 sm:mt-0">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
-                {/* img here */}
+                <img src={DuckDao} alt="DuckDao" className="rounded-full h-full" />
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold text-h6 dark:text-white text-center">
                 DuckDao.io

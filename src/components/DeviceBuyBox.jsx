@@ -162,7 +162,7 @@ const DeviceBuyBox = (props) => {
         }),
       );
     }
-  }, [deviceType, brand, value, purchaseMonth]);
+  }, [brand, value, purchaseMonth]);
 
   useEffect(() => {
     if (devicePlanDetails) {

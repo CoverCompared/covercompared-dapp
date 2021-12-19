@@ -50,6 +50,12 @@ const MsoUserInfoForm = (props) => {
   const [userEmail, setUserEmail] = useState('');
   const [userOtp, setUserOtp] = useState('');
 
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const day = d.getDate();
+  const minDate = new Date(year - 100, month, day);
+
   useEffect(() => {
     dispatch(resetDeviceInsurance());
   }, []);
@@ -314,6 +320,7 @@ const MsoUserInfoForm = (props) => {
                       name="dob"
                       fieldChange={handleUserFieldChange}
                       inputPlaceholder="Date of Birth"
+                      min={minDate.toLocaleDateString('en-ca')}
                       max={new Date().toLocaleDateString('en-ca')}
                       index={index}
                       disabled={notRegistered}

@@ -10,7 +10,6 @@ import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import useTokenApprove from '../hooks/useTokenApprove';
 import useStakeForCover from '../hooks/useStakeForCover';
-import useTokenAmount from '../hooks/useTokenAmount';
 import SelectWithSearch from './common/SelectWithSearch';
 import PageLoader from './common/PageLoader';
 import Modal from './common/Modal';
@@ -23,6 +22,7 @@ import { axiosPost } from '../redux/constants/apicall';
 import { API_BASE_URL } from '../redux/constants/config';
 import useAddress from '../hooks/useAddress';
 import { SupportedChainId } from '../config/chains';
+import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
 
 const periodOptions = ['Days', 'Week', 'Month'];
 
@@ -46,11 +46,13 @@ const ConfirmModal = (props) => {
   const [txPending, setTxPending] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
 
-  const { getCrvAddress, getNexusMutualAddress, getInsureAceAddress } = useAddress();
+  const { getNexusMutualAddress, getInsureAceAddress } = useAddress();
+
+  const ethPrice = useAssetsUsdPrice('eth');
+  const crvPrice = useAssetsUsdPrice('crv');
 
   const ethBalance = useGetEthBalance();
   const crvBalance = useTokenBalance();
-  const { getTokenAmountForETH, getTokenAmountForUSDC, getETHAmountForUSDC } = useTokenAmount();
   const { onApprove: onApproveForNM } = useTokenApprove(getNexusMutualAddress());
   const { onApprove: onApproveForIA } = useTokenApprove(getInsureAceAddress());
   const { onNMStake, onIAStake } = useStakeForCover();
@@ -82,10 +84,9 @@ const ConfirmModal = (props) => {
 
   useEffect(() => {
     (async () => {
-      const eth_per_usdc = await getETHAmountForUSDC(1);
-      setQuoteInUSD(quote / getBalanceNumber(eth_per_usdc));
+      setQuoteInUSD(quote * ethPrice);
     })();
-  }, [quote, applyDiscount]);
+  }, [quote, ethPrice]);
 
   const discountAmount = useMemo(() => {
     const discount = (+quoteInUSD * 25) / 100;
@@ -104,24 +105,16 @@ const ConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
-    if (period < 30) {
-      toast.warning('Period should be equal to 30 or larger than that.');
-      setIsNotCloseable(false);
-      return;
-    }
-    const ethAmount = await getETHAmountForUSDC(total);
-    // const crvAmount = await getTokenAmountForETH(getCrvAddress(), (quote * 75) / 100);
-    const crvAmount = await getTokenAmountForUSDC(getCrvAddress(), discountAmount);
 
-    if (
-      !applyDiscount &&
-      getBalanceNumber(ethAmount) >= ethers.utils.formatEther(ethBalance.balance)
-    ) {
+    const ethAmount = total / ethPrice;
+    const crvAmount = total / crvPrice;
+
+    if (ethAmount + 0.01 >= getBalanceNumber(ethBalance.balance)) {
       toast.warning('Insufficient ETH balance!');
       setIsNotCloseable(false);
       return;
     }
-    if (applyDiscount && getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalance.balance)) {
+    if (applyDiscount && crvAmount >= getBalanceNumber(crvBalance.balance)) {
       toast.warning('Insufficient CVR balance!');
       setIsNotCloseable(false);
       return;
@@ -209,6 +202,7 @@ const ConfirmModal = (props) => {
           ...quoteDetail,
           chain: 'ETH',
         });
+
         transaction = await onIAStake(
           {
             data: confirmInfo?.data?.data,
@@ -265,6 +259,13 @@ const ConfirmModal = (props) => {
           <h5 className="text-h6 font-medium">Total</h5>
           <h5 className="text-body-lg font-medium">{total.toFixed(3)} USD</h5>
         </div>
+        {applyDiscount && (
+          <div className="flex items-center justify-center w-full mt-2 dark:text-white">
+            <h5 className="text-h6 font-medium">{`${(total / crvPrice).toFixed(
+              2,
+            )} CVR will be used for 25% discount`}</h5>
+          </div>
+        )}
         <div className="flex items-center justify-center w-full mt-6">
           <button
             type="button"
@@ -290,7 +291,7 @@ const CoverBuyBox = (props) => {
   const dispatch = useDispatch();
   const { account, chainId } = useWeb3React();
   const { card } = useParams();
-  const { quote, quoteDetail, loader } = useSelector((state) => state.coverList);
+  const { quote, quoteDetail, loader, message } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
 
   const {
@@ -310,7 +311,7 @@ const CoverBuyBox = (props) => {
 
   const supportedChains = product?.supportedChains?.length ? product.supportedChains : ['ETH'];
 
-  const [periodField, setPeriodField] = useState('30');
+  const [periodField, setPeriodField] = useState(duration_days_min);
   const [periodSelect, setPeriodSelect] = useState(periodOptions[0]);
   const [amountField, setAmountField] = useState('1');
   const [amountSelect, setAmountSelect] = useState(currency[0]);
@@ -452,7 +453,8 @@ const CoverBuyBox = (props) => {
         <div className="grid grid-cols-12 gap-3 w-full">
           <button
             type="button"
-            className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
+            disabled={!!message}
+            className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance disabled:opacity-80 disabled:cursor-default"
           >
             Buy Now
           </button>

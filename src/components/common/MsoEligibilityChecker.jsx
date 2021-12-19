@@ -59,7 +59,7 @@ const MsoEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitl
       return (
         <div className="mt-6">
           <div className="text-center mb-3">
-            <h5 className="font-Montserrat font-semibold text-h6">
+            <h5 className="font-Montserrat font-semibold text-h6 dark:text-white">
               If your country of residence is not listed, please share it with us
             </h5>
           </div>

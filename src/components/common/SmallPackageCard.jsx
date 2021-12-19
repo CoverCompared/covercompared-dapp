@@ -24,6 +24,7 @@ const SmallPackageCard = (props) => {
     logo,
     quote,
     quote_chain,
+    supportedChains,
     cardType,
     duration_days_min,
     min_eth,
@@ -66,7 +67,7 @@ const SmallPackageCard = (props) => {
             {company}
           </div>
           <div className="font-Montserrat text-10 font-medium text-dark-blue dark:text-white group-hover:text-white mt-1">
-            Chain: {quote_chain}
+            Chain: {supportedChains.join(',') || 'Ethereum'}
           </div>
         </div>
       </div>

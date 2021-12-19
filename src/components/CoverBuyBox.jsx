@@ -105,11 +105,6 @@ const ConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
-    if (period < 30) {
-      toast.warning('Period should be equal to 30 or larger than that.');
-      setIsNotCloseable(false);
-      return;
-    }
 
     const ethAmount = total / ethPrice;
     const crvAmount = total / crvPrice;
@@ -296,7 +291,7 @@ const CoverBuyBox = (props) => {
   const dispatch = useDispatch();
   const { account, chainId } = useWeb3React();
   const { card } = useParams();
-  const { quote, quoteDetail, loader } = useSelector((state) => state.coverList);
+  const { quote, quoteDetail, loader, message } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
 
   const {
@@ -316,7 +311,7 @@ const CoverBuyBox = (props) => {
 
   const supportedChains = product?.supportedChains?.length ? product.supportedChains : ['ETH'];
 
-  const [periodField, setPeriodField] = useState('30');
+  const [periodField, setPeriodField] = useState(duration_days_min);
   const [periodSelect, setPeriodSelect] = useState(periodOptions[0]);
   const [amountField, setAmountField] = useState('1');
   const [amountSelect, setAmountSelect] = useState(currency[0]);
@@ -458,7 +453,8 @@ const CoverBuyBox = (props) => {
         <div className="grid grid-cols-12 gap-3 w-full">
           <button
             type="button"
-            className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance"
+            disabled={!!message}
+            className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance disabled:opacity-80 disabled:cursor-default"
           >
             Buy Now
           </button>

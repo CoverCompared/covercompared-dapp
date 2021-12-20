@@ -35,9 +35,9 @@ import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenApprove from '../hooks/useTokenApprove';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
+import useTokenAmount from '../hooks/useTokenAmount';
 import { getBalanceNumber, getDecimalAmount } from '../utils/formatBalance';
 import useAddress from '../hooks/useAddress';
-import useTokenAmount from '../hooks/useTokenAmount';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 
@@ -96,8 +96,8 @@ const DeviceBuyBox = (props) => {
   const { onStakeByToken } = useStakeForDeviceByToken();
   const { onApprove } = useTokenApprove(getP4LAddress());
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
-  // const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
   const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
+
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance();
 

@@ -289,7 +289,7 @@ function* getQuote({ payload }) {
           loader: false,
           isFailed: true,
           quote: null,
-          message: quote.errors,
+          message: quote?.data?.message || quoteDetail?.data?.message,
         }),
       );
     }

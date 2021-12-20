@@ -23,6 +23,7 @@ const PackageCard = (props) => {
     logo,
     quote,
     quote_chain,
+    supportedChains,
     quote_currency,
   } = props;
 
@@ -76,7 +77,7 @@ const PackageCard = (props) => {
                 {company}
               </div>
               <div className="hidden md:block font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
-                Chain: {quote_chain}
+                Chain: {supportedChains.join(',') || 'Ethereum'}
               </div>
             </div>
           </div>

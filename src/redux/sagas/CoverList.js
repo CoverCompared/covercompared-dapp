@@ -280,7 +280,7 @@ function* getQuote({ payload }) {
     const quote = yield call(axiosPost, url, payload);
     url = `${API_BASE_URL}/cover-quote`;
     const quoteDetail = yield call(axiosPost, url, payload);
-    if ((quote?.data?.data || quote?.data?.quote) && quoteDetail?.data?.data) {
+    if (quote?.data?.success && quoteDetail?.data?.success) {
       yield put(getQuoteSuccess(quote?.data?.data || quote?.data?.quote));
       yield put(getQuoteDetailSuccess(quoteDetail?.data?.data));
     } else {

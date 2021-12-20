@@ -23,6 +23,7 @@ import {
   setLoginModalVisible,
 } from '../redux/actions/Auth';
 import {
+  buyDeviceInsuranceFirst,
   resetDeviceInsurance,
   buyDeviceInsurance,
   getDeviceDetails,
@@ -35,6 +36,7 @@ import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenApprove from '../hooks/useTokenApprove';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
+import useTokenAmount from '../hooks/useTokenAmount';
 import { getBalanceNumber, getDecimalAmount } from '../utils/formatBalance';
 import useAddress from '../hooks/useAddress';
 
@@ -52,6 +54,7 @@ const DeviceBuyBox = (props) => {
   );
   const notRegistered = !is_verified;
   const {
+    policyId,
     deviceDetails,
     devicePlanDetails,
     deviceModelDetails,
@@ -95,6 +98,8 @@ const DeviceBuyBox = (props) => {
   const { onStakeByToken } = useStakeForDeviceByToken();
   const { onApprove } = useTokenApprove(getP4LAddress());
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
+  const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
+
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance();
 
@@ -231,6 +236,28 @@ const DeviceBuyBox = (props) => {
     setMaxWidth('max-w-lg');
     setTitle('Confirmation');
     setShowConfirmation(true);
+
+    const param = {
+      device_type: deviceType,
+      brand,
+      value: deviceDetails?.device_values[value],
+      purchase_month: purchaseMonth,
+      model: model || 'OTHERS',
+      model_name: selectedModel?.[0]?.model_name || 'Others',
+      plan_type: 'monthly',
+      first_name: fName,
+      last_name: lName,
+      email,
+      phone,
+      currency: plan_currency,
+      amount: plan_total_price,
+      discount_amount: discountAmount,
+      tax: '5',
+      total_amount: total,
+      wallet_address: account,
+    };
+
+    dispatch(buyDeviceInsuranceFirst(param));
   };
 
   const tryActivation = (connect) => {
@@ -261,8 +288,19 @@ const DeviceBuyBox = (props) => {
       }
     }
 
-    const ethAmount = total / ethPrice;
-    const crvAmount = total / crvPrice;
+    let ethAmount1;
+    let crvAmount1;
+    try {
+      ethAmount1 = await getETHAmountForUSDC(total); // total / ethPrice;
+      crvAmount1 = await getTokenAmountForUSDC(total); // total / crvPrice;
+    } catch (err) {
+      toast.warning(err.message);
+      setTxPending(false);
+      setIsNotCloseable(false);
+      return;
+    }
+    const ethAmount = getBalanceNumber(ethAmount1);
+    const crvAmount = getBalanceNumber(crvAmount1);
 
     if (ethAmount + 0.01 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
@@ -278,7 +316,14 @@ const DeviceBuyBox = (props) => {
       return;
     }
 
+    if (policyId === '') {
+      toast.warning('You have not the policy id yet. Please try again!');
+      setApplyDiscount(false);
+      setTxPending(false);
+      setIsNotCloseable(false);
+    }
     const param = {
+      policyId,
       device_type: deviceType,
       brand,
       value: deviceDetails?.device_values[value],
@@ -299,14 +344,16 @@ const DeviceBuyBox = (props) => {
     };
 
     try {
-      const result = await onStake(param, getDecimalAmount(ethAmount).toString());
-      const resultByToken = await onStakeByToken(param);
-      if (result.status && resultByToken.status) {
+      const result =
+        discountAmount > 0
+          ? await onStakeByToken(param)
+          : await onStake(param, getDecimalAmount(ethAmount).toString());
+
+      if (result.status) {
         dispatch(
           buyDeviceInsurance({
             ...param,
             txn_hash: result.txn_hash,
-            token_txn_hash: resultByToken.txn_hash,
           }),
         );
         toast.success('Successfully purchased!');

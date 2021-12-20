@@ -7,7 +7,8 @@ export default {
   },
   usdc: {
     1: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-    42: '0xdCFaB8057d08634279f8201b55d311c2a67897D2',
+    4: '0xD4D5c5D939A173b9c18a6B72eEaffD98ecF8b3F6',
+    42: '0x5FED7f0b36374B8Ee25177b3cbE21B6c8E079F4E',
     56: '',
     97: '',
   },

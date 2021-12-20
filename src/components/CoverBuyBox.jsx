@@ -22,7 +22,7 @@ import { axiosPost } from '../redux/constants/apicall';
 import { API_BASE_URL } from '../redux/constants/config';
 import useAddress from '../hooks/useAddress';
 import { SupportedChainId } from '../config/chains';
-import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
+import useTokenAmount from '../hooks/useTokenAmount';
 
 const periodOptions = ['Days', 'Week', 'Month'];
 
@@ -45,12 +45,13 @@ const ConfirmModal = (props) => {
   const dispatch = useDispatch();
   const [txPending, setTxPending] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
+  const [crvAmount, setCrvAmount] = useState(0);
 
-  const { getNexusMutualAddress, getInsureAceAddress } = useAddress();
-
-  const ethPrice = useAssetsUsdPrice('eth');
-  const crvPrice = useAssetsUsdPrice('crv');
-
+  const { getNexusMutualAddress, getInsureAceAddress, getTokenAddress } = useAddress();
+  const { getNeededTokenAmount } = useTokenAmount();
+  const ethAddress = getTokenAddress('eth');
+  const usdcAddress = getTokenAddress('usdc');
+  const crvAddress = getTokenAddress('crv');
   const ethBalance = useGetEthBalance();
   const crvBalance = useTokenBalance();
   const { onApprove: onApproveForNM } = useTokenApprove(getNexusMutualAddress());
@@ -84,9 +85,10 @@ const ConfirmModal = (props) => {
 
   useEffect(() => {
     (async () => {
-      setQuoteInUSD(quote * ethPrice);
+      const quoteInUSD = await getNeededTokenAmount(usdcAddress, ethAddress, quote);
+      setQuoteInUSD(getBalanceNumber(quoteInUSD));
     })();
-  }, [quote, ethPrice]);
+  }, [quote]);
 
   const discountAmount = useMemo(() => {
     const discount = (+quoteInUSD * 25) / 100;
@@ -97,6 +99,16 @@ const ConfirmModal = (props) => {
     return +quoteInUSD - discountAmount;
   }, [quoteInUSD, discountAmount]);
 
+  useEffect(() => {
+    (async () => {
+      if (applyDiscount) {
+        console.log(total);
+        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, total);
+        setCrvAmount(crvAmount);
+      }
+    })();
+  }, [total, applyDiscount]);
+
   const handleConfirm = async () => {
     setIsNotCloseable(true);
     if (!account) {
@@ -105,16 +117,13 @@ const ConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
-
-    const ethAmount = total / ethPrice;
-    const crvAmount = total / crvPrice;
-
-    if (ethAmount + 0.01 >= getBalanceNumber(ethBalance.balance)) {
+    const ethAmount = await getNeededTokenAmount(ethAddress, usdcAddress, total);
+    if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)) {
       toast.warning('Insufficient ETH balance!');
       setIsNotCloseable(false);
       return;
     }
-    if (applyDiscount && crvAmount >= getBalanceNumber(crvBalance.balance)) {
+    if (applyDiscount && getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalance.balance)) {
       toast.warning('Insufficient CVR balance!');
       setIsNotCloseable(false);
       return;
@@ -142,7 +151,7 @@ const ConfirmModal = (props) => {
       let transaction = null;
       if (company_code === 'nexus') {
         // Buy Nexus Mutual Cover
-        if (!crvAllowanceForNM) {
+        if (applyDiscount && !crvAllowanceForNM) {
           try {
             const result = await onApproveForNM();
             await handleAllowanceForNM();
@@ -183,7 +192,7 @@ const ConfirmModal = (props) => {
         );
       } else if (company_code === 'insurace') {
         // Buy InsuareAce Cover
-        if (!crvAllowanceForIA) {
+        if (applyDiscount && !crvAllowanceForIA) {
           try {
             const result = await onApproveForIA();
             await handleAllowanceForIA();
@@ -227,6 +236,7 @@ const ConfirmModal = (props) => {
       if (setIsModalOpen) setIsModalOpen();
     } catch (error) {
       setTxPending(false);
+      console.log(error);
       toast.warning(error.message);
     }
     setIsNotCloseable(false);
@@ -261,9 +271,9 @@ const ConfirmModal = (props) => {
         </div>
         {applyDiscount && (
           <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-            <h5 className="text-h6 font-medium">{`${(total / crvPrice).toFixed(
+            <h5 className="text-h6 font-medium">{`${getBalanceNumber(crvAmount).toFixed(
               2,
-            )} CVR will be used for 25% discount`}</h5>
+            )} CVR will be used for payment`}</h5>
           </div>
         )}
         <div className="flex items-center justify-center w-full mt-6">

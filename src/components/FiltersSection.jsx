@@ -111,8 +111,14 @@ const MultiRangeSlider = ({
                   onChange={setTempValue}
                   onAfterChange={setValue}
                   marks={{
-                    [+options[optionsKey].min]: +options[optionsKey].min,
-                    [+options[optionsKey].max]: +options[optionsKey].max,
+                    [+options[optionsKey].min]: {
+                      style: { transform: 'translateX(-7px)' },
+                      label: +options[optionsKey].min,
+                    },
+                    [+options[optionsKey].max]: {
+                      style: { transform: 'translateX(calc(-100% + 7px))' },
+                      label: +options[optionsKey].max,
+                    },
                   }}
                   tipFormatter={(value) => `${value}`}
                 />

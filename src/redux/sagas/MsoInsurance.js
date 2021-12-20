@@ -102,7 +102,7 @@ function* confirmBuyMsoInsurance({ payload }) {
     );
     if (res?.data?.success) {
       console.log(res.data.data);
-      return yield put(confirmBuyMsoInsuranceSuccess(res.data.data));
+      return yield put(confirmBuyMsoInsuranceSuccess({ ...res.data.data, confirmed: true }));
     }
 
     return yield put(

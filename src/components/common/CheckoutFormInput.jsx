@@ -8,12 +8,14 @@ const CheckoutFormInput = ({
   key,
   id,
   name,
+  min,
   max,
   index,
   inputPlaceholder,
   type = 'text',
   required,
   disabled,
+  readOnly,
   isDropdown,
   dropdownOptions,
 }) => {
@@ -107,12 +109,14 @@ const CheckoutFormInput = ({
     </select>
   ) : (
     <input
+      readOnly={readOnly}
       required={required}
       disabled={disabled}
       key={key}
       type={type}
       id={id}
       name={name}
+      min={min}
       max={max}
       value={inputValue}
       placeholder={inputPlaceholder}

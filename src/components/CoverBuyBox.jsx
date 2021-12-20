@@ -433,33 +433,33 @@ const CoverBuyBox = (props) => {
         />
       </form>
 
-      <Modal
-        title="Members Information Form"
-        sizeClass="max-w-6xl"
-        renderComponent={ConfirmModal}
-        forceClose={forceClose}
-        bgImg="bg-loginPopupBg"
-        {...{
-          period,
-          product,
-          account,
-          amountField,
-          amountSelect,
-          quote,
-          quoteDetail,
-          onConfirmed,
-        }}
-      >
-        <div className="grid grid-cols-12 gap-3 w-full">
+      <div className="w-full flex justify-center">
+        <Modal
+          title="Members Information Form"
+          sizeClass="max-w-6xl"
+          renderComponent={ConfirmModal}
+          forceClose={forceClose}
+          bgImg="bg-loginPopupBg"
+          {...{
+            period,
+            product,
+            account,
+            amountField,
+            amountSelect,
+            quote,
+            quoteDetail,
+            onConfirmed,
+          }}
+        >
           <button
             type="button"
             disabled={!!message}
-            className="col-span-7 md:py-3 px-2 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance disabled:opacity-80 disabled:cursor-default"
+            className="md:py-3 px-6 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance disabled:opacity-80 disabled:cursor-default"
           >
             Buy Now
           </button>
-        </div>
-      </Modal>
+        </Modal>
+      </div>
     </>
   );
 };

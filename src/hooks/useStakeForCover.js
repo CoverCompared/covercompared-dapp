@@ -33,7 +33,10 @@ const useStakeForCover = () => {
     async (param, applyDiscount) => {
       let result = null;
       if (applyDiscount) {
-        result = await insure.buyCoverByToken(insuraceContract, param);
+        result = await insure.buyCoverByToken(insuraceContract, {
+          ...param,
+          token: getCrvAddress(),
+        });
       } else {
         result = await insure.buyCoverByETH(insuraceContract, param);
       }

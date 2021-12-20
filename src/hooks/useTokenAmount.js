@@ -3,11 +3,24 @@ import BigNumber from 'bignumber.js';
 import useActiveWeb3React from './useActiveWeb3React';
 import { useExchangeAgentContract } from './useContract';
 import { BIG_ZERO } from '../utils/bigNumber';
+import { token } from '../redux/constants/selectors';
 
 const useTokenAmount = () => {
   const { library, account } = useActiveWeb3React();
   const exchangeAgentContract = useExchangeAgentContract();
 
+  const getNeededTokenAmount = useCallback(async (token0, token1, desiredAmount) => {
+    const big_desiredAmount = new BigNumber(desiredAmount)
+      .multipliedBy(10 ** 18)
+      .toFixed(0)
+      .toString();
+    const tokenAmount = await exchangeAgentContract.getNeededTokenAmount(
+      token0,
+      token1,
+      big_desiredAmount,
+    );
+    return new BigNumber(tokenAmount.toString());
+  });
   const getETHAmountForUSDC = useCallback(
     async (desiredAmount) => {
       let ethAmount = BIG_ZERO;
@@ -48,6 +61,7 @@ const useTokenAmount = () => {
     [library, account, exchangeAgentContract],
   );
   return {
+    getNeededTokenAmount,
     getETHAmountForUSDC,
     getTokenAmountForUSDC,
     getTokenAmountForETH,

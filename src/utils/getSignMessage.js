@@ -20,22 +20,20 @@ const getPaddedHexStrFromINT = (bn) => {
 const getSignMessage = (param, isUseCrv = false) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18); // should be the decimals of USDC token
 
-  const device = param.device_type;
-  const brand = param.brand === '' ? 'ACER' : param.brand;
-  const purchMonth = new Date().getMonth() + 1;
+  const policyId = param.id === undefined ? 'first-test' : param.id;
+  // const brand = param.brand === '' ? 'ACER' : param.brand;
+  // const purchMonth = new Date().getMonth() + 1;
   const durPlan = param.puchase_month === 'Less than 12 months' ? 1 : 2;
 
-  const hexDeviceStr = getHexStrFromStr(device);
-  const hexBrandStr = getHexStrFromStr(brand);
+  const hexDeviceStr = getHexStrFromStr(policyId);
+  // const hexBrandStr = getHexStrFromStr(brand);
   const paddedValueHexStr = getPaddedHexStrFromBN(value);
-  const paddedPurchMonthHexStr = getPaddedHexStrFromINT(purchMonth);
+  // const paddedPurchMonthHexStr = getPaddedHexStrFromINT(purchMonth);
   const paddedDurPlanHexStr = getPaddedHexStrFromINT(durPlan);
 
   return (
     hexDeviceStr +
-    hexBrandStr.slice(2) +
     paddedValueHexStr.slice(2) +
-    paddedPurchMonthHexStr.slice(2) +
     paddedDurPlanHexStr.slice(2)
   );
 };

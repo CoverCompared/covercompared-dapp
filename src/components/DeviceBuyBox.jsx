@@ -23,6 +23,7 @@ import {
   setLoginModalVisible,
 } from '../redux/actions/Auth';
 import {
+  buyDeviceInsuranceFirst,
   resetDeviceInsurance,
   buyDeviceInsurance,
   getDeviceDetails,
@@ -53,6 +54,7 @@ const DeviceBuyBox = (props) => {
   );
   const notRegistered = !is_verified;
   const {
+    policyId,
     deviceDetails,
     devicePlanDetails,
     deviceModelDetails,
@@ -234,6 +236,28 @@ const DeviceBuyBox = (props) => {
     setMaxWidth('max-w-lg');
     setTitle('Confirmation');
     setShowConfirmation(true);
+    
+    const param = {
+      device_type: deviceType,
+      brand,
+      value: deviceDetails?.device_values[value],
+      purchase_month: purchaseMonth,
+      model: model || 'OTHERS',
+      model_name: selectedModel?.[0]?.model_name || 'Others',
+      plan_type: 'monthly',
+      first_name: fName,
+      last_name: lName,
+      email,
+      phone,
+      currency: plan_currency,
+      amount: plan_total_price,
+      discount_amount: discountAmount,
+      tax: '5',
+      total_amount: total,
+      wallet_address: account,
+    };
+
+    dispatch(buyDeviceInsuranceFirst(param));
   };
 
   const tryActivation = (connect) => {
@@ -292,7 +316,14 @@ const DeviceBuyBox = (props) => {
       return;
     }
 
+    if (policyId === '') {
+      toast.warning('You have not the policy id yet. Please try again!');
+      setApplyDiscount(false);
+      setTxPending(false);
+      setIsNotCloseable(false);
+    }
     const param = {
+      policyId,
       device_type: deviceType,
       brand,
       value: deviceDetails?.device_values[value],

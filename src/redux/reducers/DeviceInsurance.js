@@ -1,6 +1,7 @@
 import {
   RESET_DEVICE_INSURANCE,
   SET_BUY_DEVICE_INSURANCE_LOADER,
+  BUY_DEVICE_INSURANCE_FIRST_SUCCESS,
   BUY_DEVICE_INSURANCE_SUCCESS,
   SET_CONFIRM_BUY_DEVICE_INSURANCE_LOADER,
   CONFIRM_BUY_DEVICE_INSURANCE_SUCCESS,
@@ -13,6 +14,7 @@ import {
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
+  policyId: '',
   message: '',
   loader: false,
   isFailed: false,
@@ -65,6 +67,13 @@ export default (state = INIT_STATE, { type, payload }) => {
         loader: false,
         isFailed: false,
       };
+    }
+    case BUY_DEVICE_INSURANCE_FIRST_SUCCESS: {
+      return {
+        ...state,
+        ...payload,
+        message: '',
+      }
     }
     case SET_GET_DEVICE_DETAILS_LOADER: {
       return {

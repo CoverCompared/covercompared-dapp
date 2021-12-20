@@ -102,6 +102,7 @@ const ConfirmModal = (props) => {
   useEffect(() => {
     (async () => {
       if (applyDiscount) {
+        console.log(total);
         const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, total);
         setCrvAmount(crvAmount);
       }
@@ -150,7 +151,7 @@ const ConfirmModal = (props) => {
       let transaction = null;
       if (company_code === 'nexus') {
         // Buy Nexus Mutual Cover
-        if (!crvAllowanceForNM) {
+        if (applyDiscount && !crvAllowanceForNM) {
           try {
             const result = await onApproveForNM();
             await handleAllowanceForNM();
@@ -191,7 +192,7 @@ const ConfirmModal = (props) => {
         );
       } else if (company_code === 'insurace') {
         // Buy InsuareAce Cover
-        if (!crvAllowanceForIA) {
+        if (applyDiscount && !crvAllowanceForIA) {
           try {
             const result = await onApproveForIA();
             await handleAllowanceForIA();

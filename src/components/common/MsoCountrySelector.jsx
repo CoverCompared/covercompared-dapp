@@ -19,6 +19,7 @@ import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
 import useStakeForMSO, { useStakeForMSOByToken } from '../../hooks/useStakeForMSO';
 import { getBalanceNumber, getDecimalAmount } from '../../utils/formatBalance';
+import useTokenAmount from '../../hooks/useTokenAmount';
 import useTokenApprove from '../../hooks/useTokenApprove';
 import useAddress from '../../hooks/useAddress';
 import useAssetsUsdPrice from '../../hooks/useAssetsUsdPrice';
@@ -67,12 +68,13 @@ const MsoCountrySelector = ({
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance();
 
-  const ethPrice = useAssetsUsdPrice('eth');
+  // const ethPrice = useAssetsUsdPrice('eth');
   const crvPrice = useAssetsUsdPrice('crv');
 
   const { onApprove } = useTokenApprove(getMSOAddress());
   const { onStake } = useStakeForMSO();
   const { onStakeByToken } = useStakeForMSOByToken();
+  const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
 
   useEffect(() => {
     handleAllowance();
@@ -140,10 +142,21 @@ const MsoCountrySelector = ({
       return;
     }
 
-    const ethAmount = total / ethPrice;
-    const crvAmount = total / crvPrice;
+    let ethAmount1;
+    let crvAmount1;
+    try {
+      ethAmount1 = await getETHAmountForUSDC(total); // total / ethPrice;
+      crvAmount1 = await getTokenAmountForUSDC(total); // total / crvPrice;
+    } catch (err) {
+      toast.warning(err.message);
+      setTxPending(false);
+      setIsNotCloseable(false);
+      return;
+    }
+    const ethAmount = getBalanceNumber(ethAmount1);
+    const crvAmount = getBalanceNumber(crvAmount1);
 
-    if (ethAmount + 0.01 >= getBalanceNumber(balance)) {
+    if (ethAmount + 0.001 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
       setTxPending(false);
       setIsNotCloseable(false);
@@ -177,14 +190,18 @@ const MsoCountrySelector = ({
       wallet_address: account,
     };
     try {
-      const result = await onStake(param, getDecimalAmount(ethAmount).toString());
-      const resultByToken = await onStakeByToken(param);
-      if (result.status && resultByToken.status) {
+      const result =
+        discountAmount > 0
+          ? await onStakeByToken(param)
+          : await onStake(param, getDecimalAmount(ethAmount).toString());
+      // const resultByToken = && resultByToken.status
+
+      if (result.status) {
         dispatch(
           buyMsoInsurance({
             ...param,
             txn_hash: result.txn_hash,
-            token_txn_hash: resultByToken.token_txn_hash,
+            // token_txn_hash: resultByToken.token_txn_hash,
           }),
         );
         toast.success('Successfully purchased!');

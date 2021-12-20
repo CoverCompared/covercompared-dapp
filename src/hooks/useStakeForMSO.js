@@ -25,7 +25,6 @@ const useStakeForMSO = () => {
       return {
         status: false,
         txn_hash: null,
-        token_txn_hash: null,
       };
     },
     [library, msoContract, account],
@@ -57,13 +56,12 @@ export const useStakeForMSOByToken = () => {
           sigForToken,
         );
         return {
-          status: txHashForToken.status,
-          token_txn_hash: txHashForToken.txn_hash,
+          ...txHashForToken,
         };
       }
       return {
         status: true,
-        token_txn_hash: null,
+        txn_hash: null,
       };
     },
     [library, msoContract, account],

@@ -18,9 +18,7 @@ const getPaddedHexStrFromINT = (bn) => {
 };
 
 const getSignMessage = (param, isUseCrv = false) => {
-  const value = isUseCrv
-    ? new BigNumber(param.discount_amount).multipliedBy(10 ** 18)
-    : new BigNumber(param.total_amount).multipliedBy(10 ** 18); // should be the decimals of USDC token
+  const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18); // should be the decimals of USDC token
 
   const device = param.device_type;
   const brand = param.brand === '' ? 'ACER' : param.brand;
@@ -43,9 +41,7 @@ const getSignMessage = (param, isUseCrv = false) => {
 };
 
 export const getSignMessageForMSO = (param, isUseCrv = false) => {
-  const value = isUseCrv
-    ? new BigNumber(param.discount_amount).multipliedBy(10 ** 18)
-    : new BigNumber(param.total_amount).multipliedBy(10 ** 18); // should be the decimals of USDC token
+  const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18); // should be the decimals of USDC token
 
   const productName = param.plan_name ? param.plan_name : '';
   const period = MSO_PLAN_TYPE[`${param.plan_type}`];

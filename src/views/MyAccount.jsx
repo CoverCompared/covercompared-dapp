@@ -101,7 +101,7 @@ const MyAccount = (props) => {
 
       const tx = await onNMClaim(token_id, emptyData);
 
-      console.log('claim tx ::', tx);
+      // console.log('claim tx ::', tx);
 
       if (!tx.status) {
         toast.warning('Failed to submit claim!');
@@ -109,35 +109,34 @@ const MyAccount = (props) => {
       }
       const ev = tx.events.filter((e) => e.event === 'ClaimSubmitted')[0];
       const claimId = parseInt(ev.args.claimId, 10);
-      // console.log(claimId, policy.token_id)
-      console.log('claimId ::', claimId);
+      // console.log('claimId ::', claimId);
 
       const voteStatusBeforeFirst = await getCheckVoteClosing(claimId);
-      console.log('voteStatusBeforeFirst ::', voteStatusBeforeFirst.toString());
+      // console.log('voteStatusBeforeFirst ::', voteStatusBeforeFirst.toString());
 
       const voteTx = await onSubmitCAVote(claimId);
-      console.log('onSubmitCAVote ::', voteTx);
+      // console.log('onSubmitCAVote ::', voteTx);
       if (!voteTx.status) {
         toast.warning('Vote on claim failed!');
         return;
       }
 
       const voteStatusBefore = await getCheckVoteClosing(claimId);
-      console.log('voteStatusBefore ::', voteStatusBefore.toString());
+      // console.log('voteStatusBefore ::', voteStatusBefore.toString());
       if (voteStatusBefore.toString() !== '1') {
         toast.warning('Not allowed vote closing!');
         return;
       }
 
       const closeClaimTx = await onCloseClaim(claimId);
-      console.log('closeClaimTx ::', closeClaimTx);
+      // console.log('closeClaimTx ::', closeClaimTx);
       if (!closeClaimTx.status) {
         toast.warning('Failed to close claim!');
         return;
       }
 
       const voteStatusAfter = await getCheckVoteClosing(claimId);
-      console.log('voteStatusAfter ::', voteStatusAfter.toString());
+      // console.log('voteStatusAfter ::', voteStatusAfter.toString());
       if (voteStatusAfter.toString() !== '-1') {
         toast.warning('Not Closed vote claim!');
         return;
@@ -153,7 +152,7 @@ const MyAccount = (props) => {
       setProofPending(false);
       setNexusIndex(-1);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setProofPending(false);
       toast.error(err.message);
     }

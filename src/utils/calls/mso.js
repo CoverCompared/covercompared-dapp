@@ -10,7 +10,7 @@ const buyProductByTokenForMSO = async (contract, param, account, sig) => {
   const { token } = param;
   const conciergePrice = new BigNumber(param.mso_addon_service).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
 
-  const funParam = [productName, value, period, token, account, conciergePrice, sig];
+  const funParam = [productName, value, period, token, conciergePrice, sig];
 
   const tx = await callWithEstimateGas(contract, 'buyProductByToken', funParam);
 

@@ -15,6 +15,7 @@ const CheckoutFormInput = ({
   type = 'text',
   required,
   disabled,
+  readOnly,
   isDropdown,
   dropdownOptions,
 }) => {
@@ -108,6 +109,7 @@ const CheckoutFormInput = ({
     </select>
   ) : (
     <input
+      readOnly={readOnly}
       required={required}
       disabled={disabled}
       key={key}

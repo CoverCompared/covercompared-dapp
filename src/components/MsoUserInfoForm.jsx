@@ -280,7 +280,8 @@ const MsoUserInfoForm = (props) => {
                   </td>
                   <td className="py-1 text-ms font-semibold border">
                     <CheckoutFormInput
-                      title="First Name"
+                      pattern="^[A-Za-z ]+$"
+                      title="Only Alphabets are allowed"
                       type="text"
                       id="firstName"
                       name="firstName"
@@ -294,7 +295,8 @@ const MsoUserInfoForm = (props) => {
                   </td>
                   <td className="py-1 text-ms font-semibold border">
                     <CheckoutFormInput
-                      title="Last Name"
+                      pattern="^[A-Za-z ]+$"
+                      title="Only Alphabets are allowed"
                       type="text"
                       id="lastName"
                       name="lastName"

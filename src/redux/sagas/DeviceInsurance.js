@@ -41,7 +41,7 @@ function* buyDeviceInsuranceFirst({ payload }) {
       return yield put(buyDeviceInsuranceFirstSuccess({policyId: res.data.data._id}));
     }
   } catch (error) {
-    console.log(error.message);
+    return yield put(buyDeviceInsuranceFirstSuccess({policyId: ''}));
   }
 }
 
@@ -98,7 +98,7 @@ function* buyDeviceInsurance({ payload }) {
         txn_hash: null,
         loader: false,
         isFailed: true,
-        message: res.data.message,
+        message: '',
       }),
     );
   } catch (error) {

@@ -89,6 +89,10 @@ const MsoCountrySelector = ({
 
   useEffect(() => {
     if (confirmed && !loader && !isFailed) {
+      setTxPending(false);
+      setIsNotCloseable(false);
+      // setIsModalOpen(false);
+
       setShowReceipt(true);
       setMaxWidth('max-w-5xl');
       setTitle('Receipt');
@@ -137,10 +141,9 @@ const MsoCountrySelector = ({
           }
         } catch (error) {
           toast.warning(error.message);
+          setTxPending(false);
+          setIsNotCloseable(false);
         }
-        setTxPending(false);
-        setIsNotCloseable(false);
-        setIsModalOpen(false);
       })();
     }
   }, [txn_hash, _id, isFailed, loader]);

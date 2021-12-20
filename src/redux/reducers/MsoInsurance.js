@@ -60,7 +60,8 @@ export default (state = INIT_STATE, { type, payload }) => {
         message: '',
         loader: false,
         isFailed: false,
-        confirmed: true,
+        txn_hash: null,
+        _id: null,
       };
     }
     case SEARCH_MSO_LIST_SUCCESS: {

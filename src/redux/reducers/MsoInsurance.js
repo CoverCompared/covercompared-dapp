@@ -10,7 +10,10 @@ import {
 
 const INIT_STATE = {
   message: '',
+  _id: null,
+  txn_hash: null,
   loader: false,
+  confirmed: false,
   listLoader: false,
   isFailed: false,
   quote: null,
@@ -57,6 +60,7 @@ export default (state = INIT_STATE, { type, payload }) => {
         message: '',
         loader: false,
         isFailed: false,
+        confirmed: true,
       };
     }
     case SEARCH_MSO_LIST_SUCCESS: {

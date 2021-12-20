@@ -42,26 +42,20 @@ export const useStakeForMSOByToken = () => {
 
   const handleStake = useCallback(
     async (param) => {
-      if (param.discount_amount > 0) {
-        const messageForToken = await getSignMessageForMSO(param, true);
-        const sigForToken = await signMessage(library, account, messageForToken);
+      const messageForToken = await getSignMessageForMSO(param, true);
+      const sigForToken = await signMessage(library, account, messageForToken);
 
-        if (!sigForToken) {
-          return false;
-        }
-        const txHashForToken = await mso.buyProductByTokenForMSO(
-          msoContract,
-          { ...param, token: getCrvAddress() },
-          account,
-          sigForToken,
-        );
-        return {
-          ...txHashForToken,
-        };
+      if (!sigForToken) {
+        return false;
       }
+      const txHashForToken = await mso.buyProductByTokenForMSO(
+        msoContract,
+        { ...param, token: getCrvAddress() },
+        account,
+        sigForToken,
+      );
       return {
-        status: true,
-        txn_hash: null,
+        ...txHashForToken,
       };
     },
     [library, msoContract, account],

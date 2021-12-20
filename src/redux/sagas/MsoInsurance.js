@@ -38,34 +38,14 @@ function* buyMsoInsurance({ payload }) {
       null,
       yield select(selector.wallet_address),
     );
-
-    if (res?.data?.success && res?.data?.data?._id) {
-      const confirmUrl = `${API_BASE_URL}/user/policies-mso/${res.data.data._id}/confirm-payment`;
-      const timestamp = new Date().getTime();
-      const dummyPayload = {
-        payment_status: 'paid',
-        blockchain: 'ethereum',
-        block_timestamp: timestamp.toString(),
-        txn_type: 'onchain',
-        payment_hash: payload.txn_hash,
-        currency: 'USD',
-        wallet_address: payload.wallet_address,
-        paid_amount: payload.total_amount,
-      };
-
-      const confirmRes = yield call(
-        axiosPost,
-        confirmUrl,
-        dummyPayload,
-        yield select(selector.token),
-        null,
-        yield select(selector.wallet_address),
+    if (res?.data?.success) {
+      return yield put(
+        buyMsoInsuranceSuccess({
+          _id: res?.data?.data?._id,
+          txn_hash: res?.data?.data?.txn_hash,
+        }),
       );
-
-      if (confirmRes?.data?.success)
-        return yield put(confirmBuyMsoInsuranceSuccess(confirmRes.data.data));
     }
-
     return yield put(
       setBuyMsoInsuranceLoader({
         _id: null,
@@ -99,18 +79,30 @@ function* confirmBuyMsoInsurance({ payload }) {
       }),
     );
 
-    const url = `${API_BASE_URL}/user/policies-mso/${payload._id}/confirm-payment`;
+    const confirmUrl = `${API_BASE_URL}/user/policies-mso/${payload._id}/confirm-payment`;
+    const timestamp = new Date().getTime();
+    const dummyPayload = {
+      payment_status: 'paid',
+      blockchain: 'ethereum',
+      block_timestamp: timestamp.toString(),
+      txn_type: 'onchain',
+      payment_hash: payload.txn_hash,
+      currency: 'USD',
+      wallet_address: payload.wallet_address,
+      paid_amount: payload.total_amount,
+    };
+
     const res = yield call(
       axiosPost,
-      url,
-      payload,
+      confirmUrl,
+      dummyPayload,
       yield select(selector.token),
       null,
       yield select(selector.wallet_address),
     );
-
     if (res?.data?.success) {
-      return yield put(confirmBuyMsoInsuranceSuccess(res?.data?.data));
+      console.log(res.data.data);
+      return yield put(confirmBuyMsoInsuranceSuccess(res.data.data));
     }
 
     return yield put(

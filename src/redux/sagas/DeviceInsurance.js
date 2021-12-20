@@ -3,6 +3,7 @@
 import { all, call, put, takeLatest, select } from 'redux-saga/effects';
 import { API_BASE_URL } from '../constants/config';
 import {
+  BUY_DEVICE_INSURANCE_FIRST,
   BUY_DEVICE_INSURANCE,
   CONFIRM_BUY_DEVICE_INSURANCE,
   GET_DEVICE_DETAILS,
@@ -12,6 +13,7 @@ import {
 import {
   setBuyDeviceInsuranceLoader,
   buyDeviceInsuranceSuccess,
+  buyDeviceInsuranceFirstSuccess,
   setConfirmBuyDeviceInsuranceLoader,
   confirmBuyDeviceInsuranceSuccess,
   getDeviceDetailsSuccess,
@@ -24,6 +26,26 @@ import {
 import { axiosGet, axiosPost } from '../constants/apicall';
 import * as selector from '../constants/selectors';
 
+function* buyDeviceInsuranceFirst({ payload }) {
+  try {
+    const url = `${API_BASE_URL}/user/policies-device-insurance`;
+    const res = yield call(
+      axiosPost,
+      url,
+      payload,
+      yield select(selector.token),
+      null,
+      yield select(selector.wallet_address),
+    );
+    if (res?.data?.success && res?.data?.data?._id) {
+      return yield put(buyDeviceInsuranceFirstSuccess({ policyId: res.data.data._id }));
+    }
+    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: '' }));
+  } catch (error) {
+    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: '' }));
+  }
+}
+
 function* buyDeviceInsurance({ payload }) {
   try {
     yield put(
@@ -34,18 +56,18 @@ function* buyDeviceInsurance({ payload }) {
       }),
     );
 
-    const url = `${API_BASE_URL}/user/policies-device-insurance`;
-    const res = yield call(
-      axiosPost,
-      url,
-      payload,
-      yield select(selector.token),
-      null,
-      yield select(selector.wallet_address),
-    );
+    // const url = `${API_BASE_URL}/user/policies-device-insurance`;
+    // const res = yield call(
+    //   axiosPost,
+    //   url,
+    //   payload,
+    //   yield select(selector.token),
+    //   null,
+    //   yield select(selector.wallet_address),
+    // );
 
-    if (res?.data?.success && res?.data?.data?._id) {
-      const confirmUrl = `${API_BASE_URL}/user/policies-device-insurance/${res.data.data._id}/confirm-payment`;
+    if (payload.policyId !== '') {
+      const confirmUrl = `${API_BASE_URL}/user/policies-device-insurance/${payload.policyId}/confirm-payment`;
       const timestamp = new Date().getTime();
       const dummyPayload = {
         payment_status: 'paid',
@@ -77,7 +99,7 @@ function* buyDeviceInsurance({ payload }) {
         txn_hash: null,
         loader: false,
         isFailed: true,
-        message: res.data.message,
+        message: '',
       }),
     );
   } catch (error) {
@@ -261,6 +283,7 @@ function* getDeviceModelDetail({ payload }) {
 }
 
 export default all([
+  takeLatest(BUY_DEVICE_INSURANCE_FIRST, buyDeviceInsuranceFirst),
   takeLatest(BUY_DEVICE_INSURANCE, buyDeviceInsurance),
   takeLatest(CONFIRM_BUY_DEVICE_INSURANCE, confirmBuyDeviceInsurance),
   takeLatest(GET_DEVICE_DETAILS, getDeviceDetail),

@@ -46,7 +46,6 @@ const ConfirmModal = (props) => {
   const [txPending, setTxPending] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
   const [crvAmount, setCrvAmount] = useState(0);
-  const [ethAmount, setEthAmount] = useState(0);
 
   const { getNexusMutualAddress, getInsureAceAddress, getTokenAddress } = useAddress();
   const { getNeededTokenAmount } = useTokenAmount();
@@ -102,12 +101,12 @@ const ConfirmModal = (props) => {
 
   useEffect(() => {
     (async () => {
-      const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, total);
-      const ethAmount = await getNeededTokenAmount(ethAddress, usdcAddress, total);
-      setCrvAmount(crvAmount);
-      setEthAmount(ethAmount);
+      if (applyDiscount) {
+        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, total);
+        setCrvAmount(crvAmount);
+      }
     })();
-  }, [total]);
+  }, [total, applyDiscount]);
 
   const handleConfirm = async () => {
     setIsNotCloseable(true);
@@ -117,6 +116,7 @@ const ConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
+    const ethAmount = await getNeededTokenAmount(ethAddress, usdcAddress, total);
     if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)) {
       toast.warning('Insufficient ETH balance!');
       setIsNotCloseable(false);

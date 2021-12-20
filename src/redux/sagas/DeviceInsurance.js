@@ -38,10 +38,11 @@ function* buyDeviceInsuranceFirst({ payload }) {
       yield select(selector.wallet_address),
     );
     if (res?.data?.success && res?.data?.data?._id) {
-      return yield put(buyDeviceInsuranceFirstSuccess({policyId: res.data.data._id}));
+      return yield put(buyDeviceInsuranceFirstSuccess({ policyId: res.data.data._id }));
     }
+    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: '' }));
   } catch (error) {
-    return yield put(buyDeviceInsuranceFirstSuccess({policyId: ''}));
+    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: '' }));
   }
 }
 

@@ -17,7 +17,7 @@ export default {
   exchangeAgent: {
     1: '',
     4: '0x9717cA3f6b5E560d244D41791D5760316d2b7bFE',
-    42: '0x33C5F22E6db919CCFFe1dDf0999cB5C4C9ae7B79',
+    42: '0x6a8c6f344712108DBd4b6B94808D4EcA8fA8dB10',
   },
   priceFeed: {
     eth: {

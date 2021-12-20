@@ -8,13 +8,7 @@ const buyProductByToken = async (contract, param, account, sig) => {
   const durPlan = param.puchase_month === 'Less than 12 months' ? 1 : 2;
   const { token } = param;
 
-  const funParam =[
-    policyId,
-    value,
-    durPlan,
-    token,
-    sig,
-  ];
+  const funParam = [policyId, value, durPlan, token, sig];
 
   const tx = await callWithEstimateGas(contract, 'buyProductByToken', funParam);
   const receipt = await tx.wait();
@@ -31,7 +25,7 @@ const buyProductByEth = async (contract, param, sig, ethAmt) => {
   const policyId = param.id === undefined ? 'first-test' : param.id;
   const durPlan = param.puchase_month === 'Less than 12 months' ? 1 : 2;
 
-  const funParam =[policyId, value, durPlan, sig];
+  const funParam = [policyId, value, durPlan, sig];
   const tx = await callWithEstimateGasPayable(contract, 'buyProductByETH', ethAmt, funParam);
   const receipt = await tx.wait();
 

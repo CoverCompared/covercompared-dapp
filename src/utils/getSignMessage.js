@@ -31,11 +31,7 @@ const getSignMessage = (param, isUseCrv = false) => {
   // const paddedPurchMonthHexStr = getPaddedHexStrFromINT(purchMonth);
   const paddedDurPlanHexStr = getPaddedHexStrFromINT(durPlan);
 
-  return (
-    hexDeviceStr +
-    paddedValueHexStr.slice(2) +
-    paddedDurPlanHexStr.slice(2)
-  );
+  return hexDeviceStr + paddedValueHexStr.slice(2) + paddedDurPlanHexStr.slice(2);
 };
 
 export const getSignMessageForMSO = (param, isUseCrv = false) => {

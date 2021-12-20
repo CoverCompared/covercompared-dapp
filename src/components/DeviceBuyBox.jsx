@@ -236,7 +236,7 @@ const DeviceBuyBox = (props) => {
     setMaxWidth('max-w-lg');
     setTitle('Confirmation');
     setShowConfirmation(true);
-    
+
     const param = {
       device_type: deviceType,
       brand,

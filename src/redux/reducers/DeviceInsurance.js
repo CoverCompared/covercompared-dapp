@@ -73,7 +73,7 @@ export default (state = INIT_STATE, { type, payload }) => {
         ...state,
         ...payload,
         message: '',
-      }
+      };
     }
     case SET_GET_DEVICE_DETAILS_LOADER: {
       return {

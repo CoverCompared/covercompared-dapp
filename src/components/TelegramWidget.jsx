@@ -11,7 +11,7 @@ const TelegramWidget = () => {
 
   return (
     <div
-      className="z-10 absolute bottom-5 right-5 cursor-pointer flex flex-col items-center"
+      className="z-10 fixed bottom-5 right-5 cursor-pointer flex flex-col items-center"
       onClick={() => window.open(url, '_blank')}
     >
       <p className="pb-1 text-sm w-32 text-center">Join TG channel for reporting bugs</p>

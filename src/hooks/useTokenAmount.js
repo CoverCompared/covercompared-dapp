@@ -10,6 +10,18 @@ const useTokenAmount = () => {
   const exchangeAgentContract = useExchangeAgentContract();
   const cvrAddr = getCrvAddressByChainId(chainId || 4);
 
+  const getNeededTokenAmount = useCallback(async (token0, token1, desiredAmount) => {
+    const big_desiredAmount = new BigNumber(desiredAmount)
+      .multipliedBy(10 ** 18)
+      .toFixed(0)
+      .toString();
+    const tokenAmount = await exchangeAgentContract.getNeededTokenAmount(
+      token0,
+      token1,
+      big_desiredAmount,
+    );
+    return new BigNumber(tokenAmount.toString());
+  });
   const getETHAmountForUSDC = useCallback(
     async (desiredAmount) => {
       let ethAmount = BIG_ZERO;
@@ -51,6 +63,7 @@ const useTokenAmount = () => {
     [library, account, exchangeAgentContract],
   );
   return {
+    getNeededTokenAmount,
     getETHAmountForUSDC,
     getTokenAmountForUSDC,
     getTokenAmountForETH,

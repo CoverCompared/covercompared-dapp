@@ -11,9 +11,8 @@ const buyCoverByETH = async (contract, param) => {
     data[1],
     data[2],
     data[3],
-    data[4],
     data[5],
-    data[6],
+    premium, // premium amount in eth
     data[7],
     data[8],
     data[9],
@@ -29,15 +28,15 @@ const buyCoverByETH = async (contract, param) => {
 };
 
 const buyCoverByToken = async (contract, param) => {
-  const { data } = param;
+  const { data, premium, token } = param;
   const tx = await contract.buyCoverByToken(
     data[0],
     data[1],
     data[2],
     data[3],
-    data[4],
+    token,
     data[5],
-    data[6],
+    premium, // premium amount in eth
     data[7],
     data[8],
     data[9],

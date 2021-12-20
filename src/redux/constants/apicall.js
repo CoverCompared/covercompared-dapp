@@ -4,9 +4,9 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { fallbackMessage } from './constants';
-import configureStore from '../store';
-import { logoutUser, getLoginDetailsSuccess } from '../actions/Auth';
-import { API_BASE_URL } from './config';
+// import configureStore from '../store';
+// import { logoutUser, getLoginDetailsSuccess } from '../actions/Auth';
+// import { API_BASE_URL } from './config';
 
 export const axiosGet = (url, token = null, wallet_address = null) => {
   const headers = {};
@@ -39,29 +39,29 @@ export const axiosGet = (url, token = null, wallet_address = null) => {
         };
       }
 
-      try {
-        if (
-          ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
-            !error.response.data?.status) &&
-          wallet_address
-        ) {
-          const loginUrl = `${API_BASE_URL}/login`;
-          const loginPayload = { wallet_address };
-          const loginRes = await axios.post(loginUrl, loginPayload, { headers });
-          if (loginRes?.data?.data) {
-            const store = configureStore()?.store;
+      // try {
+      //   if (
+      //     ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
+      //       !error.response.data?.status) &&
+      //     wallet_address
+      //   ) {
+      //     const loginUrl = `${API_BASE_URL}/login`;
+      //     const loginPayload = { wallet_address };
+      //     const loginRes = await axios.post(loginUrl, loginPayload, { headers });
+      //     if (loginRes?.data?.data) {
+      //       const store = configureStore()?.store;
 
-            store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
-            axiosGet(url, loginRes.data.data.token);
-          }
-        }
-      } catch (err) {
-        return {
-          status: code,
-          data,
-          headers,
-        };
-      }
+      //       store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
+      //       axiosGet(url, loginRes.data.data.token);
+      //     }
+      //   }
+      // } catch (err) {
+      //   return {
+      //     status: code,
+      //     data,
+      //     headers,
+      //   };
+      // }
 
       toast.error(`${code} - ${data.message}`);
       return {
@@ -86,7 +86,7 @@ export const axiosPost = (url, payload, token = null, headers = null, wallet_add
       return res;
     })
     .catch(async (error) => {
-      console.log('error in axio call :: ', error);
+      // console.log('error in axio call :: ', error);
       let code = null;
       let data = null;
       let headers = null;
@@ -106,29 +106,29 @@ export const axiosPost = (url, payload, token = null, headers = null, wallet_add
         };
       }
 
-      try {
-        if (
-          ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
-            !error.response.data?.status) &&
-          wallet_address
-        ) {
-          const loginUrl = `${API_BASE_URL}/login`;
-          const loginPayload = { wallet_address };
-          const loginRes = await axios.post(loginUrl, loginPayload, { headers });
-          if (loginRes?.data?.data) {
-            const store = configureStore()?.store;
+      // try {
+      //   if (
+      //     ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
+      //       !error.response.data?.status) &&
+      //     wallet_address
+      //   ) {
+      //     const loginUrl = `${API_BASE_URL}/login`;
+      //     const loginPayload = { wallet_address };
+      //     const loginRes = await axios.post(loginUrl, loginPayload, { headers });
+      //     if (loginRes?.data?.data) {
+      //       const store = configureStore()?.store;
 
-            store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
-            axiosPost(url, payload, loginRes.data.data.token, headers);
-          }
-        }
-      } catch (err) {
-        return {
-          status: code,
-          data,
-          headers,
-        };
-      }
+      //       store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
+      //       axiosPost(url, payload, loginRes.data.data.token, headers);
+      //     }
+      //   }
+      // } catch (err) {
+      //   return {
+      //     status: code,
+      //     data,
+      //     headers,
+      //   };
+      // }
 
       toast.error(`${code} - ${data.message}`);
       return {
@@ -171,29 +171,29 @@ export const axiosPut = (url, obj, token, headers = null, wallet_address = null)
         };
       }
 
-      try {
-        if (
-          ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
-            !error.response.data?.status) &&
-          wallet_address
-        ) {
-          const loginUrl = `${API_BASE_URL}/login`;
-          const loginPayload = { wallet_address };
-          const loginRes = await axios.post(loginUrl, loginPayload, { headers });
-          if (loginRes?.data?.data) {
-            const store = configureStore()?.store;
+      // try {
+      //   if (
+      //     ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
+      //       !error.response.data?.status) &&
+      //     wallet_address
+      //   ) {
+      //     const loginUrl = `${API_BASE_URL}/login`;
+      //     const loginPayload = { wallet_address };
+      //     const loginRes = await axios.post(loginUrl, loginPayload, { headers });
+      //     if (loginRes?.data?.data) {
+      //       const store = configureStore()?.store;
 
-            store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
-            axiosPut(url, obj, loginRes.data.data.token, headers);
-          }
-        }
-      } catch (err) {
-        return {
-          status: code,
-          data,
-          headers,
-        };
-      }
+      //       store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
+      //       axiosPut(url, obj, loginRes.data.data.token, headers);
+      //     }
+      //   }
+      // } catch (err) {
+      //   return {
+      //     status: code,
+      //     data,
+      //     headers,
+      //   };
+      // }
 
       toast.error(`${code} - ${data.message}`);
       return {
@@ -234,29 +234,29 @@ export const axiosDelete = (url, token, wallet_address = null) => {
         };
       }
 
-      try {
-        if (
-          ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
-            !error.response.data?.status) &&
-          wallet_address
-        ) {
-          const loginUrl = `${API_BASE_URL}/login`;
-          const loginPayload = { wallet_address };
-          const loginRes = await axios.post(loginUrl, loginPayload, { headers });
-          if (loginRes?.data?.data) {
-            const store = configureStore()?.store;
+      // try {
+      //   if (
+      //     ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
+      //       !error.response.data?.status) &&
+      //     wallet_address
+      //   ) {
+      //     const loginUrl = `${API_BASE_URL}/login`;
+      //     const loginPayload = { wallet_address };
+      //     const loginRes = await axios.post(loginUrl, loginPayload, { headers });
+      //     if (loginRes?.data?.data) {
+      //       const store = configureStore()?.store;
 
-            store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
-            axiosDelete(url, loginRes.data.data.token);
-          }
-        }
-      } catch (err) {
-        return {
-          status: code,
-          data,
-          headers,
-        };
-      }
+      //       store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
+      //       axiosDelete(url, loginRes.data.data.token);
+      //     }
+      //   }
+      // } catch (err) {
+      //   return {
+      //     status: code,
+      //     data,
+      //     headers,
+      //   };
+      // }
 
       toast.error(`${code} - ${data.message}`);
       return {

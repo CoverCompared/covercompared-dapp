@@ -50,6 +50,13 @@ const MsoUserInfoForm = (props) => {
   const [userEmail, setUserEmail] = useState('');
   const [userOtp, setUserOtp] = useState('');
 
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const day = d.getDate();
+  const minDate = new Date(year - 100, month, day).toLocaleDateString('en-ca');
+  const maxDate = new Date().toLocaleDateString('en-ca');
+
   useEffect(() => {
     dispatch(resetDeviceInsurance());
   }, []);
@@ -121,6 +128,15 @@ const MsoUserInfoForm = (props) => {
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
+
+    const isVerifiedDob = users.every((item) => new Date(item.dob) >= new Date(minDate));
+
+    if (!isVerifiedDob) {
+      setShowAlert(true);
+      setAlertType('Warning!');
+      return setAlertText('Please select valid DOB');
+    }
+
     if (notRegistered) {
       setShowAlert(true);
       setAlertType('Warning!');
@@ -314,7 +330,8 @@ const MsoUserInfoForm = (props) => {
                       name="dob"
                       fieldChange={handleUserFieldChange}
                       inputPlaceholder="Date of Birth"
-                      max={new Date().toLocaleDateString('en-ca')}
+                      min={minDate}
+                      max={maxDate}
                       index={index}
                       disabled={notRegistered}
                       required

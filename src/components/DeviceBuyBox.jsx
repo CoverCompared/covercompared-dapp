@@ -541,6 +541,8 @@ const DeviceBuyBox = (props) => {
               placeholder="First Name"
               name="first_name"
               value={fName}
+              pattern="^[A-Za-z ]+$"
+              title="Only Alphabets are allowed"
               onChange={(e) => setFName(e.target.value)}
               className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
             />
@@ -550,6 +552,8 @@ const DeviceBuyBox = (props) => {
               placeholder="Last Name"
               name="last_name"
               value={lName}
+              pattern="^[A-Za-z ]+$"
+              title="Only Alphabets are allowed"
               onChange={(e) => setLName(e.target.value)}
               className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
             />

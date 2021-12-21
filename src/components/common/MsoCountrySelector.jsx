@@ -143,6 +143,7 @@ const MsoCountrySelector = ({
           toast.warning(error.message);
           setTxPending(false);
           setIsNotCloseable(false);
+          setIsModalOpen(false);
         }
       })();
     }

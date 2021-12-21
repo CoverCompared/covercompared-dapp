@@ -75,14 +75,14 @@ const MyAccount = (props) => {
   }, []);
 
   // this hooks for testing. Should be remove in production.
-  useEffect(() => {
-    (async () => {
-      const _chainId = SupportedChainId.KOVAN;
-      if (chainId !== _chainId) {
-        await setupNetwork(_chainId);
-      }
-    })();
-  }, [chainId]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const _chainId = SupportedChainId.KOVAN;
+  //     if (chainId !== _chainId) {
+  //       await setupNetwork(_chainId);
+  //     }
+  //   })();
+  // }, [chainId]);
 
   const handleSubmitToClaim = async (policy, i) => {
     const { details, wallet_address } = policy;

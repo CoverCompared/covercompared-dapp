@@ -114,7 +114,6 @@ const MSOReceipt = (props) => {
     membersInfo,
     quote,
     total,
-    tax,
     discountAmount,
     addonServices,
     MSOAddOnService,
@@ -269,14 +268,6 @@ const MSOReceipt = (props) => {
                 </View>
                 <View>
                   <Text>{discountAmount} USD</Text>
-                </View>
-              </View>
-              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-                <View>
-                  <Text>Tax</Text>
-                </View>
-                <View>
-                  <Text>{tax} USD</Text>
                 </View>
               </View>
               <View style={[styles.border_bottom, styles.borderMY]} />

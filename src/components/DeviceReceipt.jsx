@@ -77,7 +77,6 @@ const DeviceReceipt = (props) => {
     txn_hash,
     quote,
     total,
-    tax,
     discountAmount,
     fName,
     lName,
@@ -212,14 +211,6 @@ const DeviceReceipt = (props) => {
                   </View>
                   <View>
                     <Text>{discountAmount} USD</Text>
-                  </View>
-                </View>
-                <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-                  <View style={styles.deviceDetails}>
-                    <Text>Tax</Text>
-                  </View>
-                  <View>
-                    <Text>{tax} USD</Text>
                   </View>
                 </View>
 

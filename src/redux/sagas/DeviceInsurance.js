@@ -55,15 +55,6 @@ function* buyDeviceInsurance({ payload }) {
         isFailed: false,
       }),
     );
-    // const url = `${API_BASE_URL}/user/policies-device-insurance`;
-    // const res = yield call(
-    //   axiosPost,
-    //   url,
-    //   payload,
-    //   yield select(selector.token),
-    //   null,
-    //   yield select(selector.wallet_address),
-    // );
 
     if (payload.policyId !== null) {
       const confirmUrl = `${API_BASE_URL}/user/policies-device-insurance/${payload.policyId}/confirm-payment`;

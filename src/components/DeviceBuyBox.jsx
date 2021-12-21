@@ -254,7 +254,7 @@ const DeviceBuyBox = (props) => {
           last_name: lName,
           email,
           phone,
-          currency: plan_currency,
+          currency: applyDiscount ? 'CVR' : 'USD',
           amount: plan_total_price,
           discount_amount: discountAmount,
           tax: '5',

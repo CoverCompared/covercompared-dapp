@@ -14,7 +14,7 @@ import {
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
-  policyId: '',
+  policyId: null,
   message: '',
   loader: false,
   isFailed: false,
@@ -66,6 +66,7 @@ export default (state = INIT_STATE, { type, payload }) => {
         message: '',
         loader: false,
         isFailed: false,
+        policyId: null,
       };
     }
     case BUY_DEVICE_INSURANCE_FIRST_SUCCESS: {

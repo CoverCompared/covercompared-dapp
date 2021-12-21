@@ -60,12 +60,12 @@ const MsoCountrySelector = ({
   const [showAlert, setShowAlert] = useState(false);
   const [txPending, setTxPending] = useState(false);
 
-  const { quote = '0', MSOAddOnService = '0', tax = '5', name, logo, MSOCoverUser } = selectedPlan;
+  const { quote = '0', MSOAddOnService = '0', name, logo, MSOCoverUser } = selectedPlan;
   const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
   const discountAmount = applyDiscount ? discount : 0;
   const total = addonServices
-    ? +quote + +MSOAddOnService + +tax - discountAmount
-    : +quote + +tax - discountAmount;
+    ? +quote + +MSOAddOnService - discountAmount
+    : +quote - discountAmount;
   const { getMSOAddress } = useAddress();
   const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getMSOAddress());
   const { balance } = useGetEthBalance();
@@ -143,6 +143,7 @@ const MsoCountrySelector = ({
           toast.warning(error.message);
           setTxPending(false);
           setIsNotCloseable(false);
+          setIsModalOpen(false);
         }
       })();
     }
@@ -219,7 +220,7 @@ const MsoCountrySelector = ({
       mso_addon_service: addonServices ? MSOAddOnService : 0,
       amount: addonServices ? +quote + +MSOAddOnService : quote,
       discount_amount: discountAmount,
-      tax,
+      tax: '0',
       total_amount: total,
       MSOMembers: membersInfo.map((m) => ({
         user_type: m.userType,
@@ -281,7 +282,6 @@ const MsoCountrySelector = ({
                   quote,
                   discount,
                   total,
-                  tax,
                   discountAmount,
                   addonServices,
                   applyDiscount,
@@ -302,7 +302,6 @@ const MsoCountrySelector = ({
               membersInfo,
               quote,
               total,
-              tax,
               discountAmount,
               addonServices,
               MSOAddOnService,
@@ -349,10 +348,6 @@ const MsoCountrySelector = ({
           <div className="flex items-center justify-between w-full dark:text-white">
             <h5 className="text-h6 font-medium">Discount</h5>
             <h5 className="text-body-lg font-medium">{discountAmount} USD</h5>
-          </div>
-          <div className="flex items-center justify-between w-full dark:text-white">
-            <h5 className="text-h6 font-medium">Tax</h5>
-            <h5 className="text-body-lg font-medium">{tax} USD</h5>
           </div>
           <hr />
           <div className="flex items-center justify-between w-full dark:text-white">

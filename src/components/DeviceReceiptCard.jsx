@@ -8,7 +8,6 @@ const DeviceReceiptCard = (props) => {
     txn_hash,
     quote,
     total,
-    tax,
     discountAmount,
     fName,
     lName,
@@ -137,12 +136,6 @@ const DeviceReceiptCard = (props) => {
               </div>
               <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
                 {discountAmount} USD
-              </div>
-            </div>
-            <div className="flex items-center justify-between w-full font-Montserrat">
-              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">Tax</div>
-              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
-                {tax} USD
               </div>
             </div>
             <hr />

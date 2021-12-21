@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import uniqid from 'uniqid';
 import StarRatings from 'react-star-ratings';
 import { useSelector } from 'react-redux';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import ReviewCard from '../components/ReviewCard';
 import CoverBuyBox from '../components/CoverBuyBox';
 import IdeaCard from '../assets/img/idea-icon.svg';
@@ -92,7 +95,7 @@ const ReviewContainer = (props) => {
 };
 
 const InsuranceProduct = (props) => {
-  const { type } = useParams();
+  // const { type } = useParams();
   const { currentProduct: product } = useSelector((state) => state.app);
   const { theme } = useContext(ThemeContext);
   const [filterSelect, setFilterSelect] = useState('');
@@ -105,12 +108,17 @@ const InsuranceProduct = (props) => {
     company_code,
     address,
     company,
+    type,
     duration_days_max,
     duration_days_min,
     logo,
     company_icon,
     currency_limit,
   } = product || {};
+
+  useEffect(() => {
+    logEvent(analytics, 'View - Cover Product', { name, company, type });
+  }, []);
 
   useEffect(() => {
     let accountNummber;

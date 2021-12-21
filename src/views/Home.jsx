@@ -110,7 +110,7 @@ export default function Home(props) {
   }, [chainId]);
 
   useEffect(() => {
-    logEvent(analytics, 'Home Screen View');
+    logEvent(analytics, 'View - Home Screen');
     const query = `/table?range=[0,3]`;
     dispatch(searchBlogList(query));
 

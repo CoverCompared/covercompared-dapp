@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import uniqid from 'uniqid';
+import { logEvent } from 'firebase/analytics';
 
+import { analytics } from '../config/firebase';
 import PhaseCard from '../components/PhaseCard';
 
 import PointIcon from '../assets/img/blue-point.svg';
@@ -59,6 +61,10 @@ const PhaseArr = [
   },
 ];
 const AboutUs = () => {
+  useEffect(() => {
+    logEvent(analytics, 'View - About Us');
+  }, []);
+
   return (
     <>
       <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mb-12">

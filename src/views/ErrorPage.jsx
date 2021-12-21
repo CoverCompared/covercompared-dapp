@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
+
 import ErrorImg from '../assets/img/404.svg';
 
 const ErrorPage = (props) => {
+  useEffect(() => {
+    logEvent(analytics, 'View - 404 Error Page');
+  }, []);
+
   return (
     <>
       <div className="flex flex-col justify-center items-center h-full">

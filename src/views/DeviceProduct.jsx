@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Markup } from 'interweave';
 import uniqid from 'uniqid';
 import { useSelector } from 'react-redux';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import Modal from '../components/common/Modal';
 import DeviceBuyBox from '../components/DeviceBuyBox';
@@ -208,6 +211,7 @@ const DeviceProduct = (props) => {
   }, [chainId]);
 
   useEffect(() => {
+    logEvent(analytics, 'View - Device Insurance');
     const t = p4lTable.slice(0, 4);
     setTable(t);
   }, []);

@@ -3,8 +3,10 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import uniqid from 'uniqid';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import PackageCard from '../components/common/PackageCard';
 import SmallPackageCard from '../components/common/SmallPackageCard';
 
@@ -42,6 +44,11 @@ const DetailSearch = (props) => {
   if (card === 'smart-contract') type = 'protocol,token';
   else if (card === 'crypto-exchange') type = 'custodian';
   else type = '';
+
+  useEffect(() => {
+    if (card === 'smart-contract') logEvent(analytics, 'View - Smart Contract Cover');
+    else if (card === 'crypto-exchange') logEvent(analytics, 'View - Crypto Exchange');
+  }, []);
 
   useEffect(() => {
     setProducts(coverList);

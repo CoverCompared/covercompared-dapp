@@ -11,8 +11,6 @@ const AboutUs = React.lazy(() => import('../views/AboutUs'));
 const Product = React.lazy(() => import('../views/Product'));
 const MyAccount = React.lazy(() => import('../views/MyAccount'));
 const SubmitReview = React.lazy(() => import('../views/SubmitReview'));
-const MsoPackages = React.lazy(() => import('../views/MsoPackages'));
-const MsoProducts = React.lazy(() => import('../views/MsoProducts'));
 const Blog = React.lazy(() => import('../views/Blog'));
 const ErrorPage = React.lazy(() => import('../views/ErrorPage'));
 const MSOPlans = React.lazy(() => import('../views/MSOPlans'));
@@ -165,25 +163,6 @@ const routes = [
     bgImg: 'md:bg-commonSectionBg',
     mobileBgImg: 'bg-submitReviewBg',
     bgImgClass: 'bg-fixed bg-100% bg-no-repeat bg-bottom',
-  },
-  {
-    path: '/mso-packages',
-    pageName: 'MSOProduct',
-    withSidebar: false,
-    component: MsoPackages,
-    title: '',
-    bgImg: 'md:bg-packagePageBg',
-    bgImgClass: 'bg-100% bg-no-repeat bg-bottom',
-  },
-  {
-    path: '/mso-product',
-    exact: true,
-    pageName: 'MSO Product',
-    withSidebar: false,
-    component: MsoProducts,
-    title: '',
-    bgImg: 'md:bg-productBg',
-    bgImgClass: 'bg-100% bg-no-repeat',
   },
   {
     path: '/blogs',

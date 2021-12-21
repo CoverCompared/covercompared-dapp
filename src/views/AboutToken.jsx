@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 
 import HealthInsurance from '../assets/img/health-insurance.svg';
 import InsurancePolicy from '../assets/img/insurance-policy-icon.svg';
@@ -12,6 +15,10 @@ import MobilePageTitle from '../components/common/MobilePageTitle';
 const marketPlaces = ['Etherscan', 'Uniswap', 'Coinmarketcap', 'Dextools'];
 
 const AboutToken = () => {
+  useEffect(() => {
+    logEvent(analytics, 'View - About Token');
+  }, []);
+
   return (
     <>
       <MobilePageTitle title="About the Polkacover Token" />

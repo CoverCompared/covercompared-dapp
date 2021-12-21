@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
-import useActiveWeb3React from '../hooks/useActiveWeb3React';
+import { logEvent } from 'firebase/analytics';
 
+import { analytics } from '../config/firebase';
+import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import MSOPlanCard from '../components/MSOPlanCard';
 import Loading from '../components/common/Loading';
 import MSOServicesCard from '../components/MSOServicesCard';
@@ -10,7 +12,6 @@ import { searchMSOList } from '../redux/actions/MsoInsurance';
 import Modal from '../components/common/Modal';
 import MsoEligibilityChecker from '../components/common/MsoEligibilityChecker';
 import OverlayLoading from '../components/common/OverlayLoading';
-
 import { SupportedChainId } from '../config/chains';
 import { setupNetwork } from '../utils/wallet';
 
@@ -116,6 +117,7 @@ const MSOPlans = (props) => {
   }, [chainId]);
 
   useEffect(() => {
+    logEvent(analytics, 'View - MSO Insurance');
     dispatch(searchMSOList());
   }, []);
 

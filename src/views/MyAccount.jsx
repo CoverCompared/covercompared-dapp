@@ -4,10 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
 import ClaimCards from '../components/ClaimCards';
-// import AdditionalDetails from '../components/AdditionalDetails';
 import { getUserPolicies } from '../redux/actions/UserProfile';
 import OverlayLoading from '../components/common/OverlayLoading';
 import MSOReceipt from '../components/MSOReceipt';
@@ -15,16 +17,15 @@ import MSOReceiptCard from '../components/MSOReceiptCard';
 import DeviceReceipt from '../components/DeviceReceipt';
 import DeviceReceiptCard from '../components/DeviceReceiptCard';
 import DownloadPolicy from '../components/common/DownloadPolicy';
+import useActiveWeb3React from '../hooks/useActiveWeb3React';
+import useClaimForCover from '../hooks/useClaimForCover';
+import Loading from '../components/common/TxLoading';
+// import AdditionalDetails from '../components/AdditionalDetails';
+// import useGetNexusMutualCover from '../hooks/useFetchEvents';
 
 import p4lLogo from '../assets/img/p4l-logo.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import placeholderLogo from '../assets/img/placeholder.png';
-// import useGetNexusMutualCover from '../hooks/useFetchEvents';
-import useActiveWeb3React from '../hooks/useActiveWeb3React';
-import useClaimForCover from '../hooks/useClaimForCover';
-import { SupportedChainId } from '../config/chains';
-import { setupNetwork } from '../utils/wallet';
-import Loading from '../components/common/TxLoading';
 
 const DeviceCard = (props) => {
   return (
@@ -71,18 +72,9 @@ const MyAccount = (props) => {
   });
 
   useEffect(() => {
+    logEvent(analytics, 'View - My Account');
     if (account) dispatch(getUserPolicies());
   }, []);
-
-  // this hooks for testing. Should be remove in production.
-  useEffect(() => {
-    (async () => {
-      const _chainId = SupportedChainId.KOVAN;
-      if (chainId !== _chainId) {
-        await setupNetwork(_chainId);
-      }
-    })();
-  }, [chainId]);
 
   const handleSubmitToClaim = async (policy, i) => {
     const { details, wallet_address } = policy;

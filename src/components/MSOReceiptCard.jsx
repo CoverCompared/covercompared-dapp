@@ -10,7 +10,6 @@ const MSOReceiptCard = (props) => {
     membersInfo,
     quote,
     total,
-    tax,
     discountAmount,
     addonServices,
     MSOAddOnService,
@@ -123,10 +122,6 @@ const MSOReceiptCard = (props) => {
               <div className="flex items-center justify-between w-full font-Montserrat">
                 <h5 className="md:text-body-md text-body-sm  font-medium">Discount</h5>
                 <h5 className="md:text-body-sm text-body-xs font-medium">{discountAmount} USD</h5>
-              </div>
-              <div className="flex items-center justify-between w-full font-Montserrat">
-                <h5 className="md:text-body-md text-body-sm  font-medium">Tax</h5>
-                <h5 className="md:text-body-sm text-body-xs font-medium">{tax} USD</h5>
               </div>
               <hr />
               <div className="flex items-center justify-between w-full text-body-dark-bg mt-2 font-Montserrat text-body-lg font-semibold">

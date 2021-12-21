@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 
 const FAQs = () => {
+  useEffect(() => {
+    logEvent(analytics, 'View - FAQ Page');
+  }, []);
+
   return (
     <>
       <div className="lg:px-24">

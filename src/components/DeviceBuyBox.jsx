@@ -111,10 +111,9 @@ const DeviceBuyBox = (props) => {
   const hasAllStep = hasFirstTwoStep && (model || !deviceModelDetails?.models?.length);
 
   const { plan_total_price, plan_currency, plan_type } = planType;
-  const tax = '5';
   const discount = +((+plan_total_price * 25) / 100).toFixed(2);
   const discountAmount = applyDiscount ? discount : 0;
-  const total = Number(+plan_total_price + +tax - discountAmount).toFixed(2);
+  const total = Number(+plan_total_price - discountAmount).toFixed(2);
   const selectedModel = deviceModelDetails?.models?.filter((obj) => obj.model_code === model) || [];
 
   useEffect(() => {
@@ -257,7 +256,7 @@ const DeviceBuyBox = (props) => {
           currency: applyDiscount ? 'CVR' : 'USD',
           amount: plan_total_price,
           discount_amount: discountAmount,
-          tax: '5',
+          tax: '0',
           total_amount: total,
           wallet_address: account,
         };
@@ -364,7 +363,7 @@ const DeviceBuyBox = (props) => {
       currency: plan_currency,
       amount: plan_total_price,
       discount_amount: discountAmount,
-      tax: '5',
+      tax: '0',
       total_amount: total,
       wallet_address: account,
     };
@@ -487,7 +486,6 @@ const DeviceBuyBox = (props) => {
                   quote: plan_total_price,
                   discount,
                   total,
-                  tax,
                   discountAmount,
                   applyDiscount,
                   fName,
@@ -512,7 +510,6 @@ const DeviceBuyBox = (props) => {
             txn_hash,
             quote: plan_total_price,
             total,
-            tax,
             discountAmount,
             fName,
             lName,
@@ -558,10 +555,6 @@ const DeviceBuyBox = (props) => {
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Discount</h5>
           <h5 className="text-body-lg font-medium">{discountAmount} USD</h5>
-        </div>
-        <div className="flex items-center justify-between w-full dark:text-white">
-          <h5 className="text-h6 font-medium">Tax</h5>
-          <h5 className="text-body-lg font-medium">{tax} USD</h5>
         </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">

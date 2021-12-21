@@ -19,8 +19,6 @@ import DeviceReceiptCard from '../components/DeviceReceiptCard';
 import DownloadPolicy from '../components/common/DownloadPolicy';
 import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import useClaimForCover from '../hooks/useClaimForCover';
-import { SupportedChainId } from '../config/chains';
-import { setupNetwork } from '../utils/wallet';
 import Loading from '../components/common/TxLoading';
 // import AdditionalDetails from '../components/AdditionalDetails';
 // import useGetNexusMutualCover from '../hooks/useFetchEvents';
@@ -77,16 +75,6 @@ const MyAccount = (props) => {
     logEvent(analytics, 'View - My Account');
     if (account) dispatch(getUserPolicies());
   }, []);
-
-  // this hooks for testing. Should be remove in production.
-  useEffect(() => {
-    (async () => {
-      const _chainId = SupportedChainId.KOVAN;
-      if (chainId !== _chainId) {
-        await setupNetwork(_chainId);
-      }
-    })();
-  }, [chainId]);
 
   const handleSubmitToClaim = async (policy, i) => {
     const { details, wallet_address } = policy;

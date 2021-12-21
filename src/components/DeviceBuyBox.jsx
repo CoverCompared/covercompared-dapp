@@ -103,7 +103,7 @@ const DeviceBuyBox = (props) => {
   const { balance } = useGetEthBalance();
   const crvBalanceStatus = useTokenBalance();
 
-  const ethPrice = useAssetsUsdPrice('eth');
+  // const ethPrice = useAssetsUsdPrice('eth');
   const crvPrice = useAssetsUsdPrice('crv');
 
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
@@ -236,29 +236,56 @@ const DeviceBuyBox = (props) => {
     setMaxWidth('max-w-lg');
     setTitle('Confirmation');
     setShowConfirmation(true);
-
-    const param = {
-      device_type: deviceType,
-      brand,
-      value: deviceDetails?.device_values[value],
-      purchase_month: purchaseMonth,
-      model: model || 'OTHERS',
-      model_name: selectedModel?.[0]?.model_name || 'Others',
-      plan_type: 'monthly',
-      first_name: fName,
-      last_name: lName,
-      email,
-      phone,
-      currency: plan_currency,
-      amount: plan_total_price,
-      discount_amount: discountAmount,
-      tax: '5',
-      total_amount: total,
-      wallet_address: account,
-    };
-
-    dispatch(buyDeviceInsuranceFirst(param));
   };
+
+  useEffect(() => {
+    if (!deviceIsFailed && !deviceLoader && policyId && txPending) {
+      (async () => {
+        const param = {
+          policyId,
+          device_type: deviceType,
+          brand,
+          value: deviceDetails?.device_values[value],
+          purchase_month: purchaseMonth,
+          model: model || 'OTHERS',
+          model_name: selectedModel?.[0]?.model_name || 'Others',
+          plan_type: 'monthly',
+          first_name: fName,
+          last_name: lName,
+          email,
+          phone,
+          currency: plan_currency,
+          amount: plan_total_price,
+          discount_amount: discountAmount,
+          tax: '5',
+          total_amount: total,
+          wallet_address: account,
+        };
+        const ethAmount = await getETHAmountForUSDC(total);
+        try {
+          const result =
+            discountAmount > 0
+              ? await onStakeByToken(param)
+              : await onStake(param, ethAmount.toString());
+          if (result.status) {
+            dispatch(
+              buyDeviceInsurance({
+                ...param,
+                txn_hash: result.txn_hash,
+              }),
+            );
+            setTxPending(false);
+            setIsNotCloseable(false);
+            toast.success('Successfully purchased!');
+          }
+        } catch (error) {
+          toast.warning(error.message);
+          setTxPending(false);
+          setIsNotCloseable(false);
+        }
+      })();
+    }
+  }, [policyId, deviceIsFailed, deviceLoader]);
 
   const tryActivation = (connect) => {
     setCurWalletId(connect);
@@ -316,14 +343,13 @@ const DeviceBuyBox = (props) => {
       return;
     }
 
-    if (policyId === '') {
-      toast.warning('You have not the policy id yet. Please try again!');
-      setApplyDiscount(false);
-      setTxPending(false);
-      setIsNotCloseable(false);
-    }
+    // if (policyId === '') {
+    //   toast.warning('You have not the policy id yet. Please try again!');
+    //   setApplyDiscount(false);
+    //   setTxPending(false);
+    //   setIsNotCloseable(false);
+    // }
     const param = {
-      policyId,
       device_type: deviceType,
       brand,
       value: deviceDetails?.device_values[value],
@@ -343,27 +369,28 @@ const DeviceBuyBox = (props) => {
       wallet_address: account,
     };
 
-    try {
-      const result =
-        discountAmount > 0
-          ? await onStakeByToken(param)
-          : await onStake(param, getDecimalAmount(ethAmount).toString());
+    dispatch(buyDeviceInsuranceFirst(param));
+    // try {
+    //   const result =
+    //     discountAmount > 0
+    //       ? await onStakeByToken(param)
+    //       : await onStake(param, getDecimalAmount(ethAmount).toString());
 
-      if (result.status) {
-        dispatch(
-          buyDeviceInsurance({
-            ...param,
-            txn_hash: result.txn_hash,
-          }),
-        );
-        toast.success('Successfully purchased!');
-      }
-    } catch (e) {
-      console.error(e);
-      toast.warning(e.message);
-    }
-    setTxPending(false);
-    setIsNotCloseable(false);
+    //   if (result.status) {
+    //     dispatch(
+    //       buyDeviceInsurance({
+    //         ...param,
+    //         txn_hash: result.txn_hash,
+    //       }),
+    //     );
+    //     toast.success('Successfully purchased!');
+    //   }
+    // } catch (e) {
+    //   console.error(e);
+    //   toast.warning(e.message);
+    // }
+    // setTxPending(false);
+    // setIsNotCloseable(false);
   };
 
   const handleSubmitEmail = (email = null) => {

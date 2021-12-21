@@ -40,9 +40,9 @@ function* buyDeviceInsuranceFirst({ payload }) {
     if (res?.data?.success && res?.data?.data?._id) {
       return yield put(buyDeviceInsuranceFirstSuccess({ policyId: res.data.data._id }));
     }
-    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: '' }));
+    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: null }));
   } catch (error) {
-    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: '' }));
+    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: null }));
   }
 }
 
@@ -55,7 +55,6 @@ function* buyDeviceInsurance({ payload }) {
         isFailed: false,
       }),
     );
-
     // const url = `${API_BASE_URL}/user/policies-device-insurance`;
     // const res = yield call(
     //   axiosPost,
@@ -66,7 +65,7 @@ function* buyDeviceInsurance({ payload }) {
     //   yield select(selector.wallet_address),
     // );
 
-    if (payload.policyId !== '') {
+    if (payload.policyId !== null) {
       const confirmUrl = `${API_BASE_URL}/user/policies-device-insurance/${payload.policyId}/confirm-payment`;
       const timestamp = new Date().getTime();
       const dummyPayload = {

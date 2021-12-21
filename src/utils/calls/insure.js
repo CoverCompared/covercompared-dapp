@@ -1,9 +1,3 @@
-import { DEFAULT_GAS_LIMIT, MSO_PLAN_TYPE } from '../../config';
-
-const options = {
-  gasLimit: DEFAULT_GAS_LIMIT,
-};
-
 const buyCoverByETH = async (contract, param) => {
   const { data, premium } = param;
   const tx = await contract.buyCoverByETH(

@@ -279,7 +279,7 @@ const DeviceBuyBox = (props) => {
             toast.success('Successfully purchased!');
           }
         } catch (error) {
-          toast.warning(error.message);
+          toast.warning('Purchasing failed.');
           setTxPending(false);
           setIsNotCloseable(false);
         }
@@ -321,7 +321,7 @@ const DeviceBuyBox = (props) => {
       ethAmount1 = await getETHAmountForUSDC(total); // total / ethPrice;
       crvAmount1 = await getTokenAmountForUSDC(total); // total / crvPrice;
     } catch (err) {
-      toast.warning(err.message);
+      toast.warning('Purchasing failed.');
       setTxPending(false);
       setIsNotCloseable(false);
       return;

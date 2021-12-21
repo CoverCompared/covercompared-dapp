@@ -140,7 +140,7 @@ const MsoCountrySelector = ({
             toast.success('Successfully purchased!');
           }
         } catch (error) {
-          toast.warning(error.message);
+          toast.warning('Purchasing failed.');
           setTxPending(false);
           setIsNotCloseable(false);
         }
@@ -190,7 +190,7 @@ const MsoCountrySelector = ({
       ethAmount1 = await getETHAmountForUSDC(total); // total / ethPrice;
       crvAmount1 = await getTokenAmountForUSDC(total); // total / crvPrice;
     } catch (err) {
-      toast.warning(err.message);
+      toast.warning('Transaction failed.');
       setTxPending(false);
       setIsNotCloseable(false);
       return;

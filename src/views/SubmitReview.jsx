@@ -3,6 +3,9 @@ import { toast } from 'react-toastify';
 import StarRatings from 'react-star-ratings';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import { submitReview } from '../redux/actions/UserProfile';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 
@@ -38,6 +41,10 @@ const ContactUs = () => {
     dispatch(submitReview(payload));
     setSubmitted(true);
   };
+
+  useEffect(() => {
+    logEvent(analytics, 'View - Submit Review', { id });
+  }, []);
 
   useEffect(() => {
     if (submitted) {

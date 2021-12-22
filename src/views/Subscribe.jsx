@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import { submitSubscribeEmail } from '../redux/actions/UserProfile';
 
 const Subscribe = () => {

@@ -237,7 +237,7 @@ const ConfirmModal = (props) => {
     } catch (error) {
       setTxPending(false);
       console.log(error);
-      toast.warning(error.message);
+      toast.warning('Purchasing failed.');
     }
     setIsNotCloseable(false);
   };

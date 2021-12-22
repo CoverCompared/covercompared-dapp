@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import uniqid from 'uniqid';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import { classNames } from '../functions/utils';
 import FormInput from '../components/FormInput';
 import MobilePageTitle from '../components/common/MobilePageTitle';
@@ -30,6 +33,10 @@ const ContactUs = (props) => {
     dispatch(submitContactDetails(payload));
     setIsSubmitted(true);
   };
+
+  useEffect(() => {
+    logEvent(analytics, 'View - Contact Us');
+  }, []);
 
   useEffect(() => {
     if (isSubmitted) {

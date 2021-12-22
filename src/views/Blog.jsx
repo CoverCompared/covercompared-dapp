@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Markup } from 'interweave';
 import { useDispatch, useSelector } from 'react-redux';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import { searchBlog } from '../redux/actions/CoverList';
 import Loading from '../components/common/Loading';
 
@@ -22,6 +25,7 @@ const Blog = () => {
       setBlogImage(blog.image);
       setBlogContent(blog.content);
       setBlogSlug(blog.slug);
+      logEvent(analytics, 'View - Single Blog', { blogSlug: blog.slug });
     }
   }, [blog]);
 

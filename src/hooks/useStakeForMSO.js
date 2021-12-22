@@ -12,19 +12,23 @@ const useStakeForMSO = () => {
 
   const handleStake = useCallback(
     async (param, ethAmt) => {
-      const message = await getSignMessageForMSO(param);
-      const sig = await signMessage(library, account, message);
+      // const message = await getSignMessageForMSO(param);
+      // const sig = await signMessage(library, account, message);
 
-      if (sig) {
-        const txHash = await mso.buyProductByEthForMSO(msoContract, param, sig, ethAmt);
-        return {
-          ...txHash,
-        };
-      }
+      // if (sig) {
+      //   const txHash = await mso.buyProductByEthForMSO(msoContract, param, sig, ethAmt);
+      //   return {
+      //     ...txHash,
+      //   };
+      // }
 
+      // return {
+      //   status: false,
+      //   txn_hash: null,
+      // };
+      const txHash = await mso.buyProductByEthForMSO(msoContract, param, ethAmt);
       return {
-        status: false,
-        txn_hash: null,
+        ...txHash,
       };
     },
     [library, msoContract, account],
@@ -42,17 +46,22 @@ export const useStakeForMSOByToken = () => {
 
   const handleStake = useCallback(
     async (param) => {
-      const messageForToken = await getSignMessageForMSO(param, true);
-      const sigForToken = await signMessage(library, account, messageForToken);
+      // const messageForToken = await getSignMessageForMSO(param, true);
+      // const sigForToken = await signMessage(library, account, messageForToken);
 
-      if (!sigForToken) {
-        return false;
-      }
+      // if (!sigForToken) {
+      //   return false;
+      // }
+      // const txHashForToken = await mso.buyProductByTokenForMSO(
+      //   msoContract,
+      //   { ...param, token: getCrvAddress() },
+      //   account,
+      //   sigForToken,
+      // );
       const txHashForToken = await mso.buyProductByTokenForMSO(
         msoContract,
         { ...param, token: getCrvAddress() },
         account,
-        sigForToken,
       );
       return {
         ...txHashForToken,

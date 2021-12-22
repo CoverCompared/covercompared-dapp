@@ -1,7 +1,7 @@
 import { callWithEstimateGas, callWithEstimateGasPayable } from './estimateGas';
 
-const buyProductByTokenForMSO = async (contract, param, account, sig) => {
-  const { policyId, value, period, token, conciergePrice } = param;
+const buyProductByTokenForMSO = async (contract, param, account) => {
+  const { policyId, value, period, token, conciergePrice, sig } = param;
   const funParam = [policyId, value, period, token, conciergePrice, sig];
 
   const tx = await callWithEstimateGas(contract, 'buyProductByToken', funParam);
@@ -13,8 +13,8 @@ const buyProductByTokenForMSO = async (contract, param, account, sig) => {
   };
 };
 
-const buyProductByEthForMSO = async (contract, param, sig, ethAmt) => {
-  const { policyId, value, period, conciergePrice } = param;
+const buyProductByEthForMSO = async (contract, param, ethAmt) => {
+  const { policyId, value, period, conciergePrice, sig } = param;
   const funParam = [policyId, value, period, conciergePrice, sig];
 
   const tx = await callWithEstimateGasPayable(contract, 'buyProductByETH', ethAmt, funParam);

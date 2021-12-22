@@ -2,8 +2,8 @@ import { useCallback } from 'react';
 import useActiveWeb3React from './useActiveWeb3React';
 import { useP4LContract } from './useContract';
 import p4l from '../utils/calls/p4l';
-import getSignMessage from '../utils/getSignMessage';
-import { signMessage } from '../utils/getLibrary';
+// import getSignMessage from '../utils/getSignMessage';
+// import { signMessage } from '../utils/getLibrary';
 import useAddress from './useAddress';
 
 const useStakeForDevice = () => {
@@ -11,12 +11,11 @@ const useStakeForDevice = () => {
   const p4lContract = useP4LContract();
 
   const handleStake = useCallback(
-    async (param, ethAmt) => {
-      const message = await getSignMessage(param);
-      const sig = await signMessage(library, account, message);
-
-      if (sig) {
-        const txHash = await p4l.buyProductByEth(p4lContract, param, sig, ethAmt);
+    async (param, ethAmt, signature) => {
+      // const msg = await getSignMessage(param);
+      // const sig = await signMessage(library, account, msg);
+      if (signature) {
+        const txHash = await p4l.buyProductByEth(p4lContract, param, signature, ethAmt);
         return {
           ...txHash,
         };
@@ -40,20 +39,14 @@ export const useStakeForDeviceByToken = () => {
   const { getCrvAddress } = useAddress();
 
   const handleStake = useCallback(
-    async (param) => {
-      if (param.discount_amount > 0) {
-        const messageForToken = await getSignMessage(param, true);
-        const sigForToken = await signMessage(library, account, messageForToken);
-
-        if (!sigForToken) {
-          return false;
-        }
-
+    async (param, signature) => {
+      // const sigForToken = await signMessage(library, account, signature);
+      if (param.discount_amount > 0 && signature) {
         const txHashForToken = await p4l.buyProductByToken(
           p4lContract,
           { ...param, token: getCrvAddress() },
           account,
-          sigForToken,
+          signature,
         );
         return {
           ...txHashForToken,

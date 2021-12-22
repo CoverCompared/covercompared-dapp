@@ -15,6 +15,7 @@ import {
 
 const INIT_STATE = {
   policyId: null,
+  signature: null,
   message: '',
   loader: false,
   isFailed: false,
@@ -67,6 +68,7 @@ export default (state = INIT_STATE, { type, payload }) => {
         loader: false,
         isFailed: false,
         policyId: null,
+        signature: null,
       };
     }
     case BUY_DEVICE_INSURANCE_FIRST_SUCCESS: {

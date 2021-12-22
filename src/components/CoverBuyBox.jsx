@@ -102,7 +102,6 @@ const ConfirmModal = (props) => {
   useEffect(() => {
     (async () => {
       if (applyDiscount) {
-        console.log(total);
         const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, total);
         setCrvAmount(crvAmount);
       }

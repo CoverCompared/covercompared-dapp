@@ -18,8 +18,8 @@ const getPaddedHexStrFromINT = (bn) => {
 const getSignMessage = (param, isUseCrv = false) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18); // should be the decimals of USDC token
 
-  const policyId = param.id === undefined ? 'first-test' : param.id;
-  const durPlan = param.puchase_month === 'Less than 12 months' ? 1 : 2;
+  const policyId = param.policyId === undefined ? 'first-test' : param.policyId;
+  const durPlan = param.purchase_month === 'Less than 12 months' ? 1 : 2;
 
   const hexDeviceStr = getHexStrFromStr(policyId);
   const paddedValueHexStr = getPaddedHexStrFromBN(value);

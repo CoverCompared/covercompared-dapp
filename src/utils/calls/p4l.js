@@ -4,8 +4,8 @@ import { callWithEstimateGas, callWithEstimateGasPayable } from './estimateGas';
 const buyProductByToken = async (contract, param, account, sig) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
 
-  const policyId = param.id === undefined ? 'first-test' : param.id;
-  const durPlan = param.puchase_month === 'Less than 12 months' ? 1 : 2;
+  const policyId = param.policyId === undefined ? 'first-test' : param.policyId;
+  const durPlan = param.purchase_month === 'Less than 12 months' ? 1 : 2;
   const { token } = param;
 
   const funParam = [policyId, value, durPlan, token, sig];
@@ -22,8 +22,8 @@ const buyProductByToken = async (contract, param, account, sig) => {
 const buyProductByEth = async (contract, param, sig, ethAmt) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString();
 
-  const policyId = param.id === undefined ? 'first-test' : param.id;
-  const durPlan = param.puchase_month === 'Less than 12 months' ? 1 : 2;
+  const policyId = param.policyId === undefined ? 'first-test' : param.policyId;
+  const durPlan = param.purchase_month === 'Less than 12 months' ? 1 : 2;
 
   const funParam = [policyId, value, durPlan, sig];
   const tx = await callWithEstimateGasPayable(contract, 'buyProductByETH', ethAmt, funParam);

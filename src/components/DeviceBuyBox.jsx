@@ -59,6 +59,7 @@ const DeviceBuyBox = (props) => {
     devicePlanDetails,
     deviceModelDetails,
     txn_hash,
+    signature,
     loader: deviceLoader,
     message: deviceMessage,
     isFailed: deviceIsFailed,
@@ -128,17 +129,17 @@ const DeviceBuyBox = (props) => {
     if (deviceIsFailed) setShowAlert(true);
   }, [deviceIsFailed]);
 
-  useEffect(() => {
-    if (txn_hash && !deviceLoader && !deviceIsFailed) {
-      setTitle('Receipt');
-      setMaxWidth('max-w-5xl');
-      setShowReceipt(true);
-    } else {
-      setTitle('Device Details');
-      setMaxWidth('max-w-2xl');
-      setShowReceipt(false);
-    }
-  }, [txn_hash]);
+  // useEffect(() => {
+  //   if (txn_hash && !deviceLoader && !deviceIsFailed) {
+  //     setTitle('Receipt');
+  //     setMaxWidth('max-w-5xl');
+  //     setShowReceipt(true);
+  //   } else {
+  //     setTitle('Device Details');
+  //     setMaxWidth('max-w-2xl');
+  //     setShowReceipt(false);
+  //   }
+  // }, [txn_hash]);
 
   useEffect(() => {
     dispatch(
@@ -238,10 +239,10 @@ const DeviceBuyBox = (props) => {
   };
 
   useEffect(() => {
-    if (!deviceIsFailed && !deviceLoader && policyId && txPending) {
+    if (!deviceIsFailed && !deviceLoader && txn_hash && txPending && signature) {
       (async () => {
         const param = {
-          policyId,
+          policyId: txn_hash,
           device_type: deviceType,
           brand,
           value: deviceDetails?.device_values[value],
@@ -261,11 +262,12 @@ const DeviceBuyBox = (props) => {
           wallet_address: account,
         };
         const ethAmount = await getETHAmountForUSDC(total);
+
         try {
           const result =
             discountAmount > 0
-              ? await onStakeByToken(param)
-              : await onStake(param, ethAmount.toString());
+              ? await onStakeByToken(param, signature)
+              : await onStake(param, ethAmount.toString(), signature);
           if (result.status) {
             dispatch(
               buyDeviceInsurance({
@@ -276,15 +278,21 @@ const DeviceBuyBox = (props) => {
             setTxPending(false);
             setIsNotCloseable(false);
             toast.success('Successfully purchased!');
+            setTitle('Receipt');
+            setMaxWidth('max-w-5xl');
+            setShowReceipt(true);
           }
         } catch (error) {
           toast.warning('Purchasing failed.');
           setTxPending(false);
           setIsNotCloseable(false);
+          // setTitle('Device Details');
+          // setMaxWidth('max-w-2xl');
+          // setShowReceipt(false);
         }
       })();
     }
-  }, [policyId, deviceIsFailed, deviceLoader]);
+  }, [txn_hash, deviceIsFailed, deviceLoader]);
 
   const tryActivation = (connect) => {
     setCurWalletId(connect);
@@ -366,6 +374,7 @@ const DeviceBuyBox = (props) => {
       tax: '0',
       total_amount: total,
       wallet_address: account,
+      durPlan: purchaseMonth === 'Less than 12 months' ? 1 : 2,
     };
 
     dispatch(buyDeviceInsuranceFirst(param));

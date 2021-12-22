@@ -38,9 +38,15 @@ function* buyDeviceInsuranceFirst({ payload }) {
       yield select(selector.wallet_address),
     );
     if (res?.data?.success && res?.data?.data?._id) {
-      return yield put(buyDeviceInsuranceFirstSuccess({ policyId: res.data.data._id }));
+      return yield put(
+        buyDeviceInsuranceFirstSuccess({
+          policyId: res.data.data._id,
+          signature: res.data.data.signature,
+          txn_hash: res.data.data.txn_hash,
+        }),
+      );
     }
-    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: null }));
+    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: null, signature: null }));
   } catch (error) {
     return yield put(buyDeviceInsuranceFirstSuccess({ policyId: null }));
   }
@@ -65,7 +71,7 @@ function* buyDeviceInsurance({ payload }) {
         block_timestamp: timestamp.toString(),
         txn_type: 'onchain',
         payment_hash: payload.txn_hash,
-        currency: 'USD',
+        currency: payload.currency,
         wallet_address: payload.wallet_address,
         paid_amount: payload.total_amount,
       };
@@ -208,8 +214,6 @@ function* getDevicePlanDetail({ payload }) {
 
     const url = `${API_BASE_URL}/p4l-forward`;
     const devicePlanDetail = yield call(axiosPost, url, payload);
-
-    console.log('devicePlanDetail :>> ', devicePlanDetail);
 
     if (devicePlanDetail?.data?.data) {
       yield put(getDevicePlanDetailsSuccess(devicePlanDetail.data.data));

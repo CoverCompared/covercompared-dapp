@@ -4,11 +4,8 @@ import { all, call, put, takeLatest, select } from 'redux-saga/effects';
 import { API_BASE_URL } from '../constants/config';
 import {
   BUY_COVER,
-  BUY_COVER_SUCCESS,
-  SET_BUY_COVER_LOADER,
   CONFIRM_BUY_COVER,
-  CONFIRM_BUY_COVER_SUCCESS,
-  SET_CONFIRM_BUY_COVER_LOADER,
+  GET_COVER_BY_ID,
   SEARCH_COVER_LIST,
   GET_QUOTE,
   FETCH_MORE_COVERS,
@@ -25,6 +22,8 @@ import {
   setConfirmBuyCoverLoader,
   searchCoverListSuccess,
   setSearchCoverListLoader,
+  getCoverByIdSuccess,
+  setGetCoverByIdLoader,
   fetchMoreCoversSuccess,
   setFetchMoreCoversLoader,
   fetchCoversWithAmountSuccess,
@@ -208,6 +207,43 @@ function* searchAllCoverList({ payload }) {
   } catch (error) {
     return yield put(
       setSearchCoverListLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* getCoverById({ payload }) {
+  try {
+    yield put(
+      setGetCoverByIdLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const { protocol, unique_id } = payload;
+    const url = `${API_BASE_URL}/cover-details/${protocol}/${unique_id}`;
+    const cover = yield call(axiosGet, url);
+
+    if (cover?.data?.success) {
+      return yield put(getCoverByIdSuccess(cover.data.data));
+    }
+
+    return yield put(
+      setGetCoverByIdLoader({
+        loader: false,
+        isFailed: true,
+        cover: null,
+        message: cover.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setGetCoverByIdLoader({
         loader: false,
         isFailed: true,
         message: error.message,
@@ -431,6 +467,7 @@ export default all([
   takeLatest(BUY_COVER, buyCover),
   takeLatest(CONFIRM_BUY_COVER, confirmBuyCover),
   takeLatest(SEARCH_COVER_LIST, searchAllCoverList),
+  takeLatest(GET_COVER_BY_ID, getCoverById),
   takeLatest(FETCH_MORE_COVERS, fetchMoreCoverLists),
   takeLatest(GET_QUOTE, getQuote),
   takeLatest(SEARCH_BLOG_LIST, searchBlogList),

@@ -32,7 +32,13 @@ const MsoEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitl
   const [userCountry, setUserCountry] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
-  const allCountries = useMemo(() => countryList().getData(), []);
+  const allCountries = useMemo(
+    () =>
+      countryList()
+        .getData()
+        .filter((f) => !countries.find((ct) => ct.label === f.label)),
+    [],
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();

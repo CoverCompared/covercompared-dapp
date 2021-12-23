@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
-
 import { toast } from 'react-toastify';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../../config/firebase';
 import DownloadPolicy from './DownloadPolicy';
 import { walletLogin } from '../../hooks/useAuth';
 import SUPPORTED_WALLETS from '../../config/walletConfig';
@@ -18,7 +20,6 @@ import {
 import Alert from './Alert';
 import Loading from './TxLoading';
 import PageLoader from './PageLoader';
-
 import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
 import useStakeForMSO, { useStakeForMSOByToken } from '../../hooks/useStakeForMSO';
@@ -152,6 +153,13 @@ const MsoCountrySelector = ({
                 txn_hash: result.txn_hash,
               }),
             );
+            logEvent(analytics, 'Action - MSO Policy Bought', {
+              name: selectedPlan.unique_id,
+              type: selectedPlan.type,
+              addonAdded: addonServices,
+              amount: total,
+              paidVia: applyDiscount ? 'CVR' : 'USD',
+            });
             toast.success('Successfully purchased!');
           }
         } catch (error) {

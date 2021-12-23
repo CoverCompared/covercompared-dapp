@@ -18,6 +18,10 @@ const Subscribe = () => {
   };
 
   useEffect(() => {
+    logEvent(analytics, 'View - Subscribe');
+  }, []);
+
+  useEffect(() => {
     if (subscribeData) {
       if (subscribeData?.success) {
         toast.success(subscribeData?.message || '');

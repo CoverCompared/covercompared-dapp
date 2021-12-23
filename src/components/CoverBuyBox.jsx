@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useWeb3React } from '@web3-react/core';
-
 import { ethers } from 'ethers';
+import { logEvent } from 'firebase/analytics';
 
+import { analytics } from '../config/firebase';
 import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import useTokenApprove from '../hooks/useTokenApprove';
@@ -227,6 +228,12 @@ const ConfirmModal = (props) => {
         dispatch(
           buyCover({ ...policy, txn_hash: transaction.txn_hash, token_id: transaction.token_id }),
         );
+        logEvent(analytics, 'Action - Cover policy bought', {
+          name: product.name,
+          cardType: product.cardType,
+          company: product.company,
+          type: product.type,
+        });
         toast.success('Purchasing cover succeed.');
       } else {
         toast.error('Purchasing cover failed.');
@@ -316,6 +323,8 @@ const CoverBuyBox = (props) => {
     logo,
     company_icon,
     currency_limit,
+    type,
+    unique_id,
   } = product || {};
 
   const supportedChains = product?.supportedChains?.length ? product.supportedChains : ['ETH'];
@@ -410,6 +419,7 @@ const CoverBuyBox = (props) => {
           autoFocus
           fieldTitle="Period"
           fieldSubtitle="Max"
+          fieldType="number"
           fieldValue={periodField}
           setFieldValue={setPeriodField}
           selectedOption={periodSelect}
@@ -421,6 +431,7 @@ const CoverBuyBox = (props) => {
           {...props}
           fieldTitle="Amount"
           fieldSubtitle="Max"
+          fieldType="number"
           fieldValue={amountField}
           setFieldValue={setAmountField}
           selectedOption={amountSelect}
@@ -433,6 +444,7 @@ const CoverBuyBox = (props) => {
           readOnly
           loading={loader}
           fieldTitle="Quote"
+          fieldType="number"
           fieldValue={quoteField}
           setFieldValue={setQuoteField}
           selectedOption={quoteSelect}

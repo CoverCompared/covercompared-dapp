@@ -9,6 +9,9 @@ import {
   SEARCH_COVER_LIST,
   SEARCH_COVER_LIST_SUCCESS,
   SET_SEARCH_COVER_LIST_LOADER,
+  GET_COVER_BY_ID,
+  GET_COVER_BY_ID_SUCCESS,
+  SET_GET_COVER_BY_ID_LOADER,
   FETCH_MORE_COVERS,
   FETCH_MORE_COVERS_SUCCESS,
   SET_FETCH_MORE_COVERS_LOADER,
@@ -89,6 +92,27 @@ export const searchCoverListSuccess = (payload) => {
 export const setSearchCoverListLoader = (payload) => {
   return {
     type: SET_SEARCH_COVER_LIST_LOADER,
+    payload,
+  };
+};
+
+export const getCoverById = (payload) => {
+  return {
+    type: GET_COVER_BY_ID,
+    payload,
+  };
+};
+
+export const getCoverByIdSuccess = (payload) => {
+  return {
+    type: GET_COVER_BY_ID_SUCCESS,
+    payload,
+  };
+};
+
+export const setGetCoverByIdLoader = (payload) => {
+  return {
+    type: SET_GET_COVER_BY_ID_LOADER,
     payload,
   };
 };

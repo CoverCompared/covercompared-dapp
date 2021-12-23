@@ -1,21 +1,27 @@
 import React from 'react';
 import StarRatings from 'react-star-ratings';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
+import Placeholder from '../assets/img/placeholder.png';
 
-const ReviewCard = ({ name, image, rating, uploaded, description }) => {
+TimeAgo.addDefaultLocale(en);
+const timeAgo = new TimeAgo('en-US');
+
+const ReviewCard = ({ email, image, rating, updatedAt, review }) => {
   return (
     <>
       <div className="w-full mb-6">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-2">
           <div className="flex items-center">
             <div className="h-12 w-12 rounded-full bg-gray-300 mr-4">
-              <img src={image} alt={name} className="h-full w-full rounded-full" />
+              <img src={image || Placeholder} alt={email} className="h-full w-full rounded-full" />
             </div>
             <div>
-              <div className="font-Inter text-h6 font-medium leading-tight dark:text-white">
-                {name}
+              <div className="font-Inter text-sm font-medium leading-tight dark:text-white">
+                {email}
               </div>
               <div className="font-Inter text-body-xs font-light leading-tight text-counter-card-text dark:text-subtitle-dark-text">
-                {uploaded}
+                {timeAgo.format(new Date(updatedAt))}
               </div>
             </div>
           </div>
@@ -31,7 +37,7 @@ const ReviewCard = ({ name, image, rating, uploaded, description }) => {
           </div>
         </div>
         <div className="font-Inter text-body-md text-counter-card-text dark:text-subtitle-dark-text">
-          {description}
+          {review}
         </div>
       </div>
     </>

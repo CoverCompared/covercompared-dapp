@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import StarRatings from 'react-star-ratings';
 import { useParams } from 'react-router-dom';
@@ -10,6 +11,7 @@ import { submitReview } from '../redux/actions/UserProfile';
 import MobilePageTitle from '../components/common/MobilePageTitle';
 
 const ContactUs = () => {
+  const history = useHistory();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { reviewData, isFailed, loader, message } = useSelector((state) => state.userProfile);
@@ -49,10 +51,9 @@ const ContactUs = () => {
   useEffect(() => {
     if (submitted) {
       if (!isFailed && !loader && reviewData) {
-        setRating();
-        setReview('');
-        setSubmitted(false);
+        logEvent(analytics, 'Action - Review Submitted', { id });
         toast.success('Review Submitted');
+        history.push('/my-account');
       } else if (isFailed && message) {
         toast.warning(message);
         setSubmitted(false);

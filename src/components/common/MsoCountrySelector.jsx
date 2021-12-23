@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
-
 import { toast } from 'react-toastify';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../../config/firebase';
 import DownloadPolicy from './DownloadPolicy';
 import { walletLogin } from '../../hooks/useAuth';
 import SUPPORTED_WALLETS from '../../config/walletConfig';
@@ -10,11 +12,14 @@ import MsoUserInfoForm from '../MsoUserInfoForm';
 import MSOReceipt from '../MSOReceipt';
 import MSOReceiptCard from '../MSOReceiptCard';
 import { getLoginDetails } from '../../redux/actions/Auth';
-import { buyMsoInsurance, confirmBuyMsoInsurance } from '../../redux/actions/MsoInsurance';
+import {
+  buyMsoInsurance,
+  confirmBuyMsoInsurance,
+  setBuyMsoInsuranceLoader,
+} from '../../redux/actions/MsoInsurance';
 import Alert from './Alert';
 import Loading from './TxLoading';
 import PageLoader from './PageLoader';
-
 import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
 import useStakeForMSO, { useStakeForMSOByToken } from '../../hooks/useStakeForMSO';
@@ -54,9 +59,8 @@ const MsoCountrySelector = ({
   const [showReceipt, setShowReceipt] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(false);
 
-  const { txn_hash, loader, message, isFailed, _id, confirmed, payment_status } = useSelector(
-    (state) => state.msoInsurance,
-  );
+  const { txn_hash, signature, loader, message, isFailed, _id, confirmed, payment_status } =
+    useSelector((state) => state.msoInsurance);
   const [showAlert, setShowAlert] = useState(false);
   const [txPending, setTxPending] = useState(false);
 
@@ -88,7 +92,18 @@ const MsoCountrySelector = ({
   }, [isFailed]);
 
   useEffect(() => {
-    if (confirmed && !loader && !isFailed) {
+    if (confirmed && !loader && !isFailed && txPending) {
+      dispatch(
+        setBuyMsoInsuranceLoader({
+          _id: null,
+          txn_hash: null,
+          signature: null,
+          loader: false,
+          isFailed: false,
+          confirmed: false,
+          message: '',
+        }),
+      );
       setTxPending(false);
       setIsNotCloseable(false);
       // setIsModalOpen(false);
@@ -114,13 +129,14 @@ const MsoCountrySelector = ({
   }, [connectStatus, account]);
 
   useEffect(() => {
-    if (!isFailed && !loader && txn_hash && _id) {
+    if (!isFailed && !loader && txn_hash && _id && signature && txPending) {
       (async () => {
         const param = {
           policyId: txn_hash,
           value: getDecimalAmount(addonServices ? total - MSOAddOnService : total).toString(),
           period: MSO_PLAN_TYPE[`${selectedPlan.unique_id}`],
           conciergePrice: getDecimalAmount(addonServices ? MSOAddOnService : 0).toString(),
+          sig: signature,
         };
         const ethAmount = await getETHAmountForUSDC(total);
         try {
@@ -137,10 +153,28 @@ const MsoCountrySelector = ({
                 txn_hash: result.txn_hash,
               }),
             );
+            logEvent(analytics, 'Action - MSO Policy Bought', {
+              name: selectedPlan.unique_id,
+              type: selectedPlan.type,
+              addonAdded: addonServices,
+              amount: total,
+              paidVia: applyDiscount ? 'CVR' : 'USD',
+            });
             toast.success('Successfully purchased!');
           }
         } catch (error) {
           toast.warning('Purchasing failed.');
+          dispatch(
+            setBuyMsoInsuranceLoader({
+              _id: null,
+              txn_hash: null,
+              signature: null,
+              loader: false,
+              isFailed: false,
+              confirmed: false,
+              message: '',
+            }),
+          );
           setTxPending(false);
           setIsNotCloseable(false);
           setIsModalOpen(false);

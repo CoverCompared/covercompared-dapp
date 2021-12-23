@@ -12,6 +12,7 @@ const INIT_STATE = {
   message: '',
   _id: null,
   txn_hash: null,
+  signature: null,
   loader: false,
   confirmed: false,
   listLoader: false,

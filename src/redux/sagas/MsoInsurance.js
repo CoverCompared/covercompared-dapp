@@ -43,6 +43,7 @@ function* buyMsoInsurance({ payload }) {
         buyMsoInsuranceSuccess({
           _id: res?.data?.data?._id,
           txn_hash: res?.data?.data?.txn_hash,
+          signature: res?.data?.data?.signature,
         }),
       );
     }
@@ -50,6 +51,7 @@ function* buyMsoInsurance({ payload }) {
       setBuyMsoInsuranceLoader({
         _id: null,
         txn_hash: null,
+        signature: null,
         loader: false,
         isFailed: true,
         message: res.data.message,
@@ -61,6 +63,7 @@ function* buyMsoInsurance({ payload }) {
       setBuyMsoInsuranceLoader({
         _id: null,
         txn_hash: null,
+        signature: null,
         loader: false,
         isFailed: true,
         message: error.message,

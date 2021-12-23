@@ -159,6 +159,7 @@ const MyAccount = (props) => {
       total_amount,
       logo = p4lLogo,
       discount_amount,
+      review,
       details: {
         email,
         first_name,
@@ -191,13 +192,15 @@ const MyAccount = (props) => {
         </div>
 
         <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
-          <button
-            type="button"
-            onClick={() => history.push(`submit-review/${_id}`)}
-            className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-          >
-            Submit Review
-          </button>
+          {!review?.length && (
+            <button
+              type="button"
+              onClick={() => history.push(`submit-review/${_id}`)}
+              className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+            >
+              Submit Review
+            </button>
+          )}
           <Modal
             title="Policy Details"
             bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
@@ -243,6 +246,7 @@ const MyAccount = (props) => {
       total_amount,
       logo = msoLogo,
       discount_amount,
+      review,
       // plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
     } = policy;
     const { MSOMembers, quote, mso_addon_service, plan_details } = details;
@@ -266,13 +270,15 @@ const MyAccount = (props) => {
         </div>
 
         <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
-          <button
-            type="button"
-            onClick={() => history.push(`submit-review/${_id}`)}
-            className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-          >
-            Submit Review
-          </button>
+          {!review?.length && (
+            <button
+              type="button"
+              onClick={() => history.push(`submit-review/${_id}`)}
+              className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+            >
+              Submit Review
+            </button>
+          )}
           <Modal
             title="Policy Details"
             bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
@@ -304,7 +310,7 @@ const MyAccount = (props) => {
   };
 
   const renderCryptoCard = (policy) => {
-    const { _id, details, logo = placeholderLogo, crypto_amount, crypto_currency } = policy;
+    const { _id, details, logo = placeholderLogo, crypto_amount, crypto_currency, review } = policy;
     const { company_code, name, duration_days } = details;
 
     return (
@@ -325,13 +331,15 @@ const MyAccount = (props) => {
         </div>
 
         <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
-          <button
-            type="button"
-            onClick={() => history.push(`submit-review/${_id}`)}
-            className="md:px-5 p-3 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-          >
-            Submit Review
-          </button>
+          {!review?.length && (
+            <button
+              type="button"
+              onClick={() => history.push(`submit-review/${_id}`)}
+              className="md:px-5 p-3 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+            >
+              Submit Review
+            </button>
+          )}
 
           {company_code === 'nexus' ? (
             // replace the true with condition which check whether claim is submitted or not
@@ -372,6 +380,7 @@ const MyAccount = (props) => {
       crypto_currency,
       txn_hash,
       wallet_address,
+      review,
     } = policy;
     const { company_code, name, duration_days, token_id } = details;
 
@@ -393,13 +402,15 @@ const MyAccount = (props) => {
         </div>
 
         <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
-          <button
-            type="button"
-            onClick={() => history.push(`submit-review/${_id}`)}
-            className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-          >
-            Submit Review
-          </button>
+          {!review?.length && (
+            <button
+              type="button"
+              onClick={() => history.push(`submit-review/${_id}`)}
+              className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+            >
+              Submit Review
+            </button>
+          )}
           <button
             disabled={(proofPending && nexusIndex === index) || token_id === undefined}
             onClick={() => handleSubmitToClaim(policy, index)}

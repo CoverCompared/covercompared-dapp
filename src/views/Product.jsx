@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import uniqid from 'uniqid';
 import StarRatings from 'react-star-ratings';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logEvent } from 'firebase/analytics';
 
 import { analytics } from '../config/firebase';
@@ -15,6 +15,7 @@ import Filter from '../assets/img/Filter.svg';
 import FilterWhite from '../assets/dark-icons/Filter.svg';
 import ProductBgDots from '../assets/bg-img/product-bg-dots.svg';
 import { ThemeContext } from '../themeContext';
+import { getCoverById } from '../redux/actions/CoverList';
 
 const ReviewArr = [
   {
@@ -70,8 +71,9 @@ const ReviewArr = [
 const filterOption = ['High to low', 'Low to high', 'Other'];
 
 const ReviewContainer = (props) => {
+  const { reviews = [] } = props || {};
   const [allReview, setAllReview] = useState(false);
-  const arr = allReview ? [...ReviewArr] : [...ReviewArr].slice(0, 2);
+  const arr = allReview ? [...reviews] : [...reviews].slice(0, 2);
 
   return (
     <>
@@ -94,13 +96,14 @@ const ReviewContainer = (props) => {
   );
 };
 
-const InsuranceProduct = (props) => {
-  // const { type } = useParams();
+const CoverInsuranceProduct = (props) => {
+  const dispatch = useDispatch();
   const { currentProduct: product } = useSelector((state) => state.app);
+  const { loader, message, cover } = useSelector((state) => state.coverList) || {};
   const { theme } = useContext(ThemeContext);
   const [filterSelect, setFilterSelect] = useState('');
   const [showFilterOption, setShowFilterOption] = useState(false);
-  const [accountNummber, setProductAddress] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
 
   const {
     name,
@@ -113,20 +116,31 @@ const InsuranceProduct = (props) => {
     duration_days_min,
     logo,
     company_icon,
+    unique_id,
     currency_limit,
   } = product || {};
 
   useEffect(() => {
-    logEvent(analytics, 'View - Cover Product', { name, company, type });
+    dispatch(getCoverById({ type, unique_id }));
+    logEvent(analytics, 'View - Cover Product', { name, cardType, company, type });
   }, []);
 
   useEffect(() => {
-    let accountNummber;
+    let accountNumber;
     if (address) {
-      accountNummber = `${address.substring(0, 6)}....${address.substring(42 - 6)}`;
-      setProductAddress(accountNummber);
+      accountNumber = `${address.substring(0, 6)}....${address.substring(42 - 6)}`;
+      setAccountNumber(accountNumber);
     }
   }, [address]);
+
+  const { additional_details, description, reviews = [], terms_and_conditions } = cover || {};
+  const avgRating =
+    +(reviews.map((m) => m.rating).reduce((a, b) => a + b, 0) / reviews.length).toFixed(1) || 0;
+
+  console.log(
+    'reviews :>> ',
+    reviews.map((m) => m.rating).reduce((a, b) => a + b, 0),
+  );
 
   return (
     <>
@@ -162,7 +176,7 @@ const InsuranceProduct = (props) => {
                 Address
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                {accountNummber}
+                {accountNumber}
               </div>
             </div>
             <div className="flex justify-between items-center md:mb-3 mb-4">
@@ -201,24 +215,19 @@ const InsuranceProduct = (props) => {
               Description :
             </div>
             <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
-              nunc varius porta. Tincidunt vestibulum vivamus.
+              {description}
             </div>
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
               Additional Details :
             </div>
             <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
-              nunc varius porta. Tincidunt vestibulum vivamus sed facilisi ac urna quisque etiam
-              bibendum. Sed aliquet at aliquam at nascetur hendrerit adipiscing.
+              {additional_details}
             </div>
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
               Term & Condition :
             </div>
             <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
-              nunc varius porta. Tincidunt vestibulum vivamus sed facilisi ac urna quisque etiam
-              bibendum. Sed aliquet at aliquam at nascetur hendrerit adipiscing.
+              {terms_and_conditions}
             </div>
           </div>
           <div className="xl:col-span-5 xl:col-start-8 lg:col-span-5 col-span-12 order-1 md:order-2">
@@ -247,11 +256,12 @@ const InsuranceProduct = (props) => {
               Review
             </div>
             <div className="font-Montserrat font-semibold text-72 text-dark-blue dark:text-white">
-              4.5<span className="text-h5">/5.0</span>
+              {avgRating}
+              <span className="text-h5">/5.0</span>
             </div>
             <div className="flex justify-between items-center mb-8 w-full">
               <StarRatings
-                rating={4.5}
+                rating={avgRating}
                 starDimension="36px"
                 starSpacing="0px"
                 starEmptyColor="rgba(196, 196, 196, 1)"
@@ -288,7 +298,7 @@ const InsuranceProduct = (props) => {
                 )}
               </div>
             </div>
-            <ReviewContainer filterSelect={filterSelect} {...props} />
+            <ReviewContainer filterSelect={filterSelect} {...{ ...props, reviews }} />
           </div>
           <div className="xl:col-span-5 xl:col-start-8 lg:col-span-4 col-span-12 order-1 md:order-2">
             <div className="py-10 px-8 flex-col flex justify-center items-center bg-discount-bg rounded-2xl">
@@ -307,4 +317,4 @@ const InsuranceProduct = (props) => {
   );
 };
 
-export default InsuranceProduct;
+export default CoverInsuranceProduct;

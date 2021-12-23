@@ -4,8 +4,10 @@ import uniqid from 'uniqid';
 import { CheckIcon } from '@heroicons/react/outline';
 import { useWeb3React } from '@web3-react/core';
 import { PDFViewer } from '@react-pdf/renderer';
-
 import { toast } from 'react-toastify';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import Alert from './common/Alert';
 import { walletLogin } from '../hooks/useAuth';
 import SUPPORTED_WALLETS from '../config/walletConfig';
@@ -15,7 +17,6 @@ import DownloadPolicy from './common/DownloadPolicy';
 import DeviceReceipt from './DeviceReceipt';
 import Loading from './common/TxLoading';
 import PageLoader from './common/PageLoader';
-
 import {
   setProfileDetails,
   verifyOTP,
@@ -59,7 +60,6 @@ const DeviceBuyBox = (props) => {
     devicePlanDetails,
     deviceModelDetails,
     txn_hash,
-    signature,
     loader: deviceLoader,
     message: deviceMessage,
     isFailed: deviceIsFailed,
@@ -129,17 +129,17 @@ const DeviceBuyBox = (props) => {
     if (deviceIsFailed) setShowAlert(true);
   }, [deviceIsFailed]);
 
-  // useEffect(() => {
-  //   if (txn_hash && !deviceLoader && !deviceIsFailed) {
-  //     setTitle('Receipt');
-  //     setMaxWidth('max-w-5xl');
-  //     setShowReceipt(true);
-  //   } else {
-  //     setTitle('Device Details');
-  //     setMaxWidth('max-w-2xl');
-  //     setShowReceipt(false);
-  //   }
-  // }, [txn_hash]);
+  useEffect(() => {
+    if (txn_hash && !deviceLoader && !deviceIsFailed) {
+      setTitle('Receipt');
+      setMaxWidth('max-w-5xl');
+      setShowReceipt(true);
+    } else {
+      setTitle('Device Details');
+      setMaxWidth('max-w-2xl');
+      setShowReceipt(false);
+    }
+  }, [txn_hash]);
 
   useEffect(() => {
     dispatch(
@@ -239,10 +239,10 @@ const DeviceBuyBox = (props) => {
   };
 
   useEffect(() => {
-    if (!deviceIsFailed && !deviceLoader && txn_hash && txPending && signature) {
+    if (!deviceIsFailed && !deviceLoader && policyId && txPending) {
       (async () => {
         const param = {
-          policyId: txn_hash,
+          policyId,
           device_type: deviceType,
           brand,
           value: deviceDetails?.device_values[value],
@@ -262,12 +262,11 @@ const DeviceBuyBox = (props) => {
           wallet_address: account,
         };
         const ethAmount = await getETHAmountForUSDC(total);
-
         try {
           const result =
             discountAmount > 0
-              ? await onStakeByToken(param, signature)
-              : await onStake(param, ethAmount.toString(), signature);
+              ? await onStakeByToken(param)
+              : await onStake(param, ethAmount.toString());
           if (result.status) {
             dispatch(
               buyDeviceInsurance({
@@ -278,22 +277,25 @@ const DeviceBuyBox = (props) => {
             );
             setTxPending(false);
             setIsNotCloseable(false);
+            logEvent(analytics, 'Action - Device Policy Bought', {
+              device: deviceType,
+              brand,
+              value: deviceDetails?.device_values[value],
+              purchaseMonth,
+              model: selectedModel,
+              amount: total,
+              paidVia: applyDiscount ? 'CVR' : 'USD',
+            });
             toast.success('Successfully purchased!');
-            setTitle('Receipt');
-            setMaxWidth('max-w-5xl');
-            setShowReceipt(true);
           }
         } catch (error) {
-          toast.warning('Purchasing failed.');
+          toast.warning(error.message);
           setTxPending(false);
           setIsNotCloseable(false);
-          // setTitle('Device Details');
-          // setMaxWidth('max-w-2xl');
-          // setShowReceipt(false);
         }
       })();
     }
-  }, [txn_hash, deviceIsFailed, deviceLoader]);
+  }, [policyId, deviceIsFailed, deviceLoader]);
 
   const tryActivation = (connect) => {
     setCurWalletId(connect);
@@ -329,7 +331,7 @@ const DeviceBuyBox = (props) => {
       ethAmount1 = await getETHAmountForUSDC(total); // total / ethPrice;
       crvAmount1 = await getTokenAmountForUSDC(total); // total / crvPrice;
     } catch (err) {
-      toast.warning('Purchasing failed.');
+      toast.warning(err.message);
       setTxPending(false);
       setIsNotCloseable(false);
       return;
@@ -375,7 +377,6 @@ const DeviceBuyBox = (props) => {
       tax: '0',
       total_amount: total,
       wallet_address: account,
-      durPlan: purchaseMonth === 'Less than 12 months' ? 1 : 2,
     };
 
     dispatch(buyDeviceInsuranceFirst(param));
@@ -637,6 +638,8 @@ const DeviceBuyBox = (props) => {
             <input
               required
               type="tel"
+              pattern="\d*"
+              title="Only numbers allowed"
               placeholder="Mobile"
               name="mobile"
               value={phone}

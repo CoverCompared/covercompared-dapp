@@ -25,6 +25,7 @@ const SelectWithSearch = ({
   optionsAsArrayOfObjects,
   labelKey,
   valueKey,
+  fieldType = 'text',
 }) => {
   const { theme } = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -92,7 +93,7 @@ const SelectWithSearch = ({
                   <input
                     autoFocus={!!autoFocus}
                     readOnly={!!readOnly}
-                    type="text"
+                    type={fieldType}
                     value={fieldValue}
                     onChange={(e) => {
                       setFieldValue(e.target.value);
@@ -152,7 +153,7 @@ const SelectWithSearch = ({
                 {showSearchOption && (
                   <div className="relative border-b-2 rounded-t-xl">
                     <input
-                      type="text"
+                      type={fieldType}
                       value={searchValue}
                       placeholder="Search..."
                       onChange={(e) => searchOption(e.target.value, 'obj')}
@@ -193,7 +194,7 @@ const SelectWithSearch = ({
                   <div className="relative border-b-2 rounded-t-xl">
                     <input
                       autoFocus
-                      type="text"
+                      type={fieldType}
                       value={searchValue}
                       placeholder="Search..."
                       onChange={(e) => searchOption(e.target.value, 'arr')}
@@ -247,7 +248,7 @@ const SelectWithSearch = ({
               //     <div className="relative">
               //       <input
               //         autoFocus
-              //         type="text"
+              //         type={fieldType}
               //         value={searchValue}
               //         placeholder="Search..."
               //         onChange={(e) => searchOption(e.target.value, 'arr')}

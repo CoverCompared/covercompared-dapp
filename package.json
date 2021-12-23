@@ -42,6 +42,7 @@
     "firebase": "^9.6.1",
     "history": "4.10.1",
     "interweave": "^12.8.0",
+    "javascript-time-ago": "^2.3.10",
     "lodash": "^4.17.21",
     "ms.macro": "^2.0.0",
     "rc-slider": "^9.7.2",

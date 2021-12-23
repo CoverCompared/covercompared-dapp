@@ -5,6 +5,8 @@ import {
   CONFIRM_BUY_COVER_SUCCESS,
   SET_SEARCH_COVER_LIST_LOADER,
   SEARCH_COVER_LIST_SUCCESS,
+  SET_GET_COVER_BY_ID_LOADER,
+  GET_COVER_BY_ID_SUCCESS,
   SET_FETCH_MORE_COVERS_LOADER,
   FETCH_MORE_COVERS_SUCCESS,
   FETCH_COVERS_WITH_AMOUNT_SUCCESS,
@@ -30,6 +32,7 @@ const INIT_STATE = {
   page: 1,
   totalPages: 1,
   coverList: null,
+  cover: null,
   blogList: null,
   blog: null,
   blogRange: null,
@@ -139,6 +142,21 @@ export default (state = INIT_STATE, { type, payload }) => {
         coverList: payload.coverList.list,
         page: payload.coverList.current_page,
         totalPages: payload.coverList.total_page,
+      };
+    }
+    case SET_GET_COVER_BY_ID_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case GET_COVER_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        message: '',
+        loader: false,
+        isFailed: false,
+        cover: payload,
       };
     }
     case SET_FETCH_MORE_COVERS_LOADER: {

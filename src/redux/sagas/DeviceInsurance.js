@@ -62,8 +62,8 @@ function* buyDeviceInsurance({ payload }) {
       }),
     );
 
-    if (payload.policyId !== null) {
-      const confirmUrl = `${API_BASE_URL}/user/policies-device-insurance/${payload.policyId}/confirm-payment`;
+    if (payload.productId !== null) {
+      const confirmUrl = `${API_BASE_URL}/user/policies-device-insurance/${payload.productId}/confirm-payment`;
       const timestamp = new Date().getTime();
       const dummyPayload = {
         payment_status: 'paid',

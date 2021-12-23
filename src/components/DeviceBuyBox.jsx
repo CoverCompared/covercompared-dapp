@@ -272,6 +272,7 @@ const DeviceBuyBox = (props) => {
             dispatch(
               buyDeviceInsurance({
                 ...param,
+                productId: policyId,
                 txn_hash: result.txn_hash,
               }),
             );

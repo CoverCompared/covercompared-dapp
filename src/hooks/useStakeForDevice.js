@@ -12,8 +12,6 @@ const useStakeForDevice = () => {
 
   const handleStake = useCallback(
     async (param, ethAmt, signature) => {
-      // const msg = await getSignMessage(param);
-      // const sig = await signMessage(library, account, msg);
       if (signature) {
         const txHash = await p4l.buyProductByEth(p4lContract, param, signature, ethAmt);
         return {
@@ -40,7 +38,6 @@ export const useStakeForDeviceByToken = () => {
 
   const handleStake = useCallback(
     async (param, signature) => {
-      // const sigForToken = await signMessage(library, account, signature);
       if (param.discount_amount > 0 && signature) {
         const txHashForToken = await p4l.buyProductByToken(
           p4lContract,

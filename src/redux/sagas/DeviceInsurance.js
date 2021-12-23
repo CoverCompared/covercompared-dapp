@@ -37,6 +37,7 @@ function* buyDeviceInsuranceFirst({ payload }) {
       null,
       yield select(selector.wallet_address),
     );
+
     if (res?.data?.success && res?.data?.data?._id) {
       return yield put(
         buyDeviceInsuranceFirstSuccess({
@@ -46,9 +47,25 @@ function* buyDeviceInsuranceFirst({ payload }) {
         }),
       );
     }
-    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: null, signature: null }));
+    return yield put(
+      buyDeviceInsuranceFirstSuccess({
+        policyId: null,
+        signature: null,
+        txn_hash: null,
+        isFailed: true,
+        message: 'Failed to get signature!',
+      }),
+    );
   } catch (error) {
-    return yield put(buyDeviceInsuranceFirstSuccess({ policyId: null }));
+    return yield put(
+      buyDeviceInsuranceFirstSuccess({
+        policyId: null,
+        signature: null,
+        txn_hash: null,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
   }
 }
 

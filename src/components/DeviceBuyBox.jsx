@@ -60,6 +60,7 @@ const DeviceBuyBox = (props) => {
     devicePlanDetails,
     deviceModelDetails,
     txn_hash,
+    signature,
     loader: deviceLoader,
     message: deviceMessage,
     isFailed: deviceIsFailed,
@@ -129,17 +130,17 @@ const DeviceBuyBox = (props) => {
     if (deviceIsFailed) setShowAlert(true);
   }, [deviceIsFailed]);
 
-  useEffect(() => {
-    if (txn_hash && !deviceLoader && !deviceIsFailed) {
-      setTitle('Receipt');
-      setMaxWidth('max-w-5xl');
-      setShowReceipt(true);
-    } else {
-      setTitle('Device Details');
-      setMaxWidth('max-w-2xl');
-      setShowReceipt(false);
-    }
-  }, [txn_hash]);
+  // useEffect(() => {
+  //   if (txn_hash && !deviceLoader && !deviceIsFailed) {
+  //     setTitle('Receipt');
+  //     setMaxWidth('max-w-5xl');
+  //     setShowReceipt(true);
+  //   } else {
+  //     setTitle('Device Details');
+  //     setMaxWidth('max-w-2xl');
+  //     setShowReceipt(false);
+  //   }
+  // }, [txn_hash]);
 
   useEffect(() => {
     dispatch(
@@ -239,10 +240,10 @@ const DeviceBuyBox = (props) => {
   };
 
   useEffect(() => {
-    if (!deviceIsFailed && !deviceLoader && policyId && txPending) {
+    if (!deviceIsFailed && !deviceLoader && policyId && txPending && txn_hash && signature) {
       (async () => {
         const param = {
-          policyId,
+          policyId: txn_hash,
           device_type: deviceType,
           brand,
           value: deviceDetails?.device_values[value],
@@ -265,8 +266,9 @@ const DeviceBuyBox = (props) => {
         try {
           const result =
             discountAmount > 0
-              ? await onStakeByToken(param)
-              : await onStake(param, ethAmount.toString());
+              ? await onStakeByToken(param, signature)
+              : await onStake(param, ethAmount.toString(), signature);
+
           if (result.status) {
             dispatch(
               buyDeviceInsurance({
@@ -277,6 +279,9 @@ const DeviceBuyBox = (props) => {
             );
             setTxPending(false);
             setIsNotCloseable(false);
+            setTitle('Receipt');
+            setMaxWidth('max-w-5xl');
+            setShowReceipt(true);
             logEvent(analytics, 'Action - Device Policy Bought', {
               device: deviceType,
               brand,
@@ -289,13 +294,13 @@ const DeviceBuyBox = (props) => {
             toast.success('Successfully purchased!');
           }
         } catch (error) {
-          toast.warning(error.message);
+          toast.warning('transaction failed!.');
           setTxPending(false);
           setIsNotCloseable(false);
         }
       })();
     }
-  }, [policyId, deviceIsFailed, deviceLoader]);
+  }, [policyId, deviceIsFailed, deviceLoader, txn_hash, signature]);
 
   const tryActivation = (connect) => {
     setCurWalletId(connect);
@@ -339,7 +344,7 @@ const DeviceBuyBox = (props) => {
     const ethAmount = getBalanceNumber(ethAmount1);
     const crvAmount = getBalanceNumber(crvAmount1);
 
-    if (ethAmount + 0.01 >= getBalanceNumber(balance)) {
+    if (ethAmount + 0.016 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
       setTxPending(false);
       setIsNotCloseable(false);
@@ -364,6 +369,7 @@ const DeviceBuyBox = (props) => {
       brand,
       value: deviceDetails?.device_values[value],
       purchase_month: purchaseMonth,
+      durPlan: purchaseMonth === 'Less than 12 months' ? 1 : 2,
       model: model || 'OTHERS',
       model_name: selectedModel?.[0]?.model_name || 'Others',
       plan_type: 'monthly',

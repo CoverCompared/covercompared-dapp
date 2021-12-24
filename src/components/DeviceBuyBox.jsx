@@ -38,7 +38,7 @@ import useTokenApprove from '../hooks/useTokenApprove';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
 import useTokenAmount from '../hooks/useTokenAmount';
-import { getBalanceNumber, getDecimalAmount } from '../utils/formatBalance';
+import { getBalanceNumber } from '../utils/formatBalance';
 import useAddress from '../hooks/useAddress';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];

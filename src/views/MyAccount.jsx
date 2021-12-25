@@ -440,8 +440,10 @@ const MyAccount = (props) => {
       <div className="xl:pl-5 xl:pr-24">
         <div className="md:col-span-4 col-span-12 md:flex items-center mb-4">
           <div className="w-full">
-            <label className="text-sm font-medium text-gray-700">Email:</label>
-            <label className="text-sm font-medium text-gray-500 ml-2">{email}</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-white">Email:</label>
+            <label className="text-sm font-medium text-gray-500 dark:text-white ml-2">
+              {email}
+            </label>
           </div>
           {/* <div className="mt-1 flex rounded-md shadow-sm">  
             <div className="relative flex items-stretch flex-grow focus-within:z-10">
@@ -486,7 +488,9 @@ const MyAccount = (props) => {
             return <></>;
           })
         ) : (
-          <div className="text-md font-medium text-gray-500">No insurance policies to display</div>
+          <div className="text-md font-medium text-gray-500 dark:text-white">
+            No insurance policies to display
+          </div>
         )}
 
         {/* <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">

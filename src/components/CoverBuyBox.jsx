@@ -307,7 +307,7 @@ const CoverBuyBox = (props) => {
   const dispatch = useDispatch();
   const { account, chainId } = useWeb3React();
   const { card } = useParams();
-  const { quote, quoteDetail, loader, message } = useSelector((state) => state.coverList);
+  const { quote, quoteDetail, quoteLoader, message } = useSelector((state) => state.coverList);
   const { currentProduct: product } = useSelector((state) => state.app);
 
   const {
@@ -442,7 +442,7 @@ const CoverBuyBox = (props) => {
         <SelectWithSearch
           {...props}
           readOnly
-          loading={loader}
+          loading={quoteLoader}
           fieldTitle="Quote"
           fieldType="number"
           fieldValue={quoteField}

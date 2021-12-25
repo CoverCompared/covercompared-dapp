@@ -153,7 +153,7 @@ const SelectWithSearch = ({
                 {showSearchOption && (
                   <div className="relative border-b-2 rounded-t-xl">
                     <input
-                      type={fieldType}
+                      type="text"
                       value={searchValue}
                       placeholder="Search..."
                       onChange={(e) => searchOption(e.target.value, 'obj')}
@@ -194,7 +194,7 @@ const SelectWithSearch = ({
                   <div className="relative border-b-2 rounded-t-xl">
                     <input
                       autoFocus
-                      type={fieldType}
+                      type="text"
                       value={searchValue}
                       placeholder="Search..."
                       onChange={(e) => searchOption(e.target.value, 'arr')}
@@ -248,7 +248,7 @@ const SelectWithSearch = ({
               //     <div className="relative">
               //       <input
               //         autoFocus
-              //         type={fieldType}
+              //         type="text"
               //         value={searchValue}
               //         placeholder="Search..."
               //         onChange={(e) => searchOption(e.target.value, 'arr')}

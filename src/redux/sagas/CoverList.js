@@ -307,32 +307,34 @@ function* getQuote({ payload }) {
     yield put(
       setGetQuoteLoader({
         message: '',
-        loader: true,
+        quoteLoader: true,
         isFailed: false,
       }),
     );
 
-    let url = `${API_BASE_URL}/cover-min-quote`;
-    const quote = yield call(axiosPost, url, payload);
-    url = `${API_BASE_URL}/cover-quote`;
-    const quoteDetail = yield call(axiosPost, url, payload);
-    if (quote?.data?.success && quoteDetail?.data?.success) {
-      yield put(getQuoteSuccess(quote?.data?.data || quote?.data?.quote));
+    const miniQuoteUrl = `${API_BASE_URL}/cover-min-quote`;
+    const quote = yield call(axiosPost, miniQuoteUrl, payload);
+    if (quote?.data?.success) yield put(getQuoteSuccess(quote?.data?.data || quote?.data?.quote));
+
+    const quoteUrl = `${API_BASE_URL}/cover-quote`;
+    const quoteDetail = yield call(axiosPost, quoteUrl, payload);
+    if (quoteDetail?.data?.success) {
       yield put(getQuoteDetailSuccess(quoteDetail?.data?.data));
-    } else {
-      yield put(
-        setGetQuoteLoader({
-          loader: false,
-          isFailed: true,
-          quote: null,
-          message: quote?.data?.message || quoteDetail?.data?.message,
-        }),
-      );
+      return yield put(setGetQuoteLoader({ message: '', quoteLoader: false, isFailed: false }));
     }
-  } catch (error) {
-    yield put(
+
+    return yield put(
       setGetQuoteLoader({
-        loader: false,
+        quoteLoader: false,
+        isFailed: true,
+        quote: null,
+        message: quote?.data?.message || quoteDetail?.data?.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setGetQuoteLoader({
+        quoteLoader: false,
         isFailed: true,
         message: error.message,
       }),

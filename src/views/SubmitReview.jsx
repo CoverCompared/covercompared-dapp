@@ -70,13 +70,13 @@ const ContactUs = () => {
             Ratings
           </div>
           <div className="md:flex items-center">
-            <div className="mt-4">
+            <div className="mt-4 relative">
               <input
-                type="text"
-                className="h-0 w-0 border-transparent p-0 focus:ring-0 focus:ring-offset-0 focus:border-transparent"
                 required
-                value={rating}
-                onChange={setRating}
+                type="text"
+                className="absolute top-5 -left-3 h-0.5 w-full border-0 bg-transparent text-transparent p-0 focus:ring-0 focus:ring-offset-0 focus:border-transparent"
+                value={rating || ''}
+                onChange={() => {}}
               />
               <StarRatings
                 required

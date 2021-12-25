@@ -58,7 +58,6 @@ function* buyMsoInsurance({ payload }) {
       }),
     );
   } catch (error) {
-    console.log('error :>> ', error);
     return yield put(
       setBuyMsoInsuranceLoader({
         _id: null,

@@ -91,8 +91,6 @@ const DeviceReceipt = (props) => {
     logo = P4LLogo,
   } = props;
 
-  // console.log('selectedModel :>> ', selectedModel);
-
   const getCurrentDate = () => {
     const newDate = new Date();
     const date = newDate.getDate();

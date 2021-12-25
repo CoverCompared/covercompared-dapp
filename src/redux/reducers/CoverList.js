@@ -26,6 +26,7 @@ const INIT_STATE = {
   message: '',
   loader: false,
   paginationLoader: false,
+  quoteLoader: false,
   isFailed: false,
   quote: null,
   query: null,
@@ -195,7 +196,7 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         message: '',
-        loader: false,
+        quoteLoader: false,
         isFailed: false,
         quote: payload,
       };

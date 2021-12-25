@@ -137,11 +137,6 @@ const CoverInsuranceProduct = (props) => {
   const avgRating =
     +(reviews.map((m) => m.rating).reduce((a, b) => a + b, 0) / reviews.length).toFixed(1) || 0;
 
-  console.log(
-    'reviews :>> ',
-    reviews.map((m) => m.rating).reduce((a, b) => a + b, 0),
-  );
-
   return (
     <>
       <div className="xl:px-32 lg:px-26">

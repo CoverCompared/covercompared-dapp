@@ -1,32 +1,23 @@
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import useActiveWeb3React from './useActiveWeb3React';
 import { useMSOContract } from './useContract';
 import mso from '../utils/calls/mso';
 import { getSignMessageForMSO } from '../utils/getSignMessage';
 import { signMessage } from '../utils/getLibrary';
 import useAddress from './useAddress';
+import { setTransactionState } from '../redux/actions';
 
 const useStakeForMSO = () => {
   const { library, account } = useActiveWeb3React();
   const msoContract = useMSOContract();
-
+  const dispatch = useDispatch();
+  const setTxState = (tx) => {
+    dispatch(setTransactionState(tx));
+  };
   const handleStake = useCallback(
     async (param, ethAmt) => {
-      // const message = await getSignMessageForMSO(param);
-      // const sig = await signMessage(library, account, message);
-
-      // if (sig) {
-      //   const txHash = await mso.buyProductByEthForMSO(msoContract, param, sig, ethAmt);
-      //   return {
-      //     ...txHash,
-      //   };
-      // }
-
-      // return {
-      //   status: false,
-      //   txn_hash: null,
-      // };
-      const txHash = await mso.buyProductByEthForMSO(msoContract, param, ethAmt);
+      const txHash = await mso.buyProductByEthForMSO(msoContract, param, ethAmt, setTxState);
       return {
         ...txHash,
       };
@@ -43,25 +34,17 @@ export const useStakeForMSOByToken = () => {
   const { library, account } = useActiveWeb3React();
   const msoContract = useMSOContract();
   const { getCrvAddress } = useAddress();
-
+  const dispatch = useDispatch();
+  const setTxState = (tx) => {
+    dispatch(setTransactionState(tx));
+  };
   const handleStake = useCallback(
     async (param) => {
-      // const messageForToken = await getSignMessageForMSO(param, true);
-      // const sigForToken = await signMessage(library, account, messageForToken);
-
-      // if (!sigForToken) {
-      //   return false;
-      // }
-      // const txHashForToken = await mso.buyProductByTokenForMSO(
-      //   msoContract,
-      //   { ...param, token: getCrvAddress() },
-      //   account,
-      //   sigForToken,
-      // );
       const txHashForToken = await mso.buyProductByTokenForMSO(
         msoContract,
         { ...param, token: getCrvAddress() },
         account,
+        setTxState,
       );
       return {
         ...txHashForToken,

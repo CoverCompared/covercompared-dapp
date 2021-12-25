@@ -16,7 +16,7 @@ const getProductPrice = async (contract, param) => {
   }
 };
 
-const buyCoverByETH = async (contract, param) => {
+const buyCoverByETH = async (contract, param, setTxState) => {
   const { contractAddress, coverAsset, sumAssured, coverPeriod, coverType, maxPriceWithFee, data } =
     param;
   const tx = await contract.buyCoverByETH(
@@ -29,7 +29,9 @@ const buyCoverByETH = async (contract, param) => {
     data,
     { value: maxPriceWithFee },
   );
+  setTxState({ state: 'pending', hash: tx.hash });
   const receipt = await tx.wait();
+  setTxState({ state: 'confirmed', hash: tx.hash });
 
   let events = null;
   let buyNMEvent = null;
@@ -48,7 +50,7 @@ const buyCoverByETH = async (contract, param) => {
   };
 };
 
-const buyCoverByToken = async (contract, param) => {
+const buyCoverByToken = async (contract, param, setTxState) => {
   const {
     contractAddress,
     coverAsset,
@@ -67,7 +69,9 @@ const buyCoverByToken = async (contract, param) => {
     maxPriceWithFee,
     data,
   );
+  setTxState({ state: 'pending', hash: tx.hash });
   const receipt = await tx.wait();
+  setTxState({ state: 'confirmed', hash: tx.hash });
 
   let events = null;
   let buyNMEvent = null;

@@ -163,6 +163,7 @@ const MsoCountrySelector = ({
             toast.success('Successfully purchased!');
           }
         } catch (error) {
+          console.log(error);
           toast.warning('Purchasing failed.');
           dispatch(
             setBuyMsoInsuranceLoader({

@@ -294,6 +294,7 @@ const DeviceBuyBox = (props) => {
             toast.success('Successfully purchased!');
           }
         } catch (error) {
+          console.log(error);
           toast.warning('transaction failed!.');
           setTxPending(false);
           setIsNotCloseable(false);

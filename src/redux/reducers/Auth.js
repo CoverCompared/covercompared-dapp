@@ -1,129 +1,124 @@
-import storage from 'redux-persist/lib/storage';
-import { persistReducer } from 'redux-persist';
 import {
-  SIGNIN_USER_SUCCESS,
   SET_AUTH_LOADER,
-  SIGNIN_USER_FAILED,
-  SIGNOUT_USER,
-  SEND_RESET_PASSWORD_LINK,
-  SEND_RESET_PASSWORD_LINK_FAILURE,
-  SEND_RESET_PASSWORD_LINK_SUCCESS,
-  RESET_USER_PASSWORD,
-  RESET_USER_PASSWORD_FAILURE,
-  RESET_USER_PASSWORD_SUCCESS,
-  SIGNOUT_USER_SUCCESS,
-  SIGNOUT_USER_FAILED,
+  GET_LOGIN_DETAILS_SUCCESS,
+  SET_PROFILE_DETAILS_SUCCESS,
+  RESEND_VERIFICATION_EMAIL_SUCCESS,
+  VERIFY_OTP_SUCCESS,
+  GET_USER_PROFILE_SUCCESS,
+  LOGIN_MODAL_VISIBLE,
+  REGISTER_MODAL_VISIBLE,
+  LOGOUT_USER,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
+  message: null,
   loader: false,
-  message: '',
   isFailed: false,
-  authUser: null,
+
+  email: null,
   token: null,
+  is_verified: null,
+  wallet_addresses: [],
+
+  showVerified: false,
+  showOTPScreen: false,
+  loginModalVisible: false,
+  registerModalVisible: false,
 };
 
-const AuthReducer = (state = INIT_STATE, action) => {
-  switch (action.type) {
+export default (state = INIT_STATE, { type, payload }) => {
+  switch (type) {
+    case GET_LOGIN_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        message: null,
+        loader: false,
+        isFailed: false,
+        ...payload,
+        wallet_addresses: payload.wallet_address
+          ? [payload.wallet_address, ...state.wallet_addresses]
+          : [...state.wallet_addresses],
+        wallet_address: null,
+      };
+    }
     case SET_AUTH_LOADER: {
       return {
         ...state,
-        ...action.payload,
+        ...payload,
       };
     }
-    case SIGNIN_USER_SUCCESS: {
+    case SET_PROFILE_DETAILS_SUCCESS: {
       return {
         ...state,
+        message: null,
         loader: false,
+        isFailed: false,
+        showOTPScreen: true,
+      };
+    }
+    case RESEND_VERIFICATION_EMAIL_SUCCESS: {
+      return {
+        ...state,
+        message: null,
+        loader: false,
+        isFailed: false,
+        showOTPScreen: true,
+      };
+    }
+    case VERIFY_OTP_SUCCESS: {
+      return {
+        ...state,
+        message: null,
+        loader: false,
+        isFailed: false,
+        showVerified: true,
+        showOTPScreen: false,
+      };
+    }
+    case GET_USER_PROFILE_SUCCESS: {
+      return {
+        ...state,
+        message: null,
+        loader: false,
+        isFailed: false,
+        ...payload,
+      };
+    }
+    case LOGOUT_USER: {
+      return {
+        ...state,
         message: '',
-        isFailed: false,
-        authUser: action.payload,
-      };
-    }
-    case SIGNIN_USER_FAILED: {
-      return {
-        ...state,
-        loader: false,
-        message: action.payload.message,
-        isFailed: true,
-      };
-    }
-    case SIGNOUT_USER: {
-      return {
-        ...state,
-        loader: true,
-        isFailed: false,
-      };
-    }
-    case SIGNOUT_USER_SUCCESS: {
-      return {
-        ...state,
-        authUser: null,
         loader: false,
         isFailed: false,
+
+        email: null,
+        token: null,
+        is_verified: null,
+        wallet_addresses: [],
+
+        showVerified: false,
+        showOTPScreen: false,
+        loginModalVisible: false,
+        registerModalVisible: false,
       };
     }
-    case SIGNOUT_USER_FAILED: {
+    case LOGIN_MODAL_VISIBLE: {
       return {
         ...state,
-        loader: false,
-        isFailed: true,
-        message: action.payload.message,
+        loginModalVisible: payload,
       };
     }
-    case SEND_RESET_PASSWORD_LINK: {
+    case REGISTER_MODAL_VISIBLE: {
       return {
         ...state,
-        ...action.payload,
-      };
-    }
-    case SEND_RESET_PASSWORD_LINK_SUCCESS: {
-      return {
-        ...state,
-        loader: false,
-        message: action.payload.message,
+        message: null,
         isFailed: false,
-      };
-    }
-    case SEND_RESET_PASSWORD_LINK_FAILURE: {
-      return {
-        ...state,
-        loader: false,
-        message: action.payload.message,
-        isFailed: true,
-      };
-    }
-    case RESET_USER_PASSWORD: {
-      return {
-        ...state,
-        ...action.payload,
-      };
-    }
-    case RESET_USER_PASSWORD_SUCCESS: {
-      return {
-        ...state,
-        loader: false,
-        message: action.payload.message,
-        isFailed: false,
-      };
-    }
-    case RESET_USER_PASSWORD_FAILURE: {
-      return {
-        ...state,
-        loader: false,
-        message: action.payload.message,
-        isFailed: true,
+        showVerified: false,
+        showOTPScreen: false,
+        registerModalVisible: payload,
       };
     }
     default:
       return state;
   }
 };
-
-const persistConfig = {
-  key: 'auth',
-  storage,
-  whitelist: ['authUser'],
-};
-
-export default persistReducer(persistConfig, AuthReducer);

@@ -3,11 +3,11 @@ import { classNames } from '../../functions/utils';
 
 const MobilePageTitle = ({ title, subtitle }) => {
   return (
-    <div className="md:hidden">
+    <div className="lg:hidden">
       <div
         className={classNames(
           subtitle !== '' ? '' : 'mb-8',
-          'font-Montserrat font-semibold text-h2 text-dark-blue dark:text-white',
+          'font-Montserrat font-semibold xl:text-h2 text-h4 text-dark-blue dark:text-white',
         )}
       >
         {title}

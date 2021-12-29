@@ -1,99 +1,114 @@
 import {
-  SIGNIN_USER,
-  SIGNIN_USER_SUCCESS,
-  SIGNIN_USER_FAILED,
   SET_AUTH_LOADER,
-  SIGNOUT_USER,
-  SIGNOUT_USER_SUCCESS,
-  SEND_RESET_PASSWORD_LINK,
-  SEND_RESET_PASSWORD_LINK_SUCCESS,
-  SEND_RESET_PASSWORD_LINK_FAILURE,
-  RESET_USER_PASSWORD,
-  RESET_USER_PASSWORD_FAILURE,
-  RESET_USER_PASSWORD_SUCCESS,
-  SIGNOUT_USER_FAILED,
+  GET_LOGIN_DETAILS,
+  GET_LOGIN_DETAILS_SUCCESS,
+  SET_PROFILE_DETAILS,
+  SET_PROFILE_DETAILS_SUCCESS,
+  RESEND_VERIFICATION_EMAIL,
+  RESEND_VERIFICATION_EMAIL_SUCCESS,
+  VERIFY_OTP,
+  VERIFY_OTP_SUCCESS,
+  GET_USER_PROFILE,
+  GET_USER_PROFILE_SUCCESS,
+  LOGOUT_USER,
+  LOGIN_MODAL_VISIBLE,
+  REGISTER_MODAL_VISIBLE,
 } from '../constants/ActionTypes';
 
-export const signinUser = (payload) => {
-  return {
-    type: SIGNIN_USER,
-    payload,
-  };
-};
-export const signinUserSuccess = (payload) => {
-  return {
-    type: SIGNIN_USER_SUCCESS,
-    payload,
-  };
-};
-export const signinUserFailed = (payload) => {
-  return {
-    type: SIGNIN_USER_FAILED,
-    payload,
-  };
-};
 export const setAuthLoader = (payload) => {
   return {
     type: SET_AUTH_LOADER,
     payload,
   };
 };
-export const signoutUser = () => {
-  return {
-    type: SIGNOUT_USER,
-  };
-};
 
-export const signoutUserSuccess = () => {
+export const getLoginDetails = (payload) => {
   return {
-    type: SIGNOUT_USER_SUCCESS,
-  };
-};
-
-export const signoutUserFailed = () => {
-  return {
-    type: SIGNOUT_USER_FAILED,
-  };
-};
-
-export const sendResetPasswordLink = (payload) => {
-  return {
-    type: SEND_RESET_PASSWORD_LINK,
+    type: GET_LOGIN_DETAILS,
     payload,
   };
 };
 
-export const sendResetPasswordLinkSuccess = (payload) => {
+export const getLoginDetailsSuccess = (payload) => {
   return {
-    type: SEND_RESET_PASSWORD_LINK_SUCCESS,
+    type: GET_LOGIN_DETAILS_SUCCESS,
     payload,
   };
 };
 
-export const sendResetPasswordLinkFailure = (payload) => {
+export const setProfileDetails = (payload) => {
   return {
-    type: SEND_RESET_PASSWORD_LINK_FAILURE,
+    type: SET_PROFILE_DETAILS,
     payload,
   };
 };
 
-export const resetUserPassword = (payload) => {
+export const setProfileDetailsSuccess = (payload) => {
   return {
-    type: RESET_USER_PASSWORD,
+    type: SET_PROFILE_DETAILS_SUCCESS,
     payload,
   };
 };
 
-export const resetUserPasswordSuccess = (payload) => {
+export const verifyOTP = (payload) => {
   return {
-    type: RESET_USER_PASSWORD_SUCCESS,
+    type: VERIFY_OTP,
     payload,
   };
 };
 
-export const resetUserPasswordFailure = (payload) => {
+export const verifyOTPSuccess = (payload) => {
   return {
-    type: RESET_USER_PASSWORD_FAILURE,
+    type: VERIFY_OTP_SUCCESS,
+    payload,
+  };
+};
+
+export const resendVerificationEmail = (payload) => {
+  return {
+    type: RESEND_VERIFICATION_EMAIL,
+    payload,
+  };
+};
+
+export const resendVerificationEmailSuccess = (payload) => {
+  return {
+    type: RESEND_VERIFICATION_EMAIL_SUCCESS,
+    payload,
+  };
+};
+
+export const getUserProfile = (payload) => {
+  return {
+    type: GET_USER_PROFILE,
+    payload,
+  };
+};
+
+export const getUserProfileSuccess = (payload) => {
+  return {
+    type: GET_USER_PROFILE_SUCCESS,
+    payload,
+  };
+};
+
+export const logoutUser = (payload) => {
+  return {
+    type: LOGOUT_USER,
+    payload,
+  };
+};
+
+export const setLoginModalVisible = (payload) => {
+  return {
+    type: LOGIN_MODAL_VISIBLE,
+    payload,
+  };
+};
+
+export const setRegisterModalVisible = (payload) => {
+  return {
+    type: REGISTER_MODAL_VISIBLE,
     payload,
   };
 };

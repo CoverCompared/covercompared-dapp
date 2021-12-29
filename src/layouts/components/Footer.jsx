@@ -9,16 +9,16 @@ import TwitterIcon from '../../assets/img/twitter.svg';
 
 const Footer = () => {
   const socialMedia = [
-    { href: 'https://google.com', name: 'Telegram', icon: TelegramIcon },
-    { href: 'https://google.com', name: 'Twitter', icon: TwitterIcon },
-    { href: 'https://google.com', name: 'Instagram', icon: InstagramIcon },
-    { href: 'https://google.com', name: 'Linkdin', icon: LinkdinIcon },
-    { href: 'https://google.com', name: 'Github', icon: GithubIcon },
-    { href: 'https://google.com', name: 'Gitbook', icon: GitbookIcon },
+    { href: 'https://t.me/PolkaCover', name: 'Telegram', icon: TelegramIcon },
+    { href: 'https://twitter.com/polkacover?s=11', name: 'Twitter', icon: TwitterIcon },
+    { href: 'https://www.instagram.com/polka_cover/', name: 'Instagram', icon: InstagramIcon },
+    { href: 'https://www.linkedin.com/company/polkacover/', name: 'Linkdin', icon: LinkdinIcon },
+    { href: 'https://github.com/Polkacover', name: 'Github', icon: GithubIcon },
+    { href: 'https://polkacover.gitbook.io/docs/', name: 'Gitbook', icon: GitbookIcon },
   ];
 
   return (
-    <div className="grid grid-cols-12 md:grid-cols-2 lg:grid-cols-2 md:px-20 mb-8 pt-2 pb-10 md:pb-0">
+    <div className="grid grid-cols-12 md:grid-cols-2 lg:grid-cols-2 md:px-28 mb-8 pt-2 pb-10 md:pb-0">
       <div className="text-dark-blue text-body-md font-Montserrat font-semibold dark:text-white col-span-12 md:col-span-1 flex  md:justify-start justify-center md:mb-0 mb-2 ">
         Copyright © 2021 PolkaCover.com
       </div>

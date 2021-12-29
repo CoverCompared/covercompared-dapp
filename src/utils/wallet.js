@@ -1,9 +1,14 @@
 import { BASE_URL } from '../config';
 
-export const setupNetwork = async () => {
+export const setupNetwork = async (_chainId) => {
   const provider = window.ethereum;
   if (provider) {
-    const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID, 10) : 1;
+    // const chainId = process.env.REACT_APP_CHAIN_ID
+    //   ? parseInt(process.env.REACT_APP_CHAIN_ID, 10)
+    //   : 1;
+    const chainId = _chainId
+      ? parseInt(_chainId, 10)
+      : parseInt(process.env.REACT_APP_CHAIN_ID, 10);
     try {
       await provider.request({
         method: 'wallet_switchEthereumChain',
@@ -19,7 +24,7 @@ export const setupNetwork = async () => {
       return false;
     }
   } else {
-    console.error("Can't setup the BSC network on metamask because window.ethereum is undefined");
+    console.error("Can't setup network on metamask because window.ethereum is undefined");
     return false;
   }
 };

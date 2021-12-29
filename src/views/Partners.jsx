@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import uniqid from 'uniqid';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import PartnerCard from '../components/PartnerCard';
+import { classNames } from '../functions/utils';
+
 import AudaceIcon from '../assets/partners/audace.png';
 import Insurance971 from '../assets/partners/971 insurance.png';
 import BandProtocol from '../assets/partners/Band Protocol.png';
@@ -17,7 +22,7 @@ import Innovion from '../assets/partners/Innovion.png';
 import IsraeliBlockchain from '../assets/partners/Israeli Blockchain.png';
 import LABSGroup from '../assets/partners/LABS Group.png';
 import NFTAlley from '../assets/partners/NFT_Alley_Favicon.png';
-import NsureNetwork from '../assets/partners/Nsure Network.png';
+import NsureNetwork from '../assets/partners/Nsure-Network.png';
 import OrionProtocol from '../assets/partners/orion protocol.png';
 import PaidNetwork from '../assets/partners/Paid Network.png';
 import PhantasmaChain from '../assets/partners/Phantasma Chain.png';
@@ -31,7 +36,6 @@ import Uniswap from '../assets/partners/uniswap.png';
 import Unmarshal from '../assets/partners/Unmarshal.png';
 import Unore from '../assets/partners/UNORE.png';
 import VitorServices from '../assets/partners/Vitor services.png';
-import { classNames } from '../functions/utils';
 
 const tabs = [
   {
@@ -319,9 +323,13 @@ const tabs = [
 const Partner = (props) => {
   const [activeTab, setActiveTab] = useState(0);
 
+  useEffect(() => {
+    logEvent(analytics, 'View - Partners');
+  }, []);
+
   return (
     <>
-      <div className="text-32 text-partner-page-title font-Montserrat font-semibold text-center dark:text-white">
+      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white">
         Our Partners
       </div>
 
@@ -348,7 +356,7 @@ const Partner = (props) => {
             ))}
           </select> */}
         </div>
-        <div className="overflow-x-scroll md:overflow-x-hidden scrollbar-hide relative">
+        <div className="overflow-x-scroll lg:overflow-x-hidden scrollbar-hide relative">
           <nav className="flex space-x-2 justify-center items-center" aria-label="Tabs">
             {tabs.map((tab, i) => (
               <div
@@ -369,7 +377,7 @@ const Partner = (props) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 md:gap-y-3 gap-y-5 gap-x-8 pb-14">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 gap-y-5 gap-x-8 md:pb-14">
         {tabs[activeTab]?.content?.map((partner, i) => (
           <PartnerCard
             {...props}

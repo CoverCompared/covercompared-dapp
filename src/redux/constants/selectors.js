@@ -1,4 +1,3 @@
-export const user = (state) => state.auth.authUser.user;
-export const token = (state) => state.auth.authUser.token;
+export const wallet_address = (state) => state.auth.wallet_addresses?.[0];
+export const token = (state) => state.auth.token;
 export const coverList = (state) => state.coverList.coverList;
-export const users = (state) => state.user.userSuccess;

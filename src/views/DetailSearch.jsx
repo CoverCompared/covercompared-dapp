@@ -1,28 +1,32 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
-import ReactTooltip from 'react-tooltip';
 import uniqid from 'uniqid';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import PackageCard from '../components/common/PackageCard';
 import SmallPackageCard from '../components/common/SmallPackageCard';
-import MSOPackageCard from '../components/MSOPackageCard';
-import MSOSmallPackageCard from '../components/MSOSmallPackageCard';
+
 import ChangeViewIcon from '../assets/img/view-change-icon.svg';
 import MobileFilterIcon from '../assets/icons/mobile-filter.svg';
 import MobileFilterWhiteIcon from '../assets/dark-icons/mobile-filter-white.svg';
 import ChangeViewIconWhite from '../assets/dark-icons/view-change-icon.svg';
 import SearchBar from '../components/common/SearchBar';
 import { ThemeContext } from '../themeContext';
-import { searchCoverList, fetchMoreCovers, searchMSOList } from '../redux/actions/CoverList';
+import { searchCoverList, fetchMoreCovers } from '../redux/actions/CoverList';
+import { searchMSOList } from '../redux/actions/MsoInsurance';
 import { toggleFilters } from '../redux/actions/AppActions';
 import Loading from '../components/common/Loading';
 import FiltersSection from '../components/FiltersSection';
 import ToolTip from '../components/common/ToolTip';
 
 const DetailSearch = (props) => {
-  const { coverListData } = props;
+  const dispatch = useDispatch();
+  const coverListData = useSelector((state) => state.coverList);
+
   const { loader, coverList, query, message, isFailed, page, totalPages } = coverListData;
   // const urlSearchParams = new URLSearchParams(query || '');
   // const params = Object.fromEntries(urlSearchParams.entries()) || {};
@@ -32,13 +36,19 @@ const DetailSearch = (props) => {
   const [changeView, setChangeView] = useState(false);
 
   const [search, setSearch] = useState('');
+  const [filtersQuery, setFiltersQuery] = useState('');
   const [products, setProducts] = useState(coverList || []);
   const [hasMore, setHasMore] = useState(true);
 
   let type;
-  if (card === 'smart-contract') type = 'protocol';
+  if (card === 'smart-contract') type = 'protocol,token';
   else if (card === 'crypto-exchange') type = 'custodian';
   else type = '';
+
+  useEffect(() => {
+    if (card === 'smart-contract') logEvent(analytics, 'View - Smart Contract Cover');
+    else if (card === 'crypto-exchange') logEvent(analytics, 'View - Crypto Exchange');
+  }, []);
 
   useEffect(() => {
     setProducts(coverList);
@@ -49,9 +59,9 @@ const DetailSearch = (props) => {
   const debounceSearch = useCallback(
     debounce((text) => {
       if (card === 'smart-contract' || card === 'crypto-exchange') {
-        props.searchCoverList(`?search=${text}&type=${type}`);
+        dispatch(searchCoverList(`?search=${text}&type=${type}${filtersQuery}`));
       } else if (card === 'mso') {
-        props.searchMSOList(`?search=${text}`);
+        dispatch(searchMSOList(`?search=${text}${filtersQuery}`));
       }
     }, 500),
     [],
@@ -63,7 +73,7 @@ const DetailSearch = (props) => {
   };
 
   const fetchMoreData = () => {
-    props.fetchMoreCovers(`?search=${search}&type=${type}&page=${page + 1}`);
+    dispatch(fetchMoreCovers(`?search=${search}&type=${type}&page=${page + 1}${filtersQuery}`));
   };
 
   const renderCards = () => {
@@ -94,26 +104,19 @@ const DetailSearch = (props) => {
           scrollThreshold={1}
         >
           {!changeView ? (
-            products.map((obj) => <PackageCard key={uniqid()} {...obj} {...props} />)
+            products &&
+            products.map((obj) => (
+              <PackageCard key={uniqid()} {...obj} {...props} cardType={card} />
+            ))
           ) : (
             <div className="grid grid-cols-12 lg:grid-cols-12 xl:grid-col-12 gap-y-4 gap-x-5 md:gap-4 lg:gap-x-6 lg:gap-y-4 ">
-              {products.map((obj) => (
-                <SmallPackageCard key={uniqid()} {...obj} {...props} />
-              ))}
+              {products &&
+                products.map((obj) => (
+                  <SmallPackageCard key={uniqid()} {...obj} {...props} cardType={card} />
+                ))}
             </div>
           )}
         </InfiniteScroll>
-      );
-    }
-    if (card === 'mso') {
-      return !changeView ? (
-        products.map((obj) => <MSOPackageCard key={uniqid()} {...obj} {...props} />)
-      ) : (
-        <div className="grid grid-cols-12 lg:grid-cols-12 xl:grid-col-12 gap-y-4 gap-x-5 md:gap-4 lg:gap-x-6 lg:gap-y-4 ">
-          {products.map((obj) => (
-            <MSOSmallPackageCard key={uniqid()} {...obj} {...props} />
-          ))}
-        </div>
       );
     }
 
@@ -126,12 +129,17 @@ const DetailSearch = (props) => {
         {/* <div className="font-Montserrat md:text-heading text-h4 font-semibold text-dark-blue text-center pb-6 dark:text-white">
           Search by address/protocol name
         </div> */}
-        <div className="md:px-40 mb-7">
+        <div className="xl:px-40 md:px-14 mb-7">
           <SearchBar {...props} {...{ search, setSearch: onSearchChange }} />
         </div>
 
-        <div className="grid grid-cols-12 gap-x-0 lg:gap-x-12 md:px-12">
-          <FiltersSection search={search} card={card} type={type} />
+        <div className="grid grid-cols-12 gap-x-0 lg:gap-x-12 xl:px-12 sm:px-4">
+          <FiltersSection
+            search={search}
+            card={card}
+            type={type}
+            setFiltersQuery={setFiltersQuery}
+          />
 
           <div className="md:col-span-9 col-span-12">
             <div className="flex justify-between items-center mb-4 pr-2">
@@ -141,26 +149,21 @@ const DetailSearch = (props) => {
               <div className="flex items-center">
                 <div
                   data-for="info-tool-tip"
-                  data-html="true"
-                  data-tip="<ul>
-                    <li>Single Cover</li>
-                    <li>EHR and Mobile App available for entire family</li>
-                  </ul>"
+                  data-tip="Hello World"
                   data-iscapture="true"
                   className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
                 >
-                  {/* <p data-tip="<p>HTML tooltip</p>" data-html={true}></p> or{' '} */}i
+                  i
                 </div>
                 <ToolTip
                   ToolTipId="info-tool-tip"
                   bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
                   fontColor="#FFF"
-                  isHtml="true"
                 />
 
                 <button
                   type="button"
-                  onClick={() => props.toggleFilters(true)}
+                  onClick={() => dispatch(toggleFilters(true))}
                   className="focus:outline-none focus:ring-offset-0 md:mr-4"
                 >
                   <img
@@ -189,13 +192,4 @@ const DetailSearch = (props) => {
   );
 };
 
-const mapStateToProps = ({ coverList }) => ({
-  coverListData: coverList,
-});
-
-export default connect(mapStateToProps, {
-  searchCoverList,
-  searchMSOList,
-  fetchMoreCovers,
-  toggleFilters,
-})(DetailSearch);
+export default DetailSearch;

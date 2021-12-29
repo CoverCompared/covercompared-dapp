@@ -1,34 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { useDispatch, useSelector } from 'react-redux';
-import useAuth from '../hooks/useAuth';
-import GoogleIcon from '../assets/img/google.png';
+import { useDispatch } from 'react-redux';
+import { walletLogin } from '../hooks/useAuth';
+// import GoogleIcon from '../assets/img/google.png';
 import SUPPORTED_WALLETS from '../config/walletConfig';
 import { setLoginModalVisible } from '../redux/actions';
+import { getLoginDetails, getUserProfile } from '../redux/actions/Auth';
 
-const Login = ({ isModalOpen, setIsModalOpen }) => {
-  const { login } = useAuth();
+const Login = () => {
+  // const { login } = useAuth();
   const dispatch = useDispatch();
-  const { loginModalVisible } = useSelector((state) => state.app);
 
-  const { account } = useWeb3React();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { account, activate } = useWeb3React();
+  const [connectStatus, setConnectStatus] = useState(false);
+  const [curWalletId, setCurWalletId] = useState('injected');
 
-  useEffect(() => {
-    dispatch(setLoginModalVisible(true));
-  }, []);
-
-  useEffect(() => {
-    if (!isModalOpen && loginModalVisible) setIsModalOpen(true);
-    if (isModalOpen && !loginModalVisible) setIsModalOpen(false);
-  }, [loginModalVisible]);
-
-  const tryActivation = async (connect) => {
-    console.log(connect);
-    login(connect);
-    dispatch(setLoginModalVisible(false));
+  const tryActivation = (connect) => {
+    setCurWalletId(connect);
+    setConnectStatus(true);
+    // login(connect);
+    walletLogin(connect, activate);
   };
+
+  // useEffect(() => {
+  //   dispatch(getUserProfile());
+  // }, []);
+
+  useEffect(() => {
+    if (connectStatus && account) {
+      dispatch(getLoginDetails({ wallet_address: account }));
+      setConnectStatus(false);
+      dispatch(setLoginModalVisible(false));
+    }
+  }, [connectStatus, account]);
 
   function getWalletOption() {
     return Object.keys(SUPPORTED_WALLETS).map((key) => {
@@ -36,7 +40,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
 
       return (
         <div
-          className="md:col-span-5 col-span-6"
+          className="md:col-span-5 col-span-5 h-full"
           key={key}
           id={`connect-${key}`}
           onClick={() => {
@@ -45,8 +49,8 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
         >
           <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
             <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
-            <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xsm md:mt-5 mt-4 dark:text-white">
-              {option.name}
+            <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
+              {connectStatus && curWalletId === option.connector ? 'Connecting...' : option.name}
             </div>
           </div>
         </div>
@@ -57,11 +61,12 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <>
       <div className="grid grid-cols-12 gap-6">
-        <div className="md:col-span-7 col-span-12 h-full flex items-center w-full order-2 md:order-1">
-          <div className="grid grid-cols-12 md:gap-x-6 gap-x-5 w-full">{getWalletOption()}</div>
+        <div className="col-span-12 flex items-center justify-center w-full">
+          <div className="grid grid-cols-10 md:col-start-1 md:gap-x-6 gap-x-5 w-full">
+            {getWalletOption()}
+          </div>
         </div>
-        <div className="md:col-span-4 lg:col-start-9 xl:col-span-5 col-span-12 xl:col-start-8 w-full order-1 md:order-2">
-          <div className="flex flex-col items-end justify-center h-full w-full">
+        {/* <div className="flex flex-col items-end justify-center h-full w-full">
             <div className="flex flex-col items-end w-full">
               <div className="font-Montserrat text-h5 font-semibold text-dark-blue mb-6 text-center w-full dark:text-white">
                 Log In with Email
@@ -98,8 +103,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
                 Google
               </button>
             </div>
-          </div>
-        </div>
+          </div> */}
       </div>
     </>
   );

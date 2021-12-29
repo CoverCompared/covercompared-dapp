@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core';
-
+import { Web3ReactProvider } from '@web3-react/core';
+// import { MoralisProvider } from 'react-moralis';
 // imports for redux
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import configureStore, { history } from './redux/store';
+// import ApplicationUpdater from './utils/updater';
 
 // imports for context provider
 import { ThemeProvider } from './themeContext';
@@ -18,37 +19,58 @@ import reportWebVitals from './reportWebVitals';
 // imports for component and styles
 import App from './App';
 import './index.css';
-import { NetworkContextName } from './config';
+// import { NetworkContextName } from './config';
 import getLibrary from './utils/getLibrary';
+import { MORALIS_ID, SERVER_URL } from './config';
 
 export const { persistor, store } = configureStore();
 
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
+// const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
 if (!window.ethereum) {
   window.ethereum = {
     isMetaMask: true,
     on: (...args) => {},
+    request: (...args) => {},
     removeListener: (...args) => {},
-    autoRefreshOnNetworkChange: false,
+    autoRefreshOnNetworkChange: true,
   };
 }
 
+if (!window.web3) {
+  window.web3 = {};
+}
+
+if (!window.EthereumChain) {
+  window.EthereumChain = {
+    ethSign: (address, message) => {},
+  };
+}
+
+// function Updaters() {
+//   return (
+//     <>
+//       <ApplicationUpdater />
+//     </>
+//   );
+// }
+
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ConnectedRouter history={history}>
-          <Web3ReactProvider getLibrary={getLibrary}>
-            <Web3ProviderNetwork getLibrary={getLibrary}>
-              <ThemeProvider>
-                <App />
-              </ThemeProvider>
-            </Web3ProviderNetwork>
-          </Web3ReactProvider>
-        </ConnectedRouter>
-      </PersistGate>
-    </Provider>
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ConnectedRouter history={history}>
+            <ThemeProvider>
+              {/* <MoralisProvider appId={MORALIS_ID} serverUrl={SERVER_URL}> */}
+              {/* <Updaters /> */}
+              <App />
+              {/* </MoralisProvider> */}
+            </ThemeProvider>
+          </ConnectedRouter>
+        </PersistGate>
+      </Provider>
+    </Web3ReactProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

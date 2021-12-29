@@ -1,29 +1,76 @@
 import {
   ACTION_METHOD_FAILED,
+  BUY_COVER,
+  BUY_COVER_SUCCESS,
+  SET_BUY_COVER_LOADER,
+  CONFIRM_BUY_COVER,
+  CONFIRM_BUY_COVER_SUCCESS,
+  SET_CONFIRM_BUY_COVER_LOADER,
   SEARCH_COVER_LIST,
   SEARCH_COVER_LIST_SUCCESS,
   SET_SEARCH_COVER_LIST_LOADER,
+  GET_COVER_BY_ID,
+  GET_COVER_BY_ID_SUCCESS,
+  SET_GET_COVER_BY_ID_LOADER,
   FETCH_MORE_COVERS,
   FETCH_MORE_COVERS_SUCCESS,
   SET_FETCH_MORE_COVERS_LOADER,
   FETCH_COVERS_WITH_AMOUNT_SUCCESS,
   GET_QUOTE,
   GET_QUOTE_SUCCESS,
+  GET_QUOTE_DETAIL_SUCCESS,
   SET_GET_QUOTE_LOADER,
-  SEARCH_MSO_LIST,
-  SEARCH_MSO_LIST_SUCCESS,
-  SET_SEARCH_MSO_LIST_LOADER,
-  GET_DEVICE_DETAILS,
-  GET_DEVICE_DETAILS_SUCCESS,
-  SET_GET_DEVICE_DETAILS_LOADER,
-  GET_DEVICE_PLAN_DETAILS,
-  GET_DEVICE_PLAN_DETAILS_SUCCESS,
-  SET_GET_DEVICE_PLAN_DETAILS_LOADER,
+  SEARCH_BLOG_LIST,
+  SEARCH_BLOG_LIST_SUCCESS,
+  SET_SEARCH_BLOG_LIST_LOADER,
+  SEARCH_BLOG,
+  SEARCH_BLOG_SUCCESS,
+  SET_SEARCH_BLOG_LOADER,
+  FETCH_MORE_BLOGS,
+  FETCH_MORE_BLOGS_SUCCESS,
+  SET_FETCH_MORE_BLOGS_LOADER,
 } from '../constants/ActionTypes';
 
 export const actionMethodFailed = (payload) => {
   return {
     type: ACTION_METHOD_FAILED,
+    payload,
+  };
+};
+
+export const buyCover = (payload) => {
+  return {
+    type: BUY_COVER,
+    payload,
+  };
+};
+export const buyCoverSuccess = (payload) => {
+  return {
+    type: BUY_COVER_SUCCESS,
+    payload,
+  };
+};
+export const setBuyCoverLoader = (payload) => {
+  return {
+    type: SET_BUY_COVER_LOADER,
+    payload,
+  };
+};
+export const confirmBuyCover = (payload) => {
+  return {
+    type: CONFIRM_BUY_COVER,
+    payload,
+  };
+};
+export const confirmBuyCoverSuccess = (payload) => {
+  return {
+    type: CONFIRM_BUY_COVER_SUCCESS,
+    payload,
+  };
+};
+export const setConfirmBuyCoverLoader = (payload) => {
+  return {
+    type: SET_CONFIRM_BUY_COVER_LOADER,
     payload,
   };
 };
@@ -49,22 +96,23 @@ export const setSearchCoverListLoader = (payload) => {
   };
 };
 
-export const searchMSOList = (payload) => {
+export const getCoverById = (payload) => {
   return {
-    type: SEARCH_MSO_LIST,
-    payload,
-  };
-};
-export const searchMSOListSuccess = (payload) => {
-  return {
-    type: SEARCH_MSO_LIST_SUCCESS,
+    type: GET_COVER_BY_ID,
     payload,
   };
 };
 
-export const setSearchMSOListLoader = (payload) => {
+export const getCoverByIdSuccess = (payload) => {
   return {
-    type: SET_SEARCH_MSO_LIST_LOADER,
+    type: GET_COVER_BY_ID_SUCCESS,
+    payload,
+  };
+};
+
+export const setGetCoverByIdLoader = (payload) => {
+  return {
+    type: SET_GET_COVER_BY_ID_LOADER,
     payload,
   };
 };
@@ -111,6 +159,13 @@ export const getQuoteSuccess = (payload) => {
   };
 };
 
+export const getQuoteDetailSuccess = (payload) => {
+  return {
+    type: GET_QUOTE_DETAIL_SUCCESS,
+    payload,
+  };
+};
+
 export const setGetQuoteLoader = (payload) => {
   return {
     type: SET_GET_QUOTE_LOADER,
@@ -118,44 +173,65 @@ export const setGetQuoteLoader = (payload) => {
   };
 };
 
-export const getDeviceDetails = (payload) => {
+export const searchBlogList = (payload) => {
   return {
-    type: GET_DEVICE_DETAILS,
+    type: SEARCH_BLOG_LIST,
     payload,
   };
 };
 
-export const getDeviceDetailsSuccess = (payload) => {
+export const searchBlogListSuccess = (payload) => {
   return {
-    type: GET_DEVICE_DETAILS_SUCCESS,
+    type: SEARCH_BLOG_LIST_SUCCESS,
     payload,
   };
 };
 
-export const setGetDeviceDetailsLoader = (payload) => {
+export const setSearchBlogListLoader = (payload) => {
   return {
-    type: SET_GET_DEVICE_DETAILS_LOADER,
+    type: SET_SEARCH_BLOG_LIST_LOADER,
     payload,
   };
 };
 
-export const getDevicePlanDetails = (payload) => {
+export const searchBlog = (payload) => {
   return {
-    type: GET_DEVICE_PLAN_DETAILS,
+    type: SEARCH_BLOG,
     payload,
   };
 };
 
-export const getDevicePlanDetailsSuccess = (payload) => {
+export const searchBlogSuccess = (payload) => {
   return {
-    type: GET_DEVICE_PLAN_DETAILS_SUCCESS,
+    type: SEARCH_BLOG_SUCCESS,
     payload,
   };
 };
 
-export const setGetDevicePlanDetailsLoader = (payload) => {
+export const setSearchBlogLoader = (payload) => {
   return {
-    type: SET_GET_DEVICE_PLAN_DETAILS_LOADER,
+    type: SET_SEARCH_BLOG_LOADER,
+    payload,
+  };
+};
+
+export const fetchMoreBlogs = (payload) => {
+  return {
+    type: FETCH_MORE_BLOGS,
+    payload,
+  };
+};
+
+export const fetchMoreBlogsSuccess = (payload) => {
+  return {
+    type: FETCH_MORE_BLOGS_SUCCESS,
+    payload,
+  };
+};
+
+export const setFetchMoreBlogsLoader = (payload) => {
+  return {
+    type: SET_FETCH_MORE_BLOGS_LOADER,
     payload,
   };
 };

@@ -1,135 +1,212 @@
 import { all, call, put, takeLatest, select } from 'redux-saga/effects';
-import { fallbackMessage } from '../constants/constants';
 import { API_BASE_URL } from '../constants/config';
 import {
-  SIGNIN_USER,
-  SEND_RESET_PASSWORD_LINK,
-  RESET_USER_PASSWORD,
-  SIGNOUT_USER,
+  GET_LOGIN_DETAILS,
+  SET_PROFILE_DETAILS,
+  VERIFY_OTP,
+  RESEND_VERIFICATION_EMAIL,
+  GET_USER_PROFILE,
 } from '../constants/ActionTypes';
 import {
-  signinUserSuccess,
-  signinUserFailed,
   setAuthLoader,
-  sendResetPasswordLinkFailure,
-  sendResetPasswordLinkSuccess,
-  resetUserPasswordSuccess,
-  resetUserPasswordFailure,
-  signoutUserSuccess,
-  signoutUserFailed,
+  setProfileDetailsSuccess,
+  getLoginDetailsSuccess,
+  verifyOTPSuccess,
+  resendVerificationEmailSuccess,
+  getUserProfile,
+  getUserProfileSuccess,
 } from '../actions/Auth';
 import * as selector from '../constants/selectors';
-import { axiosPost } from '../constants/apicall'; // pass url to get,and (url,object) to post ,patch
+import { axiosGet, axiosPost } from '../constants/apicall';
 
-function* signInUserWithEmailPassword({ payload }) {
+function* loginUser({ payload }) {
   try {
-    yield put(setAuthLoader({ isFailed: false, message: '', loader: true }));
-    const url = `${API_BASE_URL}login`;
-    const resp = yield call(axiosPost, url, payload);
-    if (resp.status === 200) {
-      const signInUser = resp.data;
-      yield put(signinUserSuccess(signInUser));
-    } else {
-      yield put(
-        signinUserFailed({
-          isFailed: true,
-          message: resp.data.message,
-          loader: false,
-        }),
+    yield put(
+      setAuthLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/login`;
+    const loginRes = yield call(axiosPost, url, payload);
+
+    if (loginRes?.data?.data) {
+      return yield put(
+        getLoginDetailsSuccess({ ...loginRes.data.data, wallet_address: payload.wallet_address }),
       );
     }
-  } catch (error) {
-    yield put(
-      signinUserFailed({
-        isFailed: true,
-        message: error.message || fallbackMessage,
+
+    return yield put(
+      setAuthLoader({
         loader: false,
-      }),
-    );
-  }
-}
-
-function* resetPasswordLink({ payload }) {
-  try {
-    yield put(setAuthLoader({ isFailed: false, message: '', loader: true }));
-    const url = `${API_BASE_URL}profile/password/forgot`;
-    const resp = yield call(axiosPost, url, payload);
-
-    if (resp.status !== 200) {
-      yield put(
-        sendResetPasswordLinkFailure({
-          message: resp.data.message || fallbackMessage,
-        }),
-      );
-    } else {
-      yield put(sendResetPasswordLinkSuccess({ message: resp.data.message }));
-    }
-  } catch (error) {
-    yield put(
-      sendResetPasswordLinkFailure({
         isFailed: true,
-        message: error.message || fallbackMessage,
+        message: loginRes.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setAuthLoader({
         loader: false,
+        isFailed: true,
+        message: error.message,
       }),
     );
   }
 }
 
-function* resetUserPassword({ payload }) {
+function* setProfileData({ payload }) {
   try {
-    yield put(setAuthLoader({ isFailed: false, message: '', loader: true }));
-    const url = `${API_BASE_URL}profile/password/confirm/${payload.code}`;
-    const resp = yield call(axiosPost, url, payload);
-
-    if (resp.status !== 200) {
-      yield put(
-        resetUserPasswordFailure({
-          message: resp.data.message || fallbackMessage,
-        }),
-      );
-    } else {
-      yield put(
-        resetUserPasswordSuccess({
-          message: `Password has been reset succcessfully.`,
-        }),
-      );
-    }
-  } catch (error) {
     yield put(
-      resetUserPasswordFailure({
-        message: error.message || fallbackMessage,
+      setAuthLoader({
+        message: '',
+        loader: true,
+        authLoader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/add-profile-details`;
+    const res = yield call(axiosPost, url, payload, yield select(selector.token));
+
+    if (res?.data?.success) {
+      return yield put(setProfileDetailsSuccess(res.data.data));
+    }
+
+    return yield put(
+      setAuthLoader({
+        loader: false,
+        authLoader: false,
+        isFailed: true,
+        message: res.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setAuthLoader({
+        loader: false,
+        authLoader: false,
+        isFailed: true,
+        message: error.message,
       }),
     );
   }
 }
 
-function* signoutUser() {
+function* verifyOTP({ payload }) {
   try {
-    yield put(setAuthLoader({ isFailed: false, message: '', loader: true }));
-    const url = `${API_BASE_URL}logout`;
-    const resp = yield call(axiosPost, url, {}, yield select(selector.token));
+    yield put(
+      setAuthLoader({
+        message: '',
+        loader: true,
+        authLoader: true,
+        isFailed: false,
+      }),
+    );
 
-    if (resp.status !== 200) {
-      yield put(
-        signoutUserFailed({
-          message: resp.data.message || fallbackMessage,
-        }),
-      );
-    } else {
-      yield put(
-        signoutUserSuccess({
-          message: `Password has been reset succcessfully.`,
-        }),
-      );
+    const url = `${API_BASE_URL}/user/verify-otp`;
+    const res = yield call(axiosPost, url, payload, yield select(selector.token));
+
+    if (res?.data?.success) {
+      yield put(verifyOTPSuccess());
+      return yield put(getUserProfile());
     }
+
+    return yield put(
+      setAuthLoader({
+        loader: false,
+        authLoader: false,
+        isFailed: true,
+        message: res.data.message,
+      }),
+    );
   } catch (error) {
-    yield put(signoutUserFailed({ message: error.message || fallbackMessage }));
+    return yield put(
+      setAuthLoader({
+        loader: false,
+        authLoader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* resendVerificationEmail({ payload }) {
+  try {
+    yield put(
+      setAuthLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/resend-verification-email`;
+    const res = yield call(axiosPost, url, payload, yield select(selector.token));
+
+    if (res?.data?.data) {
+      return yield put(resendVerificationEmailSuccess());
+    }
+
+    return yield put(
+      setAuthLoader({
+        loader: false,
+        isFailed: true,
+        message: res.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setAuthLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* getUserProfileSaga() {
+  try {
+    yield put(
+      setAuthLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/profile`;
+    const profile = yield call(axiosGet, url, yield select(selector.token));
+
+    if (profile?.data?.data) {
+      return yield put(getUserProfileSuccess(profile?.data?.data));
+    }
+
+    return yield put(
+      setAuthLoader({
+        loader: false,
+        isFailed: true,
+        message: profile.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setAuthLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
   }
 }
 
 export default all([
-  takeLatest(SIGNIN_USER, signInUserWithEmailPassword),
-  takeLatest(SEND_RESET_PASSWORD_LINK, resetPasswordLink),
-  takeLatest(RESET_USER_PASSWORD, resetUserPassword),
-  takeLatest(SIGNOUT_USER, signoutUser),
+  takeLatest(GET_LOGIN_DETAILS, loginUser),
+  takeLatest(SET_PROFILE_DETAILS, setProfileData),
+  takeLatest(VERIFY_OTP, verifyOTP),
+  takeLatest(RESEND_VERIFICATION_EMAIL, resendVerificationEmail),
+  takeLatest(GET_USER_PROFILE, getUserProfileSaga),
 ]);

@@ -3,17 +3,17 @@ import {
   TOGGLE_SIDEBAR,
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
-  LOGIN_MODAL_VISIBLE,
-  ADD_ITEM_TO_CART,
-  REMOVE_ITEM_TO_CART,
+  SET_TRANSACTION_STATE,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
   sidebarOpen: false,
   filtersOpen: false,
   currentProduct: null,
-  loginModalVisible: false,
-  cart: [],
+  transaction: {
+    state: null,
+    hash: null,
+  },
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -36,22 +36,10 @@ export default (state = INIT_STATE, { type, payload }) => {
         currentProduct: payload,
       };
     }
-    case ADD_ITEM_TO_CART: {
+    case SET_TRANSACTION_STATE: {
       return {
         ...state,
-        cart: [...state.cart, { ...payload, uuid: uniqueId() }],
-      };
-    }
-    case REMOVE_ITEM_TO_CART: {
-      return {
-        ...state,
-        cart: state.cart.filter((f) => f.uuid !== payload),
-      };
-    }
-    case LOGIN_MODAL_VISIBLE: {
-      return {
-        ...state,
-        loginModalVisible: payload,
+        transaction: payload,
       };
     }
     default:

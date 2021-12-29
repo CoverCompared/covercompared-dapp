@@ -3,17 +3,14 @@ import {
   TOGGLE_SIDEBAR,
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
-  SET_TRANSACTION_STATE,
+  SET_PENDING_TRANSACTION,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
   sidebarOpen: false,
   filtersOpen: false,
   currentProduct: null,
-  transaction: {
-    state: null,
-    hash: null,
-  },
+  pendingTx: null,
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -36,10 +33,10 @@ export default (state = INIT_STATE, { type, payload }) => {
         currentProduct: payload,
       };
     }
-    case SET_TRANSACTION_STATE: {
+    case SET_PENDING_TRANSACTION: {
       return {
         ...state,
-        transaction: payload,
+        pendingTx: payload,
       };
     }
     default:

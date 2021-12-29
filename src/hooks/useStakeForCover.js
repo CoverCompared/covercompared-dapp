@@ -12,7 +12,7 @@ import {
 import nexus from '../utils/calls/nexus';
 import insure from '../utils/calls/insure';
 import useAddress from './useAddress';
-import { setTransactionState } from '../redux/actions';
+import { setPendingTransaction } from '../redux/actions';
 
 const useStakeForCover = () => {
   const { library, account } = useActiveWeb3React();
@@ -25,33 +25,55 @@ const useStakeForCover = () => {
   const handleNexusMutualStake = useCallback(
     async (param, applyDiscount) => {
       const maxPriceWithFee = await nexus.getProductPrice(nexusContractA, param);
-      let result = null;
+      let tx;
       if (applyDiscount) {
-        result = await nexus.buyCoverByToken(nexusContractB, account, library.getSigner(), {
+        tx = await nexus.buyCoverByToken(nexusContractB, account, library.getSigner(), {
           ...param,
           maxPriceWithFee,
           token: await getCrvAddress(),
         });
       } else {
-        result = await nexus.buyCoverByETH(nexusContractA, { ...param, maxPriceWithFee });
+        tx = await nexus.buyCoverByETH(nexusContractA, { ...param, maxPriceWithFee });
       }
-      return { ...result };
+      dispatch(setPendingTransaction(tx.hash));
+      const receipt = await tx.wait();
+      let events = null;
+      let buyNMEvent = null;
+      let pId = null;
+
+      if (receipt.status) {
+        events = receipt.events;
+        buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
+        pId = buyNMEvent?.args?.pid.toString();
+      }
+
+      return {
+        status: receipt.status,
+        txn_hash: tx.hash,
+        token_id: pId,
+      };
     },
     [library, account],
   );
 
   const handleInsureAceStake = useCallback(
     async (param, applyDiscount) => {
-      let result = null;
+      let tx;
       if (applyDiscount) {
-        result = await insure.buyCoverByToken(insuraceContractB, account, library.getSigner(), {
+        tx = await insure.buyCoverByToken(insuraceContractB, account, library.getSigner(), {
           ...param,
           token: await getCrvAddress(),
         });
       } else {
-        result = await insure.buyCoverByETH(insuraceContractA, param);
+        tx = await insure.buyCoverByETH(insuraceContractA, param);
       }
-      return { ...result };
+      dispatch(setPendingTransaction(tx.hash));
+      const receipt = await tx.wait();
+
+      return {
+        status: receipt.status,
+        txn_hash: tx.hash,
+      };
     },
     [library, account],
   );

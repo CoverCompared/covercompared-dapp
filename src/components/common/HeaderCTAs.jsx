@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Spinner from 'react-spinkit';
@@ -7,18 +7,32 @@ import ThemeToggleSwitch from '../ThemeToggleSwitch';
 import LoginIcon from '../../assets/img/Login.svg';
 import { shortenAddress } from '../../utils';
 import { walletLogout } from '../../hooks/useAuth';
-import { setLoginModalVisible } from '../../redux/actions';
+import { setLoginModalVisible, setPendingTransaction } from '../../redux/actions';
 import { logoutUser } from '../../redux/actions/Auth';
 
 const HeaderCTAs = (props) => {
-  const { account, deactivate } = useWeb3React();
+  const { account, deactivate, library } = useWeb3React();
   const dispatch = useDispatch();
-  const { transaction } = useSelector((state) => state.app);
+  const { pendingTx } = useSelector((state) => state.app);
   const handleLogout = () => {
     walletLogout(deactivate);
     dispatch(logoutUser());
     dispatch(setLoginModalVisible(false));
   };
+
+  useEffect(() => {
+    if (pendingTx) {
+      const txReceiptAsync = async () => {
+        const receipt = await library.getTransactionReceipt(pendingTx);
+        if (receipt === null) {
+          setTimeout(txReceiptAsync, 500);
+        } else {
+          dispatch(setPendingTransaction(null));
+        }
+      };
+      txReceiptAsync();
+    }
+  }, [pendingTx, library]);
 
   return (
     <div className="flex items-center">
@@ -50,6 +64,15 @@ const HeaderCTAs = (props) => {
             {shortenAddress(account)}
           </>
           {/* )} */}
+        </button>
+      )}
+      {pendingTx && (
+        <button
+          type="button"
+          className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+        >
+          Pending&nbsp;
+          <Spinner name="circle" color="rgba(23, 81, 134)" style={{ height: '17px' }} />
         </button>
       )}
     </div>

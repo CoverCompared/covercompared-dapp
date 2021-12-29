@@ -3,7 +3,7 @@ import {
   TOGGLE_SIDEBAR,
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
-  SET_TRANSACTION_STATE,
+  SET_PENDING_TRANSACTION,
 } from '../constants/ActionTypes';
 
 export const toggleSidebar = (payload) => {
@@ -27,9 +27,9 @@ export const setCurrentProduct = (payload) => {
   };
 };
 
-export const setTransactionState = (payload) => {
+export const setPendingTransaction = (payload) => {
   return {
-    type: SET_TRANSACTION_STATE,
+    type: SET_PENDING_TRANSACTION,
     payload,
   };
 };

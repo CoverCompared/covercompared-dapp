@@ -7,7 +7,7 @@ import mso from '../utils/calls/mso';
 import { getSignMessageForMSO } from '../utils/getSignMessage';
 import { signMessage } from '../utils/getLibrary';
 import useAddress from './useAddress';
-import { setTransactionState } from '../redux/actions';
+import { setPendingTransaction } from '../redux/actions';
 
 const useStakeForMSO = () => {
   const { library, account } = useActiveWeb3React();
@@ -15,9 +15,12 @@ const useStakeForMSO = () => {
   const dispatch = useDispatch();
   const handleStake = useCallback(
     async (param, ethAmt) => {
-      const txHash = await mso.buyProductByEthForMSO(msoContract, param, ethAmt);
+      const tx = await mso.buyProductByEthForMSO(msoContract, param, ethAmt);
+      dispatch(setPendingTransaction(tx.hash));
+      const receipt = await tx.wait();
       return {
-        ...txHash,
+        status: receipt.status,
+        txn_hash: tx.hash,
       };
     },
     [library, msoContract, account],
@@ -35,14 +38,17 @@ export const useStakeForMSOByToken = () => {
   const dispatch = useDispatch();
   const handleStake = useCallback(
     async (param) => {
-      const txHashForToken = await mso.buyProductByTokenForMSO(
+      const tx = await mso.buyProductByTokenForMSO(
         msoContract,
         { ...param, token: await getCrvAddress() },
         library.getSigner(),
         account,
       );
+      dispatch(setPendingTransaction(tx.hash));
+      const receipt = await tx.wait();
       return {
-        ...txHashForToken,
+        status: receipt.status,
+        txn_hash: tx.hash,
       };
     },
     [library, msoContract, account],

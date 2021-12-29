@@ -8,14 +8,11 @@ const buyProductByTokenForMSO = async (contract, param, signer, account) => {
   const funParam = [policyId, value, period, token, conciergePrice, sig];
 
   const contractInterface = new ethers.utils.Interface(msoAbi);
-  const { receipt, tx } = await metaCall(contract, contractInterface, account, signer, 4, {
+  const tx = await metaCall(contract, contractInterface, account, signer, 4, {
     name: 'buyProductByToken',
     params: funParam,
   });
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-  };
+  return tx;
 };
 
 const buyProductByEthForMSO = async (contract, param, ethAmt) => {
@@ -23,11 +20,7 @@ const buyProductByEthForMSO = async (contract, param, ethAmt) => {
   const funParam = [policyId, value, period, conciergePrice, sig];
 
   const tx = await callWithEstimateGasPayable(contract, 'buyProductByETH', ethAmt, funParam);
-  const receipt = await tx.wait();
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-  };
+  return tx;
 };
 
 export default {

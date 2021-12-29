@@ -7,7 +7,7 @@ import p4l from '../utils/calls/p4l';
 // import getSignMessage from '../utils/getSignMessage';
 // import { signMessage } from '../utils/getLibrary';
 import useAddress from './useAddress';
-import { setTransactionState } from '../redux/actions';
+import { setPendingTransaction } from '../redux/actions';
 
 const useStakeForDevice = () => {
   const { library, account } = useActiveWeb3React();
@@ -16,9 +16,12 @@ const useStakeForDevice = () => {
   const handleStake = useCallback(
     async (param, ethAmt, signature) => {
       if (signature) {
-        const txHash = await p4l.buyProductByEth(p4lContract, param, signature, ethAmt);
+        const tx = await p4l.buyProductByEth(p4lContract, param, signature, ethAmt);
+        dispatch(setPendingTransaction(tx.hash));
+        const receipt = await tx.wait();
         return {
-          ...txHash,
+          status: receipt.status,
+          txn_hash: tx.hash,
         };
       }
       return {
@@ -42,15 +45,18 @@ export const useStakeForDeviceByToken = () => {
   const handleStake = useCallback(
     async (param, signature) => {
       if (param.discount_amount > 0 && signature) {
-        const txHashForToken = await p4l.buyProductByToken(
+        const tx = await p4l.buyProductByToken(
           p4lContract,
           { ...param, token: await getCrvAddress() },
           library.getSigner(),
           account,
           signature,
         );
+        dispatch(setPendingTransaction(tx.hash));
+        const receipt = await tx.wait();
         return {
-          ...txHashForToken,
+          status: receipt.status,
+          txn_hash: tx.hash,
         };
       }
       return {

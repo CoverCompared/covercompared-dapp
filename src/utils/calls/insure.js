@@ -18,18 +18,13 @@ const buyCoverByETH = async (contract, param) => {
     data[11],
     { value: premium },
   );
-  const receipt = await tx.wait();
-
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-  };
+  return tx;
 };
 
 const buyCoverByToken = async (contract, account, signer, param) => {
   const { data, premium, token } = param;
   const contractInterface = new ethers.utils.Interface(insureAceAbi);
-  const { receipt, tx } = await metaCall(contract, contractInterface, account, signer, 4, {
+  const tx = await metaCall(contract, contractInterface, account, signer, 4, {
     name: 'buyCoverByToken',
     params: [
       data[0],
@@ -46,10 +41,7 @@ const buyCoverByToken = async (contract, account, signer, param) => {
       data[11],
     ],
   });
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-  };
+  return tx;
 };
 
 export default {

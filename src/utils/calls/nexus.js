@@ -33,23 +33,7 @@ const buyCoverByETH = async (contract, param) => {
     data,
     { value: maxPriceWithFee },
   );
-  const receipt = await tx.wait();
-
-  let events = null;
-  let buyNMEvent = null;
-  let pId = null;
-
-  if (receipt.status) {
-    events = receipt.events;
-    buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
-    pId = buyNMEvent?.args?.pid.toString();
-  }
-
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-    token_id: pId,
-  };
+  return tx;
 };
 
 const buyCoverByToken = async (contract, account, signer, param) => {
@@ -64,7 +48,7 @@ const buyCoverByToken = async (contract, account, signer, param) => {
     data,
   } = param;
   const contractInterface = new ethers.utils.Interface(nexusMutualAbi);
-  const { receipt, tx } = await metaCall(contract, contractInterface, account, signer, 42, {
+  const tx = await metaCall(contract, contractInterface, account, signer, 42, {
     name: 'buyCoverByToken',
     params: [
       [token, contractAddress, coverAsset],
@@ -75,20 +59,7 @@ const buyCoverByToken = async (contract, account, signer, param) => {
       data,
     ],
   });
-  let events = null;
-  let buyNMEvent = null;
-  let pId = null;
-  if (receipt.status) {
-    events = receipt.events;
-    buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
-    pId = buyNMEvent?.args?.pid.toString();
-  }
-
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-    token_id: pId,
-  };
+  return tx;
 };
 
 export default {

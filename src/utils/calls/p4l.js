@@ -14,14 +14,11 @@ const buyProductByToken = async (contract, param, signer, account, sig) => {
   const funParam = [policyId, value, durPlan, token, sig];
 
   const contractInterface = new ethers.utils.Interface(p4lAbi);
-  const { receipt, tx } = await metaCall(contract, contractInterface, account, signer, 4, {
+  const tx = await metaCall(contract, contractInterface, account, signer, 4, {
     name: 'buyProductByToken',
     params: funParam,
   });
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-  };
+  return tx;
 };
 
 const buyProductByEth = async (contract, param, sig, ethAmt) => {
@@ -32,12 +29,7 @@ const buyProductByEth = async (contract, param, sig, ethAmt) => {
 
   const funParam = [policyId, value, durPlan, sig];
   const tx = await callWithEstimateGasPayable(contract, 'buyProductByETH', ethAmt, funParam);
-  const receipt = await tx.wait();
-
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-  };
+  return tx;
 };
 
 export default {

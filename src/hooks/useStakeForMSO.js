@@ -13,12 +13,9 @@ const useStakeForMSO = () => {
   const { library, account } = useActiveWeb3React();
   const msoContract = useMSOContractA();
   const dispatch = useDispatch();
-  const setTxState = (tx) => {
-    dispatch(setTransactionState(tx));
-  };
   const handleStake = useCallback(
     async (param, ethAmt) => {
-      const txHash = await mso.buyProductByEthForMSO(msoContract, param, ethAmt, setTxState);
+      const txHash = await mso.buyProductByEthForMSO(msoContract, param, ethAmt);
       return {
         ...txHash,
       };
@@ -36,9 +33,6 @@ export const useStakeForMSOByToken = () => {
   const msoContract = useMSOContractB();
   const { getCrvAddress } = useAddress();
   const dispatch = useDispatch();
-  const setTxState = (tx) => {
-    dispatch(setTransactionState(tx));
-  };
   const handleStake = useCallback(
     async (param) => {
       const txHashForToken = await mso.buyProductByTokenForMSO(
@@ -46,7 +40,6 @@ export const useStakeForMSOByToken = () => {
         { ...param, token: await getCrvAddress() },
         library.getSigner(),
         account,
-        setTxState,
       );
       return {
         ...txHashForToken,

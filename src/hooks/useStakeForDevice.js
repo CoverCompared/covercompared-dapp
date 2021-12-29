@@ -13,13 +13,10 @@ const useStakeForDevice = () => {
   const { library, account } = useActiveWeb3React();
   const p4lContract = useP4LContractA();
   const dispatch = useDispatch();
-  const setTxState = (tx) => {
-    dispatch(setTransactionState(tx));
-  };
   const handleStake = useCallback(
     async (param, ethAmt, signature) => {
       if (signature) {
-        const txHash = await p4l.buyProductByEth(p4lContract, param, signature, ethAmt, setTxState);
+        const txHash = await p4l.buyProductByEth(p4lContract, param, signature, ethAmt);
         return {
           ...txHash,
         };
@@ -42,9 +39,6 @@ export const useStakeForDeviceByToken = () => {
   const p4lContract = useP4LContractB();
   const { getCrvAddress } = useAddress();
   const dispatch = useDispatch();
-  const setTxState = (tx) => {
-    dispatch(setTransactionState(tx));
-  };
   const handleStake = useCallback(
     async (param, signature) => {
       if (param.discount_amount > 0 && signature) {
@@ -54,7 +48,6 @@ export const useStakeForDeviceByToken = () => {
           library.getSigner(),
           account,
           signature,
-          setTxState,
         );
         return {
           ...txHashForToken,

@@ -22,31 +22,18 @@ const useStakeForCover = () => {
   const nexusContractB = useNexusMutualContractB();
   const insuraceContractB = useInsureAceContractB();
   const dispatch = useDispatch();
-  const setTxState = (tx) => {
-    dispatch(setTransactionState(tx));
-  };
   const handleNexusMutualStake = useCallback(
     async (param, applyDiscount) => {
       const maxPriceWithFee = await nexus.getProductPrice(nexusContractA, param);
       let result = null;
       if (applyDiscount) {
-        result = await nexus.buyCoverByToken(
-          nexusContractB,
-          account,
-          library.getSigner(),
-          {
-            ...param,
-            maxPriceWithFee,
-            token: await getCrvAddress(),
-          },
-          setTxState,
-        );
+        result = await nexus.buyCoverByToken(nexusContractB, account, library.getSigner(), {
+          ...param,
+          maxPriceWithFee,
+          token: await getCrvAddress(),
+        });
       } else {
-        result = await nexus.buyCoverByETH(
-          nexusContractA,
-          { ...param, maxPriceWithFee },
-          setTxState,
-        );
+        result = await nexus.buyCoverByETH(nexusContractA, { ...param, maxPriceWithFee });
       }
       return { ...result };
     },
@@ -57,18 +44,12 @@ const useStakeForCover = () => {
     async (param, applyDiscount) => {
       let result = null;
       if (applyDiscount) {
-        result = await insure.buyCoverByToken(
-          insuraceContractB,
-          account,
-          library.getSigner(),
-          {
-            ...param,
-            token: await getCrvAddress(),
-          },
-          setTxState,
-        );
+        result = await insure.buyCoverByToken(insuraceContractB, account, library.getSigner(), {
+          ...param,
+          token: await getCrvAddress(),
+        });
       } else {
-        result = await insure.buyCoverByETH(insuraceContractA, param, setTxState);
+        result = await insure.buyCoverByETH(insuraceContractA, param);
       }
       return { ...result };
     },

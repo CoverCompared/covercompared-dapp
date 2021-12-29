@@ -3,7 +3,7 @@ import { metaCall } from '../biconomy';
 import msoAbi from '../../config/abi/mso.json';
 import { callWithEstimateGasPayable } from './estimateGas';
 
-const buyProductByTokenForMSO = async (contract, param, signer, account, setTxState) => {
+const buyProductByTokenForMSO = async (contract, param, signer, account) => {
   const { policyId, value, period, token, conciergePrice, sig } = param;
   const funParam = [policyId, value, period, token, conciergePrice, sig];
 
@@ -18,14 +18,12 @@ const buyProductByTokenForMSO = async (contract, param, signer, account, setTxSt
   };
 };
 
-const buyProductByEthForMSO = async (contract, param, ethAmt, setTxState) => {
+const buyProductByEthForMSO = async (contract, param, ethAmt) => {
   const { policyId, value, period, conciergePrice, sig } = param;
   const funParam = [policyId, value, period, conciergePrice, sig];
 
   const tx = await callWithEstimateGasPayable(contract, 'buyProductByETH', ethAmt, funParam);
-  setTxState({ state: 'pending', hash: tx.hash });
   const receipt = await tx.wait();
-  setTxState({ state: 'confirmed', hash: tx.hash });
   return {
     status: receipt.status,
     txn_hash: tx.hash,

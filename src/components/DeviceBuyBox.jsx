@@ -345,13 +345,13 @@ const DeviceBuyBox = (props) => {
     const ethAmount = getBalanceNumber(ethAmount1);
     const crvAmount = getBalanceNumber(crvAmount1);
 
-    if (ethAmount + 0.016 >= getBalanceNumber(balance)) {
+    if (!applyDiscount && ethAmount + 0.016 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
       setTxPending(false);
       setIsNotCloseable(false);
       return;
     }
-    if (crvAmount >= getBalanceNumber(crvBalanceStatus.balance) && discountAmount > 0) {
+    if (applyDiscount && crvAmount >= getBalanceNumber(crvBalanceStatus.balance)) {
       toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);

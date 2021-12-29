@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { metaCall } from '../biconomy';
 import insureAceAbi from '../../config/abi/insureAceAbi.json';
 
-const buyCoverByETH = async (contract, param, setTxState) => {
+const buyCoverByETH = async (contract, param) => {
   const { data, premium } = param;
   const tx = await contract.buyCoverByETH(
     data[0],
@@ -18,9 +18,7 @@ const buyCoverByETH = async (contract, param, setTxState) => {
     data[11],
     { value: premium },
   );
-  setTxState({ state: 'pending', hash: tx.hash });
   const receipt = await tx.wait();
-  setTxState({ state: 'confirmed', hash: tx.hash });
 
   return {
     status: receipt.status,
@@ -28,7 +26,7 @@ const buyCoverByETH = async (contract, param, setTxState) => {
   };
 };
 
-const buyCoverByToken = async (contract, account, signer, param, setTxState) => {
+const buyCoverByToken = async (contract, account, signer, param) => {
   const { data, premium, token } = param;
   const contractInterface = new ethers.utils.Interface(insureAceAbi);
   const { receipt, tx } = await metaCall(contract, contractInterface, account, signer, 4, {

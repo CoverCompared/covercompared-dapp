@@ -234,7 +234,7 @@ const MsoCountrySelector = ({
     const ethAmount = getBalanceNumber(ethAmount1);
     const crvAmount = getBalanceNumber(crvAmount1);
 
-    if (!applyDiscount && ethAmount + 0.001 >= getBalanceNumber(balance)) {
+    if (!applyDiscount && ethAmount + 0.01 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
       setTxPending(false);
       setIsNotCloseable(false);

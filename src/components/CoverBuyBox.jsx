@@ -97,7 +97,7 @@ const ConfirmModal = (props) => {
   }, [quoteInUSD, applyDiscount]);
 
   const total = useMemo(() => {
-    return +quoteInUSD - discountAmount;
+    return +(+quoteInUSD).toFixed(3) - +discountAmount.toFixed(3);
   }, [quoteInUSD, discountAmount]);
 
   useEffect(() => {
@@ -338,6 +338,11 @@ const CoverBuyBox = (props) => {
 
   const [forceClose, setForceClose] = useState(false);
 
+  useEffect(() => {
+    const periodVal = `${periodField}`.split('.')[0];
+    setPeriodField(periodVal);
+  }, [periodField]);
+
   const period = useMemo(() => {
     let val = 1;
     switch (periodSelect) {
@@ -396,7 +401,15 @@ const CoverBuyBox = (props) => {
   }, [product]);
 
   useEffect(() => {
-    if (account && period && amountField) callGetQuote();
+    if (account && period && amountField) {
+      if (period >= duration_days_min && period <= duration_days_max) {
+        callGetQuote();
+      } else {
+        toast.error(
+          `Period duration is not valid, it must be between ${duration_days_min} to ${duration_days_max} days`,
+        );
+      }
+    }
   }, [period, amountField, amountSelect, account]);
 
   useEffect(() => {

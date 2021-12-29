@@ -1,3 +1,7 @@
+import { ethers } from 'ethers';
+import { metaCall } from '../biconomy';
+import nexusMutualAbi from '../../config/abi/nexusMutualAbi.json';
+
 const getProductPrice = async (contract, param) => {
   const { contractAddress, coverAsset, sumAssured, coverPeriod, coverType, data } = param;
   try {
@@ -50,7 +54,7 @@ const buyCoverByETH = async (contract, param, setTxState) => {
   };
 };
 
-const buyCoverByToken = async (contract, param, setTxState) => {
+const buyCoverByToken = async (contract, account, signer, param, setTxState) => {
   const {
     contractAddress,
     coverAsset,
@@ -61,22 +65,21 @@ const buyCoverByToken = async (contract, param, setTxState) => {
     token,
     data,
   } = param;
-  const tx = await contract.buyCoverByToken(
-    [token, contractAddress, coverAsset],
-    sumAssured,
-    coverPeriod,
-    coverType,
-    maxPriceWithFee,
-    data,
-  );
-  setTxState({ state: 'pending', hash: tx.hash });
-  const receipt = await tx.wait();
-  setTxState({ state: 'confirmed', hash: tx.hash });
-
+  const contractInterface = new ethers.utils.Interface(nexusMutualAbi);
+  const { receipt, tx } = await metaCall(contract, contractInterface, account, signer, 42, {
+    name: 'buyCoverByToken',
+    params: [
+      [token, contractAddress, coverAsset],
+      sumAssured,
+      coverPeriod,
+      coverType,
+      maxPriceWithFee,
+      data,
+    ],
+  });
   let events = null;
   let buyNMEvent = null;
   let pId = null;
-
   if (receipt.status) {
     events = receipt.events;
     buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];

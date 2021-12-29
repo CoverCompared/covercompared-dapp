@@ -1,7 +1,10 @@
 import BigNumber from 'bignumber.js';
+import { ethers } from 'ethers';
+import { metaCall } from '../biconomy';
+import p4lAbi from '../../config/abi/p4l.json';
 import { callWithEstimateGas, callWithEstimateGasPayable } from './estimateGas';
 
-const buyProductByToken = async (contract, param, account, sig, setTxState) => {
+const buyProductByToken = async (contract, param, signer, account, sig, setTxState) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
 
   const policyId = param.policyId === undefined ? 'first-test' : param.policyId;
@@ -10,11 +13,11 @@ const buyProductByToken = async (contract, param, account, sig, setTxState) => {
 
   const funParam = [policyId, value, durPlan, token, sig];
 
-  const tx = await callWithEstimateGas(contract, 'buyProductByToken', funParam);
-  setTxState({ state: 'pending', hash: tx.hash });
-  const receipt = await tx.wait();
-  setTxState({ state: 'confirmed', hash: tx.hash });
-
+  const contractInterface = new ethers.utils.Interface(p4lAbi);
+  const { receipt, tx } = await metaCall(contract, contractInterface, account, signer, 4, {
+    name: 'buyProductByToken',
+    params: funParam,
+  });
   return {
     status: receipt.status,
     txn_hash: tx.hash,

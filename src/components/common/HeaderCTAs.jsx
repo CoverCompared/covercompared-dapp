@@ -39,17 +39,17 @@ const HeaderCTAs = (props) => {
           onClick={handleLogout}
           className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
         >
-          {transaction && transaction.state === 'pending' ? (
+          {/* {transaction && transaction.state === 'pending' ? (
             <>
               Pending&nbsp;
               <Spinner name="circle" color="rgba(23, 81, 134)" />
             </>
-          ) : (
-            <>
-              <img src={LoginIcon} alt="Login" className="mr-1" />
-              {shortenAddress(account)}
-            </>
-          )}
+          ) : ( */}
+          <>
+            <img src={LoginIcon} alt="Login" className="mr-1" />
+            {shortenAddress(account)}
+          </>
+          {/* )} */}
         </button>
       )}
     </div>

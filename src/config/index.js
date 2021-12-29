@@ -25,3 +25,8 @@ export const MORALIS_API_KEY = 'XnOD4AuQqplP3ioRL3WlSSLesYTVduIy7KjNs2NQBC4XM4ez
 export const MORALIS_BASE_URL = 'https://deep-index.moralis.io/api/v2/';
 export const MORALIS_ID = 'rRG8PaL5SjENUXSdbo1q198qGwt7yA1U74iUY1WW';
 export const SERVER_URL = 'https://hcufrn0eqoj1.usemoralis.com:2053/server';
+
+export const BICONOMY_API_KEY = {
+  4: 'TfBMzaWNW.fc5afe00-0108-40e3-8fe5-a1110594ca8d',
+  42: 'hmIyM_AsF.ce90fe45-efc4-4bcf-87e2-a49863d8219c',
+};

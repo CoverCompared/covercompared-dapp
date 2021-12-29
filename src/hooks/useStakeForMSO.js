@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import useActiveWeb3React from './useActiveWeb3React';
-import { useMSOContract } from './useContract';
+import { useMSOContract as useMSOContractA } from './useContract';
+import { useMSOContract as useMSOContractB } from './useContractForBiconomy';
 import mso from '../utils/calls/mso';
 import { getSignMessageForMSO } from '../utils/getSignMessage';
 import { signMessage } from '../utils/getLibrary';
@@ -10,7 +11,7 @@ import { setTransactionState } from '../redux/actions';
 
 const useStakeForMSO = () => {
   const { library, account } = useActiveWeb3React();
-  const msoContract = useMSOContract();
+  const msoContract = useMSOContractA();
   const dispatch = useDispatch();
   const setTxState = (tx) => {
     dispatch(setTransactionState(tx));
@@ -32,7 +33,7 @@ const useStakeForMSO = () => {
 
 export const useStakeForMSOByToken = () => {
   const { library, account } = useActiveWeb3React();
-  const msoContract = useMSOContract();
+  const msoContract = useMSOContractB();
   const { getCrvAddress } = useAddress();
   const dispatch = useDispatch();
   const setTxState = (tx) => {
@@ -42,7 +43,8 @@ export const useStakeForMSOByToken = () => {
     async (param) => {
       const txHashForToken = await mso.buyProductByTokenForMSO(
         msoContract,
-        { ...param, token: getCrvAddress() },
+        { ...param, token: await getCrvAddress() },
+        library.getSigner(),
         account,
         setTxState,
       );

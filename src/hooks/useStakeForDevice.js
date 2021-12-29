@@ -8,16 +8,18 @@ import p4l from '../utils/calls/p4l';
 // import { signMessage } from '../utils/getLibrary';
 import useAddress from './useAddress';
 import { setPendingTransaction } from '../redux/actions';
+import { BASE_SCAN_URLS } from '../config';
 
 const useStakeForDevice = () => {
-  const { library, account } = useActiveWeb3React();
+  const { library, account, chainId } = useActiveWeb3React();
   const p4lContract = useP4LContractA();
   const dispatch = useDispatch();
   const handleStake = useCallback(
     async (param, ethAmt, signature) => {
       if (signature) {
-        const tx = await p4l.buyProductByEth(p4lContract, param, signature, ethAmt);
-        dispatch(setPendingTransaction(tx.hash));
+        let tx = await p4l.buyProductByEth(p4lContract, param, signature, ethAmt);
+        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+        dispatch(setPendingTransaction(tx));
         const receipt = await tx.wait();
         return {
           status: receipt.status,
@@ -38,21 +40,22 @@ const useStakeForDevice = () => {
 };
 
 export const useStakeForDeviceByToken = () => {
-  const { library, account } = useActiveWeb3React();
+  const { library, account, chainId } = useActiveWeb3React();
   const p4lContract = useP4LContractB();
   const { getCrvAddress } = useAddress();
   const dispatch = useDispatch();
   const handleStake = useCallback(
     async (param, signature) => {
       if (param.discount_amount > 0 && signature) {
-        const tx = await p4l.buyProductByToken(
+        let tx = await p4l.buyProductByToken(
           p4lContract,
           { ...param, token: await getCrvAddress() },
           library.getSigner(),
           account,
           signature,
         );
-        dispatch(setPendingTransaction(tx.hash));
+        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+        dispatch(setPendingTransaction(tx));
         const receipt = await tx.wait();
         return {
           status: receipt.status,

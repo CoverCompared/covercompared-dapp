@@ -4,6 +4,7 @@ import {
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
   SET_PENDING_TRANSACTION,
+  SET_PENDING_TRANSACTION_SUCCESS,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
@@ -33,7 +34,7 @@ export default (state = INIT_STATE, { type, payload }) => {
         currentProduct: payload,
       };
     }
-    case SET_PENDING_TRANSACTION: {
+    case SET_PENDING_TRANSACTION_SUCCESS: {
       return {
         ...state,
         pendingTx: payload,

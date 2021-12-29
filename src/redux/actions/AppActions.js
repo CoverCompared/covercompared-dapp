@@ -4,6 +4,7 @@ import {
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
   SET_PENDING_TRANSACTION,
+  SET_PENDING_TRANSACTION_SUCCESS,
 } from '../constants/ActionTypes';
 
 export const toggleSidebar = (payload) => {
@@ -30,6 +31,13 @@ export const setCurrentProduct = (payload) => {
 export const setPendingTransaction = (payload) => {
   return {
     type: SET_PENDING_TRANSACTION,
+    payload,
+  };
+};
+
+export const setPendingTransactionSuccess = (payload) => {
+  return {
+    type: SET_PENDING_TRANSACTION_SUCCESS,
     payload,
   };
 };

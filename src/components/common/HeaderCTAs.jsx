@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import * as Spinner from 'react-spinkit';
 import SwapComponent from './SwapCurrency';
 import ThemeToggleSwitch from '../ThemeToggleSwitch';
@@ -9,6 +10,7 @@ import { shortenAddress } from '../../utils';
 import { walletLogout } from '../../hooks/useAuth';
 import { setLoginModalVisible, setPendingTransaction } from '../../redux/actions';
 import { logoutUser } from '../../redux/actions/Auth';
+import TxDetailMsg from './TxDetailMsg';
 
 const HeaderCTAs = (props) => {
   const { account, deactivate, library } = useWeb3React();
@@ -21,12 +23,19 @@ const HeaderCTAs = (props) => {
   };
 
   useEffect(() => {
-    if (pendingTx) {
+    if (pendingTx && library) {
       const txReceiptAsync = async () => {
-        const receipt = await library.getTransactionReceipt(pendingTx);
+        const receipt = await library.getTransactionReceipt(pendingTx.hash);
         if (receipt === null) {
-          setTimeout(txReceiptAsync, 500);
+          setTimeout(txReceiptAsync, 1000);
         } else {
+          if (!window.localStorage.getItem('tx_log')) {
+            toast.success(<TxDetailMsg transaction={pendingTx} />, {
+              hideProgressBar: false,
+              autoClose: 10000,
+            });
+            window.localStorage.setItem('tx_log', true);
+          }
           dispatch(setPendingTransaction(null));
         }
       };

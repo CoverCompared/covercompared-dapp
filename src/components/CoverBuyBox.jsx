@@ -237,7 +237,7 @@ const ConfirmModal = (props) => {
           company: product.company,
           type: product.type,
         });
-        toast.success('Purchasing cover succeed.');
+        toast.success('Successfully Purchased.');
       } else {
         toast.error('Purchasing cover failed.');
       }

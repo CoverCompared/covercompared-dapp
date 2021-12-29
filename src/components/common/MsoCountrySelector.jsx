@@ -160,7 +160,7 @@ const MsoCountrySelector = ({
               amount: total,
               paidVia: applyDiscount ? 'CVR' : 'USD',
             });
-            toast.success('Successfully purchased!');
+            toast.success('Successfully Purchased!');
           }
         } catch (error) {
           console.log(error);

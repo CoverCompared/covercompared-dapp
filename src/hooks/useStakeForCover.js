@@ -13,9 +13,10 @@ import nexus from '../utils/calls/nexus';
 import insure from '../utils/calls/insure';
 import useAddress from './useAddress';
 import { setPendingTransaction } from '../redux/actions';
+import { BASE_SCAN_URLS } from '../config';
 
 const useStakeForCover = () => {
-  const { library, account } = useActiveWeb3React();
+  const { library, account, chainId } = useActiveWeb3React();
   const { getCrvAddress } = useAddress();
   const nexusContractA = useNexusMutualContractA();
   const insuraceContractA = useInsureAceContractA();
@@ -32,10 +33,12 @@ const useStakeForCover = () => {
           maxPriceWithFee,
           token: await getCrvAddress(),
         });
+        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       } else {
         tx = await nexus.buyCoverByETH(nexusContractA, { ...param, maxPriceWithFee });
+        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       }
-      dispatch(setPendingTransaction(tx.hash));
+      dispatch(setPendingTransaction(tx));
       const receipt = await tx.wait();
       let events = null;
       let buyNMEvent = null;
@@ -64,10 +67,12 @@ const useStakeForCover = () => {
           ...param,
           token: await getCrvAddress(),
         });
+        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       } else {
         tx = await insure.buyCoverByETH(insuraceContractA, param);
+        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       }
-      dispatch(setPendingTransaction(tx.hash));
+      dispatch(setPendingTransaction(tx));
       const receipt = await tx.wait();
 
       return {

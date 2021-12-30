@@ -4,7 +4,7 @@ const FeatureCard = ({ icon, title, body }) => {
   return (
     <div className="w-full shadow-md md:rounded-3xl rounded-xl flex flex-col items-center bg-white md:p-6 px-4 py-6 dark:bg-featureCard-dark-bg col-span-2 sm:col-span-1">
       <div className="p-2 bg-feature-icon-bg rounded-2xl dark:bg-feature-icon-dark-bg">
-        <img src={icon} alt={title} className="md:w-10 w-8" />
+        <img loading="lazy" src={icon} alt={title} className="md:w-10 w-8" />
       </div>
       <h5 className="mt-4 font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
         {title}

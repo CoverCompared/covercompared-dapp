@@ -153,7 +153,12 @@ export default function Home(props) {
             {blogList.map((blog) => (
               <div className="grid grid-cols-12 gap-x-3 mb-3" key={uniqid()}>
                 <div className=" col-span-4">
-                  <img src={blog.image} alt="" className="h-full w-full rounded-lg" />
+                  <img
+                    loading="lazy"
+                    src={blog.image}
+                    alt=""
+                    className="h-full w-full rounded-lg"
+                  />
                 </div>
                 <div className="col-span-8 flex flex-col justify-center">
                   <div className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
@@ -184,6 +189,7 @@ export default function Home(props) {
       <div className="grid grid-cols-2 gap-4 xl:gap-y-8 md:gap-x-6 md:grid-cols-2 lg:grid-cols-2 xl:gap-x-8 sm:px-28 md:px-6 md:pb-20 pb-12 xl:px-40 relative">
         <InsuranceCards {...props} />
         <img
+          loading="lazy"
           src={InsuranceCardDotBg}
           alt=""
           className="absolute sm: md:-top-10 -top-7 right-4 md:right-24 z-0 md:h-24 md:w-24 h-14 w-14"
@@ -201,7 +207,7 @@ export default function Home(props) {
         <div className="text-center">
           {clientLogos.map(({ image, alt }) => (
             <div key={uniqid()} className="md:w-28 h-24 inline-flex justify-content-center mx-2">
-              <img className="p-2 object-scale-down w-full" src={image} alt={alt} />
+              <img loading="lazy" className="p-2 object-scale-down w-full" src={image} alt={alt} />
             </div>
           ))}
         </div>
@@ -209,6 +215,7 @@ export default function Home(props) {
 
       <div className="flex flex-col items-center xl:px-28 pb-16 text-center relative">
         <img
+          loading="lazy"
           src={theme === 'light' ? cryptoInsuranceDotBg : cryptoInsuranceOrangeDots}
           alt=""
           className="absolute md:top-12 sm:top-20 left-0 top-32 h-16 w-16"
@@ -223,6 +230,7 @@ export default function Home(props) {
         <div className="mt-10 grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 md:gap-x-12">
           <div className="md:col-span-4 xl:col-start-2 flex items-center col-span-12 justify-center">
             <img
+              loading="lazy"
               src={theme === 'light' ? CryptoInsuranceImg : CryptoInsuranceImgDark}
               alt=""
               className="md:max-h-60 max-h-52"

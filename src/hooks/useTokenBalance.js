@@ -54,7 +54,7 @@ export const useGetEthBalance = () => {
     const fetchBalance = async () => {
       try {
         const walletBalance = await library.getBalance(account);
-        setBalance(walletBalance);
+        setBalance(walletBalance.toString());
         setFetchStatus(FetchStatus.SUCCESS);
       } catch {
         setFetchStatus(FetchStatus.FAILED);

@@ -38,6 +38,5 @@ export const metaCall = async (contract, contractInterface, account, signer, sal
   const signature = await signer.signMessage(messageToSign);
   const { r, s, v } = getSignatureParameters(signature);
   const tx = await contract.executeMetaTransaction(account, functionSignature, r, s, v);
-  const receipt = await tx.wait(1);
-  return { receipt, tx };
+  return tx;
 };

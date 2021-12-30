@@ -7,20 +7,22 @@ import mso from '../utils/calls/mso';
 import { getSignMessageForMSO } from '../utils/getSignMessage';
 import { signMessage } from '../utils/getLibrary';
 import useAddress from './useAddress';
-import { setTransactionState } from '../redux/actions';
+import { setPendingTransaction } from '../redux/actions';
+import { BASE_SCAN_URLS } from '../config';
 
 const useStakeForMSO = () => {
-  const { library, account } = useActiveWeb3React();
+  const { library, account, chainId } = useActiveWeb3React();
   const msoContract = useMSOContractA();
   const dispatch = useDispatch();
-  const setTxState = (tx) => {
-    dispatch(setTransactionState(tx));
-  };
   const handleStake = useCallback(
     async (param, ethAmt) => {
-      const txHash = await mso.buyProductByEthForMSO(msoContract, param, ethAmt, setTxState);
+      let tx = await mso.buyProductByEthForMSO(msoContract, param, ethAmt);
+      tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+      dispatch(setPendingTransaction(tx));
+      const receipt = await tx.wait();
       return {
-        ...txHash,
+        status: receipt.status,
+        txn_hash: tx.hash,
       };
     },
     [library, msoContract, account],
@@ -32,24 +34,24 @@ const useStakeForMSO = () => {
 };
 
 export const useStakeForMSOByToken = () => {
-  const { library, account } = useActiveWeb3React();
+  const { library, account, chainId } = useActiveWeb3React();
   const msoContract = useMSOContractB();
   const { getCrvAddress } = useAddress();
   const dispatch = useDispatch();
-  const setTxState = (tx) => {
-    dispatch(setTransactionState(tx));
-  };
   const handleStake = useCallback(
     async (param) => {
-      const txHashForToken = await mso.buyProductByTokenForMSO(
+      let tx = await mso.buyProductByTokenForMSO(
         msoContract,
         { ...param, token: await getCrvAddress() },
         library.getSigner(),
         account,
-        setTxState,
       );
+      tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+      dispatch(setPendingTransaction(tx));
+      const receipt = await tx.wait();
       return {
-        ...txHashForToken,
+        status: receipt.status,
+        txn_hash: tx.hash,
       };
     },
     [library, msoContract, account],

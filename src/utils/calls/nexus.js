@@ -20,7 +20,7 @@ const getProductPrice = async (contract, param) => {
   }
 };
 
-const buyCoverByETH = async (contract, param, setTxState) => {
+const buyCoverByETH = async (contract, param) => {
   const { contractAddress, coverAsset, sumAssured, coverPeriod, coverType, maxPriceWithFee, data } =
     param;
   const tx = await contract.buyCoverByETH(
@@ -33,28 +33,10 @@ const buyCoverByETH = async (contract, param, setTxState) => {
     data,
     { value: maxPriceWithFee },
   );
-  setTxState({ state: 'pending', hash: tx.hash });
-  const receipt = await tx.wait();
-  setTxState({ state: 'confirmed', hash: tx.hash });
-
-  let events = null;
-  let buyNMEvent = null;
-  let pId = null;
-
-  if (receipt.status) {
-    events = receipt.events;
-    buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
-    pId = buyNMEvent?.args?.pid.toString();
-  }
-
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-    token_id: pId,
-  };
+  return tx;
 };
 
-const buyCoverByToken = async (contract, account, signer, param, setTxState) => {
+const buyCoverByToken = async (contract, account, signer, param) => {
   const {
     contractAddress,
     coverAsset,
@@ -66,7 +48,7 @@ const buyCoverByToken = async (contract, account, signer, param, setTxState) => 
     data,
   } = param;
   const contractInterface = new ethers.utils.Interface(nexusMutualAbi);
-  const { receipt, tx } = await metaCall(contract, contractInterface, account, signer, 42, {
+  const tx = await metaCall(contract, contractInterface, account, signer, 42, {
     name: 'buyCoverByToken',
     params: [
       [token, contractAddress, coverAsset],
@@ -77,20 +59,7 @@ const buyCoverByToken = async (contract, account, signer, param, setTxState) => 
       data,
     ],
   });
-  let events = null;
-  let buyNMEvent = null;
-  let pId = null;
-  if (receipt.status) {
-    events = receipt.events;
-    buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
-    pId = buyNMEvent?.args?.pid.toString();
-  }
-
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-    token_id: pId,
-  };
+  return tx;
 };
 
 export default {

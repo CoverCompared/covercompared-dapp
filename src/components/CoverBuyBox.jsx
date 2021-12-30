@@ -118,7 +118,10 @@ const ConfirmModal = (props) => {
       return;
     }
     const ethAmount = await getNeededTokenAmount(ethAddress, usdcAddress, total);
-    if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)) {
+    if (
+      !applyDiscount &&
+      getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)
+    ) {
       toast.warning('Insufficient ETH balance!');
       setIsNotCloseable(false);
       return;
@@ -234,7 +237,7 @@ const ConfirmModal = (props) => {
           company: product.company,
           type: product.type,
         });
-        toast.success('Purchasing cover succeed.');
+        toast.success('Successfully Purchased.');
       } else {
         toast.error('Purchasing cover failed.');
       }

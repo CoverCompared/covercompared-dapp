@@ -4,7 +4,7 @@ import { metaCall } from '../biconomy';
 import p4lAbi from '../../config/abi/p4l.json';
 import { callWithEstimateGas, callWithEstimateGasPayable } from './estimateGas';
 
-const buyProductByToken = async (contract, param, signer, account, sig, setTxState) => {
+const buyProductByToken = async (contract, param, signer, account, sig) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
 
   const policyId = param.policyId === undefined ? 'first-test' : param.policyId;
@@ -14,17 +14,14 @@ const buyProductByToken = async (contract, param, signer, account, sig, setTxSta
   const funParam = [policyId, value, durPlan, token, sig];
 
   const contractInterface = new ethers.utils.Interface(p4lAbi);
-  const { receipt, tx } = await metaCall(contract, contractInterface, account, signer, 4, {
+  const tx = await metaCall(contract, contractInterface, account, signer, 4, {
     name: 'buyProductByToken',
     params: funParam,
   });
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-  };
+  return tx;
 };
 
-const buyProductByEth = async (contract, param, sig, ethAmt, setTxState) => {
+const buyProductByEth = async (contract, param, sig, ethAmt) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString();
 
   const policyId = param.policyId === undefined ? 'first-test' : param.policyId;
@@ -32,14 +29,7 @@ const buyProductByEth = async (contract, param, sig, ethAmt, setTxState) => {
 
   const funParam = [policyId, value, durPlan, sig];
   const tx = await callWithEstimateGasPayable(contract, 'buyProductByETH', ethAmt, funParam);
-  setTxState({ state: 'pending', hash: tx.hash });
-  const receipt = await tx.wait();
-  setTxState({ state: 'confirmed', hash: tx.hash });
-
-  return {
-    status: receipt.status,
-    txn_hash: tx.hash,
-  };
+  return tx;
 };
 
 export default {

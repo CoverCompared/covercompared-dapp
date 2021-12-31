@@ -14,7 +14,12 @@ const ReviewCard = ({ email, image, rating, updatedAt, review }) => {
         <div className="flex justify-between items-center mb-2">
           <div className="flex items-center">
             <div className="h-12 w-12 rounded-full bg-gray-300 mr-4">
-              <img src={image || Placeholder} alt={email} className="h-full w-full rounded-full" />
+              <img
+                loading="lazy"
+                src={image || Placeholder}
+                alt={email}
+                className="h-full w-full rounded-full"
+              />
             </div>
             <div>
               <div className="font-Inter text-sm font-medium leading-tight dark:text-white">

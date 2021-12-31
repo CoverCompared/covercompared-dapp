@@ -442,7 +442,7 @@ const DeviceBuyBox = (props) => {
           onClick={() => tryActivation(option.connector)}
         >
           <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
-            <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
+            <img loading="lazy" src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
             <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
               {(connectStatus && curWalletId === option.connector) || loader
                 ? 'Connecting...'
@@ -837,7 +837,7 @@ const DeviceBuyBox = (props) => {
                 key={uniqid()}
                 className="font-semibold font-Montserrat md:text-body-sm text-body-xs text-dark-blue flex col-span-2 md:col-span-1 text-left"
               >
-                <img src={CheckIcon} alt="" className="md:h-4 md:w-4 h-3 w-3 mr-2 mt-1" />{' '}
+                <img loading="lazy" src={CheckIcon} alt="" className="md:h-4 md:w-4 h-3 w-3 mr-2 mt-1" />{' '}
                 <div>{point}</div>
               </div>
             )) || null}

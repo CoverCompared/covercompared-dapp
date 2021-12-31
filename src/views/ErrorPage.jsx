@@ -13,7 +13,7 @@ const ErrorPage = (props) => {
   return (
     <>
       <div className="flex flex-col justify-center items-center h-full">
-        <img src={ErrorImg} alt="404" />
+        <img loading="lazy" src={ErrorImg} alt="404" />
         <div className="text-dark-blue font-Montserrat text-h2 font-bold mt-12 mb-2 dark:text-white text-center">
           Whoops... this page is not available
         </div>

@@ -53,7 +53,7 @@ const HeaderCTAs = (props) => {
           onClick={() => dispatch(setLoginModalVisible(true))}
           className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
         >
-          <img src={LoginIcon} alt="Login" className="mr-1" />
+          <img loading="lazy" src={LoginIcon} alt="Login" className="mr-1" />
           Log In
         </button>
       ) : (
@@ -69,7 +69,7 @@ const HeaderCTAs = (props) => {
             </>
           ) : ( */}
           <>
-            <img src={LoginIcon} alt="Login" className="mr-1" />
+            <img loading="lazy" src={LoginIcon} alt="Login" className="mr-1" />
             {shortenAddress(account)}
           </>
           {/* )} */}

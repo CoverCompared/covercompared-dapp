@@ -56,7 +56,7 @@ const AboutToken = () => {
           <div className="md:col-span-5 col-span-12 md:col-end-5 md:pb-14 order-2 md:order-1 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent rounded-xl shadow-xl p-4 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2">
-                <img src={HealthInsurance} alt="" className="w-10" />
+                <img loading="lazy" src={HealthInsurance} alt="" className="w-10" />
               </div>
             </div>
             <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md dark:text-white text-center md:text-left">
@@ -68,12 +68,12 @@ const AboutToken = () => {
             </div>
           </div>
           <div className="md:col-span-7 col-span-12 md:col-start-6 md:col-end-12 md:pb-14 pb-10 flex justify-center order-1 md:order-2">
-            <img src={TokenIllustration} alt="" className="max-h-96" />
+            <img loading="lazy" src={TokenIllustration} alt="" className="max-h-96" />
           </div>
           <div className="md:col-span-5 col-span-12 md:col-end-5 md:pb-14 order-3 md:order-3 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-3">
-                <img src={InsurancePolicy} alt="" className="w-10" />
+                <img loading="lazy" src={InsurancePolicy} alt="" className="w-10" />
               </div>
             </div>
             <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md dark:text-white text-center md:text-left">
@@ -88,7 +88,7 @@ const AboutToken = () => {
           <div className="col-span-12 md:col-span-7 md:col-start-6 md:col-end-12 md:pb-14 order-4 md:order-4 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 sm:p-8 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2">
-                <img src={DecentrilizedIcon} alt="" className="w-10" />
+                <img loading="lazy" src={DecentrilizedIcon} alt="" className="w-10" />
               </div>
             </div>
             <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md dark:text-white text-center md:text-left">
@@ -103,7 +103,7 @@ const AboutToken = () => {
           <div className="md:pb-14 md:col-span-5 col-span-12 order-6 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2">
-                <img src={GlobalIcon} alt="" className="w-10" />
+                <img loading="lazy" src={GlobalIcon} alt="" className="w-10" />
               </div>
             </div>
             <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md dark:text-white text-center md:text-left">
@@ -117,7 +117,7 @@ const AboutToken = () => {
           <div className="md:col-span-7 col-span-12 md:col-start-6 md:col-end-12 md:pb-14 order-7 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 md:p-0">
             <div className="flex justify-center md:justify-start">
               <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2">
-                <img src={RewardIcon} alt="" className="w-10" />
+                <img loading="lazy" src={RewardIcon} alt="" className="w-10" />
               </div>
             </div>
             <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md md:max-w-xs dark:text-white text-center md:text-left">
@@ -133,7 +133,7 @@ const AboutToken = () => {
         <div className="md:pb-14 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 md:p-0 mt-6">
           <div className="flex justify-center md:justify-start">
             <div className="h-12 w-12 bg-login-button-bg rounded-xl flex justify-center items-center p-2 ">
-              <img src={StakingIcon} alt="" className="w-10" />
+              <img loading="lazy" src={StakingIcon} alt="" className="w-10" />
             </div>
           </div>
           <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md dark:text-white text-center md:text-left">

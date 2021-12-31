@@ -88,8 +88,8 @@ const ReviewContainer = (props) => {
       </div>
       {allReview && (
         <div className="flex md:justify-end justify-center items-center md:mt-8 mt-12">
-          <img src={LeftArrow} alt="Left" className="mr-6 cursor-pointer" />
-          <img src={RightArrow} alt="Left" className="cursor-pointer" />
+          <img loading="lazy" src={LeftArrow} alt="Left" className="mr-6 cursor-pointer" />
+          <img loading="lazy" src={RightArrow} alt="Left" className="cursor-pointer" />
         </div>
       )}
     </>
@@ -144,15 +144,30 @@ const CoverInsuranceProduct = (props) => {
           <div className="md:col-span-3 col-span-12">
             <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
               <div className="h-full w-full bg-white rounded-2xl  relative z-20">
-                <img src={logo} alt="" className="rounded-2xl h-full w-full" />
-                <img src={company_icon} className="absolute right-1 bottom-1 h-8" alt="" />
+                <img loading="lazy" src={logo} alt="" className="rounded-2xl h-full w-full" />
+                <img
+                  loading="lazy"
+                  src={company_icon}
+                  className="absolute right-1 bottom-1 h-8"
+                  alt=""
+                />
               </div>
-              <img src={ProductBgDots} alt="" className="absolute -bottom-9 -right-7" />
+              <img
+                loading="lazy"
+                src={ProductBgDots}
+                alt=""
+                className="absolute -bottom-9 -right-7"
+              />
             </div>
             <div className="md:hidden flex items-center">
               <div className="relative rounded-2xl bg-white shadow-xl">
-                <img src={logo} alt="" className="rounded-2xl h-28 w-28" />
-                <img src={company_icon} className="absolute right-1 bottom-1 h-6" alt="" />
+                <img loading="lazy" src={logo} alt="" className="rounded-2xl h-28 w-28" />
+                <img
+                  loading="lazy"
+                  src={company_icon}
+                  className="absolute right-1 bottom-1 h-6"
+                  alt=""
+                />
               </div>
               <div className="font-semibold text-h4 text-dark-blue font-Montserrat dark:text-white md:hidden ml-8">
                 {name}
@@ -268,7 +283,7 @@ const CoverInsuranceProduct = (props) => {
                   className="flex items-center cursor-pointer"
                   onClick={() => setShowFilterOption(true)}
                 >
-                  <img src={theme === 'light' ? Filter : FilterWhite} alt="" />
+                  <img loading="lazy" src={theme === 'light' ? Filter : FilterWhite} alt="" />
                   <div className="font-Montserrat font-semibold text-body-md ml-1 text-short-review-text dark:text-white">
                     {filterSelect === '' ? 'Short By' : filterSelect}
                   </div>
@@ -297,7 +312,7 @@ const CoverInsuranceProduct = (props) => {
           </div>
           <div className="xl:col-span-5 xl:col-start-8 lg:col-span-4 col-span-12 order-1 md:order-2">
             <div className="py-10 px-8 flex-col flex justify-center items-center bg-discount-bg rounded-2xl">
-              <img src={IdeaCard} alt="" />
+              <img loading="lazy" src={IdeaCard} alt="" />
               <div className="text-dark-blue text-19 font-Montserrat font-semibold text-center mt-4 mb-6">
                 Did you know
               </div>

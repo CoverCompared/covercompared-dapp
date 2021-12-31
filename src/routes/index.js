@@ -27,9 +27,9 @@ const routes = [
     showBuyButton: true,
     title: '',
     subtitle: '',
-    // bgImg: 'md:bg-HomePageBg',
-    // mobileBgImg: 'bg-HomeMobileBg',
-    // bgImgClass: 'bg-100% bg-no-repeat bg-cover',
+    bgImg: 'md:bg-HomePageBg',
+    mobileBgImg: 'bg-HomeMobileBg',
+    bgImgClass: 'bg-100% bg-no-repeat bg-cover',
   },
   {
     path: '/subscribe',

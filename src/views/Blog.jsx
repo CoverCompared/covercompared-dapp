@@ -53,7 +53,12 @@ const Blog = () => {
       return (
         <div className="md:px-20">
           <div className="text-center w-full">
-            <img src={blogImage} alt={blogTitle} className="md:h-88 rounded-2xl mx-auto" />
+            <img
+              loading="lazy"
+              src={blogImage}
+              alt={blogTitle}
+              className="md:h-88 rounded-2xl mx-auto"
+            />
           </div>
           <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold dark:text-white mt-10 mb-6">
             {blogTitle}

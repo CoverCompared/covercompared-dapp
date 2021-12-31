@@ -103,7 +103,7 @@ const Sidebar = (props) => {
                 </div>
 
                 <div className="flex flex-col items-center bg-sidebar-bg w-full py-3 px-4 rounded-lg text-white">
-                  <img src={SideBarMailIcon} alt="Mail" className="h-20" />
+                  <img loading="lazy" src={SideBarMailIcon} alt="Mail" className="h-20" />
                   <p className="text-center text-body-md font-Inter font-medium">
                     Get Over 500 CVR Tokens when you sign up!
                   </p>

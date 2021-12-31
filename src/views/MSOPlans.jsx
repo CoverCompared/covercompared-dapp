@@ -220,7 +220,7 @@ const MSOPlans = (props) => {
         <div className="text-center mt-8">
           {MSOPartners.map(({ img, alt }) => (
             <div key={uniqid()} className="md:w-44 w-32 inline-flex justify-content-center mx-2">
-              <img className="p-2 object-scale-down w-full" src={img} alt={alt} />
+              <img loading="lazy" className="p-2 object-scale-down w-full" src={img} alt={alt} />
             </div>
           ))}
         </div>

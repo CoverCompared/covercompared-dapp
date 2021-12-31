@@ -17,7 +17,7 @@ const TelegramWidget = () => {
       <p className="pb-1 text-sm w-32 text-center text-gray-800 dark:text-white">
         Join TG channel for reporting bugs
       </p>
-      <img src={TelegramIcon} alt="telegram" className="w-16 h-16" />
+      <img loading="lazy" src={TelegramIcon} alt="telegram" className="w-16 h-16" />
     </div>
   );
 };

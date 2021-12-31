@@ -132,7 +132,7 @@ const Sidebar = (props) => {
                     type="button"
                     className="md:ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm md:text-body-md text-body-sm leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
                   >
-                    <img src={LoginIcon} alt="Login" className="mr-1" />
+                    <img loading="lazy" src={LoginIcon} alt="Login" className="mr-1" />
                     Log In
                   </button>
                 </Modal>

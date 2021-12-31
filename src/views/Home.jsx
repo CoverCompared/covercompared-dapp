@@ -302,7 +302,7 @@ export default function Home(props) {
         </h2>
         <div className="text-center">
           {clientLogos.map(({ image, alt }) => (
-            <img key={uniqid()} className="md:h-36 h-24 inline-block p-2" src={image} alt={alt} />
+            <img loading="lazy" key={uniqid()} className="md:h-36 h-24 inline-block p-2" src={image} alt={alt} />
           ))}
         </div>
       </div> */}

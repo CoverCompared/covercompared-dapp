@@ -159,7 +159,7 @@ const SelectWithSearch = ({
                       onChange={(e) => searchOption(e.target.value, 'obj')}
                       className="pl-11 w-full h-11 bg-white dark:bg-product-input-bg-dark text-discount-apply-btn-text dark:text-white font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none rounded-t-xl"
                     />
-                    <img src={Search} alt="" className="absolute left-3 top-2.5" />
+                    <img loading="lazy" src={Search} alt="" className="absolute left-3 top-2.5" />
                     <span className="sr-only">Close</span>
                     {/* <XIcon
                       onClick={() => setIsOpen(false)}
@@ -200,7 +200,7 @@ const SelectWithSearch = ({
                       onChange={(e) => searchOption(e.target.value, 'arr')}
                       className="pl-11 w-full h-11 bg-white dark:bg-product-input-bg-dark text-discount-apply-btn-text dark:text-white font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none rounded-t-xl"
                     />
-                    <img src={Search} alt="" className="absolute left-3 top-3 h-5" />
+                    <img loading="lazy" src={Search} alt="" className="absolute left-3 top-3 h-5" />
                     <span className="sr-only">Close</span>
                     {/* <XIcon
                       onClick={() => setIsOpen(false)}
@@ -254,7 +254,7 @@ const SelectWithSearch = ({
               //         onChange={(e) => searchOption(e.target.value, 'arr')}
               //         className="pl-12 w-full h-11 bg-white rounded-lg text-discount-apply-btn-text font-Montserrat font-semibold text-body-md border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none"
               //       />
-              //       <img src={Search} alt="" className="absolute left-3 top-2.5" />
+              //       <img loading="lazy" src={Search} alt="" className="absolute left-3 top-2.5" />
               //     </div>
               //   )}
               //   <div

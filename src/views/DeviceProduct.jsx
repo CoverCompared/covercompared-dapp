@@ -252,7 +252,7 @@ const DeviceProduct = (props) => {
               className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6"
             >
               <div className="md:h-24 md:w-24 h-12 w-12 flex justify-center items-center">
-                <img src={item.image} alt="" className="h-full" />
+                <img loading="lazy" src={item.image} alt="" className="h-full" />
               </div>
               <div className="mt-3 font-Montserrat font-semibold md:text-body-md text-body-sm dark:text-white text-center">
                 {item.title}
@@ -305,7 +305,7 @@ const DeviceProduct = (props) => {
                 className="animation-wrapper md:col-span-3 col-span-6 p-4 flex flex-col items-center"
               >
                 <div>
-                  <img src={item.image} alt={item.name} />
+                  <img loading="lazy" src={item.image} alt={item.name} />
                 </div>
                 <div className="mt-3 font-Montserrat font-semibold md:text-h6 text-body-sm text-dark-blue dark:text-white text-center">
                   {item.title}
@@ -336,7 +336,7 @@ const DeviceProduct = (props) => {
                         scope="col"
                         className="p-3 device-table-cell text-xs md:text-h6 font-semibold text-dark-blue uppercase tracking-wider flex justify-center"
                       >
-                        <img src={P4LLogo} alt="" title="P4L" />
+                        <img loading="lazy" src={P4LLogo} alt="" title="P4L" />
                       </th>
                       <th
                         scope="col"
@@ -423,7 +423,7 @@ const DeviceProduct = (props) => {
                 className="animation-wrapper md:col-span-3 col-span-6 p-4 flex flex-col items-center"
               >
                 <div>
-                  <img src={item.image} alt={item.name} />
+                  <img loading="lazy" src={item.image} alt={item.name} />
                 </div>
                 <div className="mt-3 font-Montserrat font-semibold md:text-h6 text-body-md text-dark-blue dark:text-white text-center">
                   {item.title}
@@ -449,7 +449,7 @@ const DeviceProduct = (props) => {
               key={uniqid()}
               className="animation-wrapper md:w-40 w-32 inline-flex justify-content-center md:mx-5 mx-2 rounded-xl bg-white shadow-md"
             >
-              <img className="w-full rounded-xl" src={image} alt={alt} />
+              <img loading="lazy" className="w-full rounded-xl" src={image} alt={alt} />
             </div>
           ))}
         </div>

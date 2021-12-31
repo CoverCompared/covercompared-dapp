@@ -10,10 +10,10 @@ import TwitterIcon from '../../assets/img/twitter.svg';
 const Footer = () => {
   const socialMedia = [
     { href: 'https://t.me/PolkaCover', name: 'Telegram', icon: TelegramIcon },
-    { href: 'https://twitter.com/polkacover?s=11', name: 'Twitter', icon: TwitterIcon },
+    { href: 'https://twitter.com/CoverCompared', name: 'Twitter', icon: TwitterIcon },
     { href: 'https://www.instagram.com/polka_cover/', name: 'Instagram', icon: InstagramIcon },
     { href: 'https://www.linkedin.com/company/polkacover/', name: 'Linkdin', icon: LinkdinIcon },
-    { href: 'https://github.com/Polkacover', name: 'Github', icon: GithubIcon },
+    { href: 'https://github.com/CoverCompared', name: 'Github', icon: GithubIcon },
     { href: 'https://polkacover.gitbook.io/docs/', name: 'Gitbook', icon: GitbookIcon },
   ];
 
@@ -30,7 +30,7 @@ const Footer = () => {
         {socialMedia.map((item) => (
           <a key={uniqid()} href={item.href}>
             <div className="rounded-full h-5 w-5 hover:bg-bluegradient flex items-center justify-center mx-1.5">
-              <img src={item.icon} alt={item.name} className="h-4" />
+              <img loading="lazy" src={item.icon} alt={item.name} className="h-4" />
             </div>
           </a>
         ))}

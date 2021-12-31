@@ -127,7 +127,7 @@ const SelectWithSearch = ({
               </div>
             </>
           ) : (
-            <div className="w-full relative h-5 cursor-pointer">
+            <div className="w-full relative min-h-5 cursor-pointer">
               <div
                 className="text-Montserrat w-full h-full text-body-lg text-dark-blue font-medium flex justify-end items-center dark:text-white"
                 onClick={() => setIsOpen(!isOpen)}

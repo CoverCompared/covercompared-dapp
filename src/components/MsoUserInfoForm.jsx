@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { initial } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { XCircleIcon } from '@heroicons/react/solid';
+import { XCircleIcon, XIcon } from '@heroicons/react/solid';
 
 import CheckoutFormInput from './common/CheckoutFormInput';
 import FormInput from './FormInput';
@@ -89,8 +89,13 @@ const MsoUserInfoForm = (props) => {
     return setUsers([...users, { ...userObject }]);
   };
 
-  const handleRemoveUser = () => {
-    setUsers(users.slice(0, -1));
+  const handleRemoveUser = (i = null) => {
+    if (i === null) setUsers(users.slice(0, -1));
+    else {
+      const usersCopy = [...users];
+      usersCopy.splice(i, 1);
+      setUsers(usersCopy);
+    }
   };
 
   // const validateUsers = (usersClone) => {
@@ -233,14 +238,14 @@ const MsoUserInfoForm = (props) => {
           >
             Add
           </button>{' '}
-          <button
+          {/* <button
             type="button"
             className="ml-3 font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg disabled:opacity-80"
             onClick={handleRemoveUser}
             disabled={users.length === 1 || notRegistered}
           >
             Remove
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -255,12 +260,13 @@ const MsoUserInfoForm = (props) => {
                 <th className="p-2 font-medium">Country</th>
                 <th className="p-2 font-medium">DOB</th>
                 <th className="p-2 font-medium">Identity</th>
+                <th className="p-2 font-medium" />
               </tr>
             </thead>
             <tbody className="bg-white">
               {users.map((user, index) => (
                 <tr key={index} className="text-gray-700">
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       title="Type of user"
                       id="userType"
@@ -352,6 +358,16 @@ const MsoUserInfoForm = (props) => {
                       disabled={notRegistered}
                       required
                     />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <button
+                      type="button"
+                      className="bg-transparent p-1 text-black disabled:text-gray-400"
+                      disabled={users.length === 1 || notRegistered}
+                      onClick={() => handleRemoveUser(index)}
+                    >
+                      <XIcon className="w-5 h-5" />
+                    </button>
                   </td>
                 </tr>
               ))}

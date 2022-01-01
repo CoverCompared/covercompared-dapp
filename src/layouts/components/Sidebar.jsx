@@ -121,7 +121,7 @@ const Sidebar = (props) => {
                 <div className="mt-3">
                   <TwitterTimelineEmbed
                     sourceType="profile"
-                    screenName="PolkaCover"
+                    screenName="CoverCompared"
                     options={{ height: 400 }}
                   />
                 </div>

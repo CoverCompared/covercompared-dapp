@@ -343,7 +343,7 @@ const CoverBuyBox = (props) => {
 
   useEffect(() => {
     const periodVal = `${periodField}`.split('.')[0];
-    setPeriodField(periodVal);
+    setPeriodField(+periodVal);
   }, [periodField]);
 
   const period = useMemo(() => {

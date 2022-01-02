@@ -44,6 +44,7 @@ const ReviewCard = ({ email, image, rating, updatedAt, review }) => {
         <div className="font-Inter text-body-md text-counter-card-text dark:text-subtitle-dark-text">
           {review}
         </div>
+        <hr className="mt-5" />
       </div>
     </>
   );

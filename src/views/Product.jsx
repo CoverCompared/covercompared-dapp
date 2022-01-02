@@ -77,8 +77,8 @@ const ReviewContainer = (props) => {
 
   return (
     <>
-      {arr.map((obj) => (
-        <ReviewCard {...props} key={uniqid()} {...obj} />
+      {arr.map((obj, index) => (
+        <ReviewCard key={index} {...props} {...obj} />
       ))}
       <div
         className="font-Inter font-medium text-body-md text-dark-blue dark:text-white hover:underline cursor-pointer mt-6 w-full underline"
@@ -86,12 +86,12 @@ const ReviewContainer = (props) => {
       >
         {!allReview && 'See all reviews'}
       </div>
-      {allReview && (
+      {/* {allReview && (
         <div className="flex md:justify-end justify-center items-center md:mt-8 mt-12">
           <img loading="lazy" src={LeftArrow} alt="Left" className="mr-6 cursor-pointer" />
           <img loading="lazy" src={RightArrow} alt="Left" className="cursor-pointer" />
         </div>
-      )}
+      )} */}
     </>
   );
 };

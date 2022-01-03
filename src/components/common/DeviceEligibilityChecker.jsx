@@ -6,11 +6,11 @@ import { CheckCircleIcon } from '@heroicons/react/outline';
 import { submitUserCountry } from '../../redux/actions/EligibilityChecker';
 
 const countries = [
-  { value: 'UAE', label: 'United Arab Emirates' },
+  { value: 'UAE', label: 'UAE' },
   { value: 'QAT', label: 'Qatar' },
   { value: 'OMN', label: 'Oman' },
   { value: 'KWT', label: 'Kuwait' },
-  { value: 'USA', label: 'United States' },
+  { value: 'USA', label: 'USA' },
   { value: 'BHR', label: 'Bahrain' },
   { value: 'SAU', label: 'Saudi Arabia' },
   { value: 'NOT', label: 'None of Them' },
@@ -27,7 +27,14 @@ const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setT
     () =>
       countryList()
         .getData()
-        .filter((f) => !countries.find((ct) => ct.label === f.label)),
+        .filter(
+          (f) =>
+            !(
+              countries.find((ct) => ct.label === f.label) ||
+              f.label === 'United Arab Emirates' ||
+              f.label === 'United States'
+            ),
+        ),
     [],
   );
 

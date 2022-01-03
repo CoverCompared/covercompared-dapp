@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, lazy } from 'react';
 import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,10 +7,6 @@ import { logEvent } from 'firebase/analytics';
 import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import { searchBlogList } from '../redux/actions/CoverList';
 import { getLoginDetails } from '../redux/actions/Auth';
-import Loading from '../components/common/Loading';
-import InsuranceCards from '../components/InsuranceCards';
-import PostCard from '../components/PostCard';
-import FeatureCard from '../components/FeatureCard';
 import { ThemeContext } from '../themeContext';
 import { analytics } from '../config/firebase';
 import { SupportedChainId } from '../config/chains';
@@ -31,6 +27,11 @@ import CryptoInsuranceImgDark from '../assets/img/crypto-orange-logo.svg';
 import NsureNetworkLogo from '../assets/partners/Nsure-Network.png';
 import UnoReLogo from '../assets/partners/UNORE.png';
 import InsureAceLogo from '../assets/partners/InsurAce.png';
+
+const Loading = lazy(() => import('../components/common/Loading'));
+const InsuranceCards = lazy(() => import('../components/InsuranceCards'));
+const PostCard = lazy(() => import('../components/PostCard'));
+const FeatureCard = lazy(() => import('../components/FeatureCard'));
 
 const clientLogos = [
   {

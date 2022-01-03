@@ -16,7 +16,7 @@ const countries = [
   { value: 'SVN', label: 'Slovenia' },
   { value: 'ZAF', label: 'South Africa' },
   { value: 'RUS', label: 'Russia' },
-  { value: 'ARE', label: 'United Arab Emirates' },
+  { value: 'ARE', label: 'UAE' },
   { value: 'BHR', label: 'Bahrain' },
   { value: 'OMN', label: 'Oman' },
   { value: 'KWT', label: 'Kuwait' },

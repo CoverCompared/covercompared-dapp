@@ -79,6 +79,7 @@ const MyAccount = (props) => {
   const handleSubmitToClaim = async (policy, i) => {
     const { details, wallet_address } = policy;
     const { token_id } = details;
+    console.log(policy);
     if (token_id === undefined) {
       toast.warning('This item is invalid!');
       return;
@@ -310,8 +311,16 @@ const MyAccount = (props) => {
   };
 
   const renderCryptoCard = (policy) => {
-    const { _id, details, logo = placeholderLogo, crypto_amount, crypto_currency, review } = policy;
-    const { company_code, name, duration_days } = details;
+    const {
+      _id,
+      details,
+      logo = placeholderLogo,
+      crypto_amount,
+      crypto_currency,
+      review,
+      wallet_address,
+    } = policy;
+    const { company_code, name, duration_days, token_id } = details;
 
     return (
       <div
@@ -348,7 +357,9 @@ const MyAccount = (props) => {
                 title="Instruction"
                 bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
                 sizeClass="max-w-3xl"
-                renderComponent={ClaimCards}
+                renderComponent={() => (
+                  <ClaimCards policyId={token_id} walletAddress={wallet_address} />
+                )}
               >
                 <button
                   type="button"

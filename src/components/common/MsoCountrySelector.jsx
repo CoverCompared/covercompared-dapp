@@ -31,11 +31,11 @@ import useAssetsUsdPrice from '../../hooks/useAssetsUsdPrice';
 import { MSO_PLAN_TYPE } from '../../config';
 
 const countries = [
-  { value: 'UAE', label: 'United Arab Emirates' },
+  { value: 'UAE', label: 'UAE' },
   { value: 'QAT', label: 'Qatar' },
   { value: 'OMN', label: 'Oman' },
   { value: 'KWT', label: 'Kuwait' },
-  { value: 'USA', label: 'United States' },
+  { value: 'USA', label: 'USA' },
   { value: 'BHR', label: 'Bahrain' },
   { value: 'SAU', label: 'Saudi Arabia' },
   { value: 'NOT', label: 'None of Them' },

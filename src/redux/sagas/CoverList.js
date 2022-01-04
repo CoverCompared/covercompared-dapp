@@ -316,8 +316,8 @@ function* getQuote({ payload }) {
     const quote = yield call(axiosPost, miniQuoteUrl, payload);
     if (quote?.data?.success) yield put(getQuoteSuccess(quote?.data?.data || quote?.data?.quote));
 
-    const quoteUrl = `${API_BASE_URL}/cover-quote`;
-    const quoteDetail = yield call(axiosPost, quoteUrl, payload);
+    const quoteUrl = `${API_BASE_URL}/user/cover-quote`;
+    const quoteDetail = yield call(axiosPost, quoteUrl, payload, yield select(selector.token));
     if (quoteDetail?.data?.success) {
       yield put(getQuoteDetailSuccess(quoteDetail?.data?.data));
       return yield put(setGetQuoteLoader({ message: '', quoteLoader: false, isFailed: false }));

@@ -16,6 +16,7 @@ const Modal = (props) => {
     closeable = true,
     CTAText,
     handleClickCTA,
+    validate,
   } = props;
   const [isNotCloseable, setIsNotCloseable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +47,15 @@ const Modal = (props) => {
 
   return (
     <>
-      <div onClick={(e) => setIsModalOpen(true)}>{children}</div>
+      <div
+        onClick={(e) => {
+          if (!validate || (validate && validate())) {
+            setIsModalOpen(true);
+          }
+        }}
+      >
+        {children}
+      </div>
       <Transition.Root show={isModalOpen} as={Fragment}>
         <Dialog
           unmount

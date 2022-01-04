@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, lazy } from 'react';
 import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,10 +7,6 @@ import { logEvent } from 'firebase/analytics';
 import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import { searchBlogList } from '../redux/actions/CoverList';
 import { getLoginDetails } from '../redux/actions/Auth';
-import Loading from '../components/common/Loading';
-import InsuranceCards from '../components/InsuranceCards';
-import PostCard from '../components/PostCard';
-import FeatureCard from '../components/FeatureCard';
 import { ThemeContext } from '../themeContext';
 import { analytics } from '../config/firebase';
 import { SupportedChainId } from '../config/chains';
@@ -31,6 +27,11 @@ import CryptoInsuranceImgDark from '../assets/img/crypto-orange-logo.svg';
 import NsureNetworkLogo from '../assets/partners/Nsure-Network.png';
 import UnoReLogo from '../assets/partners/UNORE.png';
 import InsureAceLogo from '../assets/partners/InsurAce.png';
+
+const Loading = lazy(() => import('../components/common/Loading'));
+const InsuranceCards = lazy(() => import('../components/InsuranceCards'));
+const PostCard = lazy(() => import('../components/PostCard'));
+const FeatureCard = lazy(() => import('../components/FeatureCard'));
 
 const clientLogos = [
   {
@@ -76,10 +77,6 @@ const Features = (props) => {
       <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center lg:max-w-xs dark:text-white">
         Save money on your insurance in 4 easy step!
       </h2>
-      <p className="mt-4 text-counter-card-text text-body-md md:px-20 font-Inter dark:text-subtitle-dark-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel semper blandit euismod vitae
-        eleifend vitae eleifend massa imperdiet.
-      </p>
       <div className="md:mt-10 mt-8 xl:px-14 md:px-6 grid grid-cols-2 gap-y-6 gap-x-5 xl:gap-x-8">
         {featureCards.map(({ icon, title, body }) => (
           <FeatureCard {...props} key={uniqid()} icon={icon} title={title} body={body} />
@@ -153,7 +150,12 @@ export default function Home(props) {
             {blogList.map((blog) => (
               <div className="grid grid-cols-12 gap-x-3 mb-3" key={uniqid()}>
                 <div className=" col-span-4">
-                  <img src={blog.image} alt="" className="h-full w-full rounded-lg" />
+                  <img
+                    loading="lazy"
+                    src={blog.image}
+                    alt=""
+                    className="h-full w-full rounded-lg"
+                  />
                 </div>
                 <div className="col-span-8 flex flex-col justify-center">
                   <div className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
@@ -184,6 +186,7 @@ export default function Home(props) {
       <div className="grid grid-cols-2 gap-4 xl:gap-y-8 md:gap-x-6 md:grid-cols-2 lg:grid-cols-2 xl:gap-x-8 sm:px-28 md:px-6 md:pb-20 pb-12 xl:px-40 relative">
         <InsuranceCards {...props} />
         <img
+          loading="lazy"
           src={InsuranceCardDotBg}
           alt=""
           className="absolute sm: md:-top-10 -top-7 right-4 md:right-24 z-0 md:h-24 md:w-24 h-14 w-14"
@@ -201,7 +204,7 @@ export default function Home(props) {
         <div className="text-center">
           {clientLogos.map(({ image, alt }) => (
             <div key={uniqid()} className="md:w-28 h-24 inline-flex justify-content-center mx-2">
-              <img className="p-2 object-scale-down w-full" src={image} alt={alt} />
+              <img loading="lazy" className="p-2 object-scale-down w-full" src={image} alt={alt} />
             </div>
           ))}
         </div>
@@ -209,6 +212,7 @@ export default function Home(props) {
 
       <div className="flex flex-col items-center xl:px-28 pb-16 text-center relative">
         <img
+          loading="lazy"
           src={theme === 'light' ? cryptoInsuranceDotBg : cryptoInsuranceOrangeDots}
           alt=""
           className="absolute md:top-12 sm:top-20 left-0 top-32 h-16 w-16"
@@ -217,12 +221,12 @@ export default function Home(props) {
           Crypto Insurance
         </h2>
         <p className="mt-3 text-counter-card-text text-body-md xl:px-36 md:px-28 font-Inter dark:text-subtitle-dark-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel semper blandit euismod vitae
-          eleifend vitae eleifend massa imperdiet.
+          Insure your crypto-assets and protect them against the lurking risks of the digital world
         </p>
         <div className="mt-10 grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 md:gap-x-12">
           <div className="md:col-span-4 xl:col-start-2 flex items-center col-span-12 justify-center">
             <img
+              loading="lazy"
               src={theme === 'light' ? CryptoInsuranceImg : CryptoInsuranceImgDark}
               alt=""
               className="md:max-h-60 max-h-52"
@@ -294,7 +298,7 @@ export default function Home(props) {
         </h2>
         <div className="text-center">
           {clientLogos.map(({ image, alt }) => (
-            <img key={uniqid()} className="md:h-36 h-24 inline-block p-2" src={image} alt={alt} />
+            <img loading="lazy" key={uniqid()} className="md:h-36 h-24 inline-block p-2" src={image} alt={alt} />
           ))}
         </div>
       </div> */}

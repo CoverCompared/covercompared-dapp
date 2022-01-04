@@ -6,6 +6,8 @@ import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
 import { logEvent } from 'firebase/analytics';
 
+import { PDFViewer } from '@react-pdf/renderer';
+import DownloadPolicy from '../components/common/DownloadPolicy';
 import { analytics } from '../config/firebase';
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
@@ -16,7 +18,6 @@ import MSOReceipt from '../components/MSOReceipt';
 import MSOReceiptCard from '../components/MSOReceiptCard';
 import DeviceReceipt from '../components/DeviceReceipt';
 import DeviceReceiptCard from '../components/DeviceReceiptCard';
-import DownloadPolicy from '../components/common/DownloadPolicy';
 import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import useClaimForCover from '../hooks/useClaimForCover';
 import Loading from '../components/common/TxLoading';
@@ -36,6 +37,9 @@ const DeviceCard = (props) => {
           fileName="Device_protection_receipt.pdf"
         />
       </div>
+      {/* <PDFViewer className="fixed h-96 w-full">
+        <DeviceReceipt {...props} />
+      </PDFViewer> */}
       <DeviceReceiptCard {...props} />
     </>
   );
@@ -79,6 +83,7 @@ const MyAccount = (props) => {
   const handleSubmitToClaim = async (policy, i) => {
     const { details, wallet_address } = policy;
     const { token_id } = details;
+    console.log(policy);
     if (token_id === undefined) {
       toast.warning('This item is invalid!');
       return;
@@ -155,6 +160,7 @@ const MyAccount = (props) => {
       _id,
       tax,
       amount,
+      payment_hash,
       txn_hash,
       total_amount,
       logo = p4lLogo,
@@ -181,7 +187,7 @@ const MyAccount = (props) => {
       >
         <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white flex items-center justify-center">
-            <img src={logo} alt="" className="h-auto w-full" />
+            <img loading="lazy" src={logo} alt="" className="h-auto w-full" />
           </div>
           <div className="flex flex-col">
             <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${device_type} - ${brand} `}</div>
@@ -208,6 +214,7 @@ const MyAccount = (props) => {
             {...{
               tax,
               txn_hash,
+              payment_hash,
               quote: amount,
               total: total_amount,
               discountAmount: discount_amount,
@@ -240,6 +247,8 @@ const MyAccount = (props) => {
     const {
       _id,
       tax,
+      payment_hash,
+      currency,
       amount,
       details,
       txn_hash,
@@ -259,7 +268,7 @@ const MyAccount = (props) => {
       >
         <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
-            <img src={logo} alt={name} className="h-full w-full rounded-xl" />
+            <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
           </div>
           <div className="flex flex-col">
             <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${MSOPlanDuration} `}</div>
@@ -289,6 +298,8 @@ const MyAccount = (props) => {
               quote,
               total: total_amount,
               tax,
+              payment_hash,
+              currency,
               discountAmount: discount_amount,
               addonServices: !!mso_addon_service,
               MSOAddOnService: mso_addon_service,
@@ -310,8 +321,16 @@ const MyAccount = (props) => {
   };
 
   const renderCryptoCard = (policy) => {
-    const { _id, details, logo = placeholderLogo, crypto_amount, crypto_currency, review } = policy;
-    const { company_code, name, duration_days } = details;
+    const {
+      _id,
+      details,
+      logo = placeholderLogo,
+      crypto_amount,
+      crypto_currency,
+      review,
+      wallet_address,
+    } = policy;
+    const { company_code, name, duration_days, token_id } = details;
 
     return (
       <div
@@ -320,7 +339,7 @@ const MyAccount = (props) => {
       >
         <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
-            <img src={logo} alt={name} className="h-full w-full rounded-xl" />
+            <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
           </div>
           <div className="flex flex-col">
             <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${company_code} `}</div>
@@ -348,7 +367,9 @@ const MyAccount = (props) => {
                 title="Instruction"
                 bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
                 sizeClass="max-w-3xl"
-                renderComponent={ClaimCards}
+                renderComponent={() => (
+                  <ClaimCards policyId={token_id} walletAddress={wallet_address} />
+                )}
               >
                 <button
                   type="button"
@@ -391,7 +412,7 @@ const MyAccount = (props) => {
       >
         <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
-            <img src={logo} alt={name} className="h-full w-full rounded-xl" />
+            <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
           </div>
           <div className="flex flex-col">
             <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${company_code} `}</div>
@@ -431,7 +452,7 @@ const MyAccount = (props) => {
   return (
     <>
       {loader && <OverlayLoading />}
-      <GetCVROnReview {...props} />
+      {process.env.SHOW_UPCOMING_FEATURES_TO_CONFIRM && <GetCVROnReview {...props} />}
       {/* <MobilePageTitle title="My Insurance" /> */}
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-4 dark:text-white">
         My Profile

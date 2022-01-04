@@ -25,7 +25,7 @@ const PhaseArr = [
   {
     phaseNumber: 1,
     phaseIcon: PhaseIcon1,
-    title: 'Global CryptoProtect Products by Polkacover',
+    title: 'Global CryptoProtect Products by Cover Compared',
     descriptionArr: [
       'Crypto Insurance Products for over 40 cryptocurrencies (and growing!) insured by a leading multinational insurance company',
       'Read Page 17 of our whitepaper to get a taste of what&apos;s baking in our oven.',
@@ -53,10 +53,10 @@ const PhaseArr = [
   {
     phaseNumber: 4,
     phaseIcon: PhaseIcon4,
-    title: 'Polkacover Claim It!',
+    title: 'Cover Compared Claim It!',
     descriptionArr: [
       'Autonomous claims processing platform based on AI and machine learning which acts-as a third-party claims management platform for insurance companies.',
-      'Polkacover will change the way to process claims by making it easy for the insurance companies and making payouts pain-free for their customers.',
+      'Cover Compared will change the way to process claims by making it easy for the insurance companies and making payouts pain-free for their customers.',
     ],
   },
 ];
@@ -76,7 +76,7 @@ const AboutUs = () => {
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full md:mb-6 mb-4">
                 {/* img here */}
-                <img src={Kunal} alt="Kunal" className="rounded-full" />
+                <img loading="lazy" src={Kunal} alt="Kunal" className="rounded-full" />
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold text-h6 dark:text-white">
                 Kunal Sadani
@@ -89,14 +89,14 @@ const AboutUs = () => {
               </div>
               <div className="flex-col flex items-start">
                 <div className="flex justify-center items-start mb-2">
-                  <img src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
+                  <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
                   <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     Worked in a senior leadership role within an insurtech startup (Valued at over
                     $1 billion).
                   </div>
                 </div>
                 <div className="flex justify-center items-start">
-                  <img src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
+                  <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
                   <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     10+ years working in insurance product development with multinational insurers
                   </div>
@@ -106,15 +106,15 @@ const AboutUs = () => {
                 Previous Employers :
               </div>
               <div className="flex align-center">
-                <img src={Allianz} alt="Allianz" className="mr-2" />
-                <img src={AIGLogo} alt="AIG" />
+                <img loading="lazy" src={Allianz} alt="Allianz" className="mr-2" />
+                <img loading="lazy" src={AIGLogo} alt="AIG" />
               </div>
             </div>
           </div>
           <div className="flex justify-center col-span-2 sm:col-span-1 mt-12 sm:mt-0">
             <div className="flex-col flex items-center justify-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
-                <img src={Anthony} alt="Anthony" className="rounded-full" />
+                <img loading="lazy" src={Anthony} alt="Anthony" className="rounded-full" />
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold text-h6 dark:text-white text-">
                 Anthony Thomas
@@ -128,20 +128,20 @@ const AboutUs = () => {
               </div>
               <div className="flex-col flex items-start">
                 <div className="flex justify-center items-start mb-2">
-                  <img src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
+                  <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
                   <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     10 years of operational management experience across various service verticals
                   </div>
                 </div>
                 <div className="flex justify-center items-start mb-2">
-                  <img src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
+                  <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
                   <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     Set up 3 operational service centres simultaneously from scratch comprising over
                     2000+ staff
                   </div>
                 </div>
                 <div className="flex justify-center items-start">
-                  <img src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
+                  <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
                   <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     Created several regional backend system platforms & projects for multinational
                     insurance providers
@@ -152,8 +152,8 @@ const AboutUs = () => {
                 Previous Employers :
               </div>
               <div className="flex align-center">
-                <img src={Allianz} alt="Allianz" className="mr-2" />
-                <img src={NextCare} alt="NextCare" />
+                <img loading="lazy" src={Allianz} alt="Allianz" className="mr-2" />
+                <img loading="lazy" src={NextCare} alt="NextCare" />
               </div>
             </div>
           </div>
@@ -170,7 +170,7 @@ const AboutUs = () => {
           <div className="flex justify-center col-span-2 sm:col-span-1">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
-                <img src={Jaskanwar} alt="Jaskanwar" className="rounded-full" />
+                <img loading="lazy" src={Jaskanwar} alt="Jaskanwar" className="rounded-full" />
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold text-h6 dark:text-white text-center">
                 Jaskanwar “Jas” Singh
@@ -186,7 +186,7 @@ const AboutUs = () => {
           <div className="flex justify-center col-span-2 sm:col-span-1 mt-10 sm:mt-0">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
-                <img src={DuckDao} alt="DuckDao" className="rounded-full h-full" />
+                <img loading="lazy" src={DuckDao} alt="DuckDao" className="rounded-full h-full" />
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold text-h6 dark:text-white text-center">
                 DuckDao.io
@@ -205,7 +205,7 @@ const AboutUs = () => {
         Our Menifesto
       </div>
       <div className="flex justify-center">
-        <img src={GlobalIcon} className="text-center" alt="" />
+        <img loading="lazy" src={GlobalIcon} className="text-center" alt="" />
       </div>
       <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-4">
         &quot;Be the change you want to see in the world&quot;
@@ -259,26 +259,27 @@ const AboutUs = () => {
           advantages as holders of more traditional instruments of payment?
         </div>
         <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
-          PolkaCover aims to right this wrong – we’re the world’s first platform that will enable
-          crypto-holders to purchase not just specialized covers for their crypto-based assets, but
-          also fulfill their needs in the traditional sectors of insurance such as life, health,
-          home, etc. – all bought using a host of different cryptocurrencies.
+          Cover Compared aims to right this wrong – we’re the world’s first platform that will
+          enable crypto-holders to purchase not just specialized covers for their crypto-based
+          assets, but also fulfill their needs in the traditional sectors of insurance such as life,
+          health, home, etc. – all bought using a host of different cryptocurrencies.
         </div>
         <div className="flex justify-center pt-14">
-          <img src={VisionIcon} alt="" />
+          <img loading="lazy" src={VisionIcon} alt="" />
         </div>
         <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
           OUR VISION
         </h2>
         <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
-          PolkaCover is here to address the needs of the crypto community. We understand the growing
-          concerns of safety in the crypto ecosystem, and we firmly believe that every individual
-          deserves the chance to protect their valuable assets without worrying about costs and
-          limitations. <span className="font-medium">Protection shouldn’t be conditional</span>. It
-          is time insurers were empathetic to the hardships faced by unprotected crypto users.
+          Cover Compared is here to address the needs of the crypto community. We understand the
+          growing concerns of safety in the crypto ecosystem, and we firmly believe that every
+          individual deserves the chance to protect their valuable assets without worrying about
+          costs and limitations.{' '}
+          <span className="font-medium">Protection shouldn’t be conditional</span>. It is time
+          insurers were empathetic to the hardships faced by unprotected crypto users.
         </div>
         <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
-          PolkaCover is the world’s first platform offering crypto and traditional insurance
+          Cover Compared is the world’s first platform offering crypto and traditional insurance
           products under one marketplace specially aimed to cater to the global crypto market. We
           are a user-centric insurance aggregator, working towards optimising the experience of
           purchasing insurance – whether it be bought using fiat money, or cryptocurrency.
@@ -301,7 +302,13 @@ const AboutUs = () => {
             className="absolute top-36 left-2/4 hidden lg:flex"
             style={{ transform: `translateX(${-50}%)` }}
           >
-            <img src={ArrowFrame} alt="" className="h-44" style={{ minWidth: '42vw' }} />
+            <img
+              loading="lazy"
+              src={ArrowFrame}
+              alt=""
+              className="h-44"
+              style={{ minWidth: '42vw' }}
+            />
           </div>
           {PhaseArr.map((obj) => (
             <PhaseCard key={uniqid()} {...obj} />
@@ -341,7 +348,7 @@ const AboutUs = () => {
           </div>
 
           <div className="text-center md:px-10 text-white font-Montserrat font-semibold md:text-h2 text-body-md">
-            THE FUTURE OF POLKACOVER
+            THE FUTURE OF COVER COMPARED
           </div>
           <div className="font-Montserrat text-white md:text-body-md text-body-sm text-center mt-4">
             The platform aims to bridge the gap in the insurance sector by collaborating with
@@ -351,8 +358,8 @@ const AboutUs = () => {
             pricing, and multiple payment options.
           </div>
           <div className="font-Montserrat text-white md:text-body-md text-body-sm text-center mt-4">
-            PolkaCover will soon bring about a newfound era of innovation in the insurance market
-            and be the first platform of its kind to offer a democratic safety net to all.
+            Cover Compared will soon bring about a newfound era of innovation in the insurance
+            market and be the first platform of its kind to offer a democratic safety net to all.
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ const SearchBar = ({ search, setSearch, handleSearch, showSearchButton }) => {
     <div className="flex items-center justify-center w-full">
       <form onSubmit={(e) => e.preventDefault()} className="w-full relative">
         <div className="absolute inset-y-0 left-0 top-0 flex py-3 pl-3">
-          <img src={SearchIcon} alt="search icon" className="w-7 h-7" />
+          <img loading="lazy" src={SearchIcon} alt="search icon" className="w-7 h-7" />
         </div>
         <input
           autoFocus
@@ -26,7 +26,7 @@ const SearchBar = ({ search, setSearch, handleSearch, showSearchButton }) => {
               onClick={handleSearch}
               className="p-2 rounded-lg bg-gradient-to-r from-primary-gd-1 to-primary-gd-2 flex justify-center items-center"
             >
-              <img src={ArrowIcon} alt="Arrow icon" className="w-4 h-4" />
+              <img loading="lazy" src={ArrowIcon} alt="Arrow icon" className="w-4 h-4" />
             </button>
           </div>
         )}

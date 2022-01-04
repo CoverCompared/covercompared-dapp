@@ -31,11 +31,11 @@ import useAssetsUsdPrice from '../../hooks/useAssetsUsdPrice';
 import { MSO_PLAN_TYPE } from '../../config';
 
 const countries = [
-  { value: 'UAE', label: 'United Arab Emirates' },
+  { value: 'UAE', label: 'UAE' },
   { value: 'QAT', label: 'Qatar' },
   { value: 'OMN', label: 'Oman' },
   { value: 'KWT', label: 'Kuwait' },
-  { value: 'USA', label: 'United States' },
+  { value: 'USA', label: 'USA' },
   { value: 'BHR', label: 'Bahrain' },
   { value: 'SAU', label: 'Saudi Arabia' },
   { value: 'NOT', label: 'None of Them' },
@@ -160,9 +160,10 @@ const MsoCountrySelector = ({
               amount: total,
               paidVia: applyDiscount ? 'CVR' : 'USD',
             });
-            toast.success('Successfully purchased!');
+            toast.success('Successfully Purchased!');
           }
         } catch (error) {
+          console.log(error);
           toast.warning('Purchasing failed.');
           dispatch(
             setBuyMsoInsuranceLoader({
@@ -233,13 +234,13 @@ const MsoCountrySelector = ({
     const ethAmount = getBalanceNumber(ethAmount1);
     const crvAmount = getBalanceNumber(crvAmount1);
 
-    if (ethAmount + 0.001 >= getBalanceNumber(balance)) {
+    if (!applyDiscount && ethAmount + 0.01 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
       setTxPending(false);
       setIsNotCloseable(false);
       return;
     }
-    if (crvAmount >= getBalanceNumber(crvBalanceStatus.balance) && discountAmount > 0) {
+    if (applyDiscount && crvAmount >= getBalanceNumber(crvBalanceStatus.balance)) {
       toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);
@@ -281,7 +282,7 @@ const MsoCountrySelector = ({
           onClick={() => tryActivation(option.connector)}
         >
           <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
-            <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
+            <img loading="lazy" src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
             <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
               {connectStatus && curWalletId === option.connector ? 'Connecting...' : option.name}
             </div>

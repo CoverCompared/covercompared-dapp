@@ -50,8 +50,18 @@ const SmallPackageCard = (props) => {
       <DiscountCard discountPercentage={discount} />
       <div className="flex md:justify-between items-center md:h-full">
         <div className="md:w-16 md:h-16 h-9 w-9 md:rounded-xl rounded-md relative shadow-2xl p-1 bg-white">
-          <img src={logo || Placeholder} className="h-full w-full rounded-xl" alt={name} />
-          <img src={company_icon || Placeholder} className="absolute right-1 bottom-1 h-3" alt="" />
+          <img
+            loading="lazy"
+            src={logo || Placeholder}
+            className="h-full w-full rounded-xl"
+            alt={name}
+          />
+          <img
+            loading="lazy"
+            src={company_icon || Placeholder}
+            className="absolute right-1 bottom-1 h-3"
+            alt=""
+          />
         </div>
         <div className="md:ml-4 ml-2">
           <div
@@ -74,9 +84,9 @@ const SmallPackageCard = (props) => {
       <div className="h-full flex items-center">
         <button
           type="button"
-          className="h-10 w-10 rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2"
+          className="font-Montserrat disabled:opacity-50 md:px-3 md:py-2 py-1.5 px-2 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-lg text-login-button-text bg-login-button-bg hover:bg-white duration-200"
         >
-          <img src={BuyIcon} alt="cart" className="w-6 h-6" />
+          <div>Buy Now</div>
         </button>
       </div>
     </div>

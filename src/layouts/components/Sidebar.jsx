@@ -24,10 +24,10 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const socialMedia = [
   { href: 'https://t.me/PolkaCover', name: 'Telegram', icon: TelegramIcon },
-  { href: 'https://twitter.com/polkacover?s=11', name: 'Twitter', icon: TwitterIcon },
+  { href: 'https://twitter.com/CoverCompared', name: 'Twitter', icon: TwitterIcon },
   { href: 'https://www.instagram.com/polka_cover/', name: 'Instagram', icon: InstagramIcon },
   { href: 'https://www.linkedin.com/company/polkacover/', name: 'Linkdin', icon: LinkdinIcon },
-  { href: 'https://github.com/Polkacover', name: 'Github', icon: GithubIcon },
+  { href: 'https://github.com/CoverCompared', name: 'Github', icon: GithubIcon },
   { href: 'https://polkacover.gitbook.io/docs/', name: 'Gitbook', icon: GitbookIcon },
 ];
 
@@ -96,32 +96,34 @@ const Sidebar = (props) => {
                   {socialMedia.map((item) => (
                     <a key={uniqid()} href={item.href} target="_blank" rel="noreferrer">
                       <div className="rounded-full h-5 w-5 hover:bg-bluegradient flex items-center justify-center mx-1.5">
-                        <img src={item.icon} alt={item.name} className="h-4" />
+                        <img loading="lazy" src={item.icon} alt={item.name} className="h-4" />
                       </div>
                     </a>
                   ))}
                 </div>
 
-                <div className="flex flex-col items-center bg-sidebar-bg w-full py-3 px-4 rounded-lg text-white">
-                  <img src={SideBarMailIcon} alt="Mail" className="h-20" />
-                  <p className="text-center text-body-md font-Inter font-medium">
-                    Get Over 500 CVR Tokens when you sign up!
-                  </p>
-                  <p className="text-center text-body-md font-Inter font-medium">
-                    Click here for more details!
-                  </p>
-                  <button
-                    type="button"
-                    className="font-Montserrat mt-2 px-5 py-3 border border-transparent shadow-sm text-md font-semibold rounded-xl text-sidebar-bg bg-white focus:outline-none focus:ring-0"
-                  >
-                    See Details
-                  </button>
-                </div>
+                {process.env.SHOW_UPCOMING_FEATURES_TO_CONFIRM && (
+                  <div className="flex flex-col items-center bg-sidebar-bg w-full py-3 px-4 rounded-lg text-white">
+                    <img loading="lazy" src={SideBarMailIcon} alt="Mail" className="h-20" />
+                    <p className="text-center text-body-md font-Inter font-medium">
+                      Get Over 500 CVR Tokens when you sign up!
+                    </p>
+                    <p className="text-center text-body-md font-Inter font-medium">
+                      Click here for more details!
+                    </p>
+                    <button
+                      type="button"
+                      className="font-Montserrat mt-2 px-5 py-3 border border-transparent shadow-sm text-md font-semibold rounded-xl text-sidebar-bg bg-white focus:outline-none focus:ring-0"
+                    >
+                      See Details
+                    </button>
+                  </div>
+                )}
 
                 <div className="mt-3">
                   <TwitterTimelineEmbed
                     sourceType="profile"
-                    screenName="PolkaCover"
+                    screenName="CoverCompared"
                     options={{ height: 400 }}
                   />
                 </div>

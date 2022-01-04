@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const ClaimCards = () => {
+const ClaimCards = ({ policyId, wallet_address }) => {
   const [claimId, setClaimId] = useState('');
+  const newPageUrl = `https://app.nexusmutual.io/home/proof-of-loss/add-affected-addresses?coverId=${policyId}&owner=${wallet_address}`;
+
   return (
     <>
       <div className="grid grid-cols-2 md:gap-8 gap-y-6 mt-6 z-auto relative">
@@ -12,7 +14,7 @@ const ClaimCards = () => {
           </div> */}
           <div className="text-dark-blue font-medium font-Montserrat text-h6 text-center leading-7 text dark:text-white">
             Go to{' '}
-            <Link to="google.com" className="font-semibold underline">
+            <Link to={newPageUrl} className="font-semibold underline" target="_blank">
               LINK
             </Link>{' '}
             and <br /> submit Proof

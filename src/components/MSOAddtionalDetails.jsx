@@ -19,9 +19,14 @@ const MSOAdditionalDetails = (props) => {
       <div>
         <div className="grid grid-cols-12 gap-6 mt-6">
           <div className="lg:col-span-4 md:col-span-5 col-span-11">
-            <img src={logo} className="w-full h-52 rounded-2xl md:block hidden" alt="Product" />
+            <img
+              loading="lazy"
+              src={logo}
+              className="w-full h-52 rounded-2xl md:block hidden"
+              alt="Product"
+            />
             <div className="md:hidden flex items-center">
-              <img src={logo} className="w-24 h-24 rounded-2xl" alt="Product" />
+              <img loading="lazy" src={logo} className="w-24 h-24 rounded-2xl" alt="Product" />
               <div className="font-Montserrat font-semibold text-dark-blue text-h5 dark:text-white ml-6 text-left">
                 {name}
               </div>

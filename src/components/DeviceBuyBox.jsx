@@ -44,7 +44,7 @@ import useAddress from '../hooks/useAddress';
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 
 const DeviceBuyBox = (props) => {
-  const { setTitle, setMaxWidth, setIsNotCloseable } = props;
+  const { setTitle, setMaxWidth, setIsNotCloseable, initDeviceType } = props;
 
   const dispatch = useDispatch();
   const { account, activate } = useWeb3React();
@@ -70,7 +70,8 @@ const DeviceBuyBox = (props) => {
   const [alertText, setAlertText] = useState('');
   const [alertType, setAlertType] = useState('');
 
-  const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
+  const [deviceType, setDeviceType] = useState(initDeviceType || deviceOptions[0] || '');
+  console.log('initDeviceType :>> ', initDeviceType);
   const [brand, setBrand] = useState('');
   const [value, setValue] = useState('');
   const [purchaseMonth, setPurchaseMonth] = useState('');
@@ -291,9 +292,10 @@ const DeviceBuyBox = (props) => {
               amount: total,
               paidVia: applyDiscount ? 'CVR' : 'USD',
             });
-            toast.success('Successfully purchased!');
+            toast.success('Successfully Purchased!');
           }
         } catch (error) {
+          console.log(error);
           toast.warning('transaction failed!.');
           setTxPending(false);
           setIsNotCloseable(false);
@@ -344,13 +346,13 @@ const DeviceBuyBox = (props) => {
     const ethAmount = getBalanceNumber(ethAmount1);
     const crvAmount = getBalanceNumber(crvAmount1);
 
-    if (ethAmount + 0.016 >= getBalanceNumber(balance)) {
+    if (!applyDiscount && ethAmount + 0.016 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
       setTxPending(false);
       setIsNotCloseable(false);
       return;
     }
-    if (crvAmount >= getBalanceNumber(crvBalanceStatus.balance) && discountAmount > 0) {
+    if (applyDiscount && crvAmount >= getBalanceNumber(crvBalanceStatus.balance)) {
       toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);
@@ -441,7 +443,7 @@ const DeviceBuyBox = (props) => {
           onClick={() => tryActivation(option.connector)}
         >
           <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
-            <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
+            <img loading="lazy" src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
             <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
               {(connectStatus && curWalletId === option.connector) || loader
                 ? 'Connecting...'
@@ -625,7 +627,7 @@ const DeviceBuyBox = (props) => {
               placeholder="First Name"
               name="first_name"
               value={fName}
-              pattern="^[A-Za-z ]+$"
+              pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
               title="Only Alphabets are allowed"
               onChange={(e) => setFName(e.target.value)}
               className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
@@ -636,7 +638,7 @@ const DeviceBuyBox = (props) => {
               placeholder="Last Name"
               name="last_name"
               value={lName}
-              pattern="^[A-Za-z ]+$"
+              pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
               title="Only Alphabets are allowed"
               onChange={(e) => setLName(e.target.value)}
               className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
@@ -831,12 +833,12 @@ const DeviceBuyBox = (props) => {
 
         {/* <div className="my-6">
           <div className="grid grid-cols-2 md:gap-y-3 gap-y-2 gap-x-4">
-            {devicePlanDetails?.plan_benefit?.map((point) => (
+            {devicePlanDetails?.plan_benefit?.map((point, i) => (
               <div
-                key={uniqid()}
+                key={i}
                 className="font-semibold font-Montserrat md:text-body-sm text-body-xs text-dark-blue flex col-span-2 md:col-span-1 text-left"
               >
-                <img src={CheckIcon} alt="" className="md:h-4 md:w-4 h-3 w-3 mr-2 mt-1" />{' '}
+                <img loading="lazy" src={CheckIcon} alt="" className="md:h-4 md:w-4 h-3 w-3 mr-2 mt-1" />{' '}
                 <div>{point}</div>
               </div>
             )) || null}
@@ -851,8 +853,8 @@ const DeviceBuyBox = (props) => {
             <div className="grid grid-cols-2 gap-x-3 gap-y-3">
               {devicePlanDetails?.plan_price
                 ?.filter((f) => f.plan_type === 'yearly')
-                .map((planObj) => (
-                  <label key={uniqid()} className="col-span-2">
+                .map((planObj, i) => (
+                  <label key={i} className="col-span-2">
                     <input
                       id="sample"
                       name="sample"

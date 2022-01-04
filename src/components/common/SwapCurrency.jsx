@@ -52,7 +52,7 @@ const SwapCurrency = () => {
                     style={{ transform: `translateX(${50}%)` }}
                     onClick={changeCurrencySlot}
                   >
-                    <img src={SwapIcon} alt="" className="w-4" />
+                    <img loading="lazy" src={SwapIcon} alt="" className="w-4" />
                   </div>
                 </div>
                 <div className="flex justify-between items-center p-4 bg-promo-input-bg rounded-lg w-72">

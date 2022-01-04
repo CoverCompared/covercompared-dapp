@@ -29,7 +29,7 @@ const BuyInsurancePackageCard = (props) => {
         <DiscountCard {...props} discountPercentage={discount} />
         <div className="flex justify-between items-center h-full">
           <div className="w-20 h-20 rounded-xl bg-gray-200">
-            <img src={img} className="h-full w-full rounded-xl" alt={packName} />
+            <img loading="lazy" src={img} className="h-full w-full rounded-xl" alt={packName} />
           </div>
           <div className="ml-6 mr-10">
             <div className="font-Montserrat text-h6 font-semibold text-dark-blue leading-4 dark:text-white">

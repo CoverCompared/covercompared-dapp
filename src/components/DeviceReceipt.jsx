@@ -3,6 +3,7 @@ import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/render
 
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import P4LLogo from '../assets/img/p4l-logo.png';
+import { shortenTxHash } from '../utils';
 
 const styles = StyleSheet.create({
   page: {
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
 const DeviceReceipt = (props) => {
   const {
     txn_hash,
+    payment_hash,
     quote,
     total,
     discountAmount,
@@ -190,39 +192,55 @@ const DeviceReceipt = (props) => {
                   </Text>
                 </View>
               </View>
+            </View>
+          </View>
 
-              <View style={styles.mt}>
-                <View style={styles.total}>
-                  <Text>Payment Details</Text>
+          <View style={[styles.row, styles.justify_between, styles.mt]}>
+            <View>
+              <View style={styles.total}>
+                <Text>Transction Details</Text>
+              </View>
+              <View style={[styles.total, styles.paymentetails]}>
+                <Text>Txn Hash: {shortenTxHash(payment_hash)}</Text>
+              </View>
+              <View style={[styles.total, styles.paymentetails]}>
+                <Text>Network: Kovan</Text>
+              </View>
+              <View style={[styles.total, styles.paymentetails]}>
+                <Text>currency: USD</Text>
+              </View>
+            </View>
+            <View style={styles.deviceDetailsContainer}>
+              <View style={styles.total}>
+                <Text>Payment Details</Text>
+              </View>
+              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                <View style={styles.deviceDetails}>
+                  <Text>Premium</Text>
                 </View>
-                <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-                  <View style={styles.deviceDetails}>
-                    <Text>Premium</Text>
-                  </View>
-                  <View>
-                    <Text>{quote} USD</Text>
-                  </View>
+                <View>
+                  <Text>{quote} USD</Text>
                 </View>
-                <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-                  <View style={styles.deviceDetails}>
-                    <Text>Discount</Text>
-                  </View>
-                  <View>
-                    <Text>{discountAmount} USD</Text>
-                  </View>
+              </View>
+              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                <View style={styles.deviceDetails}>
+                  <Text>Discount</Text>
                 </View>
+                <View>
+                  <Text>{discountAmount} USD</Text>
+                </View>
+              </View>
 
-                <View style={[styles.border_bottom, styles.borderMY]} />
+              <View style={[styles.border_bottom, styles.borderMY]} />
 
-                <View
-                  style={[styles.row, styles.justify_between, styles.paymentetails, styles.total]}
-                >
-                  <View>
-                    <Text>Total</Text>
-                  </View>
-                  <View>
-                    <Text>{total} USD</Text>
-                  </View>
+              <View
+                style={[styles.row, styles.justify_between, styles.paymentetails, styles.total]}
+              >
+                <View>
+                  <Text>Total</Text>
+                </View>
+                <View>
+                  <Text>{total} USD</Text>
                 </View>
               </View>
             </View>

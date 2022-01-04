@@ -3,10 +3,13 @@ import dayjs from 'dayjs';
 
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import msoLogo from '../assets/img/mso-logo.png';
+import { shortenTxHash } from '../utils';
 
 const MSOReceiptCard = (props) => {
   const {
     txn_hash,
+    payment_hash,
+    currency,
     membersInfo,
     quote,
     total,
@@ -32,8 +35,8 @@ const MSOReceiptCard = (props) => {
       <div className="bg-white rounded-lg mt-8 w-full md:p-8 px-4 py-6 shadow-lg">
         <div className="flex justify-between">
           <div className="flex">
-            <img src={CoverComparedLogo} alt="CoverCompared" className="h-10" />
-            <img src={logo} alt="MSO" className="h-14 ml-2" />
+            <img loading="lazy" src={CoverComparedLogo} alt="CoverCompared" className="h-10" />
+            <img loading="lazy" src={logo} alt="MSO" className="h-14 ml-2" />
           </div>
           <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">
             Date: {getCurrentDate()}
@@ -52,6 +55,15 @@ const MSOReceiptCard = (props) => {
           <div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
               Policy Number: {txn_hash || '-'}
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Tnx Hash: {shortenTxHash(payment_hash)}
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Network : kovan
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Currency: {currency}
             </div>
           </div>
         </div>

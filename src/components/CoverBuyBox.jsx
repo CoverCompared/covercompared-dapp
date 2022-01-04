@@ -97,13 +97,13 @@ const ConfirmModal = (props) => {
   }, [quoteInUSD, applyDiscount]);
 
   const total = useMemo(() => {
-    return +quoteInUSD - discountAmount;
+    return +(+quoteInUSD).toFixed(3) - +discountAmount.toFixed(3);
   }, [quoteInUSD, discountAmount]);
 
   useEffect(() => {
     (async () => {
       if (applyDiscount) {
-        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, total);
+        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, quoteInUSD);
         setCrvAmount(crvAmount);
       }
     })();
@@ -118,7 +118,10 @@ const ConfirmModal = (props) => {
       return;
     }
     const ethAmount = await getNeededTokenAmount(ethAddress, usdcAddress, total);
-    if (getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)) {
+    if (
+      !applyDiscount &&
+      getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)
+    ) {
       toast.warning('Insufficient ETH balance!');
       setIsNotCloseable(false);
       return;
@@ -234,7 +237,7 @@ const ConfirmModal = (props) => {
           company: product.company,
           type: product.type,
         });
-        toast.success('Purchasing cover succeed.');
+        toast.success('Successfully Purchased.');
       } else {
         toast.error('Purchasing cover failed.');
       }
@@ -338,6 +341,11 @@ const CoverBuyBox = (props) => {
 
   const [forceClose, setForceClose] = useState(false);
 
+  useEffect(() => {
+    const periodVal = `${periodField}`.split('.')[0];
+    setPeriodField(+periodVal);
+  }, [periodField]);
+
   const period = useMemo(() => {
     let val = 1;
     switch (periodSelect) {
@@ -358,6 +366,24 @@ const CoverBuyBox = (props) => {
     return val;
   }, [periodField, periodSelect]);
 
+  const productChainId = useMemo(() => {
+    const { company_code } = product;
+    let _chainId = SupportedChainId.RINKEBY;
+    switch (company_code) {
+      case 'nexus':
+        _chainId = SupportedChainId.KOVAN;
+        break;
+      case 'insurace':
+        _chainId = SupportedChainId.RINKEBY;
+        break;
+      case 'nsure':
+        break;
+      default:
+        break;
+    }
+    return _chainId;
+  }, [product]);
+
   const callGetQuote = () => {
     dispatch(
       getQuote({
@@ -375,28 +401,25 @@ const CoverBuyBox = (props) => {
 
   useEffect(() => {
     (async () => {
-      const { company_code } = product;
-      let _chainId = SupportedChainId.RINKEBY;
-      switch (company_code) {
-        case 'nexus':
-          _chainId = SupportedChainId.KOVAN;
-          break;
-        case 'insurace':
-          _chainId = SupportedChainId.RINKEBY;
-          break;
-        case 'nsure':
-          break;
-        default:
-          break;
-      }
-      if (chainId !== _chainId) {
-        await setupNetwork(_chainId);
+      if (chainId !== productChainId) {
+        await setupNetwork(productChainId);
       }
     })();
-  }, [product]);
+  }, [productChainId]);
 
   useEffect(() => {
-    if (account && period && amountField) callGetQuote();
+    if (account && period && amountField) {
+      if (
+        Number(period) >= Number(duration_days_min) &&
+        Number(period) <= Number(duration_days_max)
+      ) {
+        callGetQuote();
+      } else {
+        toast.error(
+          `Period duration is not valid, it must be between ${duration_days_min} to ${duration_days_max} days`,
+        );
+      }
+    }
   }, [period, amountField, amountSelect, account]);
 
   useEffect(() => {
@@ -408,6 +431,17 @@ const CoverBuyBox = (props) => {
     callGetQuote();
   };
 
+  const validate = () => {
+    if (!account) {
+      toast.warning('You need to login in advance!');
+      return false;
+    }
+    if (chainId !== productChainId) {
+      toast.warning('You need to switch over to correct network!');
+      return false;
+    }
+    return true;
+  };
   return (
     <>
       <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
@@ -460,6 +494,7 @@ const CoverBuyBox = (props) => {
           sizeClass="max-w-6xl"
           renderComponent={ConfirmModal}
           forceClose={forceClose}
+          validate={validate}
           bgImg="bg-loginPopupBg"
           {...{
             period,

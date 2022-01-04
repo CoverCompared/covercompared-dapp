@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { initial } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { XCircleIcon } from '@heroicons/react/solid';
+import { XCircleIcon, XIcon } from '@heroicons/react/solid';
 
 import CheckoutFormInput from './common/CheckoutFormInput';
 import FormInput from './FormInput';
@@ -89,8 +89,13 @@ const MsoUserInfoForm = (props) => {
     return setUsers([...users, { ...userObject }]);
   };
 
-  const handleRemoveUser = () => {
-    setUsers(users.slice(0, -1));
+  const handleRemoveUser = (i = null) => {
+    if (i === null) setUsers(users.slice(0, -1));
+    else {
+      const usersCopy = [...users];
+      usersCopy.splice(i, 1);
+      setUsers(usersCopy);
+    }
   };
 
   // const validateUsers = (usersClone) => {
@@ -233,14 +238,14 @@ const MsoUserInfoForm = (props) => {
           >
             Add
           </button>{' '}
-          <button
+          {/* <button
             type="button"
             className="ml-3 font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg disabled:opacity-80"
             onClick={handleRemoveUser}
             disabled={users.length === 1 || notRegistered}
           >
             Remove
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -255,12 +260,13 @@ const MsoUserInfoForm = (props) => {
                 <th className="p-2 font-medium">Country</th>
                 <th className="p-2 font-medium">DOB</th>
                 <th className="p-2 font-medium">Identity</th>
+                <th className="p-2 font-medium" />
               </tr>
             </thead>
             <tbody className="bg-white">
               {users.map((user, index) => (
                 <tr key={index} className="text-gray-700">
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       title="Type of user"
                       id="userType"
@@ -280,7 +286,7 @@ const MsoUserInfoForm = (props) => {
                   </td>
                   <td className="py-1 text-ms font-semibold border">
                     <CheckoutFormInput
-                      pattern="^[A-Za-z ]+$"
+                      pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
                       title="Only Alphabets are allowed"
                       type="text"
                       id="firstName"
@@ -295,7 +301,7 @@ const MsoUserInfoForm = (props) => {
                   </td>
                   <td className="py-1 text-ms font-semibold border">
                     <CheckoutFormInput
-                      pattern="^[A-Za-z ]+$"
+                      pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
                       title="Only Alphabets are allowed"
                       type="text"
                       id="lastName"
@@ -353,6 +359,16 @@ const MsoUserInfoForm = (props) => {
                       required
                     />
                   </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <button
+                      type="button"
+                      className="bg-transparent p-1 text-black disabled:text-gray-400"
+                      disabled={users.length === 1 || notRegistered}
+                      onClick={() => handleRemoveUser(index)}
+                    >
+                      <XIcon className="w-5 h-5" />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -362,19 +378,20 @@ const MsoUserInfoForm = (props) => {
         <div className="flex justify-between items-center mt-8">
           <div>
             <input
-              required
-              id="terms"
+              id="termsAndCondition"
+              name="termsAndCondition"
               type="checkbox"
               className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              required
             />
             <label
-              htmlFor="terms"
+              htmlFor="termsAndCondition"
               className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
             >
-              I have read and agree to the{' '}
+              I have read and agree to the
               <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
                 terms and conditions
-              </a>{' '}
+              </a>
               *
             </label>
           </div>

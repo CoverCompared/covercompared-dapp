@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import uniqid from 'uniqid';
+// import { useParams } from 'react-router-dom';
+// import uniqid from 'uniqid';
 import StarRatings from 'react-star-ratings';
 import { useDispatch, useSelector } from 'react-redux';
 import { logEvent } from 'firebase/analytics';
@@ -9,76 +9,38 @@ import { analytics } from '../config/firebase';
 import ReviewCard from '../components/ReviewCard';
 import CoverBuyBox from '../components/CoverBuyBox';
 import IdeaCard from '../assets/img/idea-icon.svg';
-import LeftArrow from '../assets/img/nav-left-arrow.svg';
-import RightArrow from '../assets/img/nav-right-arrow.svg';
+// import LeftArrow from '../assets/img/nav-left-arrow.svg';
+// import RightArrow from '../assets/img/nav-right-arrow.svg';
 import Filter from '../assets/img/Filter.svg';
 import FilterWhite from '../assets/dark-icons/Filter.svg';
 import ProductBgDots from '../assets/bg-img/product-bg-dots.svg';
 import { ThemeContext } from '../themeContext';
 import { getCoverById } from '../redux/actions/CoverList';
+import Select from '../components/common/Select';
 
-const ReviewArr = [
-  {
-    name: 'Dakhs Joshi',
-    image: 'https://via.placeholder.com/1000',
-    rating: 5,
-    uploaded: '2 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-  {
-    name: 'Danish Ejaz',
-    image: 'https://via.placeholder.com/1000',
-    rating: 4,
-    uploaded: '3 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-  {
-    name: 'Erfan',
-    image: 'https://via.placeholder.com/1000',
-    rating: 3,
-    uploaded: '2 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-  {
-    name: 'Dakhs Joshi',
-    image: 'https://via.placeholder.com/1000',
-    rating: 4.8,
-    uploaded: '2 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-  {
-    name: 'Dakhs Joshi',
-    image: 'https://via.placeholder.com/1000',
-    rating: 4.2,
-    uploaded: '2 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-  {
-    name: 'Dakhs Joshi',
-    image: 'https://via.placeholder.com/1000',
-    rating: 3.8,
-    uploaded: '2 days ago',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat nuncvarius porta.',
-  },
-];
-
-const filterOption = ['High to low', 'Low to high', 'Other'];
+const filterOption = ['High to low', 'Low to high'];
 
 const ReviewContainer = (props) => {
-  const { reviews = [] } = props || {};
+  const { reviews, filterSelect } = props;
   const [allReview, setAllReview] = useState(false);
-  const arr = allReview ? [...reviews] : [...reviews].slice(0, 2);
+  const [updatedReviews, setUpdatedReviews] = useState(reviews);
+
+  useEffect(() => {
+    if (filterSelect === 'High to low') {
+      const sortedReviews = reviews.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+      setUpdatedReviews(allReview ? [...sortedReviews] : [...sortedReviews].slice(0, 2));
+    } else if (filterSelect === 'Low to high') {
+      const sortedReviews = reviews.sort((a, b) => parseFloat(a.rating) - parseFloat(b.rating));
+      setUpdatedReviews(allReview ? [...sortedReviews] : [...sortedReviews].slice(0, 2));
+    } else {
+      setUpdatedReviews(allReview ? [...reviews] : [...reviews].slice(0, 2));
+    }
+  }, [reviews, filterSelect, allReview]);
 
   return (
     <>
-      {arr.map((obj) => (
-        <ReviewCard {...props} key={uniqid()} {...obj} />
+      {updatedReviews.map((obj, index) => (
+        <ReviewCard key={index} {...props} {...obj} />
       ))}
       <div
         className="font-Inter font-medium text-body-md text-dark-blue dark:text-white hover:underline cursor-pointer mt-6 w-full underline"
@@ -86,12 +48,12 @@ const ReviewContainer = (props) => {
       >
         {!allReview && 'See all reviews'}
       </div>
-      {allReview && (
+      {/* {allReview && (
         <div className="flex md:justify-end justify-center items-center md:mt-8 mt-12">
-          <img src={LeftArrow} alt="Left" className="mr-6 cursor-pointer" />
-          <img src={RightArrow} alt="Left" className="cursor-pointer" />
+          <img loading="lazy" src={LeftArrow} alt="Left" className="mr-6 cursor-pointer" />
+          <img loading="lazy" src={RightArrow} alt="Left" className="cursor-pointer" />
         </div>
-      )}
+      )} */}
     </>
   );
 };
@@ -100,6 +62,10 @@ const CoverInsuranceProduct = (props) => {
   const dispatch = useDispatch();
   const { currentProduct: product } = useSelector((state) => state.app);
   const { loader, message, cover } = useSelector((state) => state.coverList) || {};
+  const { additional_details, description, reviews = [], terms_and_conditions } = cover || {};
+  const avgRating =
+    +(reviews.map((m) => m.rating).reduce((a, b) => a + b, 0) / reviews.length).toFixed(1) || 0;
+
   const { theme } = useContext(ThemeContext);
   const [filterSelect, setFilterSelect] = useState('');
   const [showFilterOption, setShowFilterOption] = useState(false);
@@ -133,10 +99,6 @@ const CoverInsuranceProduct = (props) => {
     }
   }, [address]);
 
-  const { additional_details, description, reviews = [], terms_and_conditions } = cover || {};
-  const avgRating =
-    +(reviews.map((m) => m.rating).reduce((a, b) => a + b, 0) / reviews.length).toFixed(1) || 0;
-
   return (
     <>
       <div className="xl:px-32 lg:px-26">
@@ -144,15 +106,30 @@ const CoverInsuranceProduct = (props) => {
           <div className="md:col-span-3 col-span-12">
             <div className="w-full h-64 rounded-2xl bg-gray-300 md:block hidden relative">
               <div className="h-full w-full bg-white rounded-2xl  relative z-20">
-                <img src={logo} alt="" className="rounded-2xl h-full w-full" />
-                <img src={company_icon} className="absolute right-1 bottom-1 h-8" alt="" />
+                <img loading="lazy" src={logo} alt="" className="rounded-2xl h-full w-full" />
+                <img
+                  loading="lazy"
+                  src={company_icon}
+                  className="absolute right-1 bottom-1 h-8"
+                  alt=""
+                />
               </div>
-              <img src={ProductBgDots} alt="" className="absolute -bottom-9 -right-7" />
+              <img
+                loading="lazy"
+                src={ProductBgDots}
+                alt=""
+                className="absolute -bottom-9 -right-7"
+              />
             </div>
             <div className="md:hidden flex items-center">
               <div className="relative rounded-2xl bg-white shadow-xl">
-                <img src={logo} alt="" className="rounded-2xl h-28 w-28" />
-                <img src={company_icon} className="absolute right-1 bottom-1 h-6" alt="" />
+                <img loading="lazy" src={logo} alt="" className="rounded-2xl h-28 w-28" />
+                <img
+                  loading="lazy"
+                  src={company_icon}
+                  className="absolute right-1 bottom-1 h-6"
+                  alt=""
+                />
               </div>
               <div className="font-semibold text-h4 text-dark-blue font-Montserrat dark:text-white md:hidden ml-8">
                 {name}
@@ -231,17 +208,17 @@ const CoverInsuranceProduct = (props) => {
             </div>
             <div className="w-full p-6 bg-discount-bg rounded-2xl">
               <div className="font-Inter text-h5 text-discount-text font-medium">
-                Offer Details : 20% Loreum Dipsum
+                25% off on insurance policies
               </div>
               <div className="font-Inter text-body-md text-counter-card-text mt-4 mb-5 leading-6">
-                Lorem ipsum dolor sit ametsectetur adipiscing elit. Ultrices purus sit placeranunc.
+                Use $CVR when purchasing and get 25% off on all insurance policies.
               </div>
-              <button
+              {/* <button
                 type="button"
                 className="py-3 px-8 bg-discount-apply-btn-bg rounded-2xl outline-none border-0 text-discount-apply-btn-text font-Montserrat font-semibold text-body-md"
               >
                 Apply
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -264,40 +241,22 @@ const CoverInsuranceProduct = (props) => {
                 svgIconPath="M21.8912 16.092C21.5459 16.4267 21.3872 16.9107 21.4659 17.3854L22.6512 23.9454C22.7512 24.5014 22.5165 25.064 22.0512 25.3854C21.5952 25.7187 20.9885 25.7587 20.4912 25.492L14.5859 22.412C14.3805 22.3027 14.1525 22.244 13.9192 22.2374H13.5579C13.4325 22.256 13.3099 22.296 13.1979 22.3574L7.29118 25.452C6.99918 25.5987 6.66852 25.6507 6.34452 25.5987C5.55518 25.4494 5.02852 24.6974 5.15785 23.904L6.34452 17.344C6.42318 16.8654 6.26452 16.3787 5.91918 16.0387L1.10452 11.372C0.70185 10.9814 0.56185 10.3947 0.74585 9.86536C0.924517 9.33736 1.38052 8.95203 1.93118 8.86536L8.55785 7.90403C9.06185 7.85203 9.50452 7.54536 9.73118 7.09203L12.6512 1.10536C12.7205 0.972031 12.8099 0.849365 12.9179 0.745365L13.0378 0.652031C13.1005 0.582698 13.1725 0.525365 13.2525 0.478698L13.3979 0.425365L13.6245 0.332031H14.1858C14.6872 0.384031 15.1285 0.684031 15.3592 1.13203L18.3179 7.09203C18.5312 7.52803 18.9459 7.8307 19.4245 7.90403L26.0512 8.86536C26.6112 8.94536 27.0792 9.33203 27.2645 9.86536C27.4392 10.4 27.2885 10.9867 26.8779 11.372L21.8912 16.092Z"
               />
               <div className="mb-2 relative">
-                <div
-                  className="flex items-center cursor-pointer"
-                  onClick={() => setShowFilterOption(true)}
-                >
-                  <img src={theme === 'light' ? Filter : FilterWhite} alt="" />
-                  <div className="font-Montserrat font-semibold text-body-md ml-1 text-short-review-text dark:text-white">
-                    {filterSelect === '' ? 'Short By' : filterSelect}
-                  </div>
-                </div>
-                {showFilterOption && (
-                  <div className="absolute -right-32 top-0 z-10">
-                    <div className="py-1 px-3.5 rounded-xl bg-promo-input-bg cursor-pointer dark:bg-product-input-bg-dark">
-                      {filterOption.map((option) => (
-                        <div
-                          key={uniqid()}
-                          className="text-dark-blue my-2 font-Montserrat font-medium text-h6 dark:text-white"
-                          onClick={() => {
-                            setFilterSelect(option);
-                            setShowFilterOption(false);
-                          }}
-                        >
-                          {option}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <Select
+                  {...{
+                    fieldTitle: 'Short By',
+                    options: filterOption,
+                    selectedOption: filterSelect,
+                    setSelectedOption: setFilterSelect,
+                    fieldIcon: theme === 'light' ? Filter : FilterWhite,
+                  }}
+                />
               </div>
             </div>
-            <ReviewContainer filterSelect={filterSelect} {...{ ...props, reviews }} />
+            <ReviewContainer {...{ ...props, reviews, filterSelect }} />
           </div>
           <div className="xl:col-span-5 xl:col-start-8 lg:col-span-4 col-span-12 order-1 md:order-2">
             <div className="py-10 px-8 flex-col flex justify-center items-center bg-discount-bg rounded-2xl">
-              <img src={IdeaCard} alt="" />
+              <img loading="lazy" src={IdeaCard} alt="" />
               <div className="text-dark-blue text-19 font-Montserrat font-semibold text-center mt-4 mb-6">
                 Did you know
               </div>

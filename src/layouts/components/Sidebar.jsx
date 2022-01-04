@@ -102,21 +102,23 @@ const Sidebar = (props) => {
                   ))}
                 </div>
 
-                <div className="flex flex-col items-center bg-sidebar-bg w-full py-3 px-4 rounded-lg text-white">
-                  <img loading="lazy" src={SideBarMailIcon} alt="Mail" className="h-20" />
-                  <p className="text-center text-body-md font-Inter font-medium">
-                    Get Over 500 CVR Tokens when you sign up!
-                  </p>
-                  <p className="text-center text-body-md font-Inter font-medium">
-                    Click here for more details!
-                  </p>
-                  <button
-                    type="button"
-                    className="font-Montserrat mt-2 px-5 py-3 border border-transparent shadow-sm text-md font-semibold rounded-xl text-sidebar-bg bg-white focus:outline-none focus:ring-0"
-                  >
-                    See Details
-                  </button>
-                </div>
+                {process.env.SHOW_UPCOMING_FEATURES_TO_CONFIRM && (
+                  <div className="flex flex-col items-center bg-sidebar-bg w-full py-3 px-4 rounded-lg text-white">
+                    <img loading="lazy" src={SideBarMailIcon} alt="Mail" className="h-20" />
+                    <p className="text-center text-body-md font-Inter font-medium">
+                      Get Over 500 CVR Tokens when you sign up!
+                    </p>
+                    <p className="text-center text-body-md font-Inter font-medium">
+                      Click here for more details!
+                    </p>
+                    <button
+                      type="button"
+                      className="font-Montserrat mt-2 px-5 py-3 border border-transparent shadow-sm text-md font-semibold rounded-xl text-sidebar-bg bg-white focus:outline-none focus:ring-0"
+                    >
+                      See Details
+                    </button>
+                  </div>
+                )}
 
                 <div className="mt-3">
                   <TwitterTimelineEmbed

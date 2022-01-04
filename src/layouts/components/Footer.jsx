@@ -20,7 +20,7 @@ const Footer = () => {
   return (
     <div className="grid grid-cols-12 md:grid-cols-2 lg:grid-cols-2 md:px-28 mb-8 pt-2 pb-10 md:pb-0">
       <div className="text-dark-blue text-body-md font-Montserrat font-semibold dark:text-white col-span-12 md:col-span-1 flex  md:justify-start justify-center md:mb-0 mb-2 ">
-        Copyright © 2021 PolkaCover.com
+        Copyright © 2021 Cover Compared
       </div>
       <div className="text-dark-blue text-body-md font-Montserrat font-semibold flex md:justify-end justify-center dark:text-white col-span-12 md:col-span-1">
         Privacy Policy | Terms of Use

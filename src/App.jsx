@@ -39,8 +39,8 @@ const App = (props) => {
       <PreRenderedModals />
       <TelegramWidget />
       <Switch>
-        {routes.map((m) => (
-          <PublicRoute key={uniqid()} {...m} />
+        {routes.map((m, i) => (
+          <PublicRoute key={i} {...m} />
         ))}
       </Switch>
     </BrowserRouter>

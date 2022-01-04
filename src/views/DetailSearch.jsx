@@ -147,19 +147,23 @@ const DetailSearch = (props) => {
                 Choose your Package
               </div>
               <div className="flex items-center">
-                <div
-                  data-for="info-tool-tip"
-                  data-tip="Hello World"
-                  data-iscapture="true"
-                  className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
-                >
-                  i
-                </div>
-                <ToolTip
-                  ToolTipId="info-tool-tip"
-                  bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
-                  fontColor="#FFF"
-                />
+                {process.env.SHOW_UPCOMING_FEATURES_TO_CONFIRM && (
+                  <>
+                    <div
+                      data-for="info-tool-tip"
+                      data-tip="Hello World"
+                      data-iscapture="true"
+                      className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                    >
+                      i
+                    </div>
+                    <ToolTip
+                      ToolTipId="info-tool-tip"
+                      bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                      fontColor="#FFF"
+                    />
+                  </>
+                )}
 
                 <button
                   type="button"

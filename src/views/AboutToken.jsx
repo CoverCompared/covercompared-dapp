@@ -21,13 +21,13 @@ const AboutToken = () => {
 
   return (
     <>
-      <MobilePageTitle title="About the Polkacover Token" />
+      <MobilePageTitle title="About the Cover Compared Token" />
       <div className="xl:px-24 md:mb-8 mb-4 sm:px-8">
         <div className="bg-gradient-to-r from-global-banner-gd-1 to-global-banner-gd-2 rounded-2xl">
           <div className="md:px-24 md:py-16 py-6 px-8 flex justify-center items-center md:bg-aboutTokenTopBanner bg-no-repeat bg-100%">
             <div className="font-Montserrat text-white md:text-body-lg text-body-md max-w-lg text-center">
-              The Polkacover Token will be used throughout the platform for various activities. To
-              get a full view of the activities, Take a look at our whitepaper here.
+              The Cover Compared Token will be used throughout the platform for various activities.
+              To get a full view of the activities, Take a look at our whitepaper here.
             </div>
           </div>
         </div>
@@ -63,8 +63,9 @@ const AboutToken = () => {
               Cross Border Policy Issuance
             </div>
             <div className="text-post-body-text font-Inter md:w-64 md:text-body-md text-body-sm md:leading-6 leading-5 dark:text-subtitle-dark-text text-center md:text-left">
-              Users have access to global insurance policy coverage. The Polkacover token will be
-              easily accessible for purchase on the platform and through leading exchanges globally.
+              Users have access to global insurance policy coverage. The Cover Compared token will
+              be easily accessible for purchase on the platform and through leading exchanges
+              globally.
             </div>
           </div>
           <div className="md:col-span-7 col-span-12 md:col-start-6 md:col-end-12 md:pb-14 pb-10 flex justify-center order-1 md:order-2">
@@ -81,8 +82,8 @@ const AboutToken = () => {
               Purchase & Discounts
             </div>
             <div className="text-post-body-text font-Inter max-w-62 md:text-body-md text-body-sm md:leading-6 leading-5 dark:text-subtitle-dark-text text-center md:text-left">
-              Users can buy policies using the Polkacover token. All transactions with the
-              Polkacover token receive a significant discount on their policy.
+              Users can buy policies using the Cover Compared token. All transactions with the Cover
+              Compared token receive a significant discount on their policy.
             </div>
           </div>
           <div className="col-span-12 md:col-span-7 md:col-start-6 md:col-end-12 md:pb-14 order-4 md:order-4 md:bg-transparent md:shadow-none bg-white dark:bg-featureCard-dark-bg md:dark:bg-transparent md:dark-bg-transparent rounded-xl shadow-xl p-4 sm:p-8 md:p-0">
@@ -95,7 +96,7 @@ const AboutToken = () => {
               Traditional & Decentralized <br /> Insurance Products
             </div>
             <div className="text-post-body-text font-Inter md:text-body-md text-body-sm md:leading-6 leading-5 md:max-w-lg dark:text-subtitle-dark-text text-center md:text-left">
-              Users will solely need to use the Polkacover token to be able to purchase any
+              Users will solely need to use the Cover Compared token to be able to purchase any
               traditional insurer-backed or DAO governed crypto insurance products. It would be a
               one stop shop to get access to all crypto based insurance products globally.
             </div>

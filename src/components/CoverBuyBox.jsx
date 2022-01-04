@@ -103,7 +103,7 @@ const ConfirmModal = (props) => {
   useEffect(() => {
     (async () => {
       if (applyDiscount) {
-        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, total);
+        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, quoteInUSD);
         setCrvAmount(crvAmount);
       }
     })();
@@ -366,6 +366,24 @@ const CoverBuyBox = (props) => {
     return val;
   }, [periodField, periodSelect]);
 
+  const productChainId = useMemo(() => {
+    const { company_code } = product;
+    let _chainId = SupportedChainId.RINKEBY;
+    switch (company_code) {
+      case 'nexus':
+        _chainId = SupportedChainId.KOVAN;
+        break;
+      case 'insurace':
+        _chainId = SupportedChainId.RINKEBY;
+        break;
+      case 'nsure':
+        break;
+      default:
+        break;
+    }
+    return _chainId;
+  }, [product]);
+
   const callGetQuote = () => {
     dispatch(
       getQuote({
@@ -383,29 +401,18 @@ const CoverBuyBox = (props) => {
 
   useEffect(() => {
     (async () => {
-      const { company_code } = product;
-      let _chainId = SupportedChainId.RINKEBY;
-      switch (company_code) {
-        case 'nexus':
-          _chainId = SupportedChainId.KOVAN;
-          break;
-        case 'insurace':
-          _chainId = SupportedChainId.RINKEBY;
-          break;
-        case 'nsure':
-          break;
-        default:
-          break;
-      }
-      if (chainId !== _chainId) {
-        await setupNetwork(_chainId);
+      if (chainId !== productChainId) {
+        await setupNetwork(productChainId);
       }
     })();
-  }, [product]);
+  }, [productChainId]);
 
   useEffect(() => {
     if (account && period && amountField) {
-      if (period >= duration_days_min && period <= duration_days_max) {
+      if (
+        Number(period) >= Number(duration_days_min) &&
+        Number(period) <= Number(duration_days_max)
+      ) {
         callGetQuote();
       } else {
         toast.error(
@@ -424,6 +431,17 @@ const CoverBuyBox = (props) => {
     callGetQuote();
   };
 
+  const validate = () => {
+    if (!account) {
+      toast.warning('You need to login in advance!');
+      return false;
+    }
+    if (chainId !== productChainId) {
+      toast.warning('You need to switch over to correct network!');
+      return false;
+    }
+    return true;
+  };
   return (
     <>
       <div className="font-Montserrat font-semibold text-dark-blue text-body-md mb-2 dark:text-white">
@@ -476,6 +494,7 @@ const CoverBuyBox = (props) => {
           sizeClass="max-w-6xl"
           renderComponent={ConfirmModal}
           forceClose={forceClose}
+          validate={validate}
           bgImg="bg-loginPopupBg"
           {...{
             period,

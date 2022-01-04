@@ -103,7 +103,7 @@ const ConfirmModal = (props) => {
   useEffect(() => {
     (async () => {
       if (applyDiscount) {
-        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, total);
+        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, quoteInUSD);
         setCrvAmount(crvAmount);
       }
     })();
@@ -405,7 +405,10 @@ const CoverBuyBox = (props) => {
 
   useEffect(() => {
     if (account && period && amountField) {
-      if (period >= duration_days_min && period <= duration_days_max) {
+      if (
+        Number(period) >= Number(duration_days_min) &&
+        Number(period) <= Number(duration_days_max)
+      ) {
         callGetQuote();
       } else {
         toast.error(

@@ -44,7 +44,7 @@ import useAddress from '../hooks/useAddress';
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 
 const DeviceBuyBox = (props) => {
-  const { setTitle, setMaxWidth, setIsNotCloseable } = props;
+  const { setTitle, setMaxWidth, setIsNotCloseable, initDeviceType } = props;
 
   const dispatch = useDispatch();
   const { account, activate } = useWeb3React();
@@ -70,7 +70,8 @@ const DeviceBuyBox = (props) => {
   const [alertText, setAlertText] = useState('');
   const [alertType, setAlertType] = useState('');
 
-  const [deviceType, setDeviceType] = useState(deviceOptions[0] || '');
+  const [deviceType, setDeviceType] = useState(initDeviceType || deviceOptions[0] || '');
+  console.log('initDeviceType :>> ', initDeviceType);
   const [brand, setBrand] = useState('');
   const [value, setValue] = useState('');
   const [purchaseMonth, setPurchaseMonth] = useState('');
@@ -832,9 +833,9 @@ const DeviceBuyBox = (props) => {
 
         {/* <div className="my-6">
           <div className="grid grid-cols-2 md:gap-y-3 gap-y-2 gap-x-4">
-            {devicePlanDetails?.plan_benefit?.map((point) => (
+            {devicePlanDetails?.plan_benefit?.map((point, i) => (
               <div
-                key={uniqid()}
+                key={i}
                 className="font-semibold font-Montserrat md:text-body-sm text-body-xs text-dark-blue flex col-span-2 md:col-span-1 text-left"
               >
                 <img loading="lazy" src={CheckIcon} alt="" className="md:h-4 md:w-4 h-3 w-3 mr-2 mt-1" />{' '}
@@ -852,8 +853,8 @@ const DeviceBuyBox = (props) => {
             <div className="grid grid-cols-2 gap-x-3 gap-y-3">
               {devicePlanDetails?.plan_price
                 ?.filter((f) => f.plan_type === 'yearly')
-                .map((planObj) => (
-                  <label key={uniqid()} className="col-span-2">
+                .map((planObj, i) => (
+                  <label key={i} className="col-span-2">
                     <input
                       id="sample"
                       name="sample"

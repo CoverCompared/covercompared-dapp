@@ -22,8 +22,8 @@ const FAQs = () => {
           </div>
           <div className="mt-4">
             In the traditional insurance models, product/ pricing is managed by the insurer. In our
-            P2P model, initially, the Governance team (PolkaCover) would be working with insurance
-            underwriters (pricing experts) when we build out our initial products.
+            P2P model, initially, the Governance team (Cover Compared) would be working with
+            insurance underwriters (pricing experts) when we build out our initial products.
           </div>
           <div className="mt-4">
             Once there is enough experience & data of claims. We would hand over the pricing
@@ -55,7 +55,7 @@ const FAQs = () => {
         <div className="border-b border-grey-500 dark:border-post-body-text my-8" />
 
         <div className="text-dark-blue md:text-h4 text-h6 font-semibold font-Montserrat dark:text-white">
-          What are the ways that PolkaCover generates profits/revenues to maintain the project?
+          What are the ways that Cover Compared generates profits/revenues to maintain the project?
         </div>
         <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text">
           <div className="mt-4">
@@ -90,7 +90,7 @@ const FAQs = () => {
         <div className="border-b border-grey-500 dark:border-post-body-text my-8" />
 
         <div className="text-dark-blue md:text-h4 text-h6 font-semibold font-Montserrat dark:text-white">
-          Could there be a reinsurance option/structure built into P2P PolkaCover insurance?
+          Could there be a reinsurance option/structure built into P2P Cover Compared insurance?
         </div>
         <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text">
           <div className="mt-4">

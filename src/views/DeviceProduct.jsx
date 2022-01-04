@@ -53,18 +53,22 @@ const DeviceTypeArr = [
   {
     image: MobileIcon,
     title: 'Mobile Phone',
+    initDeviceType: 'Mobile Phone',
   },
   {
     image: LaptopIcon,
     title: 'Laptop',
+    initDeviceType: 'Laptop',
   },
   {
     image: TabletIcon,
     title: 'Tablet',
+    initDeviceType: 'Tablet',
   },
   {
     image: HeadPhoneIcon,
     title: 'Accessories',
+    initDeviceType: 'Smart Watch',
   },
 ];
 
@@ -246,18 +250,43 @@ const DeviceProduct = (props) => {
 
       <div className="flex justify-center items-center md:mt-10 mt-8">
         <div className="grid grid-cols-12 md:gap-6 gap-4">
-          {DeviceTypeArr.map((item) => (
-            <div
-              key={uniqid()}
-              className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6"
-            >
-              <div className="md:h-24 md:w-24 h-12 w-12 flex justify-center items-center">
-                <img loading="lazy" src={item.image} alt="" className="h-full" />
-              </div>
-              <div className="mt-3 font-Montserrat font-semibold md:text-body-md text-body-sm dark:text-white text-center">
-                {item.title}
-              </div>
-            </div>
+          {DeviceTypeArr.map((item, i) => (
+            <>
+              {!isEligible ? (
+                <div
+                  key={i}
+                  onClick={() => setIsModalOpen(true)}
+                  className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6"
+                >
+                  <div className="md:h-24 md:w-24 h-12 w-12 flex justify-center items-center">
+                    <img loading="lazy" src={item.image} alt="" className="h-full" />
+                  </div>
+                  <div className="mt-3 font-Montserrat font-semibold md:text-body-md text-body-sm dark:text-white text-center">
+                    {item.title}
+                  </div>
+                </div>
+              ) : (
+                <div
+                  key={i}
+                  className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6"
+                >
+                  <Modal
+                    title="Device Details"
+                    sizeClass="max-w-2xl"
+                    renderComponent={DeviceBuyBox}
+                    bgImg="bg-loginPopupBg bg-cover"
+                    initDeviceType={item.initDeviceType}
+                  >
+                    <div className="md:h-24 md:w-24 h-12 w-12 flex justify-center items-center">
+                      <img loading="lazy" src={item.image} alt="" className="h-full" />
+                    </div>
+                    <div className="mt-3 font-Montserrat font-semibold md:text-body-md text-body-sm dark:text-white text-center">
+                      {item.title}
+                    </div>
+                  </Modal>
+                </div>
+              )}
+            </>
           ))}
         </div>
       </div>
@@ -277,20 +306,29 @@ const DeviceProduct = (props) => {
             </button>
           )}
 
-          <Modal
-            title="Device Details"
-            sizeClass="max-w-2xl"
-            renderComponent={DeviceBuyBox}
-            bgImg="bg-loginPopupBg bg-cover"
-          >
+          {!isEligible ? (
             <button
               type="button"
-              disabled={!isEligible}
+              onClick={() => setIsModalOpen(true)}
               className="py-3 px-5 cursor-pointer outline-none border-0 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 focus:outline-none focus:ring-0 disabled:from-buy-button-gd-2 disabled:to-buy-button-gd-2 disabled:cursor-default"
             >
               Get Protection
             </button>
-          </Modal>
+          ) : (
+            <Modal
+              title="Device Details"
+              sizeClass="max-w-2xl"
+              renderComponent={DeviceBuyBox}
+              bgImg="bg-loginPopupBg bg-cover"
+            >
+              <button
+                type="button"
+                className="py-3 px-5 cursor-pointer outline-none border-0 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 focus:outline-none focus:ring-0 disabled:from-buy-button-gd-2 disabled:to-buy-button-gd-2 disabled:cursor-default"
+              >
+                Get Protection
+              </button>
+            </Modal>
+          )}
         </div>
 
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">

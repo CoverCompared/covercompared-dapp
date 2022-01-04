@@ -43,7 +43,7 @@ const PackageCard = (props) => {
   return (
     <>
       <div className="w-full" onClick={handleBuyNow}>
-        <div className="grid grid-cols-12 gap-x-0 w-full group bg-gradient-to-r dark:from-featureCard-dark-bg dark:to-featureCard-dark-bg dark:hover:from-primary-gd-1 dark:hover:to-primary-gd-2 from-white to-white hover:from-primary-gd-1 hover:to-primary-gd-2 shadow-md py-4 md:pl-4 md:pr-8 px-4 rounded-xl mb-4 relative cursor-pointer">
+        <div className="grid grid-cols-12 gap-x-0 w-full group bg-gradient-to-r dark:from-featureCard-dark-bg dark:to-featureCard-dark-bg dark:hover:from-primary-gd-1 dark:hover:to-primary-gd-2 from-white to-white hover:from-primary-gd-1 hover:to-primary-gd-2 shadow-md py-4 px-4 rounded-xl mb-4 relative cursor-pointer">
           <DiscountCard discountPercentage={discount} />
           <div className="col-span-7 md:col-span-5 flex items-center h-full w-full">
             <div className="md:w-20 md:h-20 w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white">
@@ -77,18 +77,18 @@ const PackageCard = (props) => {
                 {company}
               </div>
               <div className="hidden md:block font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
-                Chain: {supportedChains.join(',') || 'Ethereum'}
+                Chain: Ethereum
               </div>
             </div>
           </div>
-          <div className="col-span-0 md:col-span-4 md:flex items-center hidden">
+          <div className="col-span-0 md:col-span-5 md:flex items-center hidden">
             <div className="grid grid-cols-12 gap-x-0 w-full">
               <div className="col-span-6 mr-16 md:block hidden">
                 <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
-                  Amount
+                  Cover as low as
                 </div>
                 <div className="font-Montserrat text-h6 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
-                  {min_eth}
+                  {min_eth} ETH
                 </div>
               </div>
               <div className="col-span-6 mr-16 md:block hidden">
@@ -101,7 +101,7 @@ const PackageCard = (props) => {
               </div>
             </div>
           </div>
-          <div className="col-span-5 md:col-span-3 flex items-center justify-end">
+          <div className="col-span-5 md:col-span-2 flex items-center justify-end">
             <button
               type="button"
               className="ml-3 font-Montserrat disabled:opacity-50 md:inline-flex items-center md:px-5 md:py-4 py-3 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"

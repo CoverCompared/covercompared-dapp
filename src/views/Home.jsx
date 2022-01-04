@@ -77,10 +77,6 @@ const Features = (props) => {
       <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center lg:max-w-xs dark:text-white">
         Save money on your insurance in 4 easy step!
       </h2>
-      <p className="mt-4 text-counter-card-text text-body-md md:px-20 font-Inter dark:text-subtitle-dark-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel semper blandit euismod vitae
-        eleifend vitae eleifend massa imperdiet.
-      </p>
       <div className="md:mt-10 mt-8 xl:px-14 md:px-6 grid grid-cols-2 gap-y-6 gap-x-5 xl:gap-x-8">
         {featureCards.map(({ icon, title, body }) => (
           <FeatureCard {...props} key={uniqid()} icon={icon} title={title} body={body} />
@@ -225,8 +221,7 @@ export default function Home(props) {
           Crypto Insurance
         </h2>
         <p className="mt-3 text-counter-card-text text-body-md xl:px-36 md:px-28 font-Inter dark:text-subtitle-dark-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel semper blandit euismod vitae
-          eleifend vitae eleifend massa imperdiet.
+          Insure your crypto-assets and protect them against the lurking risks of the digital world
         </p>
         <div className="mt-10 grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 md:gap-x-12">
           <div className="md:col-span-4 xl:col-start-2 flex items-center col-span-12 justify-center">

@@ -24,10 +24,10 @@ const options = {
     max: 20000000,
   },
   companies_option: [
-    {
-      name: 'Nsure.Network',
-      code: 'nsure',
-    },
+    // {
+    //   name: 'Nsure.Network',
+    //   code: 'nsure',
+    // },
     {
       name: 'Nexus Mutual',
       code: 'nexus',
@@ -36,30 +36,30 @@ const options = {
       name: 'InsurAce',
       code: 'insurace',
     },
-    {
-      name: 'Uno Re',
-      code: 'unore',
-    },
+    // {
+    //   name: 'Uno Re',
+    //   code: 'unore',
+    // },
   ],
   type_option: ['protocol', 'custodian', 'token'],
-  supported_chain_option: [
-    'Ethereum',
-    'BSC',
-    'Polygon',
-    'starkware',
-    'fantom',
-    'xdai',
-    'optimism',
-    'Terra',
-    'thorchain',
-    'CEX',
-    'Fantom',
-    'HECO',
-    'xDai',
-    'Solana',
-    'Arbitrum',
-  ],
-  currency_option: ['ETH', 'DAI', 'USDC', 'USDT', 'MATIC', 'BNB', 'BUSD-T', 'BUSD'],
+  // supported_chain_option: [
+  //   'Ethereum',
+  //   'BSC',
+  //   'Polygon',
+  //   'starkware',
+  //   'fantom',
+  //   'xdai',
+  //   'optimism',
+  //   'Terra',
+  //   'thorchain',
+  //   'CEX',
+  //   'Fantom',
+  //   'HECO',
+  //   'xDai',
+  //   'Solana',
+  //   'Arbitrum',
+  // ],
+  currency_option: ['ETH', 'CVR', 'USDT', 'USDC', 'DAI', 'DOT'],
   MSO_amount_opt: {
     min: 50,
     max: 115,
@@ -454,10 +454,11 @@ const FiltersSection = (props) => {
                   optionsKey: 'currency_option',
                   value: currencyOption,
                   setValue: setCurrencyOption,
+                  showSeparator: false,
                 }}
               />
             )}
-            {!!options.supported_chain_option && (
+            {/* {!!options.supported_chain_option && (
               <MultiCheckValueFilter
                 {...{
                   title: 'Supported Chain',
@@ -468,7 +469,7 @@ const FiltersSection = (props) => {
                   showSeparator: false,
                 }}
               />
-            )}
+            )} */}
           </>
         )}
 

@@ -442,7 +442,7 @@ const MyAccount = (props) => {
   return (
     <>
       {loader && <OverlayLoading />}
-      <GetCVROnReview {...props} />
+      {process.env.SHOW_UPCOMING_FEATURES_TO_CONFIRM && <GetCVROnReview {...props} />}
       {/* <MobilePageTitle title="My Insurance" /> */}
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-4 dark:text-white">
         My Profile

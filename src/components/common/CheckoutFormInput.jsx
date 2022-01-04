@@ -8,14 +8,17 @@ const CheckoutFormInput = ({
   key,
   id,
   name,
+  min,
   max,
   index,
   inputPlaceholder,
   type = 'text',
   required,
   disabled,
+  readOnly,
   isDropdown,
   dropdownOptions,
+  pattern,
 }) => {
   // return isDropdown ? (
   //   <div
@@ -107,14 +110,18 @@ const CheckoutFormInput = ({
     </select>
   ) : (
     <input
+      readOnly={readOnly}
       required={required}
       disabled={disabled}
       key={key}
       type={type}
       id={id}
       name={name}
+      title={title}
+      min={min}
       max={max}
       value={inputValue}
+      pattern={pattern}
       placeholder={inputPlaceholder}
       onChange={({ target: { name, value } }) => fieldChange(index, name, value)}
       className={classNames(

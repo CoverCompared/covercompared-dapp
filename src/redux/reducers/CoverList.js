@@ -1,11 +1,18 @@
 import {
+  SET_BUY_COVER_LOADER,
+  BUY_COVER_SUCCESS,
+  SET_CONFIRM_BUY_COVER_LOADER,
+  CONFIRM_BUY_COVER_SUCCESS,
   SET_SEARCH_COVER_LIST_LOADER,
   SEARCH_COVER_LIST_SUCCESS,
+  SET_GET_COVER_BY_ID_LOADER,
+  GET_COVER_BY_ID_SUCCESS,
   SET_FETCH_MORE_COVERS_LOADER,
   FETCH_MORE_COVERS_SUCCESS,
   FETCH_COVERS_WITH_AMOUNT_SUCCESS,
   SET_GET_QUOTE_LOADER,
   GET_QUOTE_SUCCESS,
+  GET_QUOTE_DETAIL_SUCCESS,
   ACTION_METHOD_FAILED,
   SET_SEARCH_BLOG_LIST_LOADER,
   SEARCH_BLOG_LIST_SUCCESS,
@@ -19,12 +26,14 @@ const INIT_STATE = {
   message: '',
   loader: false,
   paginationLoader: false,
+  quoteLoader: false,
   isFailed: false,
   quote: null,
   query: null,
   page: 1,
   totalPages: 1,
   coverList: null,
+  cover: null,
   blogList: null,
   blog: null,
   blogRange: null,
@@ -36,6 +45,36 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         ...payload,
+      };
+    }
+    case SET_BUY_COVER_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case BUY_COVER_SUCCESS: {
+      return {
+        ...state,
+        ...payload,
+        message: '',
+        loader: false,
+        isFailed: false,
+      };
+    }
+    case SET_CONFIRM_BUY_COVER_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case CONFIRM_BUY_COVER_SUCCESS: {
+      return {
+        ...state,
+        ...payload,
+        message: '',
+        loader: false,
+        isFailed: false,
       };
     }
     case SET_SEARCH_BLOG_LIST_LOADER: {
@@ -106,6 +145,21 @@ export default (state = INIT_STATE, { type, payload }) => {
         totalPages: payload.coverList.total_page,
       };
     }
+    case SET_GET_COVER_BY_ID_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case GET_COVER_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        message: '',
+        loader: false,
+        isFailed: false,
+        cover: payload,
+      };
+    }
     case SET_FETCH_MORE_COVERS_LOADER: {
       return {
         ...state,
@@ -142,9 +196,15 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         message: '',
-        loader: false,
+        quoteLoader: false,
         isFailed: false,
         quote: payload,
+      };
+    }
+    case GET_QUOTE_DETAIL_SUCCESS: {
+      return {
+        ...state,
+        quoteDetail: payload,
       };
     }
     default:

@@ -1,86 +1,14 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable camelcase */
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 import { fallbackMessage } from './constants';
-import configureStore from '../store';
-import { logoutUser } from '../actions/Auth';
+// import configureStore from '../store';
+// import { logoutUser, getLoginDetailsSuccess } from '../actions/Auth';
+// import { API_BASE_URL } from './config';
 
-export const patch = async (url, obj) => {
-  await fetch(url, {
-    method: 'PATCH',
-    body: JSON.stringify(obj),
-    headers: {
-      'Content-type': 'application/json',
-    },
-  })
-    .then((reponse) => reponse.json())
-    .catch((e) => {
-      const error = e.message === 'Failed to fetch' ? { error: new Error(e.message) } : e;
-      return error;
-    });
-};
-
-export const post = async (url, obj) => {
-  await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(obj),
-    headers: {
-      'Content-type': 'application/json',
-    },
-  })
-    .then((reponse) => reponse.json())
-    .catch((e) => {
-      const error = e.message === 'Failed to fetch' ? { error: new Error(e.message) } : e;
-      return error;
-    });
-};
-
-export const post_with_token = async (url, obj, token) => {
-  await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(obj),
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `${token}`,
-    },
-  })
-    .then((reponse) => reponse.json())
-    .catch((e) => {
-      const error = e.message === 'Failed to fetch' ? { error: new Error(e.message) } : e;
-      return error;
-    });
-};
-
-export const get_with_token = async (url, token) => {
-  await fetch(url, {
-    method: 'get',
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `${token}`,
-    },
-  })
-    .then((reponse) => reponse.json())
-    .catch((e) => {
-      const error = e.message === 'Failed to fetch' ? { error: new Error(e.message) } : e;
-      return error;
-    });
-};
-
-export const get = async (url) => {
-  await fetch(url, {
-    method: 'get',
-    headers: {
-      'Content-type': 'application/json',
-    },
-  })
-    .then((reponse) => reponse.json())
-    .catch((e) => {
-      const error = e.message === 'Failed to fetch' ? { error: new Error(e.message) } : e;
-      return error;
-    });
-};
-
-export const axiosGet = (url, token = null) => {
+export const axiosGet = (url, token = null, wallet_address = null) => {
   const headers = {};
   if (token) headers.Authorization = token;
 
@@ -91,7 +19,7 @@ export const axiosGet = (url, token = null) => {
     .then((res) => {
       return res;
     })
-    .catch((error) => {
+    .catch(async (error) => {
       let code = null;
       let data = null;
       let headers = null;
@@ -111,13 +39,31 @@ export const axiosGet = (url, token = null) => {
         };
       }
 
-      if (!data?.success && data?.message === 'Unauthorized.') {
-        if (configureStore) {
-          const store = configureStore()?.store;
-          store.dispatch(logoutUser());
-        }
-      }
+      // try {
+      //   if (
+      //     ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
+      //       !error.response.data?.status) &&
+      //     wallet_address
+      //   ) {
+      //     const loginUrl = `${API_BASE_URL}/login`;
+      //     const loginPayload = { wallet_address };
+      //     const loginRes = await axios.post(loginUrl, loginPayload, { headers });
+      //     if (loginRes?.data?.data) {
+      //       const store = configureStore()?.store;
 
+      //       store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
+      //       axiosGet(url, loginRes.data.data.token);
+      //     }
+      //   }
+      // } catch (err) {
+      //   return {
+      //     status: code,
+      //     data,
+      //     headers,
+      //   };
+      // }
+
+      toast.error(`${code} - ${data.message}`);
       return {
         status: code,
         data,
@@ -126,7 +72,7 @@ export const axiosGet = (url, token = null) => {
     });
 };
 
-export const axiosPost = (url, payload, token = null, headers = null) => {
+export const axiosPost = (url, payload, token = null, headers = null, wallet_address = null) => {
   if (!headers) headers = {};
   if (!headers['Content-Type'] && !headers['content-type'])
     headers['Content-Type'] = 'application/json';
@@ -139,7 +85,8 @@ export const axiosPost = (url, payload, token = null, headers = null) => {
     .then((res) => {
       return res;
     })
-    .catch((error) => {
+    .catch(async (error) => {
+      // console.log('error in axio call :: ', error);
       let code = null;
       let data = null;
       let headers = null;
@@ -159,13 +106,31 @@ export const axiosPost = (url, payload, token = null, headers = null) => {
         };
       }
 
-      if (!data?.success && data?.message === 'Unauthorized.') {
-        if (configureStore) {
-          const store = configureStore()?.store;
-          store.dispatch(logoutUser());
-        }
-      }
+      // try {
+      //   if (
+      //     ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
+      //       !error.response.data?.status) &&
+      //     wallet_address
+      //   ) {
+      //     const loginUrl = `${API_BASE_URL}/login`;
+      //     const loginPayload = { wallet_address };
+      //     const loginRes = await axios.post(loginUrl, loginPayload, { headers });
+      //     if (loginRes?.data?.data) {
+      //       const store = configureStore()?.store;
 
+      //       store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
+      //       axiosPost(url, payload, loginRes.data.data.token, headers);
+      //     }
+      //   }
+      // } catch (err) {
+      //   return {
+      //     status: code,
+      //     data,
+      //     headers,
+      //   };
+      // }
+
+      toast.error(`${code} - ${data.message}`);
       return {
         status: code,
         data,
@@ -174,7 +139,7 @@ export const axiosPost = (url, payload, token = null, headers = null) => {
     });
 };
 
-export const axiosPut = (url, obj, token, headers = null) => {
+export const axiosPut = (url, obj, token, headers = null, wallet_address = null) => {
   if (!headers) headers = {};
   if (!headers['Content-Type'] && !headers['content-type'])
     headers['Content-Type'] = 'application/json';
@@ -186,7 +151,7 @@ export const axiosPut = (url, obj, token, headers = null) => {
     .then((res) => {
       return res;
     })
-    .catch((error) => {
+    .catch(async (error) => {
       let code = null;
       let data = null;
       let headers = null;
@@ -206,13 +171,31 @@ export const axiosPut = (url, obj, token, headers = null) => {
         };
       }
 
-      if (!data?.success && data?.message === 'Unauthorized.') {
-        if (configureStore) {
-          const store = configureStore()?.store;
-          store.dispatch(logoutUser());
-        }
-      }
+      // try {
+      //   if (
+      //     ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
+      //       !error.response.data?.status) &&
+      //     wallet_address
+      //   ) {
+      //     const loginUrl = `${API_BASE_URL}/login`;
+      //     const loginPayload = { wallet_address };
+      //     const loginRes = await axios.post(loginUrl, loginPayload, { headers });
+      //     if (loginRes?.data?.data) {
+      //       const store = configureStore()?.store;
 
+      //       store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
+      //       axiosPut(url, obj, loginRes.data.data.token, headers);
+      //     }
+      //   }
+      // } catch (err) {
+      //   return {
+      //     status: code,
+      //     data,
+      //     headers,
+      //   };
+      // }
+
+      toast.error(`${code} - ${data.message}`);
       return {
         status: code,
         data,
@@ -221,7 +204,7 @@ export const axiosPut = (url, obj, token, headers = null) => {
     });
 };
 
-export const axiosDelete = (url, token) => {
+export const axiosDelete = (url, token, wallet_address = null) => {
   return axios
     .delete(url, {
       headers: {
@@ -231,7 +214,7 @@ export const axiosDelete = (url, token) => {
     .then((res) => {
       return res;
     })
-    .catch((error) => {
+    .catch(async (error) => {
       let code = null;
       let data = null;
       let headers = null;
@@ -251,13 +234,31 @@ export const axiosDelete = (url, token) => {
         };
       }
 
-      if (!data?.success && data?.message === 'Unauthorized.') {
-        if (configureStore) {
-          const store = configureStore()?.store;
-          store.dispatch(logoutUser());
-        }
-      }
+      // try {
+      //   if (
+      //     ((!error.response.data?.success && data?.message === 'Unauthorized.') ||
+      //       !error.response.data?.status) &&
+      //     wallet_address
+      //   ) {
+      //     const loginUrl = `${API_BASE_URL}/login`;
+      //     const loginPayload = { wallet_address };
+      //     const loginRes = await axios.post(loginUrl, loginPayload, { headers });
+      //     if (loginRes?.data?.data) {
+      //       const store = configureStore()?.store;
 
+      //       store.dispatch(getLoginDetailsSuccess(loginRes.data.data));
+      //       axiosDelete(url, loginRes.data.data.token);
+      //     }
+      //   }
+      // } catch (err) {
+      //   return {
+      //     status: code,
+      //     data,
+      //     headers,
+      //   };
+      // }
+
+      toast.error(`${code} - ${data.message}`);
       return {
         status: code,
         data,

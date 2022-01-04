@@ -18,7 +18,7 @@ import {
   submitReviewSuccess,
   setSubmitReviewLoader,
 } from '../actions/UserProfile';
-import { axiosGet, axiosPost, post } from '../constants/apicall';
+import { axiosGet, axiosPost } from '../constants/apicall';
 import * as selector from '../constants/selectors';
 
 function* getUserPolicies({ payload }) {
@@ -32,7 +32,14 @@ function* getUserPolicies({ payload }) {
     );
 
     const url = `${API_BASE_URL}/user/policies`;
-    const res = yield call(axiosGet, url, yield select(selector.token));
+    const res = yield call(
+      axiosGet,
+      url,
+      yield select(selector.token),
+      yield select(selector.wallet_address),
+    );
+
+    // if (res?.recallApi) res = yield call(axiosGet, url, yield select(selector.token));
 
     if (res?.data?.data?.policies) {
       return yield put(getUserPoliciesSuccess(res.data.data.policies));
@@ -137,7 +144,15 @@ function* submitReview({ payload }) {
     );
 
     const url = `${API_BASE_URL}/${payload.query}`;
-    const res = yield call(axiosPost, url, payload.obj, yield select(selector.token));
+    // const res = yield call(axiosPost, url, payload.obj, yield select(selector.token));
+    const res = yield call(
+      axiosPost,
+      url,
+      payload.obj,
+      yield select(selector.token),
+      null,
+      yield select(selector.wallet_address),
+    );
 
     if (res?.data?.success) {
       return yield put(submitReviewSuccess(res.data));
@@ -145,6 +160,7 @@ function* submitReview({ payload }) {
 
     return yield put(
       setSubmitReviewLoader({
+        reviewData: null,
         loader: false,
         isFailed: true,
         message: res.data.message,
@@ -153,6 +169,7 @@ function* submitReview({ payload }) {
   } catch (error) {
     return yield put(
       setSubmitReviewLoader({
+        reviewData: null,
         loader: false,
         isFailed: true,
         message: error.message,

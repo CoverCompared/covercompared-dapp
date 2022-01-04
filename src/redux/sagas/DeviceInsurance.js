@@ -3,7 +3,9 @@
 import { all, call, put, takeLatest, select } from 'redux-saga/effects';
 import { API_BASE_URL } from '../constants/config';
 import {
+  BUY_DEVICE_INSURANCE_FIRST,
   BUY_DEVICE_INSURANCE,
+  CONFIRM_BUY_DEVICE_INSURANCE,
   GET_DEVICE_DETAILS,
   GET_DEVICE_PLAN_DETAILS,
   GET_DEVICE_MODEL_DETAILS,
@@ -11,6 +13,9 @@ import {
 import {
   setBuyDeviceInsuranceLoader,
   buyDeviceInsuranceSuccess,
+  buyDeviceInsuranceFirstSuccess,
+  setConfirmBuyDeviceInsuranceLoader,
+  confirmBuyDeviceInsuranceSuccess,
   getDeviceDetailsSuccess,
   setGetDeviceDetailsLoader,
   getDevicePlanDetailsSuccess,
@@ -20,6 +25,49 @@ import {
 } from '../actions/DeviceInsurance';
 import { axiosGet, axiosPost } from '../constants/apicall';
 import * as selector from '../constants/selectors';
+
+function* buyDeviceInsuranceFirst({ payload }) {
+  try {
+    const url = `${API_BASE_URL}/user/policies-device-insurance`;
+    const res = yield call(
+      axiosPost,
+      url,
+      payload,
+      yield select(selector.token),
+      null,
+      yield select(selector.wallet_address),
+    );
+
+    if (res?.data?.success && res?.data?.data?._id) {
+      return yield put(
+        buyDeviceInsuranceFirstSuccess({
+          policyId: res.data.data._id,
+          signature: res.data.data.signature,
+          txn_hash: res.data.data.txn_hash,
+        }),
+      );
+    }
+    return yield put(
+      buyDeviceInsuranceFirstSuccess({
+        policyId: null,
+        signature: null,
+        txn_hash: null,
+        isFailed: true,
+        message: 'Failed to get signature!',
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      buyDeviceInsuranceFirstSuccess({
+        policyId: null,
+        signature: null,
+        txn_hash: null,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
 
 function* buyDeviceInsurance({ payload }) {
   try {
@@ -31,15 +79,82 @@ function* buyDeviceInsurance({ payload }) {
       }),
     );
 
-    const url = `${API_BASE_URL}/user/policies-device-insurance`;
-    const res = yield call(axiosPost, url, payload, yield select(selector.token));
+    if (payload.productId !== null) {
+      const confirmUrl = `${API_BASE_URL}/user/policies-device-insurance/${payload.productId}/confirm-payment`;
+      const timestamp = new Date().getTime();
+      const dummyPayload = {
+        payment_status: 'paid',
+        blockchain: 'ethereum',
+        block_timestamp: timestamp.toString(),
+        txn_type: 'onchain',
+        payment_hash: payload.txn_hash,
+        currency: payload.currency,
+        wallet_address: payload.wallet_address,
+        paid_amount: payload.total_amount,
+      };
 
-    if (res?.data?.success) {
-      return yield put(buyDeviceInsuranceSuccess(res.data.data));
+      const confirmRes = yield call(
+        axiosPost,
+        confirmUrl,
+        dummyPayload,
+        yield select(selector.token),
+        null,
+        yield select(selector.wallet_address),
+      );
+
+      if (confirmRes?.data?.success)
+        return yield put(confirmBuyDeviceInsuranceSuccess(confirmRes.data.data));
     }
 
     return yield put(
       setBuyDeviceInsuranceLoader({
+        _id: null,
+        txn_hash: null,
+        loader: false,
+        isFailed: true,
+        message: '',
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setBuyDeviceInsuranceLoader({
+        _id: null,
+        txn_hash: null,
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* confirmBuyDeviceInsurance({ payload }) {
+  try {
+    yield put(
+      setConfirmBuyDeviceInsuranceLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/policies-device-insurance/${payload._id}/confirm-payment`;
+    // const res = yield call(axiosPost, url, payload, yield select(selector.token));
+    const res = yield call(
+      axiosPost,
+      url,
+      payload,
+      yield select(selector.token),
+      null,
+      yield select(selector.wallet_address),
+    );
+
+    if (res?.data?.success) {
+      return yield put(confirmBuyDeviceInsuranceSuccess(res.data.data));
+    }
+
+    return yield put(
+      setConfirmBuyDeviceInsuranceLoader({
         _id: null,
         txn_hash: null,
         loader: false,
@@ -49,7 +164,7 @@ function* buyDeviceInsurance({ payload }) {
     );
   } catch (error) {
     return yield put(
-      setBuyDeviceInsuranceLoader({
+      setConfirmBuyDeviceInsuranceLoader({
         _id: null,
         txn_hash: null,
         loader: false,
@@ -88,7 +203,7 @@ function* getDeviceDetail({ payload }) {
           loader: false,
           isFailed: true,
           deviceDetails: null,
-          message: deviceDetail.errors,
+          message: deviceDetail.data.error_message,
         }),
       );
     }
@@ -97,6 +212,7 @@ function* getDeviceDetail({ payload }) {
       setGetDeviceDetailsLoader({
         loader: false,
         isFailed: true,
+        deviceDetails: null,
         message: error.message,
       }),
     );
@@ -124,7 +240,7 @@ function* getDevicePlanDetail({ payload }) {
           loader: false,
           isFailed: true,
           devicePlanDetails: null,
-          message: devicePlanDetail.errors,
+          message: devicePlanDetail.data.error_message,
         }),
       );
     }
@@ -133,6 +249,7 @@ function* getDevicePlanDetail({ payload }) {
       setGetDevicePlanDetailsLoader({
         loader: false,
         isFailed: true,
+        devicePlanDetails: null,
         message: error.message,
       }),
     );
@@ -169,6 +286,7 @@ function* getDeviceModelDetail({ payload }) {
       setGetDeviceModelDetailsLoader({
         loader: false,
         isFailed: true,
+        deviceModelDetails: null,
         message: error.message,
       }),
     );
@@ -176,7 +294,9 @@ function* getDeviceModelDetail({ payload }) {
 }
 
 export default all([
+  takeLatest(BUY_DEVICE_INSURANCE_FIRST, buyDeviceInsuranceFirst),
   takeLatest(BUY_DEVICE_INSURANCE, buyDeviceInsurance),
+  takeLatest(CONFIRM_BUY_DEVICE_INSURANCE, confirmBuyDeviceInsurance),
   takeLatest(GET_DEVICE_DETAILS, getDeviceDetail),
   takeLatest(GET_DEVICE_PLAN_DETAILS, getDevicePlanDetail),
   takeLatest(GET_DEVICE_MODEL_DETAILS, getDeviceModelDetail),

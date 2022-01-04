@@ -23,7 +23,13 @@ const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setT
   const [userCountry, setUserCountry] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
-  const allCountries = useMemo(() => countryList().getData(), []);
+  const allCountries = useMemo(
+    () =>
+      countryList()
+        .getData()
+        .filter((f) => !countries.find((ct) => ct.label === f.label)),
+    [],
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,7 +56,7 @@ const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setT
       return (
         <div className="mt-6">
           <div className="text-center mb-3">
-            <h5 className="font-Montserrat font-semibold text-h6">
+            <h5 className="font-Montserrat font-semibold text-h6 dark:text-white">
               If your country of residence is not listed, please share it with us
             </h5>
           </div>
@@ -126,8 +132,10 @@ const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setT
     return (
       <div className="flex flex-col justify-center items-center">
         <CheckCircleIcon className="w-28 h-28 text-green-500" />
-        <h5 className="font-Montserrat text-3xl my-3">Thank you for sharing your details</h5>
-        <p className="font-Inter text-counter-card-text text-body-md text-center">
+        <h5 className="font-Montserrat text-3xl my-3 dark:text-white">
+          Thank you for sharing your details
+        </h5>
+        <p className="font-Inter text-counter-card-text dark:text-white text-body-md text-center">
           Device insurance is currently unavailable in your country, we will let you know once it
           available.
         </p>

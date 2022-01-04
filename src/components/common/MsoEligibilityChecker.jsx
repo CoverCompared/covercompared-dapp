@@ -6,13 +6,22 @@ import { CheckCircleIcon } from '@heroicons/react/outline';
 import { submitUserCountry } from '../../redux/actions/EligibilityChecker';
 
 const countries = [
-  { value: 'UAE', label: 'United Arab Emirates' },
-  { value: 'QAT', label: 'Qatar' },
+  { value: 'SWE', label: 'Switzerland' },
+  { value: 'TUR', label: 'Turkey' },
+  { value: 'POL', label: 'Poland' },
+  { value: 'KEN', label: 'Kenya' },
+  { value: 'NER', label: 'Nigeria' },
+  { value: 'EST', label: 'Estonia' },
+  { value: 'DEU', label: 'Germany' },
+  { value: 'SVN', label: 'Slovenia' },
+  { value: 'ZAF', label: 'South Africa' },
+  { value: 'RUS', label: 'Russia' },
+  { value: 'ARE', label: 'United Arab Emirates' },
+  { value: 'BHR', label: 'Bahrain' },
   { value: 'OMN', label: 'Oman' },
   { value: 'KWT', label: 'Kuwait' },
-  { value: 'USA', label: 'United States' },
-  { value: 'BHR', label: 'Bahrain' },
   { value: 'SAU', label: 'Saudi Arabia' },
+  { value: 'QAT', label: 'Qatar' },
   { value: 'NOT', label: 'None of Them' },
 ];
 
@@ -23,7 +32,13 @@ const MsoEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitl
   const [userCountry, setUserCountry] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
-  const allCountries = useMemo(() => countryList().getData(), []);
+  const allCountries = useMemo(
+    () =>
+      countryList()
+        .getData()
+        .filter((f) => !countries.find((ct) => ct.label === f.label)),
+    [],
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,7 +65,7 @@ const MsoEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitl
       return (
         <div className="mt-6">
           <div className="text-center mb-3">
-            <h5 className="font-Montserrat font-semibold text-h6">
+            <h5 className="font-Montserrat font-semibold text-h6 dark:text-white">
               If your country of residence is not listed, please share it with us
             </h5>
           </div>
@@ -126,8 +141,10 @@ const MsoEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitl
     return (
       <div className="flex flex-col justify-center items-center">
         <CheckCircleIcon className="w-28 h-28 text-green-500" />
-        <h5 className="font-Montserrat text-3xl my-3">Thank you for sharing your details</h5>
-        <p className="font-Inter text-counter-card-text text-body-md text-center">
+        <h5 className="font-Montserrat text-3xl my-3 dark:text-white">
+          Thank you for sharing your details
+        </h5>
+        <p className="font-Inter text-counter-card-text dark:text-white text-body-md text-center">
           Medical Second Opinion products are currently unavailable in your country, we will let you
           know once they are available.
         </p>

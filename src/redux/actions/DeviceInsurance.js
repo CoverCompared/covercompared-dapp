@@ -3,6 +3,11 @@ import {
   BUY_DEVICE_INSURANCE,
   BUY_DEVICE_INSURANCE_SUCCESS,
   SET_BUY_DEVICE_INSURANCE_LOADER,
+  CONFIRM_BUY_DEVICE_INSURANCE,
+  BUY_DEVICE_INSURANCE_FIRST,
+  BUY_DEVICE_INSURANCE_FIRST_SUCCESS,
+  CONFIRM_BUY_DEVICE_INSURANCE_SUCCESS,
+  SET_CONFIRM_BUY_DEVICE_INSURANCE_LOADER,
   GET_DEVICE_DETAILS,
   GET_DEVICE_DETAILS_SUCCESS,
   SET_GET_DEVICE_DETAILS_LOADER,
@@ -28,6 +33,20 @@ export const buyDeviceInsurance = (payload) => {
   };
 };
 
+export const buyDeviceInsuranceFirst = (payload) => {
+  return {
+    type: BUY_DEVICE_INSURANCE_FIRST,
+    payload,
+  };
+};
+
+export const buyDeviceInsuranceFirstSuccess = (payload) => {
+  return {
+    type: BUY_DEVICE_INSURANCE_FIRST_SUCCESS,
+    payload,
+  };
+};
+
 export const buyDeviceInsuranceSuccess = (payload) => {
   return {
     type: BUY_DEVICE_INSURANCE_SUCCESS,
@@ -38,6 +57,27 @@ export const buyDeviceInsuranceSuccess = (payload) => {
 export const setBuyDeviceInsuranceLoader = (payload) => {
   return {
     type: SET_BUY_DEVICE_INSURANCE_LOADER,
+    payload,
+  };
+};
+
+export const confirmBuyDeviceInsurance = (payload) => {
+  return {
+    type: CONFIRM_BUY_DEVICE_INSURANCE,
+    payload,
+  };
+};
+
+export const confirmBuyDeviceInsuranceSuccess = (payload) => {
+  return {
+    type: CONFIRM_BUY_DEVICE_INSURANCE_SUCCESS,
+    payload,
+  };
+};
+
+export const setConfirmBuyDeviceInsuranceLoader = (payload) => {
+  return {
+    type: SET_CONFIRM_BUY_DEVICE_INSURANCE_LOADER,
     payload,
   };
 };

@@ -46,6 +46,9 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         subscribeData: payload,
+        message: '',
+        loader: false,
+        isFailed: false,
       };
     }
 
@@ -59,6 +62,9 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         contacUsData: payload,
+        message: '',
+        loader: false,
+        isFailed: false,
       };
     }
     case SET_SUBMIT_REVIEW_LOADER: {

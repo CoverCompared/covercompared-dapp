@@ -12,6 +12,7 @@ const MSOAdditionalDetails = (props) => {
     selectedPlan,
     addonServices,
     isEligible,
+    handleBuy,
   } = props;
   return (
     <>
@@ -94,23 +95,32 @@ const MSOAdditionalDetails = (props) => {
           </div>
         </div>
         <div className="mt-6 flex justify-center">
-          <Modal
-            title="Members Information Form"
-            sizeClass="max-w-6xl"
-            renderComponent={CountrySelector}
-            bgImg="bg-loginPopupBg"
-            {...{ selectedPlan, addonServices }}
-          >
-            <div className="flex justify-center pt-2">
-              <button
-                type="button"
-                disabled={!isEligible}
-                className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2  focus:outline-none focus:ring-0 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
-              >
-                Buy Now
-              </button>
-            </div>
-          </Modal>
+          {isEligible ? (
+            <Modal
+              title="Members Information Form"
+              sizeClass="max-w-6xl"
+              renderComponent={CountrySelector}
+              bgImg="bg-loginPopupBg"
+              {...{ selectedPlan, addonServices }}
+            >
+              <div className="flex justify-center pt-2">
+                <button
+                  type="button"
+                  className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2  focus:outline-none focus:ring-0 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+                >
+                  Buy Now
+                </button>
+              </div>
+            </Modal>
+          ) : (
+            <button
+              type="button"
+              onClick={handleBuy}
+              className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2  focus:outline-none focus:ring-0 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+            >
+              Buy Now
+            </button>
+          )}
         </div>
       </div>
     </>

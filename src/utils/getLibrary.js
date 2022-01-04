@@ -7,3 +7,9 @@ export default function getLibrary(provider) {
   library.pollingInterval = POLLING_INTERVAL;
   return library;
 }
+
+export const signMessage = async (provider, account, message) => {
+  return provider
+    .getSigner(account)
+    .signMessage(ethers.utils.arrayify(ethers.utils.keccak256(message)));
+};

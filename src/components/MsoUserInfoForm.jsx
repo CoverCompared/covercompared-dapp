@@ -50,6 +50,13 @@ const MsoUserInfoForm = (props) => {
   const [userEmail, setUserEmail] = useState('');
   const [userOtp, setUserOtp] = useState('');
 
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const day = d.getDate();
+  const minDate = new Date(year - 100, month, day).toLocaleDateString('en-ca');
+  const maxDate = new Date().toLocaleDateString('en-ca');
+
   useEffect(() => {
     dispatch(resetDeviceInsurance());
   }, []);
@@ -86,41 +93,56 @@ const MsoUserInfoForm = (props) => {
     setUsers(users.slice(0, -1));
   };
 
-  const validateUsers = (usersClone) => {
-    const mainMember = usersClone.filter((f) => f.userType === 'Main Member').length;
-    const spouse = usersClone.filter((f) => f.userType === 'Spouse').length;
-    const dependent = usersClone.filter((f) => f.userType === 'Dependent').length;
+  // const validateUsers = (usersClone) => {
+  //   const mainMember = usersClone.filter((f) => f.userType === 'Main Member').length;
+  //   const spouse = usersClone.filter((f) => f.userType === 'Spouse').length;
+  //   const dependent = usersClone.filter((f) => f.userType === 'Dependent').length;
 
-    if (mainMember > 1) {
-      setShowAlert(true);
-      setAlertType('danger');
-      setAlertText('Number of main members reach its maximum limit according to policy1');
-      return false;
-    }
-    if (spouse > noOfSpouse) {
-      setShowAlert(true);
-      setAlertType('danger');
-      setAlertText(`Number of spouses reach its maximum limit according to policy`);
-      return false;
-    }
-    if (dependent > noOfDependent) {
-      setShowAlert(true);
-      setAlertType('danger');
-      setAlertText(`Number of dependents reach its maximum limit according to policy`);
-      return false;
-    }
-    return true;
-  };
+  //   if (mainMember > 1) {
+  //     setShowAlert(true);
+  //     setAlertType('danger');
+  //     setAlertText('Number of main members reach its maximum limit according to policy1');
+  //     return false;
+  //   }
+  //   if (spouse > noOfSpouse) {
+  //     setShowAlert(true);
+  //     setAlertType('danger');
+  //     setAlertText(`Number of spouses reach its maximum limit according to policy`);
+  //     return false;
+  //   }
+  //   if (dependent > noOfDependent) {
+  //     setShowAlert(true);
+  //     setAlertType('danger');
+  //     setAlertText(`Number of dependents reach its maximum limit according to policy`);
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const handleUserFieldChange = (i, name, value) => {
     const usersClone = [...users];
     usersClone[i][name] = value;
-    if (validateUsers(usersClone)) setUsers(usersClone);
+    setUsers(usersClone);
+    // if (validateUsers(usersClone)) setUsers(usersClone);
   };
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
-    handleBuyNow(users);
+
+    const isVerifiedDob = users.every((item) => new Date(item.dob) >= new Date(minDate));
+
+    if (!isVerifiedDob) {
+      setShowAlert(true);
+      setAlertType('Warning!');
+      return setAlertText('Please select valid DOB');
+    }
+
+    if (notRegistered) {
+      setShowAlert(true);
+      setAlertType('Warning!');
+      return setAlertText("You're not registered.");
+    }
+    return handleBuyNow(users);
   };
 
   const handleSubmitEmail = (e) => {
@@ -163,7 +185,7 @@ const MsoUserInfoForm = (props) => {
               <button
                 type="submit"
                 disabled={!notRegistered}
-                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default dark:text-white"
               >
                 Send verification OTP
               </button>
@@ -182,7 +204,7 @@ const MsoUserInfoForm = (props) => {
               <button
                 type="submit"
                 disabled={!showOTPScreen || !notRegistered}
-                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default dark:text-white"
               >
                 Verify OTP
               </button>
@@ -191,7 +213,7 @@ const MsoUserInfoForm = (props) => {
             <div className="lg:col-span-2 col-span-12">
               <div className="flex items-center mt-4">
                 <XCircleIcon className="w-6 h-6 text-red-500" />
-                <div className="pl-1 text-h5">Un-Verified</div>
+                <div className="pl-1 text-h5 dark:text-white">Un-Verified</div>
               </div>
             </div>
           </div>
@@ -223,110 +245,118 @@ const MsoUserInfoForm = (props) => {
       </div>
 
       <form id="msp-checkout-form" onSubmit={handleSubmit}>
-        <div className="w-full mb-8">
-          <div className="grid grid-cols-12 w-full text-center bg-gray-200">
-            <div className="lg:col-span-2 col-span-12 border border-black">User type</div>
-            <div className="lg:col-span-2 col-span-12 border border-black">First Name</div>
-            <div className="lg:col-span-2 col-span-12 border border-black">Last Name</div>
-            <div className="lg:col-span-2 col-span-12 border border-black">Country</div>
-            <div className="lg:col-span-2 col-span-12 border border-black">DOB</div>
-            <div className="lg:col-span-2 col-span-12 border border-black">Identity</div>
-          </div>
-
-          {users.map((user, index) => (
-            <div key={index} className="grid grid-cols-12 w-full">
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  title="Type of user"
-                  id="userType"
-                  name="userType"
-                  inputValue={user.userType}
-                  fieldChange={handleUserFieldChange}
-                  inputPlaceholder="Type of user"
-                  index={index}
-                  disabled={!user.typeChangeable || notRegistered}
-                  required
-                  isDropdown
-                  dropdownOptions={[
-                    { label: 'Select user type', value: '' },
-                    ...userTypeOptions.map((m) => ({ label: m, value: m })),
-                  ]}
-                />
-              </div>
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  title="First Name"
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  inputValue={user.firstName}
-                  inputPlaceholder="First Name"
-                  fieldChange={handleUserFieldChange}
-                  index={index}
-                  disabled={notRegistered}
-                  required
-                />
-              </div>
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  title="Last Name"
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  inputValue={user.lastName}
-                  inputPlaceholder="Last Name"
-                  fieldChange={handleUserFieldChange}
-                  index={index}
-                  disabled={notRegistered}
-                  required
-                />
-              </div>
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  title="Country of residence"
-                  inputValue={user.country}
-                  id="country"
-                  name="country"
-                  fieldChange={handleUserFieldChange}
-                  inputPlaceholder="Country of residence"
-                  index={index}
-                  disabled={notRegistered}
-                  required
-                  isDropdown
-                  dropdownOptions={initial(countries)}
-                />
-              </div>
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  type="date"
-                  title="Date of Birth"
-                  inputValue={user.dob}
-                  id="dob"
-                  name="dob"
-                  fieldChange={handleUserFieldChange}
-                  inputPlaceholder="Date of Birth"
-                  max={new Date().toLocaleDateString('en-ca')}
-                  index={index}
-                  disabled={notRegistered}
-                  required
-                />
-              </div>
-              <div className="lg:col-span-2 col-span-12 border border-black">
-                <CheckoutFormInput
-                  title="Identity"
-                  type="text"
-                  id="identity"
-                  name="identity"
-                  inputValue={user.identity}
-                  inputPlaceholder="Aadhar or passport"
-                  fieldChange={handleUserFieldChange}
-                  index={index}
-                  disabled={notRegistered}
-                  required
-                />
-              </div>
-            </div>
-          ))}
+        <div className="w-full mb-8 overflow-x-auto rounded-lg shadow-lg px-0.5px">
+          <table className="w-full">
+            <thead>
+              <tr className="font-Montserrat text-sm tracking-wide text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 uppercase">
+                <th className="p-2 font-medium">User type</th>
+                <th className="p-2 font-medium">First Name</th>
+                <th className="p-2 font-medium">Last Name</th>
+                <th className="p-2 font-medium">Country</th>
+                <th className="p-2 font-medium">DOB</th>
+                <th className="p-2 font-medium">Identity</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white">
+              {users.map((user, index) => (
+                <tr key={index} className="text-gray-700">
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      title="Type of user"
+                      id="userType"
+                      name="userType"
+                      inputValue={user.userType}
+                      fieldChange={handleUserFieldChange}
+                      inputPlaceholder="Type of user"
+                      index={index}
+                      disabled={!user.typeChangeable || notRegistered}
+                      required
+                      isDropdown
+                      dropdownOptions={[
+                        { label: 'Select user type', value: '' },
+                        ...userTypeOptions.map((m) => ({ label: m, value: m })),
+                      ]}
+                    />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      pattern="^[A-Za-z ]+$"
+                      title="Only Alphabets are allowed"
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      inputValue={user.firstName}
+                      inputPlaceholder="First Name"
+                      fieldChange={handleUserFieldChange}
+                      index={index}
+                      disabled={notRegistered}
+                      required
+                    />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      pattern="^[A-Za-z ]+$"
+                      title="Only Alphabets are allowed"
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      inputValue={user.lastName}
+                      inputPlaceholder="Last Name"
+                      fieldChange={handleUserFieldChange}
+                      index={index}
+                      disabled={notRegistered}
+                      required
+                    />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      title="Country of residence"
+                      inputValue={user.country}
+                      id="country"
+                      name="country"
+                      fieldChange={handleUserFieldChange}
+                      inputPlaceholder="Country of residence"
+                      index={index}
+                      disabled={notRegistered}
+                      required
+                      isDropdown
+                      dropdownOptions={initial(countries)}
+                    />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      type="date"
+                      title="Date of Birth"
+                      inputValue={user.dob}
+                      id="dob"
+                      name="dob"
+                      fieldChange={handleUserFieldChange}
+                      inputPlaceholder="Date of Birth"
+                      min={minDate}
+                      max={maxDate}
+                      index={index}
+                      disabled={notRegistered}
+                      required
+                    />
+                  </td>
+                  <td className="py-1 text-ms font-semibold border">
+                    <CheckoutFormInput
+                      title="Identity"
+                      type="text"
+                      id="identity"
+                      name="identity"
+                      inputValue={user.identity}
+                      inputPlaceholder="Aadhar or passport"
+                      fieldChange={handleUserFieldChange}
+                      index={index}
+                      disabled={notRegistered}
+                      required
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         <div className="flex justify-between items-center mt-8">

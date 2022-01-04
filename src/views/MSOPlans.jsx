@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
+import { logEvent } from 'firebase/analytics';
 
+import { analytics } from '../config/firebase';
+import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import MSOPlanCard from '../components/MSOPlanCard';
 import Loading from '../components/common/Loading';
 import MSOServicesCard from '../components/MSOServicesCard';
@@ -9,6 +12,8 @@ import { searchMSOList } from '../redux/actions/MsoInsurance';
 import Modal from '../components/common/Modal';
 import MsoEligibilityChecker from '../components/common/MsoEligibilityChecker';
 import OverlayLoading from '../components/common/OverlayLoading';
+import { SupportedChainId } from '../config/chains';
+import { setupNetwork } from '../utils/wallet';
 
 import MSOpartner1 from '../assets/img/mso-partners-1.jpg';
 import MSOpartner2 from '../assets/img/mso-partners-2.jpg';
@@ -93,6 +98,7 @@ const MSOPartners = [
 ];
 
 const MSOPlans = (props) => {
+  const { chainId } = useActiveWeb3React();
   const dispatch = useDispatch();
   const { listLoader, msoList, loader } = useSelector((state) => state.msoInsurance);
 
@@ -100,7 +106,18 @@ const MSOPlans = (props) => {
   const [isEligible, setIsEligible] = useState(false);
   const [products, setProducts] = useState(msoList);
 
+  // this hooks for testing. Should be remove in production.
   useEffect(() => {
+    (async () => {
+      const _chainId = SupportedChainId.RINKEBY;
+      if (chainId !== _chainId) {
+        await setupNetwork(_chainId);
+      }
+    })();
+  }, [chainId]);
+
+  useEffect(() => {
+    logEvent(analytics, 'View - MSO Insurance');
     dispatch(searchMSOList());
   }, []);
 
@@ -131,7 +148,7 @@ const MSOPlans = (props) => {
           </h2>
           <div className="grid grid-cols-12 lg:grid-cols-12 xl:grid-col-12 gap-y-4 gap-x-5 md:gap-4 lg:gap-x-6 lg:gap-y-4 mt-8">
             {products.map((obj, i) => (
-              <MSOPlanCard key={i} {...{ ...obj, isEligible }} {...props} />
+              <MSOPlanCard key={i} {...{ ...obj, isEligible, setIsModalOpen }} {...props} />
             ))}
           </div>
         </>

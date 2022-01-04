@@ -25,6 +25,7 @@ const SelectWithSearch = ({
   optionsAsArrayOfObjects,
   labelKey,
   valueKey,
+  fieldType = 'text',
 }) => {
   const { theme } = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -92,7 +93,7 @@ const SelectWithSearch = ({
                   <input
                     autoFocus={!!autoFocus}
                     readOnly={!!readOnly}
-                    type="text"
+                    type={fieldType}
                     value={fieldValue}
                     onChange={(e) => {
                       setFieldValue(e.target.value);
@@ -173,9 +174,9 @@ const SelectWithSearch = ({
                     'py-2 rounded-b-xl bg-white dark:bg-product-input-bg-dark',
                   )}
                 >
-                  {Object.values(options || {}).map((option) => (
+                  {Object.values(options || {}).map((option, idx) => (
                     <div
-                      key={uniqid()}
+                      key={idx}
                       onClick={() => {
                         setSelectedOption(getKeyByValue(dropdownOptions, option));
                         setIsOpen(false);
@@ -214,9 +215,9 @@ const SelectWithSearch = ({
                     ' py-2 rounded-b-xl bg-white dark:bg-product-input-bg-dark',
                   )}
                 >
-                  {options.map((option) => (
+                  {options.map((option, idx) => (
                     <div
-                      key={uniqid()}
+                      key={idx}
                       onClick={() => {
                         setSelectedOption(optionsAsArrayOfObjects ? option[valueKey] : option);
                         setIsOpen(false);

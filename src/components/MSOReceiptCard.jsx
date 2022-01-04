@@ -1,6 +1,8 @@
 import React from 'react';
 import dayjs from 'dayjs';
+
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
+import msoLogo from '../assets/img/mso-logo.png';
 
 const MSOReceiptCard = (props) => {
   const {
@@ -8,12 +10,11 @@ const MSOReceiptCard = (props) => {
     membersInfo,
     quote,
     total,
-    tax,
     discountAmount,
     addonServices,
     MSOAddOnService,
     name,
-    logo,
+    logo = msoLogo,
     MSOCoverUser,
   } = props;
 
@@ -122,10 +123,6 @@ const MSOReceiptCard = (props) => {
                 <h5 className="md:text-body-md text-body-sm  font-medium">Discount</h5>
                 <h5 className="md:text-body-sm text-body-xs font-medium">{discountAmount} USD</h5>
               </div>
-              <div className="flex items-center justify-between w-full font-Montserrat">
-                <h5 className="md:text-body-md text-body-sm  font-medium">Tax</h5>
-                <h5 className="md:text-body-sm text-body-xs font-medium">{tax} USD</h5>
-              </div>
               <hr />
               <div className="flex items-center justify-between w-full text-body-dark-bg mt-2 font-Montserrat text-body-lg font-semibold">
                 <h5>Total</h5>
@@ -133,6 +130,14 @@ const MSOReceiptCard = (props) => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex w-full text-body-dark-bg mt-10 font-Montserrat text-body-sm font-medium">
+          <h5>
+            Note - Membership pack including the certificate and plan details will be emailed
+            directly by the Medical Second Option team to the email address shared at the time of
+            purchase. You will receive all the necessary information via email within 10 working
+            days from the date of issue of this receipt.
+          </h5>
         </div>
       </div>
     </>

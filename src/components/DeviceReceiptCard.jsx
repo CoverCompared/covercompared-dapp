@@ -8,7 +8,6 @@ const DeviceReceiptCard = (props) => {
     txn_hash,
     quote,
     total,
-    tax,
     discountAmount,
     fName,
     lName,
@@ -20,6 +19,7 @@ const DeviceReceiptCard = (props) => {
     purchaseMonth,
     plan_currency,
     selectedModel,
+    logo = P4LLogo,
   } = props;
 
   const getCurrentDate = () => {
@@ -37,7 +37,7 @@ const DeviceReceiptCard = (props) => {
         <div className="flex justify-between">
           <div className="flex items-end">
             <img src={CoverComparedLogo} alt="CoverCompared" className="h-10" />
-            <img src={P4LLogo} alt="MSO" className="h-5 ml-2" />
+            <img src={logo} alt="MSO" className="h-5 ml-2" />
           </div>
 
           <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">
@@ -60,10 +60,10 @@ const DeviceReceiptCard = (props) => {
               Last Name : {lName}
             </div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Phone : {email}
+              Phone : {phone}
             </div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Email : {phone}
+              Email : {email}
             </div>
           </div>
 
@@ -71,14 +71,7 @@ const DeviceReceiptCard = (props) => {
             <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left mb-2">
               Device Details
             </div>
-            <div className="flex items-center justify-between font-Montserrat">
-              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm mr-2 text-left">
-                Device Model
-              </div>
-              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm text-right">
-                {selectedModel && selectedModel.model_name}
-              </div>
-            </div>
+
             <div className="flex items-center justify-between font-Montserrat">
               <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
                 Device Type
@@ -111,6 +104,16 @@ const DeviceReceiptCard = (props) => {
                 {purchaseMonth}
               </div>
             </div>
+            <div className="flex items-center justify-between font-Montserrat">
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm mr-2 text-left">
+                Device Model
+              </div>
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm text-right">
+                {typeof selectedModel === 'string'
+                  ? selectedModel
+                  : selectedModel?.model_name || ''}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -133,12 +136,6 @@ const DeviceReceiptCard = (props) => {
               </div>
               <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
                 {discountAmount} USD
-              </div>
-            </div>
-            <div className="flex items-center justify-between w-full font-Montserrat">
-              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">Tax</div>
-              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
-                {tax} USD
               </div>
             </div>
             <hr />

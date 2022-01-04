@@ -145,6 +145,9 @@ module.exports = {
       height: {
         'option-container-height': 'calc(100% - 3.25rem)',
       },
+      spacing: {
+        '0.5px': '0.5px',
+      },
     },
   },
   variants: {
@@ -152,6 +155,7 @@ module.exports = {
       boxShadow: ['active'],
       opacity: ['disabled'],
       cursor: ['disabled'],
+      textColor: ['hover', 'focus', 'disabled'],
       backgroundColor: ['hover', 'focus', 'disabled'],
       backgroundImage: ['hover', 'focus', 'disabled'],
       gradientColorStops: ['hover', 'focus', 'disabled'],

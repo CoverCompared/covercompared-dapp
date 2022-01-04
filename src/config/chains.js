@@ -1,5 +1,6 @@
 export const SupportedChainId = {
   MAINNET: 1,
+  RINKEBY: 4,
   KOVAN: 42,
 };
 
@@ -11,9 +12,9 @@ export const chainIds = {
       explorer: 'https://etherscan.io/',
     },
     testnet: {
-      chainId: 42,
-      rpcUrls: ['https://kovan.infura.io/v3/92a35c94033b48c6a8d248ac76e7650e'],
-      explorer: 'https://kovan.etherscan.io/',
+      chainId: 4,
+      rpcUrls: ['https://rinkeby.infura.io/v3/92a35c94033b48c6a8d248ac76e7650e'],
+      explorer: 'https://rinkeby.etherscan.io/',
     },
   },
   bsc: {
@@ -84,7 +85,7 @@ export const chainIds = {
     },
     testnet: {
       chainId: 69,
-      rpcUrls: ['https://kovan.optimism.io/'],
+      rpcUrls: ['https://rinkeby.optimism.io/'],
       explorer: 'https://optimism.io',
     },
   },
@@ -186,4 +187,8 @@ export const chainIds = {
   },
 };
 
-export const ALL_SUPPORTED_CHAIN_IDS = [SupportedChainId.MAINNET, SupportedChainId.KOVAN];
+export const ALL_SUPPORTED_CHAIN_IDS = [
+  SupportedChainId.MAINNET,
+  SupportedChainId.RINKEBY,
+  SupportedChainId.KOVAN,
+];

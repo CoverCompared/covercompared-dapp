@@ -77,7 +77,6 @@ const DeviceReceipt = (props) => {
     txn_hash,
     quote,
     total,
-    tax,
     discountAmount,
     fName,
     lName,
@@ -89,6 +88,7 @@ const DeviceReceipt = (props) => {
     purchaseMonth,
     plan_currency,
     selectedModel,
+    logo = P4LLogo,
   } = props;
 
   const getCurrentDate = () => {
@@ -110,7 +110,7 @@ const DeviceReceipt = (props) => {
                 <Image source={CoverComparedLogo} />
               </View>
               <View style={styles.p4lLogo}>
-                <Image source={P4LLogo} />
+                <Image source={logo} />
               </View>
             </View>
             <View>
@@ -183,7 +183,11 @@ const DeviceReceipt = (props) => {
                   <Text>Device Model</Text>
                 </View>
                 <View style={[styles.row, styles.modelDetails]}>
-                  <Text>{selectedModel && selectedModel.model_name}</Text>
+                  <Text>
+                    {typeof selectedModel === 'string'
+                      ? selectedModel
+                      : selectedModel?.model_name || ''}
+                  </Text>
                 </View>
               </View>
 
@@ -205,14 +209,6 @@ const DeviceReceipt = (props) => {
                   </View>
                   <View>
                     <Text>{discountAmount} USD</Text>
-                  </View>
-                </View>
-                <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-                  <View style={styles.deviceDetails}>
-                    <Text>Tax</Text>
-                  </View>
-                  <View>
-                    <Text>{tax} USD</Text>
                   </View>
                 </View>
 

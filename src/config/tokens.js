@@ -7,7 +7,8 @@ export default {
   },
   usdc: {
     1: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-    42: '0xdCFaB8057d08634279f8201b55d311c2a67897D2',
+    4: '0xD4D5c5D939A173b9c18a6B72eEaffD98ecF8b3F6',
+    42: '0x5FED7f0b36374B8Ee25177b3cbE21B6c8E079F4E',
     56: '',
     97: '',
   },
@@ -19,7 +20,8 @@ export default {
   },
   crv: {
     1: '0xD533a949740bb3306d119CC777fa900bA034cd52',
-    42: '0xB8EEb94cFf33EfACf0c6def6967FD8852DcECDdB',
+    4: '0xd3e48FAcD30A73609ffA60AE84851e72d10fEa52',
+    42: '0xFc9B2B2565B38511B9822887F99D036d694a11e6',
     56: '',
     97: '',
   },
@@ -34,6 +36,17 @@ export default {
     42: '',
     56: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
     97: '0x8301F2213c0eeD49a7E28Ae4c3e91722919B8B47',
+  },
+  uno: {
+    1: '',
+    4: '0x2777975Ed61122A40e7DB7Fc876c05d88052Df1E',
+    56: '',
+    97: '',
+  },
+  eth: {
+    1: '',
+    4: '0xc778417e063141139fce010982780140aa0cd5ab',
+    42: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
   },
 };
 

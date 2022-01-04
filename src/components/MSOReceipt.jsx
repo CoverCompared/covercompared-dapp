@@ -1,7 +1,9 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/renderer';
+
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
+import msoLogo from '../assets/img/mso-logo.png';
 
 const styles = StyleSheet.create({
   page: {
@@ -90,6 +92,11 @@ const styles = StyleSheet.create({
   policyNumber: {
     fontSize: '12pt',
   },
+  bottomNote: {
+    fontSize: '12pt',
+    fontWeight: 'bold',
+    marginTop: 40,
+  },
 });
 
 const getCurrentDate = () => {
@@ -107,12 +114,11 @@ const MSOReceipt = (props) => {
     membersInfo,
     quote,
     total,
-    tax,
     discountAmount,
     addonServices,
     MSOAddOnService,
     name,
-    logo,
+    logo = msoLogo,
     MSOCoverUser,
   } = props;
 
@@ -264,14 +270,6 @@ const MSOReceipt = (props) => {
                   <Text>{discountAmount} USD</Text>
                 </View>
               </View>
-              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
-                <View>
-                  <Text>Tax</Text>
-                </View>
-                <View>
-                  <Text>{tax} USD</Text>
-                </View>
-              </View>
               <View style={[styles.border_bottom, styles.borderMY]} />
               <View
                 style={[styles.row, styles.justify_between, styles.paymentetails, styles.total]}
@@ -283,6 +281,16 @@ const MSOReceipt = (props) => {
                   <Text>{total} USD</Text>
                 </View>
               </View>
+            </View>
+          </View>
+          <View style={[styles.row, styles.bottomNote]}>
+            <View>
+              <Text>
+                Note - Membership pack including the certificate and plan details will be emailed
+                directly by the Medical Second Option team to the email address shared at the time
+                of purchase. You will receive all the necessary information via email within 10
+                working days from the date of issue of this receipt.
+              </Text>
             </View>
           </View>
         </View>

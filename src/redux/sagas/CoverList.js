@@ -1,8 +1,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest, select } from 'redux-saga/effects';
 import { API_BASE_URL } from '../constants/config';
 import {
+  BUY_COVER,
+  CONFIRM_BUY_COVER,
+  GET_COVER_BY_ID,
   SEARCH_COVER_LIST,
   GET_QUOTE,
   FETCH_MORE_COVERS,
@@ -14,12 +17,18 @@ import {
   FETCH_MORE_BLOGS,
 } from '../constants/ActionTypes';
 import {
+  setBuyCoverLoader,
+  confirmBuyCoverSuccess,
+  setConfirmBuyCoverLoader,
   searchCoverListSuccess,
   setSearchCoverListLoader,
+  getCoverByIdSuccess,
+  setGetCoverByIdLoader,
   fetchMoreCoversSuccess,
   setFetchMoreCoversLoader,
   fetchCoversWithAmountSuccess,
   getQuoteSuccess,
+  getQuoteDetailSuccess,
   setGetQuoteLoader,
   // getDeviceDetailsSuccess,
   // setGetDeviceDetailsLoader,
@@ -35,6 +44,123 @@ import {
   setFetchMoreBlogsLoader,
 } from '../actions/CoverList';
 import { axiosGet, axiosPost } from '../constants/apicall';
+import * as selector from '../constants/selectors';
+
+function* buyCover({ payload }) {
+  try {
+    yield put(
+      setBuyCoverLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/policies-smart-contract`;
+    const res = yield call(
+      axiosPost,
+      url,
+      payload,
+      yield select(selector.token),
+      null,
+      yield select(selector.wallet_address),
+    );
+    if (res?.data?.success && res?.data?.data?._id) {
+      const confirmUrl = `${API_BASE_URL}/user/policies-smart-contract/${res.data.data._id}/confirm-payment`;
+      const timestamp = new Date().getTime();
+      const dummyPayload = {
+        payment_status: 'paid',
+        blockchain: 'ethereum',
+        block_timestamp: timestamp.toString(),
+        txn_type: 'onchain',
+        payment_hash: payload.txn_hash,
+        token_id: payload.token_id,
+        crypto_currency: payload.crypto_currency,
+        crypto_amount: payload.crypto_amount,
+        currency: 'USD',
+        wallet_address: payload.wallet_address,
+        paid_amount: payload.crypto_amount,
+      };
+
+      const confirmRes = yield call(
+        axiosPost,
+        confirmUrl,
+        dummyPayload,
+        yield select(selector.token),
+        null,
+        yield select(selector.wallet_address),
+      );
+      if (confirmRes?.data?.success) return yield put(confirmBuyCoverSuccess(confirmRes.data.data));
+    }
+
+    return yield put(
+      setBuyCoverLoader({
+        _id: null,
+        txn_hash: null,
+        loader: false,
+        isFailed: true,
+        message: res.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setBuyCoverLoader({
+        _id: null,
+        txn_hash: null,
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* confirmBuyCover({ payload }) {
+  try {
+    yield put(
+      setConfirmBuyCoverLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/user/policies-smart-contract/${payload._id}/confirm-payment`;
+    // const res = yield call(axiosPost, url, payload, yield select(selector.token));
+    const res = yield call(
+      axiosPost,
+      url,
+      payload,
+      yield select(selector.token),
+      null,
+      yield select(selector.wallet_address),
+    );
+
+    if (res?.data?.success) {
+      return yield put(confirmBuyCoverSuccess(res.data.data));
+    }
+
+    return yield put(
+      setConfirmBuyCoverLoader({
+        _id: null,
+        txn_hash: null,
+        loader: false,
+        isFailed: true,
+        message: res.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setConfirmBuyCoverLoader({
+        _id: null,
+        txn_hash: null,
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
 
 function* searchAllCoverList({ payload }) {
   try {
@@ -81,6 +207,43 @@ function* searchAllCoverList({ payload }) {
   } catch (error) {
     return yield put(
       setSearchCoverListLoader({
+        loader: false,
+        isFailed: true,
+        message: error.message,
+      }),
+    );
+  }
+}
+
+function* getCoverById({ payload }) {
+  try {
+    yield put(
+      setGetCoverByIdLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const { protocol, unique_id } = payload;
+    const url = `${API_BASE_URL}/cover-details/${protocol}/${unique_id}`;
+    const cover = yield call(axiosGet, url);
+
+    if (cover?.data?.success) {
+      return yield put(getCoverByIdSuccess(cover.data.data));
+    }
+
+    return yield put(
+      setGetCoverByIdLoader({
+        loader: false,
+        isFailed: true,
+        cover: null,
+        message: cover.data.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setGetCoverByIdLoader({
         loader: false,
         isFailed: true,
         message: error.message,
@@ -144,30 +307,34 @@ function* getQuote({ payload }) {
     yield put(
       setGetQuoteLoader({
         message: '',
-        loader: true,
+        quoteLoader: true,
         isFailed: false,
       }),
     );
 
-    const url = `${API_BASE_URL}/cover-min-quote`;
-    const quote = yield call(axiosPost, url, payload);
+    const miniQuoteUrl = `${API_BASE_URL}/cover-min-quote`;
+    const quote = yield call(axiosPost, miniQuoteUrl, payload);
+    if (quote?.data?.success) yield put(getQuoteSuccess(quote?.data?.data || quote?.data?.quote));
 
-    if (quote?.data?.data || quote?.data?.quote) {
-      yield put(getQuoteSuccess(quote?.data?.data || quote?.data?.quote));
-    } else {
-      yield put(
-        setGetQuoteLoader({
-          loader: false,
-          isFailed: true,
-          quote: null,
-          message: quote.errors,
-        }),
-      );
+    const quoteUrl = `${API_BASE_URL}/cover-quote`;
+    const quoteDetail = yield call(axiosPost, quoteUrl, payload);
+    if (quoteDetail?.data?.success) {
+      yield put(getQuoteDetailSuccess(quoteDetail?.data?.data));
+      return yield put(setGetQuoteLoader({ message: '', quoteLoader: false, isFailed: false }));
     }
-  } catch (error) {
-    yield put(
+
+    return yield put(
       setGetQuoteLoader({
-        loader: false,
+        quoteLoader: false,
+        isFailed: true,
+        quote: null,
+        message: quote?.data?.message || quoteDetail?.data?.message,
+      }),
+    );
+  } catch (error) {
+    return yield put(
+      setGetQuoteLoader({
+        quoteLoader: false,
         isFailed: true,
         message: error.message,
       }),
@@ -299,7 +466,10 @@ function* fetchMoreBlogLists({ payload }) {
 }
 
 export default all([
+  takeLatest(BUY_COVER, buyCover),
+  takeLatest(CONFIRM_BUY_COVER, confirmBuyCover),
   takeLatest(SEARCH_COVER_LIST, searchAllCoverList),
+  takeLatest(GET_COVER_BY_ID, getCoverById),
   takeLatest(FETCH_MORE_COVERS, fetchMoreCoverLists),
   takeLatest(GET_QUOTE, getQuote),
   takeLatest(SEARCH_BLOG_LIST, searchBlogList),

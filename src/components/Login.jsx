@@ -5,7 +5,7 @@ import { walletLogin } from '../hooks/useAuth';
 // import GoogleIcon from '../assets/img/google.png';
 import SUPPORTED_WALLETS from '../config/walletConfig';
 import { setLoginModalVisible } from '../redux/actions';
-import { getLoginDetails } from '../redux/actions/Auth';
+import { getLoginDetails, getUserProfile } from '../redux/actions/Auth';
 
 const Login = () => {
   // const { login } = useAuth();
@@ -21,6 +21,10 @@ const Login = () => {
     // login(connect);
     walletLogin(connect, activate);
   };
+
+  // useEffect(() => {
+  //   dispatch(getUserProfile());
+  // }, []);
 
   useEffect(() => {
     if (connectStatus && account) {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import uniqid from 'uniqid';
+import { logEvent } from 'firebase/analytics';
 
+import { analytics } from '../config/firebase';
 import PartnerCard from '../components/PartnerCard';
 import { classNames } from '../functions/utils';
 
@@ -320,6 +322,10 @@ const tabs = [
 
 const Partner = (props) => {
   const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(() => {
+    logEvent(analytics, 'View - Partners');
+  }, []);
 
   return (
     <>

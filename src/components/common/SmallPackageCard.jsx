@@ -24,6 +24,7 @@ const SmallPackageCard = (props) => {
     logo,
     quote,
     quote_chain,
+    supportedChains,
     cardType,
     duration_days_min,
     min_eth,
@@ -66,14 +67,13 @@ const SmallPackageCard = (props) => {
             {company}
           </div>
           <div className="font-Montserrat text-10 font-medium text-dark-blue dark:text-white group-hover:text-white mt-1">
-            Chain: {quote_chain}
+            Chain: {supportedChains.join(',') || 'Ethereum'}
           </div>
         </div>
       </div>
       <div className="h-full flex items-center">
         <button
           type="button"
-          onClick={handleBuyNow}
           className="h-10 w-10 rounded-lg text-login-button-text bg-login-button-bg hover:bg-white p-2"
         >
           <img src={BuyIcon} alt="cart" className="w-6 h-6" />

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import uniqueId from 'uniqid';
 import { useDispatch, useSelector } from 'react-redux';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import { searchBlogList, fetchMoreBlogs } from '../redux/actions/CoverList';
 import Loading from '../components/common/Loading';
 import PostCard from '../components/PostCard';
@@ -34,6 +37,8 @@ const LearnMore = (props) => {
   }, [coverListData.blogList]);
 
   useEffect(() => {
+    logEvent(analytics, 'View - Learn More');
+
     const query = `/table?range=[0,9]`;
     dispatch(searchBlogList(query));
   }, []);

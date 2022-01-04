@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
-import { useWeb3React } from '@web3-react/core';
+import useActiveWeb3React from './useActiveWeb3React';
+import { getCrvAddressByChainId } from '../utils/addressHelpers';
 import { BIG_ZERO } from '../utils/bigNumber';
-import ethSimpleProvider from '../utils/providers';
 import { getErc20Contract } from '../utils/contractHelpers';
 import useLastUpdated from './useLastUpdated';
 
@@ -13,17 +13,17 @@ export const FetchStatus = {
   FAILED: 'failed',
 };
 
-const useTokenBalance = (tokenAddress) => {
+const useTokenBalance = () => {
   const { NOT_FETCHED, SUCCESS, FAILED } = FetchStatus;
   const [balanceState, setBalanceState] = useState({
     balance: BIG_ZERO,
     fetchStatus: NOT_FETCHED,
   });
-  const { account } = useWeb3React();
-
+  const { account, library, chainId } = useActiveWeb3React();
+  const tokenAddress = getCrvAddressByChainId(chainId || 4);
   useEffect(() => {
     const fetchBalance = async () => {
-      const contract = getErc20Contract(tokenAddress);
+      const contract = getErc20Contract(tokenAddress, library);
       try {
         const res = await contract.balanceOf(account);
         setBalanceState({ balance: new BigNumber(res.toString()), fetchStatus: SUCCESS });
@@ -47,13 +47,13 @@ const useTokenBalance = (tokenAddress) => {
 export const useGetEthBalance = () => {
   const [fetchStatus, setFetchStatus] = useState(FetchStatus.NOT_FETCHED);
   const [balance, setBalance] = useState(ethers.BigNumber.from(0));
-  const { account } = useWeb3React();
+  const { account, chainId, library } = useActiveWeb3React();
   const { lastUpdated, setLastUpdated } = useLastUpdated();
 
   useEffect(() => {
     const fetchBalance = async () => {
       try {
-        const walletBalance = await ethSimpleProvider.getBalance(account);
+        const walletBalance = await library.getBalance(account);
         setBalance(walletBalance);
         setFetchStatus(FetchStatus.SUCCESS);
       } catch {
@@ -63,7 +63,7 @@ export const useGetEthBalance = () => {
     if (account) {
       fetchBalance();
     }
-  }, [account, lastUpdated, setBalance, setFetchStatus]);
+  }, [account, chainId, library, lastUpdated, setBalance, setFetchStatus]);
 
   return { balance, fetchStatus, refresh: setLastUpdated };
 };

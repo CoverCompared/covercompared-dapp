@@ -2,13 +2,22 @@ import React, { useContext, useEffect, useState } from 'react';
 import uniqid from 'uniqid';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
+import { logEvent } from 'firebase/analytics';
+
+import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import { searchBlogList } from '../redux/actions/CoverList';
+import { getLoginDetails } from '../redux/actions/Auth';
 import Loading from '../components/common/Loading';
 import InsuranceCards from '../components/InsuranceCards';
 import PostCard from '../components/PostCard';
 import FeatureCard from '../components/FeatureCard';
 import { ThemeContext } from '../themeContext';
+import { analytics } from '../config/firebase';
+import { SupportedChainId } from '../config/chains';
+import { setupNetwork } from '../utils/wallet';
+// import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
+// import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
+// import useConverUsdtToCRV from '../hooks/useConverUsdtToCRV';
 
 import InsuranceCardDotBg from '../assets/bg-img/insurance-card-dot-bg.svg';
 import cryptoInsuranceDotBg from '../assets/bg-img/crypto-insurance-dot-bg.svg';
@@ -22,8 +31,6 @@ import CryptoInsuranceImgDark from '../assets/img/crypto-orange-logo.svg';
 import NsureNetworkLogo from '../assets/partners/Nsure-Network.png';
 import UnoReLogo from '../assets/partners/UNORE.png';
 import InsureAceLogo from '../assets/partners/InsurAce.png';
-import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
-import useConverUsdtToCRV from '../hooks/useConverUsdtToCRV';
 
 const clientLogos = [
   {
@@ -84,20 +91,32 @@ const Features = (props) => {
 
 export default function Home(props) {
   const { theme } = useContext(ThemeContext);
+  const { chainId } = useActiveWeb3React();
   const dispatch = useDispatch();
   const coverListData = useSelector((state) => state.coverList);
+  const { wallet_addresses } = useSelector((state) => state.auth);
   const { loader, message, isFailed, page, totalPages } = coverListData;
 
   const [blogList, setBlogList] = useState(coverListData.blogList);
 
-  const ethUsdPrice = useAssetsUsdPrice('eth');
-  const { balance } = useGetEthBalance();
-  const usdcBalanceStatus = useTokenBalance('0xdCFaB8057d08634279f8201b55d311c2a67897D2');
-  const crvAmt = useConverUsdtToCRV(100);
+  // this hooks for testing. Should be remove in production.
+  useEffect(() => {
+    (async () => {
+      const _chainId = SupportedChainId.RINKEBY;
+      if (chainId !== _chainId) {
+        await setupNetwork(_chainId);
+      }
+    })();
+  }, [chainId]);
 
   useEffect(() => {
+    logEvent(analytics, 'View - Home Screen');
     const query = `/table?range=[0,3]`;
     dispatch(searchBlogList(query));
+
+    if (wallet_addresses?.length) {
+      dispatch(getLoginDetails({ wallet_address: wallet_addresses[0] }));
+    }
   }, []);
 
   useEffect(() => {

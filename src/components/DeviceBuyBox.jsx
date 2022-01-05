@@ -565,7 +565,7 @@ const DeviceBuyBox = (props) => {
           <input
             type="checkbox"
             name="applyDiscount"
-            className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+            className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0"
             checked={applyDiscount}
             onChange={() => setApplyDiscount(!applyDiscount)}
           />
@@ -677,7 +677,7 @@ const DeviceBuyBox = (props) => {
                 type="checkbox"
                 id="useForRegistration"
                 name="useForRegistration"
-                className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+                className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0"
                 checked={useForRegistration}
                 onChange={toggleRegisterCheckbox}
               />
@@ -742,7 +742,7 @@ const DeviceBuyBox = (props) => {
               type="checkbox"
               checked={termsCheck}
               onChange={() => setTermsCheck(!termsCheck)}
-              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0"
             />
             <label
               htmlFor="terms"
@@ -950,5 +950,4 @@ const DeviceBuyBox = (props) => {
     </>
   );
 };
-
 export default DeviceBuyBox;

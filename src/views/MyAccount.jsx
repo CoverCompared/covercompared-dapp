@@ -6,6 +6,8 @@ import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
 import { logEvent } from 'firebase/analytics';
 
+import { PDFViewer } from '@react-pdf/renderer';
+import DownloadPolicy from '../components/common/DownloadPolicy';
 import { analytics } from '../config/firebase';
 import GetCVROnReview from '../components/GetCVROnReview';
 import Modal from '../components/common/Modal';
@@ -16,7 +18,6 @@ import MSOReceipt from '../components/MSOReceipt';
 import MSOReceiptCard from '../components/MSOReceiptCard';
 import DeviceReceipt from '../components/DeviceReceipt';
 import DeviceReceiptCard from '../components/DeviceReceiptCard';
-import DownloadPolicy from '../components/common/DownloadPolicy';
 import useActiveWeb3React from '../hooks/useActiveWeb3React';
 import useClaimForCover from '../hooks/useClaimForCover';
 import Loading from '../components/common/TxLoading';
@@ -36,6 +37,9 @@ const DeviceCard = (props) => {
           fileName="Device_protection_receipt.pdf"
         />
       </div>
+      {/* <PDFViewer className="fixed h-96 w-full">
+        <DeviceReceipt {...props} />
+      </PDFViewer> */}
       <DeviceReceiptCard {...props} />
     </>
   );
@@ -156,6 +160,7 @@ const MyAccount = (props) => {
       _id,
       tax,
       amount,
+      payment_hash,
       txn_hash,
       total_amount,
       logo = p4lLogo,
@@ -209,6 +214,7 @@ const MyAccount = (props) => {
             {...{
               tax,
               txn_hash,
+              payment_hash,
               quote: amount,
               total: total_amount,
               discountAmount: discount_amount,
@@ -241,6 +247,8 @@ const MyAccount = (props) => {
     const {
       _id,
       tax,
+      payment_hash,
+      currency,
       amount,
       details,
       txn_hash,
@@ -290,6 +298,8 @@ const MyAccount = (props) => {
               quote,
               total: total_amount,
               tax,
+              payment_hash,
+              currency,
               discountAmount: discount_amount,
               addonServices: !!mso_addon_service,
               MSOAddOnService: mso_addon_service,

@@ -45,7 +45,7 @@ const SwapCurrency = () => {
                     name=""
                     value={firstCurrency}
                     onChange={(e) => setFirstCurrency(e.target.value)}
-                    className="text-dark-blue font-Montserrat font-semibold text-body-md w-full h-5 pr-0 py-0 text-right border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none bg-transparent"
+                    className="text-dark-blue font-Montserrat font-semibold text-body-md w-full h-5 pr-0 py-0 text-right border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0 outline-none bg-transparent"
                   />
                   <div
                     className="absolute right-2/4 -bottom-5 cursor-pointer bg-swapIconBg p-2 border-2 border-white shadow-addToCart rounded-xl"
@@ -64,7 +64,7 @@ const SwapCurrency = () => {
                     name=""
                     value={secondCurrency}
                     onChange={(e) => setSecondCurrency(e.target.value)}
-                    className="text-dark-blue font-Montserrat font-semibold text-body-md w-full h-5 pr-0 py-0 text-right border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0 outline-none bg-transparent"
+                    className="text-dark-blue font-Montserrat font-semibold text-body-md w-full h-5 pr-0 py-0 text-right border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0 outline-none bg-transparent"
                   />
                 </div>
               </div>

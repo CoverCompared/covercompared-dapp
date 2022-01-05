@@ -3,10 +3,13 @@ import dayjs from 'dayjs';
 
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import msoLogo from '../assets/img/mso-logo.png';
+import { shortenTxHash } from '../utils';
 
 const MSOReceiptCard = (props) => {
   const {
     txn_hash,
+    payment_hash,
+    currency,
     membersInfo,
     quote,
     total,
@@ -52,6 +55,15 @@ const MSOReceiptCard = (props) => {
           <div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
               Policy Number: {txn_hash || '-'}
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Tnx Hash: {shortenTxHash(payment_hash)}
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Network : kovan
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Currency: {currency}
             </div>
           </div>
         </div>

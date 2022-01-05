@@ -4,6 +4,7 @@ import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/render
 
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import msoLogo from '../assets/img/mso-logo.png';
+import { shortenTxHash } from '../utils';
 
 const styles = StyleSheet.create({
   page: {
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
   },
   policyNumber: {
     fontSize: '12pt',
+    marginBottom: '0',
   },
   bottomNote: {
     fontSize: '12pt',
@@ -111,6 +113,8 @@ const getCurrentDate = () => {
 const MSOReceipt = (props) => {
   const {
     txn_hash,
+    payment_hash,
+    currency,
     membersInfo,
     quote,
     total,
@@ -151,8 +155,19 @@ const MSOReceipt = (props) => {
                 <Text>{MSOCoverUser}</Text>
               </View>
             </View>
-            <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-              <Text>Policy Number: {txn_hash || '-'}</Text>
+            <View>
+              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                <Text>Policy Number: {txn_hash || '-'}</Text>
+              </View>
+              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                <Text>Tnx Hash: {shortenTxHash(payment_hash) || '-'}</Text>
+              </View>
+              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                <Text>Network: Kovan</Text>
+              </View>
+              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                <Text>Currency: {currency || '-'}</Text>
+              </View>
             </View>
           </View>
 

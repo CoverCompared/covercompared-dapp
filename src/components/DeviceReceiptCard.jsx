@@ -1,11 +1,14 @@
 import React from 'react';
+import { detach } from 'redux-saga';
 
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import P4LLogo from '../assets/img/p4l-logo.png';
+import { shortenTxHash } from '../utils';
 
 const DeviceReceiptCard = (props) => {
   const {
     txn_hash,
+    payment_hash,
     quote,
     total,
     discountAmount,
@@ -118,8 +121,22 @@ const DeviceReceiptCard = (props) => {
         </div>
 
         <div className="grid md:grid-cols-12 md:gap-6 gap-8 xl:gap-10 mt-8">
-          <div className="col-span-12 col-start-1 lg:col-span-7 lg:col-start-6">
-            <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left">
+          <div className="col-span-12 lg:col-span-5">
+            <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left mb-2">
+              Transcation Details
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Tnx Hash : {shortenTxHash(payment_hash)}
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Network: Kovan
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Currency: USD
+            </div>
+          </div>
+          <div className="col-span-12 lg:col-span-7">
+            <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left mb-2">
               Payment Details
             </div>
             <div className="flex items-center justify-between w-full font-Montserrat">

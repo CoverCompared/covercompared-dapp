@@ -22,6 +22,7 @@ const PackageCard = (props) => {
     company,
     company_code,
     duration_days_min,
+    duration_days_max,
     min_eth,
     discount,
     logo,
@@ -124,7 +125,7 @@ const PackageCard = (props) => {
                   Duration
                 </div>
                 <div className="font-Montserrat text-h6 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
-                  {duration_days_min} days
+                  {duration_days_min} - {duration_days_max} days
                 </div>
               </div>
             </div>

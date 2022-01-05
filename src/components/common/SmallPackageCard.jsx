@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
@@ -9,6 +9,8 @@ import DiscountCard from './Discount';
 import BuyIcon from '../../assets/icons/buy.svg';
 import ToolTip from './ToolTip';
 import { setLoginModalVisible } from '../../redux/actions';
+import { API_BASE_URL } from '../../redux/constants/config';
+import { axiosPost } from '../../redux/constants/apicall';
 import Placeholder from '../../assets/img/placeholder.png';
 
 const SmallPackageCard = (props) => {
@@ -17,9 +19,11 @@ const SmallPackageCard = (props) => {
   const { account } = useWeb3React();
 
   const {
+    address,
     name,
     company_icon,
     company,
+    company_code,
     discount,
     logo,
     quote,
@@ -31,11 +35,35 @@ const SmallPackageCard = (props) => {
     quote_currency,
   } = props;
 
+  const [hasCapacity, setHasCapacity] = useState(false);
+  const isNexus = useMemo(() => {
+    return company_code === 'nexus';
+  }, [company_code]);
+
+  useEffect(() => {
+    if (isNexus) {
+      (async () => {
+        const res = await axiosPost(`${API_BASE_URL}/cover-capacity`, {
+          address,
+          company: company_code,
+        });
+        setHasCapacity(
+          res?.data?.data &&
+            res?.data?.data.capacity &&
+            res?.data?.data.capacity.capacityETH &&
+            res?.data?.data.capacity.capacityDAI,
+        );
+      })();
+    }
+  }, [address, isNexus]);
+
   const handleBuyNow = (e) => {
     // if (e) e.stopPropagation();
     if (!account) {
       toast.warning('You need to login in advance!');
       dispatch(setLoginModalVisible(true));
+    } else if (!hasCapacity && isNexus) {
+      toast.warning(`Product has no capacity to be sold`);
     } else {
       dispatch(setCurrentProduct(props));
       history.push('/product/cover');

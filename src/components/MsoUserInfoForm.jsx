@@ -230,14 +230,16 @@ const MsoUserInfoForm = (props) => {
           Member(s) Information
         </h5>
         <div className="flex justify-center ml-4">
-          <button
-            type="button"
-            disabled={notRegistered}
-            onClick={handleAddUser}
-            className="font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg disabled:opacity-80"
-          >
-            Add
-          </button>{' '}
+          {totalUsers !== 1 && (
+            <button
+              type="button"
+              disabled={notRegistered}
+              onClick={handleAddUser}
+              className="font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg disabled:opacity-80"
+            >
+              Add
+            </button>
+          )}{' '}
           {/* <button
             type="button"
             className="ml-3 font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg disabled:opacity-80"
@@ -265,7 +267,7 @@ const MsoUserInfoForm = (props) => {
             </thead>
             <tbody className="bg-white">
               {users.map((user, index) => (
-                <tr key={index} className="text-gray-700">
+                <tr key={index} className="text-gray-700 border-r border-global-banner-gd-2">
                   <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       title="Type of user"
@@ -381,7 +383,7 @@ const MsoUserInfoForm = (props) => {
               id="termsAndCondition"
               name="termsAndCondition"
               type="checkbox"
-              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:ring-offset-0 duration-500"
               required
             />
             <label

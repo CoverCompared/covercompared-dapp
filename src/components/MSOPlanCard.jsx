@@ -98,7 +98,7 @@ const MSOPlanCard = (props) => {
           <label className="cursor-pointer flex justify-center">
             <input
               type="checkbox"
-              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0"
               checked={addonServices}
               onClick={toggleCheckbox}
               onChange={() => {}}

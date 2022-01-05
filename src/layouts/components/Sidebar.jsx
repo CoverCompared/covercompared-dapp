@@ -23,12 +23,12 @@ import SideBarMailIcon from '../../assets/img/side-bar-mail-icon.svg';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const socialMedia = [
-  { href: 'https://t.me/PolkaCover', name: 'Telegram', icon: TelegramIcon },
+  { href: 'https://t.me/CoverCompared', name: 'Telegram', icon: TelegramIcon },
   { href: 'https://twitter.com/CoverCompared', name: 'Twitter', icon: TwitterIcon },
-  { href: 'https://www.instagram.com/polka_cover/', name: 'Instagram', icon: InstagramIcon },
-  { href: 'https://www.linkedin.com/company/polkacover/', name: 'Linkdin', icon: LinkdinIcon },
+  { href: 'https://www.instagram.com/covercompared/', name: 'Instagram', icon: InstagramIcon },
+  { href: 'https://www.linkedin.com/company/covercompared/', name: 'Linkdin', icon: LinkdinIcon },
   { href: 'https://github.com/CoverCompared', name: 'Github', icon: GithubIcon },
-  { href: 'https://polkacover.gitbook.io/docs/', name: 'Gitbook', icon: GitbookIcon },
+  { href: 'https://www-covercompared.gitbook.io', name: 'Gitbook', icon: GitbookIcon },
 ];
 
 const Sidebar = (props) => {

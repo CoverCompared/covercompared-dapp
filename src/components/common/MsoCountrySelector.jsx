@@ -374,7 +374,7 @@ const MsoCountrySelector = ({
             <input
               type="checkbox"
               name="applyDiscount"
-              className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0"
               checked={applyDiscount}
               onChange={() => setApplyDiscount(!applyDiscount)}
             />

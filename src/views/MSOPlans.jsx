@@ -102,6 +102,7 @@ const MSOPlans = (props) => {
   const dispatch = useDispatch();
   const { listLoader, msoList, loader } = useSelector((state) => state.msoInsurance);
 
+  const [country, setCountry] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isEligible, setIsEligible] = useState(false);
   const [products, setProducts] = useState(msoList);
@@ -148,7 +149,11 @@ const MSOPlans = (props) => {
           </h2>
           <div className="grid grid-cols-12 lg:grid-cols-12 xl:grid-col-12 gap-y-4 gap-x-5 md:gap-4 lg:gap-x-6 lg:gap-y-4 mt-8">
             {products.map((obj, i) => (
-              <MSOPlanCard key={i} {...{ ...obj, isEligible, setIsModalOpen }} {...props} />
+              <MSOPlanCard
+                key={i}
+                {...{ ...obj, country, isEligible, setIsModalOpen }}
+                {...props}
+              />
             ))}
           </div>
         </>
@@ -157,6 +162,8 @@ const MSOPlans = (props) => {
 
     return null;
   };
+
+  console.log('country :>> ', country);
 
   return (
     <>
@@ -168,7 +175,7 @@ const MSOPlans = (props) => {
         renderComponent={MsoEligibilityChecker}
         onClose={() => setIsModalOpen(false)}
         bgImg="bg-loginPopupBg"
-        {...{ setIsEligible }}
+        {...{ setIsEligible, country, setCountry }}
       />
       <div className="xl:px-48 sm:px-8">
         <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
@@ -226,7 +233,7 @@ const MSOPlans = (props) => {
         </div>
       </div>
 
-      <div className="xl:px-36 lg:px-28 mt-8">{renderCards()}</div>
+      <div className="xl:px-36 lg:px-28 mt-8">{renderCards(country)}</div>
     </>
   );
 };

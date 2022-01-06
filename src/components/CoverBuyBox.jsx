@@ -337,10 +337,13 @@ const CoverBuyBox = (props) => {
   const [amountField, setAmountField] = useState('1');
   const [amountSelect, setAmountSelect] = useState(currency[0]);
   const [quoteField, setQuoteField] = useState(quote || 0);
-  const [quoteSelect, setQuoteSelect] = useState(supportedChains[0]);
+  const [quoteSelect, setQuoteSelect] = useState('ETH');
 
   const [forceClose, setForceClose] = useState(false);
 
+  const { getTokenAmountForETH } = useTokenAmount();
+  const { getTokenAddress } = useAddress();
+  const crvAddress = getTokenAddress('crv');
   useEffect(() => {
     const periodVal = `${periodField}`.split('.')[0];
     setPeriodField(+periodVal);
@@ -423,8 +426,18 @@ const CoverBuyBox = (props) => {
   }, [period, amountField, amountSelect, account]);
 
   useEffect(() => {
-    setQuoteField(quote ? quote.toFixed(6) : quote);
-  }, [quote]);
+    if (quoteSelect === 'ETH') {
+      setQuoteField(quote ? quote.toFixed(6) : quote);
+    } else if (quoteSelect === 'CVR') {
+      (async () => {
+        const crvAmount = getBalanceNumber(await getTokenAmountForETH(crvAddress, quote));
+        const ratio = 4 / 3;
+        setQuoteField((crvAmount * ratio).toFixed(6));
+      })();
+    } else {
+      setQuoteField(0);
+    }
+  }, [quote, quoteSelect]);
 
   const onConfirmed = () => {
     setForceClose(true);
@@ -483,7 +496,7 @@ const CoverBuyBox = (props) => {
           setFieldValue={setQuoteField}
           selectedOption={quoteSelect}
           setSelectedOption={setQuoteSelect}
-          dropdownOptions={supportedChains}
+          dropdownOptions={['ETH', 'CVR']}
           showSearchOption="true"
         />
       </form>

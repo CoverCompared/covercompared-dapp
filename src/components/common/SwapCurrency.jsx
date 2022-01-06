@@ -1,21 +1,41 @@
-import React, { useContext, useState } from 'react';
-
+import React, { useContext, useEffect, useState } from 'react';
+import { useWeb3React } from '@web3-react/core';
+import {
+  ChainId,
+  Token,
+  WETH,
+  ETHER,
+  Fetcher,
+  Trade,
+  Route,
+  TokenAmount,
+  TradeType,
+} from '@uniswap/sdk';
+import useAddress from '../../hooks/useAddress';
 import SwapIcon from '../../assets/img/swap-icon.svg';
 import SwapWhiteIcon from '../../assets/img/swap-white-icon.svg';
 import { ThemeContext } from '../../themeContext';
 
 const SwapCurrency = () => {
   const { theme } = useContext(ThemeContext);
-
+  const { chainId } = useWeb3React();
   const [isOpen, setISOpen] = useState(false);
   const [firstCurrency, setFirstCurrency] = useState(0);
   const [secondCurrency, setSecondCurrency] = useState(0);
+  const [inputCurrency, setInputCurrency] = useState(ETHER);
+  const [outputCurrency, setOutputCurrency] = useState(null);
+  const { getCrvAddress } = useAddress();
+
+  useEffect(() => {
+    setInputCurrency(ETHER);
+    setOutputCurrency(new Token(chainId, '0xd3e48FAcD30A73609ffA60AE84851e72d10fEa52', 18));
+  }, []);
 
   const changeCurrencySlot = () => {
     setFirstCurrency(secondCurrency);
     setSecondCurrency(firstCurrency);
   };
-
+  const handleSwap = () => {};
   return (
     <>
       <div className="relative ml-3 duration-150">
@@ -68,6 +88,13 @@ const SwapCurrency = () => {
                   />
                 </div>
               </div>
+              <button
+                type="button"
+                onClick={handleSwap}
+                className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+              >
+                Swap
+              </button>
             </div>
           </>
         )}

@@ -16,7 +16,7 @@ import claimRewardAbi from '../config/abi/claimsReward.json';
 
 export const getContract = (abi, address, signer) => {
   const signerOrProvider = signer ?? ethSimpleProvider;
-  return new ethers.Contract(address, abi, signerOrProvider);
+  return address ? new ethers.Contract(address, abi, signerOrProvider) : null;
 };
 
 export const getErc20Contract = (address, signer) => {

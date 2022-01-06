@@ -4,6 +4,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import StarRatings from 'react-star-ratings';
 import { useDispatch, useSelector } from 'react-redux';
 import { logEvent } from 'firebase/analytics';
+import { Markup } from 'interweave';
 
 import { analytics } from '../config/firebase';
 import ReviewCard from '../components/ReviewCard';
@@ -17,6 +18,7 @@ import ProductBgDots from '../assets/bg-img/product-bg-dots.svg';
 import { ThemeContext } from '../themeContext';
 import { getCoverById } from '../redux/actions/CoverList';
 import Select from '../components/common/Select';
+import { numberFormat } from '../functions/utils';
 
 const filterOption = ['High to low', 'Low to high'];
 
@@ -61,14 +63,18 @@ const ReviewContainer = (props) => {
 const CoverInsuranceProduct = (props) => {
   const dispatch = useDispatch();
   const { currentProduct: product } = useSelector((state) => state.app);
-  const { loader, message, cover } = useSelector((state) => state.coverList) || {};
-  const { additional_details, description, reviews = [], terms_and_conditions } = cover || {};
+  const {
+    additional_details,
+    description,
+    reviews = [],
+    terms_and_conditions,
+    cover,
+  } = useSelector((state) => state.coverList?.cover) || {};
   const avgRating =
     +(reviews.map((m) => m.rating).reduce((a, b) => a + b, 0) / reviews.length).toFixed(1) || 0;
 
   const { theme } = useContext(ThemeContext);
   const [filterSelect, setFilterSelect] = useState('');
-  const [showFilterOption, setShowFilterOption] = useState(false);
   const [accountNumber, setAccountNumber] = useState('');
 
   const {
@@ -84,7 +90,10 @@ const CoverInsuranceProduct = (props) => {
     company_icon,
     unique_id,
     currency_limit,
+    supportedChains,
   } = product || {};
+
+  console.log('product :>> ', product);
 
   useEffect(() => {
     dispatch(getCoverById({ type, unique_id }));
@@ -172,7 +181,12 @@ const CoverInsuranceProduct = (props) => {
                 Capacity
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                Loreuam ac in amet, porta ac duis.
+                {typeof cover?.capacity === 'object'
+                  ? `${numberFormat(cover?.capacity?.capacityETH || 0, 1)}/${numberFormat(
+                      cover?.capacity?.capacityDAI || 0,
+                      1,
+                    )}`
+                  : numberFormat(cover?.capacity || 0, 1)}
               </div>
             </div>
           </div>
@@ -199,7 +213,14 @@ const CoverInsuranceProduct = (props) => {
               Term & Condition :
             </div>
             <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
-              {terms_and_conditions}
+              {terms_and_conditions && (
+                <>
+                  <Markup content={terms_and_conditions} />
+                  <br />
+                  <p>Supported chains:</p>
+                  {supportedChains && <p>{supportedChains.toString()}</p>}
+                </>
+              )}
             </div>
           </div>
           <div className="xl:col-span-5 xl:col-start-8 lg:col-span-5 col-span-12 order-1 md:order-2">
@@ -243,6 +264,7 @@ const CoverInsuranceProduct = (props) => {
               <div className="mb-2 relative">
                 <Select
                   {...{
+                    negativeLeft: true,
                     fieldTitle: 'Short By',
                     options: filterOption,
                     selectedOption: filterSelect,

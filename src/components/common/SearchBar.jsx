@@ -6,8 +6,13 @@ const SearchBar = ({ search, setSearch, handleSearch, showSearchButton }) => {
   return (
     <div className="flex items-center justify-center w-full">
       <form onSubmit={(e) => e.preventDefault()} className="w-full relative">
-        <div className="absolute inset-y-0 left-0 top-0 flex py-3 pl-3">
-          <img loading="lazy" src={SearchIcon} alt="search icon" className="w-7 h-7" />
+        <div className="absolute inset-y-0 left-0 top-0 flex py-3 pl-3 items-center">
+          <img
+            loading="lazy"
+            src={SearchIcon}
+            alt="search icon"
+            className="md:w-7 md:h-7 w-5 h-5"
+          />
         </div>
         <input
           autoFocus
@@ -17,7 +22,7 @@ const SearchBar = ({ search, setSearch, handleSearch, showSearchButton }) => {
           placeholder="Search by address/protocol/exchange name"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full h-14 px-14 font-Montserrat font-medium md:text-h2 text-h5 border-0 rounded-md shadow-search-shadow placeholder-contact-input-grey text-dark-blue focus:border-black focus:ring-0"
+          className="w-full h-14 md:pl-14 md:pr-14 pl-9 pr-3 font-Montserrat font-medium md:text-h2 text-xs border-0 rounded-md shadow-search-shadow placeholder-contact-input-grey text-dark-blue focus:border-black focus:ring-0"
         />
         {!!showSearchButton && (
           <div className="absolute inset-y-0 right-0 flex py-3 pr-3">

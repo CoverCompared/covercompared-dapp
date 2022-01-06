@@ -31,17 +31,26 @@ import useAssetsUsdPrice from '../../hooks/useAssetsUsdPrice';
 import { MSO_PLAN_TYPE } from '../../config';
 
 const countries = [
-  { value: 'UAE', label: 'UAE' },
-  { value: 'QAT', label: 'Qatar' },
+  { value: 'SWE', label: 'Switzerland' },
+  { value: 'TUR', label: 'Turkey' },
+  { value: 'POL', label: 'Poland' },
+  { value: 'KEN', label: 'Kenya' },
+  { value: 'NER', label: 'Nigeria' },
+  { value: 'EST', label: 'Estonia' },
+  { value: 'DEU', label: 'Germany' },
+  { value: 'SVN', label: 'Slovenia' },
+  { value: 'ZAF', label: 'South Africa' },
+  { value: 'RUS', label: 'Russia' },
+  { value: 'ARE', label: 'UAE' },
+  { value: 'BHR', label: 'Bahrain' },
   { value: 'OMN', label: 'Oman' },
   { value: 'KWT', label: 'Kuwait' },
-  { value: 'USA', label: 'USA' },
-  { value: 'BHR', label: 'Bahrain' },
   { value: 'SAU', label: 'Saudi Arabia' },
-  { value: 'NOT', label: 'None of Them' },
+  { value: 'QAT', label: 'Qatar' },
 ];
 
 const MsoCountrySelector = ({
+  country,
   setIsModalOpen,
   setMaxWidth,
   setTitle,
@@ -421,6 +430,7 @@ const MsoCountrySelector = ({
     <MsoUserInfoForm
       {...{
         ...selectedPlan,
+        country,
         countries,
         setIsModalOpen,
         handleBuyNow,

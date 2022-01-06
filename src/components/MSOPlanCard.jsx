@@ -6,6 +6,7 @@ import MSOAdditionalDetails from './MSOAddtionalDetails';
 
 const MSOPlanCard = (props) => {
   const {
+    country,
     isEligible,
     InsurancePlanType,
     MSOPlanDuration,
@@ -117,6 +118,7 @@ const MSOPlanCard = (props) => {
               bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
               renderComponent={MSOAdditionalDetails}
               {...{
+                country,
                 selectedPlan,
                 addonServices,
                 isEligible,
@@ -140,7 +142,7 @@ const MSOPlanCard = (props) => {
                 sizeClass="max-w-6xl"
                 renderComponent={CountrySelector}
                 bgImg="bg-loginPopupBg"
-                {...{ selectedPlan, addonServices }}
+                {...{ selectedPlan, addonServices, country }}
               >
                 <button
                   type="button"

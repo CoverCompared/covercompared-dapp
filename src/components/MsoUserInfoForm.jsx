@@ -12,6 +12,7 @@ import Alert from './common/Alert';
 const MsoUserInfoForm = (props) => {
   // remove default values from below object once response is in this format
   const {
+    country,
     uuid,
     unique_id,
     userTypeOptions,
@@ -29,7 +30,7 @@ const MsoUserInfoForm = (props) => {
     userType: '',
     firstName: '',
     lastName: '',
-    country: 'UAE',
+    country: country?.value || 'UAE',
     dob: '',
     identity: '',
     typeChangeable: true,
@@ -98,37 +99,35 @@ const MsoUserInfoForm = (props) => {
     }
   };
 
-  // const validateUsers = (usersClone) => {
-  //   const mainMember = usersClone.filter((f) => f.userType === 'Main Member').length;
-  //   const spouse = usersClone.filter((f) => f.userType === 'Spouse').length;
-  //   const dependent = usersClone.filter((f) => f.userType === 'Dependent').length;
+  const validateUsers = (usersClone) => {
+    const mainMember = usersClone.filter((f) => f.userType === 'Main Member').length;
+    // const spouse = usersClone.filter((f) => f.userType === 'Spouse').length;
+    // const dependent = usersClone.filter((f) => f.userType === 'Dependent').length;
 
-  //   if (mainMember > 1) {
-  //     setShowAlert(true);
-  //     setAlertType('danger');
-  //     setAlertText('Number of main members reach its maximum limit according to policy1');
-  //     return false;
-  //   }
-  //   if (spouse > noOfSpouse) {
-  //     setShowAlert(true);
-  //     setAlertType('danger');
-  //     setAlertText(`Number of spouses reach its maximum limit according to policy`);
-  //     return false;
-  //   }
-  //   if (dependent > noOfDependent) {
-  //     setShowAlert(true);
-  //     setAlertType('danger');
-  //     setAlertText(`Number of dependents reach its maximum limit according to policy`);
-  //     return false;
-  //   }
-  //   return true;
-  // };
+    if (mainMember > 1) {
+      setShowAlert(true);
+      setAlertType('danger');
+      setAlertText('Number of main members cannot be more than 1');
+      return false;
+    }
+    // if (spouse > noOfSpouse) {
+    //   setShowAlert(true);
+    //   setAlertType('danger');
+    //   setAlertText(`Number of spouses reach its maximum limit according to policy`);
+    //   return false;
+    // }
+    // if (dependent > noOfDependent) {
+    //   setShowAlert(true);
+    //   setAlertType('danger');
+    //   setAlertText(`Number of dependents reach its maximum limit according to policy`);
+    //   return false;
+    // }
+    return true;
+  };
 
   const handleUserFieldChange = (i, name, value) => {
-    const usersClone = [...users];
-    usersClone[i][name] = value;
-    setUsers(usersClone);
-    // if (validateUsers(usersClone)) setUsers(usersClone);
+    const usersClone = users.map((m, idx) => (i !== idx ? m : { ...m, [name]: value }));
+    if (validateUsers(usersClone)) setUsers(usersClone);
   };
 
   const handleSubmit = (e) => {
@@ -160,6 +159,8 @@ const MsoUserInfoForm = (props) => {
     if (e) e.preventDefault();
     await dispatch(verifyOTP({ otp: userOtp }));
   };
+
+  console.log('users :>> ', users);
 
   return (
     <>

@@ -5,6 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
 import { logEvent } from 'firebase/analytics';
+import { LinkIcon } from '@heroicons/react/outline';
 
 import { PDFViewer } from '@react-pdf/renderer';
 import DownloadPolicy from '../components/common/DownloadPolicy';
@@ -179,25 +180,33 @@ const MyAccount = (props) => {
         model,
         model_name,
       } = {},
+      payment: { transaction_link } = {},
     } = device;
     return (
       <div
-        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl flex flex-row justify-between mb-4 relative"
         key={_id}
       >
-        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex items-center h-full w-full">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white flex items-center justify-center">
             <img loading="lazy" src={logo} alt="" className="h-auto w-full" />
           </div>
           <div className="flex flex-col">
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${device_type} - ${brand} `}</div>
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-row items-center">
+              <div>{`${device_type} - ${brand} `}</div>
+              <LinkIcon
+                title="Transaction details"
+                className="ml-2 w-5 h-5 cursor-pointer"
+                onClick={() => window.open(transaction_link, '_blank')}
+              />
+            </div>
             <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
               {model_name || model || 'Others'}
             </div>
           </div>
         </div>
 
-        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex sm:justify-end items-center min-w-max">
           {!review?.length && (
             <button
               type="button"
@@ -256,6 +265,7 @@ const MyAccount = (props) => {
       logo = msoLogo,
       discount_amount,
       review,
+      payment: { transaction_link } = {},
       // plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
     } = policy;
     const { MSOMembers, quote, mso_addon_service, plan_details } = details;
@@ -263,22 +273,29 @@ const MyAccount = (props) => {
 
     return (
       <div
-        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl flex flex-row justify-between mb-4 relative"
         key={_id}
       >
-        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex items-center h-full w-full">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
             <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
           </div>
           <div className="flex flex-col">
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${MSOPlanDuration} `}</div>
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-row items-center">
+              <div>{`${name} - ${MSOPlanDuration} `}</div>
+              <LinkIcon
+                title="Transaction details"
+                className="ml-2 w-5 h-5 cursor-pointer"
+                onClick={() => window.open(transaction_link, '_blank')}
+              />
+            </div>
             <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
               {MSOCoverUser}
             </div>
           </div>
         </div>
 
-        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex sm:justify-end items-center min-w-max">
           {!review?.length && (
             <button
               type="button"
@@ -329,27 +346,35 @@ const MyAccount = (props) => {
       crypto_currency,
       review,
       wallet_address,
+      payment: { transaction_link } = {},
     } = policy;
     const { company_code, name, duration_days, token_id } = details;
 
     return (
       <div
-        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl flex flex-row justify-between mb-4 relative"
         key={_id}
       >
-        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex items-center h-full w-full">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
             <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
           </div>
           <div className="flex flex-col">
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${company_code} `}</div>
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-row items-center">
+              <div>{`${name} - ${company_code} `}</div>
+              <LinkIcon
+                title="Transaction details"
+                className="ml-2 w-5 h-5 cursor-pointer"
+                onClick={() => window.open(transaction_link, '_blank')}
+              />
+            </div>
             <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
               {`${crypto_amount} ${crypto_currency} - ${duration_days} days`}
             </div>
           </div>
         </div>
 
-        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex sm:justify-end items-center min-w-max">
           {!review?.length && (
             <button
               type="button"
@@ -402,27 +427,35 @@ const MyAccount = (props) => {
       txn_hash,
       wallet_address,
       review,
+      payment: { transaction_link } = {},
     } = policy;
     const { company_code, name, duration_days, token_id } = details;
 
     return (
       <div
-        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl flex justify-between mb-4 relative"
         key={_id}
       >
-        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex items-center w-full">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
             <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
           </div>
           <div className="flex flex-col">
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${company_code} `}</div>
-            <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-row items-center">
+              <div>{`${name} - ${company_code} `}</div>
+              <LinkIcon
+                title="Transaction details"
+                className="ml-2 w-5 h-5 cursor-pointer"
+                onClick={() => window.open(transaction_link, '_blank')}
+              />
+            </div>
+            <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white">
               {`${crypto_amount} ${crypto_currency} - ${duration_days} days`}
             </div>
           </div>
         </div>
 
-        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex sm:justify-end items-center min-w-max">
           {!review?.length && (
             <button
               type="button"
@@ -466,26 +499,6 @@ const MyAccount = (props) => {
               {email}
             </label>
           </div>
-          {/* <div className="mt-1 flex rounded-md shadow-sm">  
-            <div className="relative flex items-stretch flex-grow focus-within:z-10">
-              <input
-                disabled
-                type="email"
-                name="email"
-                id="email"
-                value={email}
-                placeholder="your@email.com"
-                onChange={(e) => setEmail(e.target.value)}
-                className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 bg-gray-50"
-              />
-            </div>
-            <button
-              type="button"
-              className="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-0 focus:border-0"
-            >
-              <PencilAltIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-            </button>
-          </div> */}
         </div>
       </div>
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
@@ -513,41 +526,6 @@ const MyAccount = (props) => {
             No insurance policies to display
           </div>
         )}
-
-        {/* <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
-          <div className="flex items-center h-full sm:col-span-6 lg:col-span-7 col-span-12">
-            <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl bg-gray-200">
-              <img
-                src="https://via.placeholder.com/400x250.png"
-                alt=""
-                className="h-full w-full rounded-xl"
-              />
-            </div>
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white">
-              Uniswap - Nexus Mutual
-            </div>
-          </div>
-          <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-5 col-span-12">
-            <Modal
-              title="Instruction"
-              bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
-              renderComponent={ClaimCards}
-            >
-              <button
-                type="button"
-                className="md:px-6 py-3 px-4 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-              >
-                Submit Claim
-              </button>
-            </Modal>
-            <button
-              type="button"
-              className="md:px-7 px-5 py-3 bg-discount-apply-btn-bg text-white font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-            >
-              Reedem Claim
-            </button>
-          </div>
-        </div> */}
       </div>
     </>
   );

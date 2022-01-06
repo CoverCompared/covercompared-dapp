@@ -11,6 +11,7 @@ export default function Select({
   selectedOption,
   setSelectedOption,
   fieldIcon,
+  negativeLeft,
 }) {
   const { theme } = useContext(ThemeContext);
   return (
@@ -34,7 +35,12 @@ export default function Select({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-20 mt-3 w-full min-w-max bg-white dark:bg-featureCard-dark-bg shadow-lg max-h-56 rounded-md py-0 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+              <Listbox.Options
+                className={classNames(
+                  negativeLeft ? '-left-14' : '',
+                  'absolute z-20 mt-2 w-full min-w-max bg-white dark:bg-featureCard-dark-bg shadow-lg max-h-56 rounded-md py-0 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm',
+                )}
+              >
                 {options.map((item) => (
                   <Listbox.Option
                     key={item?.option || item}

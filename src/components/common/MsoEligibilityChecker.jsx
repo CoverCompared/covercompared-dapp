@@ -25,10 +25,16 @@ const countries = [
   { value: 'NOT', label: 'None of Them' },
 ];
 
-const MsoEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitle }) => {
+const MsoEligibilityChecker = ({
+  setIsModalOpen,
+  setIsEligible,
+  onClose,
+  setTitle,
+  country,
+  setCountry,
+}) => {
   const dispatch = useDispatch();
 
-  const [country, setCountry] = useState('');
   const [userCountry, setUserCountry] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);

@@ -225,8 +225,8 @@ function* getCoverById({ payload }) {
       }),
     );
 
-    const { protocol, unique_id } = payload;
-    const url = `${API_BASE_URL}/cover-details/${protocol}/${unique_id}`;
+    const { type, unique_id } = payload;
+    const url = `${API_BASE_URL}/cover-details/${type}/${unique_id}`;
     const cover = yield call(axiosGet, url);
 
     if (cover?.data?.success) {

@@ -8,44 +8,41 @@ const useAddress = () => {
   const getAddress = (address) => {
     return address[chainId] ? address[chainId] : address[1];
   };
-  const getMSOAddress = useCallback(async () => getAddress(addresses.mso), [library, chainId]);
-  const getP4LAddress = useCallback(async () => getAddress(addresses.p4l), [library, chainId]);
+  const getMSOAddress = useCallback(() => getAddress(addresses.mso), [library, chainId]);
+  const getP4LAddress = useCallback(() => getAddress(addresses.p4l), [library, chainId]);
   const getExchangeAgentAddress = useCallback(
-    async () => getAddress(addresses.exchangeAgent),
+    () => getAddress(addresses.exchangeAgent),
     [library, chainId],
   );
   const getNexusMutualAddress = useCallback(
-    async () => getAddress(addresses.nexusMutual),
+    () => getAddress(addresses.nexusMutual),
     [library, chainId],
   );
   const getInsureAceAddress = useCallback(
-    async () => getAddress(addresses.insureAce),
+    () => getAddress(addresses.insureAce),
     [library, chainId],
   );
   const getCoverComparedAddress = useCallback(
-    async () => getAddress(addresses.coverCompared),
+    () => getAddress(addresses.coverCompared),
     [library, chainId],
   );
   const getPriceFeedAddressBySymbol = useCallback(
-    async (symbol) => getAddress(addresses.priceFeed[`${symbol}`]),
+    (symbol) => getAddress(addresses.priceFeed[`${symbol}`]),
     [library, chainId],
   );
-  const getCrvAddress = useCallback(async () => getAddress(tokens.crv), [library, chainId]);
+  const getCrvAddress = useCallback(() => getAddress(tokens.crv), [library, chainId]);
 
-  const getTokenAddress = useCallback(
-    async (symbol) => getAddress(tokens[symbol]),
-    [library, chainId],
-  );
+  const getTokenAddress = useCallback((symbol) => getAddress(tokens[symbol]), [library, chainId]);
 
   const getDistributorAddress = useCallback(
-    async () => getAddress(addresses.distributor),
+    () => getAddress(addresses.distributor),
     [library, chainId],
   );
 
-  const getClaimAddress = useCallback(async () => getAddress(addresses.claims), [library, chainId]);
+  const getClaimAddress = useCallback(() => getAddress(addresses.claims), [library, chainId]);
 
   const getClaimRewardAddress = useCallback(
-    async () => getAddress(addresses.claimsReward),
+    () => getAddress(addresses.claimsReward),
     [library, chainId],
   );
 

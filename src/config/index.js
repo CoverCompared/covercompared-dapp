@@ -30,3 +30,5 @@ export const BICONOMY_API_KEY = {
   4: 'TfBMzaWNW.fc5afe00-0108-40e3-8fe5-a1110594ca8d',
   42: 'hmIyM_AsF.ce90fe45-efc4-4bcf-87e2-a49863d8219c',
 };
+
+export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';

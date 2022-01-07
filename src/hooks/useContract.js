@@ -12,7 +12,9 @@ import {
   getDistributorContract,
   getClaimContract,
   getClaimRewardContract,
+  getUniswapV2RouterContract,
 } from '../utils/contractHelpers';
+import { ROUTER_ADDRESS } from '../config';
 import erc20Abi from '../config/abi/erc20.json';
 
 export const useMSOContract = () => {
@@ -87,4 +89,9 @@ export const useClaimRewardContract = () => {
     () => getClaimRewardContract(getClaimRewardAddress(), library.getSigner()),
     [library],
   );
+};
+
+export const useUniswapV2RouterContract = () => {
+  const { library } = useActiveWeb3React();
+  return useMemo(() => getUniswapV2RouterContract(ROUTER_ADDRESS, library.getSigner()), [library]);
 };

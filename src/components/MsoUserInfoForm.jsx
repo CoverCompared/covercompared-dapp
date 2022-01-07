@@ -389,7 +389,7 @@ const MsoUserInfoForm = (props) => {
               htmlFor="termsAndCondition"
               className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
             >
-              I have read and agree to the
+              I have read and agree to the{' '}
               <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
                 terms and conditions
               </a>

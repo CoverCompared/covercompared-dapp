@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -344,22 +344,23 @@ const CoverBuyBox = (props) => {
   const { getTokenAmountForETH } = useTokenAmount();
   const { getTokenAddress } = useAddress();
   const crvAddress = getTokenAddress('crv');
-  useEffect(() => {
-    const periodVal = `${periodField}`.split('.')[0];
-    setPeriodField(+periodVal);
-  }, [periodField]);
+  // useEffect(() => {
+  //   const periodVal = `${periodField}`.split('.')[0];
+  //   setPeriodField(+periodVal);
+  // }, [periodField]);
 
   const period = useMemo(() => {
+    const periodVal = `${periodField}`.split('.')[0];
     let val = 1;
     switch (periodSelect) {
       case 'Days':
-        val = periodField;
+        val = periodVal;
         break;
       case 'Week':
-        val = periodField * 7;
+        val = periodVal * 7;
         break;
       case 'Month':
-        val = periodField * 30;
+        val = periodVal * 30;
         break;
 
       default:
@@ -387,7 +388,7 @@ const CoverBuyBox = (props) => {
     return _chainId;
   }, [product]);
 
-  const callGetQuote = () => {
+  const callGetQuote = useCallback(() => {
     dispatch(
       getQuote({
         address,
@@ -400,8 +401,7 @@ const CoverBuyBox = (props) => {
         supported_chain: 'Ethereum',
       }),
     );
-  };
-
+  }, [account, period, amountSelect, amountField]);
   useEffect(() => {
     (async () => {
       if (chainId !== productChainId) {

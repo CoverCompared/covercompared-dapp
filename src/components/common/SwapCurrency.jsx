@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { parseUnits } from 'ethers/lib/utils';
 import {
-  ChainId,
-  Currency,
   CurrencyAmount,
   JSBI,
   Token,
@@ -11,19 +9,20 @@ import {
   ETHER,
   Fetcher,
   Trade,
-  Route,
   Router,
   Percent,
   TokenAmount,
-  TradeType,
 } from '@uniswap/sdk';
 import { BigNumber } from 'ethers';
+import { toast } from 'react-toastify';
 import useAddress from '../../hooks/useAddress';
 import SwapIcon from '../../assets/img/swap-icon.svg';
 import SwapWhiteIcon from '../../assets/img/swap-white-icon.svg';
 import { ThemeContext } from '../../themeContext';
-import { useTokenContract, useUniswapV2RouterContract } from '../../hooks/useContract';
-import { getUniswapV2RouterContract } from '../../utils/contractHelpers';
+import { useUniswapV2RouterContract } from '../../hooks/useContract';
+import useTokenApprove from '../../hooks/useTokenApprove';
+import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
+import { ROUTER_ADDRESS } from '../../config';
 
 const tryParseAmount = (value, currency) => {
   if (!value || !currency) {
@@ -87,8 +86,8 @@ const useTradeExactOut = (currencyIn, currencyAmountOut) => {
       (async () => {
         setPair(
           await Fetcher.fetchPairData(
-            wrappedCurrency(currencyIn, chainId),
             wrappedCurrency(currencyAmountOut?.currency, chainId),
+            wrappedCurrency(currencyIn, chainId),
           ),
         );
       })();
@@ -133,12 +132,15 @@ const useSwapCallArguments = (trade, allowedSlippage, deadline, recipientAddress
         }),
       );
     }
+
     return swapMethods.map((parameters) => ({ parameters, contract }));
   }, [account, allowedSlippage, chainId, deadline, library, recipient, trade]);
 };
 const useSwapCallback = (trade, allowedSlippage, deadline, recipientAddressOrName) => {
   const { account, chainId, library } = useWeb3React();
   const swapCalls = useSwapCallArguments(trade, allowedSlippage, deadline, recipientAddressOrName);
+  const { onApprove } = useTokenApprove(ROUTER_ADDRESS);
+  const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(ROUTER_ADDRESS);
   const recipient = account;
   return useMemo(() => {
     if (!trade || !library || !account || !chainId) {
@@ -151,15 +153,17 @@ const useSwapCallback = (trade, allowedSlippage, deadline, recipientAddressOrNam
     return {
       state: 'Valid',
       callback: async function onSwap() {
+        if (trade.inputAmount.currency.address && !crvAllowance) {
+          await onApprove();
+          await handleAllowance();
+        }
         const estimatedCalls = await Promise.all(
           swapCalls.map((call) => {
             const {
               parameters: { methodName, args, value },
               contract,
             } = call;
-            console.log(call);
             const options = !value || /^0x0*$/.test(value) ? {} : { value };
-
             return contract.estimateGas[methodName](...args, options)
               .then((gasEstimate) => {
                 return {
@@ -224,7 +228,6 @@ const useSwapCallback = (trade, allowedSlippage, deadline, recipientAddressOrNam
           gasEstimate,
         } = successfulEstimation;
 
-        console.log(successfulEstimation);
         return contract[methodName](...args, {
           gasLimit: gasEstimate
             .mul(BigNumber.from(10000).add(BigNumber.from(1000)))
@@ -286,7 +289,6 @@ const SwapCurrency = () => {
     !isExactIn ? parsedAmount : undefined,
   );
   const trade = isExactIn ? bestTradeExactIn : bestTradeExactOut;
-  console.log(isExactIn, bestTradeExactIn, bestTradeExactOut);
   const parsedAmounts = {
     INPUT: independentField === 'INPUT' ? parsedAmount : trade?.inputAmount,
     OUTPUT: independentField === 'OUTPUT' ? parsedAmount : trade?.outputAmount,
@@ -322,6 +324,10 @@ const SwapCurrency = () => {
     setIndependentField(independentField === 'INPUT' ? 'OUTPUT' : 'INPUT');
   };
   const handleSwap = () => {
+    if (!formattedAmounts.INPUT || !formattedAmounts.OUTPUT) {
+      toast.warning('Please input token amount correctly');
+      return;
+    }
     if (swapCallback) {
       swapCallback()
         .then((hash) => {

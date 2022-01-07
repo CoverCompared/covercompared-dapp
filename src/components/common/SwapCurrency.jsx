@@ -295,7 +295,7 @@ const SwapCurrency = () => {
   };
   const formattedAmounts = {
     [independentField]: typedValue,
-    [dependentField]: parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+    [dependentField]: parsedAmounts[dependentField]?.toSignificant(6) ?? '0',
   };
   const slippageTolerance = new Percent('50', '10000');
   const deadline = Math.floor(Date.now() / 1000) + 60 * 20;

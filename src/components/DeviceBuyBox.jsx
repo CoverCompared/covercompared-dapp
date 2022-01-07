@@ -71,7 +71,6 @@ const DeviceBuyBox = (props) => {
   const [alertType, setAlertType] = useState('');
 
   const [deviceType, setDeviceType] = useState(initDeviceType || deviceOptions[0] || '');
-  console.log('initDeviceType :>> ', initDeviceType);
   const [brand, setBrand] = useState('');
   const [value, setValue] = useState('');
   const [purchaseMonth, setPurchaseMonth] = useState('');

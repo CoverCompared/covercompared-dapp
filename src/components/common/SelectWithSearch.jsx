@@ -234,7 +234,7 @@ const SelectWithSearch = ({
                         <div className="flex justify-between items-center">
                           <div>{option}</div>
                           <div className="font-Medium font-Montserrat text-body-3xs text-discount-text h-full px-3">
-                            Use CVR to ger 50% discount
+                            Use CVR to get 25% discount
                           </div>
                         </div>
                       )}

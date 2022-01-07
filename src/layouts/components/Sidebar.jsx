@@ -10,26 +10,12 @@ import { ThemeContext } from '../../themeContext';
 import { classNames } from '../../functions/utils';
 import getNav from '../../components/common/sidebarNav';
 import { setLoginModalVisible, setRegisterModalVisible } from '../../redux/actions';
+import { socialMediaLinks } from '../../functions/data';
 
 import coverComparedLogo from '../../assets/img/logo-final-light.svg';
 import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
-import TelegramIcon from '../../assets/img/telegram.svg';
-import InstagramIcon from '../../assets/img/instagram.svg';
-import LinkdinIcon from '../../assets/img/linkedin.svg';
-import GithubIcon from '../../assets/img/github.svg';
-import GitbookIcon from '../../assets/img/gitbook.svg';
-import TwitterIcon from '../../assets/img/twitter.svg';
 import SideBarMailIcon from '../../assets/img/side-bar-mail-icon.svg';
 import 'react-perfect-scrollbar/dist/css/styles.css';
-
-const socialMedia = [
-  { href: 'https://t.me/CoverCompared', name: 'Telegram', icon: TelegramIcon },
-  { href: 'https://twitter.com/CoverCompared', name: 'Twitter', icon: TwitterIcon },
-  { href: 'https://www.instagram.com/covercompared/', name: 'Instagram', icon: InstagramIcon },
-  { href: 'https://www.linkedin.com/company/covercompared/', name: 'Linkdin', icon: LinkdinIcon },
-  { href: 'https://github.com/CoverCompared', name: 'Github', icon: GithubIcon },
-  { href: 'https://www-covercompared.gitbook.io', name: 'Gitbook', icon: GitbookIcon },
-];
 
 const Sidebar = (props) => {
   const navigation = getNav();
@@ -93,7 +79,7 @@ const Sidebar = (props) => {
 
               <div className="mt-6 flex flex-col items-center">
                 <div className="flex justify-center mb-6">
-                  {socialMedia.map((item) => (
+                  {socialMediaLinks.map((item) => (
                     <a key={uniqid()} href={item.href} target="_blank" rel="noreferrer">
                       <div className="rounded-full h-5 w-5 hover:bg-bluegradient flex items-center justify-center mx-1.5">
                         <img loading="lazy" src={item.icon} alt={item.name} className="h-4" />

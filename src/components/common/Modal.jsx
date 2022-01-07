@@ -6,6 +6,7 @@ import { classNames } from '../../functions/utils';
 const Modal = (props) => {
   const {
     children,
+    className = '',
     sizeClass,
     title: modalTitle,
     renderComponent: C,
@@ -48,6 +49,7 @@ const Modal = (props) => {
   return (
     <>
       <div
+        className={className}
         onClick={(e) => {
           if (!validate || (validate && validate())) {
             setIsModalOpen(true);

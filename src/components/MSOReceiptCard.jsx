@@ -9,6 +9,9 @@ const MSOReceiptCard = (props) => {
   const {
     txn_hash,
     payment_hash,
+    transaction_link,
+    network_name,
+    crypto_currency,
     currency,
     membersInfo,
     quote,
@@ -52,20 +55,30 @@ const MSOReceiptCard = (props) => {
             </div>
           </div>
 
-          <div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Policy Number: {txn_hash || '-'}
+          {payment_hash && (
+            <div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Policy Number: {txn_hash || '-'}
+              </div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Tnx Hash:{' '}
+                <a
+                  className="text-blue-900"
+                  href={transaction_link}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {shortenTxHash(payment_hash) || '-'}
+                </a>
+              </div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Network : Ethereum {network_name || ''}
+              </div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Currency: {crypto_currency || '-'}
+              </div>
             </div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Tnx Hash: {shortenTxHash(payment_hash)}
-            </div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Network : kovan
-            </div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Currency: {currency}
-            </div>
-          </div>
+          )}
         </div>
 
         <div className="w-full mb-8 mt-8">

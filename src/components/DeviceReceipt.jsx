@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   total: {
     color: '#011b41',
-    fontSize: '14pt',
+    fontSize: '12pt',
     fontWeight: 'semibold',
     marginBottom: '6pt',
   },
@@ -71,12 +71,18 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  blueText: {
+    color: '#1E3A8A',
+  },
 });
 
 const DeviceReceipt = (props) => {
   const {
     txn_hash,
     payment_hash,
+    transaction_link,
+    network_name,
+    crypto_currency,
     quote,
     total,
     discountAmount,
@@ -196,20 +202,33 @@ const DeviceReceipt = (props) => {
           </View>
 
           <View style={[styles.row, styles.justify_between, styles.mt]}>
-            <View>
-              <View style={styles.total}>
-                <Text>Transction Details</Text>
+            {payment_hash && (
+              <View>
+                <View style={styles.total}>
+                  <Text>Transaction Details</Text>
+                </View>
+                <View style={[styles.total, styles.paymentetails]}>
+                  <Text>
+                    Tnx Hash:{' '}
+                    <a
+                      style={styles.blueText}
+                      href={transaction_link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {shortenTxHash(payment_hash)}
+                    </a>
+                  </Text>
+                </View>
+                <View style={[styles.total, styles.paymentetails]}>
+                  <Text>Network: Ethereum {network_name}</Text>
+                </View>
+                <View style={[styles.total, styles.paymentetails]}>
+                  <Text>currency: {crypto_currency}</Text>
+                </View>
               </View>
-              <View style={[styles.total, styles.paymentetails]}>
-                <Text>Txn Hash: {shortenTxHash(payment_hash)}</Text>
-              </View>
-              <View style={[styles.total, styles.paymentetails]}>
-                <Text>Network: Kovan</Text>
-              </View>
-              <View style={[styles.total, styles.paymentetails]}>
-                <Text>currency: USD</Text>
-              </View>
-            </View>
+            )}
+
             <View style={styles.deviceDetailsContainer}>
               <View style={styles.total}>
                 <Text>Payment Details</Text>

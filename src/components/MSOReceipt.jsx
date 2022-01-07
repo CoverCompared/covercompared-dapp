@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   total: {
     color: '#011b41',
-    fontSize: '14pt',
+    fontSize: '12pt',
   },
   policyNumber: {
     fontSize: '12pt',
@@ -98,6 +98,9 @@ const styles = StyleSheet.create({
     fontSize: '12pt',
     fontWeight: 'bold',
     marginTop: 40,
+  },
+  blueText: {
+    color: '#1E3A8A',
   },
 });
 
@@ -114,6 +117,9 @@ const MSOReceipt = (props) => {
   const {
     txn_hash,
     payment_hash,
+    transaction_link,
+    network_name,
+    crypto_currency,
     currency,
     membersInfo,
     quote,
@@ -155,20 +161,32 @@ const MSOReceipt = (props) => {
                 <Text>{MSOCoverUser}</Text>
               </View>
             </View>
-            <View>
-              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-                <Text>Policy Number: {txn_hash || '-'}</Text>
+            {payment_hash && (
+              <View>
+                <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                  <Text>Policy Number: {txn_hash || '-'}</Text>
+                </View>
+                <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                  <Text>
+                    Tnx Hash:{' '}
+                    <a
+                      style={styles.blueText}
+                      href={transaction_link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {shortenTxHash(payment_hash) || '-'}
+                    </a>
+                  </Text>
+                </View>
+                <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                  <Text>Network: Ethereum {network_name || ''}</Text>
+                </View>
+                <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                  <Text>Currency: {crypto_currency || '-'}</Text>
+                </View>
               </View>
-              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-                <Text>Tnx Hash: {shortenTxHash(payment_hash) || '-'}</Text>
-              </View>
-              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-                <Text>Network: Kovan</Text>
-              </View>
-              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-                <Text>Currency: {currency || '-'}</Text>
-              </View>
-            </View>
+            )}
           </View>
 
           <View

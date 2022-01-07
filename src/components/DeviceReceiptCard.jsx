@@ -9,6 +9,9 @@ const DeviceReceiptCard = (props) => {
   const {
     txn_hash,
     payment_hash,
+    transaction_link,
+    network_name,
+    crypto_currency,
     quote,
     total,
     discountAmount,
@@ -121,20 +124,31 @@ const DeviceReceiptCard = (props) => {
         </div>
 
         <div className="grid md:grid-cols-12 md:gap-6 gap-8 xl:gap-10 mt-8">
-          <div className="col-span-12 lg:col-span-5">
-            <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left mb-2">
-              Transcation Details
+          {payment_hash && (
+            <div className="col-span-12 lg:col-span-5">
+              <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left mb-2">
+                Transaction Details
+              </div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Tnx Hash:{' '}
+                <a
+                  className="text-blue-900"
+                  href={transaction_link}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {shortenTxHash(payment_hash)}
+                </a>
+              </div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Network: Ethereum {network_name}
+              </div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Currency: {crypto_currency}
+              </div>
             </div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Tnx Hash : {shortenTxHash(payment_hash)}
-            </div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Network: Kovan
-            </div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Currency: USD
-            </div>
-          </div>
+          )}
+
           <div className="col-span-12 lg:col-span-7">
             <div className="text-dark-blue font-semibold font-Montserrat md:text-h6 text-body-md text-left mb-2">
               Payment Details

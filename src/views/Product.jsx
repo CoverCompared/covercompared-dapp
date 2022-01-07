@@ -5,6 +5,7 @@ import StarRatings from 'react-star-ratings';
 import { useDispatch, useSelector } from 'react-redux';
 import { logEvent } from 'firebase/analytics';
 import { Markup } from 'interweave';
+import { ExternalLinkIcon } from '@heroicons/react/outline';
 
 import { analytics } from '../config/firebase';
 import ReviewCard from '../components/ReviewCard';
@@ -68,6 +69,7 @@ const CoverInsuranceProduct = (props) => {
     description,
     reviews = [],
     terms_and_conditions,
+    pdf,
     cover,
   } = useSelector((state) => state.coverList?.cover) || {};
   const avgRating =
@@ -92,8 +94,6 @@ const CoverInsuranceProduct = (props) => {
     currency_limit,
     supportedChains,
   } = product || {};
-
-  console.log('product :>> ', product);
 
   useEffect(() => {
     dispatch(getCoverById({ type, unique_id }));
@@ -182,11 +182,11 @@ const CoverInsuranceProduct = (props) => {
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 {typeof cover?.capacity === 'object'
-                  ? `${numberFormat(cover?.capacity?.capacityETH || 0, 1)}/${numberFormat(
+                  ? `${numberFormat(cover?.capacity?.capacityETH || 0, 1)} ETH / ${numberFormat(
                       cover?.capacity?.capacityDAI || 0,
                       1,
-                    )}`
-                  : numberFormat(cover?.capacity || 0, 1)}
+                    )} DAI`
+                  : `${numberFormat(cover?.capacity || 0, 1)} ETH`}
               </div>
             </div>
           </div>
@@ -198,30 +198,41 @@ const CoverInsuranceProduct = (props) => {
         <div className="grid grid-cols-12 xl:gap-x-12 gap-x-6 gap-y-10 md:mt-20 mt-6 mb-10">
           <div className="lg:col-span-7 xl:col-span-6 col-span-12 order-2 md:order-1">
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 dark:text-white">
-              Description :
+              Description:
             </div>
             <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
               {description}
             </div>
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
-              Additional Details :
+              Additional Details:
             </div>
             <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
               {additional_details}
             </div>
-            <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
-              Term & Condition :
-            </div>
-            <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
-              {terms_and_conditions && (
-                <>
+
+            {terms_and_conditions && (
+              <>
+                <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
+                  Term & Condition:
+                </div>
+                <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
                   <Markup content={terms_and_conditions} />
                   <br />
                   <p>Supported chains:</p>
                   {supportedChains && <p>{supportedChains.toString()}</p>}
-                </>
-              )}
-            </div>
+                  <br />
+                  {pdf && (
+                    <p className="flex">
+                      Check out full details here
+                      <ExternalLinkIcon
+                        className="ml-2 w-5 h-5 cursor-pointer"
+                        onClick={() => window.open(pdf, '_blank')}
+                      />
+                    </p>
+                  )}
+                </div>
+              </>
+            )}
           </div>
           <div className="xl:col-span-5 xl:col-start-8 lg:col-span-5 col-span-12 order-1 md:order-2">
             <div className="font-Montserrat font-semibold text-19 text-dark-blue mb-4 dark:text-white">
@@ -283,7 +294,9 @@ const CoverInsuranceProduct = (props) => {
                 Did you know
               </div>
               <div className="font-Inter text-body-md text-counter-card-text leading-6 text-center">
-                Lorem ipsum dolor sit ametsectetur adipiscing elit. Ultrices purus sit placeranunc.
+                CoverCompared is the first-ever multichain insurance aggregator that offers a pool
+                of traditional & crypto-asset based insurance policies in exchange for your
+                cryptocurrencies.
               </div>
             </div>
           </div>

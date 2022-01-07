@@ -160,8 +160,6 @@ const MsoUserInfoForm = (props) => {
     await dispatch(verifyOTP({ otp: userOtp }));
   };
 
-  console.log('users :>> ', users);
-
   return (
     <>
       {showAlert && (

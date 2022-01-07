@@ -163,8 +163,6 @@ const MSOPlans = (props) => {
     return null;
   };
 
-  console.log('country :>> ', country);
-
   return (
     <>
       {loader && <OverlayLoading />}

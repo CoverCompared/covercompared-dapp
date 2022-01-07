@@ -7,6 +7,7 @@ import { logEvent } from 'firebase/analytics';
 import { analytics } from '../config/firebase';
 import { searchBlog } from '../redux/actions/CoverList';
 import Loading from '../components/common/Loading';
+import { socialMediaLinks } from '../functions/data';
 
 const Blog = () => {
   const { blogPage } = useParams();
@@ -65,6 +66,17 @@ const Blog = () => {
           </div>
           <div className="font-Inter text-post-body-text text-body-md dark:text-subtitle-dark-text mb-5">
             <Markup content={blogContent} />
+          </div>
+          <hr />
+
+          <div className="flex mb-2 mt-3">
+            {socialMediaLinks.map((item, i) => (
+              <a key={i} href={item.href} target="_blank" rel="noreferrer" className="mx-1.5">
+                <div className="rounded-full border p-1 h-8 w-8 hover:bg-bluegradient flex items-center justify-center">
+                  <img loading="lazy" src={item.icon} alt={item.name} className="h-4" />
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       );

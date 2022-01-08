@@ -183,7 +183,7 @@ const CoverInsuranceProduct = (props) => {
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 {typeof cover?.capacity === 'object'
                   ? `${numberFormat(cover?.capacity?.capacityETH || 0, 1)} ETH / ${numberFormat(
-                      cover?.capacity?.capacityDAI || 0,
+                      cover?.capacity?.capacityDAI / 1000000000000 || 0,
                       1,
                     )} DAI`
                   : `${numberFormat(cover?.capacity || 0, 1)} ETH`}
@@ -249,7 +249,7 @@ const CoverInsuranceProduct = (props) => {
                 type="button"
                 className="py-3 px-8 bg-discount-apply-btn-bg rounded-2xl outline-none border-0 text-discount-apply-btn-text font-Montserrat font-semibold text-body-md"
               >
-                Apply
+                Apply Now
               </button> */}
             </div>
           </div>

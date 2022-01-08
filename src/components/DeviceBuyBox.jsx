@@ -735,16 +735,14 @@ const DeviceBuyBox = (props) => {
 
           <div className="mt-6">
             <input
-              required
-              id="terms"
-              name="terms"
+              id="termsAndCondition"
+              name="termsAndCondition"
               type="checkbox"
-              checked={termsCheck}
-              onChange={() => setTermsCheck(!termsCheck)}
-              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0"
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:ring-offset-0 duration-500"
+              required
             />
             <label
-              htmlFor="terms"
+              htmlFor="termsAndCondition"
               className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
             >
               I have read and agree to the{' '}

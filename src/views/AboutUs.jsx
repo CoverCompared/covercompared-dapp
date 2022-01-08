@@ -200,9 +200,9 @@ const AboutUs = () => {
       </div>
       {/* partner-section-end */}
 
-      {/* menifesto-section-start */}
+      {/* manifesto-section-start */}
       <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mb-12 mt-20">
-        Our Menifesto
+        Our Manifesto
       </div>
       <div className="flex justify-center">
         <img loading="lazy" src={GlobalIcon} className="text-center" alt="" />

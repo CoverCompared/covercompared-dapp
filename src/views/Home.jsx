@@ -75,7 +75,7 @@ const Features = (props) => {
   return (
     <div className="flex flex-col items-center xl:px-36 md:px-4 md:pb-20 pb-16 text-center">
       <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center lg:max-w-xs dark:text-white">
-        Save money on your insurance in 4 easy step!
+        Save money on your insurance in 4 easy steps!
       </h2>
       <div className="md:mt-10 mt-8 xl:px-14 md:px-6 grid grid-cols-2 gap-y-6 gap-x-5 xl:gap-x-8">
         {featureCards.map(({ icon, title, body }) => (
@@ -271,7 +271,7 @@ export default function Home(props) {
                 </div>
                 <div className="text-dark-blue-1 font-Montserrat font-light text-h6 max-w-8 dark:text-white">
                   Avail claims against{' '}
-                  <span className="text-light-green font-semibold">exchanges going backrupt</span>
+                  <span className="text-light-green font-semibold">exchanges going bankrupt</span>
                 </div>
               </div>
             </div>

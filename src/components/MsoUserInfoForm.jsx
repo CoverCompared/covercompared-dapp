@@ -251,7 +251,7 @@ const MsoUserInfoForm = (props) => {
       </div>
 
       <form id="msp-checkout-form" onSubmit={handleSubmit}>
-        <div className="w-full mb-8 overflow-x-auto rounded-lg shadow-lg px-0.5px">
+        <div className="w-full mb-4 md:mb-8 overflow-x-auto rounded-lg shadow-lg px-0.5px">
           <table className="w-full">
             <thead>
               <tr className="font-Montserrat text-sm tracking-wide text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 uppercase">
@@ -267,7 +267,7 @@ const MsoUserInfoForm = (props) => {
             <tbody className="bg-white">
               {users.map((user, index) => (
                 <tr key={index} className="text-gray-700 border-r border-global-banner-gd-2">
-                  <td className="py-1 text-ms font-semibold border min-w-40">
+                  <td className="py-1 text-ms font-semibold border min-w-44">
                     <CheckoutFormInput
                       title="Type of user"
                       id="userType"
@@ -285,7 +285,7 @@ const MsoUserInfoForm = (props) => {
                       ]}
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
                       title="Only Alphabets are allowed"
@@ -300,7 +300,7 @@ const MsoUserInfoForm = (props) => {
                       required
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
                       title="Only Alphabets are allowed"
@@ -315,7 +315,7 @@ const MsoUserInfoForm = (props) => {
                       required
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       title="Country of residence"
                       inputValue={user.country}
@@ -330,7 +330,7 @@ const MsoUserInfoForm = (props) => {
                       dropdownOptions={initial(countries)}
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       type="date"
                       title="Date of Birth"
@@ -346,9 +346,10 @@ const MsoUserInfoForm = (props) => {
                       required
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
-                      title="Identity"
+                      pattern="^[a-zA-Z0-9-]*$"
+                      title="Only Alphabets, Numbers and Hyphen are allowed"
                       type="text"
                       id="identity"
                       name="identity"
@@ -376,7 +377,7 @@ const MsoUserInfoForm = (props) => {
           </table>
         </div>
 
-        <div className="flex justify-between items-center mt-8">
+        <div className="flex flex-col md:flex-row justify-center md:justify-between items-center mt-4 md:mt-8">
           <div>
             <input
               id="termsAndCondition"
@@ -398,7 +399,7 @@ const MsoUserInfoForm = (props) => {
           </div>
           <button
             type="submit"
-            className="ml-3 py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            className="mt-6 md:mt-0 py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             Proceed to Pay
           </button>

@@ -152,7 +152,7 @@ const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setT
 
   return (
     <div className="grid grid-cols-12">
-      <div className="grid col-span-8 col-start-3">
+      <div className="grid col-span-12 md:col-span-8 col-start-0 md:col-start-3 px-4 md:px-0">
         <form onSubmit={handleSubmit}>
           <div className="relative">
             <Select

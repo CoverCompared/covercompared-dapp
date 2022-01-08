@@ -75,9 +75,10 @@ const SelectWithSearch = ({
       <div
         className={classNames(
           showColumnLayout ? 'flex-col' : 'flex-row mb-3',
-          'w-full relative flex justify-between py-3 px-4 bg-white rounded-xl dark:bg-product-input-bg-dark border border-gray-300',
+          'w-full relative flex justify-between py-3 px-4 bg-white rounded-xl dark:bg-product-input-bg-dark border border-gray-300 cursor-pointer',
         )}
         ref={optionRef}
+        onClick={() => setIsOpen(!isOpen)}
       >
         <div className="text-dark-blue font-Montserrat font-semibold text-body-xs dark:text-white text-left">
           {fieldTitle}
@@ -107,10 +108,7 @@ const SelectWithSearch = ({
                   className="flex relative h-5 items-center cursor-pointer ml-1"
                   style={{ minWidth: 'fit-content' }}
                 >
-                  <div
-                    className="text-Montserrat text-body-lg text-dark-blue font-medium flex items-center dark:text-white"
-                    onClick={() => setIsOpen(!isOpen)}
-                  >
+                  <div className="text-Montserrat text-body-lg text-dark-blue font-medium flex items-center dark:text-white">
                     {isObject(dropdownOptions)
                       ? dropdownOptions[selectedOption]
                       : optionsAsArrayOfObjects
@@ -128,10 +126,7 @@ const SelectWithSearch = ({
             </>
           ) : (
             <div className="w-full relative min-h-5 cursor-pointer">
-              <div
-                className="text-Montserrat w-full h-full text-body-lg text-dark-blue font-medium flex justify-end items-center dark:text-white"
-                onClick={() => setIsOpen(!isOpen)}
-              >
+              <div className="text-Montserrat w-full h-full text-body-lg text-dark-blue font-medium flex justify-end items-center dark:text-white">
                 {isObject(dropdownOptions)
                   ? dropdownOptions[selectedOption]
                   : optionsAsArrayOfObjects

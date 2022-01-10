@@ -3,12 +3,15 @@ import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { toast } from 'react-toastify';
+
 import { setCurrentProduct } from '../../redux/actions/AppActions';
 import DiscountCard from './Discount';
 import ToolTip from './ToolTip';
 import { setLoginModalVisible } from '../../redux/actions';
 import { API_BASE_URL } from '../../redux/constants/config';
 import { axiosPost } from '../../redux/constants/apicall';
+import OverlayLoading from './OverlayLoading';
+
 import Placeholder from '../../assets/img/placeholder.png';
 
 const PackageCard = (props) => {
@@ -33,35 +36,26 @@ const PackageCard = (props) => {
   } = props;
 
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
-  const [hasCapacity, setHasCapacity] = useState(false);
-  const isNexus = useMemo(() => {
-    return company_code === 'nexus';
-  }, [company_code]);
-
-  useEffect(() => {
-    if (isNexus) {
-      (async () => {
-        const res = await axiosPost(`${API_BASE_URL}/cover-capacity`, {
-          address,
-          company: company_code,
-        });
-        setHasCapacity(
-          res?.data?.data &&
-            res?.data?.data.capacity &&
-            res?.data?.data.capacity.capacityETH &&
-            res?.data?.data.capacity.capacityDAI,
-        );
-      })();
-    }
-  }, [address, isNexus]);
-
-  const handleBuyNow = (e) => {
+  const handleBuyNow = async (e) => {
     // if (e) e.stopPropagation();
+    setLoading(true);
+    const res = await axiosPost(`${API_BASE_URL}/cover-capacity`, {
+      address,
+      company: company_code,
+    });
+    setLoading(false);
+    const capacity = res?.data?.data.capacity || {};
+
+    let hasCapacity = false;
+    if (typeof capacity === 'object') hasCapacity = Math.min(...Object.values(capacity)) > 0;
+    else if (company_code !== 'nexus') hasCapacity = true;
+
     if (!account) {
       toast.warning('You need to login in advance!');
       dispatch(setLoginModalVisible(true));
-    } else if (!hasCapacity && isNexus) {
+    } else if (!hasCapacity) {
       toast.warning(`Product has no capacity to be sold`);
     } else {
       dispatch(setCurrentProduct(props));
@@ -71,6 +65,7 @@ const PackageCard = (props) => {
 
   return (
     <>
+      {loading && <OverlayLoading />}
       <div className="w-full" onClick={handleBuyNow}>
         <div className="grid grid-cols-12 gap-x-0 w-full group bg-gradient-to-r dark:from-featureCard-dark-bg dark:to-featureCard-dark-bg dark:hover:from-primary-gd-1 dark:hover:to-primary-gd-2 from-white to-white hover:from-primary-gd-1 hover:to-primary-gd-2 shadow-md py-4 px-4 rounded-xl mb-4 relative cursor-pointer">
           <DiscountCard discountPercentage={discount} />

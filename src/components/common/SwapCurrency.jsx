@@ -354,8 +354,8 @@ const SwapCurrency = () => {
               className="absolute right-2/4  bg-optionContainerBg p-4 rounded-lg"
               style={{ transform: `translateX(${50}%)` }}
             >
-              <div className="bg-white rounded-lg p-6">
-                <div className="font-Montserrat font-semibold text-dark-blue text-h5 md:text-body-md mb-4">
+              <div className="bg-white dark:bg-feature-icon-dark-bg rounded-lg p-6">
+                <div className="font-Montserrat font-semibold text-dark-blue dark:text-white text-h5 md:text-body-md mb-4">
                   Swap
                 </div>
                 <div className="flex justify-between items-center p-4 bg-promo-input-bg rounded-lg w-72 relative mb-2">
@@ -370,7 +370,7 @@ const SwapCurrency = () => {
                     className="text-dark-blue font-Montserrat font-semibold text-body-md w-full h-5 pr-0 py-0 text-right border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0 outline-none bg-transparent"
                   />
                   <div
-                    className="absolute right-2/4 -bottom-5 cursor-pointer bg-swapIconBg p-2 border-2 border-white shadow-addToCart rounded-xl"
+                    className="absolute right-2/4 -bottom-5 cursor-pointer bg-swapIconBg p-2 border-2 border-white dark:border-black shadow-addToCart rounded-xl"
                     style={{ transform: `translateX(${50}%)` }}
                     onClick={changeCurrencySlot}
                   >

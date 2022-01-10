@@ -3,12 +3,12 @@ import BigNumber from 'bignumber.js';
 import useActiveWeb3React from './useActiveWeb3React';
 import { useExchangeAgentContract } from './useContract';
 import { BIG_ZERO } from '../utils/bigNumber';
-import { getCrvAddressByChainId } from '../utils/addressHelpers';
+import { getCvrAddressByChainId } from '../utils/addressHelpers';
 
 const useTokenAmount = () => {
   const { library, account, chainId } = useActiveWeb3React();
   const exchangeAgentContract = useExchangeAgentContract();
-  const cvrAddr = getCrvAddressByChainId(chainId || 4);
+  const cvrAddr = getCvrAddressByChainId(chainId || 4);
 
   const getNeededTokenAmount = useCallback(async (token0, token1, desiredAmount) => {
     const big_desiredAmount = new BigNumber(desiredAmount)

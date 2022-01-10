@@ -100,14 +100,14 @@ const DeviceBuyBox = (props) => {
   const { onStake } = useStakeForDevice();
   const { onStakeByToken } = useStakeForDeviceByToken();
   const { onApprove } = useTokenApprove(getP4LAddress());
-  const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
+  const { cvrAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
   const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
 
   const { balance } = useGetEthBalance();
-  const crvBalanceStatus = useTokenBalance();
+  const cvrBalanceStatus = useTokenBalance();
 
   // const ethPrice = useAssetsUsdPrice('eth');
-  const crvPrice = useAssetsUsdPrice('crv');
+  const cvrPrice = useAssetsUsdPrice('cvr');
 
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
   const hasFirstTwoStep = hasFirstStep && planType;
@@ -331,7 +331,7 @@ const DeviceBuyBox = (props) => {
     if (e) e.preventDefault();
     setTxPending(true);
     setIsNotCloseable(true);
-    if (discountAmount > 0 && !crvAllowance) {
+    if (discountAmount > 0 && !cvrAllowance) {
       try {
         const result = await onApprove();
         await handleAllowance();
@@ -347,10 +347,10 @@ const DeviceBuyBox = (props) => {
     }
 
     let ethAmount1;
-    let crvAmount1;
+    let cvrAmount1;
     try {
       ethAmount1 = await getETHAmountForUSDC(total); // total / ethPrice;
-      crvAmount1 = await getTokenAmountForUSDC(total); // total / crvPrice;
+      cvrAmount1 = await getTokenAmountForUSDC(total); // total / cvrPrice;
     } catch (err) {
       toast.warning(err.message);
       setTxPending(false);
@@ -358,7 +358,7 @@ const DeviceBuyBox = (props) => {
       return;
     }
     const ethAmount = getBalanceNumber(ethAmount1);
-    const crvAmount = getBalanceNumber(crvAmount1);
+    const cvrAmount = getBalanceNumber(cvrAmount1);
 
     if (!applyDiscount && ethAmount + 0.016 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
@@ -366,7 +366,7 @@ const DeviceBuyBox = (props) => {
       setIsNotCloseable(false);
       return;
     }
-    if (applyDiscount && crvAmount >= getBalanceNumber(crvBalanceStatus.balance)) {
+    if (applyDiscount && cvrAmount >= getBalanceNumber(cvrBalanceStatus.balance)) {
       toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);
@@ -573,7 +573,7 @@ const DeviceBuyBox = (props) => {
         </div>
         {applyDiscount && (
           <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-            <h5 className="text-h6 font-medium">{`${(total / crvPrice).toFixed(
+            <h5 className="text-h6 font-medium">{`${(total / cvrPrice).toFixed(
               2,
             )} CVR will be used for 25% discount`}</h5>
           </div>
@@ -586,7 +586,7 @@ const DeviceBuyBox = (props) => {
           >
             {txPending ? (
               <Loading widthClass="w-4" heightClass="h-4" />
-            ) : discountAmount > 0 && !crvAllowance ? (
+            ) : discountAmount > 0 && !cvrAllowance ? (
               'Approve CVR'
             ) : (
               'Confirm to Pay'

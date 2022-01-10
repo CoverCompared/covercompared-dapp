@@ -41,18 +41,19 @@ const CoverBuyBox = (props) => {
     unique_id,
   } = product || {};
 
+  console.log(currency_limit);
   const [periodField, setPeriodField] = useState(duration_days_min);
   const [periodSelect, setPeriodSelect] = useState(periodOptions[0]);
   const [amountField, setAmountField] = useState('1');
   const [amountSelect, setAmountSelect] = useState(currency[0]);
   const [quoteField, setQuoteField] = useState(quote || 0);
   const [quoteSelect, setQuoteSelect] = useState('ETH');
-
+  const [quoteOptions, setQuoteOptions] = useState(['ETH', 'CVR', 'DOT']);
   const [forceClose, setForceClose] = useState(false);
 
-  const { getTokenAmountForETH } = useTokenAmount();
+  const { getTokenAmountForETH, getNeededTokenAmount } = useTokenAmount();
   const { getTokenAddress } = useAddress();
-  const crvAddress = getTokenAddress('crv');
+  const cvrAddress = getTokenAddress('cvr');
   // useEffect(() => {
   //   const periodVal = `${periodField}`.split('.')[0];
   //   setPeriodField(+periodVal);
@@ -121,31 +122,72 @@ const CoverBuyBox = (props) => {
 
   useEffect(() => {
     if (account && period && amountField) {
+      // if (
+      //   Number(period) >= Number(duration_days_min) &&
+      //   Number(period) <= Number(duration_days_max)
+      // ) {
+      //   callGetQuote();
+      // } else {
+      //   toast.error(
+      //     `Period duration is not valid, it must be between ${duration_days_min} to ${duration_days_max} days`,
+      //   );
+      // }
+
       if (
-        Number(period) >= Number(duration_days_min) &&
-        Number(period) <= Number(duration_days_max)
+        Number(period) < Number(duration_days_min) ||
+        Number(period) > Number(duration_days_max)
       ) {
-        callGetQuote();
-      } else {
         toast.error(
           `Period duration is not valid, it must be between ${duration_days_min} to ${duration_days_max} days`,
         );
+        return;
       }
+
+      const amountLimit = currency_limit[amountSelect];
+      if (
+        Number(amountField) < Number(amountLimit.min) ||
+        Number(amountField) > Number(amountLimit.max)
+      ) {
+        toast.error(
+          `Amount is not valid, it must be between ${amountLimit.min} to ${amountLimit.max} days`,
+        );
+        return;
+      }
+
+      callGetQuote();
     }
   }, [period, amountField, amountSelect, account]);
 
   useEffect(() => {
-    if (quoteSelect === 'ETH') {
+    setQuoteSelect(amountSelect);
+    setQuoteOptions([amountSelect, 'CVR', 'DOT']);
+  }, [amountSelect]);
+
+  useEffect(() => {
+    if (quoteSelect === amountSelect) {
       setQuoteField(quote ? quote.toFixed(6) : quote);
-    } else if (quoteSelect === 'CVR') {
-      (async () => {
-        const crvAmount = getBalanceNumber(await getTokenAmountForETH(crvAddress, quote));
-        const ratio = 4 / 3;
-        setQuoteField((crvAmount * ratio).toFixed(6));
-      })();
     } else {
-      setQuoteField(0);
+      async () => {
+        const amount = getBalanceNumber(
+          await getNeededTokenAmount(
+            getTokenAddress(quoteSelect),
+            getTokenAddress(amountSelect),
+            quote,
+          ),
+        );
+        const ratio = 4 / 3;
+        setQuoteField((amount * ratio).toFixed(6));
+      };
     }
+    // } else if (quoteSelect === 'CVR') {
+    //   (async () => {
+    //     const cvrAmount = getBalanceNumber(await getTokenAmountForETH(cvrAddress, quote));
+    //     const ratio = 4 / 3;
+    //     setQuoteField((cvrAmount * ratio).toFixed(6));
+    //   })();
+    // } else {
+    //   setQuoteField(0);
+    // }
   }, [quote, quoteSelect]);
 
   const onConfirmed = () => {
@@ -205,7 +247,7 @@ const CoverBuyBox = (props) => {
           setFieldValue={setQuoteField}
           selectedOption={quoteSelect}
           setSelectedOption={setQuoteSelect}
-          dropdownOptions={['ETH', 'CVR']}
+          dropdownOptions={quoteOptions}
           showSearchOption="true"
         />
       </form>

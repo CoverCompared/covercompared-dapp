@@ -15,7 +15,7 @@ const getPaddedHexStrFromINT = (bn) => {
   return ethers.utils.hexZeroPad(hexStr, 32);
 };
 
-const getSignMessage = (param, isUseCrv = false) => {
+const getSignMessage = (param, isUseCvr = false) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18); // should be the decimals of USDC token
 
   const policyId = param.policyId === undefined ? 'first-test' : param.policyId;
@@ -28,7 +28,7 @@ const getSignMessage = (param, isUseCrv = false) => {
   return hexDeviceStr + paddedValueHexStr.slice(2) + paddedDurPlanHexStr.slice(2);
 };
 
-export const getSignMessageForMSO = (param, isUseCrv = false) => {
+export const getSignMessageForMSO = (param, isUseCvr = false) => {
   const { policyId, value, period, conciergePrice } = param;
 
   const hexProductName = getHexStrFromStr(policyId);

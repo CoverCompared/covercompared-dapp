@@ -40,34 +40,34 @@ const CoverBuyConfirmModal = (props) => {
   const dispatch = useDispatch();
   const [txPending, setTxPending] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(payWithCVR.current);
-  const [crvAmount, setCrvAmount] = useState(0);
+  const [cvrAmount, setCvrAmount] = useState(0);
 
   const { getNexusMutualAddress, getInsureAceAddress, getTokenAddress } = useAddress();
   const { getNeededTokenAmount } = useTokenAmount();
   const ethAddress = getTokenAddress('eth');
   const usdcAddress = getTokenAddress('usdc');
-  const crvAddress = getTokenAddress('crv');
+  const cvrAddress = getTokenAddress('cvr');
   const ethBalance = useGetEthBalance();
-  const crvBalance = useTokenBalance();
+  const cvrBalance = useTokenBalance();
   const { onApprove: onApproveForNM } = useTokenApprove(getNexusMutualAddress());
   const { onApprove: onApproveForIA } = useTokenApprove(getInsureAceAddress());
   const { onNMStake, onIAStake } = useStakeForCover();
 
-  const { crvAllowance: crvAllowanceForNM, handleAllowance: handleAllowanceForNM } =
+  const { cvrAllowance: cvrAllowanceForNM, handleAllowance: handleAllowanceForNM } =
     useGetAllowanceOfToken(getNexusMutualAddress());
-  const { crvAllowance: crvAllowanceForIA, handleAllowance: handleAllowanceForIA } =
+  const { cvrAllowance: cvrAllowanceForIA, handleAllowance: handleAllowanceForIA } =
     useGetAllowanceOfToken(getInsureAceAddress());
 
-  const crvAllowance = useMemo(() => {
+  const cvrAllowance = useMemo(() => {
     const { company_code } = product;
     if (company_code === 'nexus') {
-      return crvAllowanceForNM;
+      return cvrAllowanceForNM;
     }
     if (company_code === 'insurace') {
-      return crvAllowanceForIA;
+      return cvrAllowanceForIA;
     }
     return false;
-  }, [product, crvAllowanceForNM, crvAllowanceForIA]);
+  }, [product, cvrAllowanceForNM, cvrAllowanceForIA]);
 
   useEffect(() => {
     handleAllowanceForNM();
@@ -101,8 +101,8 @@ const CoverBuyConfirmModal = (props) => {
   useEffect(() => {
     (async () => {
       if (applyDiscount) {
-        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, quoteInUSD);
-        setCrvAmount(crvAmount);
+        const cvrAmount = await getNeededTokenAmount(cvrAddress, usdcAddress, quoteInUSD);
+        setCvrAmount(cvrAmount);
       }
     })();
   }, [total, applyDiscount]);
@@ -124,7 +124,7 @@ const CoverBuyConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
-    if (applyDiscount && getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalance.balance)) {
+    if (applyDiscount && getBalanceNumber(cvrAmount) >= getBalanceNumber(cvrBalance.balance)) {
       toast.warning('Insufficient CVR balance!');
       setIsNotCloseable(false);
       return;
@@ -152,7 +152,7 @@ const CoverBuyConfirmModal = (props) => {
       let transaction = null;
       if (company_code === 'nexus') {
         // Buy Nexus Mutual Cover
-        if (applyDiscount && !crvAllowanceForNM) {
+        if (applyDiscount && !cvrAllowanceForNM) {
           try {
             const result = await onApproveForNM();
             await handleAllowanceForNM();
@@ -193,7 +193,7 @@ const CoverBuyConfirmModal = (props) => {
         );
       } else if (company_code === 'insurace') {
         // Buy InsuareAce Cover
-        if (applyDiscount && !crvAllowanceForIA) {
+        if (applyDiscount && !cvrAllowanceForIA) {
           try {
             const result = await onApproveForIA();
             await handleAllowanceForIA();
@@ -278,7 +278,7 @@ const CoverBuyConfirmModal = (props) => {
         </div>
         {applyDiscount && (
           <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-            <h5 className="text-h6 font-medium">{`${getBalanceNumber(crvAmount).toFixed(
+            <h5 className="text-h6 font-medium">{`${getBalanceNumber(cvrAmount).toFixed(
               2,
             )} CVR will be used for payment`}</h5>
           </div>
@@ -291,7 +291,7 @@ const CoverBuyConfirmModal = (props) => {
           >
             {txPending ? (
               <Loading widthClass="w-4" heightClass="h-4" />
-            ) : discountAmount > 0 && !crvAllowance ? (
+            ) : discountAmount > 0 && !cvrAllowance ? (
               'Approve CVR'
             ) : (
               'Confirm to Pay'

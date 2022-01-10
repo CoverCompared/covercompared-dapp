@@ -18,7 +18,7 @@ export default {
     56: '',
     97: '',
   },
-  crv: {
+  cvr: {
     1: '0xD533a949740bb3306d119CC777fa900bA034cd52',
     4: '0xd3e48FAcD30A73609ffA60AE84851e72d10fEa52',
     42: '0xFc9B2B2565B38511B9822887F99D036d694a11e6',

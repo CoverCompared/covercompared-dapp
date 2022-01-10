@@ -6,13 +6,13 @@ import useAddress from './useAddress';
 
 const useTokenApprove = (address) => {
   const { account, library } = useActiveWeb3React();
-  const { getCrvAddress } = useAddress();
-  const crvAddress = getCrvAddress();
-  const crvContract = useTokenContract(crvAddress);
+  const { getCvrAddress } = useAddress();
+  const cvrAddress = getCvrAddress();
+  const cvrContract = useTokenContract(cvrAddress);
 
   const handleApprove = useCallback(async () => {
     try {
-      const tx = await crvContract.approve(address, ethers.constants.MaxUint256);
+      const tx = await cvrContract.approve(address, ethers.constants.MaxUint256);
       const receipt = await tx.wait();
       return receipt.status;
     } catch (e) {

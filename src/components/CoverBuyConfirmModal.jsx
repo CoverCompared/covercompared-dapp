@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import { logEvent } from 'firebase/analytics';
 
 import { analytics } from '../config/firebase';
+import { ETH_ADDRESS } from '../config';
 import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import useTokenApprove from '../hooks/useTokenApprove';
@@ -182,7 +183,7 @@ const CoverBuyConfirmModal = (props) => {
         transaction = await onNMStake(
           {
             contractAddress: product.address,
-            coverAsset: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', // ETH stands address
+            coverAsset: ETH_ADDRESS, // ETH stands address
             sumAssured: ethers.utils.parseEther(amountField),
             coverPeriod: period,
             coverType: 0,

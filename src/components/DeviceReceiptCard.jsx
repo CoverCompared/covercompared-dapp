@@ -24,6 +24,7 @@ const DeviceReceiptCard = (props) => {
     value,
     purchaseMonth,
     plan_currency,
+    imei_or_serial_number,
     selectedModel,
     logo = P4LLogo,
   } = props;
@@ -108,6 +109,14 @@ const DeviceReceiptCard = (props) => {
               </div>
               <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
                 {purchaseMonth}
+              </div>
+            </div>
+            <div className="flex items-center justify-between w-full font-Montserrat">
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
+                IMEI or Serial Number
+              </div>
+              <div className="font-medium font-Montserrat md:text-body-lg text-body-sm">
+                {imei_or_serial_number}
               </div>
             </div>
             <div className="flex items-center justify-between font-Montserrat">

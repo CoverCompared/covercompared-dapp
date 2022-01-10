@@ -30,6 +30,7 @@ import {
   getDeviceDetails,
   getDevicePlanDetails,
   getDeviceModelDetails,
+  createDeviceInsurancePolicy,
 } from '../redux/actions/DeviceInsurance';
 import { classNames } from '../functions/utils';
 import useStakeForDevice, { useStakeForDeviceByToken } from '../hooks/useStakeForDevice';
@@ -81,7 +82,7 @@ const DeviceBuyBox = (props) => {
   const [lName, setLName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [termsCheck, setTermsCheck] = useState(false);
+  const [imeiOrSerial, setImeiOrSerial] = useState('');
 
   const [applyDiscount, setApplyDiscount] = useState(false);
   const [txPending, setTxPending] = useState(false);
@@ -254,6 +255,7 @@ const DeviceBuyBox = (props) => {
           first_name: fName,
           last_name: lName,
           email,
+          imei_or_serial_number: imeiOrSerial,
           phone,
           currency: applyDiscount ? 'CVR' : 'USD',
           amount: plan_total_price,
@@ -277,6 +279,19 @@ const DeviceBuyBox = (props) => {
                 txn_hash: result.txn_hash,
               }),
             );
+            // dispatch(
+            //   createDeviceInsurancePolicy({
+            //     endpoint: 'create-policy',
+            //     first_name: fName,
+            //     last_name: lName,
+            //     mobile: phone,
+            //     email,
+            //     model_code: model || 'OTHERS',
+            //     custom_device_name: '',
+            //     imei_or_serial_number: imeiOrSerial,
+            //     partner_code: 'crypto',
+            //   }),
+            // );
             setTxPending(false);
             setIsNotCloseable(false);
             setTitle('Receipt');
@@ -469,31 +484,6 @@ const DeviceBuyBox = (props) => {
   if (showReceipt) {
     return (
       <div>
-        {/* <PDFViewer className="fixed h-96 w-full">
-          <DeviceReceipt
-            {...{
-              txn_hash,
-              quote: plan_total_price,
-              discount,
-              total,
-              tax,
-              discountAmount,
-              applyDiscount,
-              fName,
-              lName,
-              phone,
-              email,
-              plan_type,
-              model,
-              deviceType,
-              brand,
-              value: deviceDetails?.device_values[value] || '',
-              purchaseMonth,
-              plan_currency,
-              selectedModel: selectedModel[0],
-            }}
-          />
-        </PDFViewer> */}
         <div className="flex justify-end">
           <DownloadPolicy
             fileName="Device_protection_receipt.pdf"
@@ -517,6 +507,7 @@ const DeviceBuyBox = (props) => {
                   value: deviceDetails?.device_values[value] || '',
                   purchaseMonth,
                   plan_currency,
+                  imei_or_serial_number: imeiOrSerial,
                   selectedModel: selectedModel[0],
                 }}
               />
@@ -538,6 +529,7 @@ const DeviceBuyBox = (props) => {
             value: deviceDetails?.device_values[value] || '',
             purchaseMonth,
             plan_currency,
+            imei_or_serial_number: imeiOrSerial,
             selectedModel: selectedModel[0],
           }}
         />
@@ -660,6 +652,17 @@ const DeviceBuyBox = (props) => {
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+            />
+            <input
+              required
+              type="text"
+              placeholder="IMEI or Serial Number"
+              name="imeiOrSerial"
+              value={imeiOrSerial}
+              pattern="^[a-zA-Z0-9-_.]*$"
+              title="Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+              onChange={(e) => setImeiOrSerial(e.target.value)}
               className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
             />
           </div>

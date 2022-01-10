@@ -9,6 +9,7 @@ import {
   GET_DEVICE_DETAILS,
   GET_DEVICE_PLAN_DETAILS,
   GET_DEVICE_MODEL_DETAILS,
+  CREATE_DEVICE_INSURANCE_POLICY,
 } from '../constants/ActionTypes';
 import {
   setBuyDeviceInsuranceLoader,
@@ -22,6 +23,8 @@ import {
   setGetDevicePlanDetailsLoader,
   getDeviceModelDetailsSuccess,
   setGetDeviceModelDetailsLoader,
+  createDeviceInsurancePolicySuccess,
+  setCreateDeviceInsurancePolicyLoader,
 } from '../actions/DeviceInsurance';
 import { axiosGet, axiosPost } from '../constants/apicall';
 import * as selector from '../constants/selectors';
@@ -293,6 +296,43 @@ function* getDeviceModelDetail({ payload }) {
   }
 }
 
+function* createDeviceInsurancePolicy({ payload }) {
+  try {
+    yield put(
+      setCreateDeviceInsurancePolicyLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/p4l-forward`;
+    const res = yield call(axiosPost, url, payload);
+
+    if (!res?.data?.error_message) {
+      yield put(createDeviceInsurancePolicySuccess(res.data.data));
+    } else {
+      yield put(
+        setCreateDeviceInsurancePolicyLoader({
+          loader: false,
+          isFailed: true,
+          devicePolicy: null,
+          message: res.data.error_message,
+        }),
+      );
+    }
+  } catch (error) {
+    yield put(
+      setCreateDeviceInsurancePolicyLoader({
+        loader: false,
+        isFailed: true,
+        devicePolicy: null,
+        message: error.message,
+      }),
+    );
+  }
+}
+
 export default all([
   takeLatest(BUY_DEVICE_INSURANCE_FIRST, buyDeviceInsuranceFirst),
   takeLatest(BUY_DEVICE_INSURANCE, buyDeviceInsurance),
@@ -300,4 +340,5 @@ export default all([
   takeLatest(GET_DEVICE_DETAILS, getDeviceDetail),
   takeLatest(GET_DEVICE_PLAN_DETAILS, getDevicePlanDetail),
   takeLatest(GET_DEVICE_MODEL_DETAILS, getDeviceModelDetail),
+  takeLatest(CREATE_DEVICE_INSURANCE_POLICY, createDeviceInsurancePolicy),
 ]);

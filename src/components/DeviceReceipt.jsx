@@ -95,6 +95,7 @@ const DeviceReceipt = (props) => {
     value,
     purchaseMonth,
     plan_currency,
+    imei_or_serial_number,
     selectedModel,
     logo = P4LLogo,
   } = props;
@@ -184,6 +185,14 @@ const DeviceReceipt = (props) => {
                 </View>
                 <View>
                   <Text>{purchaseMonth}</Text>
+                </View>
+              </View>
+              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                <View style={styles.deviceDetails}>
+                  <Text>IMEI or Serial Number</Text>
+                </View>
+                <View>
+                  <Text>{imei_or_serial_number}</Text>
                 </View>
               </View>
               <View style={[styles.row, styles.justify_between, styles.paymentetails]}>

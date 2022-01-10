@@ -13,7 +13,7 @@ import nexus from '../utils/calls/nexus';
 import insure from '../utils/calls/insure';
 import useAddress from './useAddress';
 import { setPendingTransaction } from '../redux/actions';
-import { BASE_SCAN_URLS } from '../config';
+import { BASE_SCAN_URLS, ETH_ADDRESS } from '../config';
 
 const useStakeForCover = () => {
   const { library, account, chainId } = useActiveWeb3React();
@@ -61,24 +61,39 @@ const useStakeForCover = () => {
 
   const handleInsureAceStake = useCallback(
     async (param, applyDiscount) => {
+      const currency = param.data[3]; // cover currency
+      const isETHCover = currency.toLowerCase() === ETH_ADDRESS.toLowerCase();
       let tx;
       if (applyDiscount) {
-        tx = await insure.buyCoverByToken(insuraceContractB, account, library.getSigner(), {
-          ...param,
-          token: await getCrvAddress(),
-        });
+        if (isETHCover) {
+          tx = await insure.buyETHCoverByToken(insuraceContractB, account, library.getSigner(), {
+            ...param,
+            token: await getCrvAddress(),
+          });
+        } else {
+          tx = await insure.buyTokenCoverByToken(insuraceContractB, account, library.getSigner(), {
+            ...param,
+            token: await getCrvAddress(),
+          });
+        }
+        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+      } else if (isETHCover) {
+        tx = await insure.buyETHCoverByETH(insuraceContractA, param);
         tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       } else {
-        tx = await insure.buyCoverByETH(insuraceContractA, param);
-        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+        tx = null;
       }
-      dispatch(setPendingTransaction(tx));
-      const receipt = await tx.wait();
 
-      return {
-        status: receipt.status,
-        txn_hash: tx.hash,
-      };
+      if (tx) {
+        dispatch(setPendingTransaction(tx));
+        const receipt = await tx.wait();
+
+        return {
+          status: receipt.status,
+          txn_hash: tx.hash,
+        };
+      }
+      return null;
     },
     [library, account],
   );

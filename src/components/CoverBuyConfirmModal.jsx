@@ -28,10 +28,11 @@ const CoverBuyConfirmModal = (props) => {
     period,
     product,
     account,
-    amountField,
-    amountSelect,
+    coverAmount,
+    currency,
     quote,
     quoteDetail,
+    token,
     setIsModalOpen,
     setIsNotCloseable,
     payWithCVR,
@@ -40,34 +41,34 @@ const CoverBuyConfirmModal = (props) => {
   const dispatch = useDispatch();
   const [txPending, setTxPending] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(payWithCVR.current);
-  const [crvAmount, setCrvAmount] = useState(0);
+  const [cvrAmount, setCvrAmount] = useState(0);
 
   const { getNexusMutualAddress, getInsureAceAddress, getTokenAddress } = useAddress();
   const { getNeededTokenAmount } = useTokenAmount();
   const ethAddress = getTokenAddress('eth');
   const usdcAddress = getTokenAddress('usdc');
-  const crvAddress = getTokenAddress('crv');
+  const cvrAddress = getTokenAddress('cvr');
   const ethBalance = useGetEthBalance();
-  const crvBalance = useTokenBalance();
+  const cvrBalance = useTokenBalance();
   const { onApprove: onApproveForNM } = useTokenApprove(getNexusMutualAddress());
   const { onApprove: onApproveForIA } = useTokenApprove(getInsureAceAddress());
   const { onNMStake, onIAStake } = useStakeForCover();
 
-  const { crvAllowance: crvAllowanceForNM, handleAllowance: handleAllowanceForNM } =
+  const { cvrAllowance: cvrAllowanceForNM, handleAllowance: handleAllowanceForNM } =
     useGetAllowanceOfToken(getNexusMutualAddress());
-  const { crvAllowance: crvAllowanceForIA, handleAllowance: handleAllowanceForIA } =
+  const { cvrAllowance: cvrAllowanceForIA, handleAllowance: handleAllowanceForIA } =
     useGetAllowanceOfToken(getInsureAceAddress());
 
-  const crvAllowance = useMemo(() => {
+  const cvrAllowance = useMemo(() => {
     const { company_code } = product;
     if (company_code === 'nexus') {
-      return crvAllowanceForNM;
+      return cvrAllowanceForNM;
     }
     if (company_code === 'insurace') {
-      return crvAllowanceForIA;
+      return cvrAllowanceForIA;
     }
     return false;
-  }, [product, crvAllowanceForNM, crvAllowanceForIA]);
+  }, [product, cvrAllowanceForNM, cvrAllowanceForIA]);
 
   useEffect(() => {
     handleAllowanceForNM();
@@ -80,29 +81,30 @@ const CoverBuyConfirmModal = (props) => {
     };
   }, []);
 
-  const [quoteInUSD, setQuoteInUSD] = useState(0);
+  // const [quoteInUSD, setQuoteInUSD] = useState(0);
 
-  useEffect(() => {
-    (async () => {
-      const quoteInUSD = await getNeededTokenAmount(usdcAddress, ethAddress, quote);
-      setQuoteInUSD(getBalanceNumber(quoteInUSD));
-    })();
-  }, [quote]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const quoteInUSD = await getNeededTokenAmount(usdcAddress, ethAddress, quote);
+  //     setQuoteInUSD(getBalanceNumber(quoteInUSD));
+  //   })();
+  // }, [quote]);
 
   const discountAmount = useMemo(() => {
-    const discount = (+quoteInUSD * 25) / 100;
+    const discount = (+quote * 25) / 100;
     return applyDiscount ? discount : 0;
-  }, [quoteInUSD, applyDiscount]);
+  }, [quote, applyDiscount]);
 
   const total = useMemo(() => {
-    return +(+quoteInUSD).toFixed(3) - +discountAmount.toFixed(3);
-  }, [quoteInUSD, discountAmount]);
+    // return +(+quote).toFixed(5) - +discountAmount.toFixed(3);
+    return +quote - +discountAmount;
+  }, [quote, discountAmount]);
 
   useEffect(() => {
     (async () => {
       if (applyDiscount) {
-        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, quoteInUSD);
-        setCrvAmount(crvAmount);
+        const cvrAmount = await getNeededTokenAmount(cvrAddress, getTokenAddress(currency), quote);
+        setCvrAmount(cvrAmount);
       }
     })();
   }, [total, applyDiscount]);
@@ -115,7 +117,7 @@ const CoverBuyConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
-    const ethAmount = await getNeededTokenAmount(ethAddress, usdcAddress, total);
+    const ethAmount = await getNeededTokenAmount(ethAddress, getTokenAddress(currency), total);
     if (
       !applyDiscount &&
       getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)
@@ -124,7 +126,7 @@ const CoverBuyConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
-    if (applyDiscount && getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalance.balance)) {
+    if (applyDiscount && getBalanceNumber(cvrAmount) >= getBalanceNumber(cvrBalance.balance)) {
       toast.warning('Insufficient CVR balance!');
       setIsNotCloseable(false);
       return;
@@ -145,14 +147,14 @@ const CoverBuyConfirmModal = (props) => {
         type: product.type,
         duration_days: period,
         chain: 'ethereum',
-        crypto_currency: amountSelect || 'ETH',
-        crypto_amount: amountField,
+        crypto_currency: currency || 'ETH',
+        crypto_amount: coverAmount,
         wallet_address: account,
       };
       let transaction = null;
       if (company_code === 'nexus') {
         // Buy Nexus Mutual Cover
-        if (applyDiscount && !crvAllowanceForNM) {
+        if (applyDiscount && !cvrAllowanceForNM) {
           try {
             const result = await onApproveForNM();
             await handleAllowanceForNM();
@@ -184,7 +186,7 @@ const CoverBuyConfirmModal = (props) => {
           {
             contractAddress: product.address,
             coverAsset: ETH_ADDRESS, // ETH stands address
-            sumAssured: ethers.utils.parseEther(amountField),
+            sumAssured: ethers.utils.parseEther(coverAmount),
             coverPeriod: period,
             coverType: 0,
             data,
@@ -193,7 +195,7 @@ const CoverBuyConfirmModal = (props) => {
         );
       } else if (company_code === 'insurace') {
         // Buy InsuareAce Cover
-        if (applyDiscount && !crvAllowanceForIA) {
+        if (applyDiscount && !cvrAllowanceForIA) {
           try {
             const result = await onApproveForIA();
             await handleAllowanceForIA();
@@ -254,7 +256,9 @@ const CoverBuyConfirmModal = (props) => {
       <div>
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Premium</h5>
-          <h5 className="text-body-lg font-medium">{quoteInUSD.toFixed(3)} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {quote.toFixed(5)} {currency}
+          </h5>
         </div>
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
@@ -269,16 +273,20 @@ const CoverBuyConfirmModal = (props) => {
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Discount</h5>
-          <h5 className="text-body-lg font-medium">{discountAmount.toFixed(3)} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {discountAmount.toFixed(5)} {currency}
+          </h5>
         </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Total</h5>
-          <h5 className="text-body-lg font-medium">{total.toFixed(3)} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {total.toFixed(5)} {currency}
+          </h5>
         </div>
         {applyDiscount && (
           <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-            <h5 className="text-h6 font-medium">{`${getBalanceNumber(crvAmount).toFixed(
+            <h5 className="text-h6 font-medium">{`${getBalanceNumber(cvrAmount).toFixed(
               2,
             )} CVR will be used for payment`}</h5>
           </div>
@@ -291,7 +299,7 @@ const CoverBuyConfirmModal = (props) => {
           >
             {txPending ? (
               <Loading widthClass="w-4" heightClass="h-4" />
-            ) : discountAmount > 0 && !crvAllowance ? (
+            ) : discountAmount > 0 && !cvrAllowance ? (
               'Approve CVR'
             ) : (
               'Confirm to Pay'

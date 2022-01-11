@@ -13,6 +13,7 @@ const MSOAdditionalDetails = (props) => {
     addonServices,
     isEligible,
     handleBuy,
+    validateX,
   } = props;
   return (
     <>
@@ -105,6 +106,7 @@ const MSOAdditionalDetails = (props) => {
               title="Members Information Form"
               sizeClass="max-w-6xl"
               renderComponent={CountrySelector}
+              validate={validateX}
               bgImg="bg-loginPopupBg"
               {...{ selectedPlan, addonServices }}
             >

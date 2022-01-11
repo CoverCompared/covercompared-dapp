@@ -80,12 +80,12 @@ const MsoCountrySelector = ({
     ? +quote + +MSOAddOnService - discountAmount
     : +quote - discountAmount;
   const { getMSOAddress } = useAddress();
-  const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getMSOAddress());
+  const { cvrAllowance, handleAllowance } = useGetAllowanceOfToken(getMSOAddress());
   const { balance } = useGetEthBalance();
-  const crvBalanceStatus = useTokenBalance();
+  const cvrBalanceStatus = useTokenBalance();
 
   // const ethPrice = useAssetsUsdPrice('eth');
-  const crvPrice = useAssetsUsdPrice('crv');
+  const cvrPrice = useAssetsUsdPrice('cvr');
 
   const { onApprove } = useTokenApprove(getMSOAddress());
   const { onStake } = useStakeForMSO();
@@ -211,7 +211,7 @@ const MsoCountrySelector = ({
   const handleConfirm = async () => {
     setTxPending(true);
     setIsNotCloseable(true);
-    if (discountAmount > 0 && !crvAllowance) {
+    if (discountAmount > 0 && !cvrAllowance) {
       try {
         const result = await onApprove();
         await handleAllowance();
@@ -230,10 +230,10 @@ const MsoCountrySelector = ({
     }
 
     let ethAmount1;
-    let crvAmount1;
+    let cvrAmount1;
     try {
       ethAmount1 = await getETHAmountForUSDC(total); // total / ethPrice;
-      crvAmount1 = await getTokenAmountForUSDC(total); // total / crvPrice;
+      cvrAmount1 = await getTokenAmountForUSDC(total); // total / cvrPrice;
     } catch (err) {
       toast.warning('Transaction failed.');
       setTxPending(false);
@@ -241,7 +241,7 @@ const MsoCountrySelector = ({
       return;
     }
     const ethAmount = getBalanceNumber(ethAmount1);
-    const crvAmount = getBalanceNumber(crvAmount1);
+    const cvrAmount = getBalanceNumber(cvrAmount1);
 
     if (!applyDiscount && ethAmount + 0.01 >= getBalanceNumber(balance)) {
       toast.warning('Insufficient ETH balance!');
@@ -249,7 +249,7 @@ const MsoCountrySelector = ({
       setIsNotCloseable(false);
       return;
     }
-    if (applyDiscount && crvAmount >= getBalanceNumber(crvBalanceStatus.balance)) {
+    if (applyDiscount && cvrAmount >= getBalanceNumber(cvrBalanceStatus.balance)) {
       toast.warning('Insufficient CVR balance!');
       setApplyDiscount(false);
       setTxPending(false);
@@ -400,7 +400,7 @@ const MsoCountrySelector = ({
           </div>
           {applyDiscount && (
             <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-              <h5 className="text-h6 font-medium">{`${(total / crvPrice).toFixed(
+              <h5 className="text-h6 font-medium">{`${(total / cvrPrice).toFixed(
                 2,
               )} CVR will be used for 25% discount`}</h5>
             </div>
@@ -413,7 +413,7 @@ const MsoCountrySelector = ({
             >
               {txPending ? (
                 <Loading widthClass="w-4" heightClass="h-4" />
-              ) : discountAmount > 0 && !crvAllowance ? (
+              ) : discountAmount > 0 && !cvrAllowance ? (
                 'Approve CVR'
               ) : (
                 'Confirm to Pay'

@@ -36,13 +36,13 @@ const useStakeForMSO = () => {
 export const useStakeForMSOByToken = () => {
   const { library, account, chainId } = useActiveWeb3React();
   const msoContract = useMSOContractB();
-  const { getCrvAddress } = useAddress();
+  const { getCvrAddress } = useAddress();
   const dispatch = useDispatch();
   const handleStake = useCallback(
     async (param) => {
       let tx = await mso.buyProductByTokenForMSO(
         msoContract,
-        { ...param, token: await getCrvAddress() },
+        { ...param, token: await getCvrAddress() },
         library.getSigner(),
         account,
       );

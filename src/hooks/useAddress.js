@@ -30,9 +30,12 @@ const useAddress = () => {
     (symbol) => getAddress(addresses.priceFeed[`${symbol}`]),
     [library, chainId],
   );
-  const getCrvAddress = useCallback(() => getAddress(tokens.crv), [library, chainId]);
+  const getCvrAddress = useCallback(() => getAddress(tokens.cvr), [library, chainId]);
 
-  const getTokenAddress = useCallback((symbol) => getAddress(tokens[symbol]), [library, chainId]);
+  const getTokenAddress = useCallback(
+    (symbol) => getAddress(tokens[symbol.toLowerCase()]),
+    [library, chainId],
+  );
 
   const getDistributorAddress = useCallback(
     () => getAddress(addresses.distributor),
@@ -54,7 +57,7 @@ const useAddress = () => {
     getInsureAceAddress,
     getCoverComparedAddress,
     getPriceFeedAddressBySymbol,
-    getCrvAddress,
+    getCvrAddress,
     getTokenAddress,
     getDistributorAddress,
     getClaimAddress,

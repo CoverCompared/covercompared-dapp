@@ -128,7 +128,7 @@ export default {
       4: '',
       42: '',
     },
-    crv: {
+    cvr: {
       decimal: 8,
       1: '0xCd627aA160A6fA45Eb793D19Ef54f5062F20f33f',
       4: '0x8d6D6eeA128a40EFbC0d0a04D7aaC36689F12A46',

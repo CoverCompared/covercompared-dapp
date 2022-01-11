@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
 import useActiveWeb3React from './useActiveWeb3React';
-import { getCrvAddressByChainId } from '../utils/addressHelpers';
+import { getCvrAddressByChainId } from '../utils/addressHelpers';
 import { BIG_ZERO } from '../utils/bigNumber';
 import { getErc20Contract } from '../utils/contractHelpers';
 import useLastUpdated from './useLastUpdated';
@@ -20,7 +20,7 @@ const useTokenBalance = () => {
     fetchStatus: NOT_FETCHED,
   });
   const { account, library, chainId } = useActiveWeb3React();
-  const tokenAddress = getCrvAddressByChainId(chainId || 4);
+  const tokenAddress = getCvrAddressByChainId(chainId || 4);
   useEffect(() => {
     const fetchBalance = async () => {
       const contract = getErc20Contract(tokenAddress, library);

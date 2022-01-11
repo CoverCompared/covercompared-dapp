@@ -17,7 +17,7 @@ import { BASE_SCAN_URLS, ETH_ADDRESS } from '../config';
 
 const useStakeForCover = () => {
   const { library, account, chainId } = useActiveWeb3React();
-  const { getCrvAddress } = useAddress();
+  const { getCvrAddress } = useAddress();
   const nexusContractA = useNexusMutualContractA();
   const insuraceContractA = useInsureAceContractA();
   const nexusContractB = useNexusMutualContractB();
@@ -31,7 +31,7 @@ const useStakeForCover = () => {
         tx = await nexus.buyCoverByToken(nexusContractB, account, library.getSigner(), {
           ...param,
           maxPriceWithFee,
-          token: await getCrvAddress(),
+          token: await getCvrAddress(),
         });
         tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       } else {
@@ -68,12 +68,12 @@ const useStakeForCover = () => {
         if (isETHCover) {
           tx = await insure.buyETHCoverByToken(insuraceContractB, account, library.getSigner(), {
             ...param,
-            token: await getCrvAddress(),
+            token: await getCvrAddress(),
           });
         } else {
           tx = await insure.buyTokenCoverByToken(insuraceContractB, account, library.getSigner(), {
             ...param,
-            token: await getCrvAddress(),
+            token: await getCvrAddress(),
           });
         }
         tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };

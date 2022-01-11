@@ -140,7 +140,7 @@ const useSwapCallback = (trade, allowedSlippage, deadline, recipientAddressOrNam
   const { account, chainId, library } = useWeb3React();
   const swapCalls = useSwapCallArguments(trade, allowedSlippage, deadline, recipientAddressOrName);
   const { onApprove } = useTokenApprove(ROUTER_ADDRESS);
-  const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(ROUTER_ADDRESS);
+  const { cvrAllowance, handleAllowance } = useGetAllowanceOfToken(ROUTER_ADDRESS);
   const recipient = account;
   return useMemo(() => {
     if (!trade || !library || !account || !chainId) {
@@ -153,7 +153,7 @@ const useSwapCallback = (trade, allowedSlippage, deadline, recipientAddressOrNam
     return {
       state: 'Valid',
       callback: async function onSwap() {
-        if (trade.inputAmount.currency.address && !crvAllowance) {
+        if (trade.inputAmount.currency.address && !cvrAllowance) {
           await onApprove();
           await handleAllowance();
         }
@@ -263,7 +263,7 @@ const SwapCurrency = () => {
   useEffect(() => {
     setCurrencies({
       INPUT: ETHER,
-      OUTPUT: new Token(chainId, getTokenAddress('crv'), 18, 'CVR', 'CVRs'),
+      OUTPUT: new Token(chainId, getTokenAddress('cvr'), 18, 'CVR', 'CVRs'),
     });
   }, [chainId]);
   const [independentField, setIndependentField] = useState('INPUT');

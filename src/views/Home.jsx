@@ -13,7 +13,7 @@ import { SupportedChainId } from '../config/chains';
 import { setupNetwork } from '../utils/wallet';
 // import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 // import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
-// import useConverUsdtToCRV from '../hooks/useConverUsdtToCRV';
+// import useConverUsdtToCVR from '../hooks/useConverUsdtToCVR';
 
 import InsuranceCardDotBg from '../assets/bg-img/insurance-card-dot-bg.svg';
 import cryptoInsuranceDotBg from '../assets/bg-img/crypto-insurance-dot-bg.svg';

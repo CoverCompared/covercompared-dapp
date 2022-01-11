@@ -41,7 +41,6 @@ const CoverBuyBox = (props) => {
     unique_id,
   } = product || {};
 
-  console.log(currency_limit);
   const [periodField, setPeriodField] = useState(duration_days_min);
   const [periodSelect, setPeriodSelect] = useState(periodOptions[0]);
   const [amountField, setAmountField] = useState('1');
@@ -122,17 +121,6 @@ const CoverBuyBox = (props) => {
 
   useEffect(() => {
     if (account && period && amountField) {
-      // if (
-      //   Number(period) >= Number(duration_days_min) &&
-      //   Number(period) <= Number(duration_days_max)
-      // ) {
-      //   callGetQuote();
-      // } else {
-      //   toast.error(
-      //     `Period duration is not valid, it must be between ${duration_days_min} to ${duration_days_max} days`,
-      //   );
-      // }
-
       if (
         Number(period) < Number(duration_days_min) ||
         Number(period) > Number(duration_days_max)
@@ -164,10 +152,12 @@ const CoverBuyBox = (props) => {
   }, [amountSelect]);
 
   useEffect(() => {
+    payWithCVR.current = quoteSelect === 'CVR';
+
     if (quoteSelect === amountSelect) {
       setQuoteField(quote ? quote.toFixed(6) : quote);
     } else {
-      async () => {
+      (async () => {
         const amount = getBalanceNumber(
           await getNeededTokenAmount(
             getTokenAddress(quoteSelect),
@@ -177,17 +167,8 @@ const CoverBuyBox = (props) => {
         );
         const ratio = 4 / 3;
         setQuoteField((amount * ratio).toFixed(6));
-      };
+      })();
     }
-    // } else if (quoteSelect === 'CVR') {
-    //   (async () => {
-    //     const cvrAmount = getBalanceNumber(await getTokenAmountForETH(cvrAddress, quote));
-    //     const ratio = 4 / 3;
-    //     setQuoteField((cvrAmount * ratio).toFixed(6));
-    //   })();
-    // } else {
-    //   setQuoteField(0);
-    // }
   }, [quote, quoteSelect]);
 
   const onConfirmed = () => {
@@ -264,10 +245,11 @@ const CoverBuyBox = (props) => {
             period,
             product,
             account,
-            amountField,
-            amountSelect,
+            coverAmount: amountField,
+            currency: amountSelect,
             quote,
             quoteDetail,
+            token: quoteSelect,
             onConfirmed,
             payWithCVR,
           }}

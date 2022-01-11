@@ -11,6 +11,9 @@ const useTokenAmount = () => {
   const cvrAddr = getCvrAddressByChainId(chainId || 4);
 
   const getNeededTokenAmount = useCallback(async (token0, token1, desiredAmount) => {
+    if (!token0 || !token1 || !desiredAmount) {
+      return BIG_ZERO;
+    }
     const big_desiredAmount = new BigNumber(desiredAmount)
       .multipliedBy(10 ** 18)
       .toFixed(0)

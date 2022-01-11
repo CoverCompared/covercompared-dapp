@@ -48,6 +48,11 @@ export default {
     4: '0xc778417e063141139fce010982780140aa0cd5ab',
     42: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
   },
+  dot: {
+    1: '',
+    4: '',
+    42: '',
+  },
 };
 
 export const nativeCurrencies = ['eth', 'bnb', 'matic'];

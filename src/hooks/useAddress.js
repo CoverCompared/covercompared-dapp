@@ -32,7 +32,10 @@ const useAddress = () => {
   );
   const getCvrAddress = useCallback(() => getAddress(tokens.cvr), [library, chainId]);
 
-  const getTokenAddress = useCallback((symbol) => getAddress(tokens[symbol]), [library, chainId]);
+  const getTokenAddress = useCallback(
+    (symbol) => getAddress(tokens[symbol.toLowerCase()]),
+    [library, chainId],
+  );
 
   const getDistributorAddress = useCallback(
     () => getAddress(addresses.distributor),

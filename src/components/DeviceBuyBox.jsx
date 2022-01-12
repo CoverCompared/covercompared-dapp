@@ -279,19 +279,6 @@ const DeviceBuyBox = (props) => {
                 txn_hash: result.txn_hash,
               }),
             );
-            // dispatch(
-            //   createDeviceInsurancePolicy({
-            //     endpoint: 'create-policy',
-            //     first_name: fName,
-            //     last_name: lName,
-            //     mobile: phone,
-            //     email,
-            //     model_code: model || 'OTHERS',
-            //     custom_device_name: '',
-            //     imei_or_serial_number: imeiOrSerial,
-            //     partner_code: 'crypto',
-            //   }),
-            // );
             setTxPending(false);
             setIsNotCloseable(false);
             setTitle('Receipt');
@@ -393,6 +380,7 @@ const DeviceBuyBox = (props) => {
       last_name: lName,
       email,
       phone,
+      imei_or_serial_number: imeiOrSerial,
       currency: plan_currency,
       amount: plan_total_price,
       discount_amount: discountAmount,

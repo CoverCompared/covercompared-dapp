@@ -247,16 +247,18 @@ const CoverAndExchangeProduct = (props) => {
               <div className="font-Inter text-body-md text-counter-card-text mt-4 mb-5 leading-6">
                 Use $CVR when purchasing and get 25% off on all insurance policies.
               </div>
-              <button
-                type="button"
-                onClick={() => {
-                  payWithCVR.current = true;
-                  buyButton.current.click();
-                }}
-                className="py-3 px-8 bg-discount-apply-btn-bg rounded-2xl outline-none border-0 text-discount-apply-btn-text font-Montserrat font-semibold text-body-md"
-              >
-                Apply Now
-              </button>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    payWithCVR.current = true;
+                    buyButton.current.click();
+                  }}
+                  className="py-2 px-4 bg-login-button-bg rounded-lg outline-none border-0 text-login-button-text font-Montserrat font-semibold text-body-sm shadow-lg"
+                >
+                  Apply Now
+                </button>
+              </div>
             </div>
           </div>
         </div>

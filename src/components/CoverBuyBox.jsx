@@ -136,7 +136,7 @@ const CoverBuyBox = (props) => {
       Number(amountField) > Number(amountLimit.max)
     ) {
       toast.error(
-        `Amount is not valid, it must be between ${amountLimit.min} to ${amountLimit.max} days`,
+        `Amount is not valid, it must be between ${amountLimit.min} to ${amountLimit.max}`,
       );
       return;
     }

@@ -83,6 +83,17 @@ const CoverBuyConfirmModal = (props) => {
     return false;
   }, [product, cvrAllowanceForNM, cvrAllowanceForIA]);
 
+  const tokenAllowance = useMemo(() => {
+    const { company_code } = product;
+    if (company_code === 'nexus') {
+      return tokenAllowanceForNM;
+    }
+    if (company_code === 'insurace') {
+      return tokenAllowanceForIA;
+    }
+    return false;
+  }, [product, tokenAllowanceForNM, tokenAllowanceForIA]);
+
   useEffect(() => {
     handleCVRAllowanceForNM();
     handleCVRAllowanceForIA();
@@ -194,36 +205,6 @@ const CoverBuyConfirmModal = (props) => {
       let transaction = null;
       if (company_code === 'nexus') {
         // Buy Nexus Mutual Cover
-        if (applyDiscount && !cvrAllowanceForNM) {
-          try {
-            const result = await onApproveCVRForNM();
-            await handleCVRAllowanceForNM();
-            if (result) {
-              toast.success('CVR token approved.');
-            } else {
-              toast.warning('CVR token approving failed.');
-            }
-          } catch (e) {
-            setTxPending(false);
-            toast.warning('CVR token approving rejected.');
-            console.error(e);
-          }
-        }
-        if (token !== 'ETH' && !tokenAllowanceForNM) {
-          try {
-            const result = await onApproveTokenForNM();
-            await handleTokenAllowanceForNM();
-            if (result) {
-              toast.success(`${token} token approved.`);
-            } else {
-              toast.warning(`${token} token approving failed.`);
-            }
-          } catch (e) {
-            setTxPending(false);
-            toast.warning(`${token} token approving rejected.`);
-            console.error(e);
-          }
-        }
         const data = ethers.utils.defaultAbiCoder.encode(
           ['uint', 'uint', 'uint', 'uint', 'uint8', 'bytes32', 'bytes32'],
           [
@@ -249,36 +230,6 @@ const CoverBuyConfirmModal = (props) => {
         );
       } else if (company_code === 'insurace') {
         // Buy InsuareAce Cover
-        if (applyDiscount && !cvrAllowanceForIA) {
-          try {
-            const result = await onApproveCVRForIA();
-            await handleCVRAllowanceForIA();
-            if (result) {
-              toast.success('CVR token approved.');
-            } else {
-              toast.warning('CVR token approving failed.');
-            }
-          } catch (e) {
-            setTxPending(false);
-            toast.warning('CVR token approving rejected.');
-            console.error(e);
-          }
-        }
-        if (token !== 'ETH' && !tokenAllowanceForIA) {
-          try {
-            const result = await onApproveTokenForIA();
-            await handleTokenAllowanceForIA();
-            if (result) {
-              toast.success(`${token} token approved.`);
-            } else {
-              toast.warning(`${token} token approving failed.`);
-            }
-          } catch (e) {
-            setTxPending(false);
-            toast.warning(`${token} token approving rejected.`);
-            console.error(e);
-          }
-        }
         const confirmInfo = await axiosPost(`${API_BASE_URL}/company/insurace/confirm-premium`, {
           ...quoteDetail,
           chain: 'ETH',
@@ -321,6 +272,75 @@ const CoverBuyConfirmModal = (props) => {
     setIsNotCloseable(false);
   };
 
+  const onApproveCVR = async () => {
+    const { company_code } = product;
+    if (company_code === 'nexus') {
+      try {
+        const result = await onApproveCVRForNM();
+        await handleCVRAllowanceForNM();
+        if (result) {
+          toast.success('CVR token approved.');
+        } else {
+          toast.warning('CVR token approving failed.');
+        }
+      } catch (e) {
+        setTxPending(false);
+        toast.warning('CVR token approving rejected.');
+        console.error(e);
+      }
+    } else if (company_code === 'insurace') {
+      try {
+        const result = await onApproveCVRForIA();
+        await handleCVRAllowanceForIA();
+        if (result) {
+          toast.success('CVR token approved.');
+        } else {
+          toast.warning('CVR token approving failed.');
+        }
+      } catch (e) {
+        setTxPending(false);
+        toast.warning('CVR token approving rejected.');
+        console.error(e);
+      }
+    } else {
+      toast.warning('Unsupported type of product cover.');
+    }
+  };
+
+  const onApproveToken = async () => {
+    const { company_code } = product;
+    if (company_code === 'nexus') {
+      try {
+        const result = await onApproveTokenForNM();
+        await handleTokenAllowanceForNM();
+        if (result) {
+          toast.success(`${token} token approved.`);
+        } else {
+          toast.warning(`${token} token approving failed.`);
+        }
+      } catch (e) {
+        setTxPending(false);
+        toast.warning(`${token} token approving rejected.`);
+        console.error(e);
+      }
+    } else if (company_code === 'insurace') {
+      try {
+        const result = await onApproveTokenForIA();
+        await handleTokenAllowanceForIA();
+        if (result) {
+          toast.success(`${token} token approved.`);
+        } else {
+          toast.warning(`${token} token approving failed.`);
+        }
+      } catch (e) {
+        setTxPending(false);
+        toast.warning(`${token} token approving rejected.`);
+        console.error(e);
+      }
+    } else {
+      toast.warning('Unsupported type of product cover.');
+    }
+  };
   return (
     <>
       <div>
@@ -366,11 +386,19 @@ const CoverBuyConfirmModal = (props) => {
         <div className="flex items-center justify-center w-full mt-6">
           <button
             type="button"
-            onClick={handleConfirm}
+            onClick={
+              token !== 'ETH' && !tokenAllowance
+                ? onApproveToken
+                : discountAmount > 0 && !cvrAllowance
+                ? onApproveCVR
+                : handleConfirm
+            }
             className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             {txPending ? (
               <Loading widthClass="w-4" heightClass="h-4" />
+            ) : token !== 'ETH' && !tokenAllowance ? (
+              `Approve ${token}`
             ) : discountAmount > 0 && !cvrAllowance ? (
               'Approve CVR'
             ) : (

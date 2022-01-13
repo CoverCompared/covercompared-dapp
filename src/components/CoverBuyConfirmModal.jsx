@@ -56,15 +56,21 @@ const CoverBuyConfirmModal = (props) => {
 
   const ethBalance = useGetEthBalance();
   const cvrBalance = useTokenBalance();
-  const { onApprove: onApproveForNM } = useTokenApprove(getNexusMutualAddress());
-  const { onApprove: onApproveForIA } = useTokenApprove(getInsureAceAddress());
-  // const { onApprove } = useTokenApprove('0x3320c193109265fac179cc3ef0a466cca01651df', 'DAI');
+  const { onApprove: onApproveCVRForNM } = useTokenApprove(getNexusMutualAddress());
+  const { onApprove: onApproveCVRForIA } = useTokenApprove(getInsureAceAddress());
+  const { onApprove: onApproveTokenForNM } = useTokenApprove(getNexusMutualAddress(), token);
+  const { onApprove: onApproveTokenForIA } = useTokenApprove(getInsureAceAddress(), token);
   const { onNMStake, onIAStake } = useStakeForCover();
 
-  const { cvrAllowance: cvrAllowanceForNM, handleAllowance: handleAllowanceForNM } =
+  const { cvrAllowance: cvrAllowanceForNM, handleAllowance: handleCVRAllowanceForNM } =
     useGetAllowanceOfToken(getNexusMutualAddress());
-  const { cvrAllowance: cvrAllowanceForIA, handleAllowance: handleAllowanceForIA } =
+  const { cvrAllowance: cvrAllowanceForIA, handleAllowance: handleCVRAllowanceForIA } =
     useGetAllowanceOfToken(getInsureAceAddress());
+
+  const { cvrAllowance: tokenAllowanceForNM, handleAllowance: handleTokenAllowanceForNM } =
+    useGetAllowanceOfToken(getNexusMutualAddress(), token);
+  const { cvrAllowance: tokenAllowanceForIA, handleAllowance: handleTokenAllowanceForIA } =
+    useGetAllowanceOfToken(getInsureAceAddress(), token);
 
   const cvrAllowance = useMemo(() => {
     const { company_code } = product;
@@ -78,8 +84,10 @@ const CoverBuyConfirmModal = (props) => {
   }, [product, cvrAllowanceForNM, cvrAllowanceForIA]);
 
   useEffect(() => {
-    handleAllowanceForNM();
-    handleAllowanceForIA();
+    handleCVRAllowanceForNM();
+    handleCVRAllowanceForIA();
+    handleTokenAllowanceForNM();
+    handleTokenAllowanceForIA();
     setTitle('Confirmation');
     setMaxWidth('max-w-lg');
 
@@ -188,8 +196,8 @@ const CoverBuyConfirmModal = (props) => {
         // Buy Nexus Mutual Cover
         if (applyDiscount && !cvrAllowanceForNM) {
           try {
-            const result = await onApproveForNM();
-            await handleAllowanceForNM();
+            const result = await onApproveCVRForNM();
+            await handleCVRAllowanceForNM();
             if (result) {
               toast.success('CVR token approved.');
             } else {
@@ -201,7 +209,21 @@ const CoverBuyConfirmModal = (props) => {
             console.error(e);
           }
         }
-
+        if (!applyDiscount && token !== 'ETH' && !tokenAllowanceForNM) {
+          try {
+            const result = await onApproveTokenForNM();
+            await handleTokenAllowanceForNM();
+            if (result) {
+              toast.success(`${token} token approved.`);
+            } else {
+              toast.warning(`${token} token approving failed.`);
+            }
+          } catch (e) {
+            setTxPending(false);
+            toast.warning(`${token} token approving rejected.`);
+            console.error(e);
+          }
+        }
         const data = ethers.utils.defaultAbiCoder.encode(
           ['uint', 'uint', 'uint', 'uint', 'uint8', 'bytes32', 'bytes32'],
           [
@@ -229,8 +251,8 @@ const CoverBuyConfirmModal = (props) => {
         // Buy InsuareAce Cover
         if (applyDiscount && !cvrAllowanceForIA) {
           try {
-            const result = await onApproveForIA();
-            await handleAllowanceForIA();
+            const result = await onApproveCVRForIA();
+            await handleCVRAllowanceForIA();
             if (result) {
               toast.success('CVR token approved.');
             } else {
@@ -239,6 +261,21 @@ const CoverBuyConfirmModal = (props) => {
           } catch (e) {
             setTxPending(false);
             toast.warning('CVR token approving rejected.');
+            console.error(e);
+          }
+        }
+        if (!applyDiscount && token !== 'ETH' && !tokenAllowanceForIA) {
+          try {
+            const result = await onApproveTokenForIA();
+            await handleTokenAllowanceForIA();
+            if (result) {
+              toast.success(`${token} token approved.`);
+            } else {
+              toast.warning(`${token} token approving failed.`);
+            }
+          } catch (e) {
+            setTxPending(false);
+            toast.warning(`${token} token approving rejected.`);
             console.error(e);
           }
         }

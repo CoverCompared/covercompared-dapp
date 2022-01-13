@@ -13,6 +13,7 @@ import useAddress from '../hooks/useAddress';
 import { SupportedChainId } from '../config/chains';
 import useTokenAmount from '../hooks/useTokenAmount';
 import CoverBuyConfirmModal from './CoverBuyConfirmModal';
+import { PRODUCT_CHAIN } from '../config';
 
 const periodOptions = ['Days', 'Week', 'Month'];
 
@@ -53,10 +54,6 @@ const CoverBuyBox = (props) => {
   const { getTokenAmountForETH, getNeededTokenAmount } = useTokenAmount();
   const { getTokenAddress } = useAddress();
   const cvrAddress = getTokenAddress('cvr');
-  // useEffect(() => {
-  //   const periodVal = `${periodField}`.split('.')[0];
-  //   setPeriodField(+periodVal);
-  // }, [periodField]);
 
   const period = useMemo(() => {
     const periodVal = `${periodField}`.split('.')[0];
@@ -79,23 +76,24 @@ const CoverBuyBox = (props) => {
     return val;
   }, [periodField, periodSelect]);
 
-  const productChainId = useMemo(() => {
-    const { company_code } = product;
-    let _chainId = SupportedChainId.RINKEBY;
-    switch (company_code) {
-      case 'nexus':
-        _chainId = SupportedChainId.KOVAN;
-        break;
-      case 'insurace':
-        _chainId = SupportedChainId.RINKEBY;
-        break;
-      case 'nsure':
-        break;
-      default:
-        break;
-    }
-    return _chainId;
-  }, [product]);
+  // const productChainId = useMemo(() => {
+  //   const { company_code } = product;
+  //   let _chainId = SupportedChainId.RINKEBY;
+  //   switch (company_code) {
+  //     case 'nexus':
+  //       _chainId = SupportedChainId.KOVAN;
+  //       break;
+  //     case 'insurace':
+  //       _chainId = SupportedChainId.RINKEBY;
+  //       break;
+  //     case 'nsure':
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   return _chainId;
+  // }, [product]);
+  const productChainId = PRODUCT_CHAIN[company_code] || SupportedChainId.RINKEBY;
 
   const callGetQuote = useCallback(() => {
     dispatch(
@@ -117,7 +115,7 @@ const CoverBuyBox = (props) => {
         await setupNetwork(productChainId);
       }
     })();
-  }, [productChainId]);
+  }, [productChainId, chainId]);
 
   useEffect(() => {
     if (account && period && amountField) {
@@ -137,7 +135,7 @@ const CoverBuyBox = (props) => {
         Number(amountField) > Number(amountLimit.max)
       ) {
         toast.error(
-          `Amount is not valid, it must be between ${amountLimit.min} to ${amountLimit.max} days`,
+          `Amount is not valid, it must be between ${amountLimit.min} to ${amountLimit.max}`,
         );
         return;
       }
@@ -247,7 +245,7 @@ const CoverBuyBox = (props) => {
             account,
             coverAmount: amountField,
             currency: amountSelect,
-            quote,
+            quote: Number(quoteField),
             quoteDetail,
             token: quoteSelect,
             onConfirmed,

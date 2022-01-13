@@ -27,6 +27,7 @@ import MSOpartner9 from '../assets/img/mso-partners-9.jpg';
 import MSOService1 from '../assets/img/mso-service-1.png';
 import MSOService2 from '../assets/img/mso-service-2.png';
 import MSOService3 from '../assets/img/mso-service-3.png';
+import { PRODUCT_CHAIN } from '../config';
 
 const MSOServices = [
   {
@@ -110,7 +111,7 @@ const MSOPlans = (props) => {
   // this hooks for testing. Should be remove in production.
   useEffect(() => {
     (async () => {
-      const _chainId = SupportedChainId.RINKEBY;
+      const _chainId = PRODUCT_CHAIN.mso;
       if (chainId !== _chainId) {
         await setupNetwork(_chainId);
       }

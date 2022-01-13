@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import { metaCall } from '../biconomy';
 import nexusMutualAbi from '../../config/abi/nexusMutualAbi.json';
+import { PRODUCT_CHAIN } from '../../config';
 
 const getProductPrice = async (contract, param) => {
   const { contractAddress, coverAsset, sumAssured, coverPeriod, coverType, data } = param;
@@ -48,7 +49,7 @@ const buyCoverByToken = async (contract, account, signer, param) => {
     data,
   } = param;
   const contractInterface = new ethers.utils.Interface(nexusMutualAbi);
-  const tx = await metaCall(contract, contractInterface, account, signer, 42, {
+  const tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.nexus, {
     name: 'buyCoverByToken',
     params: [
       [token, contractAddress, coverAsset],

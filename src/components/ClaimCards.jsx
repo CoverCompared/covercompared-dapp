@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const ClaimCards = ({ policyId, wallet_address }) => {
+const ClaimCards = ({ policyId, walletAddress }) => {
   const [claimId, setClaimId] = useState('');
-  const newPageUrl = `https://app.nexusmutual.io/home/proof-of-loss/add-affected-addresses?coverId=${policyId}&owner=${wallet_address}`;
+  console.log(walletAddress);
+  const newPageUrl = `https://app.nexusmutual.io/home/proof-of-loss/add-affected-addresses?coverId=${policyId}&owner=${walletAddress}`;
 
   return (
     <>
@@ -14,9 +15,17 @@ const ClaimCards = ({ policyId, wallet_address }) => {
           </div> */}
           <div className="text-dark-blue font-medium font-Montserrat text-h6 text-center leading-7 text dark:text-white">
             Go to{' '}
-            <Link to={newPageUrl} className="font-semibold underline" target="_blank">
+            {/* <Link to={newPageUrl} className="font-semibold underline" target="_blank">
               LINK
-            </Link>{' '}
+            </Link>{' '} */}
+            <a
+              href={newPageUrl}
+              className="font-semibold underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              LINK
+            </a>{' '}
             and <br /> submit Proof
           </div>
         </div>

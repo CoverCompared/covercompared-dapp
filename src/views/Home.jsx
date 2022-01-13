@@ -99,7 +99,7 @@ export default function Home(props) {
   // this hooks for testing. Should be remove in production.
   useEffect(() => {
     (async () => {
-      const _chainId = SupportedChainId.RINKEBY;
+      const _chainId = process.env.REACT_APP_CHAIN_ID;
       if (chainId !== _chainId) {
         await setupNetwork(_chainId);
       }

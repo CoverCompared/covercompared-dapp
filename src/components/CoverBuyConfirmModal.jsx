@@ -48,10 +48,17 @@ const CoverBuyConfirmModal = (props) => {
   const ethAddress = getTokenAddress('eth');
   const usdcAddress = getTokenAddress('usdc');
   const cvrAddress = getTokenAddress('cvr');
+
+  const token0 = getTokenAddress(token);
+  const token1 = getTokenAddress(currency);
+  const token0Balance = useTokenBalance(token);
+  const token1Balance = useTokenBalance(currency);
+
   const ethBalance = useGetEthBalance();
   const cvrBalance = useTokenBalance();
   const { onApprove: onApproveForNM } = useTokenApprove(getNexusMutualAddress());
   const { onApprove: onApproveForIA } = useTokenApprove(getInsureAceAddress());
+  // const { onApprove } = useTokenApprove('0x3320c193109265fac179cc3ef0a466cca01651df', 'DAI');
   const { onNMStake, onIAStake } = useStakeForCover();
 
   const { cvrAllowance: cvrAllowanceForNM, handleAllowance: handleAllowanceForNM } =
@@ -103,13 +110,21 @@ const CoverBuyConfirmModal = (props) => {
   useEffect(() => {
     (async () => {
       if (applyDiscount) {
-        const cvrAmount = await getNeededTokenAmount(cvrAddress, getTokenAddress(currency), quote);
-        setCvrAmount(cvrAmount);
+        const token0 = cvrAddress;
+        const token1 = getTokenAddress(token);
+        if (token0 === token1) {
+          setCvrAmount(total);
+        } else {
+          const cvrAmount = await getNeededTokenAmount(token0, token1, quote);
+          setCvrAmount(getBalanceNumber(cvrAmount));
+        }
       }
     })();
   }, [total, applyDiscount]);
 
   const handleConfirm = async () => {
+    // await onApprove();
+    // if (true) return;
     setIsNotCloseable(true);
     if (!account) {
       toast.warning('You need to login in advance!');
@@ -117,20 +132,37 @@ const CoverBuyConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
-    const ethAmount = await getNeededTokenAmount(ethAddress, getTokenAddress(currency), total);
-    if (
-      !applyDiscount &&
-      getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)
-    ) {
-      toast.warning('Insufficient ETH balance!');
-      setIsNotCloseable(false);
-      return;
-    }
-    if (applyDiscount && getBalanceNumber(cvrAmount) >= getBalanceNumber(cvrBalance.balance)) {
+    // const tokenAmount = await getNeededTokenAmount(token0, token1, total);
+    // const ethAmount = await getNeededTokenAmount(ethAddress, getTokenAddress(currency), total);
+    // if (
+    //   !applyDiscount &&
+    //   getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)
+    // ) {
+    //   toast.warning('Insufficient ETH balance!');
+    //   setIsNotCloseable(false);
+    //   return;
+    // }
+    // if (applyDiscount && getBalanceNumber(cvrAmount) >= getBalanceNumber(cvrBalance.balance)) {
+    //   toast.warning('Insufficient CVR balance!');
+    //   setIsNotCloseable(false);
+    //   return;
+    // }
+
+    if (applyDiscount && cvrAmount >= getBalanceNumber(cvrBalance.balance)) {
       toast.warning('Insufficient CVR balance!');
       setIsNotCloseable(false);
       return;
     }
+
+    if (
+      !applyDiscount &&
+      total >= getBalanceNumber(token === 'ETH' ? ethBalance.balance : token0Balance.balance)
+    ) {
+      toast.warning(`Insufficient ${token} balance!`);
+      setIsNotCloseable(false);
+      return;
+    }
+
     if (!quote || !quoteDetail) {
       toast.warning('Cover quote info is not loaded correctly.');
       setIsNotCloseable(false);
@@ -218,6 +250,7 @@ const CoverBuyConfirmModal = (props) => {
         transaction = await onIAStake(
           {
             data: confirmInfo?.data?.data,
+            token: token0,
             premium: quoteDetail.premiumAmount,
           },
           applyDiscount,
@@ -257,7 +290,7 @@ const CoverBuyConfirmModal = (props) => {
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Premium</h5>
           <h5 className="text-body-lg font-medium">
-            {quote.toFixed(5)} {currency}
+            {quote.toFixed(5)} {token}
           </h5>
         </div>
         <div className="flex items-center justify-between w-full dark:text-white">
@@ -267,26 +300,28 @@ const CoverBuyConfirmModal = (props) => {
             name="applyDiscount"
             className="form-checkbox text-primary-gd-1 focus:ring-offset-0 duration-500"
             checked={applyDiscount}
-            onChange={() => setApplyDiscount(!applyDiscount)}
+            onChange={() => {
+              if (token0 !== cvrAddress) setApplyDiscount(!applyDiscount);
+            }}
           />
         </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Discount</h5>
           <h5 className="text-body-lg font-medium">
-            {discountAmount.toFixed(5)} {currency}
+            {discountAmount.toFixed(5)} {token}
           </h5>
         </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Total</h5>
           <h5 className="text-body-lg font-medium">
-            {total.toFixed(5)} {currency}
+            {total.toFixed(5)} {token}
           </h5>
         </div>
         {applyDiscount && (
           <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-            <h5 className="text-h6 font-medium">{`${getBalanceNumber(cvrAmount).toFixed(
+            <h5 className="text-h6 font-medium">{`${cvrAmount.toFixed(
               2,
             )} CVR will be used for payment`}</h5>
           </div>

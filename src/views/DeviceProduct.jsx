@@ -34,6 +34,7 @@ import SwissRe from '../assets/partners/p4l-partners/swiss_re.jpg';
 import P4LLogo from '../assets/img/p4l-logo.png';
 import { SupportedChainId } from '../config/chains';
 import { setupNetwork } from '../utils/wallet';
+import { PRODUCT_CHAIN } from '../config';
 
 const Backers = [
   {
@@ -208,7 +209,7 @@ const DeviceProduct = (props) => {
   // this hooks for testing. Should be remove in production.
   useEffect(() => {
     (async () => {
-      const _chainId = SupportedChainId.RINKEBY;
+      const _chainId = PRODUCT_CHAIN.p4l;
       if (chainId !== _chainId) {
         await setupNetwork(_chainId);
       }

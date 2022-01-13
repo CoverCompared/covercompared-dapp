@@ -209,7 +209,7 @@ const CoverBuyConfirmModal = (props) => {
             console.error(e);
           }
         }
-        if (!applyDiscount && token !== 'ETH' && !tokenAllowanceForNM) {
+        if (token !== 'ETH' && !tokenAllowanceForNM) {
           try {
             const result = await onApproveTokenForNM();
             await handleTokenAllowanceForNM();
@@ -264,7 +264,7 @@ const CoverBuyConfirmModal = (props) => {
             console.error(e);
           }
         }
-        if (!applyDiscount && token !== 'ETH' && !tokenAllowanceForIA) {
+        if (token !== 'ETH' && !tokenAllowanceForIA) {
           try {
             const result = await onApproveTokenForIA();
             await handleTokenAllowanceForIA();

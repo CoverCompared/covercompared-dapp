@@ -83,6 +83,7 @@ const DeviceBuyBox = (props) => {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [imeiOrSerial, setImeiOrSerial] = useState('');
+  const [purchaseDate, setPurchaseDate] = useState('');
 
   const [applyDiscount, setApplyDiscount] = useState(false);
   const [txPending, setTxPending] = useState(false);
@@ -118,6 +119,14 @@ const DeviceBuyBox = (props) => {
   const discountAmount = applyDiscount ? discount : 0;
   const total = Number(+plan_total_price - discountAmount).toFixed(2);
   const selectedModel = deviceModelDetails?.models?.filter((obj) => obj.model_code === model) || [];
+
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const day = d.getDate();
+  const minDateOneYear = new Date(year - 1, month, day).toLocaleDateString('en-ca');
+  const minDateTwoYear = new Date(year - 2, month, day).toLocaleDateString('en-ca');
+  const maxDate = new Date().toLocaleDateString('en-ca');
 
   useEffect(() => {
     handleAllowance();
@@ -249,6 +258,7 @@ const DeviceBuyBox = (props) => {
           brand,
           value: deviceDetails?.device_values[value],
           purchase_month: purchaseMonth,
+          model_code: model || 'OTHERS',
           model: model || 'OTHERS',
           model_name: selectedModel?.[0]?.model_name || 'Others',
           plan_type: 'monthly',
@@ -257,12 +267,17 @@ const DeviceBuyBox = (props) => {
           email,
           imei_or_serial_number: imeiOrSerial,
           phone,
+          mobile: phone,
           currency: applyDiscount ? 'CVR' : 'USD',
           amount: plan_total_price,
           discount_amount: discountAmount,
           tax: '0',
           total_amount: total,
           wallet_address: account,
+          partner_code: '1039',
+          custom_device_name: '',
+          tran_id: devicePlanDetails?.tran_id,
+          purchase_date: purchaseDate,
         };
         const ethAmount = await getETHAmountForUSDC(total);
         try {
@@ -279,6 +294,21 @@ const DeviceBuyBox = (props) => {
                 txn_hash: result.txn_hash,
               }),
             );
+            // dispatch(
+            //   createDeviceInsurancePolicy({
+            //     endpoint: 'create-policy-api',
+            //     first_name: fName,
+            //     last_name: lName,
+            //     mobile: phone,
+            //     email,
+            //     model_code: model || 'OTHERS',
+            //     custom_device_name: '',
+            //     imei_or_serial_number: imeiOrSerial,
+            //     tran_id: devicePlanDetails?.tran_id,
+            //     purchase_month: purchaseDate,
+            //     partner_code: '1039',
+            //   }),
+            // );
             setTxPending(false);
             setIsNotCloseable(false);
             setTitle('Receipt');
@@ -600,59 +630,100 @@ const DeviceBuyBox = (props) => {
         )}
         <form onSubmit={handleBuyNow}>
           <div className="grid grid-cols-2 gap-3">
-            <input
-              required
-              type="text"
-              placeholder="First Name"
-              name="first_name"
-              value={fName}
-              pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
-              title="Only Alphabets are allowed"
-              onChange={(e) => setFName(e.target.value)}
-              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-            />
-            <input
-              required
-              type="text"
-              placeholder="Last Name"
-              name="last_name"
-              value={lName}
-              pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
-              title="Only Alphabets are allowed"
-              onChange={(e) => setLName(e.target.value)}
-              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-            />
-            <input
-              required
-              type="tel"
-              pattern="\d*"
-              title="Only numbers allowed"
-              placeholder="Mobile"
-              name="mobile"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-            />
-            <input
-              required
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-            />
-            <input
-              required
-              type="text"
-              placeholder="IMEI or Serial Number"
-              name="imeiOrSerial"
-              value={imeiOrSerial}
-              pattern="^[a-zA-Z0-9-_.]*$"
-              title="Only Alphabets, Numbers, Hyphen and Underscore are allowed"
-              onChange={(e) => setImeiOrSerial(e.target.value)}
-              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-            />
+            <div>
+              <label htmlFor="first_name" className="ml-1 text-body-md">
+                First Name
+              </label>
+              <input
+                required
+                type="text"
+                placeholder="First Name"
+                name="first_name"
+                value={fName}
+                pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
+                title="Only Alphabets are allowed"
+                onChange={(e) => setFName(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
+            <div>
+              <label htmlFor="last_name" className="ml-1 text-body-md">
+                Last Name
+              </label>
+              <input
+                required
+                type="text"
+                placeholder="Last Name"
+                name="last_name"
+                value={lName}
+                pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
+                title="Only Alphabets are allowed"
+                onChange={(e) => setLName(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
+            <div>
+              <label htmlFor="mobile" className="ml-1 text-body-md">
+                Mobile
+              </label>
+              <input
+                required
+                type="tel"
+                pattern="\d*"
+                title="Only numbers allowed"
+                placeholder="Mobile"
+                name="mobile"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="ml-1 text-body-md">
+                Email
+              </label>
+              <input
+                required
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
+            <div>
+              <label htmlFor="imeiOrSerial" className="ml-1 text-body-md">
+                IMEI or Serial Number
+              </label>
+              <input
+                required
+                type="text"
+                placeholder="Device IMEI or Serial Number"
+                name="imeiOrSerial"
+                value={imeiOrSerial}
+                pattern="^[a-zA-Z0-9-_.]*$"
+                title="Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+                onChange={(e) => setImeiOrSerial(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
+            <div>
+              <label htmlFor="purchaseDate" className="ml-1 text-body-md">
+                Device Purchase Date
+              </label>
+              <input
+                required
+                type="date"
+                min={purchaseMonth === 'Less than 12 months' ? minDateOneYear : minDateTwoYear}
+                max={maxDate}
+                placeholder="Purchase date"
+                name="purchaseDate"
+                value={purchaseDate}
+                onChange={(e) => setPurchaseDate(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
           </div>
 
           {notRegistered && (
@@ -724,7 +795,7 @@ const DeviceBuyBox = (props) => {
             </div>
           )}
 
-          <div className="mt-6">
+          <div className="mt-3">
             <input
               id="termsAndCondition"
               name="termsAndCondition"

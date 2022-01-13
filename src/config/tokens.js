@@ -1,6 +1,7 @@
 export default {
   dai: {
     1: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+    4: '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa',
     42: '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa',
     56: '',
     97: '',

@@ -61,27 +61,35 @@ const useStakeForCover = () => {
 
   const handleInsureAceStake = useCallback(
     async (param, applyDiscount) => {
+      const cvrAddress = await getCvrAddress();
       const currency = param.data[3]; // cover currency
       const isETHCover = currency.toLowerCase() === ETH_ADDRESS.toLowerCase();
-      let tx;
+      let tx = null;
       if (applyDiscount) {
         if (isETHCover) {
           tx = await insure.buyETHCoverByToken(insuraceContractB, account, library.getSigner(), {
             ...param,
-            token: await getCvrAddress(),
+            token: cvrAddress,
           });
         } else {
           tx = await insure.buyTokenCoverByToken(insuraceContractB, account, library.getSigner(), {
             ...param,
-            token: await getCvrAddress(),
+            token: cvrAddress,
           });
         }
         tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
-      } else if (isETHCover) {
-        tx = await insure.buyETHCoverByETH(insuraceContractA, param);
-        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       } else {
-        tx = null;
+        if (isETHCover) {
+          tx = await insure.buyETHCoverByETH(insuraceContractA, param);
+        } else {
+          tx = await insure.buyTokenCoverByToken(
+            insuraceContractB,
+            account,
+            library.getSigner(),
+            param,
+          );
+        }
+        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       }
 
       if (tx) {

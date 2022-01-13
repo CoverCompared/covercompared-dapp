@@ -6,6 +6,7 @@ import { getCvrAddressByChainId } from '../utils/addressHelpers';
 import { BIG_ZERO } from '../utils/bigNumber';
 import { getErc20Contract } from '../utils/contractHelpers';
 import useLastUpdated from './useLastUpdated';
+import useAddress from './useAddress';
 
 export const FetchStatus = {
   NOT_FETCHED: 'not-fetched',
@@ -13,14 +14,16 @@ export const FetchStatus = {
   FAILED: 'failed',
 };
 
-const useTokenBalance = () => {
+const useTokenBalance = (tokenSymbol = 'cvr') => {
   const { NOT_FETCHED, SUCCESS, FAILED } = FetchStatus;
   const [balanceState, setBalanceState] = useState({
     balance: BIG_ZERO,
     fetchStatus: NOT_FETCHED,
   });
   const { account, library, chainId } = useActiveWeb3React();
-  const tokenAddress = getCvrAddressByChainId(chainId || 4);
+  const { getTokenAddress } = useAddress();
+  // const tokenAddress = getCvrAddressByChainId(chainId || 4);
+  const tokenAddress = getTokenAddress(tokenSymbol);
   useEffect(() => {
     const fetchBalance = async () => {
       const contract = getErc20Contract(tokenAddress, library);

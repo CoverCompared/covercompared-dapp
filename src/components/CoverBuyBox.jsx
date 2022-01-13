@@ -118,30 +118,30 @@ const CoverBuyBox = (props) => {
   }, [productChainId, chainId]);
 
   useEffect(() => {
-    if (account && period && amountField) {
-      if (
-        Number(period) < Number(duration_days_min) ||
-        Number(period) > Number(duration_days_max)
-      ) {
-        toast.error(
-          `Period duration is not valid, it must be between ${duration_days_min} to ${duration_days_max} days`,
-        );
-        return;
-      }
-
-      const amountLimit = currency_limit[amountSelect];
-      if (
-        Number(amountField) < Number(amountLimit.min) ||
-        Number(amountField) > Number(amountLimit.max)
-      ) {
-        toast.error(
-          `Amount is not valid, it must be between ${amountLimit.min} to ${amountLimit.max}`,
-        );
-        return;
-      }
-
-      callGetQuote();
+    if (!amountField || !periodField) {
+      setQuoteField(0);
+      return;
     }
+
+    if (Number(period) < Number(duration_days_min) || Number(period) > Number(duration_days_max)) {
+      toast.error(
+        `Period duration is not valid, it must be between ${duration_days_min} to ${duration_days_max} days`,
+      );
+      return;
+    }
+
+    const amountLimit = currency_limit[amountSelect];
+    if (
+      Number(amountField) < Number(amountLimit.min) ||
+      Number(amountField) > Number(amountLimit.max)
+    ) {
+      toast.error(
+        `Amount is not valid, it must be between ${amountLimit.min} to ${amountLimit.max} days`,
+      );
+      return;
+    }
+
+    callGetQuote();
   }, [period, amountField, amountSelect, account]);
 
   useEffect(() => {
@@ -195,26 +195,26 @@ const CoverBuyBox = (props) => {
           {...props}
           autoFocus
           fieldTitle="Period"
-          fieldSubtitle="Max"
+          // fieldSubtitle="Max"
           fieldType="number"
           fieldValue={periodField}
           setFieldValue={setPeriodField}
-          selectedOption={periodSelect}
-          setSelectedOption={setPeriodSelect}
-          dropdownOptions={periodOptions}
-          showSearchOption="true"
+          selectedOption="Days"
+          placeholder="Enter period "
+          // setSelectedOption={setPeriodSelect}
+          // dropdownOptions={periodOptions}
         />
         <SelectWithSearch
           {...props}
           fieldTitle="Amount"
-          fieldSubtitle="Max"
+          // fieldSubtitle="Max"
           fieldType="number"
           fieldValue={amountField}
           setFieldValue={setAmountField}
           selectedOption={amountSelect}
           setSelectedOption={setAmountSelect}
           dropdownOptions={currency}
-          showSearchOption="true"
+          placeholder="Enter amount "
         />
         <SelectWithSearch
           {...props}
@@ -227,7 +227,6 @@ const CoverBuyBox = (props) => {
           selectedOption={quoteSelect}
           setSelectedOption={setQuoteSelect}
           dropdownOptions={quoteOptions}
-          showSearchOption="true"
         />
       </form>
 
@@ -255,8 +254,8 @@ const CoverBuyBox = (props) => {
           <button
             ref={buyButton}
             type="button"
-            disabled={!!message}
-            className="md:py-3 px-6 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance disabled:opacity-80 disabled:cursor-default"
+            disabled={!!message || !quoteField}
+            className="md:py-3 px-6 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 disabled:from-buy-button-gd-2 disabled:to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance disabled:opacity-80 disabled:cursor-default"
           >
             Buy Now
           </button>

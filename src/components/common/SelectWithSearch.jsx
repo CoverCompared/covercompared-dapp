@@ -25,6 +25,7 @@ const SelectWithSearch = ({
   optionsAsArrayOfObjects,
   labelKey,
   valueKey,
+  placeholder = '',
   fieldType = 'text',
 }) => {
   const { theme } = useContext(ThemeContext);
@@ -75,10 +76,9 @@ const SelectWithSearch = ({
       <div
         className={classNames(
           showColumnLayout ? 'flex-col' : 'flex-row mb-3',
-          'w-full relative flex justify-between py-3 px-4 bg-white rounded-xl dark:bg-product-input-bg-dark border border-gray-300 cursor-pointer',
+          'w-full relative flex justify-between py-3 px-4 bg-white rounded-xl dark:bg-product-input-bg-dark border border-gray-300',
         )}
         ref={optionRef}
-        onClick={() => setIsOpen(!isOpen)}
       >
         <div className="text-dark-blue font-Montserrat font-semibold text-body-xs dark:text-white text-left">
           {fieldTitle}
@@ -96,6 +96,7 @@ const SelectWithSearch = ({
                     readOnly={!!readOnly}
                     type={fieldType}
                     value={fieldValue}
+                    placeholder={placeholder}
                     onChange={(e) => {
                       setFieldValue(e.target.value);
                     }}
@@ -107,6 +108,7 @@ const SelectWithSearch = ({
                 <div
                   className="flex relative h-5 items-center cursor-pointer ml-1"
                   style={{ minWidth: 'fit-content' }}
+                  onClick={() => setSelectedOption && setIsOpen(!isOpen)}
                 >
                   <div className="text-Montserrat text-body-lg text-dark-blue font-medium flex items-center dark:text-white">
                     {isObject(dropdownOptions)
@@ -118,14 +120,17 @@ const SelectWithSearch = ({
                     <img
                       src={theme === 'light' ? DownArrow : DownArrowWhite}
                       alt="Down Arrow"
-                      className="ml-1"
+                      className={classNames(setSelectedOption ? '' : 'opacity-0', ' ml-1')}
                     />
                   </div>
                 </div>
               </div>
             </>
           ) : (
-            <div className="w-full relative min-h-5 cursor-pointer">
+            <div
+              className="w-full relative min-h-5 cursor-pointer"
+              onClick={() => setIsOpen(!isOpen)}
+            >
               <div className="text-Montserrat w-full h-full text-body-lg text-dark-blue font-medium flex justify-end items-center dark:text-white">
                 {isObject(dropdownOptions)
                   ? dropdownOptions[selectedOption]

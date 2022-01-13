@@ -51,12 +51,12 @@ const clientLogos = [
 const featureCards = [
   {
     title: 'Fast and Free',
-    body: 'Find your insurance in few click on Covercompared guided by a system of simple and intuitive questionaires.',
+    body: 'Find your insurance in few click on Cover Compared guided by a system of simple and intuitive questionaires.',
     icon: Stopwatch,
   },
   {
-    title: '100% Neutrual',
-    body: 'No favoritism: on Covercompared we display the most relevant insurance for your search criteria.',
+    title: '100% Neutral',
+    body: 'No favoritism: on Cover Compared we display the most relevant insurance for your search criteria.',
     icon: Balance,
   },
   {
@@ -66,7 +66,7 @@ const featureCards = [
   },
   {
     title: 'Upto 40% cashback in CVR tokens',
-    body: 'Find your insurance in few click on Covercompared guided by a system of simple and intuitive questionaires.',
+    body: 'Find your insurance in few click on Cover Compared guided by a system of simple and intuitive questionaires.',
     icon: Discount,
   },
 ];

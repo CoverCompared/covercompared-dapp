@@ -11,7 +11,6 @@ const useTokenApprove = (address, tokenSymbol = 'cvr') => {
   // const cvrContract = useTokenContract(cvrAddress);
   const tokenAddress = getTokenAddress(tokenSymbol);
   const tokenContract = useTokenContract(tokenAddress);
-
   const handleApprove = useCallback(async () => {
     try {
       const tx = await tokenContract.approve(address, ethers.constants.MaxUint256);
@@ -20,7 +19,7 @@ const useTokenApprove = (address, tokenSymbol = 'cvr') => {
     } catch (e) {
       return false;
     }
-  }, [address, library, account]);
+  }, [address, tokenSymbol, library, account]);
 
   return { onApprove: handleApprove };
 };

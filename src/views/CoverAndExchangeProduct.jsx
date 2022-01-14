@@ -20,6 +20,7 @@ import { ThemeContext } from '../themeContext';
 import { getCoverById } from '../redux/actions/CoverList';
 import Select from '../components/common/Select';
 import { numberFormat } from '../functions/utils';
+import ToolTip from '../components/common/ToolTip';
 
 const filterOption = ['High to low', 'Low to high'];
 
@@ -154,14 +155,14 @@ const CoverAndExchangeProduct = (props) => {
             <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xs mb-5 dark:text-white">
               Details
             </div>
-            <div className="flex justify-between items-center md:mb-3 mb-4">
+            {/* <div className="flex justify-between items-center md:mb-3 mb-4">
               <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Address
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 {accountNumber}
               </div>
-            </div>
+            </div> */}
             <div className="flex justify-between items-center md:mb-3 mb-4">
               <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Provider
@@ -189,6 +190,26 @@ const CoverAndExchangeProduct = (props) => {
                       1,
                     )} DAI`
                   : `${numberFormat(cover?.capacity || 0, 1)} ETH`}
+              </div>
+            </div>
+            <div className="flex justify-between items-center">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white mt-2">
+                Supported Chains
+              </div>
+              <div className="">
+                <div
+                  data-for="info-tool-tip"
+                  data-tip={supportedChains.join(', ')}
+                  data-iscapture="true"
+                  className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                >
+                  i
+                </div>
+                <ToolTip
+                  ToolTipId="info-tool-tip"
+                  bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                  fontColor="#FFF"
+                />
               </div>
             </div>
           </div>

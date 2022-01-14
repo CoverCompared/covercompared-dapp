@@ -293,21 +293,21 @@ const DeviceBuyBox = (props) => {
                 txn_hash: result.txn_hash,
               }),
             );
-            dispatch(
-              createDeviceInsurancePolicy({
-                endpoint: 'create-policy-api',
-                first_name: fName,
-                last_name: lName,
-                mobile: phone,
-                email,
-                model_code: model || 'OTHERS',
-                custom_device_name: selectedModel?.[0]?.model_name || `${brand} ${deviceType}`,
-                imei_or_serial_number: imeiOrSerial,
-                tran_id: devicePlanDetails?.tran_id,
-                purchase_date: purchaseDate,
-                partner_code: '1039',
-              }),
-            );
+            // dispatch(
+            //   createDeviceInsurancePolicy({
+            //     endpoint: 'create-policy-api',
+            //     first_name: fName,
+            //     last_name: lName,
+            //     mobile: phone,
+            //     email,
+            //     model_code: model || 'OTHERS',
+            //     custom_device_name: selectedModel?.[0]?.model_name || `${brand} ${deviceType}`,
+            //     imei_or_serial_number: imeiOrSerial,
+            //     tran_id: devicePlanDetails?.tran_id,
+            //     purchase_date: purchaseDate,
+            //     partner_code: '1039',
+            //   }),
+            // );
             setTxPending(false);
             setIsNotCloseable(false);
             setTitle('Receipt');

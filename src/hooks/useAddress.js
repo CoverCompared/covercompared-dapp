@@ -27,7 +27,10 @@ const useAddress = () => {
     [library, chainId],
   );
   const getPriceFeedAddressBySymbol = useCallback(
-    (symbol) => getAddress(addresses.priceFeed[`${symbol}`]),
+    (symbol) => {
+      console.log(symbol);
+      return getAddress(addresses.priceFeed[`${symbol.toLowerCase()}`]);
+    },
     [library, chainId],
   );
   const getCvrAddress = useCallback(() => getAddress(tokens.cvr), [library, chainId]);

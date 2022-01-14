@@ -47,7 +47,7 @@ export default {
     dai: {
       decimal: 8,
       1: '0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9',
-      4: '0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF',
+      4: '0xBC33008AF81A03aA24dc0A0F112E29C979e317fB',
       42: '0x777A68032a88E5A84678A77Af2CD65A7b3c0775a',
     },
     link: {

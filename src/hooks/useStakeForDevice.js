@@ -46,10 +46,10 @@ export const useStakeForDeviceByToken = () => {
   const dispatch = useDispatch();
   const handleStake = useCallback(
     async (param, signature) => {
-      if (param.discount_amount > 0 && signature) {
+      if (signature) {
         let tx = await p4l.buyProductByToken(
           p4lContract,
-          { ...param, token: await getCvrAddress() },
+          param,
           library.getSigner(),
           account,
           signature,

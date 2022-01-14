@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import { CheckIcon } from '@heroicons/react/outline';
@@ -17,6 +17,7 @@ import DownloadPolicy from './common/DownloadPolicy';
 import DeviceReceipt from './DeviceReceipt';
 import Loading from './common/TxLoading';
 import PageLoader from './common/PageLoader';
+import CurrencySelect from './common/CurrencySelect';
 import {
   setProfileDetails,
   verifyOTP,
@@ -85,7 +86,6 @@ const DeviceBuyBox = (props) => {
   const [imeiOrSerial, setImeiOrSerial] = useState('');
   const [purchaseDate, setPurchaseDate] = useState('');
 
-  const [applyDiscount, setApplyDiscount] = useState(false);
   const [txPending, setTxPending] = useState(false);
 
   const [useForRegistration, setUseForRegistration] = useState(false);
@@ -97,17 +97,27 @@ const DeviceBuyBox = (props) => {
   const [showInfoForm, setShowInfoForm] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
-  const { getP4LAddress } = useAddress();
+  const [currency, setCurrency] = useState('ETH');
+
+  const applyDiscount = useMemo(() => {
+    return currency === 'CVR';
+  }, [currency]);
+
+  const { getP4LAddress, getTokenAddress } = useAddress();
   const { onStake } = useStakeForDevice();
   const { onStakeByToken } = useStakeForDeviceByToken();
-  const { onApprove } = useTokenApprove(getP4LAddress());
-  const { cvrAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
-  const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
 
-  const { balance } = useGetEthBalance();
-  const cvrBalanceStatus = useTokenBalance();
+  const { onApprove } = useTokenApprove(getP4LAddress(), currency);
+  const { cvrAllowance: tokenAllowance, handleAllowance: handleTokenAllowance } =
+    useGetAllowanceOfToken(getP4LAddress(), currency);
 
-  // const ethPrice = useAssetsUsdPrice('eth');
+  const { getETHAmountForUSDC, getTokenAmountForUSDC, getNeededTokenAmount } = useTokenAmount();
+
+  const ethBalance = useGetEthBalance();
+  const cvrBalance = useTokenBalance();
+  const tokenBalance = useTokenBalance(currency);
+
+  const tokenPrice = useAssetsUsdPrice(currency);
   const cvrPrice = useAssetsUsdPrice('cvr');
 
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
@@ -129,7 +139,7 @@ const DeviceBuyBox = (props) => {
   const maxDate = new Date().toLocaleDateString('en-ca');
 
   useEffect(() => {
-    handleAllowance();
+    handleTokenAllowance();
   }, []);
 
   useEffect(() => {
@@ -139,18 +149,6 @@ const DeviceBuyBox = (props) => {
   useEffect(() => {
     if (deviceIsFailed) setShowAlert(true);
   }, [deviceIsFailed]);
-
-  // useEffect(() => {
-  //   if (txn_hash && !deviceLoader && !deviceIsFailed) {
-  //     setTitle('Receipt');
-  //     setMaxWidth('max-w-5xl');
-  //     setShowReceipt(true);
-  //   } else {
-  //     setTitle('Device Details');
-  //     setMaxWidth('max-w-2xl');
-  //     setShowReceipt(false);
-  //   }
-  // }, [txn_hash]);
 
   useEffect(() => {
     dispatch(
@@ -268,7 +266,8 @@ const DeviceBuyBox = (props) => {
           imei_or_serial_number: imeiOrSerial,
           phone,
           mobile: phone,
-          currency: applyDiscount ? 'CVR' : 'USD',
+          // currency: applyDiscount ? 'CVR' : 'USD',
+          currency,
           amount: plan_total_price,
           discount_amount: discountAmount,
           tax: '0',
@@ -282,8 +281,8 @@ const DeviceBuyBox = (props) => {
         const ethAmount = await getETHAmountForUSDC(total);
         try {
           const result =
-            discountAmount > 0
-              ? await onStakeByToken(param, signature)
+            currency !== 'ETH'
+              ? await onStakeByToken({ ...param, token: getTokenAddress(currency) }, signature)
               : await onStake(param, ethAmount.toString(), signature);
 
           if (result.status) {
@@ -348,55 +347,29 @@ const DeviceBuyBox = (props) => {
     if (e) e.preventDefault();
     setTxPending(true);
     setIsNotCloseable(true);
-    if (discountAmount > 0 && !cvrAllowance) {
-      try {
-        const result = await onApprove();
-        await handleAllowance();
-        if (result) {
-          toast.success('CVR token approved.');
-        } else {
-          toast.warning('CVR token approving failed.');
-        }
-      } catch (e) {
-        toast.warning('CVR token approving rejected.');
-        console.error(e);
-      }
+
+    let coverAmount;
+    let balance;
+
+    if (currency === 'ETH') {
+      coverAmount = await getETHAmountForUSDC(plan_total_price);
+      balance = ethBalance.balance;
+    } else if (currency === 'CVR') {
+      coverAmount = await getTokenAmountForUSDC(plan_total_price);
+      balance = cvrBalance.balance;
+    } else {
+      const token = getTokenAddress(currency);
+      const usdc = getTokenAddress('usdc');
+      coverAmount = await getNeededTokenAmount(token, usdc, plan_total_price);
+      balance = tokenBalance.balance;
     }
 
-    let ethAmount1;
-    let cvrAmount1;
-    try {
-      ethAmount1 = await getETHAmountForUSDC(total); // total / ethPrice;
-      cvrAmount1 = await getTokenAmountForUSDC(total); // total / cvrPrice;
-    } catch (err) {
-      toast.warning(err.message);
+    if (getBalanceNumber(coverAmount) >= getBalanceNumber(balance)) {
+      toast.warning(`Insufficient ${currency} balance!`);
       setTxPending(false);
       setIsNotCloseable(false);
       return;
     }
-    const ethAmount = getBalanceNumber(ethAmount1);
-    const cvrAmount = getBalanceNumber(cvrAmount1);
-
-    if (!applyDiscount && ethAmount + 0.016 >= getBalanceNumber(balance)) {
-      toast.warning('Insufficient ETH balance!');
-      setTxPending(false);
-      setIsNotCloseable(false);
-      return;
-    }
-    if (applyDiscount && cvrAmount >= getBalanceNumber(cvrBalanceStatus.balance)) {
-      toast.warning('Insufficient CVR balance!');
-      setApplyDiscount(false);
-      setTxPending(false);
-      setIsNotCloseable(false);
-      return;
-    }
-
-    // if (policyId === '') {
-    //   toast.warning('You have not the policy id yet. Please try again!');
-    //   setApplyDiscount(false);
-    //   setTxPending(false);
-    //   setIsNotCloseable(false);
-    // }
     const param = {
       device_type: deviceType,
       brand,
@@ -420,27 +393,23 @@ const DeviceBuyBox = (props) => {
     };
 
     dispatch(buyDeviceInsuranceFirst(param));
-    // try {
-    //   const result =
-    //     discountAmount > 0
-    //       ? await onStakeByToken(param)
-    //       : await onStake(param, getDecimalAmount(ethAmount).toString());
+  };
 
-    //   if (result.status) {
-    //     dispatch(
-    //       buyDeviceInsurance({
-    //         ...param,
-    //         txn_hash: result.txn_hash,
-    //       }),
-    //     );
-    //     toast.success('Successfully purchased!');
-    //   }
-    // } catch (e) {
-    //   console.error(e);
-    //   toast.warning(e.message);
-    // }
-    // setTxPending(false);
-    // setIsNotCloseable(false);
+  const onApproveToken = async () => {
+    try {
+      const result = await onApprove();
+      await handleTokenAllowance();
+      if (result) {
+        toast.success(`${currency} token approved.`);
+      } else {
+        toast.warning(`${currency} token approving failed.`);
+      }
+    } catch (e) {
+      toast.warning(`${currency} token approving rejected.`);
+      console.error(e);
+    }
+    setTxPending(false);
+    setIsNotCloseable(false);
   };
 
   const handleSubmitEmail = (email = null) => {
@@ -567,31 +536,36 @@ const DeviceBuyBox = (props) => {
           <h5 className="text-h6 font-medium">
             Premium Per {plan_type === 'yearly' ? 'Year' : 'Month'}
           </h5>
-          <h5 className="text-body-lg font-medium">{plan_total_price} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {(plan_total_price / tokenPrice).toFixed(3)} {currency}
+          </h5>
         </div>
-        <div className="flex items-center justify-between w-full dark:text-white">
-          <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
-          <input
-            type="checkbox"
-            name="applyDiscount"
-            className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0"
-            checked={applyDiscount}
-            onChange={() => setApplyDiscount(!applyDiscount)}
-          />
-        </div>
+        <CurrencySelect
+          {...{
+            negativeLeft: false,
+            fieldTitle: 'Currency',
+            options: ['ETH', 'CVR', 'DAI', 'USDT'],
+            selectedOption: currency,
+            setSelectedOption: setCurrency,
+          }}
+        />
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Discount</h5>
-          <h5 className="text-body-lg font-medium">{discountAmount} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {(discountAmount / tokenPrice).toFixed(3)} {currency}
+          </h5>
         </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Total</h5>
-          <h5 className="text-body-lg font-medium">{total} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {(total / tokenPrice).toFixed(3)} {currency}
+          </h5>
         </div>
         {applyDiscount && (
           <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-            <h5 className="text-h6 font-medium">{`${(total / cvrPrice).toFixed(
+            <h5 className="text-h6 font-medium">{`${(total / tokenPrice).toFixed(
               2,
             )} CVR will be used for 25% discount`}</h5>
           </div>
@@ -599,13 +573,13 @@ const DeviceBuyBox = (props) => {
         <div className="flex items-center justify-center w-full mt-6">
           <button
             type="button"
-            onClick={handleConfirm}
+            onClick={currency !== 'ETH' && !tokenAllowance ? onApproveToken : handleConfirm}
             className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             {txPending ? (
               <Loading widthClass="w-4" heightClass="h-4" />
-            ) : discountAmount > 0 && !cvrAllowance ? (
-              'Approve CVR'
+            ) : currency !== 'ETH' && !tokenAllowance ? (
+              `Approve ${currency}`
             ) : (
               'Confirm to Pay'
             )}

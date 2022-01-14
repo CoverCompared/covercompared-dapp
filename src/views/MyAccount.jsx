@@ -62,8 +62,6 @@ const MyAccount = (props) => {
   const { email } = useSelector((state) => state.auth);
   const { policies, loader } = useSelector((state) => state.userProfile);
   const auth = useSelector((state) => state.auth);
-  const [proofPending, setProofPending] = useState(false);
-  const [nexusIndex, setNexusIndex] = useState(-1);
 
   const { onNMClaim, onNMRedeemClaim, onSubmitCAVote, getCheckVoteClosing, onCloseClaim } =
     useClaimForCover();
@@ -88,8 +86,6 @@ const MyAccount = (props) => {
     const newPageUrl = `https://app.nexusmutual.io/home/proof-of-loss/add-affected-addresses?coverId=${token_id}&owner=${wallet_address}`;
     window.open(newPageUrl, '_blank');
 
-    setProofPending(true);
-    setNexusIndex(i);
     try {
       const emptyData = ethers.utils.defaultAbiCoder.encode([], []);
 
@@ -142,12 +138,8 @@ const MyAccount = (props) => {
       } else {
         toast.warning('Failed to redeem claim!');
       }
-
-      setProofPending(false);
-      setNexusIndex(-1);
     } catch (err) {
       // console.log(err);
-      setProofPending(false);
       toast.error(err.message);
     }
   };
@@ -357,6 +349,8 @@ const MyAccount = (props) => {
     } = policy;
     const { company_code, name, duration_days, token_id } = details;
 
+    const onSubmitted = () => {};
+
     return (
       <div
         className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl flex justify-between mb-4 relative"
@@ -393,7 +387,7 @@ const MyAccount = (props) => {
               Submit Review
             </button>
           )}
-          {company_code === 'nexus' && (
+          {/* {company_code === 'nexus' && (
             <button
               disabled={(proofPending && nexusIndex === index) || token_id === undefined}
               onClick={() => handleSubmitToClaim(policy, index)}
@@ -406,7 +400,35 @@ const MyAccount = (props) => {
                 'Submit Claim'
               )}
             </button>
-          )}
+          )} */}
+
+          {company_code === 'nexus' &&
+            // replace the true with condition which check whether claim is submitted or not
+            (true ? (
+              <Modal
+                title="Instruction"
+                bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
+                sizeClass="max-w-3xl"
+                renderComponent={() => (
+                  <ClaimCards policyId={token_id} walletAddress={wallet_address} />
+                )}
+                onSubmitted
+              >
+                <button
+                  type="button"
+                  className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+                >
+                  Submit Claim
+                </button>
+              </Modal>
+            ) : (
+              <button
+                type="button"
+                className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+              >
+                Redeem Claim
+              </button>
+            ))}
         </div>
       </div>
     );

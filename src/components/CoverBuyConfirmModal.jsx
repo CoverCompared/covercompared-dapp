@@ -45,14 +45,10 @@ const CoverBuyConfirmModal = (props) => {
 
   const { getNexusMutualAddress, getInsureAceAddress, getTokenAddress } = useAddress();
   const { getNeededTokenAmount } = useTokenAmount();
-  const ethAddress = getTokenAddress('eth');
-  const usdcAddress = getTokenAddress('usdc');
   const cvrAddress = getTokenAddress('cvr');
 
   const token0 = getTokenAddress(token);
-  const token1 = getTokenAddress(currency);
   const token0Balance = useTokenBalance(token);
-  const token1Balance = useTokenBalance(currency);
 
   const ethBalance = useGetEthBalance();
   const cvrBalance = useTokenBalance();
@@ -107,15 +103,6 @@ const CoverBuyConfirmModal = (props) => {
     };
   }, []);
 
-  // const [quoteInUSD, setQuoteInUSD] = useState(0);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const quoteInUSD = await getNeededTokenAmount(usdcAddress, ethAddress, quote);
-  //     setQuoteInUSD(getBalanceNumber(quoteInUSD));
-  //   })();
-  // }, [quote]);
-
   const discountAmount = useMemo(() => {
     const discount = (+quote * 25) / 100;
     return applyDiscount ? discount : 0;
@@ -141,8 +128,6 @@ const CoverBuyConfirmModal = (props) => {
   }, [total, applyDiscount]);
 
   const handleConfirm = async () => {
-    // await onApprove();
-    // if (true) return;
     setIsNotCloseable(true);
     if (!account) {
       toast.warning('You need to login in advance!');
@@ -150,21 +135,6 @@ const CoverBuyConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
-    // const tokenAmount = await getNeededTokenAmount(token0, token1, total);
-    // const ethAmount = await getNeededTokenAmount(ethAddress, getTokenAddress(currency), total);
-    // if (
-    //   !applyDiscount &&
-    //   getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)
-    // ) {
-    //   toast.warning('Insufficient ETH balance!');
-    //   setIsNotCloseable(false);
-    //   return;
-    // }
-    // if (applyDiscount && getBalanceNumber(cvrAmount) >= getBalanceNumber(cvrBalance.balance)) {
-    //   toast.warning('Insufficient CVR balance!');
-    //   setIsNotCloseable(false);
-    //   return;
-    // }
 
     if (applyDiscount && cvrAmount >= getBalanceNumber(cvrBalance.balance)) {
       toast.warning('Insufficient CVR balance!');

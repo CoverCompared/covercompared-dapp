@@ -20,7 +20,7 @@ const useGetAllowanceOfToken = (address, tokenSymbol = 'cvr') => {
     if (address && tokenContract) {
       get();
     }
-  }, [tokenContract, address, account]);
+  }, [tokenContract, address, tokenSymbol, account]);
 
   return { cvrAllowance, handleAllowance };
 };

@@ -94,6 +94,18 @@ function* buyDeviceInsurance({ payload }) {
         currency: payload.currency,
         wallet_address: payload.wallet_address,
         paid_amount: payload.total_amount,
+
+        // create-policy-api params
+        first_name: payload.first_name,
+        last_name: payload.last_name,
+        mobile: payload.mobile,
+        email: payload.email,
+        model_code: payload.model_code,
+        custom_device_name: payload.custom_device_name,
+        imei_or_serial_number: payload.imei_or_serial_number,
+        tran_id: payload.tran_id,
+        purchase_date: payload.purchase_date,
+        partner_code: payload.partner_code,
       };
 
       const confirmRes = yield call(

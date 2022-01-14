@@ -156,7 +156,7 @@ const DeviceBuyBox = (props) => {
     dispatch(
       getDeviceDetails({
         device: deviceType,
-        partner_code: 'Crypto',
+        partner_code: '1039',
         endpoint: 'device-details',
       }),
     );
@@ -275,7 +275,7 @@ const DeviceBuyBox = (props) => {
           total_amount: total,
           wallet_address: account,
           partner_code: '1039',
-          custom_device_name: '',
+          custom_device_name: selectedModel?.[0]?.model_name || `${brand} ${deviceType}`,
           tran_id: devicePlanDetails?.tran_id,
           purchase_date: purchaseDate,
         };
@@ -294,21 +294,21 @@ const DeviceBuyBox = (props) => {
                 txn_hash: result.txn_hash,
               }),
             );
-            // dispatch(
-            //   createDeviceInsurancePolicy({
-            //     endpoint: 'create-policy-api',
-            //     first_name: fName,
-            //     last_name: lName,
-            //     mobile: phone,
-            //     email,
-            //     model_code: model || 'OTHERS',
-            //     custom_device_name: '',
-            //     imei_or_serial_number: imeiOrSerial,
-            //     tran_id: devicePlanDetails?.tran_id,
-            //     purchase_month: purchaseDate,
-            //     partner_code: '1039',
-            //   }),
-            // );
+            dispatch(
+              createDeviceInsurancePolicy({
+                endpoint: 'create-policy-api',
+                first_name: fName,
+                last_name: lName,
+                mobile: phone,
+                email,
+                model_code: model || 'OTHERS',
+                custom_device_name: selectedModel?.[0]?.model_name || `${brand} ${deviceType}`,
+                imei_or_serial_number: imeiOrSerial,
+                tran_id: devicePlanDetails?.tran_id,
+                purchase_date: purchaseDate,
+                partner_code: '1039',
+              }),
+            );
             setTxPending(false);
             setIsNotCloseable(false);
             setTitle('Receipt');
@@ -631,7 +631,7 @@ const DeviceBuyBox = (props) => {
         <form onSubmit={handleBuyNow}>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="first_name" className="ml-1 text-body-md">
+              <label htmlFor="first_name" className="ml-1 text-body-md text-black dark:text-white">
                 First Name
               </label>
               <input
@@ -647,7 +647,7 @@ const DeviceBuyBox = (props) => {
               />
             </div>
             <div>
-              <label htmlFor="last_name" className="ml-1 text-body-md">
+              <label htmlFor="last_name" className="ml-1 text-body-md text-black dark:text-white">
                 Last Name
               </label>
               <input
@@ -663,7 +663,7 @@ const DeviceBuyBox = (props) => {
               />
             </div>
             <div>
-              <label htmlFor="mobile" className="ml-1 text-body-md">
+              <label htmlFor="mobile" className="ml-1 text-body-md text-black dark:text-white">
                 Mobile
               </label>
               <input
@@ -679,7 +679,7 @@ const DeviceBuyBox = (props) => {
               />
             </div>
             <div>
-              <label htmlFor="email" className="ml-1 text-body-md">
+              <label htmlFor="email" className="ml-1 text-body-md text-black dark:text-white">
                 Email
               </label>
               <input
@@ -693,7 +693,10 @@ const DeviceBuyBox = (props) => {
               />
             </div>
             <div>
-              <label htmlFor="imeiOrSerial" className="ml-1 text-body-md">
+              <label
+                htmlFor="imeiOrSerial"
+                className="ml-1 text-body-md text-black dark:text-white"
+              >
                 IMEI or Serial Number
               </label>
               <input
@@ -702,21 +705,24 @@ const DeviceBuyBox = (props) => {
                 placeholder="Device IMEI or Serial Number"
                 name="imeiOrSerial"
                 value={imeiOrSerial}
-                pattern="^[a-zA-Z0-9-_.]*$"
+                pattern="^[a-zA-Z0-9-_#/]*$"
                 title="Only Alphabets, Numbers, Hyphen and Underscore are allowed"
                 onChange={(e) => setImeiOrSerial(e.target.value)}
                 className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
               />
             </div>
             <div>
-              <label htmlFor="purchaseDate" className="ml-1 text-body-md">
+              <label
+                htmlFor="purchaseDate"
+                className="ml-1 text-body-md text-black dark:text-white"
+              >
                 Device Purchase Date
               </label>
               <input
                 required
                 type="date"
                 min={purchaseMonth === 'Less than 12 months' ? minDateOneYear : minDateTwoYear}
-                max={maxDate}
+                max={purchaseMonth === 'Less than 12 months' ? maxDate : minDateOneYear}
                 placeholder="Purchase date"
                 name="purchaseDate"
                 value={purchaseDate}

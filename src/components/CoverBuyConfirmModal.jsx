@@ -109,7 +109,7 @@ const CoverBuyConfirmModal = (props) => {
   }, [quote, applyDiscount]);
 
   const total = useMemo(() => {
-    return +quote - +discountAmount;
+    return +(+quote).toFixed(5) - +discountAmount.toFixed(5);
   }, [quote, discountAmount]);
 
   useEffect(() => {

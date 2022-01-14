@@ -73,7 +73,7 @@ const SmallPackageCard = (props) => {
       >
         <DiscountCard discountPercentage={discount} />
         <div className="flex md:justify-between items-center md:h-full">
-          <div className="md:w-16 md:h-16 h-9 w-9 md:rounded-xl rounded-md relative shadow-2xl p-1 bg-white">
+          <div className="md:w-16 md:h-16 md:min-w-16 h-9 w-9 min-w-9 md:rounded-xl rounded-md relative shadow-2xl p-1 bg-white">
             <img
               loading="lazy"
               src={logo || Placeholder}
@@ -100,9 +100,30 @@ const SmallPackageCard = (props) => {
             <div className="font-Montserrat md:text-body-xs text-10 font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
               {company}
             </div>
-            <div className="font-Montserrat text-10 font-medium text-dark-blue dark:text-white group-hover:text-white mt-1">
-              Chain: {supportedChains.join(',') || 'Ethereum'}
+
+            <div
+              className="font-Montserrat text-10 font-medium text-dark-blue dark:text-white group-hover:text-white mt-1 flex"
+              data-for="chains-tool-tip"
+              data-tip={supportedChains.join(', ')}
+              data-iscapture="true"
+            >
+              Chain:{' '}
+              <div className="hidden md:block ml-1">
+                {supportedChains?.length
+                  ? supportedChains.join(', ').length > 24
+                    ? `${supportedChains.join(', ').slice(0, 20)} ...`
+                    : supportedChains.join(', ')
+                  : 'Ethereum'}
+              </div>
+              <div className="md:hidden ml-1">
+                {supportedChains?.length
+                  ? supportedChains.join(', ').length > 12
+                    ? `${supportedChains.join(', ').slice(0, 12)}...`
+                    : supportedChains.join(', ')
+                  : 'Ethereum'}
+              </div>
             </div>
+            <ToolTip ToolTipId="chains-tool-tip" bgColor="White" fontColor="#175186" />
           </div>
         </div>
         <div className="h-full flex items-center">

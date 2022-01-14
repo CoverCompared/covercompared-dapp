@@ -254,14 +254,14 @@ const MsoUserInfoForm = (props) => {
         <div className="w-full mb-4 md:mb-8 overflow-x-auto rounded-lg shadow-lg px-0.5px">
           <table className="w-full">
             <thead>
-              <tr className="font-Montserrat text-sm tracking-wide text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 uppercase">
+              <tr className="font-Montserrat text-sm tracking-wide text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 uppercase border-r border-global-banner-gd-2">
                 <th className="p-2 font-medium">User type</th>
                 <th className="p-2 font-medium">First Name</th>
                 <th className="p-2 font-medium">Last Name</th>
                 <th className="p-2 font-medium">Country</th>
                 <th className="p-2 font-medium">DOB</th>
                 <th className="p-2 font-medium">Identity</th>
-                <th className="p-2 font-medium" />
+                {totalUsers !== 1 && <th className="p-2 font-medium" />}
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -361,16 +361,18 @@ const MsoUserInfoForm = (props) => {
                       required
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
-                    <button
-                      type="button"
-                      className="bg-transparent p-1 text-black disabled:text-gray-400"
-                      disabled={users.length === 1 || notRegistered}
-                      onClick={() => handleRemoveUser(index)}
-                    >
-                      <XIcon className="w-5 h-5" />
-                    </button>
-                  </td>
+                  {totalUsers !== 1 && (
+                    <td className="py-1 text-ms font-semibold border">
+                      <button
+                        type="button"
+                        className="bg-transparent p-1 text-black disabled:text-gray-400"
+                        disabled={users.length === 1 || notRegistered}
+                        onClick={() => handleRemoveUser(index)}
+                      >
+                        <XIcon className="w-5 h-5" />
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -391,7 +393,12 @@ const MsoUserInfoForm = (props) => {
               className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
             >
               I have read and agree to the{' '}
-              <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
+              <a
+                className="underline"
+                target="_blank"
+                href="https://covercompared-assets.s3.me-south-1.amazonaws.com/mso-covercompared-t-n-c.pdf"
+                rel="noreferrer"
+              >
                 terms and conditions
               </a>
               *

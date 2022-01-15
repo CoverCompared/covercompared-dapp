@@ -1,12 +1,12 @@
 let env;
 let baseURL;
-const productionHostname = 'app.covercompared.com';
-const stagingHostname = 'staging-covercompared.polkacover.com';
+const productionHostname = ['app.covercompared.com', 'covercompared.polkacover.com'];
+const stagingHostname = ['staging-covercompared.polkacover.com'];
 
-if (window.location.hostname === productionHostname) {
+if (productionHostname.includes(window.location.hostname)) {
   env = 'production';
   baseURL = 'https://app.covercompared.com/api';
-} else if (window.location.hostname === stagingHostname) {
+} else if (stagingHostname.includes(window.location.hostname)) {
   env = 'staging';
   baseURL = 'https://staging-covercompared.polkacover.com/api';
 } else {

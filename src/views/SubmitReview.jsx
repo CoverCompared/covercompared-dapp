@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import StarRatings from 'react-star-ratings';
-import FormInput from '../components/FormInput';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
+import { submitReview } from '../redux/actions/UserProfile';
 import MobilePageTitle from '../components/common/MobilePageTitle';
-import EditIcon from '../assets/img/Edit.svg';
 
 const ContactUs = () => {
-  const [name, SetName] = useState('');
-  const [email, SetEmail] = useState('');
-  const [reviews, SetReviews] = useState('');
-  const [rating, setRating] = useState(0);
+  const history = useHistory();
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { reviewData, isFailed, loader, message } = useSelector((state) => state.userProfile);
+  const [submitted, setSubmitted] = useState(false);
+  const [review, setReview] = useState('');
+  const [rating, setRating] = useState();
   const [ratingStates, setRatingStates] = useState('How is the quality of this product?');
-
-  const isValid = () => {
-    return !(name === '' || email === '' || reviews === '' || rating === '');
-  };
 
   useEffect(() => {
     if (rating === 1) setRatingStates('Very Bad');
@@ -21,49 +26,60 @@ const ContactUs = () => {
     else if (rating === 3) setRatingStates('Enough');
     else if (rating === 4) setRatingStates('Good');
     else if (rating === 5) setRatingStates('Very Good');
+    else setRatingStates('');
   }, [rating]);
+
+  const submitRatings = (e) => {
+    e.preventDefault();
+    const obj = {
+      review,
+      rating,
+    };
+    const query = `user/policies/${id}/add-review`;
+    const payload = {
+      obj,
+      query,
+    };
+    dispatch(submitReview(payload));
+    setSubmitted(true);
+  };
+
+  useEffect(() => {
+    logEvent(analytics, 'View - Submit Review', { id });
+  }, []);
+
+  useEffect(() => {
+    if (submitted) {
+      if (!isFailed && !loader && reviewData) {
+        logEvent(analytics, 'Action - Review Submitted', { id });
+        toast.success('Review Submitted');
+        history.push('/my-account');
+      } else if (isFailed && message) {
+        toast.warning(message);
+        setSubmitted(false);
+      }
+    }
+  }, [reviewData, isFailed, loader, message]);
 
   return (
     <>
       <MobilePageTitle title="Submit review" />
-      <form className="xl:pr-28 xl:pl-6 md:mb-8 md:mt-6">
-        <div className="grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 xl:gap-x-8">
-          <div className="relative col-span-12 md:col-span-6">
-            <FormInput
-              title="First Name"
-              inputValue={name}
-              setChange={SetName}
-              inputPlaceholder="Enter your Name"
-            />
-          </div>
-          <div className="relative col-span-12 md:col-span-6">
-            <FormInput
-              title="Email"
-              inputValue={email}
-              setChange={SetEmail}
-              inputPlaceholder="Enter your Email"
-            />
-          </div>
-        </div>
-
-        <div className="relative mt-6">
-          <label className="absolute top-5 pl-4 font-semibold text-body-sm text-dark-blue font-Montserrat">
-            Reviews
-          </label>
-          <textarea
-            onChange={(e) => SetReviews(e.target.value)}
-            className="mt-3 py-2 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
-            placeholder="Reviews"
-          />
-        </div>
-
+      <form className="xl:pr-28 xl:pl-6 md:mb-8 md:mt-6" onSubmit={submitRatings}>
         <div className="relative mt-6">
           <div className="font-Montserrat text-dark-blue font-h1 font-semibold dark:text-white">
             Ratings
           </div>
           <div className="md:flex items-center">
-            <div className="mt-4">
+            <div className="mt-4 relative">
+              <input
+                required
+                type="text"
+                className="absolute top-5 -left-3 h-0.5 w-full border-0 bg-transparent text-transparent p-0 focus:ring-0 focus:ring-offset-0 focus:border-transparent"
+                value={rating || ''}
+                onChange={() => {}}
+              />
               <StarRatings
+                required
                 rating={rating}
                 value={rating}
                 starEmptyColor="rgba(196, 196, 196, 1)"
@@ -82,14 +98,26 @@ const ContactUs = () => {
             </div>
           </div>
         </div>
+        <div className="relative mt-6">
+          <label className="absolute top-5 pl-4 font-semibold text-body-sm text-dark-blue font-Montserrat">
+            Reviews
+          </label>
+          <textarea
+            required
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+            className="mt-3 py-2 px-4 h-40 pt-7 rounded-lg appearance-none w-full border border-light-gray-border focus:border-light-gray-border bg-promo-input-bg text-black placeholder-contact-input-dark-grey text-base focus:outline-none focus:ring-0 focus:border-0 focus:ring-shadow-none font-Montserrat font-medium text-body-sm shadow-lg"
+            placeholder="Review"
+          />
+        </div>
 
         <div className="flex justify-end">
           <button
             type="submit"
-            disabled={!isValid()}
-            className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            disabled={loader}
+            className="py-3 px-8 mt-8 text-white font-Montserrat font-md rounded-2xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2 disabled:from-primary-gd-2 disabled:to-primary-gd-2"
           >
-            Submit
+            {loader ? 'Submitting' : 'Submit'}
           </button>
         </div>
       </form>

@@ -1,48 +1,46 @@
 import React, { Fragment, useRef, useContext } from 'react';
+import { useHistory } from 'react-router';
 import { Dialog, Transition } from '@headlessui/react';
 import uniqid from 'uniqid';
 import { XIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useWeb3React } from '@web3-react/core';
 
-import Modal from '../../components/common/Modal';
-import Login from '../../components/Login';
 import ThemeToggleSwitch from '../../components/ThemeToggleSwitch';
 import { toggleSidebar } from '../../redux/actions/AppActions';
+import { logoutUser } from '../../redux/actions/Auth';
+import { walletLogout } from '../../hooks/useAuth';
+import { shortenAddress } from '../../utils';
 import { classNames } from '../../functions/utils';
 import { ThemeContext } from '../../themeContext';
+import getNav from '../../components/common/sidebarNav';
+import { setLoginModalVisible, setRegisterModalVisible } from '../../redux/actions';
 
 import LoginIcon from '../../assets/img/Login.svg';
 import coverComparedLogo from '../../assets/img/logo-final-light.svg';
 import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
-import { ReactComponent as HomeIcon } from '../../assets/img/home-icon.svg';
-import { ReactComponent as MyInsuranceIcon } from '../../assets/img/dashboard-icon.svg';
-import { ReactComponent as AboutUsIcon } from '../../assets/img/about-us-icon.svg';
-import { ReactComponent as AboutTokenIcon } from '../../assets/img/about-token-icon.svg';
-import { ReactComponent as ContactUsIcon } from '../../assets/img/contact-us-icon.svg';
-import { ReactComponent as LearnMoreIcon } from '../../assets/img/learn-more-icon.svg';
-import { ReactComponent as SubscribeIcon } from '../../assets/img/subscribe-icon.svg';
-import { ReactComponent as PartnerIcon } from '../../assets/img/partner-icon.svg';
 import 'react-perfect-scrollbar/dist/css/styles.css';
-
-const nav = [
-  { name: 'Home', to: '/', icon: HomeIcon },
-  { name: 'My Insurance', to: '/my-insurance', icon: MyInsuranceIcon },
-  { name: 'About Us', to: '/about-us', icon: AboutUsIcon },
-  { name: 'About Token', to: '/about-token', icon: AboutTokenIcon },
-  { name: 'Contact Us', to: '/contact-us', icon: ContactUsIcon },
-  { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon },
-  { name: 'Partners', to: '/partners', icon: PartnerIcon },
-  { name: 'Blogs', to: '/learn-more', icon: LearnMoreIcon },
-];
 
 const Sidebar = (props) => {
   const dispatch = useDispatch();
+  const { account, deactivate, library } = useWeb3React();
   const { sidebarOpen } = useSelector((state) => state.app);
-  const { path } = props;
+  const { is_verified } = useSelector((state) => state.auth);
+  const history = useHistory();
   const dialogRef = useRef(null);
-  const navigation = nav.map((m) => ({ ...m, current: m.to === path }));
   const { theme } = useContext(ThemeContext);
+  const navigation = getNav();
+
+  const handleLogout = () => {
+    walletLogout(deactivate);
+    dispatch(logoutUser());
+    dispatch(setLoginModalVisible(false));
+  };
+  const handleLogin = () => {
+    dispatch(setLoginModalVisible(true));
+    dispatch(setRegisterModalVisible(true));
+  };
 
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -108,9 +106,14 @@ const Sidebar = (props) => {
             <div className="mt-6 flex-1 h-0 overflow-y-auto">
               <nav className="space-y-1">
                 {navigation.map((item) => (
-                  <Link
+                  <button
+                    type="button"
                     key={uniqid()}
-                    to={item.to}
+                    onClick={() =>
+                      item.authProtected && !account && !is_verified
+                        ? handleLogin()
+                        : history.push(item.to)
+                    }
                     className="flex items-center text-sm font-medium py-1.5"
                   >
                     <item.icon className={classNames(item.current ? 'active-svg' : '', 'mr-2')} />
@@ -125,20 +128,30 @@ const Sidebar = (props) => {
                     >
                       {item.name}
                     </div>
-                  </Link>
+                  </button>
                 ))}
               </nav>
               <div className="border-t-2 border-grey-300 mt-5 mb-6 w-full" />
               <div className="flex items-center mt-6">
-                <Modal title="Log In" bgImg="bg-mobileLoginPopupBg bg-100%" renderComponent={Login}>
+                {!account ? (
                   <button
                     type="button"
+                    onClick={() => dispatch(setLoginModalVisible(true))}
                     className="md:ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm md:text-body-md text-body-sm leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
                   >
-                    <img src={LoginIcon} alt="Login" className="mr-1" />
+                    <img loading="lazy" src={LoginIcon} alt="Login" className="mr-1" />
                     Log In
                   </button>
-                </Modal>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="md:ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm md:text-body-md text-body-sm leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+                  >
+                    <img loading="lazy" src={LoginIcon} alt="Login" className="mr-1" />
+                    {shortenAddress(account)}
+                  </button>
+                )}
               </div>
             </div>
           </div>

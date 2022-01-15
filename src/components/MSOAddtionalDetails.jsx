@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
+import Modal from './common/Modal';
+import CountrySelector from './common/MsoCountrySelector';
 
 const MSOAdditionalDetails = (props) => {
-  const { name, MSOCoverUser, logo, wantAddon, addOnQuote } = props;
+  const {
+    name,
+    MSOCoverUser,
+    logo,
+    wantAddon,
+    addOnQuote,
+    selectedPlan,
+    addonServices,
+    isEligible,
+    handleBuy,
+    validateX,
+  } = props;
   return (
     <>
       <div>
         <div className="grid grid-cols-12 gap-6 mt-6">
           <div className="lg:col-span-4 md:col-span-5 col-span-11">
-            <img src={logo} className="w-full h-52 rounded-2xl md:block hidden" alt="Product" />
+            <img
+              loading="lazy"
+              src={logo}
+              className="w-full h-52 rounded-2xl md:block hidden"
+              alt="Product"
+            />
             <div className="md:hidden flex items-center">
-              <img src={logo} className="w-24 h-24 rounded-2xl" alt="Product" />
+              <img loading="lazy" src={logo} className="w-24 h-24 rounded-2xl" alt="Product" />
               <div className="font-Montserrat font-semibold text-dark-blue text-h5 dark:text-white ml-6 text-left">
                 {name}
               </div>
@@ -20,7 +38,7 @@ const MSOAdditionalDetails = (props) => {
               {name}
             </div>
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mt-6 mb-2 dark:text-white text-left">
-              Description :
+              Description
             </div>
             <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
               <div>{MSOCoverUser}</div>
@@ -31,9 +49,9 @@ const MSOAdditionalDetails = (props) => {
           </div>
         </div>
         <div className="grid grid-cols-12 md:mt-12 mt-6">
-          <div className="lg:col-span-7 md:col-span-10 col-span-12">
+          <div className="lg:col-span-12 md:col-span-12 col-span-12">
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mb-2 dark:text-white text-left">
-              Additional Details :
+              Additional Details
             </div>
             <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
               <div>
@@ -41,8 +59,8 @@ const MSOAdditionalDetails = (props) => {
                 class hospitals as per the list given earlier. (40 hospitals).
               </div>
               <div>Covering all major illnesses including critical illnesses</div>
-              <div className="font-Montserrat font-medium text-body-sm text-dark-blue dark:text-white mb-2 mt-3">
-                Features:
+              <div className="font-Montserrat font-semibold text-body-md text-dark-blue dark:text-white mb-2 mt-3">
+                Features
               </div>
               <ul className="list-disc pl-6">
                 <li>{MSOCoverUser}</li>
@@ -52,13 +70,13 @@ const MSOAdditionalDetails = (props) => {
                 <li>8 weeks cooling period from the day of confirmation of order</li>
                 <li>Turn around time – 10 days from receipt of medical records</li>
               </ul>
-              <div className="font-Montserrat font-medium text-body-sm text-dark-blue dark:text-white mb-2 mt-4">
+              <div className="font-Montserrat font-semibold text-body-md text-dark-blue dark:text-white mb-2 mt-4">
                 Features EHR (from wishing well)
               </div>
               <ul className="list-disc pl-6">
                 <li>EHR with mobile app for entire family</li>
               </ul>
-              <div className="font-Montserrat font-medium text-body-sm text-dark-blue dark:text-white mb-2 mt-4">
+              <div className="font-Montserrat font-semibold text-body-md text-dark-blue dark:text-white mb-2 mt-4">
                 Modalities of service
               </div>
               <ul className="list-disc pl-6">
@@ -69,9 +87,11 @@ const MSOAdditionalDetails = (props) => {
           </div>
         </div>
         <div className="grid grid-cols-12 mt-6">
-          <div className="lg:col-span-7 md:col-span-10 col-span-12">
+          <div className="lg:col-span-12 md:col-span-12 col-span-12">
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mb-2 dark:text-white text-left">
-              Term & Condition :
+              <a className="underline" href="https://google.com" target="_blank" rel="noreferrer">
+                Term & Condition
+              </a>
             </div>
             <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
@@ -79,6 +99,35 @@ const MSOAdditionalDetails = (props) => {
               bibendum. Sed aliquet at aliquam at nascetur hendrerit adipiscing.
             </div>
           </div>
+        </div>
+        <div className="mt-6 flex justify-center">
+          {isEligible ? (
+            <Modal
+              title="Members Information Form"
+              sizeClass="max-w-6xl"
+              renderComponent={CountrySelector}
+              validate={validateX}
+              bgImg="bg-loginPopupBg"
+              {...{ selectedPlan, addonServices }}
+            >
+              <div className="flex justify-center pt-2">
+                <button
+                  type="button"
+                  className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2  focus:outline-none focus:ring-0 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+                >
+                  Buy Now
+                </button>
+              </div>
+            </Modal>
+          ) : (
+            <button
+              type="button"
+              onClick={handleBuy}
+              className="font-Montserrat md:px-5 py-4 px-4 shadow-sm md:text-body-md md:text-body-xsm text-body-xs md:leading-4 font-semibold rounded-xl text-white bg-gradient-to-r from-primary-gd-1 to-primary-gd-2  focus:outline-none focus:ring-0 disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:bg-gray-400 disabled:cursor-default"
+            >
+              Buy Now
+            </button>
+          )}
         </div>
       </div>
     </>

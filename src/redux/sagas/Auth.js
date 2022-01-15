@@ -33,7 +33,9 @@ function* loginUser({ payload }) {
     const loginRes = yield call(axiosPost, url, payload);
 
     if (loginRes?.data?.data) {
-      return yield put(getLoginDetailsSuccess(loginRes.data.data));
+      return yield put(
+        getLoginDetailsSuccess({ ...loginRes.data.data, wallet_address: payload.wallet_address }),
+      );
     }
 
     return yield put(
@@ -60,6 +62,7 @@ function* setProfileData({ payload }) {
       setAuthLoader({
         message: '',
         loader: true,
+        authLoader: true,
         isFailed: false,
       }),
     );
@@ -74,6 +77,7 @@ function* setProfileData({ payload }) {
     return yield put(
       setAuthLoader({
         loader: false,
+        authLoader: false,
         isFailed: true,
         message: res.data.message,
       }),
@@ -82,6 +86,7 @@ function* setProfileData({ payload }) {
     return yield put(
       setAuthLoader({
         loader: false,
+        authLoader: false,
         isFailed: true,
         message: error.message,
       }),
@@ -95,6 +100,7 @@ function* verifyOTP({ payload }) {
       setAuthLoader({
         message: '',
         loader: true,
+        authLoader: true,
         isFailed: false,
       }),
     );
@@ -110,6 +116,7 @@ function* verifyOTP({ payload }) {
     return yield put(
       setAuthLoader({
         loader: false,
+        authLoader: false,
         isFailed: true,
         message: res.data.message,
       }),
@@ -118,6 +125,7 @@ function* verifyOTP({ payload }) {
     return yield put(
       setAuthLoader({
         loader: false,
+        authLoader: false,
         isFailed: true,
         message: error.message,
       }),

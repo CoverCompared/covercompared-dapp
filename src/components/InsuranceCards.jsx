@@ -30,7 +30,7 @@ const InsuranceCards = (props) => {
       icon: DeviceIcon,
       gradientClass: 'bg-gradient-to-tl',
       bgImg: 'bg-homeCardBg3',
-      redirectTo: '/product/device',
+      redirectTo: '/device-product',
     },
     {
       title: 'MEDICAL SECOND OPINION',
@@ -38,7 +38,7 @@ const InsuranceCards = (props) => {
       icon: MSOIcon,
       gradientClass: 'bg-gradient-to-bl',
       bgImg: 'bg-homeCardBg4',
-      redirectTo: '/search/mso',
+      redirectTo: 'mso-plans',
     },
   ];
 

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import Slider, { createSliderWithTooltip, Range } from 'rc-slider';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { RefreshIcon, XIcon } from '@heroicons/react/outline';
 import { MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid';
-import { searchCoverList, searchMSOList } from '../redux/actions/CoverList';
+
+import { searchCoverList } from '../redux/actions/CoverList';
+import { searchMSOList } from '../redux/actions/MsoInsurance';
 import { toggleFilters } from '../redux/actions/AppActions';
 import { classNames } from '../functions/utils';
 import 'rc-slider/assets/index.css';
@@ -22,10 +24,10 @@ const options = {
     max: 20000000,
   },
   companies_option: [
-    {
-      name: 'Nsure.Network',
-      code: 'nsure',
-    },
+    // {
+    //   name: 'Nsure.Network',
+    //   code: 'nsure',
+    // },
     {
       name: 'Nexus Mutual',
       code: 'nexus',
@@ -34,30 +36,30 @@ const options = {
       name: 'InsurAce',
       code: 'insurace',
     },
-    {
-      name: 'Uno Re',
-      code: 'unore',
-    },
+    // {
+    //   name: 'Uno Re',
+    //   code: 'unore',
+    // },
   ],
   type_option: ['protocol', 'custodian', 'token'],
-  supported_chain_option: [
-    'Ethereum',
-    'BSC',
-    'Polygon',
-    'starkware',
-    'fantom',
-    'xdai',
-    'optimism',
-    'Terra',
-    'thorchain',
-    'CEX',
-    'Fantom',
-    'HECO',
-    'xDai',
-    'Solana',
-    'Arbitrum',
-  ],
-  currency_option: ['ETH', 'DAI', 'USDC', 'USDT', 'MATIC', 'BNB', 'BUSD-T', 'BUSD'],
+  // supported_chain_option: [
+  //   'Ethereum',
+  //   'BSC',
+  //   'Polygon',
+  //   'starkware',
+  //   'fantom',
+  //   'xdai',
+  //   'optimism',
+  //   'Terra',
+  //   'thorchain',
+  //   'CEX',
+  //   'Fantom',
+  //   'HECO',
+  //   'xDai',
+  //   'Solana',
+  //   'Arbitrum',
+  // ],
+  currency_option: ['ETH', 'CVR', 'USDT', 'USDC', 'DAI', 'DOT'],
   MSO_amount_opt: {
     min: 50,
     max: 115,
@@ -109,8 +111,14 @@ const MultiRangeSlider = ({
                   onChange={setTempValue}
                   onAfterChange={setValue}
                   marks={{
-                    [+options[optionsKey].min]: +options[optionsKey].min,
-                    [+options[optionsKey].max]: +options[optionsKey].max,
+                    [+options[optionsKey].min]: {
+                      style: { transform: 'translateX(-7px)' },
+                      label: +options[optionsKey].min,
+                    },
+                    [+options[optionsKey].max]: {
+                      style: { transform: 'translateX(calc(-100% + 7px))' },
+                      label: +options[optionsKey].max,
+                    },
                   }}
                   tipFormatter={(value) => `${value}`}
                 />
@@ -412,14 +420,14 @@ const FiltersSection = (props) => {
             {!!options.duration_days_option && (
               <MultiRangeSlider
                 {...{
-                  title: 'Duration',
+                  title: 'Duration days',
                   optionsKey: 'duration_days_option',
                   value: duration,
                   setValue: setDuration,
                 }}
               />
             )}
-            {!!options.amount_option && (
+            {/* {!!options.amount_option && (
               <MultiRangeSlider
                 {...{
                   title: 'Amount',
@@ -428,7 +436,7 @@ const FiltersSection = (props) => {
                   setValue: setAmount,
                 }}
               />
-            )}
+            )} */}
             {!!options.companies_option && (
               <MultiCheckObjectFilter
                 {...{
@@ -446,10 +454,11 @@ const FiltersSection = (props) => {
                   optionsKey: 'currency_option',
                   value: currencyOption,
                   setValue: setCurrencyOption,
+                  showSeparator: false,
                 }}
               />
             )}
-            {!!options.supported_chain_option && (
+            {/* {!!options.supported_chain_option && (
               <MultiCheckValueFilter
                 {...{
                   title: 'Supported Chain',
@@ -460,7 +469,7 @@ const FiltersSection = (props) => {
                   showSeparator: false,
                 }}
               />
-            )}
+            )} */}
           </>
         )}
 

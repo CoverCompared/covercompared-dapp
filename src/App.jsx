@@ -1,19 +1,27 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import uniqid from 'uniqid';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import useEagerConnect from './hooks/useEagerConnect';
+import BigNumber from 'bignumber.js';
+
 import routes from './routes';
+// import useEagerDisconnect from './hooks/useEagerDisconnect';
 import SVGGradients from './components/common/SVGGradients';
 import PublicRoute from './routes/PublicRoute';
-import GetUserDetails from './components/GetUserDetails';
+import PreRenderedModals from './components/PreRenderedModals';
+import TelegramWidget from './components/TelegramWidget';
+
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
-const App = (props) => {
-  useEagerConnect();
+BigNumber.config({
+  EXPONENTIAL_AT: 1000,
+  DECIMAL_PLACES: 80,
+});
 
+const App = (props) => {
+  // useEagerDisconnect();
   return (
     <BrowserRouter>
       <ToastContainer
@@ -28,10 +36,11 @@ const App = (props) => {
         pauseOnHover
       />
       <SVGGradients />
-      <GetUserDetails />
+      <PreRenderedModals />
+      <TelegramWidget />
       <Switch>
-        {routes.map((m) => (
-          <PublicRoute key={uniqid()} {...m} />
+        {routes.map((m, i) => (
+          <PublicRoute key={i} {...m} />
         ))}
       </Switch>
     </BrowserRouter>

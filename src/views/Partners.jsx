@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import uniqid from 'uniqid';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import PartnerCard from '../components/PartnerCard';
+import { classNames } from '../functions/utils';
+
 import AudaceIcon from '../assets/partners/audace.png';
 import Insurance971 from '../assets/partners/971 insurance.png';
 import BandProtocol from '../assets/partners/Band Protocol.png';
@@ -31,7 +36,6 @@ import Uniswap from '../assets/partners/uniswap.png';
 import Unmarshal from '../assets/partners/Unmarshal.png';
 import Unore from '../assets/partners/UNORE.png';
 import VitorServices from '../assets/partners/Vitor services.png';
-import { classNames } from '../functions/utils';
 
 const tabs = [
   {
@@ -43,7 +47,7 @@ const tabs = [
         type: 'Integration',
         ctaLink: 'https://www.audacelabs.com',
         description:
-          'PolkaCover utilizes Audace Labs to support the development of the platform. With several hackathon wins under their belt, Audace Labs is a leading blockchain development team based out of the UAE & India.',
+          'Cover Compared utilizes Audace Labs to support the development of the platform. With several hackathon wins under their belt, Audace Labs is a leading blockchain development team based out of the UAE & India.',
       },
       {
         img: PaidNetwork,
@@ -51,7 +55,7 @@ const tabs = [
         type: 'Integration',
         ctaLink: 'https://paidnetwork.com',
         description:
-          'Through this integration, PolkaCover will utilize PAID’s SMART Agreements to create and strengthen future internal and external agreements and streamline operations.',
+          'Through this integration, Cover Compared will utilize PAID’s SMART Agreements to create and strengthen future internal and external agreements and streamline operations.',
       },
       {
         img: Unmarshal,
@@ -59,7 +63,7 @@ const tabs = [
         type: 'Integration',
         ctaLink: 'https://unmarshal.io/',
         description:
-          'PolkaCover will leverage Unmarshal’s data indexing and Querying services. Additionally, it fetches data across multiple blockchains such as Polkadot, BSC, and Ethereum, supporting building our AI-powered smart contract covers.',
+          'Cover Compared will leverage Unmarshal’s data indexing and Querying services. Additionally, it fetches data across multiple blockchains such as Polkadot, BSC, and Ethereum, supporting building our AI-powered smart contract covers.',
       },
       {
         img: ChainLink,
@@ -67,7 +71,7 @@ const tabs = [
         type: 'Integration',
         ctaLink: 'https://chain.link',
         description:
-          'With Chainlink, Polkacover utilizes its decentralized price feeds on PolkaCover insurance products. Key features include high quality data, secure node operations, decentralized network and economy of scale.',
+          'With Chainlink, Cover Compared utilizes its decentralized price feeds on Cover Compared insurance products. Key features include high quality data, secure node operations, decentralized network and economy of scale.',
       },
     ],
   },
@@ -80,7 +84,7 @@ const tabs = [
         type: 'Client',
         ctaLink: 'https://phantasma.io/',
         description:
-          'Through this collaboration PolkaCover will create innovative products built around the NFTs marketplace. Both the team have assessed the risks that could befall in the future and are working together to create protection products around NFTs security against impermanent loss.',
+          'Through this collaboration Cover Compared will create innovative products built around the NFTs marketplace. Both the team have assessed the risks that could befall in the future and are working together to create protection products around NFTs security against impermanent loss.',
       },
       {
         img: LABSGroup,
@@ -88,7 +92,7 @@ const tabs = [
         type: 'Client',
         ctaLink: 'https://labsgroup.io/',
         description:
-          'Polkacover collaborates with LABS Group to provide insurance products like homeowner insurance, property insurance against catastrophes, Landlord personal liability cover and impermanent loss cover on the NFT Property Assets.',
+          'Cover Compared collaborates with LABS Group to provide insurance products like homeowner insurance, property insurance against catastrophes, Landlord personal liability cover and impermanent loss cover on the NFT Property Assets.',
       },
       {
         img: BandProtocol,
@@ -96,7 +100,7 @@ const tabs = [
         type: 'Client',
         ctaLink: 'https://bandprotocol.com/',
         description:
-          'PolkaCover collaborates with Band Protocol to protect and insure users against smart-contract exploitations, breaches and failure.',
+          'Cover Compared collaborates with Band Protocol to protect and insure users against smart-contract exploitations, breaches and failure.',
       },
       {
         img: UmbrellaNetwork,
@@ -104,7 +108,7 @@ const tabs = [
         type: 'Client',
         ctaLink: 'https://www.umb.network',
         description:
-          'Polkacover will bring their expertise providing affordable insurance coverage and protection to the users of Umbrella Network.',
+          'Cover Compared will bring their expertise providing affordable insurance coverage and protection to the users of Umbrella Network.',
       },
       {
         img: OrionProtocol,
@@ -112,7 +116,7 @@ const tabs = [
         type: 'Client',
         ctaLink: 'https://www.orionprotocol.io/',
         description:
-          'PolkaCover offers a white-labeled solution to Orion Protocol to allow its users to purchase crypto insurance products instantly through their accounts. Users will have the choice to purchase suitable coverage comparing different offerings within the space.',
+          'Cover Compared offers a white-labeled solution to Orion Protocol to allow its users to purchase crypto insurance products instantly through their accounts. Users will have the choice to purchase suitable coverage comparing different offerings within the space.',
       },
       {
         img: RocketVault,
@@ -120,7 +124,7 @@ const tabs = [
         type: 'client',
         ctaLink: 'https://rocketvaults.io',
         description:
-          'PolkaCover aims to integrate with Rocket Vault by providing flexible, decentralized insurance coverage for crypto assets. PolkaCover will also provide Insurance coverage on Smart Vault holdings while also providing the Smart contract to Rocket Vault.',
+          'Cover Compared aims to integrate with Rocket Vault by providing flexible, decentralized insurance coverage for crypto assets. Cover Compared will also provide Insurance coverage on Smart Vault holdings while also providing the Smart contract to Rocket Vault.',
       },
       {
         img: GourmetGalaxy,
@@ -128,7 +132,7 @@ const tabs = [
         type: 'Client',
         ctaLink: 'https://gourmetgalaxy.io',
         description:
-          'Through this strategic collaboration, PolkaCover is working together to secure gaming NFTs in GUM, preventing an impermanent loss.',
+          'Through this strategic collaboration, Cover Compared is working together to secure gaming NFTs in GUM, preventing an impermanent loss.',
       },
       {
         img: Tribeone,
@@ -136,7 +140,7 @@ const tabs = [
         type: 'Client',
         ctaLink: 'https://tribeone.io',
         description:
-          'Under this integration, PolkaCover will provide TribeOne with ingenious crypto insurance products such as hack cover, gap cover, credit shield, NFT cover and smart contract cover within the DeFi Space.',
+          'Under this integration, Cover Compared will provide TribeOne with ingenious crypto insurance products such as hack cover, gap cover, credit shield, NFT cover and smart contract cover within the DeFi Space.',
       },
       {
         img: IsraeliBlockchain,
@@ -144,7 +148,7 @@ const tabs = [
         type: 'Client',
         ctaLink: 'https://blockchainisrael.io/',
         description:
-          'Through this integration, PolkaCover is developing products for Israel based DeFi and banking platforms and will be able to access InsureTech and FinTech projects based in Israel and open up access to leverage off the Israeli blockchain ecosystem.',
+          'Through this integration, Cover Compared is developing products for Israel based DeFi and banking platforms and will be able to access InsureTech and FinTech projects based in Israel and open up access to leverage off the Israeli blockchain ecosystem.',
       },
       {
         img: NFTAlley,
@@ -152,7 +156,7 @@ const tabs = [
         type: 'Client',
         ctaLink: 'https://nftalley.io',
         description:
-          'This collaboration will allow NFT alley users to purchase various NFT covers from the PolkaCover marketplace. PolkaCover and its users will also get access to benefits such as Multi-Chain NFT Trades, Scalability, Realistic Price Discovery Mechanism on the NFT Alley platform.',
+          'This collaboration will allow NFT alley users to purchase various NFT covers from the Cover Compared marketplace. Cover Compared and its users will also get access to benefits such as Multi-Chain NFT Trades, Scalability, Realistic Price Discovery Mechanism on the NFT Alley platform.',
       },
     ],
   },
@@ -165,7 +169,7 @@ const tabs = [
         type: 'Insurers',
         ctaLink: 'https://bandprotocol.com/',
         description:
-          'Together, PolkaCover and UnoRe will transform the decentralized ecosystem and provide insurance users a safety net on an unprecedented scale. Uno Re will provide PolkaCover with excess loss cover.',
+          'Together, Cover Compared and UnoRe will transform the decentralized ecosystem and provide insurance users a safety net on an unprecedented scale. Uno Re will provide Cover Compared with excess loss cover.',
       },
       {
         img: Insurance971,
@@ -173,7 +177,7 @@ const tabs = [
         type: 'Insurers',
         ctaLink: 'http://www.971insurance.ae/',
         description:
-          '971 Insurance will support PolkaCover by providing the ground regulations needed to distribute regulated insurance products. Their panel will offer regular covers and tailor-made risk covers based on PolkaCover requirements. This collaboration will also enable seamless distribution of traditional and crypto insurance to the global audience on one platform.',
+          '971 Insurance will support Cover Compared by providing the ground regulations needed to distribute regulated insurance products. Their panel will offer regular covers and tailor-made risk covers based on Cover Compared requirements. This collaboration will also enable seamless distribution of traditional and crypto insurance to the global audience on one platform.',
       },
       {
         img: PolkaInsure,
@@ -181,7 +185,7 @@ const tabs = [
         type: 'Insurers',
         ctaLink: 'https://polkainsure.finance',
         description:
-          'PolkaCover along with PolkaInsure will provide hack cover, wallet exchange hack cover, smart contract cover and security against price fluctuations to the users of both the marketplaces.',
+          'Cover Compared along with PolkaInsure will provide hack cover, wallet exchange hack cover, smart contract cover and security against price fluctuations to the users of both the marketplaces.',
       },
       {
         img: NsureNetwork,
@@ -189,7 +193,7 @@ const tabs = [
         type: 'Insurers',
         ctaLink: 'https://nsure.network/#/home',
         description:
-          'With this collaboration, Nsure Network will expand PolkaCover’s market place by adding its unique variety of insurance products and insurance against common compromises in the crypto space.',
+          'With this collaboration, Nsure Network will expand Cover Compared’s market place by adding its unique variety of insurance products and insurance against common compromises in the crypto space.',
       },
       {
         img: CoverProtocol,
@@ -197,7 +201,7 @@ const tabs = [
         type: 'Insurers',
         ctaLink: 'https://www.coverprotocol.com/',
         description:
-          'As a part of this integration, PolkaCover will be featuring their smart contract and platform covers on our marketplace. We are building an insurance marketplace to which Cover Protocol’s unique products will offer a much-needed layer of protection.',
+          'As a part of this integration, Cover Compared will be featuring their smart contract and platform covers on our marketplace. We are building an insurance marketplace to which Cover Protocol’s unique products will offer a much-needed layer of protection.',
       },
     ],
   },
@@ -260,7 +264,7 @@ const tabs = [
         type: 'Payment Gateway',
         ctaLink: 'https://www.collateraldefi.io',
         description:
-          'PolkaCover has integrated with the multi-chain Polkadot network Collateral Pay to bridge the DeFi-to-Fiat gap. PolkaCover will use Collateral Pay as a Payment Gateway to facilitate all kinds of transactions on the insurance products within the platform.',
+          'Cover Compared has integrated with the multi-chain Polkadot network Collateral Pay to bridge the DeFi-to-Fiat gap. Cover Compared will use Collateral Pay as a Payment Gateway to facilitate all kinds of transactions on the insurance products within the platform.',
       },
       {
         img: TransakFinance,
@@ -268,7 +272,7 @@ const tabs = [
         type: 'Payment Gateway',
         ctaLink: 'https://transak.com/',
         description:
-          'This alliance will allow users on the PolkaCover platform to be able to buy policies without having to go through multiple exchanges. The users will be able to buy CVR or our policy through fiat bank transfer or card payment at zero gas fees.',
+          'This alliance will allow users on the Cover Compared platform to be able to buy policies without having to go through multiple exchanges. The users will be able to buy CVR or our policy through fiat bank transfer or card payment at zero gas fees.',
       },
     ],
   },
@@ -294,7 +298,7 @@ const tabs = [
         type: 'Marketing',
         ctaLink: 'https://vitor-services.company',
         description:
-          'With this integration, PolkaCover utilizes marketing services provided by Vitor’s powerful blockchain marketing technology.',
+          'With this integration, Cover Compared utilizes marketing services provided by Vitor’s powerful blockchain marketing technology.',
       },
       {
         img: Innovion,
@@ -302,7 +306,7 @@ const tabs = [
         type: 'Marketing',
         ctaLink: 'https://innovion.co/',
         description:
-          'PolkaCover uses Innovion’s prestigious reputation with a unique approach to marketing.',
+          'Cover Compared uses Innovion’s prestigious reputation with a unique approach to marketing.',
       },
       {
         img: DuckDao,
@@ -310,7 +314,7 @@ const tabs = [
         type: 'Marketing',
         ctaLink: 'https://duckdao.io/',
         description:
-          'PolkaCover collaborates with DuckDAO to build Crypto, DeFi & NFT Insurance Adoption. Together, we work towards bringing out the next-generation insurance products and marketplace to the mass market within the crypto ecosystem.',
+          'Cover Compared collaborates with DuckDAO to build Crypto, DeFi & NFT Insurance Adoption. Together, we work towards bringing out the next-generation insurance products and marketplace to the mass market within the crypto ecosystem.',
       },
     ],
   },
@@ -318,6 +322,10 @@ const tabs = [
 
 const Partner = (props) => {
   const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(() => {
+    logEvent(analytics, 'View - Partners');
+  }, []);
 
   return (
     <>

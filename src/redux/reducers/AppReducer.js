@@ -3,14 +3,15 @@ import {
   TOGGLE_SIDEBAR,
   TOGGLE_FILTERS,
   SET_CURRENT_PRODUCT,
-  LOGIN_MODAL_VISIBLE,
+  SET_PENDING_TRANSACTION,
+  SET_PENDING_TRANSACTION_SUCCESS,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
   sidebarOpen: false,
   filtersOpen: false,
   currentProduct: null,
-  loginModalVisible: false,
+  pendingTx: null,
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -33,10 +34,10 @@ export default (state = INIT_STATE, { type, payload }) => {
         currentProduct: payload,
       };
     }
-    case LOGIN_MODAL_VISIBLE: {
+    case SET_PENDING_TRANSACTION_SUCCESS: {
       return {
         ...state,
-        loginModalVisible: payload,
+        pendingTx: payload,
       };
     }
     default:

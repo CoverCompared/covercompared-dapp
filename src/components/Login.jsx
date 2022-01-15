@@ -1,43 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { useDispatch, useSelector } from 'react-redux';
-import useAuth from '../hooks/useAuth';
+import { useDispatch } from 'react-redux';
+import { walletLogin } from '../hooks/useAuth';
 // import GoogleIcon from '../assets/img/google.png';
 import SUPPORTED_WALLETS from '../config/walletConfig';
-import { setLoginModalVisible } from '../redux/actions/AppActions';
-import { getLoginDetails } from '../redux/actions/Auth';
+import { setLoginModalVisible } from '../redux/actions';
+import { getLoginDetails, getUserProfile } from '../redux/actions/Auth';
 
-const Login = ({ isModalOpen, setIsModalOpen }) => {
-  const { login } = useAuth();
+const Login = () => {
+  // const { login } = useAuth();
   const dispatch = useDispatch();
-  const { loginModalVisible } = useSelector((state) => state.app);
 
-  // const { email } = useSelector((state) => state.auth);
-
-  const { account } = useWeb3React();
+  const { account, activate } = useWeb3React();
   const [connectStatus, setConnectStatus] = useState(false);
   const [curWalletId, setCurWalletId] = useState('injected');
 
+  const tryActivation = (connect) => {
+    setCurWalletId(connect);
+    setConnectStatus(true);
+    // login(connect);
+    walletLogin(connect, activate);
+  };
+
   // useEffect(() => {
-  //   dispatch(setLoginModalVisible(true));
+  //   dispatch(getUserProfile());
   // }, []);
 
   useEffect(() => {
-    if (!isModalOpen && loginModalVisible) setIsModalOpen(true);
-    if (isModalOpen && !loginModalVisible) setIsModalOpen(false);
-  }, [loginModalVisible]);
-
-  const tryActivation = async (connect) => {
-    setCurWalletId(connect);
-    setConnectStatus(true);
-    login(connect);
-  };
-
-  if (connectStatus && account) {
-    setConnectStatus(false);
-    dispatch(setLoginModalVisible(false));
-    dispatch(getLoginDetails({ wallet_address: account }));
-  }
+    if (connectStatus && account) {
+      dispatch(getLoginDetails({ wallet_address: account }));
+      setConnectStatus(false);
+      dispatch(setLoginModalVisible(false));
+    }
+  }, [connectStatus, account]);
 
   function getWalletOption() {
     return Object.keys(SUPPORTED_WALLETS).map((key) => {
@@ -53,7 +48,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
           }}
         >
           <div className="flex flex-col items-center md:justify-center h-full py-9 px-6 md:h-52 xl:h-54 w-full rounded-2xl bg-white shadow-md cursor-pointer dark:bg-wallet-dark-bg">
-            <img src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
+            <img loading="lazy" src={option.icon} alt="Metamask" className="md:h-11 h-8 mx-auto" />
             <div className="text-dark-blue font-semibold font-Montserrat md:text-body-md text-body-xs md:mt-5 mt-4 dark:text-white">
               {connectStatus && curWalletId === option.connector ? 'Connecting...' : option.name}
             </div>
@@ -66,13 +61,11 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <>
       <div className="grid grid-cols-12 gap-6">
-        <div className="md:col-span-2 col-span-0" />
-        <div className="md:col-span-8 col-span-12 flex items-center justify-center w-full">
+        <div className="col-span-12 flex items-center justify-center w-full">
           <div className="grid grid-cols-10 md:col-start-1 md:gap-x-6 gap-x-5 w-full">
             {getWalletOption()}
           </div>
         </div>
-        <div className="md:col-span-2 col-span-0" />
         {/* <div className="flex flex-col items-end justify-center h-full w-full">
             <div className="flex flex-col items-end w-full">
               <div className="font-Montserrat text-h5 font-semibold text-dark-blue mb-6 text-center w-full dark:text-white">
@@ -106,7 +99,7 @@ const Login = ({ isModalOpen, setIsModalOpen }) => {
                 type="button"
                 className="hover:text-login-button-text text-black flex justify-center items-center rounded-xl font-semibold text-body-md w-full h-12 border-none outline-none bg-white shadow-md active:shadow-none focus:bg-login-button-bg hover:bg-login-button-bg duration-200"
               >
-                <img src={GoogleIcon} alt="" className="mr-3" />
+                <img loading="lazy" src={GoogleIcon} alt="" className="mr-3" />
                 Google
               </button>
             </div>

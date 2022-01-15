@@ -8,14 +8,14 @@ const AboutToken = React.lazy(() => import('../views/AboutToken'));
 const ContactUs = React.lazy(() => import('../views/ContactUs'));
 const DetailSearch = React.lazy(() => import('../views/DetailSearch'));
 const AboutUs = React.lazy(() => import('../views/AboutUs'));
-const Product = React.lazy(() => import('../views/Product'));
-const MyInsurance = React.lazy(() => import('../views/MyInsurance'));
+const CoverAndExchangeProduct = React.lazy(() => import('../views/CoverAndExchangeProduct'));
+const MyAccount = React.lazy(() => import('../views/MyAccount'));
 const SubmitReview = React.lazy(() => import('../views/SubmitReview'));
-const MsoPackages = React.lazy(() => import('../views/MsoPackages'));
-const MsoProducts = React.lazy(() => import('../views/MsoProducts'));
 const Blog = React.lazy(() => import('../views/Blog'));
 const ErrorPage = React.lazy(() => import('../views/ErrorPage'));
 const MSOPlans = React.lazy(() => import('../views/MSOPlans'));
+const DeviceProduct = React.lazy(() => import('../views/DeviceProduct'));
+const FAQ = React.lazy(() => import('../views/FAQ'));
 
 const routes = [
   {
@@ -30,17 +30,6 @@ const routes = [
     bgImg: 'md:bg-HomePageBg',
     mobileBgImg: 'bg-HomeMobileBg',
     bgImgClass: 'bg-100% bg-no-repeat bg-cover',
-  },
-  {
-    path: '/learn-more',
-    exact: true,
-    pageName: 'LearnMore',
-    withSidebar: true,
-    component: LearnMore,
-    title: 'Learn More',
-    bgImg: 'md:bg-learnMoreBg',
-    mobileBgImg: 'bg-LearnMoreMobileBg',
-    bgImgClass: 'bg-100% bg-no-repeat',
   },
   {
     path: '/subscribe',
@@ -76,6 +65,17 @@ const routes = [
     bgImgClass: 'bg-100% bg-no-repeat',
   },
   {
+    path: '/FAQ',
+    exact: true,
+    pageName: 'FAQ',
+    withSidebar: true,
+    component: FAQ,
+    title: 'FAQ',
+    bgImg: 'md:bg-packagePageBg',
+    mobileBgImg: 'bg-Mobile404Bg',
+    bgImgClass: 'bg-fixed bg-center bg-100% bg-no-repeat',
+  },
+  {
     path: '/contact-us',
     exact: true,
     pageName: 'Contact Us',
@@ -91,7 +91,18 @@ const routes = [
     exact: true,
     pageName: 'Product',
     withSidebar: false,
-    component: Product,
+    component: CoverAndExchangeProduct,
+    title: '',
+    bgImg: 'md:bg-productBg',
+    mobileBgImg: 'bg-productPageBg',
+    bgImgClass: 'bg-100% bg-no-repeat',
+  },
+  {
+    path: '/device-product',
+    exact: true,
+    pageName: 'Product',
+    withSidebar: false,
+    component: DeviceProduct,
     title: '',
     bgImg: 'md:bg-productBg',
     mobileBgImg: 'bg-productPageBg',
@@ -127,23 +138,23 @@ const routes = [
     withSidebar: true,
     component: AboutUs,
     title: 'About Us',
-    bgImg: 'md:bg-HomePageBg',
+    bgImg: 'md:bg-AboutUsBg',
     mobileBgImg: 'bg-HomeMobileBg',
     bgImgClass: 'bg-100% bg-no-repeat bg-cover',
   },
   {
-    path: '/my-insurance',
+    path: '/my-account',
     exact: true,
-    pageName: 'MyInsurance',
+    pageName: 'MyAccount',
     withSidebar: true,
-    component: MyInsurance,
-    title: 'My Insurance',
+    component: MyAccount,
+    title: '',
     bgImg: 'md:bg-commonSectionBg',
     mobileBgImg: 'bg-Mobile404Bg',
     bgImgClass: 'bg-100% bg-no-repeat bg-bottom',
   },
   {
-    path: '/submit-review',
+    path: '/submit-review/:id',
     exact: true,
     pageName: 'Submit Review',
     withSidebar: true,
@@ -154,26 +165,18 @@ const routes = [
     bgImgClass: 'bg-fixed bg-100% bg-no-repeat bg-bottom',
   },
   {
-    path: '/mso-packages',
-    pageName: 'MSOProduct',
-    withSidebar: false,
-    component: MsoPackages,
-    title: '',
-    bgImg: 'md:bg-packagePageBg',
-    bgImgClass: 'bg-100% bg-no-repeat bg-bottom',
-  },
-  {
-    path: '/mso-product',
+    path: '/blogs',
     exact: true,
-    pageName: 'MSO Product',
-    withSidebar: false,
-    component: MsoProducts,
-    title: '',
-    bgImg: 'md:bg-productBg',
-    bgImgClass: 'bg-100% bg-no-repeat',
+    pageName: 'Blogs',
+    withSidebar: true,
+    component: LearnMore,
+    title: 'Blogs',
+    bgImg: 'md:bg-packagePageBg',
+    mobileBgImg: 'bg-LearnMoreMobileBg',
+    bgImgClass: 'bg-100% bg-no-repeat md:bg-fixed bg-center',
   },
   {
-    path: '/blog',
+    path: '/blog/:blogPage',
     exact: true,
     pageName: 'Blog',
     withSidebar: true,

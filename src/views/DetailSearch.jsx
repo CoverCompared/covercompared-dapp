@@ -4,17 +4,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import uniqid from 'uniqid';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from '../config/firebase';
 import PackageCard from '../components/common/PackageCard';
 import SmallPackageCard from '../components/common/SmallPackageCard';
-import MSOPackageCard from '../components/MSOPackageCard';
-import MSOSmallPackageCard from '../components/MSOSmallPackageCard';
+
 import ChangeViewIcon from '../assets/img/view-change-icon.svg';
 import MobileFilterIcon from '../assets/icons/mobile-filter.svg';
 import MobileFilterWhiteIcon from '../assets/dark-icons/mobile-filter-white.svg';
 import ChangeViewIconWhite from '../assets/dark-icons/view-change-icon.svg';
 import SearchBar from '../components/common/SearchBar';
 import { ThemeContext } from '../themeContext';
-import { searchCoverList, fetchMoreCovers, searchMSOList } from '../redux/actions/CoverList';
+import { searchCoverList, fetchMoreCovers } from '../redux/actions/CoverList';
+import { searchMSOList } from '../redux/actions/MsoInsurance';
 import { toggleFilters } from '../redux/actions/AppActions';
 import Loading from '../components/common/Loading';
 import FiltersSection from '../components/FiltersSection';
@@ -41,6 +44,11 @@ const DetailSearch = (props) => {
   if (card === 'smart-contract') type = 'protocol,token';
   else if (card === 'crypto-exchange') type = 'custodian';
   else type = '';
+
+  useEffect(() => {
+    if (card === 'smart-contract') logEvent(analytics, 'View - Smart Contract Cover');
+    else if (card === 'crypto-exchange') logEvent(analytics, 'View - Crypto Exchange');
+  }, []);
 
   useEffect(() => {
     setProducts(coverList);
@@ -111,17 +119,6 @@ const DetailSearch = (props) => {
         </InfiniteScroll>
       );
     }
-    if (card === 'mso') {
-      return !changeView ? (
-        products.map((obj) => <MSOPackageCard key={uniqid()} {...obj} {...props} />)
-      ) : (
-        <div className="grid grid-cols-12 lg:grid-cols-12 xl:grid-col-12 gap-y-4 gap-x-5 md:gap-4 lg:gap-x-6 lg:gap-y-4 ">
-          {products.map((obj) => (
-            <MSOSmallPackageCard key={uniqid()} {...obj} {...props} />
-          ))}
-        </div>
-      );
-    }
 
     return <></>;
   };
@@ -150,19 +147,23 @@ const DetailSearch = (props) => {
                 Choose your Package
               </div>
               <div className="flex items-center">
-                <div
-                  data-for="info-tool-tip"
-                  data-tip="Hello World"
-                  data-iscapture="true"
-                  className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
-                >
-                  i
-                </div>
-                <ToolTip
-                  ToolTipId="info-tool-tip"
-                  bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
-                  fontColor="#FFF"
-                />
+                {process.env.SHOW_UPCOMING_FEATURES_TO_CONFIRM && (
+                  <>
+                    <div
+                      data-for="info-tool-tip"
+                      data-tip="Hello World"
+                      data-iscapture="true"
+                      className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                    >
+                      i
+                    </div>
+                    <ToolTip
+                      ToolTipId="info-tool-tip"
+                      bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                      fontColor="#FFF"
+                    />
+                  </>
+                )}
 
                 <button
                   type="button"

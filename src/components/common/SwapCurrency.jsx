@@ -267,7 +267,7 @@ const SwapCurrency = () => {
     });
   }, [chainId]);
   const [independentField, setIndependentField] = useState('INPUT');
-  const [typedValue, setTypedValue] = useState(0);
+  const [typedValue, setTypedValue] = useState('');
   const dependentField = useMemo(() => {
     return independentField === 'INPUT' ? 'OUTPUT' : 'INPUT';
   }, [independentField]);
@@ -295,7 +295,7 @@ const SwapCurrency = () => {
   };
   const formattedAmounts = {
     [independentField]: typedValue,
-    [dependentField]: parsedAmounts[dependentField]?.toSignificant(6) ?? '0',
+    [dependentField]: parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   };
   const slippageTolerance = new Percent('50', '10000');
   const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
@@ -363,7 +363,7 @@ const SwapCurrency = () => {
                     {currencies.INPUT.symbol}
                   </div>
                   <input
-                    type="text"
+                    type="number"
                     name=""
                     value={formattedAmounts.INPUT}
                     onChange={(e) => onTypeInput(e.target.value)}
@@ -382,7 +382,7 @@ const SwapCurrency = () => {
                     {currencies.OUTPUT.symbol}
                   </div>
                   <input
-                    type="text"
+                    type="number"
                     name=""
                     value={formattedAmounts.OUTPUT}
                     onChange={(e) => onTypeOutput(e.target.value)}

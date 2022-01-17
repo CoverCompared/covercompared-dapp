@@ -16,7 +16,7 @@ const MSOServicesCard = (props) => {
         {description.map((p) => (
           <div
             key={uniqid()}
-            className="mt-1.5 font-Inter text-post-body-text text-body-md leading-6 dark:text-subtitle-dark-text text-center"
+            className="mt-1.5 font-Roboto text-post-body-text text-body-md leading-6 dark:text-subtitle-dark-text text-center"
           >
             {p}
           </div>

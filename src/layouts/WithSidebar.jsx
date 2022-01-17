@@ -19,7 +19,7 @@ const WithSidebar = (props) => {
   } = children;
 
   return (
-    <div className="min-h-screen flex bg-body-bg dark:bg-body-dark-bg font-Inter">
+    <div className="min-h-screen flex bg-body-bg dark:bg-body-dark-bg font-Roboto">
       <Sidebar {...props} />
       <SidebarMobile {...props} />
       <div className="sm:ml-0 lg:ml-56 flex-1 mx-auto w-full flex flex-col">

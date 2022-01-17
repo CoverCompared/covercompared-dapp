@@ -150,7 +150,7 @@ const MsoEligibilityChecker = ({
         <h5 className="font-Montserrat text-3xl my-3 dark:text-white">
           Thank you for sharing your details
         </h5>
-        <p className="font-Inter text-counter-card-text dark:text-white text-body-md text-center">
+        <p className="font-Roboto text-counter-card-text dark:text-white text-body-md text-center">
           Medical Second Opinion products are currently unavailable in your country, we will let you
           know once they are available.
         </p>

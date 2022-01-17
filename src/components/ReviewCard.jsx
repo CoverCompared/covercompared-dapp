@@ -22,10 +22,10 @@ const ReviewCard = ({ email, image, rating, updatedAt, review }) => {
               />
             </div>
             <div>
-              <div className="font-Inter text-sm font-medium leading-tight dark:text-white">
+              <div className="font-Roboto text-sm font-medium leading-tight dark:text-white">
                 {email}
               </div>
-              <div className="font-Inter text-body-xs font-light leading-tight text-counter-card-text dark:text-subtitle-dark-text">
+              <div className="font-Roboto text-body-xs font-light leading-tight text-counter-card-text dark:text-subtitle-dark-text">
                 {timeAgo.format(new Date(updatedAt))}
               </div>
             </div>
@@ -41,7 +41,7 @@ const ReviewCard = ({ email, image, rating, updatedAt, review }) => {
             />
           </div>
         </div>
-        <div className="font-Inter text-body-md text-counter-card-text dark:text-subtitle-dark-text">
+        <div className="font-Roboto text-body-md text-counter-card-text dark:text-subtitle-dark-text">
           {review}
         </div>
         <hr className="mt-5" />

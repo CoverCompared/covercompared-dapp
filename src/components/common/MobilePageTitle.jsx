@@ -12,7 +12,7 @@ const MobilePageTitle = ({ title, subtitle }) => {
       >
         {title}
       </div>
-      <div className="font-Inter font-normal text-subtitle-dark-text text-body-md mb-8">
+      <div className="font-Roboto font-normal text-subtitle-dark-text text-body-md mb-8">
         {subtitle !== '' ? subtitle : ''}
       </div>
     </div>

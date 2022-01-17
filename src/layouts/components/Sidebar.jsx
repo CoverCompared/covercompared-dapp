@@ -91,10 +91,10 @@ const Sidebar = (props) => {
                 {process.env.SHOW_UPCOMING_FEATURES_TO_CONFIRM && (
                   <div className="flex flex-col items-center bg-sidebar-bg w-full py-3 px-4 rounded-lg text-white">
                     <img loading="lazy" src={SideBarMailIcon} alt="Mail" className="h-20" />
-                    <p className="text-center text-body-md font-Inter font-medium">
+                    <p className="text-center text-body-md font-Roboto font-medium">
                       Get Over 500 CVR Tokens when you sign up!
                     </p>
-                    <p className="text-center text-body-md font-Inter font-medium">
+                    <p className="text-center text-body-md font-Roboto font-medium">
                       Click here for more details!
                     </p>
                     <button

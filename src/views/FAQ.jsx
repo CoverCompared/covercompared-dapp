@@ -14,7 +14,7 @@ const FAQs = () => {
         <div className="text-dark-blue md:text-h4 text-h6 font-semibold font-Montserrat dark:text-white">
           How is the insurance premium and payout calculated without the need for human interaction?
         </div>
-        <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text">
+        <div className="font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text">
           <div className="mt-4">
             Initially, several aspects of the Policy issuance will have human interaction but as a
             knowledge base of processes gets created we have a long-term vision to automate the
@@ -40,7 +40,7 @@ const FAQs = () => {
           How are the operational and administrative costs of insurance policies and their coverage
           determined?
         </div>
-        <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text">
+        <div className="font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text">
           <div className="mt-4">
             Our products are only aimed for the retail users and being built in the same fashion.
           </div>
@@ -57,7 +57,7 @@ const FAQs = () => {
         <div className="text-dark-blue md:text-h4 text-h6 font-semibold font-Montserrat dark:text-white">
           What are the ways that Cover Compared generates profits/revenues to maintain the project?
         </div>
-        <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text">
+        <div className="font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text">
           <div className="mt-4">
             The revenue models differ depending on our insurance platforms:
           </div>
@@ -92,7 +92,7 @@ const FAQs = () => {
         <div className="text-dark-blue md:text-h4 text-h6 font-semibold font-Montserrat dark:text-white">
           Could there be a reinsurance option/structure built into P2P Cover Compared insurance?
         </div>
-        <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text">
+        <div className="font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text">
           <div className="mt-4">
             We have this planned in our P2P insurance platform to reinsure a part of the risk using
             a reinsurance company (thus reducing the risk of users in our risk pool) and there is

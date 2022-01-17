@@ -153,7 +153,7 @@ const DetailSearch = (props) => {
                       data-for="info-tool-tip"
                       data-tip="Hello World"
                       data-iscapture="true"
-                      className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                      className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Roboto text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
                     >
                       i
                     </div>

@@ -203,6 +203,7 @@ const DeviceProduct = (props) => {
   const [showMore, setShowMore] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isEligible, setIsEligible] = useState(false);
+  const [parentCountry, setParentCountry] = useState('');
 
   const { loader } = useSelector((state) => state.deviceInsurance);
 
@@ -253,12 +254,12 @@ const DeviceProduct = (props) => {
         renderComponent={DeviceEligibilityChecker}
         onClose={() => setIsModalOpen(false)}
         bgImg="bg-loginPopupBg"
-        {...{ setIsEligible }}
+        {...{ setIsEligible, setParentCountry }}
       />
       <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
         We protect what you love
       </h2>
-      <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+      <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
         Protection benefits provided across a wide range of product categories
       </div>
 
@@ -286,6 +287,7 @@ const DeviceProduct = (props) => {
                   validate={validate}
                   bgImg="bg-loginPopupBg bg-cover"
                   initDeviceType={item.initDeviceType}
+                  {...{ parentCountry }}
                   className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6 cursor-pointer"
                 >
                   <div>
@@ -462,7 +464,7 @@ const DeviceProduct = (props) => {
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           Why Get Device Protection?
         </h2>
-        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Accidental Damage can be costly
         </div>
 
@@ -486,7 +488,7 @@ const DeviceProduct = (props) => {
             ))}
           </div>
         </div>
-        <div className="text-center text-dark-blue font-Inter mt-4 dark:text-white text-body-md md:text-h6">
+        <div className="text-center text-dark-blue font-Roboto mt-4 dark:text-white text-body-md md:text-h6">
           (Average Cost of Repair)
         </div>
 

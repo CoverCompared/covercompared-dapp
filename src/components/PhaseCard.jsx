@@ -49,7 +49,7 @@ const PhaseCard = ({ ...props }) => {
         {descriptionArr.map((p) => (
           <div
             key={uniqid()}
-            className="font-Inter md:text-body-md text-body-sm mt-3 text-center text-post-body-text dark:text-subtitle-dark-text"
+            className="font-Roboto md:text-body-md text-body-sm mt-3 text-center text-post-body-text dark:text-subtitle-dark-text"
           >
             {p}
           </div>

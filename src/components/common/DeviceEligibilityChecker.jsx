@@ -6,17 +6,23 @@ import { CheckCircleIcon } from '@heroicons/react/outline';
 import { submitUserCountry } from '../../redux/actions/EligibilityChecker';
 
 const countries = [
-  { value: 'UAE', label: 'UAE' },
-  { value: 'QAT', label: 'Qatar' },
-  { value: 'OMN', label: 'Oman' },
-  { value: 'KWT', label: 'Kuwait' },
-  { value: 'USA', label: 'USA' },
-  { value: 'BHR', label: 'Bahrain' },
-  { value: 'SAU', label: 'Saudi Arabia' },
-  { value: 'NOT', label: 'None of Them' },
+  { value: 'UAE', label: 'UAE', code: 'ae' },
+  { value: 'QAT', label: 'Qatar', code: 'qa' },
+  { value: 'OMN', label: 'Oman', code: 'om' },
+  { value: 'KWT', label: 'Kuwait', code: 'kw' },
+  { value: 'USA', label: 'USA', code: 'us' },
+  { value: 'BHR', label: 'Bahrain', code: 'bh' },
+  { value: 'SAU', label: 'Saudi Arabia', code: 'sa' },
+  { value: 'NOT', label: 'None of Them', code: '' },
 ];
 
-const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitle }) => {
+const DeviceEligibilityChecker = ({
+  setIsModalOpen,
+  setIsEligible,
+  onClose,
+  setTitle,
+  setParentCountry,
+}) => {
   const dispatch = useDispatch();
 
   const [country, setCountry] = useState('');
@@ -40,7 +46,7 @@ const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setT
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setParentCountry && setParentCountry(country);
     if (userCountry && userEmail) {
       setShowSuccess(true);
       setTitle('');
@@ -142,7 +148,7 @@ const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setT
         <h5 className="font-Montserrat text-3xl my-3 dark:text-white">
           Thank you for sharing your details
         </h5>
-        <p className="font-Inter text-counter-card-text dark:text-white text-body-md text-center">
+        <p className="font-Roboto text-counter-card-text dark:text-white text-body-md text-center">
           Device insurance is currently unavailable in your country, we will let you know once it
           available.
         </p>

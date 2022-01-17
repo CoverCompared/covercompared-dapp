@@ -64,7 +64,7 @@ const Blog = () => {
           <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold dark:text-white mt-10 mb-6">
             {blogTitle}
           </div>
-          <div className="font-Inter text-post-body-text text-body-md dark:text-subtitle-dark-text mb-5">
+          <div className="font-Roboto text-post-body-text text-body-md dark:text-subtitle-dark-text mb-5">
             <Markup content={blogContent} />
           </div>
           <hr />

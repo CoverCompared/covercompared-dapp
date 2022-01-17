@@ -62,7 +62,7 @@ const AboutToken = () => {
             <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md dark:text-white text-center md:text-left">
               Cross Border Policy Issuance
             </div>
-            <div className="text-post-body-text font-Inter md:w-64 md:text-body-md text-body-sm md:leading-6 leading-5 dark:text-subtitle-dark-text text-center md:text-left">
+            <div className="text-post-body-text font-Roboto md:w-64 md:text-body-md text-body-sm md:leading-6 leading-5 dark:text-subtitle-dark-text text-center md:text-left">
               Users have access to global insurance policy coverage. The Cover Compared token will
               be easily accessible for purchase on the platform and through leading exchanges
               globally.
@@ -81,7 +81,7 @@ const AboutToken = () => {
               Insurance Policy <br />
               Purchase & Discounts
             </div>
-            <div className="text-post-body-text font-Inter max-w-62 md:text-body-md text-body-sm md:leading-6 leading-5 dark:text-subtitle-dark-text text-center md:text-left">
+            <div className="text-post-body-text font-Roboto max-w-62 md:text-body-md text-body-sm md:leading-6 leading-5 dark:text-subtitle-dark-text text-center md:text-left">
               Users can buy policies using the Cover Compared token. All transactions with the Cover
               Compared token receive a significant discount on their policy.
             </div>
@@ -95,7 +95,7 @@ const AboutToken = () => {
             <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md dark:text-white text-center md:text-left">
               Traditional & Decentralized <br /> Insurance Products
             </div>
-            <div className="text-post-body-text font-Inter md:text-body-md text-body-sm md:leading-6 leading-5 md:max-w-lg dark:text-subtitle-dark-text text-center md:text-left">
+            <div className="text-post-body-text font-Roboto md:text-body-md text-body-sm md:leading-6 leading-5 md:max-w-lg dark:text-subtitle-dark-text text-center md:text-left">
               Users will solely need to use the Cover Compared token to be able to purchase any
               traditional insurer-backed or DAO governed crypto insurance products. It would be a
               one stop shop to get access to all crypto based insurance products globally.
@@ -111,7 +111,7 @@ const AboutToken = () => {
               Global Claims <br />
               Payout
             </div>
-            <div className="text-post-body-text font-Inter md:text-body-md text-body-sm md:leading-6 leading-5 dark:text-subtitle-dark-text text-center md:text-left">
+            <div className="text-post-body-text font-Roboto md:text-body-md text-body-sm md:leading-6 leading-5 dark:text-subtitle-dark-text text-center md:text-left">
               Redeem your claim through the CVR token for your favorite cryptocurrencies.
             </div>
           </div>
@@ -125,7 +125,7 @@ const AboutToken = () => {
               P2P Risk Assessment & <br />
               Governance Rewards
             </div>
-            <div className="text-post-body-text font-Inter md:text-body-md text-body-sm md:leading-6 leading-5 md:max-w-md dark:text-subtitle-dark-text text-center md:text-left">
+            <div className="text-post-body-text font-Roboto md:text-body-md text-body-sm md:leading-6 leading-5 md:max-w-md dark:text-subtitle-dark-text text-center md:text-left">
               Additional member tokens are allocated as an incentive for participating in risk
               assessment & Governance
             </div>
@@ -140,7 +140,7 @@ const AboutToken = () => {
           <div className="text-dark-blue-1 font-semibold font-Montserrat md:my-4 my-2 md:text-h6 text-body-md dark:text-white text-center md:text-left">
             Staking = Cheaper Policies
           </div>
-          <div className="text-post-body-text font-Inter max-w-2xl md:text-body-md text-body-sm md:leading-6 leading-5 dark:text-subtitle-dark-text text-center md:text-left">
+          <div className="text-post-body-text font-Roboto max-w-2xl md:text-body-md text-body-sm md:leading-6 leading-5 dark:text-subtitle-dark-text text-center md:text-left">
             On site staking services & loyalty bonuses will be rewarded with reduced insurance
             costs. Stake a high enough number of CVR tokens and your interest might just pay off
             your insurance premium, thus getting you insured for free!

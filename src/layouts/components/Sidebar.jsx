@@ -12,8 +12,8 @@ import getNav from '../../components/common/sidebarNav';
 import { setLoginModalVisible, setRegisterModalVisible } from '../../redux/actions';
 import { socialMediaLinks } from '../../functions/data';
 
-import coverComparedLogo from '../../assets/img/logo-final-light.svg';
-import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
+import coverComparedLogo from '../../assets/img/logo-final-light.png';
+import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.png';
 import SideBarMailIcon from '../../assets/img/side-bar-mail-icon.svg';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
@@ -35,10 +35,10 @@ const Sidebar = (props) => {
       <div className="w-56 flex flex-col fixed z-10 bg-sidebar-grey-bg dark:bg-sidebar-dark-bg">
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="border-r border-gray-200 flex flex-col h-screen overflow-hidden">
-          <div className="flex-shrink-0 px-4 py-6 flex items-center justify-center">
+          <div className="flex-shrink-0 px-4 py-5 flex items-center justify-center">
             <Link to="/">
               <img
-                className="h-16"
+                className="h-20"
                 src={theme === 'dark' ? coverComparedDarkLogo : coverComparedLogo}
                 alt="Workflow"
               />

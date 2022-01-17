@@ -5,6 +5,7 @@ import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/render
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import { shortenTxHash } from '../utils';
+import { mso_countries } from '../functions/data';
 
 const styles = StyleSheet.create({
   page: {
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   topLogo: {
-    width: 100,
+    width: 110,
   },
   msoLogo: {
     height: '40pt',
@@ -259,7 +260,10 @@ const MSOReceipt = (props) => {
               <View
                 style={[styles.center, styles.tableCol, styles.border_right, styles.tableContent]}
               >
-                <Text> {member.country} </Text>
+                <Text>
+                  {' '}
+                  {mso_countries.find((f) => f.value === 'member.country')?.label || ''}{' '}
+                </Text>
               </View>
               <View
                 style={[styles.center, styles.tableCol, styles.border_right, styles.tableContent]}

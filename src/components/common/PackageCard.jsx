@@ -51,7 +51,8 @@ const PackageCard = (props) => {
     const capacity = res?.data?.data.capacity || {};
 
     let hasCapacity = false;
-    if (typeof capacity === 'object') hasCapacity = Math.min(...Object.values(capacity)) > 0;
+    if (!res?.data?.data.capacity) hasCapacity = false;
+    else if (typeof capacity === 'object') hasCapacity = Math.min(...Object.values(capacity)) > 0;
     else if (company_code !== 'nexus') hasCapacity = true;
 
     if (!account) {
@@ -133,37 +134,33 @@ const PackageCard = (props) => {
               </div>
             </div>
           </div>
-          <div className="col-span-0 md:col-span-5">
-            <div className="md:flex items-center hidden">
-              <div className="grid grid-cols-12 gap-x-0 w-full">
-                <div className="col-span-6 mr-16 md:block hidden">
-                  <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
-                    Cover as low as
-                  </div>
-                  <div className="font-Montserrat text-h6 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
-                    {min_eth} ETH
-                  </div>
+          <div className="col-span-0 md:col-span-5 md:flex items-center hidden">
+            <div className="grid grid-cols-12 gap-x-0 w-full">
+              <div className="col-span-6 mr-16 md:block hidden">
+                <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
+                  Cover as low as
                 </div>
-                <div className="col-span-6 mr-16 md:block hidden">
-                  <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
-                    Duration
-                  </div>
-                  <div className="font-Montserrat text-h6 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
-                    {duration_days_min} - {duration_days_max} days
-                  </div>
+                <div className="font-Montserrat text-h6 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
+                  {min_eth} ETH
+                </div>
+              </div>
+              <div className="col-span-6 mr-16 md:block hidden">
+                <div className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
+                  Duration
+                </div>
+                <div className="font-Montserrat text-h6 font-semibold text-dark-blue mt-2 leading-4 dark:text-white group-hover:text-white">
+                  {duration_days_min} - {duration_days_max} days
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-span-5 md:col-span-2">
-            <div className="flex items-center justify-end">
-              <button
-                type="button"
-                className="ml-3 font-Montserrat disabled:opacity-50 md:inline-flex items-center md:px-5 md:py-4 py-3 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
-              >
-                <div>Buy Now</div>
-              </button>
-            </div>
+          <div className="col-span-5 md:col-span-2 flex items-center justify-end">
+            <button
+              type="button"
+              className="ml-3 font-Montserrat disabled:opacity-50 md:inline-flex items-center md:px-5 md:py-4 py-3 px-4 shadow-buyInsurance md:text-body-md text-body-xs leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg hover:bg-white duration-200"
+            >
+              <div>Buy Now</div>
+            </button>
           </div>
         </div>
       </div>

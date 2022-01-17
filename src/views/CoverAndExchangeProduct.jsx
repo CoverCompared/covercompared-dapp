@@ -192,11 +192,26 @@ const CoverAndExchangeProduct = (props) => {
                   : `${numberFormat(cover?.capacity || 0, 1)} ETH`}
               </div>
             </div>
-            <div className="flex justify-between items-center">
+            {/* <div className="flex justify-between items-center">
               <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white mt-2">
-                Supported Chains
+                <div className="flex">
+                  Supported Chains
+                  <div
+                    data-for="chains-tool-tip"
+                    data-tip="the chains on which the cover is applicable"
+                    data-iscapture="true"
+                    className="ml-1 bg-login-button-bg dark:bg-white h-5 w-5 p-1 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                  >
+                    i
+                  </div>
+                  <ToolTip
+                    ToolTipId="chains-tool-tip"
+                    bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                    fontColor="#FFF"
+                  />
+                </div>
               </div>
-              <div className="">
+              <div>
                 <div
                   data-for="info-tool-tip"
                   data-tip={supportedChains.join(', ')}
@@ -211,7 +226,7 @@ const CoverAndExchangeProduct = (props) => {
                   fontColor="#FFF"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="md:col-span-5 col-span-12">
             <CoverBuyBox {...{ ...props, buyButton, payWithCVR }} />
@@ -258,6 +273,25 @@ const CoverAndExchangeProduct = (props) => {
             )}
           </div>
           <div className="xl:col-span-5 xl:col-start-8 lg:col-span-5 col-span-12 order-1 md:order-2">
+            <div className="mb-4">
+              <div className="flex font-Montserrat font-semibold text-19 text-dark-blue dark:text-white items-center">
+                Supported Chains
+                <div
+                  data-for="chains-tool-tip"
+                  data-tip="the chains on which the cover is applicable"
+                  data-iscapture="true"
+                  className="ml-1 bg-login-button-bg dark:bg-white h-5 w-5 p-1 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                >
+                  i
+                </div>
+                <ToolTip
+                  ToolTipId="chains-tool-tip"
+                  bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                  fontColor="#FFF"
+                />
+              </div>
+              <div className="text-body-md">{supportedChains.join(',  ')}</div>
+            </div>
             <div className="font-Montserrat font-semibold text-19 text-dark-blue mb-4 dark:text-white">
               Discount
             </div>

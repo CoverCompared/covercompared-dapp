@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Markup } from 'interweave';
 import uniqid from 'uniqid';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { logEvent } from 'firebase/analytics';
 
 import { analytics } from '../config/firebase';
@@ -33,6 +34,7 @@ import SwissRe from '../assets/partners/p4l-partners/swiss_re.jpg';
 import P4LLogo from '../assets/img/p4l-logo.png';
 import { SupportedChainId } from '../config/chains';
 import { setupNetwork } from '../utils/wallet';
+import { PRODUCT_CHAIN } from '../config';
 
 const Backers = [
   {
@@ -196,7 +198,7 @@ const p4lTable = [
 ];
 
 const DeviceProduct = (props) => {
-  const { chainId } = useActiveWeb3React();
+  const { account, chainId } = useActiveWeb3React();
   const [table, setTable] = useState(p4lTable);
   const [showMore, setShowMore] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(true);
@@ -207,7 +209,7 @@ const DeviceProduct = (props) => {
   // this hooks for testing. Should be remove in production.
   useEffect(() => {
     (async () => {
-      const _chainId = SupportedChainId.RINKEBY;
+      const _chainId = PRODUCT_CHAIN.p4l;
       if (chainId !== _chainId) {
         await setupNetwork(_chainId);
       }
@@ -228,6 +230,18 @@ const DeviceProduct = (props) => {
       setTable(t);
     }
   }, [showMore]);
+
+  const validate = () => {
+    if (!account) {
+      toast.warning('You need to login in advance!');
+      return false;
+    }
+    if (chainId !== 4) {
+      toast.warning('You need to switch over to correct network!');
+      return false;
+    }
+    return true;
+  };
 
   return (
     <>
@@ -269,6 +283,7 @@ const DeviceProduct = (props) => {
                   title="Device Details"
                   sizeClass="max-w-2xl"
                   renderComponent={DeviceBuyBox}
+                  validate={validate}
                   bgImg="bg-loginPopupBg bg-cover"
                   initDeviceType={item.initDeviceType}
                   className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6 cursor-pointer"
@@ -316,6 +331,7 @@ const DeviceProduct = (props) => {
               title="Device Details"
               sizeClass="max-w-2xl"
               renderComponent={DeviceBuyBox}
+              validate={validate}
               bgImg="bg-loginPopupBg bg-cover"
             >
               <button

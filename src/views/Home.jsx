@@ -13,7 +13,7 @@ import { SupportedChainId } from '../config/chains';
 import { setupNetwork } from '../utils/wallet';
 // import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 // import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
-// import useConverUsdtToCRV from '../hooks/useConverUsdtToCRV';
+// import useConverUsdtToCVR from '../hooks/useConverUsdtToCVR';
 
 import InsuranceCardDotBg from '../assets/bg-img/insurance-card-dot-bg.svg';
 import cryptoInsuranceDotBg from '../assets/bg-img/crypto-insurance-dot-bg.svg';
@@ -51,12 +51,12 @@ const clientLogos = [
 const featureCards = [
   {
     title: 'Fast and Free',
-    body: 'Find your insurance in few click on Covercompared guided by a system of simple and intuitive questionaires.',
+    body: 'Find your insurance in few click on Cover Compared guided by a system of simple and intuitive questionaires.',
     icon: Stopwatch,
   },
   {
-    title: '100% Neutrual',
-    body: 'No favoritism: on Covercompared we display the most relevant insurance for your search criteria.',
+    title: '100% Neutral',
+    body: 'No favoritism: on Cover Compared we display the most relevant insurance for your search criteria.',
     icon: Balance,
   },
   {
@@ -66,7 +66,7 @@ const featureCards = [
   },
   {
     title: 'Upto 40% cashback in CVR tokens',
-    body: 'Find your insurance in few click on Covercompared guided by a system of simple and intuitive questionaires.',
+    body: 'Find your insurance in few click on Cover Compared guided by a system of simple and intuitive questionaires.',
     icon: Discount,
   },
 ];
@@ -99,7 +99,7 @@ export default function Home(props) {
   // this hooks for testing. Should be remove in production.
   useEffect(() => {
     (async () => {
-      const _chainId = SupportedChainId.RINKEBY;
+      const _chainId = process.env.REACT_APP_CHAIN_ID;
       if (chainId !== _chainId) {
         await setupNetwork(_chainId);
       }

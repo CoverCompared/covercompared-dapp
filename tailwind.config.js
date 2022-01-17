@@ -136,6 +136,9 @@ module.exports = {
         devicePriceBoxShadow: '0px 10px 56px rgba(15, 95, 52, 0.09);',
       },
       minWidth: {
+        9: '2.25rem',
+        16: '4rem',
+        20: '5rem',
         32: '8rem',
         36: '9rem',
         40: '10rem',

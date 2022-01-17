@@ -6,18 +6,18 @@ export default {
   },
   p4l: {
     1: '',
-    4: '0x238E67Ef545cdAffa380623E4cE2F1614dAFD38D',
+    4: '0x51956B95f63894Ef378BFEb6e9AaEe837393e266',
     42: '0x0000000000000000000000000000000000000000',
   },
   mso: {
     1: '',
-    4: '0xd26ff61c97F95DbE79a28fCCfc40A8fa6e5e10A5',
+    4: '0x49d7Ed485b90aDc96e8e24240e96bc0c7bf5BD13',
     42: '0x0000000000000000000000000000000000000000',
   },
   exchangeAgent: {
     1: '',
-    4: '0x9717cA3f6b5E560d244D41791D5760316d2b7bFE',
-    42: '0x31a4a1a4d81f3c7044eb0ca2c727ff78fb7ff91f',
+    4: '0x3320c193109265fac179cc3ef0a466cca01651df',
+    42: '0x51FCc54e9c7D8606cD16ea54e91Ed4D09F831e64',
   },
   priceFeed: {
     eth: {
@@ -47,7 +47,7 @@ export default {
     dai: {
       decimal: 8,
       1: '0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9',
-      4: '0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF',
+      4: '0xBC33008AF81A03aA24dc0A0F112E29C979e317fB',
       42: '0x777A68032a88E5A84678A77Af2CD65A7b3c0775a',
     },
     link: {
@@ -128,7 +128,7 @@ export default {
       4: '',
       42: '',
     },
-    crv: {
+    cvr: {
       decimal: 8,
       1: '0xCd627aA160A6fA45Eb793D19Ef54f5062F20f33f',
       4: '0x8d6D6eeA128a40EFbC0d0a04D7aaC36689F12A46',
@@ -168,11 +168,11 @@ export default {
   nexusMutual: {
     1: '',
     4: '0x0000000000000000000000000000000000000000',
-    42: '0x3dA7d9D52EE61233B35946411fb487C2aAd6f90E',
+    42: '0x600cd52172f78d3Cc3593972d8Cf3BD4BBAcC4bB',
   },
   insureAce: {
     1: '',
-    4: '0x98b9F6a9E25e497b135a4751C6ad291912f3c2BE',
+    4: '0x2Bf563Fff6e951724136d069D6D5e885742942B6',
     42: '0x0000000000000000000000000000000000000000',
   },
   distributor: {

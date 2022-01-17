@@ -3,25 +3,26 @@ import { useTokenContract } from './useContract';
 import useActiveWeb3React from './useActiveWeb3React';
 import useAddress from './useAddress';
 
-const useGetAllowanceOfToken = (address) => {
+const useGetAllowanceOfToken = (address, tokenSymbol = 'cvr') => {
   const { account } = useActiveWeb3React();
-  const [crvAllowance, setAllowance] = useState(false);
-  const { getCrvAddress } = useAddress();
-  const crvAddress = getCrvAddress();
-  const crvContract = useTokenContract(crvAddress);
-
+  const [cvrAllowance, setAllowance] = useState(false);
+  const { getCvrAddress, getTokenAddress } = useAddress();
+  // const cvrAddress = getCvrAddress();
+  // const cvrContract = useTokenContract(cvrAddress);
+  const tokenAddress = getTokenAddress(tokenSymbol);
+  const tokenContract = useTokenContract(tokenAddress);
   const handleAllowance = useCallback(() => {
     const get = async () => {
-      const res = await crvContract.allowance(account, address);
+      const res = await tokenContract.allowance(account, address);
       setAllowance(res.gt(0));
     };
 
-    if (address && crvContract) {
+    if (address && tokenContract) {
       get();
     }
-  }, [crvContract, address, account]);
+  }, [tokenContract, address, tokenSymbol, account]);
 
-  return { crvAllowance, handleAllowance };
+  return { cvrAllowance, handleAllowance };
 };
 
 export default useGetAllowanceOfToken;

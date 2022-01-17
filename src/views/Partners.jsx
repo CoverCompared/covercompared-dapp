@@ -195,14 +195,14 @@ const tabs = [
         description:
           'With this collaboration, Nsure Network will expand Cover Compared’s market place by adding its unique variety of insurance products and insurance against common compromises in the crypto space.',
       },
-      {
-        img: CoverProtocol,
-        partnerName: 'Cover Protocol',
-        type: 'Insurers',
-        ctaLink: 'https://www.coverprotocol.com/',
-        description:
-          'As a part of this integration, Cover Compared will be featuring their smart contract and platform covers on our marketplace. We are building an insurance marketplace to which Cover Protocol’s unique products will offer a much-needed layer of protection.',
-      },
+      // {
+      //   img: CoverProtocol,
+      //   partnerName: 'Cover Protocol',
+      //   type: 'Insurers',
+      //   ctaLink: 'https://www.coverprotocol.com/',
+      //   description:
+      //     'As a part of this integration, Cover Compared will be featuring their smart contract and platform covers on our marketplace. We are building an insurance marketplace to which Cover Protocol’s unique products will offer a much-needed layer of protection.',
+      // },
     ],
   },
   {

@@ -60,3 +60,7 @@ export const formatFixedNumber = (number, displayDecimals = 18, decimals = 18) =
   const [leftSide] = number.toString().split('.');
   return formatBigNumber(ethers.BigNumber.from(leftSide), displayDecimals, decimals);
 };
+
+export const recoverDecimal = (number, decimals = 18) => {
+  return new BigNumber(number).times(BIG_TEN.pow(18 - decimals)).toNumber();
+};

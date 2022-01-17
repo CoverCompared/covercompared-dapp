@@ -20,6 +20,7 @@ import { ThemeContext } from '../themeContext';
 import { getCoverById } from '../redux/actions/CoverList';
 import Select from '../components/common/Select';
 import { numberFormat } from '../functions/utils';
+import ToolTip from '../components/common/ToolTip';
 
 const filterOption = ['High to low', 'Low to high'];
 
@@ -154,14 +155,14 @@ const CoverAndExchangeProduct = (props) => {
             <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xs mb-5 dark:text-white">
               Details
             </div>
-            <div className="flex justify-between items-center md:mb-3 mb-4">
+            {/* <div className="flex justify-between items-center md:mb-3 mb-4">
               <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Address
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 {accountNumber}
               </div>
-            </div>
+            </div> */}
             <div className="flex justify-between items-center md:mb-3 mb-4">
               <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Provider
@@ -191,6 +192,41 @@ const CoverAndExchangeProduct = (props) => {
                   : `${numberFormat(cover?.capacity || 0, 1)} ETH`}
               </div>
             </div>
+            {/* <div className="flex justify-between items-center">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white mt-2">
+                <div className="flex">
+                  Supported Chains
+                  <div
+                    data-for="chains-tool-tip"
+                    data-tip="the chains on which the cover is applicable"
+                    data-iscapture="true"
+                    className="ml-1 bg-login-button-bg dark:bg-white h-5 w-5 p-1 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                  >
+                    i
+                  </div>
+                  <ToolTip
+                    ToolTipId="chains-tool-tip"
+                    bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                    fontColor="#FFF"
+                  />
+                </div>
+              </div>
+              <div>
+                <div
+                  data-for="info-tool-tip"
+                  data-tip={supportedChains.join(', ')}
+                  data-iscapture="true"
+                  className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                >
+                  i
+                </div>
+                <ToolTip
+                  ToolTipId="info-tool-tip"
+                  bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                  fontColor="#FFF"
+                />
+              </div>
+            </div> */}
           </div>
           <div className="md:col-span-5 col-span-12">
             <CoverBuyBox {...{ ...props, buyButton, payWithCVR }} />
@@ -237,6 +273,25 @@ const CoverAndExchangeProduct = (props) => {
             )}
           </div>
           <div className="xl:col-span-5 xl:col-start-8 lg:col-span-5 col-span-12 order-1 md:order-2">
+            <div className="mb-4">
+              <div className="flex font-Montserrat font-semibold text-19 text-dark-blue dark:text-white items-center">
+                Supported Chains
+                <div
+                  data-for="chains-tool-tip"
+                  data-tip="the chains on which the cover is applicable"
+                  data-iscapture="true"
+                  className="ml-1 bg-login-button-bg dark:bg-white h-5 w-5 p-1 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                >
+                  i
+                </div>
+                <ToolTip
+                  ToolTipId="chains-tool-tip"
+                  bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                  fontColor="#FFF"
+                />
+              </div>
+              <div className="text-body-md">{supportedChains.join(',  ')}</div>
+            </div>
             <div className="font-Montserrat font-semibold text-19 text-dark-blue mb-4 dark:text-white">
               Discount
             </div>
@@ -247,16 +302,18 @@ const CoverAndExchangeProduct = (props) => {
               <div className="font-Inter text-body-md text-counter-card-text mt-4 mb-5 leading-6">
                 Use $CVR when purchasing and get 25% off on all insurance policies.
               </div>
-              <button
-                type="button"
-                onClick={() => {
-                  payWithCVR.current = true;
-                  buyButton.current.click();
-                }}
-                className="py-3 px-8 bg-discount-apply-btn-bg rounded-2xl outline-none border-0 text-discount-apply-btn-text font-Montserrat font-semibold text-body-md"
-              >
-                Apply Now
-              </button>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    payWithCVR.current = true;
+                    buyButton.current.click();
+                  }}
+                  className="py-2 px-4 bg-login-button-bg rounded-lg outline-none border-0 text-login-button-text font-Montserrat font-semibold text-body-sm shadow-lg"
+                >
+                  Apply Now
+                </button>
+              </div>
             </div>
           </div>
         </div>

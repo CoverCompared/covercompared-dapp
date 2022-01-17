@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import { metaCall } from '../biconomy';
 import p4lAbi from '../../config/abi/p4l.json';
 import { callWithEstimateGas, callWithEstimateGasPayable } from './estimateGas';
+import { PRODUCT_CHAIN } from '../../config';
 
 const buyProductByToken = async (contract, param, signer, account, sig) => {
   const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
@@ -14,7 +15,7 @@ const buyProductByToken = async (contract, param, signer, account, sig) => {
   const funParam = [policyId, value, durPlan, token, sig];
 
   const contractInterface = new ethers.utils.Interface(p4lAbi);
-  const tx = await metaCall(contract, contractInterface, account, signer, 4, {
+  const tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.p4l, {
     name: 'buyProductByToken',
     params: funParam,
   });

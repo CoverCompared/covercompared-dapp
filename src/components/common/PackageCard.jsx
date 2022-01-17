@@ -51,7 +51,8 @@ const PackageCard = (props) => {
     const capacity = res?.data?.data.capacity || {};
 
     let hasCapacity = false;
-    if (typeof capacity === 'object') hasCapacity = Math.min(...Object.values(capacity)) > 0;
+    if (!res?.data?.data.capacity) hasCapacity = false;
+    else if (typeof capacity === 'object') hasCapacity = Math.min(...Object.values(capacity)) > 0;
     else if (company_code !== 'nexus') hasCapacity = true;
 
     if (!account) {
@@ -71,39 +72,65 @@ const PackageCard = (props) => {
       <div className="w-full" onClick={handleBuyNow}>
         <div className="grid grid-cols-12 gap-x-0 w-full group bg-gradient-to-r dark:from-featureCard-dark-bg dark:to-featureCard-dark-bg dark:hover:from-primary-gd-1 dark:hover:to-primary-gd-2 from-white to-white hover:from-primary-gd-1 hover:to-primary-gd-2 shadow-md py-4 px-4 rounded-xl mb-4 relative cursor-pointer">
           <DiscountCard discountPercentage={discount} />
-          <div className="col-span-7 md:col-span-5 flex items-center h-full w-full">
-            <div className="md:w-20 md:h-20 w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white">
-              <img
-                src={logo || Placeholder}
-                className="h-full w-full rounded-xl bg-fixed"
-                alt={name}
-              />
-              <img
-                src={company_icon || Placeholder}
-                className="absolute right-1 bottom-1 max-h-5"
-                alt=""
-              />
-            </div>
-            <div className="md:ml-6 md:mr-5 mr-1 ml-3">
-              <div
-                className="font-Montserrat text-h6 font-semibold text-dark-blue mb-1 leading-4 dark:text-white group-hover:text-white"
-                data-for="search-tool-tip"
-                data-tip={name}
-                data-iscapture="true"
-              >
-                <div className="hidden md:block">
-                  {name ? (name.length > 20 ? `${name.slice(0, 20)} . . .` : name) : ''}
-                </div>
-                <div className="md:hidden">
-                  {name ? (name.length > 12 ? `${name.slice(0, 12)}...` : name) : ''}
-                </div>
+          <div className="col-span-7 md:col-span-5">
+            <div className="flex items-center h-full w-full">
+              <div className="md:w-20 md:h-20 md:min-w-20 min-w-16 w-16 h-16 rounded-xl shadow-2xl p-1 relative bg-white">
+                <img
+                  src={logo || Placeholder}
+                  className="h-full w-full rounded-xl bg-fixed"
+                  alt={name}
+                />
+                <img
+                  src={company_icon || Placeholder}
+                  className="absolute right-1 bottom-1 max-h-5"
+                  alt=""
+                />
               </div>
-              <ToolTip ToolTipId="search-tool-tip" bgColor="White" fontColor="#175186" />
-              <div className="font-Montserrat text-body-xs font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
-                {company}
-              </div>
-              <div className="hidden md:block font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
-                Chain: {supportedChains.join(',') || 'Ethereum'}
+
+              <div className="md:ml-6 md:mr-5 mr-1 ml-3">
+                <div
+                  className="font-Montserrat text-h6 font-semibold text-dark-blue mb-1 leading-4 dark:text-white group-hover:text-white"
+                  data-for="search-tool-tip"
+                  data-tip={name}
+                  data-iscapture="true"
+                >
+                  <div className="hidden md:block">
+                    {name ? (name.length > 20 ? `${name.slice(0, 20)} ...` : name) : ''}
+                  </div>
+                  <div className="md:hidden">
+                    {name ? (name.length > 12 ? `${name.slice(0, 12)}...` : name) : ''}
+                  </div>
+                </div>
+                <ToolTip ToolTipId="search-tool-tip" bgColor="White" fontColor="#175186" />
+                <div className="font-Montserrat text-body-xs font-medium text-dark-blue mb-1 dark:text-white group-hover:text-white">
+                  {company}
+                </div>
+                {/* <div className="hidden md:block  font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white">
+                  Chain: {supportedChains.join(', ') || 'Ethereum'}
+                </div> */}
+                <div
+                  className="font-Montserrat text-body-xs font-medium text-dark-blue dark:text-white group-hover:text-white flex"
+                  data-for="chains-tool-tip"
+                  data-tip={supportedChains.join(', ')}
+                  data-iscapture="true"
+                >
+                  Chain:{' '}
+                  <div className="hidden md:block ml-1">
+                    {supportedChains?.length
+                      ? supportedChains.join(', ').length > 24
+                        ? `${supportedChains.join(', ').slice(0, 20)} ...`
+                        : supportedChains.join(', ')
+                      : 'Ethereum'}
+                  </div>
+                  <div className="md:hidden ml-1">
+                    {supportedChains?.length
+                      ? supportedChains.join(', ').length > 12
+                        ? `${supportedChains.join(', ').slice(0, 12)}...`
+                        : supportedChains.join(', ')
+                      : 'Ethereum'}
+                  </div>
+                </div>
+                <ToolTip ToolTipId="chains-tool-tip" bgColor="White" fontColor="#175186" />
               </div>
             </div>
           </div>

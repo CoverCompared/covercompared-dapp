@@ -29,25 +29,7 @@ import useTokenApprove from '../../hooks/useTokenApprove';
 import useAddress from '../../hooks/useAddress';
 import useAssetsUsdPrice from '../../hooks/useAssetsUsdPrice';
 import { MSO_PLAN_TYPE } from '../../config';
-
-const countries = [
-  { value: 'SWE', label: 'Switzerland' },
-  { value: 'TUR', label: 'Turkey' },
-  { value: 'POL', label: 'Poland' },
-  { value: 'KEN', label: 'Kenya' },
-  { value: 'NER', label: 'Nigeria' },
-  { value: 'EST', label: 'Estonia' },
-  { value: 'DEU', label: 'Germany' },
-  { value: 'SVN', label: 'Slovenia' },
-  { value: 'ZAF', label: 'South Africa' },
-  { value: 'RUS', label: 'Russia' },
-  { value: 'ARE', label: 'UAE' },
-  { value: 'BHR', label: 'Bahrain' },
-  { value: 'OMN', label: 'Oman' },
-  { value: 'KWT', label: 'Kuwait' },
-  { value: 'SAU', label: 'Saudi Arabia' },
-  { value: 'QAT', label: 'Qatar' },
-];
+import CurrencySelect from './CurrencySelect';
 
 const MsoCountrySelector = ({
   country,
@@ -66,34 +48,42 @@ const MsoCountrySelector = ({
   const [membersInfo, setMembersInfo] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
-  const [applyDiscount, setApplyDiscount] = useState(false);
-
+  const [currency, setCurrency] = useState('ETH');
   const { txn_hash, signature, loader, message, isFailed, _id, confirmed, payment_status } =
     useSelector((state) => state.msoInsurance);
   const [showAlert, setShowAlert] = useState(false);
   const [txPending, setTxPending] = useState(false);
 
+  const applyDiscount = useMemo(() => {
+    return currency === 'CVR';
+  }, [currency]);
   const { quote = '0', MSOAddOnService = '0', name, logo, MSOCoverUser } = selectedPlan;
   const discount = addonServices ? ((+quote + +MSOAddOnService) * 25) / 100 : (+quote * 25) / 100;
   const discountAmount = applyDiscount ? discount : 0;
   const total = addonServices
     ? +quote + +MSOAddOnService - discountAmount
     : +quote - discountAmount;
-  const { getMSOAddress } = useAddress();
-  const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getMSOAddress());
-  const { balance } = useGetEthBalance();
-  const crvBalanceStatus = useTokenBalance();
 
-  // const ethPrice = useAssetsUsdPrice('eth');
-  const crvPrice = useAssetsUsdPrice('crv');
+  const { getMSOAddress, getTokenAddress } = useAddress();
 
-  const { onApprove } = useTokenApprove(getMSOAddress());
+  const { onApprove } = useTokenApprove(getMSOAddress(), currency);
+  const { cvrAllowance: tokenAllowance, handleAllowance: handleTokenAllowance } =
+    useGetAllowanceOfToken(getMSOAddress(), currency);
+
+  const ethBalance = useGetEthBalance();
+  const cvrBalance = useTokenBalance();
+  const tokenBalance = useTokenBalance(currency);
+
+  const tokenPrice = useAssetsUsdPrice(currency);
+  // const tokenPrice = 1000;
+
+  console.log('token price: => ', tokenPrice, currency);
   const { onStake } = useStakeForMSO();
   const { onStakeByToken } = useStakeForMSOByToken();
-  const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
+  const { getETHAmountForUSDC, getTokenAmountForUSDC, getNeededTokenAmount } = useTokenAmount();
 
   useEffect(() => {
-    handleAllowance();
+    handleTokenAllowance();
   }, []);
 
   useEffect(() => {
@@ -149,9 +139,10 @@ const MsoCountrySelector = ({
         };
         const ethAmount = await getETHAmountForUSDC(total);
         try {
+          console.log(currency);
           const result =
-            discountAmount > 0
-              ? await onStakeByToken(param)
+            currency !== 'ETH'
+              ? await onStakeByToken({ ...param, token: getTokenAddress(currency) })
               : await onStake(param, ethAmount.toString());
           if (result.status) {
             dispatch(
@@ -211,51 +202,30 @@ const MsoCountrySelector = ({
   const handleConfirm = async () => {
     setTxPending(true);
     setIsNotCloseable(true);
-    if (discountAmount > 0 && !crvAllowance) {
-      try {
-        const result = await onApprove();
-        await handleAllowance();
-        if (result) {
-          toast.success('CVR token approved.');
-        } else {
-          toast.warning('CVR token approving failed.');
-        }
-      } catch (e) {
-        toast.warning('CVR token approving rejected.');
-        console.error(e);
-      }
+
+    let coverAmount;
+    let balance;
+
+    if (currency === 'ETH') {
+      coverAmount = await getETHAmountForUSDC(quote);
+      balance = ethBalance.balance;
+    } else if (currency === 'CVR') {
+      coverAmount = await getTokenAmountForUSDC(quote);
+      balance = cvrBalance.balance;
+    } else {
+      const token = getTokenAddress(currency);
+      const usdc = getTokenAddress('usdc');
+      coverAmount = await getNeededTokenAmount(token, usdc, quote);
+      balance = tokenBalance.balance;
+    }
+
+    if (getBalanceNumber(coverAmount) >= getBalanceNumber(balance)) {
+      toast.warning(`Insufficient ${currency} balance!`);
       setTxPending(false);
       setIsNotCloseable(false);
       return;
     }
 
-    let ethAmount1;
-    let crvAmount1;
-    try {
-      ethAmount1 = await getETHAmountForUSDC(total); // total / ethPrice;
-      crvAmount1 = await getTokenAmountForUSDC(total); // total / crvPrice;
-    } catch (err) {
-      toast.warning('Transaction failed.');
-      setTxPending(false);
-      setIsNotCloseable(false);
-      return;
-    }
-    const ethAmount = getBalanceNumber(ethAmount1);
-    const crvAmount = getBalanceNumber(crvAmount1);
-
-    if (!applyDiscount && ethAmount + 0.01 >= getBalanceNumber(balance)) {
-      toast.warning('Insufficient ETH balance!');
-      setTxPending(false);
-      setIsNotCloseable(false);
-      return;
-    }
-    if (applyDiscount && crvAmount >= getBalanceNumber(crvBalanceStatus.balance)) {
-      toast.warning('Insufficient CVR balance!');
-      setApplyDiscount(false);
-      setTxPending(false);
-      setIsNotCloseable(false);
-      return;
-    }
     const param = {
       plan_type: selectedPlan.unique_id,
       plan_name: selectedPlan.name,
@@ -277,6 +247,23 @@ const MsoCountrySelector = ({
       wallet_address: account,
     };
     dispatch(buyMsoInsurance(param));
+  };
+
+  const onApproveToken = async () => {
+    try {
+      const result = await onApprove();
+      await handleTokenAllowance();
+      if (result) {
+        toast.success(`${currency} token approved.`);
+      } else {
+        toast.warning(`${currency} token approving failed.`);
+      }
+    } catch (e) {
+      toast.warning(`${currency} token approving rejected.`);
+      console.error(e);
+    }
+    setTxPending(false);
+    setIsNotCloseable(false);
   };
 
   const getWalletOption = () => {
@@ -370,15 +357,28 @@ const MsoCountrySelector = ({
           )}
           <div className="flex items-center justify-between w-full dark:text-white">
             <h5 className="text-h6 font-medium">Premium</h5>
-            <h5 className="text-body-lg font-medium">{quote} USD</h5>
+            <h5 className="text-body-lg font-medium">
+              {quote / tokenPrice} {currency}
+            </h5>
           </div>
           {!!addonServices && (
             <div className="flex items-center justify-between w-full dark:text-white">
               <h5 className="text-h6 font-medium">Add on concierge services</h5>
-              <h5 className="text-body-lg font-medium">{MSOAddOnService} USD</h5>
+              <h5 className="text-body-lg font-medium">
+                {MSOAddOnService / tokenPrice} {currency}
+              </h5>
             </div>
           )}
-          <div className="flex items-center justify-between w-full dark:text-white">
+          <CurrencySelect
+            {...{
+              negativeLeft: false,
+              fieldTitle: 'Currency',
+              options: ['ETH', 'CVR', 'DAI', 'USDT'],
+              selectedOption: currency,
+              setSelectedOption: setCurrency,
+            }}
+          />
+          {/* <div className="flex items-center justify-between w-full dark:text-white">
             <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
             <input
               type="checkbox"
@@ -387,20 +387,24 @@ const MsoCountrySelector = ({
               checked={applyDiscount}
               onChange={() => setApplyDiscount(!applyDiscount)}
             />
-          </div>
+          </div> */}
           <hr />
           <div className="flex items-center justify-between w-full dark:text-white">
             <h5 className="text-h6 font-medium">Discount</h5>
-            <h5 className="text-body-lg font-medium">{discountAmount} USD</h5>
+            <h5 className="text-body-lg font-medium">
+              {discountAmount / tokenPrice} {currency}
+            </h5>
           </div>
           <hr />
           <div className="flex items-center justify-between w-full dark:text-white">
             <h5 className="text-h6 font-medium">Total</h5>
-            <h5 className="text-body-lg font-medium">{total} USD</h5>
+            <h5 className="text-body-lg font-medium">
+              {total / tokenPrice} {currency}
+            </h5>
           </div>
           {applyDiscount && (
             <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-              <h5 className="text-h6 font-medium">{`${(total / crvPrice).toFixed(
+              <h5 className="text-h6 font-medium">{`${(total / tokenPrice).toFixed(
                 2,
               )} CVR will be used for 25% discount`}</h5>
             </div>
@@ -408,13 +412,13 @@ const MsoCountrySelector = ({
           <div className="flex items-center justify-center w-full mt-6">
             <button
               type="button"
-              onClick={handleConfirm}
+              onClick={currency !== 'ETH' && !tokenAllowance ? onApproveToken : handleConfirm}
               className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
             >
               {txPending ? (
                 <Loading widthClass="w-4" heightClass="h-4" />
-              ) : discountAmount > 0 && !crvAllowance ? (
-                'Approve CVR'
+              ) : currency !== 'ETH' && !tokenAllowance ? (
+                `Approve ${currency}`
               ) : (
                 'Confirm to Pay'
               )}
@@ -431,7 +435,6 @@ const MsoCountrySelector = ({
       {...{
         ...selectedPlan,
         country,
-        countries,
         setIsModalOpen,
         handleBuyNow,
       }}

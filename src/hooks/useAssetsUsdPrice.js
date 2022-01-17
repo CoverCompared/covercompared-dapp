@@ -13,8 +13,6 @@ const useAssetsUsdPrice = (assetSymbol) => {
   const tokenContract = useTokenContract(tokenAddress);
   useEffect(() => {
     const getPrice = async () => {
-      // const res = await priceFeedContract.latestRoundData();
-      // setAssetPrice(res ? getBalanceNumberByDecimal(res.answer) : 0);
       const tokenDecimal = await tokenContract.decimals();
       const oneInWei = getDecimalAmount(1, tokenDecimal).toFixed();
       const res = await priceFeedContract.consult(tokenAddress, oneInWei);

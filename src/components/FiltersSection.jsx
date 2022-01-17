@@ -420,14 +420,14 @@ const FiltersSection = (props) => {
             {!!options.duration_days_option && (
               <MultiRangeSlider
                 {...{
-                  title: 'Duration',
+                  title: 'Duration days',
                   optionsKey: 'duration_days_option',
                   value: duration,
                   setValue: setDuration,
                 }}
               />
             )}
-            {!!options.amount_option && (
+            {/* {!!options.amount_option && (
               <MultiRangeSlider
                 {...{
                   title: 'Amount',
@@ -436,7 +436,7 @@ const FiltersSection = (props) => {
                   setValue: setAmount,
                 }}
               />
-            )}
+            )} */}
             {!!options.companies_option && (
               <MultiCheckObjectFilter
                 {...{

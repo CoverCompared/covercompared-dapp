@@ -46,7 +46,6 @@ const HeaderCTAs = (props) => {
   return (
     <div className="flex items-center">
       <ThemeToggleSwitch />
-      {/* {process.env.SHOW_UPCOMING_FEATURES_TO_CONFIRM && <SwapComponent />} */}
       <SwapComponent />
       {!account ? (
         <button

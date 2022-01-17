@@ -18,8 +18,8 @@ import getNav from '../../components/common/sidebarNav';
 import { setLoginModalVisible, setRegisterModalVisible } from '../../redux/actions';
 
 import LoginIcon from '../../assets/img/Login.svg';
-import coverComparedLogo from '../../assets/img/logo-final-light.svg';
-import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
+import coverComparedLogo from '../../assets/img/logo-final-light.png';
+import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.png';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const Sidebar = (props) => {
@@ -96,7 +96,7 @@ const Sidebar = (props) => {
             <div className="flex-shrink-0 flex items-center justify-between">
               <Link to="/">
                 <img
-                  className="h-10 w-auto"
+                  className="h-14 w-auto"
                   src={theme === 'dark' ? coverComparedDarkLogo : coverComparedLogo}
                   alt="logo"
                 />

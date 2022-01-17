@@ -23,12 +23,12 @@ export const getMSOAddress = () => {
   return getAddress(addresses.mso);
 };
 
-export const getCrvAddress = () => {
-  return getAddress(tokens.crv);
+export const getCvrAddress = () => {
+  return getAddress(tokens.cvr);
 };
 
-export const getCrvAddressByChainId = (chainId) => {
-  return tokens.crv[`${chainId}`];
+export const getCvrAddressByChainId = (chainId) => {
+  return tokens.cvr[`${chainId}`];
 };
 
 export const getExchangeAgentAddress = () => {

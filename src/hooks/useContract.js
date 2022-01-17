@@ -31,7 +31,7 @@ export const useP4LContract = () => {
 
 export const useTokenContract = (address) => {
   const { library } = useActiveWeb3React();
-  return useMemo(() => getContract(erc20Abi, address, library.getSigner()), [library]);
+  return useMemo(() => getContract(erc20Abi, address, library.getSigner()), [library, address]);
 };
 
 export const usePriceFeedContract = (symbol) => {
@@ -39,7 +39,7 @@ export const usePriceFeedContract = (symbol) => {
   const { getPriceFeedAddressBySymbol } = useAddress();
   return useMemo(
     () => getPriceFeedContract(getPriceFeedAddressBySymbol(symbol), library.getSigner()),
-    [library],
+    [library, symbol],
   );
 };
 

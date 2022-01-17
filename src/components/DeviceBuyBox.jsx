@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import { CheckIcon } from '@heroicons/react/outline';
@@ -17,6 +17,7 @@ import DownloadPolicy from './common/DownloadPolicy';
 import DeviceReceipt from './DeviceReceipt';
 import Loading from './common/TxLoading';
 import PageLoader from './common/PageLoader';
+import CurrencySelect from './common/CurrencySelect';
 import {
   setProfileDetails,
   verifyOTP,
@@ -83,8 +84,8 @@ const DeviceBuyBox = (props) => {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [imeiOrSerial, setImeiOrSerial] = useState('');
+  const [purchaseDate, setPurchaseDate] = useState('');
 
-  const [applyDiscount, setApplyDiscount] = useState(false);
   const [txPending, setTxPending] = useState(false);
 
   const [useForRegistration, setUseForRegistration] = useState(false);
@@ -96,18 +97,28 @@ const DeviceBuyBox = (props) => {
   const [showInfoForm, setShowInfoForm] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
-  const { getP4LAddress } = useAddress();
+  const [currency, setCurrency] = useState('ETH');
+
+  const applyDiscount = useMemo(() => {
+    return currency === 'CVR';
+  }, [currency]);
+
+  const { getP4LAddress, getTokenAddress } = useAddress();
   const { onStake } = useStakeForDevice();
   const { onStakeByToken } = useStakeForDeviceByToken();
-  const { onApprove } = useTokenApprove(getP4LAddress());
-  const { crvAllowance, handleAllowance } = useGetAllowanceOfToken(getP4LAddress());
-  const { getETHAmountForUSDC, getTokenAmountForUSDC } = useTokenAmount();
 
-  const { balance } = useGetEthBalance();
-  const crvBalanceStatus = useTokenBalance();
+  const { onApprove } = useTokenApprove(getP4LAddress(), currency);
+  const { cvrAllowance: tokenAllowance, handleAllowance: handleTokenAllowance } =
+    useGetAllowanceOfToken(getP4LAddress(), currency);
 
-  // const ethPrice = useAssetsUsdPrice('eth');
-  const crvPrice = useAssetsUsdPrice('crv');
+  const { getETHAmountForUSDC, getTokenAmountForUSDC, getNeededTokenAmount } = useTokenAmount();
+
+  const ethBalance = useGetEthBalance();
+  const cvrBalance = useTokenBalance();
+  const tokenBalance = useTokenBalance(currency);
+
+  const tokenPrice = useAssetsUsdPrice(currency);
+  const cvrPrice = useAssetsUsdPrice('cvr');
 
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
   const hasFirstTwoStep = hasFirstStep && planType;
@@ -119,8 +130,16 @@ const DeviceBuyBox = (props) => {
   const total = Number(+plan_total_price - discountAmount).toFixed(2);
   const selectedModel = deviceModelDetails?.models?.filter((obj) => obj.model_code === model) || [];
 
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const day = d.getDate();
+  const minDateOneYear = new Date(year - 1, month, day).toLocaleDateString('en-ca');
+  const minDateTwoYear = new Date(year - 2, month, day).toLocaleDateString('en-ca');
+  const maxDate = new Date().toLocaleDateString('en-ca');
+
   useEffect(() => {
-    handleAllowance();
+    handleTokenAllowance();
   }, []);
 
   useEffect(() => {
@@ -131,23 +150,11 @@ const DeviceBuyBox = (props) => {
     if (deviceIsFailed) setShowAlert(true);
   }, [deviceIsFailed]);
 
-  // useEffect(() => {
-  //   if (txn_hash && !deviceLoader && !deviceIsFailed) {
-  //     setTitle('Receipt');
-  //     setMaxWidth('max-w-5xl');
-  //     setShowReceipt(true);
-  //   } else {
-  //     setTitle('Device Details');
-  //     setMaxWidth('max-w-2xl');
-  //     setShowReceipt(false);
-  //   }
-  // }, [txn_hash]);
-
   useEffect(() => {
     dispatch(
       getDeviceDetails({
         device: deviceType,
-        partner_code: 'Crypto',
+        partner_code: '1039',
         endpoint: 'device-details',
       }),
     );
@@ -249,6 +256,7 @@ const DeviceBuyBox = (props) => {
           brand,
           value: deviceDetails?.device_values[value],
           purchase_month: purchaseMonth,
+          model_code: model || 'OTHERS',
           model: model || 'OTHERS',
           model_name: selectedModel?.[0]?.model_name || 'Others',
           plan_type: 'monthly',
@@ -257,18 +265,24 @@ const DeviceBuyBox = (props) => {
           email,
           imei_or_serial_number: imeiOrSerial,
           phone,
-          currency: applyDiscount ? 'CVR' : 'USD',
+          mobile: phone,
+          // currency: applyDiscount ? 'CVR' : 'USD',
+          currency,
           amount: plan_total_price,
           discount_amount: discountAmount,
           tax: '0',
           total_amount: total,
           wallet_address: account,
+          partner_code: '1039',
+          custom_device_name: selectedModel?.[0]?.model_name || `${brand} ${deviceType}`,
+          tran_id: devicePlanDetails?.tran_id,
+          purchase_date: purchaseDate,
         };
         const ethAmount = await getETHAmountForUSDC(total);
         try {
           const result =
-            discountAmount > 0
-              ? await onStakeByToken(param, signature)
+            currency !== 'ETH'
+              ? await onStakeByToken({ ...param, token: getTokenAddress(currency) }, signature)
               : await onStake(param, ethAmount.toString(), signature);
 
           if (result.status) {
@@ -281,15 +295,17 @@ const DeviceBuyBox = (props) => {
             );
             // dispatch(
             //   createDeviceInsurancePolicy({
-            //     endpoint: 'create-policy',
+            //     endpoint: 'create-policy-api',
             //     first_name: fName,
             //     last_name: lName,
             //     mobile: phone,
             //     email,
             //     model_code: model || 'OTHERS',
-            //     custom_device_name: '',
+            //     custom_device_name: selectedModel?.[0]?.model_name || `${brand} ${deviceType}`,
             //     imei_or_serial_number: imeiOrSerial,
-            //     partner_code: 'crypto',
+            //     tran_id: devicePlanDetails?.tran_id,
+            //     purchase_date: purchaseDate,
+            //     partner_code: '1039',
             //   }),
             // );
             setTxPending(false);
@@ -331,55 +347,29 @@ const DeviceBuyBox = (props) => {
     if (e) e.preventDefault();
     setTxPending(true);
     setIsNotCloseable(true);
-    if (discountAmount > 0 && !crvAllowance) {
-      try {
-        const result = await onApprove();
-        await handleAllowance();
-        if (result) {
-          toast.success('CVR token approved.');
-        } else {
-          toast.warning('CVR token approving failed.');
-        }
-      } catch (e) {
-        toast.warning('CVR token approving rejected.');
-        console.error(e);
-      }
+
+    let coverAmount;
+    let balance;
+
+    if (currency === 'ETH') {
+      coverAmount = await getETHAmountForUSDC(plan_total_price);
+      balance = ethBalance.balance;
+    } else if (currency === 'CVR') {
+      coverAmount = await getTokenAmountForUSDC(plan_total_price);
+      balance = cvrBalance.balance;
+    } else {
+      const token = getTokenAddress(currency);
+      const usdc = getTokenAddress('usdc');
+      coverAmount = await getNeededTokenAmount(token, usdc, plan_total_price);
+      balance = tokenBalance.balance;
     }
 
-    let ethAmount1;
-    let crvAmount1;
-    try {
-      ethAmount1 = await getETHAmountForUSDC(total); // total / ethPrice;
-      crvAmount1 = await getTokenAmountForUSDC(total); // total / crvPrice;
-    } catch (err) {
-      toast.warning(err.message);
+    if (getBalanceNumber(coverAmount) >= getBalanceNumber(balance)) {
+      toast.warning(`Insufficient ${currency} balance!`);
       setTxPending(false);
       setIsNotCloseable(false);
       return;
     }
-    const ethAmount = getBalanceNumber(ethAmount1);
-    const crvAmount = getBalanceNumber(crvAmount1);
-
-    if (!applyDiscount && ethAmount + 0.016 >= getBalanceNumber(balance)) {
-      toast.warning('Insufficient ETH balance!');
-      setTxPending(false);
-      setIsNotCloseable(false);
-      return;
-    }
-    if (applyDiscount && crvAmount >= getBalanceNumber(crvBalanceStatus.balance)) {
-      toast.warning('Insufficient CVR balance!');
-      setApplyDiscount(false);
-      setTxPending(false);
-      setIsNotCloseable(false);
-      return;
-    }
-
-    // if (policyId === '') {
-    //   toast.warning('You have not the policy id yet. Please try again!');
-    //   setApplyDiscount(false);
-    //   setTxPending(false);
-    //   setIsNotCloseable(false);
-    // }
     const param = {
       device_type: deviceType,
       brand,
@@ -393,6 +383,7 @@ const DeviceBuyBox = (props) => {
       last_name: lName,
       email,
       phone,
+      imei_or_serial_number: imeiOrSerial,
       currency: plan_currency,
       amount: plan_total_price,
       discount_amount: discountAmount,
@@ -402,27 +393,23 @@ const DeviceBuyBox = (props) => {
     };
 
     dispatch(buyDeviceInsuranceFirst(param));
-    // try {
-    //   const result =
-    //     discountAmount > 0
-    //       ? await onStakeByToken(param)
-    //       : await onStake(param, getDecimalAmount(ethAmount).toString());
+  };
 
-    //   if (result.status) {
-    //     dispatch(
-    //       buyDeviceInsurance({
-    //         ...param,
-    //         txn_hash: result.txn_hash,
-    //       }),
-    //     );
-    //     toast.success('Successfully purchased!');
-    //   }
-    // } catch (e) {
-    //   console.error(e);
-    //   toast.warning(e.message);
-    // }
-    // setTxPending(false);
-    // setIsNotCloseable(false);
+  const onApproveToken = async () => {
+    try {
+      const result = await onApprove();
+      await handleTokenAllowance();
+      if (result) {
+        toast.success(`${currency} token approved.`);
+      } else {
+        toast.warning(`${currency} token approving failed.`);
+      }
+    } catch (e) {
+      toast.warning(`${currency} token approving rejected.`);
+      console.error(e);
+    }
+    setTxPending(false);
+    setIsNotCloseable(false);
   };
 
   const handleSubmitEmail = (email = null) => {
@@ -549,31 +536,36 @@ const DeviceBuyBox = (props) => {
           <h5 className="text-h6 font-medium">
             Premium Per {plan_type === 'yearly' ? 'Year' : 'Month'}
           </h5>
-          <h5 className="text-body-lg font-medium">{plan_total_price} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {(plan_total_price / tokenPrice).toFixed(3)} {currency}
+          </h5>
         </div>
-        <div className="flex items-center justify-between w-full dark:text-white">
-          <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
-          <input
-            type="checkbox"
-            name="applyDiscount"
-            className="form-checkbox text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0"
-            checked={applyDiscount}
-            onChange={() => setApplyDiscount(!applyDiscount)}
-          />
-        </div>
+        <CurrencySelect
+          {...{
+            negativeLeft: false,
+            fieldTitle: 'Currency',
+            options: ['ETH', 'CVR', 'DAI', 'USDT'],
+            selectedOption: currency,
+            setSelectedOption: setCurrency,
+          }}
+        />
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Discount</h5>
-          <h5 className="text-body-lg font-medium">{discountAmount} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {(discountAmount / tokenPrice).toFixed(3)} {currency}
+          </h5>
         </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Total</h5>
-          <h5 className="text-body-lg font-medium">{total} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {(total / tokenPrice).toFixed(3)} {currency}
+          </h5>
         </div>
         {applyDiscount && (
           <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-            <h5 className="text-h6 font-medium">{`${(total / crvPrice).toFixed(
+            <h5 className="text-h6 font-medium">{`${(total / tokenPrice).toFixed(
               2,
             )} CVR will be used for 25% discount`}</h5>
           </div>
@@ -581,13 +573,13 @@ const DeviceBuyBox = (props) => {
         <div className="flex items-center justify-center w-full mt-6">
           <button
             type="button"
-            onClick={handleConfirm}
+            onClick={currency !== 'ETH' && !tokenAllowance ? onApproveToken : handleConfirm}
             className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             {txPending ? (
               <Loading widthClass="w-4" heightClass="h-4" />
-            ) : discountAmount > 0 && !crvAllowance ? (
-              'Approve CVR'
+            ) : currency !== 'ETH' && !tokenAllowance ? (
+              `Approve ${currency}`
             ) : (
               'Confirm to Pay'
             )}
@@ -612,59 +604,106 @@ const DeviceBuyBox = (props) => {
         )}
         <form onSubmit={handleBuyNow}>
           <div className="grid grid-cols-2 gap-3">
-            <input
-              required
-              type="text"
-              placeholder="First Name"
-              name="first_name"
-              value={fName}
-              pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
-              title="Only Alphabets are allowed"
-              onChange={(e) => setFName(e.target.value)}
-              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-            />
-            <input
-              required
-              type="text"
-              placeholder="Last Name"
-              name="last_name"
-              value={lName}
-              pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
-              title="Only Alphabets are allowed"
-              onChange={(e) => setLName(e.target.value)}
-              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-            />
-            <input
-              required
-              type="tel"
-              pattern="\d*"
-              title="Only numbers allowed"
-              placeholder="Mobile"
-              name="mobile"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-            />
-            <input
-              required
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-            />
-            <input
-              required
-              type="text"
-              placeholder="IMEI or Serial Number"
-              name="imeiOrSerial"
-              value={imeiOrSerial}
-              pattern="^[a-zA-Z0-9-_.]*$"
-              title="Only Alphabets, Numbers, Hyphen and Underscore are allowed"
-              onChange={(e) => setImeiOrSerial(e.target.value)}
-              className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-            />
+            <div>
+              <label htmlFor="first_name" className="ml-1 text-body-md text-black dark:text-white">
+                First Name
+              </label>
+              <input
+                required
+                type="text"
+                placeholder="First Name"
+                name="first_name"
+                value={fName}
+                pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
+                title="Only Alphabets are allowed"
+                onChange={(e) => setFName(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
+            <div>
+              <label htmlFor="last_name" className="ml-1 text-body-md text-black dark:text-white">
+                Last Name
+              </label>
+              <input
+                required
+                type="text"
+                placeholder="Last Name"
+                name="last_name"
+                value={lName}
+                pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
+                title="Only Alphabets are allowed"
+                onChange={(e) => setLName(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
+            <div>
+              <label htmlFor="mobile" className="ml-1 text-body-md text-black dark:text-white">
+                Mobile
+              </label>
+              <input
+                required
+                type="tel"
+                pattern="\d*"
+                title="Only numbers allowed"
+                placeholder="Mobile"
+                name="mobile"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="ml-1 text-body-md text-black dark:text-white">
+                Email
+              </label>
+              <input
+                required
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="imeiOrSerial"
+                className="ml-1 text-body-md text-black dark:text-white"
+              >
+                IMEI or Serial Number
+              </label>
+              <input
+                required
+                type="text"
+                placeholder="Device IMEI or Serial Number"
+                name="imeiOrSerial"
+                value={imeiOrSerial}
+                pattern="^[a-zA-Z0-9-_#/]*$"
+                title="Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+                onChange={(e) => setImeiOrSerial(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="purchaseDate"
+                className="ml-1 text-body-md text-black dark:text-white"
+              >
+                Device Purchase Date
+              </label>
+              <input
+                required
+                type="date"
+                min={purchaseMonth === 'Less than 12 months' ? minDateOneYear : minDateTwoYear}
+                max={purchaseMonth === 'Less than 12 months' ? maxDate : minDateOneYear}
+                placeholder="Purchase date"
+                name="purchaseDate"
+                value={purchaseDate}
+                onChange={(e) => setPurchaseDate(e.target.value)}
+                className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
+              />
+            </div>
           </div>
 
           {notRegistered && (
@@ -736,7 +775,7 @@ const DeviceBuyBox = (props) => {
             </div>
           )}
 
-          <div className="mt-6">
+          <div className="mt-3">
             <input
               id="termsAndCondition"
               name="termsAndCondition"

@@ -13,6 +13,7 @@ import useAddress from '../hooks/useAddress';
 import { SupportedChainId } from '../config/chains';
 import useTokenAmount from '../hooks/useTokenAmount';
 import CoverBuyConfirmModal from './CoverBuyConfirmModal';
+import { PRODUCT_CHAIN } from '../config';
 
 const periodOptions = ['Days', 'Week', 'Month'];
 
@@ -47,16 +48,12 @@ const CoverBuyBox = (props) => {
   const [amountSelect, setAmountSelect] = useState(currency[0]);
   const [quoteField, setQuoteField] = useState(quote || 0);
   const [quoteSelect, setQuoteSelect] = useState('ETH');
-
+  const [quoteOptions, setQuoteOptions] = useState(['ETH', 'CVR', 'DOT']);
   const [forceClose, setForceClose] = useState(false);
 
-  const { getTokenAmountForETH } = useTokenAmount();
+  const { getTokenAmountForETH, getNeededTokenAmount } = useTokenAmount();
   const { getTokenAddress } = useAddress();
-  const crvAddress = getTokenAddress('crv');
-  // useEffect(() => {
-  //   const periodVal = `${periodField}`.split('.')[0];
-  //   setPeriodField(+periodVal);
-  // }, [periodField]);
+  const cvrAddress = getTokenAddress('cvr');
 
   const period = useMemo(() => {
     const periodVal = `${periodField}`.split('.')[0];
@@ -79,23 +76,24 @@ const CoverBuyBox = (props) => {
     return val;
   }, [periodField, periodSelect]);
 
-  const productChainId = useMemo(() => {
-    const { company_code } = product;
-    let _chainId = SupportedChainId.RINKEBY;
-    switch (company_code) {
-      case 'nexus':
-        _chainId = SupportedChainId.KOVAN;
-        break;
-      case 'insurace':
-        _chainId = SupportedChainId.RINKEBY;
-        break;
-      case 'nsure':
-        break;
-      default:
-        break;
-    }
-    return _chainId;
-  }, [product]);
+  // const productChainId = useMemo(() => {
+  //   const { company_code } = product;
+  //   let _chainId = SupportedChainId.RINKEBY;
+  //   switch (company_code) {
+  //     case 'nexus':
+  //       _chainId = SupportedChainId.KOVAN;
+  //       break;
+  //     case 'insurace':
+  //       _chainId = SupportedChainId.RINKEBY;
+  //       break;
+  //     case 'nsure':
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   return _chainId;
+  // }, [product]);
+  const productChainId = PRODUCT_CHAIN[company_code] || SupportedChainId.RINKEBY;
 
   const callGetQuote = useCallback(() => {
     dispatch(
@@ -117,34 +115,57 @@ const CoverBuyBox = (props) => {
         await setupNetwork(productChainId);
       }
     })();
-  }, [productChainId]);
+  }, [productChainId, chainId]);
 
   useEffect(() => {
-    if (account && period && amountField) {
-      if (
-        Number(period) >= Number(duration_days_min) &&
-        Number(period) <= Number(duration_days_max)
-      ) {
-        callGetQuote();
-      } else {
-        toast.error(
-          `Period duration is not valid, it must be between ${duration_days_min} to ${duration_days_max} days`,
-        );
-      }
+    if (!amountField || !periodField) {
+      setQuoteField(0);
+      return;
     }
+
+    if (Number(period) < Number(duration_days_min) || Number(period) > Number(duration_days_max)) {
+      toast.error(
+        `Period duration is not valid, it must be between ${duration_days_min} to ${duration_days_max} days`,
+      );
+      return;
+    }
+
+    const amountLimit = currency_limit[amountSelect];
+    if (
+      Number(amountField) < Number(amountLimit.min) ||
+      Number(amountField) > Number(amountLimit.max)
+    ) {
+      toast.error(
+        `Amount is not valid, it must be between ${amountLimit.min} to ${amountLimit.max}`,
+      );
+      return;
+    }
+
+    callGetQuote();
   }, [period, amountField, amountSelect, account]);
 
   useEffect(() => {
-    if (quoteSelect === 'ETH') {
+    setQuoteSelect(amountSelect);
+    setQuoteOptions([amountSelect, 'CVR', 'DOT']);
+  }, [amountSelect]);
+
+  useEffect(() => {
+    payWithCVR.current = quoteSelect === 'CVR';
+
+    if (quoteSelect === amountSelect) {
       setQuoteField(quote ? quote.toFixed(6) : quote);
-    } else if (quoteSelect === 'CVR') {
-      (async () => {
-        const crvAmount = getBalanceNumber(await getTokenAmountForETH(crvAddress, quote));
-        const ratio = 4 / 3;
-        setQuoteField((crvAmount * ratio).toFixed(6));
-      })();
     } else {
-      setQuoteField(0);
+      (async () => {
+        const amount = getBalanceNumber(
+          await getNeededTokenAmount(
+            getTokenAddress(quoteSelect),
+            getTokenAddress(amountSelect),
+            quote,
+          ),
+        );
+        const ratio = 4 / 3;
+        setQuoteField((amount * ratio).toFixed(6));
+      })();
     }
   }, [quote, quoteSelect]);
 
@@ -174,26 +195,26 @@ const CoverBuyBox = (props) => {
           {...props}
           autoFocus
           fieldTitle="Period"
-          fieldSubtitle="Max"
+          // fieldSubtitle="Max"
           fieldType="number"
           fieldValue={periodField}
           setFieldValue={setPeriodField}
-          selectedOption={periodSelect}
-          setSelectedOption={setPeriodSelect}
-          dropdownOptions={periodOptions}
-          showSearchOption="true"
+          selectedOption="Days"
+          placeholder="Enter period "
+          // setSelectedOption={setPeriodSelect}
+          // dropdownOptions={periodOptions}
         />
         <SelectWithSearch
           {...props}
           fieldTitle="Amount"
-          fieldSubtitle="Max"
+          // fieldSubtitle="Max"
           fieldType="number"
           fieldValue={amountField}
           setFieldValue={setAmountField}
           selectedOption={amountSelect}
           setSelectedOption={setAmountSelect}
           dropdownOptions={currency}
-          showSearchOption="true"
+          placeholder="Enter amount "
         />
         <SelectWithSearch
           {...props}
@@ -205,8 +226,7 @@ const CoverBuyBox = (props) => {
           setFieldValue={setQuoteField}
           selectedOption={quoteSelect}
           setSelectedOption={setQuoteSelect}
-          dropdownOptions={['ETH', 'CVR']}
-          showSearchOption="true"
+          dropdownOptions={quoteOptions}
         />
       </form>
 
@@ -222,10 +242,11 @@ const CoverBuyBox = (props) => {
             period,
             product,
             account,
-            amountField,
-            amountSelect,
-            quote,
+            coverAmount: amountField,
+            currency: amountSelect,
+            quote: Number(quoteField),
             quoteDetail,
+            token: quoteSelect,
             onConfirmed,
             payWithCVR,
           }}
@@ -233,8 +254,8 @@ const CoverBuyBox = (props) => {
           <button
             ref={buyButton}
             type="button"
-            disabled={!!message}
-            className="md:py-3 px-6 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance disabled:opacity-80 disabled:cursor-default"
+            disabled={!!message || !quoteField}
+            className="md:py-3 px-6 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 disabled:from-buy-button-gd-2 disabled:to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance disabled:opacity-80 disabled:cursor-default"
           >
             Buy Now
           </button>

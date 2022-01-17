@@ -1,10 +1,11 @@
 import { ethers } from 'ethers';
 import { metaCall } from '../biconomy';
 import insureAceAbi from '../../config/abi/insureAceAbi.json';
+import { PRODUCT_CHAIN } from '../../config';
 
-const buyCoverByETH = async (contract, param) => {
+const buyETHCoverByETH = async (contract, param) => {
   const { data, premium } = param;
-  const tx = await contract.buyCoverByETH(
+  const tx = await contract.buyETHCoverByETH(
     data[0],
     data[1],
     data[2],
@@ -21,11 +22,11 @@ const buyCoverByETH = async (contract, param) => {
   return tx;
 };
 
-const buyCoverByToken = async (contract, account, signer, param) => {
+const buyETHCoverByToken = async (contract, account, signer, param) => {
   const { data, premium, token } = param;
   const contractInterface = new ethers.utils.Interface(insureAceAbi);
-  const tx = await metaCall(contract, contractInterface, account, signer, 4, {
-    name: 'buyCoverByToken',
+  const tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.insurace, {
+    name: 'buyETHCoverByToken',
     params: [
       data[0],
       data[1],
@@ -44,7 +45,31 @@ const buyCoverByToken = async (contract, account, signer, param) => {
   return tx;
 };
 
+const buyTokenCoverByToken = async (contract, account, signer, param) => {
+  const { data, premium, token } = param;
+  const contractInterface = new ethers.utils.Interface(insureAceAbi);
+  const tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.insurace, {
+    name: 'buyTokenCoverByToken',
+    params: [
+      data[0],
+      data[1],
+      data[2],
+      data[3],
+      token,
+      data[5],
+      premium, // premium amount in token
+      data[7],
+      data[8],
+      data[9],
+      data[10],
+      data[11],
+    ],
+  });
+  return tx;
+};
+
 export default {
-  buyCoverByETH,
-  buyCoverByToken,
+  buyETHCoverByETH,
+  buyETHCoverByToken,
+  buyTokenCoverByToken,
 };

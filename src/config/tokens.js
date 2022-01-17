@@ -1,6 +1,7 @@
 export default {
   dai: {
     1: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+    4: '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa',
     42: '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa',
     56: '',
     97: '',
@@ -18,7 +19,7 @@ export default {
     56: '',
     97: '',
   },
-  crv: {
+  cvr: {
     1: '0xD533a949740bb3306d119CC777fa900bA034cd52',
     4: '0xd3e48FAcD30A73609ffA60AE84851e72d10fEa52',
     42: '0xFc9B2B2565B38511B9822887F99D036d694a11e6',
@@ -47,6 +48,11 @@ export default {
     1: '',
     4: '0xc778417e063141139fce010982780140aa0cd5ab',
     42: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
+  },
+  dot: {
+    1: '',
+    4: '',
+    42: '',
   },
 };
 

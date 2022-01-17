@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import { logEvent } from 'firebase/analytics';
 
 import { analytics } from '../config/firebase';
+import { ETH_ADDRESS } from '../config';
 import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import useTokenApprove from '../hooks/useTokenApprove';
@@ -27,10 +28,11 @@ const CoverBuyConfirmModal = (props) => {
     period,
     product,
     account,
-    amountField,
-    amountSelect,
+    coverAmount,
+    currency,
     quote,
     quoteDetail,
+    token,
     setIsModalOpen,
     setIsNotCloseable,
     payWithCVR,
@@ -39,38 +41,60 @@ const CoverBuyConfirmModal = (props) => {
   const dispatch = useDispatch();
   const [txPending, setTxPending] = useState(false);
   const [applyDiscount, setApplyDiscount] = useState(payWithCVR.current);
-  const [crvAmount, setCrvAmount] = useState(0);
+  const [cvrAmount, setCvrAmount] = useState(0);
 
   const { getNexusMutualAddress, getInsureAceAddress, getTokenAddress } = useAddress();
   const { getNeededTokenAmount } = useTokenAmount();
-  const ethAddress = getTokenAddress('eth');
-  const usdcAddress = getTokenAddress('usdc');
-  const crvAddress = getTokenAddress('crv');
+  const cvrAddress = getTokenAddress('cvr');
+
+  const token0 = getTokenAddress(token);
+  const token0Balance = useTokenBalance(token);
+
   const ethBalance = useGetEthBalance();
-  const crvBalance = useTokenBalance();
-  const { onApprove: onApproveForNM } = useTokenApprove(getNexusMutualAddress());
-  const { onApprove: onApproveForIA } = useTokenApprove(getInsureAceAddress());
+  const cvrBalance = useTokenBalance();
+  const { onApprove: onApproveCVRForNM } = useTokenApprove(getNexusMutualAddress());
+  const { onApprove: onApproveCVRForIA } = useTokenApprove(getInsureAceAddress());
+  const { onApprove: onApproveTokenForNM } = useTokenApprove(getNexusMutualAddress(), token);
+  const { onApprove: onApproveTokenForIA } = useTokenApprove(getInsureAceAddress(), token);
   const { onNMStake, onIAStake } = useStakeForCover();
 
-  const { crvAllowance: crvAllowanceForNM, handleAllowance: handleAllowanceForNM } =
+  const { cvrAllowance: cvrAllowanceForNM, handleAllowance: handleCVRAllowanceForNM } =
     useGetAllowanceOfToken(getNexusMutualAddress());
-  const { crvAllowance: crvAllowanceForIA, handleAllowance: handleAllowanceForIA } =
+  const { cvrAllowance: cvrAllowanceForIA, handleAllowance: handleCVRAllowanceForIA } =
     useGetAllowanceOfToken(getInsureAceAddress());
 
-  const crvAllowance = useMemo(() => {
+  const { cvrAllowance: tokenAllowanceForNM, handleAllowance: handleTokenAllowanceForNM } =
+    useGetAllowanceOfToken(getNexusMutualAddress(), token);
+  const { cvrAllowance: tokenAllowanceForIA, handleAllowance: handleTokenAllowanceForIA } =
+    useGetAllowanceOfToken(getInsureAceAddress(), token);
+
+  const cvrAllowance = useMemo(() => {
     const { company_code } = product;
     if (company_code === 'nexus') {
-      return crvAllowanceForNM;
+      return cvrAllowanceForNM;
     }
     if (company_code === 'insurace') {
-      return crvAllowanceForIA;
+      return cvrAllowanceForIA;
     }
     return false;
-  }, [product, crvAllowanceForNM, crvAllowanceForIA]);
+  }, [product, cvrAllowanceForNM, cvrAllowanceForIA]);
+
+  const tokenAllowance = useMemo(() => {
+    const { company_code } = product;
+    if (company_code === 'nexus') {
+      return tokenAllowanceForNM;
+    }
+    if (company_code === 'insurace') {
+      return tokenAllowanceForIA;
+    }
+    return false;
+  }, [product, tokenAllowanceForNM, tokenAllowanceForIA]);
 
   useEffect(() => {
-    handleAllowanceForNM();
-    handleAllowanceForIA();
+    handleCVRAllowanceForNM();
+    handleCVRAllowanceForIA();
+    handleTokenAllowanceForNM();
+    handleTokenAllowanceForIA();
     setTitle('Confirmation');
     setMaxWidth('max-w-lg');
 
@@ -79,29 +103,26 @@ const CoverBuyConfirmModal = (props) => {
     };
   }, []);
 
-  const [quoteInUSD, setQuoteInUSD] = useState(0);
-
-  useEffect(() => {
-    (async () => {
-      const quoteInUSD = await getNeededTokenAmount(usdcAddress, ethAddress, quote);
-      setQuoteInUSD(getBalanceNumber(quoteInUSD));
-    })();
-  }, [quote]);
-
   const discountAmount = useMemo(() => {
-    const discount = (+quoteInUSD * 25) / 100;
+    const discount = (+quote * 25) / 100;
     return applyDiscount ? discount : 0;
-  }, [quoteInUSD, applyDiscount]);
+  }, [quote, applyDiscount]);
 
   const total = useMemo(() => {
-    return +(+quoteInUSD).toFixed(3) - +discountAmount.toFixed(3);
-  }, [quoteInUSD, discountAmount]);
+    return +(+quote).toFixed(5) - +discountAmount.toFixed(5);
+  }, [quote, discountAmount]);
 
   useEffect(() => {
     (async () => {
       if (applyDiscount) {
-        const crvAmount = await getNeededTokenAmount(crvAddress, usdcAddress, quoteInUSD);
-        setCrvAmount(crvAmount);
+        const token0 = cvrAddress;
+        const token1 = getTokenAddress(token);
+        if (token0 === token1) {
+          setCvrAmount(total);
+        } else {
+          const cvrAmount = await getNeededTokenAmount(token0, token1, quote);
+          setCvrAmount(getBalanceNumber(cvrAmount));
+        }
       }
     })();
   }, [total, applyDiscount]);
@@ -114,20 +135,22 @@ const CoverBuyConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
-    const ethAmount = await getNeededTokenAmount(ethAddress, usdcAddress, total);
-    if (
-      !applyDiscount &&
-      getBalanceNumber(ethAmount) + 0.01 >= getBalanceNumber(ethBalance.balance)
-    ) {
-      toast.warning('Insufficient ETH balance!');
-      setIsNotCloseable(false);
-      return;
-    }
-    if (applyDiscount && getBalanceNumber(crvAmount) >= getBalanceNumber(crvBalance.balance)) {
+
+    if (applyDiscount && cvrAmount >= getBalanceNumber(cvrBalance.balance)) {
       toast.warning('Insufficient CVR balance!');
       setIsNotCloseable(false);
       return;
     }
+
+    if (
+      !applyDiscount &&
+      total >= getBalanceNumber(token === 'ETH' ? ethBalance.balance : token0Balance.balance)
+    ) {
+      toast.warning(`Insufficient ${token} balance!`);
+      setIsNotCloseable(false);
+      return;
+    }
+
     if (!quote || !quoteDetail) {
       toast.warning('Cover quote info is not loaded correctly.');
       setIsNotCloseable(false);
@@ -144,29 +167,13 @@ const CoverBuyConfirmModal = (props) => {
         type: product.type,
         duration_days: period,
         chain: 'ethereum',
-        crypto_currency: amountSelect || 'ETH',
-        crypto_amount: amountField,
+        crypto_currency: currency || 'ETH',
+        crypto_amount: coverAmount,
         wallet_address: account,
       };
       let transaction = null;
       if (company_code === 'nexus') {
         // Buy Nexus Mutual Cover
-        if (applyDiscount && !crvAllowanceForNM) {
-          try {
-            const result = await onApproveForNM();
-            await handleAllowanceForNM();
-            if (result) {
-              toast.success('CVR token approved.');
-            } else {
-              toast.warning('CVR token approving failed.');
-            }
-          } catch (e) {
-            setTxPending(false);
-            toast.warning('CVR token approving rejected.');
-            console.error(e);
-          }
-        }
-
         const data = ethers.utils.defaultAbiCoder.encode(
           ['uint', 'uint', 'uint', 'uint', 'uint8', 'bytes32', 'bytes32'],
           [
@@ -182,8 +189,8 @@ const CoverBuyConfirmModal = (props) => {
         transaction = await onNMStake(
           {
             contractAddress: product.address,
-            coverAsset: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', // ETH stands address
-            sumAssured: ethers.utils.parseEther(amountField),
+            coverAsset: ETH_ADDRESS, // ETH stands address
+            sumAssured: ethers.utils.parseEther(coverAmount),
             coverPeriod: period,
             coverType: 0,
             data,
@@ -192,21 +199,6 @@ const CoverBuyConfirmModal = (props) => {
         );
       } else if (company_code === 'insurace') {
         // Buy InsuareAce Cover
-        if (applyDiscount && !crvAllowanceForIA) {
-          try {
-            const result = await onApproveForIA();
-            await handleAllowanceForIA();
-            if (result) {
-              toast.success('CVR token approved.');
-            } else {
-              toast.warning('CVR token approving failed.');
-            }
-          } catch (e) {
-            setTxPending(false);
-            toast.warning('CVR token approving rejected.');
-            console.error(e);
-          }
-        }
         const confirmInfo = await axiosPost(`${API_BASE_URL}/company/insurace/confirm-premium`, {
           ...quoteDetail,
           chain: 'ETH',
@@ -215,6 +207,7 @@ const CoverBuyConfirmModal = (props) => {
         transaction = await onIAStake(
           {
             data: confirmInfo?.data?.data,
+            token: token0,
             premium: quoteDetail.premiumAmount,
           },
           applyDiscount,
@@ -248,12 +241,83 @@ const CoverBuyConfirmModal = (props) => {
     setIsNotCloseable(false);
   };
 
+  const onApproveCVR = async () => {
+    const { company_code } = product;
+    if (company_code === 'nexus') {
+      try {
+        const result = await onApproveCVRForNM();
+        await handleCVRAllowanceForNM();
+        if (result) {
+          toast.success('CVR token approved.');
+        } else {
+          toast.warning('CVR token approving failed.');
+        }
+      } catch (e) {
+        setTxPending(false);
+        toast.warning('CVR token approving rejected.');
+        console.error(e);
+      }
+    } else if (company_code === 'insurace') {
+      try {
+        const result = await onApproveCVRForIA();
+        await handleCVRAllowanceForIA();
+        if (result) {
+          toast.success('CVR token approved.');
+        } else {
+          toast.warning('CVR token approving failed.');
+        }
+      } catch (e) {
+        setTxPending(false);
+        toast.warning('CVR token approving rejected.');
+        console.error(e);
+      }
+    } else {
+      toast.warning('Unsupported type of product cover.');
+    }
+  };
+
+  const onApproveToken = async () => {
+    const { company_code } = product;
+    if (company_code === 'nexus') {
+      try {
+        const result = await onApproveTokenForNM();
+        await handleTokenAllowanceForNM();
+        if (result) {
+          toast.success(`${token} token approved.`);
+        } else {
+          toast.warning(`${token} token approving failed.`);
+        }
+      } catch (e) {
+        setTxPending(false);
+        toast.warning(`${token} token approving rejected.`);
+        console.error(e);
+      }
+    } else if (company_code === 'insurace') {
+      try {
+        const result = await onApproveTokenForIA();
+        await handleTokenAllowanceForIA();
+        if (result) {
+          toast.success(`${token} token approved.`);
+        } else {
+          toast.warning(`${token} token approving failed.`);
+        }
+      } catch (e) {
+        setTxPending(false);
+        toast.warning(`${token} token approving rejected.`);
+        console.error(e);
+      }
+    } else {
+      toast.warning('Unsupported type of product cover.');
+    }
+  };
   return (
     <>
       <div>
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Premium</h5>
-          <h5 className="text-body-lg font-medium">{quoteInUSD.toFixed(3)} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {quote.toFixed(5)} {token}
+          </h5>
         </div>
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
@@ -262,22 +326,28 @@ const CoverBuyConfirmModal = (props) => {
             name="applyDiscount"
             className="form-checkbox text-primary-gd-1 focus:ring-offset-0 duration-500"
             checked={applyDiscount}
-            onChange={() => setApplyDiscount(!applyDiscount)}
+            onChange={() => {
+              if (token0 !== cvrAddress) setApplyDiscount(!applyDiscount);
+            }}
           />
         </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Discount</h5>
-          <h5 className="text-body-lg font-medium">{discountAmount.toFixed(3)} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {discountAmount.toFixed(5)} {token}
+          </h5>
         </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Total</h5>
-          <h5 className="text-body-lg font-medium">{total.toFixed(3)} USD</h5>
+          <h5 className="text-body-lg font-medium">
+            {total.toFixed(5)} {token}
+          </h5>
         </div>
         {applyDiscount && (
           <div className="flex items-center justify-center w-full mt-2 dark:text-white">
-            <h5 className="text-h6 font-medium">{`${getBalanceNumber(crvAmount).toFixed(
+            <h5 className="text-h6 font-medium">{`${cvrAmount.toFixed(
               2,
             )} CVR will be used for payment`}</h5>
           </div>
@@ -285,12 +355,20 @@ const CoverBuyConfirmModal = (props) => {
         <div className="flex items-center justify-center w-full mt-6">
           <button
             type="button"
-            onClick={handleConfirm}
+            onClick={
+              token !== 'ETH' && !tokenAllowance
+                ? onApproveToken
+                : discountAmount > 0 && !cvrAllowance
+                ? onApproveCVR
+                : handleConfirm
+            }
             className="py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             {txPending ? (
               <Loading widthClass="w-4" heightClass="h-4" />
-            ) : discountAmount > 0 && !crvAllowance ? (
+            ) : token !== 'ETH' && !tokenAllowance ? (
+              `Approve ${token}`
+            ) : discountAmount > 0 && !cvrAllowance ? (
               'Approve CVR'
             ) : (
               'Confirm to Pay'

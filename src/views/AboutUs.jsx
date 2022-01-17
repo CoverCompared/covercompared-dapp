@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import uniqid from 'uniqid';
 import { logEvent } from 'firebase/analytics';
 
 import { analytics } from '../config/firebase';
 import PhaseCard from '../components/PhaseCard';
+import { ThemeContext } from '../themeContext';
 
 import PointIcon from '../assets/img/blue-point.svg';
 import Allianz from '../assets/img/allianz.svg';
 import AIGLogo from '../assets/img/aig-logo.svg';
 import NextCare from '../assets/img/Nextcare.svg';
 import GlobalIcon from '../assets/img/manifesto-global-icon.svg';
+import GlobalIconDark from '../assets/img/manifesto-global-icon-dark.svg';
 import VisionIcon from '../assets/img/manifesto-vision-icon.svg';
 import ArrowFrame from '../assets/img/about-polkacover-frames.gif';
 import PhaseIcon1 from '../assets/img/phase-icon-1.png';
@@ -61,6 +63,8 @@ const PhaseArr = [
   },
 ];
 const AboutUs = () => {
+  const { theme } = useContext(ThemeContext);
+
   useEffect(() => {
     logEvent(analytics, 'View - About Us');
   }, []);
@@ -205,7 +209,12 @@ const AboutUs = () => {
         Our Manifesto
       </div>
       <div className="flex justify-center">
-        <img loading="lazy" src={GlobalIcon} className="text-center" alt="" />
+        <img
+          loading="lazy"
+          src={theme === 'light' ? GlobalIcon : GlobalIcon}
+          className="text-center"
+          alt=""
+        />
       </div>
       <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-4">
         &quot;Be the change you want to see in the world&quot;

@@ -5,7 +5,24 @@ import GithubIcon from '../assets/img/github.svg';
 import GitbookIcon from '../assets/img/gitbook.svg';
 import TwitterIcon from '../assets/img/twitter.svg';
 
-export const socialMediaLinks1 = [];
+export const mso_countries = [
+  { value: 'SWE', label: 'Switzerland' },
+  { value: 'TUR', label: 'Turkey' },
+  { value: 'POL', label: 'Poland' },
+  { value: 'KEN', label: 'Kenya' },
+  { value: 'NER', label: 'Nigeria' },
+  { value: 'EST', label: 'Estonia' },
+  { value: 'DEU', label: 'Germany' },
+  { value: 'SVN', label: 'Slovenia' },
+  { value: 'ZAF', label: 'South Africa' },
+  { value: 'RUS', label: 'Russia' },
+  { value: 'ARE', label: 'UAE' },
+  { value: 'BHR', label: 'Bahrain' },
+  { value: 'OMN', label: 'Oman' },
+  { value: 'KWT', label: 'Kuwait' },
+  { value: 'SAU', label: 'Saudi Arabia' },
+  { value: 'QAT', label: 'Qatar' },
+];
 
 export const socialMediaLinks = [
   { href: 'https://t.me/CoverCompared', name: 'Telegram', icon: TelegramIcon },

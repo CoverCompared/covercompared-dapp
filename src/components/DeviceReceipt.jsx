@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   topLogo: {
-    width: 100,
+    width: 110,
   },
   p4lLogo: {
     width: '90pt',

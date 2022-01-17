@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import { shortenTxHash } from '../utils';
+import { mso_countries } from '../functions/data';
 
 const MSOReceiptCard = (props) => {
   const {
@@ -38,7 +39,7 @@ const MSOReceiptCard = (props) => {
       <div className="bg-white rounded-lg mt-8 w-full md:p-8 px-4 py-6 shadow-lg">
         <div className="flex justify-between">
           <div className="flex">
-            <img loading="lazy" src={CoverComparedLogo} alt="CoverCompared" className="h-10" />
+            <img loading="lazy" src={CoverComparedLogo} alt="CoverCompared" className="h-14" />
             <img loading="lazy" src={logo} alt="MSO" className="h-14 ml-2" />
           </div>
           <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">
@@ -115,7 +116,7 @@ const MSOReceiptCard = (props) => {
                 {member.lastName || member.last_name || ''}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
-                {member.country}
+                {mso_countries.find((f) => f.value === member.country)?.label || ''}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
                 {dayjs(member.dob).format('DD/MM/YYYY')}

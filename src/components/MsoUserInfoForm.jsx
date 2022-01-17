@@ -8,6 +8,7 @@ import FormInput from './FormInput';
 import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
 import { resetDeviceInsurance } from '../redux/actions/DeviceInsurance';
 import Alert from './common/Alert';
+import { mso_countries } from '../functions/data';
 
 const MsoUserInfoForm = (props) => {
   // remove default values from below object once response is in this format
@@ -21,7 +22,6 @@ const MsoUserInfoForm = (props) => {
     mainMemberParents,
     spouseParents,
     totalUsers,
-    countries,
     handleBuyNow,
   } = props;
   const dispatch = useDispatch();
@@ -327,7 +327,7 @@ const MsoUserInfoForm = (props) => {
                       disabled={notRegistered}
                       required
                       isDropdown
-                      dropdownOptions={initial(countries)}
+                      dropdownOptions={initial(mso_countries)}
                     />
                   </td>
                   <td className="py-1 text-ms font-semibold border min-w-40">

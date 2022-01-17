@@ -267,7 +267,7 @@ const SwapCurrency = () => {
     });
   }, [chainId]);
   const [independentField, setIndependentField] = useState('INPUT');
-  const [typedValue, setTypedValue] = useState(0);
+  const [typedValue, setTypedValue] = useState('');
   const dependentField = useMemo(() => {
     return independentField === 'INPUT' ? 'OUTPUT' : 'INPUT';
   }, [independentField]);
@@ -295,7 +295,7 @@ const SwapCurrency = () => {
   };
   const formattedAmounts = {
     [independentField]: typedValue,
-    [dependentField]: parsedAmounts[dependentField]?.toSignificant(6) ?? '0',
+    [dependentField]: parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   };
   const slippageTolerance = new Percent('50', '10000');
   const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
@@ -363,8 +363,10 @@ const SwapCurrency = () => {
                     {currencies.INPUT.symbol}
                   </div>
                   <input
-                    type="text"
-                    name=""
+                    autoFocus
+                    type="number"
+                    name="cur1"
+                    placeholder="Amount"
                     value={formattedAmounts.INPUT}
                     onChange={(e) => onTypeInput(e.target.value)}
                     className="text-dark-blue font-Montserrat font-semibold text-body-md w-full h-5 pr-0 py-0 text-right border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0 outline-none bg-transparent"
@@ -382,8 +384,8 @@ const SwapCurrency = () => {
                     {currencies.OUTPUT.symbol}
                   </div>
                   <input
-                    type="text"
-                    name=""
+                    type="number"
+                    name="cur2"
                     value={formattedAmounts.OUTPUT}
                     onChange={(e) => onTypeOutput(e.target.value)}
                     className="text-dark-blue font-Montserrat font-semibold text-body-md w-full h-5 pr-0 py-0 text-right border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0 outline-none bg-transparent"

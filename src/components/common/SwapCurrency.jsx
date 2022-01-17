@@ -363,8 +363,10 @@ const SwapCurrency = () => {
                     {currencies.INPUT.symbol}
                   </div>
                   <input
+                    autoFocus
                     type="number"
-                    name=""
+                    name="cur1"
+                    placeholder="Amount"
                     value={formattedAmounts.INPUT}
                     onChange={(e) => onTypeInput(e.target.value)}
                     className="text-dark-blue font-Montserrat font-semibold text-body-md w-full h-5 pr-0 py-0 text-right border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0 outline-none bg-transparent"
@@ -383,7 +385,7 @@ const SwapCurrency = () => {
                   </div>
                   <input
                     type="number"
-                    name=""
+                    name="cur2"
                     value={formattedAmounts.OUTPUT}
                     onChange={(e) => onTypeOutput(e.target.value)}
                     className="text-dark-blue font-Montserrat font-semibold text-body-md w-full h-5 pr-0 py-0 text-right border-none focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0 outline-none bg-transparent"

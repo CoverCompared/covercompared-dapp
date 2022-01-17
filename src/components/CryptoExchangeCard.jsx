@@ -27,16 +27,16 @@ const CryptoExchangeCard = ({ policy }) => {
   const { getPayoutOutcome, onNMRedeemClaim } = useClaimForCover();
   const [claimId, setClaimId] = useState(null);
   useEffect(() => {
-    const fetch = () => {
-      const timer = setTimeout(async () => {
-        const { status, amountPaid, coverAsset } = await getPayoutOutcome(claimId);
-        if (status === 'passed') {
-          setRedeemable(true);
-        } else {
-          fetch();
-        }
-      }, 1000);
-    };
+    // const fetch = () => {
+    //   const timer = setTimeout(async () => {
+    //     const { status, amountPaid, coverAsset } = await getPayoutOutcome(claimId);
+    //     if (status === 'passed') {
+    //       setRedeemable(true);
+    //     } else {
+    //       fetch();
+    //     }
+    //   }, 1000);
+    // };
   }, [claimId]);
 
   const onSubmitted = (claimId) => {

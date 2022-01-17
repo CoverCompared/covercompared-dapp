@@ -28,12 +28,6 @@ const SmartContractCard = ({ policy }) => {
   const { getPayoutOutcome, onNMRedeemClaim } = useClaimForCover();
   const [claimId, setClaimId] = useState(null);
   useEffect(() => {
-    if (claimId) {
-      (async () => {
-        const result = await getPayoutOutcome(claimId);
-        console.log('claim status: => ', result);
-      })();
-    }
     // const fetch = () => {
     //   const timer = setTimeout(async () => {
     //     const { status, amountPaid, coverAsset } = await getPayoutOutcome(claimId);

@@ -27,16 +27,16 @@ export const MORALIS_ID = 'rRG8PaL5SjENUXSdbo1q198qGwt7yA1U74iUY1WW';
 export const SERVER_URL = 'https://hcufrn0eqoj1.usemoralis.com:2053/server';
 
 export const BICONOMY_API_KEY = {
-  1: '',
+  1: 'r4mYHeKJe.f0ce328f-90d3-452e-898f-c24c36ccbf79',
   4: 'TfBMzaWNW.fc5afe00-0108-40e3-8fe5-a1110594ca8d',
   42: 'hmIyM_AsF.ce90fe45-efc4-4bcf-87e2-a49863d8219c',
 };
 
 export const PRODUCT_CHAIN = {
-  nexus: 42,
-  insurace: 4,
-  mso: 4,
-  p4l: 4,
+  nexus: 1,
+  insurace: 1,
+  mso: 1,
+  p4l: 1,
 };
 
 export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';

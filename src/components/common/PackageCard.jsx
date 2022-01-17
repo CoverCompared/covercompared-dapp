@@ -33,9 +33,8 @@ const PackageCard = (props) => {
     quote_chain,
     supportedChains,
     quote_currency,
-    product_id,
   } = props;
-  console.log(props);
+
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
@@ -45,7 +44,6 @@ const PackageCard = (props) => {
     const res = await axiosPost(`${API_BASE_URL}/cover-capacity`, {
       address,
       company: company_code,
-      product_id,
     });
     setLoading(false);
     const capacity = res?.data?.data.capacity || {};

@@ -12,14 +12,7 @@ const submitRedeem = async (contract, param) => {
   return res;
 };
 
-const getPayoutOutcome = async (contract, param) => {
-  const { claimId } = param;
-  const result = await contract.getPayoutOutcome();
-  return result;
-};
-
 export default {
   submitClaim,
   submitRedeem,
-  getPayoutOutcome,
 };

@@ -34,7 +34,6 @@ const SmallPackageCard = (props) => {
     duration_days_min,
     min_eth,
     quote_currency,
-    product_id,
   } = props;
 
   const history = useHistory();
@@ -46,7 +45,6 @@ const SmallPackageCard = (props) => {
     const res = await axiosPost(`${API_BASE_URL}/cover-capacity`, {
       address,
       company: company_code,
-      product_id,
     });
     setLoading(false);
     const capacity = res?.data?.data.capacity || {};

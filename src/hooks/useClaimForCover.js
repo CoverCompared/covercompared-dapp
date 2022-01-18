@@ -27,6 +27,14 @@ const useClaimForCover = () => {
     [library, distributorContract, account],
   );
 
+  const handleGetPayoutOutcome = useCallback(
+    async (claimId) => {
+      const result = await distributor.getPayoutOutcome(distributorContract, { claimId });
+      return { ...result };
+    },
+    [library, distributorContract, account],
+  );
+
   const handleSubmitCAVote = useCallback(
     async (claimId) => {
       const result = await claims.submitCAVote(claimContract, { claimId });
@@ -56,6 +64,7 @@ const useClaimForCover = () => {
     onNMRedeemClaim: handleRedeemForNexus,
     onSubmitCAVote: handleSubmitCAVote,
     getCheckVoteClosing: handleGetCheckVoteClosing,
+    getPayoutOutcome: handleGetPayoutOutcome,
     onCloseClaim: handleCloseClaim,
   };
 };

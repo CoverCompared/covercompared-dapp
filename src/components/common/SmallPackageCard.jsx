@@ -52,8 +52,7 @@ const SmallPackageCard = (props) => {
     const capacity = res?.data?.data.capacity || {};
 
     let hasCapacity = false;
-    if (!res?.data?.data.capacity) hasCapacity = false;
-    else if (typeof capacity === 'object') hasCapacity = Math.min(...Object.values(capacity)) > 0;
+    if (typeof capacity === 'object') hasCapacity = Math.min(...Object.values(capacity)) > 0;
     else if (company_code !== 'nexus') hasCapacity = true;
 
     if (!account) {

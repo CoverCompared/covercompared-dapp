@@ -38,7 +38,7 @@ const Subscribe = () => {
         <div className="md:rounded-2xl rounded-3xl bg-gradient-to-r from-global-banner-gd-1 to-global-banner-gd-2">
           <div className="md:px-20 px-6 md:py-12 py-10 bg-subscribeBannerBg bg-no-repeat bg-100%">
             <div className="text-center px-10 text-white font-Montserrat font-extrabold md:text-h1 text-h2">
-              DON&apos;T MISS THIS !!
+              DONT MISS THIS !!
             </div>
             <div className="text-center px-10 md:px-0 m-0.5 md:mb-7 mb-10 text-white font-Montserrat md:text-body-lg text-body-md md:leading-5">
               Enter your mail to get project update.

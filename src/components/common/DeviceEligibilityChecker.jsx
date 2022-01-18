@@ -6,23 +6,17 @@ import { CheckCircleIcon } from '@heroicons/react/outline';
 import { submitUserCountry } from '../../redux/actions/EligibilityChecker';
 
 const countries = [
-  { value: 'UAE', label: 'UAE', code: 'ae' },
-  { value: 'QAT', label: 'Qatar', code: 'qa' },
-  { value: 'OMN', label: 'Oman', code: 'om' },
-  { value: 'KWT', label: 'Kuwait', code: 'kw' },
-  { value: 'USA', label: 'USA', code: 'us' },
-  { value: 'BHR', label: 'Bahrain', code: 'bh' },
-  { value: 'SAU', label: 'Saudi Arabia', code: 'sa' },
-  { value: 'NOT', label: 'None of Them', code: '' },
+  { value: 'UAE', label: 'UAE' },
+  { value: 'QAT', label: 'Qatar' },
+  { value: 'OMN', label: 'Oman' },
+  { value: 'KWT', label: 'Kuwait' },
+  { value: 'USA', label: 'USA' },
+  { value: 'BHR', label: 'Bahrain' },
+  { value: 'SAU', label: 'Saudi Arabia' },
+  { value: 'NOT', label: 'None of Them' },
 ];
 
-const DeviceEligibilityChecker = ({
-  setIsModalOpen,
-  setIsEligible,
-  onClose,
-  setTitle,
-  setParentCountry,
-}) => {
+const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitle }) => {
   const dispatch = useDispatch();
 
   const [country, setCountry] = useState('');
@@ -46,7 +40,7 @@ const DeviceEligibilityChecker = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setParentCountry && setParentCountry(country);
+
     if (userCountry && userEmail) {
       setShowSuccess(true);
       setTitle('');

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import { CheckIcon } from '@heroicons/react/outline';
@@ -6,6 +6,8 @@ import { useWeb3React } from '@web3-react/core';
 import { PDFViewer } from '@react-pdf/renderer';
 import { toast } from 'react-toastify';
 import { logEvent } from 'firebase/analytics';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 import { analytics } from '../config/firebase';
 import Alert from './common/Alert';
@@ -35,13 +37,15 @@ import {
 } from '../redux/actions/DeviceInsurance';
 import { classNames } from '../functions/utils';
 import useStakeForDevice, { useStakeForDeviceByToken } from '../hooks/useStakeForDevice';
+import { ThemeContext } from '../themeContext';
 import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenApprove from '../hooks/useTokenApprove';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
 import useTokenAmount from '../hooks/useTokenAmount';
-import { getBalanceNumber } from '../utils/formatBalance';
+import { getBalanceNumber, getDecimalAmount } from '../utils/formatBalance';
 import useAddress from '../hooks/useAddress';
+// import { PhoneInput } from './common/PhoneInput';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 
@@ -68,6 +72,7 @@ const DeviceBuyBox = (props) => {
     isFailed: deviceIsFailed,
   } = useSelector((state) => state.deviceInsurance);
 
+  const { theme } = useContext(ThemeContext);
   const [showAlert, setShowAlert] = useState(false);
   const [alertText, setAlertText] = useState('');
   const [alertType, setAlertType] = useState('');
@@ -82,6 +87,7 @@ const DeviceBuyBox = (props) => {
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
   const [phone, setPhone] = useState('');
+  const [defaultCountry, setDefaultCountry] = useState(props.parentCountry || '');
   const [email, setEmail] = useState('');
   const [imeiOrSerial, setImeiOrSerial] = useState('');
   const [purchaseDate, setPurchaseDate] = useState('');
@@ -118,7 +124,6 @@ const DeviceBuyBox = (props) => {
   const tokenBalance = useTokenBalance(currency);
 
   const tokenPrice = useAssetsUsdPrice(currency);
-  const cvrPrice = useAssetsUsdPrice('cvr');
 
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
   const hasFirstTwoStep = hasFirstStep && planType;
@@ -140,7 +145,7 @@ const DeviceBuyBox = (props) => {
 
   useEffect(() => {
     handleTokenAllowance();
-  }, []);
+  }, [currency]);
 
   useEffect(() => {
     dispatch(resetDeviceInsurance());
@@ -283,7 +288,7 @@ const DeviceBuyBox = (props) => {
           const result =
             currency !== 'ETH'
               ? await onStakeByToken({ ...param, token: getTokenAddress(currency) }, signature)
-              : await onStake(param, ethAmount.toString(), signature);
+              : await onStake(param, getDecimalAmount(ethAmount).toString(), signature);
 
           if (result.status) {
             dispatch(
@@ -350,7 +355,7 @@ const DeviceBuyBox = (props) => {
 
     let coverAmount;
     let balance;
-
+    let decimals = 18;
     if (currency === 'ETH') {
       coverAmount = await getETHAmountForUSDC(plan_total_price);
       balance = ethBalance.balance;
@@ -362,9 +367,10 @@ const DeviceBuyBox = (props) => {
       const usdc = getTokenAddress('usdc');
       coverAmount = await getNeededTokenAmount(token, usdc, plan_total_price);
       balance = tokenBalance.balance;
+      decimals = tokenBalance.decimals;
     }
 
-    if (getBalanceNumber(coverAmount) >= getBalanceNumber(balance)) {
+    if (coverAmount >= getBalanceNumber(balance, decimals)) {
       toast.warning(`Insufficient ${currency} balance!`);
       setTxPending(false);
       setIsNotCloseable(false);
@@ -396,6 +402,7 @@ const DeviceBuyBox = (props) => {
   };
 
   const onApproveToken = async () => {
+    setTxPending(true);
     try {
       const result = await onApprove();
       await handleTokenAllowance();
@@ -532,14 +539,6 @@ const DeviceBuyBox = (props) => {
             <Alert type="danger" text={deviceMessage} onClose={() => setShowAlert(false)} />
           </div>
         )}
-        <div className="flex items-center justify-between w-full dark:text-white">
-          <h5 className="text-h6 font-medium">
-            Premium Per {plan_type === 'yearly' ? 'Year' : 'Month'}
-          </h5>
-          <h5 className="text-body-lg font-medium">
-            {(plan_total_price / tokenPrice).toFixed(3)} {currency}
-          </h5>
-        </div>
         <CurrencySelect
           {...{
             negativeLeft: false,
@@ -549,6 +548,14 @@ const DeviceBuyBox = (props) => {
             setSelectedOption: setCurrency,
           }}
         />
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">
+            Premium Per {plan_type === 'yearly' ? 'Year' : 'Month'}
+          </h5>
+          <h5 className="text-body-lg font-medium">
+            {(plan_total_price / tokenPrice).toFixed(3)} {currency}
+          </h5>
+        </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Discount</h5>
@@ -640,7 +647,33 @@ const DeviceBuyBox = (props) => {
               <label htmlFor="mobile" className="ml-1 text-body-md text-black dark:text-white">
                 Mobile
               </label>
-              <input
+              <PhoneInput
+                inputProps={{
+                  name: 'mobile',
+                  required: true,
+                }}
+                // type="tel"
+                // pattern="\d*"
+                specialLabel=""
+                country={defaultCountry.code}
+                title="Only numbers allowed"
+                placeholder="Mobile"
+                value={phone}
+                withDarkTheme
+                onChange={(e) => {
+                  setPhone(e);
+                }}
+                dropdownClass={`${theme === 'light' ? '' : 'dark-country-list'}`}
+                inputClass={`${
+                  theme === 'light' ? 'light-border ' : 'dark-form-control'
+                } w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0`}
+                buttonClass={`${
+                  theme === 'light'
+                    ? 'light-flag-dropdown-border'
+                    : 'dark-flag-dropdown dark-flag-dropdown.open'
+                } outline-none border-0 rounded-xl rounded-r-none dark:text-white font-Montserrat font-semibold md:text-h6 text-body-md disabled:cursor-default`}
+              />
+              {/* <input
                 required
                 type="tel"
                 pattern="\d*"
@@ -650,7 +683,7 @@ const DeviceBuyBox = (props) => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-              />
+              /> */}
             </div>
             <div>
               <label htmlFor="email" className="ml-1 text-body-md text-black dark:text-white">
@@ -745,7 +778,7 @@ const DeviceBuyBox = (props) => {
                     type="button"
                     onClick={handleSubmitEmail}
                     disabled={!notRegistered}
-                    className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                    className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default dark:text-white"
                   >
                     Send verification OTP
                   </button>
@@ -766,7 +799,7 @@ const DeviceBuyBox = (props) => {
                     type="button"
                     onClick={handleSubmitOTP}
                     disabled={!showOTPScreen || !emailSubmitted || !notRegistered}
-                    className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                    className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default dark:text-white"
                   >
                     Verify OTP
                   </button>

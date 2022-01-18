@@ -16,7 +16,7 @@ const useAssetsUsdPrice = (assetSymbol) => {
       const tokenDecimal = await tokenContract.decimals();
       const oneInWei = getDecimalAmount(1, tokenDecimal).toFixed();
       const res = await priceFeedContract.consult(tokenAddress, oneInWei);
-      setAssetPrice(res ? ethers.utils.formatEther(res) : 0);
+      setAssetPrice(res ? getBalanceNumber(res.toString(), 6) : 0);
     };
     getPrice();
   }, [assetSymbol]);

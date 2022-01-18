@@ -1,19 +1,14 @@
 import { ethers } from 'ethers';
 import { metaCall } from '../biconomy';
 import nexusMutualAbi from '../../config/abi/nexusMutualAbi.json';
+import { callWithEstimateGas, callWithEstimateGasPayable } from './estimateGas';
 import { PRODUCT_CHAIN } from '../../config';
 
 const getProductPrice = async (contract, param) => {
   const { contractAddress, coverAsset, sumAssured, coverPeriod, coverType, data } = param;
+  const funParam = [contractAddress, coverAsset, sumAssured, coverPeriod, coverType, data];
   try {
-    const result = await contract.getProductPrice(
-      contractAddress,
-      coverAsset,
-      sumAssured,
-      coverPeriod,
-      coverType,
-      data,
-    );
+    const result = await callWithEstimateGas(contract, 'getProductPrice', funParam);
     return result;
   } catch (error) {
     console.error(error);
@@ -24,7 +19,7 @@ const getProductPrice = async (contract, param) => {
 const buyCoverByETH = async (contract, param) => {
   const { contractAddress, coverAsset, sumAssured, coverPeriod, coverType, maxPriceWithFee, data } =
     param;
-  const tx = await contract.buyCoverByETH(
+  const funParam = [
     contractAddress,
     coverAsset,
     sumAssured,
@@ -32,8 +27,8 @@ const buyCoverByETH = async (contract, param) => {
     coverType,
     maxPriceWithFee,
     data,
-    { value: maxPriceWithFee },
-  );
+  ];
+  const tx = await callWithEstimateGasPayable(contract, 'buyCoverByETH', maxPriceWithFee, funParam);
   return tx;
 };
 
@@ -49,17 +44,25 @@ const buyCoverByToken = async (contract, account, signer, param) => {
     data,
   } = param;
   const contractInterface = new ethers.utils.Interface(nexusMutualAbi);
-  const tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.nexus, {
-    name: 'buyCoverByToken',
-    params: [
-      [token, contractAddress, coverAsset],
-      sumAssured,
-      coverPeriod,
-      coverType,
-      maxPriceWithFee,
-      data,
-    ],
-  });
+  const funParam = [
+    [token, contractAddress, coverAsset],
+    sumAssured,
+    coverPeriod,
+    coverType,
+    maxPriceWithFee,
+    data,
+  ];
+  let tx;
+  try {
+    tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.nexus, {
+      name: 'buyCoverByToken',
+      params: funParam,
+    });
+  } catch (error) {
+    if (error.code === 151) {
+      tx = await callWithEstimateGas(contract, 'buyCoverByToken', funParam);
+    }
+  }
   return tx;
 };
 

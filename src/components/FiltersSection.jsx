@@ -59,7 +59,7 @@ const options = {
   //   'Solana',
   //   'Arbitrum',
   // ],
-  currency_option: ['ETH', 'CVR', 'USDT', 'USDC', 'DAI', 'DOT'],
+  currency_option: ['ETH', 'CVR', 'USDT', 'USDC', 'DAI'],
   MSO_amount_opt: {
     min: 50,
     max: 115,
@@ -563,7 +563,7 @@ const FiltersSection = (props) => {
           >
             <div className="ml-auto relative max-w-xs w-full h-full bg-white dark:bg-sidebar-dark-bg shadow-xl pt-4 flex flex-col overflow-y-auto">
               <div className="px-4 flex items-center justify-between">
-                <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+                <h2 className="text-lg font-medium text-gray-900 dark:text-white">Filters</h2>
                 <div className="flex flex-row">
                   <button
                     type="button"
@@ -580,7 +580,7 @@ const FiltersSection = (props) => {
                     ref={filtersDialogRef}
                   >
                     <span className="sr-only">Close menu</span>
-                    <XIcon className="h-5 w-5" aria-hidden="true" />
+                    <XIcon className="h-5 w-5 dark:text-white" aria-hidden="true" />
                   </button>
                 </div>
               </div>

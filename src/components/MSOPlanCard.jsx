@@ -1,6 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
 import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
+import { PRODUCT_CHAIN } from '../config';
 import Modal from './common/Modal';
 import CountrySelector from './common/MsoCountrySelector';
 import MSOAdditionalDetails from './MSOAddtionalDetails';
@@ -74,7 +75,7 @@ const MSOPlanCard = (props) => {
       toast.warning('You need to login in advance!');
       return false;
     }
-    if (chainId !== 4) {
+    if (chainId !== PRODUCT_CHAIN.mso) {
       toast.warning('You need to switch over to correct network!');
       return false;
     }

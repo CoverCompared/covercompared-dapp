@@ -148,7 +148,7 @@ const routes = [
     pageName: 'MyAccount',
     withSidebar: true,
     component: MyAccount,
-    title: '',
+    title: 'My Account',
     bgImg: 'md:bg-commonSectionBg',
     mobileBgImg: 'bg-Mobile404Bg',
     bgImgClass: 'bg-100% bg-no-repeat bg-bottom',

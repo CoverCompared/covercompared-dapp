@@ -11,6 +11,7 @@ module.exports = {
       fontFamily: {
         Inter: ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
         Montserrat: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
+        // Roboto: ['Roboto', 'Helvetica', 'Arial', 'sans-serif'],
       },
       backgroundImage: {
         homeCardBg1: "url('./assets/bg-img/home-card-1.png')",

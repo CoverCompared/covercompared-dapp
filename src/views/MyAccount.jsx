@@ -27,8 +27,6 @@ import Loading from '../components/common/TxLoading';
 import p4lLogo from '../assets/img/p4l-logo.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import placeholderLogo from '../assets/img/placeholder.png';
-import SmartContractCard from '../components/SmartContractCard';
-import CryptoExchangeCard from '../components/CryptoExchangeCard';
 
 const DeviceCard = (props) => {
   return (
@@ -338,11 +336,183 @@ const MyAccount = (props) => {
   };
 
   const renderSmartContractCard = (policy, index) => {
-    return <SmartContractCard policy={policy} />;
+    const {
+      _id,
+      details,
+      logo = placeholderLogo,
+      crypto_amount,
+      crypto_currency,
+      txn_hash,
+      wallet_address,
+      review,
+      payment: { transaction_link } = {},
+    } = policy;
+    const { company_code, name, duration_days, token_id } = details;
+
+    const onSubmitted = () => {};
+
+    return (
+      <div
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl flex justify-between mb-4 relative"
+        key={_id}
+      >
+        <div className="flex items-center w-full">
+          <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
+            <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
+          </div>
+          <div className="flex flex-col">
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-row items-center">
+              <div>{`${name} - ${company_code} `}</div>
+            </div>
+            <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white">
+              {`${crypto_amount} ${crypto_currency} - ${duration_days} days`}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex sm:justify-end items-center min-w-max">
+          <button
+            type="button"
+            onClick={() => window.open(transaction_link, '_blank')}
+            className="p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text rounded-xl "
+          >
+            <LinkIcon title="Transaction details" className="w-5 h-5" />
+          </button>
+          {!review?.length && (
+            <button
+              type="button"
+              onClick={() => history.push(`submit-review/${_id}`)}
+              className="md:px-5 p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+            >
+              Submit Review
+            </button>
+          )}
+          {/* {company_code === 'nexus' && (
+            <button
+              disabled={(proofPending && nexusIndex === index) || token_id === undefined}
+              onClick={() => handleSubmitToClaim(policy, index)}
+              type="button"
+              className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg disabled:from-gray-200 disabled:to-gray-200 hover:from-primary-gd-1 hover:to-primary-gd-2 text-black font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+            >
+              {proofPending && nexusIndex === index ? (
+                <Loading widthClass="w-4" heightClass="h-4" />
+              ) : (
+                'Submit Claim'
+              )}
+            </button>
+          )} */}
+
+          {company_code === 'nexus' &&
+            // replace the true with condition which check whether claim is submitted or not
+            (true ? (
+              <Modal
+                title="Instruction"
+                bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
+                sizeClass="max-w-3xl"
+                renderComponent={() => (
+                  <ClaimCards policyId={token_id} walletAddress={wallet_address} />
+                )}
+                onSubmitted
+              >
+                <button
+                  type="button"
+                  className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+                >
+                  Submit Claim
+                </button>
+              </Modal>
+            ) : (
+              <button
+                type="button"
+                className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+              >
+                Redeem Claim
+              </button>
+            ))}
+        </div>
+      </div>
+    );
   };
 
   const renderCryptoExchangeCard = (policy) => {
-    return <CryptoExchangeCard policy={policy} />;
+    const {
+      _id,
+      details,
+      logo = placeholderLogo,
+      crypto_amount,
+      crypto_currency,
+      review,
+      wallet_address,
+      payment: { transaction_link } = {},
+    } = policy;
+    const { company_code, name, duration_days, token_id } = details;
+
+    return (
+      <div
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl flex flex-row justify-between mb-4 relative"
+        key={_id}
+      >
+        <div className="flex items-center h-full w-full">
+          <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
+            <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
+          </div>
+          <div className="flex flex-col">
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-row items-center">
+              <div>{`${name} - ${company_code} `}</div>
+            </div>
+            <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
+              {`${crypto_amount} ${crypto_currency} - ${duration_days} days`}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex sm:justify-end items-center min-w-max">
+          <button
+            type="button"
+            onClick={() => window.open(transaction_link, '_blank')}
+            className="p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text rounded-xl "
+          >
+            <LinkIcon title="Transaction details" className="w-5 h-5" />
+          </button>
+          {!review?.length && (
+            <button
+              type="button"
+              onClick={() => history.push(`submit-review/${_id}`)}
+              className="md:px-5 p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+            >
+              Submit Review
+            </button>
+          )}
+
+          {company_code === 'nexus' &&
+            // replace the true with condition which check whether claim is submitted or not
+            (true ? (
+              <Modal
+                title="Instruction"
+                bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
+                sizeClass="max-w-3xl"
+                renderComponent={() => (
+                  <ClaimCards policyId={token_id} walletAddress={wallet_address} />
+                )}
+              >
+                <button
+                  type="button"
+                  className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+                >
+                  Submit Claim
+                </button>
+              </Modal>
+            ) : (
+              <button
+                type="button"
+                className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+              >
+                Redeem Claim
+              </button>
+            ))}
+        </div>
+      </div>
+    );
   };
 
   return (

@@ -5,9 +5,6 @@ import { CheckIcon, ChevronUpIcon } from '@heroicons/react/solid';
 import { classNames } from '../../functions/utils';
 import { ThemeContext } from '../../themeContext';
 
-import DownArrow from '../../assets/img/Arrow-Down.svg';
-import DownArrowWhite from '../../assets/dark-icons/Arrow-Down.svg';
-
 export default function CurrencySelect({
   fieldTitle,
   options,
@@ -20,22 +17,17 @@ export default function CurrencySelect({
     <Listbox value={selectedOption} onChange={setSelectedOption}>
       {({ open }) => (
         <>
-          <div className="mt-1 relative rounded-xl border border-gray-300 p-1">
+          <div className="mt-1 relative">
             <Listbox.Button className="flex justify-between items-center relative w-full text-left focus:outline-none focus:ring-0 sm:text-sm">
-              <Listbox.Label className="flex items-center text-body-md font-medium font-semibold text-dark-blue dark:text-white cursor-pointer">
-                <div className="font-medium font-semibold text-body-md text-short-review-text dark:text-white">
+              <Listbox.Label className="flex items-center text-body-md font-Montserrat font-semibold text-dark-blue dark:text-white cursor-pointer">
+                <div className="font-Montserrat font-semibold text-body-md text-short-review-text dark:text-white">
                   Currency
                 </div>
               </Listbox.Label>
-              <Listbox.Label className="flex items-center text-body-md font-medium font-semibold text-dark-blue dark:text-white cursor-pointer">
-                <div className="font-medium font-semibold text-body-md text-short-review-text dark:text-white">
+              <Listbox.Label className="flex items-center text-body-md font-Montserrat font-semibold text-dark-blue dark:text-white cursor-pointer">
+                <div className="font-Montserrat font-semibold text-body-md text-short-review-text dark:text-white">
                   {!selectedOption ? fieldTitle : selectedOption?.option || selectedOption}
                 </div>
-                <img
-                  src={theme === 'light' ? DownArrow : DownArrowWhite}
-                  alt="Down Arrow"
-                  className={classNames(setSelectedOption ? '' : 'opacity-0', ' ml-1')}
-                />
               </Listbox.Label>
             </Listbox.Button>
 
@@ -58,7 +50,7 @@ export default function CurrencySelect({
                     className={({ active }) =>
                       classNames(
                         active ? 'bg-gray-100' : 'dark:text-white',
-                        'text-dark-blue cursor-default select-none relative py-2 pl-3 pr-9 font-semibold font-medium text-body-md',
+                        'text-dark-blue cursor-default select-none relative py-2 pl-3 pr-9 font-semibold font-Montserrat text-body-md',
                       )
                     }
                     value={item}
@@ -76,13 +68,13 @@ export default function CurrencySelect({
                           <span
                             className={classNames(
                               selected ? 'font-semibold' : 'font-normal',
-                              'ml-3 block truncate  font-semibold font-medium text-body-md',
+                              'ml-3 block truncate  font-semibold font-Montserrat text-body-md',
                             )}
                           >
                             {item?.option || item}
                           </span>
                           {(item?.option || item) === 'CVR' && (
-                            <span className="font-Medium font-medium text-body-3xs text-discount-text h-full px-3">
+                            <span className="font-Medium font-Montserrat text-body-3xs text-discount-text h-full px-3">
                               Use CVR to get 25% discount
                             </span>
                           )}

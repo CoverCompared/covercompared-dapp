@@ -77,13 +77,14 @@ const MsoCountrySelector = ({
   const tokenPrice = useAssetsUsdPrice(currency);
   // const tokenPrice = 1000;
 
+  console.log('token price: => ', tokenPrice, currency);
   const { onStake } = useStakeForMSO();
   const { onStakeByToken } = useStakeForMSOByToken();
   const { getETHAmountForUSDC, getTokenAmountForUSDC, getNeededTokenAmount } = useTokenAmount();
 
   useEffect(() => {
     handleTokenAllowance();
-  }, [currency]);
+  }, []);
 
   useEffect(() => {
     if (isFailed) setShowAlert(true);
@@ -142,7 +143,7 @@ const MsoCountrySelector = ({
           const result =
             currency !== 'ETH'
               ? await onStakeByToken({ ...param, token: getTokenAddress(currency) })
-              : await onStake(param, getDecimalAmount(ethAmount).toString());
+              : await onStake(param, ethAmount.toString());
           if (result.status) {
             dispatch(
               confirmBuyMsoInsurance({
@@ -204,7 +205,7 @@ const MsoCountrySelector = ({
 
     let coverAmount;
     let balance;
-    let decimals = 18;
+
     if (currency === 'ETH') {
       coverAmount = await getETHAmountForUSDC(quote);
       balance = ethBalance.balance;
@@ -216,10 +217,9 @@ const MsoCountrySelector = ({
       const usdc = getTokenAddress('usdc');
       coverAmount = await getNeededTokenAmount(token, usdc, quote);
       balance = tokenBalance.balance;
-      decimals = tokenBalance.decimals;
     }
 
-    if (coverAmount >= getBalanceNumber(balance, decimals)) {
+    if (getBalanceNumber(coverAmount) >= getBalanceNumber(balance)) {
       toast.warning(`Insufficient ${currency} balance!`);
       setTxPending(false);
       setIsNotCloseable(false);
@@ -355,6 +355,20 @@ const MsoCountrySelector = ({
               <Alert type="danger" text={message} onClose={() => setShowAlert(false)} />
             </div>
           )}
+          <div className="flex items-center justify-between w-full dark:text-white">
+            <h5 className="text-h6 font-medium">Premium</h5>
+            <h5 className="text-body-lg font-medium">
+              {quote / tokenPrice} {currency}
+            </h5>
+          </div>
+          {!!addonServices && (
+            <div className="flex items-center justify-between w-full dark:text-white">
+              <h5 className="text-h6 font-medium">Add on concierge services</h5>
+              <h5 className="text-body-lg font-medium">
+                {MSOAddOnService / tokenPrice} {currency}
+              </h5>
+            </div>
+          )}
           <CurrencySelect
             {...{
               negativeLeft: false,
@@ -364,21 +378,6 @@ const MsoCountrySelector = ({
               setSelectedOption: setCurrency,
             }}
           />
-          <div className="flex items-center justify-between w-full dark:text-white">
-            <h5 className="text-h6 font-medium">Premium</h5>
-            <h5 className="text-body-lg font-medium">
-              {(quote / tokenPrice).toFixed(3)} {currency}
-            </h5>
-          </div>
-          {!!addonServices && (
-            <div className="flex items-center justify-between w-full dark:text-white">
-              <h5 className="text-h6 font-medium">Add on concierge services</h5>
-              <h5 className="text-body-lg font-medium">
-                {(MSOAddOnService / tokenPrice).toFixed(3)} {currency}
-              </h5>
-            </div>
-          )}
-
           {/* <div className="flex items-center justify-between w-full dark:text-white">
             <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
             <input
@@ -393,14 +392,14 @@ const MsoCountrySelector = ({
           <div className="flex items-center justify-between w-full dark:text-white">
             <h5 className="text-h6 font-medium">Discount</h5>
             <h5 className="text-body-lg font-medium">
-              {(discountAmount / tokenPrice).toFixed(3)} {currency}
+              {discountAmount / tokenPrice} {currency}
             </h5>
           </div>
           <hr />
           <div className="flex items-center justify-between w-full dark:text-white">
             <h5 className="text-h6 font-medium">Total</h5>
             <h5 className="text-body-lg font-medium">
-              {(total / tokenPrice).toFixed(3)} {currency}
+              {total / tokenPrice} {currency}
             </h5>
           </div>
           {applyDiscount && (

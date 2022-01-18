@@ -18,7 +18,6 @@ const useTokenBalance = (tokenSymbol = 'cvr') => {
   const { NOT_FETCHED, SUCCESS, FAILED } = FetchStatus;
   const [balanceState, setBalanceState] = useState({
     balance: BIG_ZERO,
-    decimals: 18,
     fetchStatus: NOT_FETCHED,
   });
   const { account, library, chainId } = useActiveWeb3React();
@@ -29,9 +28,8 @@ const useTokenBalance = (tokenSymbol = 'cvr') => {
     const fetchBalance = async () => {
       const contract = getErc20Contract(tokenAddress, library);
       try {
-        const decimals = await contract.decimals();
         const res = await contract.balanceOf(account);
-        setBalanceState({ balance: new BigNumber(res.toString()), decimals, fetchStatus: SUCCESS });
+        setBalanceState({ balance: new BigNumber(res.toString()), fetchStatus: SUCCESS });
       } catch (e) {
         console.error(e);
         setBalanceState((prev) => ({

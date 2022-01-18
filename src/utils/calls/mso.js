@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { metaCall } from '../biconomy';
 import msoAbi from '../../config/abi/mso.json';
-import { callWithEstimateGas, callWithEstimateGasPayable } from './estimateGas';
+import { callWithEstimateGasPayable } from './estimateGas';
 import { PRODUCT_CHAIN } from '../../config';
 
 const buyProductByTokenForMSO = async (contract, param, signer, account) => {
@@ -9,17 +9,10 @@ const buyProductByTokenForMSO = async (contract, param, signer, account) => {
   const funParam = [policyId, value, period, token, conciergePrice, sig];
 
   const contractInterface = new ethers.utils.Interface(msoAbi);
-  let tx;
-  try {
-    tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.mso, {
-      name: 'buyProductByToken',
-      params: funParam,
-    });
-  } catch (error) {
-    if (error.code === 151) {
-      tx = await callWithEstimateGas(contract, 'buyProductByToken', funParam);
-    }
-  }
+  const tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.mso, {
+    name: 'buyProductByToken',
+    params: funParam,
+  });
   return tx;
 };
 

@@ -121,7 +121,7 @@ const CoverBuyConfirmModal = (props) => {
           setCvrAmount(total);
         } else {
           const cvrAmount = await getNeededTokenAmount(token0, token1, quote);
-          setCvrAmount(cvrAmount);
+          setCvrAmount(getBalanceNumber(cvrAmount));
         }
       }
     })();
@@ -141,13 +141,10 @@ const CoverBuyConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
+
     if (
       !applyDiscount &&
-      total >=
-        getBalanceNumber(
-          token === 'ETH' ? ethBalance.balance : token0Balance.balance,
-          token === 'ETH' ? 18 : token0Balance.decimals,
-        )
+      total >= getBalanceNumber(token === 'ETH' ? ethBalance.balance : token0Balance.balance)
     ) {
       toast.warning(`Insufficient ${token} balance!`);
       setIsNotCloseable(false);
@@ -192,12 +189,11 @@ const CoverBuyConfirmModal = (props) => {
         transaction = await onNMStake(
           {
             contractAddress: product.address,
-            coverAsset: currency === 'ETH' ? ETH_ADDRESS : getTokenAddress(currency), // ETH stands address
+            coverAsset: ETH_ADDRESS, // ETH stands address
             sumAssured: ethers.utils.parseEther(coverAmount),
             coverPeriod: period,
             coverType: 0,
             data,
-            token: token0,
           },
           applyDiscount,
         );
@@ -233,7 +229,7 @@ const CoverBuyConfirmModal = (props) => {
         });
         toast.success('Successfully Purchased.');
       } else {
-        toast.warning('Purchasing failed.');
+        toast.error('Purchasing cover failed.');
       }
       onConfirmed();
       if (setIsModalOpen) setIsModalOpen();
@@ -247,7 +243,6 @@ const CoverBuyConfirmModal = (props) => {
 
   const onApproveCVR = async () => {
     const { company_code } = product;
-    setTxPending(true);
     if (company_code === 'nexus') {
       try {
         const result = await onApproveCVRForNM();
@@ -279,12 +274,10 @@ const CoverBuyConfirmModal = (props) => {
     } else {
       toast.warning('Unsupported type of product cover.');
     }
-    setTxPending(false);
   };
 
   const onApproveToken = async () => {
     const { company_code } = product;
-    setTxPending(true);
     if (company_code === 'nexus') {
       try {
         const result = await onApproveTokenForNM();
@@ -316,7 +309,6 @@ const CoverBuyConfirmModal = (props) => {
     } else {
       toast.warning('Unsupported type of product cover.');
     }
-    setTxPending(false);
   };
   return (
     <>
@@ -327,20 +319,18 @@ const CoverBuyConfirmModal = (props) => {
             {quote.toFixed(5)} {token}
           </h5>
         </div>
-        {currency !== 'DAI' && currency !== 'USDT' && (
-          <div className="flex items-center justify-between w-full dark:text-white">
-            <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
-            <input
-              type="checkbox"
-              name="applyDiscount"
-              className="form-checkbox text-primary-gd-1 focus:ring-offset-0 duration-500"
-              checked={applyDiscount}
-              onChange={() => {
-                if (token0 !== cvrAddress) setApplyDiscount(!applyDiscount);
-              }}
-            />
-          </div>
-        )}
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">Pay using CVR for 25% discount</h5>
+          <input
+            type="checkbox"
+            name="applyDiscount"
+            className="form-checkbox text-primary-gd-1 focus:ring-offset-0 duration-500"
+            checked={applyDiscount}
+            onChange={() => {
+              if (token0 !== cvrAddress) setApplyDiscount(!applyDiscount);
+            }}
+          />
+        </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Discount</h5>

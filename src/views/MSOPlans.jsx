@@ -178,9 +178,9 @@ const MSOPlans = (props) => {
       />
       <div className="xl:px-48 sm:px-8">
         <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
-          Cover Compared has partnered with{' '}
+          Cover Compares has partnered with{' '}
           <span className="font-semibold">World Class Doctors</span> - the MSO consortium which has
-          operations in 57 countries. And headquartered in the US.
+          operations in 57countries. And headquartered in the US.
         </div>
         <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           The World Class Doctors -MSO consortium has 25 years medical second opinion (MSO)

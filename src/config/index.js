@@ -33,10 +33,10 @@ export const BICONOMY_API_KEY = {
 };
 
 export const PRODUCT_CHAIN = {
-  nexus: 42,
-  insurace: 4,
-  mso: 4,
-  p4l: 4,
+  nexus: 1,
+  insurace: 1,
+  mso: 1,
+  p4l: 1,
 };
 
 export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';

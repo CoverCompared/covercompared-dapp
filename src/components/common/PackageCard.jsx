@@ -35,7 +35,7 @@ const PackageCard = (props) => {
     quote_currency,
     product_id,
   } = props;
-
+  console.log(props);
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 

@@ -3,9 +3,9 @@ import { toast } from 'react-toastify';
 import { ethers } from 'ethers';
 import useClaimForCover from '../hooks/useClaimForCover';
 
-const ClaimCards = ({ policyId, walletAddress }) => {
+const ClaimCards = ({ policyId, walletAddress, onSubmitted }) => {
   const newPageUrl = `https://app.nexusmutual.io/home/proof-of-loss/add-affected-addresses?coverId=${policyId}&owner=${walletAddress}`;
-  const { onNMClaim, onNMRedeemClaim, onSubmitCAVote, getCheckVoteClosing, onCloseClaim } =
+  const { onNMClaim, onSubmitCAVote, getCheckVoteClosing, onCloseClaim, getPayoutOutcome } =
     useClaimForCover();
 
   const handleSubmitToClaim = async () => {
@@ -14,23 +14,27 @@ const ClaimCards = ({ policyId, walletAddress }) => {
       return;
     }
     try {
+      const result = await getPayoutOutcome(46);
+      console.log(result);
+      if (true) return;
       const emptyData = ethers.utils.defaultAbiCoder.encode([], []);
 
+      console.log('submitting claim...');
       const tx = await onNMClaim(policyId, emptyData);
-
-      // console.log('claim tx ::', tx);
 
       if (!tx.status) {
         toast.warning('Failed to submit claim!');
         return;
       }
+
       const ev = tx.events.filter((e) => e.event === 'ClaimSubmitted')[0];
       const claimId = parseInt(ev.args.claimId, 10);
-      // console.log('claimId ::', claimId);
+      console.log('submitted claim id: => ', claimId);
 
-      const voteStatusBeforeFirst = await getCheckVoteClosing(claimId);
+      // const voteStatusBeforeFirst = await getCheckVoteClosing(claimId);
       // console.log('voteStatusBeforeFirst ::', voteStatusBeforeFirst.toString());
 
+      console.log('voting claim...');
       const voteTx = await onSubmitCAVote(claimId);
       // console.log('onSubmitCAVote ::', voteTx);
       if (!voteTx.status) {
@@ -39,32 +43,24 @@ const ClaimCards = ({ policyId, walletAddress }) => {
       }
 
       const voteStatusBefore = await getCheckVoteClosing(claimId);
-      // console.log('voteStatusBefore ::', voteStatusBefore.toString());
       if (voteStatusBefore.toString() !== '1') {
         toast.warning('Not allowed vote closing!');
         return;
       }
 
+      console.log('closing claim...');
       const closeClaimTx = await onCloseClaim(claimId);
-      // console.log('closeClaimTx ::', closeClaimTx);
       if (!closeClaimTx.status) {
         toast.warning('Failed to close claim!');
         return;
       }
 
       const voteStatusAfter = await getCheckVoteClosing(claimId);
-      // console.log('voteStatusAfter ::', voteStatusAfter.toString());
       if (voteStatusAfter.toString() !== '-1') {
         toast.warning('Not Closed vote claim!');
         return;
       }
-
-      const txRedeem = await onNMRedeemClaim(policyId, claimId);
-      if (txRedeem.status) {
-        toast.success('Claim requested successfully!');
-      } else {
-        toast.warning('Failed to redeem claim!');
-      }
+      onSubmitted(claimId);
     } catch (err) {
       console.log(err);
       toast.error(err.message);
@@ -97,6 +93,7 @@ const ClaimCards = ({ policyId, walletAddress }) => {
           <div className="flex justify-center items-center">
             <button
               type="button"
+              onClick={handleSubmitToClaim}
               className="border-0 border-b-2 border-dark-blue dark:border-white h-8 text-dark-blue dark:text-white font-semibold font-Montserrat text-body-h6"
             >
               File claim

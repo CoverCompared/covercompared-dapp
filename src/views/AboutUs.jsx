@@ -94,14 +94,14 @@ const AboutUs = () => {
               <div className="flex-col flex items-start">
                 <div className="flex justify-center items-start mb-2">
                   <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-Inter text-body-sm dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     Worked in a senior leadership role within an insurtech startup (Valued at over
                     $1 billion).
                   </div>
                 </div>
                 <div className="flex justify-center items-start">
                   <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-Inter text-body-sm dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     10+ years working in insurance product development with multinational insurers
                   </div>
                 </div>
@@ -133,20 +133,20 @@ const AboutUs = () => {
               <div className="flex-col flex items-start">
                 <div className="flex justify-center items-start mb-2">
                   <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-Inter text-body-sm dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     10 years of operational management experience across various service verticals
                   </div>
                 </div>
                 <div className="flex justify-center items-start mb-2">
                   <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-Inter text-body-sm dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     Set up 3 operational service centres simultaneously from scratch comprising over
                     2000+ staff
                   </div>
                 </div>
                 <div className="flex justify-center items-start">
                   <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-Inter text-body-sm dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-inter text-body-sm dark:text-subtitle-dark-text">
                     Created several regional backend system platforms & projects for multinational
                     insurance providers
                   </div>

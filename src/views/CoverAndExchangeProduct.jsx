@@ -47,7 +47,7 @@ const ReviewContainer = (props) => {
         <ReviewCard key={index} {...props} {...obj} />
       ))}
       <div
-        className="font-Roboto font-medium text-body-md text-dark-blue dark:text-white hover:underline cursor-pointer mt-6 w-full underline"
+        className="font-Inter font-medium text-body-md text-dark-blue dark:text-white hover:underline cursor-pointer mt-6 w-full underline"
         onClick={() => setAllReview(true)}
       >
         {!allReview && 'See all reviews'}
@@ -200,7 +200,7 @@ const CoverAndExchangeProduct = (props) => {
                     data-for="chains-tool-tip"
                     data-tip="the chains on which the cover is applicable"
                     data-iscapture="true"
-                    className="ml-1 bg-login-button-bg dark:bg-white h-5 w-5 p-1 shadow-search-shadow rounded-full font-semibold font-Roboto text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                    className="ml-1 bg-login-button-bg dark:bg-white h-5 w-5 p-1 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
                   >
                     i
                   </div>
@@ -216,7 +216,7 @@ const CoverAndExchangeProduct = (props) => {
                   data-for="info-tool-tip"
                   data-tip={supportedChains.join(', ')}
                   data-iscapture="true"
-                  className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Roboto text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                  className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
                 >
                   i
                 </div>
@@ -238,13 +238,13 @@ const CoverAndExchangeProduct = (props) => {
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 dark:text-white">
               Description:
             </div>
-            <div className="font-Roboto font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
+            <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
               {description}
             </div>
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
               Additional Details:
             </div>
-            <div className="font-Roboto font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
+            <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
               {additional_details}
             </div>
 
@@ -253,7 +253,7 @@ const CoverAndExchangeProduct = (props) => {
                 <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
                   Term & Condition:
                 </div>
-                <div className="font-Roboto font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
+                <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
                   <Markup content={terms_and_conditions} />
                   <br />
                   <p>Supported chains:</p>
@@ -280,7 +280,7 @@ const CoverAndExchangeProduct = (props) => {
                   data-for="chains-tool-tip"
                   data-tip="the chains on which the cover is applicable"
                   data-iscapture="true"
-                  className="ml-1 bg-login-button-bg dark:bg-white h-5 w-5 p-1 shadow-search-shadow rounded-full font-semibold font-Roboto text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                  className="ml-1 bg-login-button-bg dark:bg-white h-5 w-5 p-1 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
                 >
                   i
                 </div>
@@ -296,10 +296,10 @@ const CoverAndExchangeProduct = (props) => {
               Discount
             </div>
             <div className="w-full p-6 bg-discount-bg rounded-2xl">
-              <div className="font-Roboto text-h5 text-discount-text font-medium">
+              <div className="font-Inter text-h5 text-discount-text font-medium">
                 25% off on insurance policies
               </div>
-              <div className="font-Roboto text-body-md text-counter-card-text mt-4 mb-5 leading-6">
+              <div className="font-Inter text-body-md text-counter-card-text mt-4 mb-5 leading-6">
                 Use $CVR when purchasing and get 25% off on all insurance policies.
               </div>
               <div className="flex justify-end">
@@ -356,7 +356,7 @@ const CoverAndExchangeProduct = (props) => {
               <div className="text-dark-blue text-19 font-Montserrat font-semibold text-center mt-4 mb-6">
                 Did you know
               </div>
-              <div className="font-Roboto text-body-md text-counter-card-text leading-6 text-center">
+              <div className="font-Inter text-body-md text-counter-card-text leading-6 text-center">
                 CoverCompared is the first-ever multichain insurance aggregator that offers a pool
                 of traditional & crypto-asset based insurance policies in exchange for your
                 cryptocurrencies.

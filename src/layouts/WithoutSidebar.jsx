@@ -17,7 +17,7 @@ const WithoutSidebar = (props) => {
   } = children;
 
   return (
-    <div className="min-h-screen min-w-screen flex bg-body-bg dark:bg-body-dark-bg font-Roboto">
+    <div className="min-h-screen min-w-screen flex bg-body-bg dark:bg-body-dark-bg font-Inter">
       <SidebarMobile {...props} />
       <div className="flex-1 mx-auto w-full flex flex-col">
         <HeaderNoSidebar {...props} {...{ title }} />

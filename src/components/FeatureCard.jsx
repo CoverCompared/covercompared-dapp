@@ -9,7 +9,7 @@ const FeatureCard = ({ icon, title, body }) => {
       <h5 className="mt-4 font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
         {title}
       </h5>
-      <p className="mt-2 font-Roboto text-post-body-text text-body-md leading-6 dark:text-subtitle-dark-text">
+      <p className="mt-2 font-Inter text-post-body-text text-body-md leading-6 dark:text-subtitle-dark-text">
         {body}
       </p>
     </div>

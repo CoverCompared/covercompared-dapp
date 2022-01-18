@@ -161,7 +161,7 @@ export default function Home(props) {
                   <div className="font-Montserrat font-semiBold text-dark-blue font-semibold md:text-h5 text-h6 dark:text-white">
                     {blog.title ? `${blog.title.substring(0, 18)}. . .` : ''}
                   </div>
-                  <div className="text-post-body-text md:text-body-md text-body-xs mt-1 mb-2 font-Roboto dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text md:text-body-md text-body-xs mt-1 mb-2 font-Inter dark:text-subtitle-dark-text">
                     {blog.description ? `${blog.description.substring(0, 26)}. . .` : ''}
                   </div>
                   <Link
@@ -220,7 +220,7 @@ export default function Home(props) {
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center lg:max-w-xs dark:text-white">
           Crypto Insurance
         </h2>
-        <p className="mt-3 text-counter-card-text text-body-md xl:px-36 md:px-28 font-Roboto dark:text-subtitle-dark-text">
+        <p className="mt-3 text-counter-card-text text-body-md xl:px-36 md:px-28 font-Inter dark:text-subtitle-dark-text">
           Insure your crypto-assets and protect them against the lurking risks of the digital world
         </p>
         <div className="mt-10 grid grid-cols-12 gap-y-6 xl:gap-y-8 gap-x-6 md:gap-x-12">

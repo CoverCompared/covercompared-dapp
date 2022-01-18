@@ -94,14 +94,14 @@ const AboutUs = () => {
               <div className="flex-col flex items-start">
                 <div className="flex justify-center items-start mb-2">
                   <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-Roboto text-body-sm dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-Inter text-body-sm dark:text-subtitle-dark-text">
                     Worked in a senior leadership role within an insurtech startup (Valued at over
                     $1 billion).
                   </div>
                 </div>
                 <div className="flex justify-center items-start">
                   <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-Roboto text-body-sm dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-Inter text-body-sm dark:text-subtitle-dark-text">
                     10+ years working in insurance product development with multinational insurers
                   </div>
                 </div>
@@ -133,20 +133,20 @@ const AboutUs = () => {
               <div className="flex-col flex items-start">
                 <div className="flex justify-center items-start mb-2">
                   <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-Roboto text-body-sm dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-Inter text-body-sm dark:text-subtitle-dark-text">
                     10 years of operational management experience across various service verticals
                   </div>
                 </div>
                 <div className="flex justify-center items-start mb-2">
                   <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-Roboto text-body-sm dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-Inter text-body-sm dark:text-subtitle-dark-text">
                     Set up 3 operational service centres simultaneously from scratch comprising over
                     2000+ staff
                   </div>
                 </div>
                 <div className="flex justify-center items-start">
                   <img loading="lazy" src={PointIcon} alt="" className="md:mr-3 mr-2 mt-1" />
-                  <div className="text-post-body-text font-Roboto text-body-sm dark:text-subtitle-dark-text">
+                  <div className="text-post-body-text font-Inter text-body-sm dark:text-subtitle-dark-text">
                     Created several regional backend system platforms & projects for multinational
                     insurance providers
                   </div>
@@ -220,15 +220,15 @@ const AboutUs = () => {
         &quot;Be the change you want to see in the world&quot;
       </h2>
       <div className="lg:px-24 md:pt-6 pt-8">
-        <div className="font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           We live in a world that is empowered by technology and innovation every day – it touches
           nearly every aspect of our lives, changing them for the better for the most part.
         </div>
-        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           One such revolutionary technological advancement was the advent of cryptocurrency - the
           currency that changed the world.
         </div>
-        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Over the years, Cryptocurrency usage has significantly increased due to rising inflation
           and demand for inflation-resistant assets. Weary users bound by the restrictive and
           capricious shackles of traditional financial instruments found themselves questioning the
@@ -237,11 +237,11 @@ const AboutUs = () => {
           novel system of finance– an alternative solution that was freer, fairer, and nearly
           immutable.
         </div>
-        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           This enormous boom in crypto users has proved to be revolutionary for the history of our
           species.
         </div>
-        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Just during Q1 2021, crypto users have doubled from 100 million to nearly 200 million.
           Regardless of this massive growth in population, the crypto community as a whole has been
           rather neglected by traditional providers of service.
@@ -257,17 +257,17 @@ const AboutUs = () => {
         <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-10">
           IF THEY CAN, WHY NOT ME?
         </h2>
-        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           If a holder of fiat currency wants to secure his assets, be they fiscal or otherwise,
           there exist a plethora of options for him to do so. However, if the same individual would
           like to be ensured using his crypto funds – no dice.
         </div>
-        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Why does this disparity exist? Why, despite the crypto community being at the advent of
           innovative tech and growing every day, is the average crypto holder not afforded the same
           advantages as holders of more traditional instruments of payment?
         </div>
-        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Cover Compared aims to right this wrong – we’re the world’s first platform that will
           enable crypto-holders to purchase not just specialized covers for their crypto-based
           assets, but also fulfill their needs in the traditional sectors of insurance such as life,
@@ -279,7 +279,7 @@ const AboutUs = () => {
         <h2 className="md:text-h4 text-h5 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-8">
           OUR VISION
         </h2>
-        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Cover Compared is here to address the needs of the crypto community. We understand the
           growing concerns of safety in the crypto ecosystem, and we firmly believe that every
           individual deserves the chance to protect their valuable assets without worrying about
@@ -287,7 +287,7 @@ const AboutUs = () => {
           <span className="font-medium">Protection shouldn’t be conditional</span>. It is time
           insurers were empathetic to the hardships faced by unprotected crypto users.
         </div>
-        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Cover Compared is the world’s first platform offering crypto and traditional insurance
           products under one marketplace specially aimed to cater to the global crypto market. We
           are a user-centric insurance aggregator, working towards optimising the experience of
@@ -301,7 +301,7 @@ const AboutUs = () => {
           <div className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
             A Little Bit about Our Platform
           </div>
-          <div className="md:text-body-md font-medium text-center mt-2 text-counter-card-text text-body-md md:px-20 font-Roboto leading-6 dark:text-subtitle-dark-text">
+          <div className="md:text-body-md font-medium text-center mt-2 text-counter-card-text text-body-md md:px-20 font-Inter leading-6 dark:text-subtitle-dark-text">
             We are building the best insurtech platform for the masses
           </div>
         </div>

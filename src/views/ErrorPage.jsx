@@ -17,7 +17,7 @@ const ErrorPage = (props) => {
         <div className="text-dark-blue font-Montserrat text-h2 font-bold mt-12 mb-2 dark:text-white text-center">
           Whoops... this page is not available
         </div>
-        <div className="font-Roboto text-body-sm text-post-body-text dark:text-subtitle-dark-text text-center">
+        <div className="font-Inter text-body-sm text-post-body-text dark:text-subtitle-dark-text text-center">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer turpis nisi.
         </div>
       </div>

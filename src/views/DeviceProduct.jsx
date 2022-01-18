@@ -259,7 +259,7 @@ const DeviceProduct = (props) => {
       <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
         We protect what you love
       </h2>
-      <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+      <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
         Protection benefits provided across a wide range of product categories
       </div>
 
@@ -464,7 +464,7 @@ const DeviceProduct = (props) => {
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white md:mt-16 mt-12">
           Why Get Device Protection?
         </h2>
-        <div className="mt-5 font-Roboto text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
+        <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
           Accidental Damage can be costly
         </div>
 
@@ -488,7 +488,7 @@ const DeviceProduct = (props) => {
             ))}
           </div>
         </div>
-        <div className="text-center text-dark-blue font-Roboto mt-4 dark:text-white text-body-md md:text-h6">
+        <div className="text-center text-dark-blue font-Inter mt-4 dark:text-white text-body-md md:text-h6">
           (Average Cost of Repair)
         </div>
 

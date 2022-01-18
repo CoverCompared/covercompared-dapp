@@ -148,7 +148,7 @@ const DeviceEligibilityChecker = ({
         <h5 className="font-Montserrat text-3xl my-3 dark:text-white">
           Thank you for sharing your details
         </h5>
-        <p className="font-Roboto text-counter-card-text dark:text-white text-body-md text-center">
+        <p className="font-Inter text-counter-card-text dark:text-white text-body-md text-center">
           Device insurance is currently unavailable in your country, we will let you know once it
           available.
         </p>

@@ -14,7 +14,7 @@ const PostCard = (props) => {
           <h3 className="font-Montserrat text-dark-blue font-semibold md:text-body-md text-body-sm dark:text-white truncate">
             {title}
           </h3>
-          <div className="text-post-body-text md:text-body-md text-body-xs mt-2 font-Roboto dark:text-subtitle-dark-text">
+          <div className="text-post-body-text md:text-body-md text-body-xs mt-2 font-Inter dark:text-subtitle-dark-text">
             <div className="md:flex hidden">
               {description ? `${description.substring(0, 70)}. . .` : ''}
             </div>

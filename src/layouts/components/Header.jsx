@@ -18,7 +18,7 @@ const Header = (props) => {
           <div className="flex-1 flex flex-col">
             <h2 className="font-Montserrat text-h2 font-semibold dark:text-white">{title}</h2>
             {/* {subtitle && (
-              <p className="text-header-lead-text font-normal font-Roboto text-sm dark:text-subtitle-dark-text">
+              <p className="text-header-lead-text font-normal font-Inter text-sm dark:text-subtitle-dark-text">
                 {subtitle}
               </p>
             )} */}

@@ -29,7 +29,7 @@ const AdditionalDetails = () => {
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mt-6 mb-2 dark:text-white text-left">
               Description :
             </div>
-            <div className="font-Roboto text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
+            <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
               nunc varius porta. Tincidunt vestibulum vivamus
             </div>
@@ -40,7 +40,7 @@ const AdditionalDetails = () => {
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mb-2 dark:text-white text-left">
               Additional Details :
             </div>
-            <div className="font-Roboto text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
+            <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
               nunc varius porta. Tincidunt vestibulum vivamus sed facilisi ac urna quisque etiam
               bibendum. Sed aliquet at aliquam at nascetur hendrerit adipiscing.
@@ -52,7 +52,7 @@ const AdditionalDetails = () => {
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mb-2 dark:text-white text-left">
               Term & Condition :
             </div>
-            <div className="font-Roboto text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
+            <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
               nunc varius porta. Tincidunt vestibulum vivamus sed facilisi ac urna quisque etiam
               bibendum. Sed aliquet at aliquam at nascetur hendrerit adipiscing.

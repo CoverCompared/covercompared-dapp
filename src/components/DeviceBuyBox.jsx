@@ -43,7 +43,7 @@ import useTokenApprove from '../hooks/useTokenApprove';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
 import useTokenAmount from '../hooks/useTokenAmount';
-import { getBalanceNumber } from '../utils/formatBalance';
+import { getBalanceNumber, getDecimalAmount } from '../utils/formatBalance';
 import useAddress from '../hooks/useAddress';
 // import { PhoneInput } from './common/PhoneInput';
 
@@ -124,7 +124,6 @@ const DeviceBuyBox = (props) => {
   const tokenBalance = useTokenBalance(currency);
 
   const tokenPrice = useAssetsUsdPrice(currency);
-  const cvrPrice = useAssetsUsdPrice('cvr');
 
   const hasFirstStep = deviceType && brand && value && purchaseMonth;
   const hasFirstTwoStep = hasFirstStep && planType;
@@ -146,7 +145,7 @@ const DeviceBuyBox = (props) => {
 
   useEffect(() => {
     handleTokenAllowance();
-  }, []);
+  }, [currency]);
 
   useEffect(() => {
     dispatch(resetDeviceInsurance());
@@ -289,7 +288,7 @@ const DeviceBuyBox = (props) => {
           const result =
             currency !== 'ETH'
               ? await onStakeByToken({ ...param, token: getTokenAddress(currency) }, signature)
-              : await onStake(param, ethAmount.toString(), signature);
+              : await onStake(param, getDecimalAmount(ethAmount).toString(), signature);
 
           if (result.status) {
             dispatch(
@@ -356,7 +355,7 @@ const DeviceBuyBox = (props) => {
 
     let coverAmount;
     let balance;
-
+    let decimals = 18;
     if (currency === 'ETH') {
       coverAmount = await getETHAmountForUSDC(plan_total_price);
       balance = ethBalance.balance;
@@ -368,9 +367,10 @@ const DeviceBuyBox = (props) => {
       const usdc = getTokenAddress('usdc');
       coverAmount = await getNeededTokenAmount(token, usdc, plan_total_price);
       balance = tokenBalance.balance;
+      decimals = tokenBalance.decimals;
     }
 
-    if (getBalanceNumber(coverAmount) >= getBalanceNumber(balance)) {
+    if (coverAmount >= getBalanceNumber(balance, decimals)) {
       toast.warning(`Insufficient ${currency} balance!`);
       setTxPending(false);
       setIsNotCloseable(false);
@@ -402,6 +402,7 @@ const DeviceBuyBox = (props) => {
   };
 
   const onApproveToken = async () => {
+    setTxPending(true);
     try {
       const result = await onApprove();
       await handleTokenAllowance();
@@ -538,14 +539,6 @@ const DeviceBuyBox = (props) => {
             <Alert type="danger" text={deviceMessage} onClose={() => setShowAlert(false)} />
           </div>
         )}
-        <div className="flex items-center justify-between w-full dark:text-white">
-          <h5 className="text-h6 font-medium">
-            Premium Per {plan_type === 'yearly' ? 'Year' : 'Month'}
-          </h5>
-          <h5 className="text-body-lg font-medium">
-            {(plan_total_price / tokenPrice).toFixed(3)} {currency}
-          </h5>
-        </div>
         <CurrencySelect
           {...{
             negativeLeft: false,
@@ -555,6 +548,14 @@ const DeviceBuyBox = (props) => {
             setSelectedOption: setCurrency,
           }}
         />
+        <div className="flex items-center justify-between w-full dark:text-white">
+          <h5 className="text-h6 font-medium">
+            Premium Per {plan_type === 'yearly' ? 'Year' : 'Month'}
+          </h5>
+          <h5 className="text-body-lg font-medium">
+            {(plan_total_price / tokenPrice).toFixed(3)} {currency}
+          </h5>
+        </div>
         <hr />
         <div className="flex items-center justify-between w-full dark:text-white">
           <h5 className="text-h6 font-medium">Discount</h5>

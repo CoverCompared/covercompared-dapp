@@ -5,24 +5,24 @@ export default {
     42: '0x0000000000000000000000000000000000000000',
   },
   p4l: {
-    1: '',
+    1: '0x674b88c77b9fa787fe30b5cae9d7654f0cdda1aa',
     4: '0x51956B95f63894Ef378BFEb6e9AaEe837393e266',
     42: '0x0000000000000000000000000000000000000000',
   },
   mso: {
-    1: '',
+    1: '0x80e15e4592b2130131067f02407a74f7ef50d3b5',
     4: '0x49d7Ed485b90aDc96e8e24240e96bc0c7bf5BD13',
     42: '0x0000000000000000000000000000000000000000',
   },
   exchangeAgent: {
-    1: '',
+    1: '0x5365fd7770c795e82869c57b5b254ccaae91d07a',
     4: '0x3320c193109265fac179cc3ef0a466cca01651df',
     42: '0x51FCc54e9c7D8606cD16ea54e91Ed4D09F831e64',
   },
   priceFeed: {
     eth: {
       decimal: 8,
-      1: '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419',
+      1: '0x6fa510b6027ddda59c1c4639e2bd4ec863a4e90f',
       4: '0xc86718f161412Ace9c0dC6F81B26EfD4D3A8F5e0',
       42: '0xb3dEcC8bAAd6226835BdB92C19f082Fba443Ad3a',
     },
@@ -46,7 +46,7 @@ export default {
     },
     dai: {
       decimal: 8,
-      1: '0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9',
+      1: '0xfe68377fa0fbcfb1423bbbfd9eb7c8394f954a51',
       4: '0xBC33008AF81A03aA24dc0A0F112E29C979e317fB',
       42: '0x777A68032a88E5A84678A77Af2CD65A7b3c0775a',
     },
@@ -88,7 +88,7 @@ export default {
     },
     usdt: {
       decimal: 8,
-      1: '0x3E7d1eAB13ad0104d2750B8863b489D65364e32D',
+      1: '0xcd029d8ed27ff5dcc602c3bd1fb9562c60876963',
       4: '',
       42: '0x2ca5A90D34cA333661083F89D831f757A9A50148',
     },
@@ -130,7 +130,7 @@ export default {
     },
     cvr: {
       decimal: 8,
-      1: '0xCd627aA160A6fA45Eb793D19Ef54f5062F20f33f',
+      1: '0x4adecd6f54cdec8fbf37f516929fe71d3dacae1c',
       4: '0x8d6D6eeA128a40EFbC0d0a04D7aaC36689F12A46',
       42: '0x1962ab2E748D202BEEf87a71b1E26dCDeD9456Ac',
     },
@@ -166,17 +166,17 @@ export default {
     },
   },
   nexusMutual: {
-    1: '',
+    1: '0x61002ee838244684c71cfc912f4404fa088cb596',
     4: '0x0000000000000000000000000000000000000000',
     42: '0x600cd52172f78d3Cc3593972d8Cf3BD4BBAcC4bB',
   },
   insureAce: {
-    1: '',
+    1: '0x3fc3c73001967fa8202ce119fbf484f4623f884b',
     4: '0x2Bf563Fff6e951724136d069D6D5e885742942B6',
     42: '0x0000000000000000000000000000000000000000',
   },
   distributor: {
-    1: '',
+    1: '0xEf45cB6d804551EE965766edcFA82A5D33F689F8',
     4: '0x0000000000000000000000000000000000000000',
     42: '0xe77250450FC9f682EdEfF9f0d252836189C01b53',
   },

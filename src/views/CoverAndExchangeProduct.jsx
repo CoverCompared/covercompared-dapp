@@ -290,7 +290,7 @@ const CoverAndExchangeProduct = (props) => {
                   fontColor="#FFF"
                 />
               </div>
-              <div className="text-body-md">{supportedChains.join(',  ')}</div>
+              <div className="text-body-m dark:text-white">{supportedChains.join(',  ')}</div>
             </div>
             <div className="font-Montserrat font-semibold text-19 text-dark-blue mb-4 dark:text-white">
               Discount

@@ -59,7 +59,7 @@ const options = {
   //   'Solana',
   //   'Arbitrum',
   // ],
-  currency_option: ['ETH', 'CVR', 'USDT', 'USDC', 'DAI', 'DOT'],
+  currency_option: ['ETH', 'CVR', 'USDT', 'USDC', 'DAI'],
   MSO_amount_opt: {
     min: 50,
     max: 115,

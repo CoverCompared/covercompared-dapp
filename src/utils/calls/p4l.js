@@ -15,10 +15,17 @@ const buyProductByToken = async (contract, param, signer, account, sig) => {
   const funParam = [policyId, value, durPlan, token, sig];
 
   const contractInterface = new ethers.utils.Interface(p4lAbi);
-  const tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.p4l, {
-    name: 'buyProductByToken',
-    params: funParam,
-  });
+  let tx;
+  try {
+    tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.p4l, {
+      name: 'buyProductByToken',
+      params: funParam,
+    });
+  } catch (error) {
+    if (error.code === 151) {
+      tx = await callWithEstimateGas(contract, 'buyProductByToken', funParam);
+    }
+  }
   return tx;
 };
 

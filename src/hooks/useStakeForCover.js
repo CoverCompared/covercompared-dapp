@@ -25,6 +25,8 @@ const useStakeForCover = () => {
   const dispatch = useDispatch();
   const handleNexusMutualStake = useCallback(
     async (param, applyDiscount) => {
+      const { coverAsset } = param;
+      const isETHCover = coverAsset.toLowerCase() === ETH_ADDRESS.toLowerCase();
       const maxPriceWithFee = await nexus.getProductPrice(nexusContractA, param);
       let tx;
       if (applyDiscount) {
@@ -33,28 +35,39 @@ const useStakeForCover = () => {
           maxPriceWithFee,
           token: await getCvrAddress(),
         });
-        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       } else {
-        tx = await nexus.buyCoverByETH(nexusContractA, { ...param, maxPriceWithFee });
+        // eslint-disable-next-line no-lonely-if
+        if (isETHCover) {
+          tx = await nexus.buyCoverByETH(nexusContractA, { ...param, maxPriceWithFee });
+        } else {
+          tx = await nexus.buyCoverByToken(nexusContractB, account, library.getSigner(), {
+            ...param,
+            maxPriceWithFee,
+          });
+        }
+      }
+
+      if (tx) {
         tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
-      }
-      dispatch(setPendingTransaction(tx));
-      const receipt = await tx.wait();
-      let events = null;
-      let buyNMEvent = null;
-      let pId = null;
+        dispatch(setPendingTransaction(tx));
+        const receipt = await tx.wait();
+        let events = null;
+        let buyNMEvent = null;
+        let pId = null;
 
-      if (receipt.status) {
-        events = receipt.events;
-        buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
-        pId = buyNMEvent?.args?.pid.toString();
-      }
+        if (receipt.status) {
+          events = receipt.events;
+          buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
+          pId = buyNMEvent?.args?.pid.toString();
+        }
 
-      return {
-        status: receipt.status,
-        txn_hash: tx.hash,
-        token_id: pId,
-      };
+        return {
+          status: receipt.status,
+          txn_hash: tx.hash,
+          token_id: pId,
+        };
+      }
+      return null;
     },
     [library, account],
   );
@@ -77,8 +90,8 @@ const useStakeForCover = () => {
             token: cvrAddress,
           });
         }
-        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       } else {
+        // eslint-disable-next-line no-lonely-if
         if (isETHCover) {
           tx = await insure.buyETHCoverByETH(insuraceContractA, param);
         } else {
@@ -89,10 +102,11 @@ const useStakeForCover = () => {
             param,
           );
         }
-        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
       }
 
       if (tx) {
+        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+
         dispatch(setPendingTransaction(tx));
         const receipt = await tx.wait();
 

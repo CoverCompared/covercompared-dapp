@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import { CheckIcon } from '@heroicons/react/outline';
@@ -6,6 +6,8 @@ import { useWeb3React } from '@web3-react/core';
 import { PDFViewer } from '@react-pdf/renderer';
 import { toast } from 'react-toastify';
 import { logEvent } from 'firebase/analytics';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 import { analytics } from '../config/firebase';
 import Alert from './common/Alert';
@@ -35,6 +37,7 @@ import {
 } from '../redux/actions/DeviceInsurance';
 import { classNames } from '../functions/utils';
 import useStakeForDevice, { useStakeForDeviceByToken } from '../hooks/useStakeForDevice';
+import { ThemeContext } from '../themeContext';
 import useGetAllowanceOfToken from '../hooks/useGetAllowanceOfToken';
 import useTokenApprove from '../hooks/useTokenApprove';
 import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
@@ -42,6 +45,7 @@ import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
 import useTokenAmount from '../hooks/useTokenAmount';
 import { getBalanceNumber, getDecimalAmount } from '../utils/formatBalance';
 import useAddress from '../hooks/useAddress';
+// import { PhoneInput } from './common/PhoneInput';
 
 const deviceOptions = ['Mobile Phone', 'Laptop', 'Tablet', 'Smart Watch', 'Portable Speakers'];
 
@@ -68,6 +72,7 @@ const DeviceBuyBox = (props) => {
     isFailed: deviceIsFailed,
   } = useSelector((state) => state.deviceInsurance);
 
+  const { theme } = useContext(ThemeContext);
   const [showAlert, setShowAlert] = useState(false);
   const [alertText, setAlertText] = useState('');
   const [alertType, setAlertType] = useState('');
@@ -82,6 +87,7 @@ const DeviceBuyBox = (props) => {
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
   const [phone, setPhone] = useState('');
+  const [defaultCountry, setDefaultCountry] = useState(props.parentCountry || '');
   const [email, setEmail] = useState('');
   const [imeiOrSerial, setImeiOrSerial] = useState('');
   const [purchaseDate, setPurchaseDate] = useState('');
@@ -641,7 +647,33 @@ const DeviceBuyBox = (props) => {
               <label htmlFor="mobile" className="ml-1 text-body-md text-black dark:text-white">
                 Mobile
               </label>
-              <input
+              <PhoneInput
+                inputProps={{
+                  name: 'mobile',
+                  required: true,
+                }}
+                // type="tel"
+                // pattern="\d*"
+                specialLabel=""
+                country={defaultCountry.code}
+                title="Only numbers allowed"
+                placeholder="Mobile"
+                value={phone}
+                withDarkTheme
+                onChange={(e) => {
+                  setPhone(e);
+                }}
+                dropdownClass={`${theme === 'light' ? '' : 'dark-country-list'}`}
+                inputClass={`${
+                  theme === 'light' ? 'light-border ' : 'dark-form-control'
+                } w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0`}
+                buttonClass={`${
+                  theme === 'light'
+                    ? 'light-flag-dropdown-border'
+                    : 'dark-flag-dropdown dark-flag-dropdown.open'
+                } outline-none border-0 rounded-xl rounded-r-none dark:text-white font-Montserrat font-semibold md:text-h6 text-body-md disabled:cursor-default`}
+              />
+              {/* <input
                 required
                 type="tel"
                 pattern="\d*"
@@ -651,7 +683,7 @@ const DeviceBuyBox = (props) => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full h-12 border-2 px-4 border-contact-input-grey focus:border-black rounded-xl placeholder-contact-input-grey text-black font-semibold text-body-md focus:ring-0 dark:text-white dark:bg-product-input-bg-dark dark:focus:border-white dark:border-opacity-0"
-              />
+              /> */}
             </div>
             <div>
               <label htmlFor="email" className="ml-1 text-body-md text-black dark:text-white">
@@ -746,7 +778,7 @@ const DeviceBuyBox = (props) => {
                     type="button"
                     onClick={handleSubmitEmail}
                     disabled={!notRegistered}
-                    className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                    className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default dark:text-white"
                   >
                     Send verification OTP
                   </button>
@@ -767,7 +799,7 @@ const DeviceBuyBox = (props) => {
                     type="button"
                     onClick={handleSubmitOTP}
                     disabled={!showOTPScreen || !emailSubmitted || !notRegistered}
-                    className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default"
+                    className="pl-2 mt-1 text-body-md underline cursor-pointer disabled:cursor-default dark:text-white"
                   >
                     Verify OTP
                   </button>

@@ -27,7 +27,7 @@ export const MORALIS_ID = 'rRG8PaL5SjENUXSdbo1q198qGwt7yA1U74iUY1WW';
 export const SERVER_URL = 'https://hcufrn0eqoj1.usemoralis.com:2053/server';
 
 export const BICONOMY_API_KEY = {
-  1: '',
+  1: 'wppjIAEUk.8b320aa1-1075-475c-a31f-a18da568f7c4',
   4: 'TfBMzaWNW.fc5afe00-0108-40e3-8fe5-a1110594ca8d',
   42: 'hmIyM_AsF.ce90fe45-efc4-4bcf-87e2-a49863d8219c',
 };

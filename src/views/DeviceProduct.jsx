@@ -237,7 +237,7 @@ const DeviceProduct = (props) => {
       toast.warning('You need to login in advance!');
       return false;
     }
-    if (chainId !== 4) {
+    if (chainId !== PRODUCT_CHAIN.p4l) {
       toast.warning('You need to switch over to correct network!');
       return false;
     }

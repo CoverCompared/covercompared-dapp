@@ -29,7 +29,7 @@ const SmallPackageCard = (props) => {
     logo,
     quote,
     quote_chain,
-    supportedChains,
+    chain_type_list,
     cardType,
     duration_days_min,
     min_eth,
@@ -107,22 +107,22 @@ const SmallPackageCard = (props) => {
             <div
               className="font-Montserrat text-10 font-medium text-dark-blue dark:text-white group-hover:text-white mt-1 flex"
               data-for="chains-tool-tip"
-              data-tip={supportedChains.join(', ')}
+              data-tip={chain_type_list.join(', ')}
               data-iscapture="true"
             >
               Chain:{' '}
               <div className="hidden md:block ml-1">
-                {supportedChains?.length
-                  ? supportedChains.join(', ').length > 24
-                    ? `${supportedChains.join(', ').slice(0, 20)} ...`
-                    : supportedChains.join(', ')
+                {chain_type_list?.length
+                  ? chain_type_list.join(', ').length > 24
+                    ? `${chain_type_list.join(', ').slice(0, 20)} ...`
+                    : chain_type_list.join(', ')
                   : 'Ethereum'}
               </div>
               <div className="md:hidden ml-1">
-                {supportedChains?.length
-                  ? supportedChains.join(', ').length > 12
-                    ? `${supportedChains.join(', ').slice(0, 12)}...`
-                    : supportedChains.join(', ')
+                {chain_type_list?.length
+                  ? chain_type_list.join(', ').length > 12
+                    ? `${chain_type_list.join(', ').slice(0, 12)}...`
+                    : chain_type_list.join(', ')
                   : 'Ethereum'}
               </div>
             </div>

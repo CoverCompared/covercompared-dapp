@@ -355,6 +355,10 @@ const MsoCountrySelector = ({
               <Alert type="danger" text={message} onClose={() => setShowAlert(false)} />
             </div>
           )}
+          <div className="flex items-center justify-between w-full dark:text-white mb-2">
+            <h5 className="text-h6 font-medium">Premium in USD</h5>
+            <h5 className="text-body-lg font-medium">{quote} USD</h5>
+          </div>
           <CurrencySelect
             {...{
               negativeLeft: false,

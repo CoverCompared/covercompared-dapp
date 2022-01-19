@@ -89,14 +89,14 @@ const MSOAdditionalDetails = (props) => {
         <div className="grid grid-cols-12 mt-6">
           <div className="lg:col-span-12 md:col-span-12 col-span-12">
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mb-2 dark:text-white text-left">
-              <a className="underline" href="https://google.com" target="_blank" rel="noreferrer">
+              <a
+                className="underline"
+                target="_blank"
+                href="https://covercompared-assets.s3.me-south-1.amazonaws.com/mso-covercompared-t-n-c.pdf"
+                rel="noreferrer"
+              >
                 Term & Condition
               </a>
-            </div>
-            <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
-              nunc varius porta. Tincidunt vestibulum vivamus sed facilisi ac urna quisque etiam
-              bibendum. Sed aliquet at aliquam at nascetur hendrerit adipiscing.
             </div>
           </div>
         </div>

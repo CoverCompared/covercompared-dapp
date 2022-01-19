@@ -27,6 +27,8 @@ import MSOpartner9 from '../assets/img/mso-partners-9.jpg';
 import MSOService1 from '../assets/img/mso-service-1.png';
 import MSOService2 from '../assets/img/mso-service-2.png';
 import MSOService3 from '../assets/img/mso-service-3.png';
+import WishingWell from '../assets/img/wishing-well-logo.png';
+import WCD from '../assets/img/world-class-doctor-logo.png';
 import { PRODUCT_CHAIN } from '../config';
 
 const MSOServices = [
@@ -208,6 +210,15 @@ const MSOPlans = (props) => {
       )}
 
       <div className="xl:px-36 lg:px-28 md:my-20 my-12">
+        <div className="grid grid-cols-12 gap-x-5 gap-y-2 mt-2 md:-mb-10 mb-4">
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-4 self-center">
+            <img loading="lazy" src={WishingWell} alt="" className="w-40 p-3 dark:bg-white" />
+          </div>
+          <div className="w-full flex flex-col items-center col-span-12 sm:col-span-0 md:col-span-4 self-center" />
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-4 self-center">
+            <img loading="lazy" src={WCD} alt="" className="w-40 p-3 dark:bg-white" />
+          </div>
+        </div>
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
           RANGE OF SERVICES
         </h2>

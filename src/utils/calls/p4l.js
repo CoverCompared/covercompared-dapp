@@ -6,7 +6,7 @@ import { callWithEstimateGas, callWithEstimateGasPayable } from './estimateGas';
 import { PRODUCT_CHAIN } from '../../config';
 
 const buyProductByToken = async (contract, param, signer, account, sig) => {
-  const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString(); // should be the decimals of USDC token
+  const value = new BigNumber(param.total_amount).multipliedBy(10 ** 6).toString(); // should be the decimals of USDC token
 
   const policyId = param.policyId === undefined ? 'first-test' : param.policyId;
   const durPlan = param.purchase_month === 'Less than 12 months' ? 1 : 2;
@@ -30,7 +30,7 @@ const buyProductByToken = async (contract, param, signer, account, sig) => {
 };
 
 const buyProductByEth = async (contract, param, sig, ethAmt) => {
-  const value = new BigNumber(param.total_amount).multipliedBy(10 ** 18).toString();
+  const value = new BigNumber(param.total_amount).multipliedBy(10 ** 6).toString();
 
   const policyId = param.policyId === undefined ? 'first-test' : param.policyId;
   const durPlan = param.purchase_month === 'Less than 12 months' ? 1 : 2;

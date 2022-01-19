@@ -225,7 +225,7 @@ const MSOPlans = (props) => {
         </div>
       )}
 
-      <div className="xl:px-36 lg:px-28 md:my-20 my-12">
+      <div className="xl:px-36 lg:px-28 md:mb-20 mb-12 mt-12">
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
           RANGE OF SERVICES
         </h2>

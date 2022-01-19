@@ -14,7 +14,7 @@ const SubmitReview = React.lazy(() => import('../views/SubmitReview'));
 const Blog = React.lazy(() => import('../views/Blog'));
 const ErrorPage = React.lazy(() => import('../views/ErrorPage'));
 const MSOPlans = React.lazy(() => import('../views/MSOPlans'));
-const DeviceProduct = React.lazy(() => import('../views/DeviceProduct'));
+// const DeviceProduct = React.lazy(() => import('../views/DeviceProduct'));
 const FAQ = React.lazy(() => import('../views/FAQ'));
 
 const routes = [
@@ -97,17 +97,17 @@ const routes = [
     mobileBgImg: 'bg-productPageBg',
     bgImgClass: 'bg-100% bg-no-repeat',
   },
-  {
-    path: '/device-product',
-    exact: true,
-    pageName: 'Product',
-    withSidebar: false,
-    component: DeviceProduct,
-    title: '',
-    bgImg: 'md:bg-productBg',
-    mobileBgImg: 'bg-productPageBg',
-    bgImgClass: 'bg-100% bg-no-repeat',
-  },
+  // {
+  //   path: '/device-product',
+  //   exact: true,
+  //   pageName: 'Product',
+  //   withSidebar: false,
+  //   component: DeviceProduct,
+  //   title: '',
+  //   bgImg: 'md:bg-productBg',
+  //   mobileBgImg: 'bg-productPageBg',
+  //   bgImgClass: 'bg-100% bg-no-repeat',
+  // },
   {
     path: '/search/:card',
     exact: true,

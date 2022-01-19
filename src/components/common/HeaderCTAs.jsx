@@ -70,7 +70,7 @@ const HeaderCTAs = (props) => {
           {shortenAddress(account)}
         </button>
       )}
-      {pendingTx && (
+      {/* {pendingTx && (
         <button
           type="button"
           className="ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-lg text-body-md leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
@@ -78,7 +78,7 @@ const HeaderCTAs = (props) => {
           Pending&nbsp;
           <Spinner name="circle" color="rgba(23, 81, 134)" style={{ height: '17px' }} />
         </button>
-      )}
+      )} */}
     </div>
   );
 };

@@ -1,20 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { classNames } from '../functions/utils';
 import SearchIcon from '../assets/img/Search.svg';
 import Modal from './common/Modal';
 
-const InsuranceCard = ({ icon, title, subtitle, gradientClass, bgImg, redirectTo, disabled }) => {
+const InsuranceCard = ({ icon, title, subtitle, gradientClass, bgImg, redirectTo }) => {
   const history = useHistory();
   return (
     <div
-      onClick={() => !disabled && history.push(redirectTo)}
-      className={classNames(
-        disabled
-          ? 'from-gray-300 to-gray-600'
-          : 'from-primary-gd-1 to-primary-gd-2  cursor-pointer',
-        `w-full shadow-insuranceCard duration-200 md:rounded-3xl rounded-xl flex ${gradientClass} md:rounded-3xl rounded-xl z-10`,
-      )}
+      onClick={() => history.push(redirectTo)}
+      className={`w-full shadow-insuranceCard duration-200 md:rounded-3xl rounded-xl flex ${gradientClass} md:rounded-3xl rounded-xl from-primary-gd-1 to-primary-gd-2 z-10 cursor-pointer`}
     >
       <div className={`w-full ${bgImg} bg-right bg-100%`}>
         <div className="w-full md:px-6 md:py-5 p-3 flex flex-col text-white">

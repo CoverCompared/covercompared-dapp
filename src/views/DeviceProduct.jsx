@@ -334,6 +334,7 @@ const DeviceProduct = (props) => {
               sizeClass="max-w-2xl"
               renderComponent={DeviceBuyBox}
               validate={validate}
+              {...{ parentCountry }}
               bgImg="bg-loginPopupBg bg-cover"
             >
               <button

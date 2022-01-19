@@ -283,12 +283,12 @@ const DeviceBuyBox = (props) => {
           tran_id: devicePlanDetails?.tran_id,
           purchase_date: purchaseDate,
         };
-        const ethAmount = await getETHAmountForUSDC(total);
+        const { weiVal: ethAmount } = await getETHAmountForUSDC(total);
         try {
           const result =
             currency !== 'ETH'
               ? await onStakeByToken({ ...param, token: getTokenAddress(currency) }, signature)
-              : await onStake(param, getDecimalAmount(ethAmount).toString(), signature);
+              : await onStake(param, ethAmount.toString(), signature);
 
           if (result.status) {
             dispatch(
@@ -357,15 +357,15 @@ const DeviceBuyBox = (props) => {
     let balance;
     let decimals = 18;
     if (currency === 'ETH') {
-      coverAmount = await getETHAmountForUSDC(plan_total_price);
+      coverAmount = (await getETHAmountForUSDC(plan_total_price)).parsedVal;
       balance = ethBalance.balance;
     } else if (currency === 'CVR') {
-      coverAmount = await getTokenAmountForUSDC(plan_total_price);
+      coverAmount = (await getTokenAmountForUSDC(plan_total_price)).parsedVal;
       balance = cvrBalance.balance;
     } else {
       const token = getTokenAddress(currency);
       const usdc = getTokenAddress('usdc');
-      coverAmount = await getNeededTokenAmount(token, usdc, plan_total_price);
+      coverAmount = (await getNeededTokenAmount(token, usdc, plan_total_price)).parsedVal;
       balance = tokenBalance.balance;
       decimals = tokenBalance.decimals;
     }

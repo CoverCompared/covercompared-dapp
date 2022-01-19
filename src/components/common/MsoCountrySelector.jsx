@@ -249,6 +249,7 @@ const MsoCountrySelector = ({
   };
 
   const onApproveToken = async () => {
+    setTxPending(true);
     try {
       const result = await onApprove();
       await handleTokenAllowance();

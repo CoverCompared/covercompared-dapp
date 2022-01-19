@@ -36,18 +36,53 @@ const AboutToken = () => {
         One Coin. 2 marketplaces. 11 use cases
       </div>
       <div className="text-center md:px-24 flex justify-center w-full mt-10 xl:mb-28 md:mb-16 mb-14">
-        <div className="grid grid-cols-12 gap-x-6 gap-y-4 w-full sm:px-24">
-          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+        <div className="grid grid-cols-10 gap-x-6 gap-y-4 w-full sm:px-20">
+          <div
+            onClick={() =>
+              window.open(
+                'https://etherscan.io/token/0x3c03b4ec9477809072ff9cc9292c9b25d4a8e6c6',
+                '_blank',
+              )
+            }
+            className="col-span-6 md:col-span-2 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold cursor-pointer"
+          >
             Etherscan
           </div>
-          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+          <div
+            onClick={() =>
+              window.open(
+                'https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x3c03b4ec9477809072ff9cc9292c9b25d4a8e6c6',
+                '_blank',
+              )
+            }
+            className="col-span-6 md:col-span-2 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold cursor-pointer"
+          >
             Uniswap
           </div>
-          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+          <div
+            onClick={() =>
+              window.open('https://coinmarketcap.com/currencies/covercompared/', '_blank')
+            }
+            className="col-span-6 md:col-span-2 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold cursor-pointer"
+          >
             Coinmarketcap
           </div>
-          <div className="col-span-6 md:col-span-3 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold">
+          <div
+            onClick={() =>
+              window.open(
+                'https://www.dextools.io/app/ether/pair-explorer/0xbf7045f6ea651abb04e96cba61adabe6d7bf0ee8',
+                '_blank',
+              )
+            }
+            className="col-span-6 md:col-span-2 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold cursor-pointer"
+          >
             Dextools
+          </div>
+          <div
+            onClick={() => window.open('https://trade.orionprotocol.io/pools/CVR-USDT', '_blank')}
+            className="col-span-6 md:col-span-2 bg-login-button-bg w-full py-3.5 px-2 rounded-xl text-login-button-text md:text-body-md text-body-xs font-semibold cursor-pointer"
+          >
+            Orion Protocol
           </div>
         </div>
       </div>

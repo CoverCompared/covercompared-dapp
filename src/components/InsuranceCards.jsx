@@ -28,10 +28,9 @@ const InsuranceCards = (props) => {
       title: 'DEVICE INSURANCE',
       subtitle: 'COVER',
       icon: DeviceIcon,
-      gradientClass: 'bg-gradient-to-bl',
+      gradientClass: 'bg-gradient-to-tl',
       bgImg: 'bg-homeCardBg3',
       redirectTo: '/device-product',
-      disabled: true,
     },
     {
       title: 'MEDICAL SECOND OPINION',

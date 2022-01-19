@@ -354,7 +354,7 @@ const MsoUserInfoForm = (props) => {
                       id="identity"
                       name="identity"
                       inputValue={user.identity}
-                      inputPlaceholder="Aadhar or passport"
+                      inputPlaceholder="Passport or Local ID"
                       fieldChange={handleUserFieldChange}
                       index={index}
                       disabled={notRegistered}

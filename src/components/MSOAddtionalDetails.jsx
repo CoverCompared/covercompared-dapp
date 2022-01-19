@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Modal from './common/Modal';
 import CountrySelector from './common/MsoCountrySelector';
+import WishingWell from '../assets/img/wishing-well-logo.png';
+import WCD from '../assets/img/world-class-doctor-logo.png';
 
 const MSOAdditionalDetails = (props) => {
   const {
@@ -18,8 +20,22 @@ const MSOAdditionalDetails = (props) => {
   return (
     <>
       <div>
+        {' '}
+        <div className="grid grid-cols-12 gap-x-5 gap-y-2 mt-2 mb-4 md:divide-x-2">
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-5 self-center md:pr-2">
+            <img
+              loading="lazy"
+              src={WishingWell}
+              alt=""
+              className="w-full h-20 p-3 dark:bg-white"
+            />
+          </div>
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-7 self-center md:pl-7">
+            <img loading="lazy" src={WCD} alt="" className="w-full h-20 p-3 dark:bg-white" />
+          </div>
+        </div>
         <div className="grid grid-cols-12 gap-6 mt-6">
-          <div className="lg:col-span-4 md:col-span-5 col-span-11">
+          {/* <div className="lg:col-span-4 md:col-span-5 col-span-11">
             <img
               loading="lazy"
               src={logo}
@@ -32,7 +48,7 @@ const MSOAdditionalDetails = (props) => {
                 {name}
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="md:col-span-7 col-span-12 flex-col flex justify-center">
             <div className="font-Montserrat font-semibold text-dark-blue text-h5 dark:text-white hidden md:block ">
               {name}
@@ -71,7 +87,7 @@ const MSOAdditionalDetails = (props) => {
                 <li>Turn around time – 10 days from receipt of medical records</li>
               </ul>
               <div className="font-Montserrat font-semibold text-body-md text-dark-blue dark:text-white mb-2 mt-4">
-                Features EHR (from wishing well)
+                Features EHR (Electronic Health Records)
               </div>
               <ul className="list-disc pl-6">
                 <li>EHR with mobile app for entire family</li>
@@ -81,7 +97,12 @@ const MSOAdditionalDetails = (props) => {
               </div>
               <ul className="list-disc pl-6">
                 <li>Local service provider - Toll free number will be provided </li>
-                <li>Email: MSO @ wishingwellcorp.com, MSO @calladoc.co.in</li>
+                <li>
+                  Email:{' '}
+                  <a className="underline cursor-pointer" href="mailto:support@wishingwellcorp.com">
+                    support@wishingwellcorp.com
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

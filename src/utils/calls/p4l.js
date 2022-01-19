@@ -22,7 +22,7 @@ const buyProductByToken = async (contract, param, signer, account, sig) => {
       params: funParam,
     });
   } catch (error) {
-    if (error.code === 151) {
+    if (error.code === 151 || error.code === 150) {
       tx = await callWithEstimateGas(contract, 'buyProductByToken', funParam);
     }
   }

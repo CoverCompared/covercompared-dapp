@@ -25,6 +25,10 @@ const HeaderCTAs = (props) => {
   useEffect(() => {
     if (pendingTx && library) {
       const txReceiptAsync = async () => {
+        if (!pendingTx.hash) {
+          dispatch(setPendingTransaction(null));
+          return;
+        }
         const receipt = await library.getTransactionReceipt(pendingTx.hash);
         if (receipt === null) {
           setTimeout(txReceiptAsync, 1000);

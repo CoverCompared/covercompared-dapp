@@ -197,7 +197,7 @@ const CoverBuyBox = (props) => {
           setFieldValue={setAmountField}
           selectedOption={amountSelect}
           setSelectedOption={setAmountSelect}
-          dropdownOptions={currency}
+          dropdownOptions={company_code === 'nexus' ? [currency[0]] : currency}
           placeholder="Enter amount "
         />
         <SelectWithSearch

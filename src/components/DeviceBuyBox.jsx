@@ -828,7 +828,7 @@ const DeviceBuyBox = (props) => {
               <a
                 className="underline"
                 target="_blank"
-                href="https://drive.google.com/file/d/1BhwGVFRiSY5I9rCD80Rms3rcUJC2pmGA/view?usp=sharing"
+                href="https://covercompared-assets.s3.me-south-1.amazonaws.com/protection-plan-t-n-c.pdf"
                 rel="noreferrer"
               >
                 terms and conditions

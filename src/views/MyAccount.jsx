@@ -374,7 +374,7 @@ const MyAccount = (props) => {
           <button
             type="button"
             onClick={() => window.open(transaction_link, '_blank')}
-            className="p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text rounded-xl "
+            className="p-3 md:mr-3 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text rounded-xl "
           >
             <LinkIcon title="Transaction details" className="w-5 h-5" />
           </button>
@@ -382,27 +382,13 @@ const MyAccount = (props) => {
             <button
               type="button"
               onClick={() => history.push(`submit-review/${_id}`)}
-              className="md:px-5 p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+              className="md:px-5 p-3 md:mr-3 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
             >
               Submit Review
             </button>
           )}
-          {/* {company_code === 'nexus' && (
-            <button
-              disabled={(proofPending && nexusIndex === index) || token_id === undefined}
-              onClick={() => handleSubmitToClaim(policy, index)}
-              type="button"
-              className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg disabled:from-gray-200 disabled:to-gray-200 hover:from-primary-gd-1 hover:to-primary-gd-2 text-black font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-            >
-              {proofPending && nexusIndex === index ? (
-                <Loading widthClass="w-4" heightClass="h-4" />
-              ) : (
-                'Submit Claim'
-              )}
-            </button>
-          )} */}
 
-          {company_code === 'nexus' &&
+          {/* {company_code === 'nexus' &&
             // replace the true with condition which check whether claim is submitted or not
             (true ? (
               <Modal
@@ -416,7 +402,7 @@ const MyAccount = (props) => {
               >
                 <button
                   type="button"
-                  className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+                  className="md:px-6 py-3 ml-2 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
                 >
                   Submit Claim
                 </button>
@@ -428,7 +414,7 @@ const MyAccount = (props) => {
               >
                 Redeem Claim
               </button>
-            ))}
+            ))} */}
         </div>
       </div>
     );
@@ -470,7 +456,7 @@ const MyAccount = (props) => {
           <button
             type="button"
             onClick={() => window.open(transaction_link, '_blank')}
-            className="p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text rounded-xl "
+            className="p-3 md:mr-3 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text rounded-xl "
           >
             <LinkIcon title="Transaction details" className="w-5 h-5" />
           </button>
@@ -478,13 +464,13 @@ const MyAccount = (props) => {
             <button
               type="button"
               onClick={() => history.push(`submit-review/${_id}`)}
-              className="md:px-5 p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+              className="md:px-5 p-3 md:mr-3 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
             >
               Submit Review
             </button>
           )}
 
-          {company_code === 'nexus' &&
+          {/* {company_code === 'nexus' &&
             // replace the true with condition which check whether claim is submitted or not
             (true ? (
               <Modal
@@ -497,7 +483,7 @@ const MyAccount = (props) => {
               >
                 <button
                   type="button"
-                  className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+                  className="md:px-6 py-3 px-4 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
                 >
                   Submit Claim
                 </button>
@@ -505,11 +491,11 @@ const MyAccount = (props) => {
             ) : (
               <button
                 type="button"
-                className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+                className="md:px-6 py-3 px-4 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
               >
                 Redeem Claim
               </button>
-            ))}
+            ))} */}
         </div>
       </div>
     );

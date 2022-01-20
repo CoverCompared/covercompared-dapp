@@ -1,4 +1,5 @@
 import { BIG_TEN } from '../utils/bigNumber';
+import { ENV } from '../redux/constants/config';
 
 export const BASE_SCAN_URLS = {
   1: 'https://etherscan.io',
@@ -32,18 +33,34 @@ export const BICONOMY_API_KEY = {
   42: 'hmIyM_AsF.ce90fe45-efc4-4bcf-87e2-a49863d8219c',
 };
 
-export const PRODUCT_CHAIN = {
-  nexus: 1,
-  insurace: 1,
-  mso: 1,
-  p4l: 1,
-};
+export const APP_CHAIN_ID = ENV === 'production' ? 1 : 4;
+export const PRODUCT_CHAIN =
+  ENV === 'production'
+    ? {
+        nexus: 1,
+        insurace: 1,
+        mso: 1,
+        p4l: 1,
+      }
+    : {
+        nexus: 42,
+        insurace: 4,
+        mso: 4,
+        p4l: 4,
+      };
 
 export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
 export const ETH_ADDRESS = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE';
 
-export const tokenDecimals = {
-  dai: 18,
-  usdc: 6,
-  usdt: 6,
-};
+export const tokenDecimals =
+  ENV === 'production'
+    ? {
+        dai: 18,
+        usdc: 6,
+        usdt: 6,
+      }
+    : {
+        dai: 18,
+        usdc: 18,
+        usdt: 18,
+      };

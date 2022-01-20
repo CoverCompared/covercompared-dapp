@@ -120,7 +120,7 @@ const CoverBuyConfirmModal = (props) => {
         if (token0 === token1) {
           setCvrAmount(total);
         } else {
-          const cvrAmount = await getNeededTokenAmount(token0, token1, quote);
+          const { parsedVal: cvrAmount } = await getNeededTokenAmount(token0, token1, quote);
           setCvrAmount(cvrAmount);
         }
       }

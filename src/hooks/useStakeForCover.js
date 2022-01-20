@@ -30,20 +30,32 @@ const useStakeForCover = () => {
       const maxPriceWithFee = await nexus.getProductPrice(nexusContractA, param);
       let tx;
       if (applyDiscount) {
-        tx = await nexus.buyCoverByToken(nexusContractB, account, library.getSigner(), {
-          ...param,
-          maxPriceWithFee,
-          token: await getCvrAddress(),
-        });
+        tx = await nexus.buyCoverByToken(
+          nexusContractA,
+          nexusContractB,
+          account,
+          library.getSigner(),
+          {
+            ...param,
+            maxPriceWithFee,
+            token: await getCvrAddress(),
+          },
+        );
       } else {
         // eslint-disable-next-line no-lonely-if
         if (isETHCover) {
           tx = await nexus.buyCoverByETH(nexusContractA, { ...param, maxPriceWithFee });
         } else {
-          tx = await nexus.buyCoverByToken(nexusContractB, account, library.getSigner(), {
-            ...param,
-            maxPriceWithFee,
-          });
+          tx = await nexus.buyCoverByToken(
+            nexusContractA,
+            nexusContractB,
+            account,
+            library.getSigner(),
+            {
+              ...param,
+              maxPriceWithFee,
+            },
+          );
         }
       }
 
@@ -69,7 +81,7 @@ const useStakeForCover = () => {
       }
       return null;
     },
-    [library, account],
+    [library, account, nexusContractA, nexusContractB],
   );
 
   const handleInsureAceStake = useCallback(
@@ -80,15 +92,27 @@ const useStakeForCover = () => {
       let tx = null;
       if (applyDiscount) {
         if (isETHCover) {
-          tx = await insure.buyETHCoverByToken(insuraceContractB, account, library.getSigner(), {
-            ...param,
-            token: cvrAddress,
-          });
+          tx = await insure.buyETHCoverByToken(
+            insuraceContractA,
+            insuraceContractB,
+            account,
+            library.getSigner(),
+            {
+              ...param,
+              token: cvrAddress,
+            },
+          );
         } else {
-          tx = await insure.buyTokenCoverByToken(insuraceContractB, account, library.getSigner(), {
-            ...param,
-            token: cvrAddress,
-          });
+          tx = await insure.buyTokenCoverByToken(
+            insuraceContractA,
+            insuraceContractB,
+            account,
+            library.getSigner(),
+            {
+              ...param,
+              token: cvrAddress,
+            },
+          );
         }
       } else {
         // eslint-disable-next-line no-lonely-if
@@ -96,6 +120,7 @@ const useStakeForCover = () => {
           tx = await insure.buyETHCoverByETH(insuraceContractA, param);
         } else {
           tx = await insure.buyTokenCoverByToken(
+            insuraceContractA,
             insuraceContractB,
             account,
             library.getSigner(),
@@ -117,7 +142,7 @@ const useStakeForCover = () => {
       }
       return null;
     },
-    [library, account],
+    [library, account, insuraceContractA, insuraceContractB],
   );
   return {
     onNMStake: handleNexusMutualStake,

@@ -32,7 +32,7 @@ const buyCoverByETH = async (contract, param) => {
   return tx;
 };
 
-const buyCoverByToken = async (contract, account, signer, param) => {
+const buyCoverByToken = async (contractA, contractB, account, signer, param) => {
   const {
     contractAddress,
     coverAsset,
@@ -54,13 +54,13 @@ const buyCoverByToken = async (contract, account, signer, param) => {
   ];
   let tx;
   try {
-    tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.nexus, {
+    tx = await metaCall(contractB, contractInterface, account, signer, PRODUCT_CHAIN.nexus, {
       name: 'buyCoverByToken',
       params: funParam,
     });
   } catch (error) {
-    if (error.code === 151) {
-      tx = await callWithEstimateGas(contract, 'buyCoverByToken', funParam);
+    if (error.code === 151 || error.code === 150) {
+      tx = await callWithEstimateGas(contractA, 'buyCoverByToken', funParam);
     }
   }
   return tx;

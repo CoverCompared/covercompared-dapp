@@ -7,6 +7,7 @@ import { getCvrAddressByChainId } from '../utils/addressHelpers';
 import { getErc20Contract } from '../utils/contractHelpers';
 import useAddress from './useAddress';
 import { getBalanceNumber } from '../utils/formatBalance';
+import { tokenDecimals } from '../config';
 
 const useTokenAmount = () => {
   const { library, account, chainId } = useActiveWeb3React();
@@ -43,7 +44,7 @@ const useTokenAmount = () => {
     async (desiredAmount) => {
       let ethAmount = BIG_ZERO;
       const big_desiredAmount = new BigNumber(desiredAmount)
-        .multipliedBy(10 ** 6)
+        .multipliedBy(10 ** tokenDecimals.usdc)
         .toFixed(0)
         .toString();
       ethAmount = await exchangeAgentContract.getETHAmountForUSDC(big_desiredAmount);
@@ -62,7 +63,7 @@ const useTokenAmount = () => {
       const tokenContract = getErc20Contract(cvrAddr, library);
       const decimals = await tokenContract.decimals();
       const big_desiredAmount = new BigNumber(desiredAmount)
-        .multipliedBy(10 ** 6)
+        .multipliedBy(10 ** tokenDecimals.usdc)
         .toFixed(0)
         .toString();
 

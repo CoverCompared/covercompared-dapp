@@ -28,7 +28,7 @@ import useTokenAmount from '../../hooks/useTokenAmount';
 import useTokenApprove from '../../hooks/useTokenApprove';
 import useAddress from '../../hooks/useAddress';
 import useAssetsUsdPrice from '../../hooks/useAssetsUsdPrice';
-import { MSO_PLAN_TYPE } from '../../config';
+import { MSO_PLAN_TYPE, tokenDecimals } from '../../config';
 import CurrencySelect from './CurrencySelect';
 
 const MsoCountrySelector = ({
@@ -131,9 +131,15 @@ const MsoCountrySelector = ({
       (async () => {
         const param = {
           policyId: txn_hash,
-          value: getDecimalAmount(addonServices ? total - MSOAddOnService : total, 6).toString(),
+          value: getDecimalAmount(
+            addonServices ? total - MSOAddOnService : total,
+            tokenDecimals.usdc,
+          ).toString(),
           period: MSO_PLAN_TYPE[`${selectedPlan.unique_id}`],
-          conciergePrice: getDecimalAmount(addonServices ? MSOAddOnService : 0, 6).toString(),
+          conciergePrice: getDecimalAmount(
+            addonServices ? MSOAddOnService : 0,
+            tokenDecimals.usdc,
+          ).toString(),
           sig: signature,
         };
         const { weiVal: ethAmount } = await getETHAmountForUSDC(total);

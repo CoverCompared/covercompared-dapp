@@ -825,7 +825,12 @@ const DeviceBuyBox = (props) => {
               className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
             >
               I have read and agree to the{' '}
-              <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
+              <a
+                className="underline"
+                target="_blank"
+                href="https://covercompared-assets.s3.me-south-1.amazonaws.com/protection-plan-t-n-c.pdf"
+                rel="noreferrer"
+              >
                 terms and conditions
               </a>{' '}
               *

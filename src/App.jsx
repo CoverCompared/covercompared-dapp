@@ -37,7 +37,7 @@ const App = (props) => {
       />
       <SVGGradients />
       <PreRenderedModals />
-      <TelegramWidget />
+      {/* <TelegramWidget /> */}
       <Switch>
         {routes.map((m, i) => (
           <PublicRoute key={i} {...m} />

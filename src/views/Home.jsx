@@ -11,6 +11,7 @@ import { ThemeContext } from '../themeContext';
 import { analytics } from '../config/firebase';
 import { SupportedChainId } from '../config/chains';
 import { setupNetwork } from '../utils/wallet';
+import { APP_CHAIN_ID } from '../config';
 // import useTokenBalance, { useGetEthBalance } from '../hooks/useTokenBalance';
 // import useAssetsUsdPrice from '../hooks/useAssetsUsdPrice';
 // import useConverUsdtToCVR from '../hooks/useConverUsdtToCVR';
@@ -99,7 +100,7 @@ export default function Home(props) {
   // this hooks for testing. Should be remove in production.
   useEffect(() => {
     (async () => {
-      const _chainId = process.env.REACT_APP_CHAIN_ID;
+      const _chainId = APP_CHAIN_ID;
       if (chainId !== _chainId) {
         await setupNetwork(_chainId);
       }

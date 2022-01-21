@@ -1,14 +1,12 @@
-import { BASE_URL } from '../config';
+import { BASE_URL, APP_CHAIN_ID } from '../config';
 
 export const setupNetwork = async (_chainId) => {
   const provider = window.ethereum;
   if (provider) {
-    // const chainId = process.env.REACT_APP_CHAIN_ID
-    //   ? parseInt(process.env.REACT_APP_CHAIN_ID, 10)
+    // const chainId = APP_CHAIN_ID
+    //   ? parseInt(APP_CHAIN_ID, 10)
     //   : 1;
-    const chainId = _chainId
-      ? parseInt(_chainId, 10)
-      : parseInt(process.env.REACT_APP_CHAIN_ID, 10);
+    const chainId = _chainId ? parseInt(_chainId, 10) : parseInt(APP_CHAIN_ID, 10);
     try {
       await provider.request({
         method: 'wallet_switchEthereumChain',

@@ -13,6 +13,7 @@ if (productionHostname.includes(window.location.hostname)) {
   env = 'local';
   // baseURL = 'http://localhost:3006/api';
   baseURL = 'https://staging-covercompared.polkacover.com/api';
+  // baseURL = 'https://app.covercompared.com/api';
 }
 
 export const ENV = env;

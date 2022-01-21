@@ -22,7 +22,7 @@ export default {
   priceFeed: {
     eth: {
       decimal: 8,
-      1: '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419',
+      1: '0x6fa510b6027ddda59c1c4639e2bd4ec863a4e90f',
       4: '0xc86718f161412Ace9c0dC6F81B26EfD4D3A8F5e0',
       42: '0xb3dEcC8bAAd6226835BdB92C19f082Fba443Ad3a',
     },
@@ -46,7 +46,7 @@ export default {
     },
     dai: {
       decimal: 8,
-      1: '0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9',
+      1: '0xfe68377fa0fbcfb1423bbbfd9eb7c8394f954a51',
       4: '0xBC33008AF81A03aA24dc0A0F112E29C979e317fB',
       42: '0x777A68032a88E5A84678A77Af2CD65A7b3c0775a',
     },
@@ -88,7 +88,7 @@ export default {
     },
     usdt: {
       decimal: 8,
-      1: '0x3E7d1eAB13ad0104d2750B8863b489D65364e32D',
+      1: '0xcd029d8ed27ff5dcc602c3bd1fb9562c60876963',
       4: '',
       42: '0x2ca5A90D34cA333661083F89D831f757A9A50148',
     },

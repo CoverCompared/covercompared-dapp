@@ -48,12 +48,11 @@ const CoverBuyBox = (props) => {
   const [amountSelect, setAmountSelect] = useState(currency[0]);
   const [quoteField, setQuoteField] = useState(quote || 0);
   const [quoteSelect, setQuoteSelect] = useState('ETH');
-  const [quoteOptions, setQuoteOptions] = useState(['ETH', 'CVR', 'DOT']);
+  const [quoteOptions, setQuoteOptions] = useState(['ETH', 'CVR']);
   const [forceClose, setForceClose] = useState(false);
 
-  const { getTokenAmountForETH, getNeededTokenAmount } = useTokenAmount();
+  const { getNeededTokenAmount } = useTokenAmount();
   const { getTokenAddress } = useAddress();
-  const cvrAddress = getTokenAddress('cvr');
 
   const period = useMemo(() => {
     const periodVal = `${periodField}`.split('.')[0];
@@ -76,23 +75,6 @@ const CoverBuyBox = (props) => {
     return val;
   }, [periodField, periodSelect]);
 
-  // const productChainId = useMemo(() => {
-  //   const { company_code } = product;
-  //   let _chainId = SupportedChainId.RINKEBY;
-  //   switch (company_code) {
-  //     case 'nexus':
-  //       _chainId = SupportedChainId.KOVAN;
-  //       break;
-  //     case 'insurace':
-  //       _chainId = SupportedChainId.RINKEBY;
-  //       break;
-  //     case 'nsure':
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  //   return _chainId;
-  // }, [product]);
   const productChainId = PRODUCT_CHAIN[company_code] || SupportedChainId.RINKEBY;
 
   const callGetQuote = useCallback(() => {
@@ -146,7 +128,11 @@ const CoverBuyBox = (props) => {
 
   useEffect(() => {
     setQuoteSelect(amountSelect);
-    setQuoteOptions([amountSelect, 'CVR', 'DOT']);
+    if (amountSelect === 'DAI' || amountSelect === 'USDT') {
+      setQuoteOptions([amountSelect]);
+    } else {
+      setQuoteOptions([amountSelect, 'CVR']);
+    }
   }, [amountSelect]);
 
   useEffect(() => {
@@ -156,12 +142,10 @@ const CoverBuyBox = (props) => {
       setQuoteField(quote ? quote.toFixed(6) : quote);
     } else {
       (async () => {
-        const amount = getBalanceNumber(
-          await getNeededTokenAmount(
-            getTokenAddress(quoteSelect),
-            getTokenAddress(amountSelect),
-            quote,
-          ),
+        const { parsedVal: amount } = await getNeededTokenAmount(
+          getTokenAddress(quoteSelect),
+          getTokenAddress(amountSelect),
+          quote,
         );
         const ratio = 4 / 3;
         setQuoteField((amount * ratio).toFixed(6));
@@ -213,7 +197,7 @@ const CoverBuyBox = (props) => {
           setFieldValue={setAmountField}
           selectedOption={amountSelect}
           setSelectedOption={setAmountSelect}
-          dropdownOptions={currency}
+          dropdownOptions={company_code === 'nexus' ? [currency[0]] : currency}
           placeholder="Enter amount "
         />
         <SelectWithSearch

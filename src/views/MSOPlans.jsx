@@ -27,6 +27,8 @@ import MSOpartner9 from '../assets/img/mso-partners-9.jpg';
 import MSOService1 from '../assets/img/mso-service-1.png';
 import MSOService2 from '../assets/img/mso-service-2.png';
 import MSOService3 from '../assets/img/mso-service-3.png';
+import WishingWell from '../assets/img/wishing-well-logo.png';
+import WCD from '../assets/img/world-class-doctor-logo.png';
 import { PRODUCT_CHAIN } from '../config';
 
 const MSOServices = [
@@ -177,13 +179,29 @@ const MSOPlans = (props) => {
         {...{ setIsEligible, country, setCountry }}
       />
       <div className="xl:px-48 sm:px-8">
+        <div className="grid grid-cols-12 gap-x-5 gap-y-2 mt-2 mb-6 md:divide-x-2">
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-5 self-center md:pr-2">
+            <img
+              loading="lazy"
+              src={WishingWell}
+              alt=""
+              className="w-full h-28 p-3 dark:bg-white"
+            />
+          </div>
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-7 self-center md:pl-7">
+            <img loading="lazy" src={WCD} alt="" className="w-full h-28 p-3 dark:bg-white" />
+          </div>
+        </div>
+        <div className="bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 text-center text-white font-semibold mb-10">
+          INTERNATIONAL MEDICAL SECOND OPINION
+        </div>
         <div className="font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
-          Cover Compares has partnered with{' '}
+          Cover Compared has partnered with Wishing Well global health services to provide{' '}
           <span className="font-semibold">World Class Doctors</span> - the MSO consortium which has
-          operations in 57countries. And headquartered in the US.
+          operations in 57 countries. And headquartered in the US.
         </div>
         <div className="mt-5 font-Inter text-post-body-text md:text-body-md text-body-sm dark:text-subtitle-dark-text text-center">
-          The World Class Doctors -MSO consortium has 25 years medical second opinion (MSO)
+          The World Class Doctors - MSO consortium has 25 years medical second opinion (MSO)
           experience and provides opinions through the foremost medical experts from a consortium of
           the top hospitals in the world, with cutting edge research and knowledge.
         </div>
@@ -207,7 +225,7 @@ const MSOPlans = (props) => {
         </div>
       )}
 
-      <div className="xl:px-36 lg:px-28 md:my-20 my-12">
+      <div className="xl:px-36 lg:px-28 md:mb-20 mb-12 mt-12">
         <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
           RANGE OF SERVICES
         </h2>

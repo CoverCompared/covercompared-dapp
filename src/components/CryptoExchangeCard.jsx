@@ -75,7 +75,7 @@ const CryptoExchangeCard = ({ policy }) => {
         <button
           type="button"
           onClick={() => window.open(transaction_link, '_blank')}
-          className="p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text rounded-xl "
+          className="p-3 md:mr-3 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text rounded-xl "
         >
           <LinkIcon title="Transaction details" className="w-5 h-5" />
         </button>
@@ -83,13 +83,13 @@ const CryptoExchangeCard = ({ policy }) => {
           <button
             type="button"
             onClick={() => history.push(`submit-review/${_id}`)}
-            className="md:px-5 p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+            className="md:px-5 p-3 md:mr-3 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
           >
             Submit Review
           </button>
         )}
 
-        {company_code === 'nexus' &&
+        {/* {company_code === 'nexus' &&
           // replace the true with condition which check whether claim is submitted or not
           (!claimId ? (
             <Modal
@@ -103,7 +103,7 @@ const CryptoExchangeCard = ({ policy }) => {
             >
               <button
                 type="button"
-                className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+                className="md:px-6 py-3 px-4 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
               >
                 Submit Claim
               </button>
@@ -113,11 +113,11 @@ const CryptoExchangeCard = ({ policy }) => {
               type="button"
               disabled={!redeemable}
               onClick={redeemClaim}
-              className="md:px-6 py-3 px-4 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+              className="md:px-6 py-3 px-4 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
             >
               Redeem Claim
             </button>
-          ))}
+          ))} */}
       </div>
     </div>
   );

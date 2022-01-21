@@ -95,7 +95,7 @@ const CoverAndExchangeProduct = (props) => {
     company_icon,
     unique_id,
     currency_limit,
-    supportedChains,
+    chain_type_list,
   } = product || {};
 
   useEffect(() => {
@@ -214,7 +214,7 @@ const CoverAndExchangeProduct = (props) => {
               <div>
                 <div
                   data-for="info-tool-tip"
-                  data-tip={supportedChains.join(', ')}
+                  data-tip={chain_type_list.join(', ')}
                   data-iscapture="true"
                   className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
                 >
@@ -248,29 +248,29 @@ const CoverAndExchangeProduct = (props) => {
               {additional_details}
             </div>
 
-            {terms_and_conditions && (
-              <>
-                <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
-                  Term & Condition:
-                </div>
-                <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
+            <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
+              Term & Condition:
+            </div>
+            <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
+              {terms_and_conditions && (
+                <>
                   <Markup content={terms_and_conditions} />
                   <br />
-                  <p>Supported chains:</p>
-                  {supportedChains && <p>{supportedChains.toString()}</p>}
-                  <br />
-                  {pdf && (
-                    <p className="flex">
-                      Check out full details here
-                      <ExternalLinkIcon
-                        className="ml-2 w-5 h-5 cursor-pointer"
-                        onClick={() => window.open(pdf, '_blank')}
-                      />
-                    </p>
-                  )}
-                </div>
-              </>
-            )}
+                </>
+              )}
+              <p>Supported chains:</p>
+              {chain_type_list && <p>{chain_type_list.toString()}</p>}
+              <br />
+              {pdf && (
+                <p className="flex">
+                  Check out full details here
+                  <ExternalLinkIcon
+                    className="ml-2 w-5 h-5 cursor-pointer"
+                    onClick={() => window.open(pdf, '_blank')}
+                  />
+                </p>
+              )}
+            </div>
           </div>
           <div className="xl:col-span-5 xl:col-start-8 lg:col-span-5 col-span-12 order-1 md:order-2">
             <div className="mb-4">
@@ -290,7 +290,7 @@ const CoverAndExchangeProduct = (props) => {
                   fontColor="#FFF"
                 />
               </div>
-              <div className="text-body-md">{supportedChains.join(',  ')}</div>
+              <div className="text-body-m dark:text-white">{chain_type_list.join(',  ')}</div>
             </div>
             <div className="font-Montserrat font-semibold text-19 text-dark-blue mb-4 dark:text-white">
               Discount
@@ -339,7 +339,7 @@ const CoverAndExchangeProduct = (props) => {
                 <Select
                   {...{
                     negativeLeft: true,
-                    fieldTitle: 'Short By',
+                    fieldTitle: 'Sort By',
                     options: filterOption,
                     selectedOption: filterSelect,
                     setSelectedOption: setFilterSelect,

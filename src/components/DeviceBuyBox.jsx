@@ -382,6 +382,7 @@ const DeviceBuyBox = (props) => {
       value: deviceDetails?.device_values[value],
       purchase_month: purchaseMonth,
       durPlan: purchaseMonth === 'Less than 12 months' ? 1 : 2,
+      model_code: model || 'OTHERS',
       model: model || 'OTHERS',
       model_name: selectedModel?.[0]?.model_name || 'Others',
       plan_type: 'monthly',
@@ -396,6 +397,9 @@ const DeviceBuyBox = (props) => {
       tax: '0',
       total_amount: total,
       wallet_address: account,
+      custom_device_name: selectedModel?.[0]?.model_name || `${brand} ${deviceType}`,
+      tran_id: devicePlanDetails?.tran_id,
+      partner_code: '1039',
     };
 
     dispatch(buyDeviceInsuranceFirst(param));

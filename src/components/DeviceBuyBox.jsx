@@ -384,6 +384,7 @@ const DeviceBuyBox = (props) => {
       email,
       phone,
       imei_or_serial_number: imeiOrSerial,
+      purchase_date: purchaseDate,
       currency: plan_currency,
       amount: plan_total_price,
       discount_amount: discountAmount,

@@ -41,12 +41,9 @@ const DeviceReceiptCard = (props) => {
   return (
     <>
       <div className="bg-white rounded-lg mt-8 w-full md:p-8 px-4 py-6 shadow-lg">
+        <img loading="lazy" src={logo} alt="MSO" className="h-12" />
         <div className="flex justify-between">
-          <div className="flex items-end">
-            <img loading="lazy" src={CoverComparedLogo} alt="CoverCompared" className="h-14" />
-            <img loading="lazy" src={logo} alt="MSO" className="h-5 ml-2" />
-          </div>
-
+          <img loading="lazy" src={CoverComparedLogo} alt="CoverCompared" className="h-20" />
           <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">
             Date: {getCurrentDate()}
           </div>

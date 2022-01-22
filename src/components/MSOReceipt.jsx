@@ -2,10 +2,13 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/renderer';
 
-import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import { shortenTxHash } from '../utils';
 import { mso_countries } from '../functions/data';
+
+import CoverComparedLogo from '../assets/img/logo-final-light.png';
+import WishingWell from '../assets/img/wishing-well-logo.png';
+import WCD from '../assets/img/world-class-doctor-logo.png';
 
 const styles = StyleSheet.create({
   page: {
@@ -31,7 +34,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   topLogo: {
-    width: 110,
+    height: '60pt',
+    width: 'auto',
   },
   msoLogo: {
     height: '40pt',
@@ -103,6 +107,26 @@ const styles = StyleSheet.create({
   blueText: {
     color: '#1E3A8A',
   },
+  msoContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: '8pt',
+    marginBottom: '16pt',
+  },
+  msoImage: {
+    width: 'auto',
+    height: '60pt',
+  },
+  msoText: {
+    backgroundColor: '#007993',
+    backgroundImage: 'linear-gradient(to right, #007993 , #45EA9A)',
+    textAlign: 'center',
+    color: '#ffffff',
+    fontWeight: '600',
+    marginBottom: '40pt',
+  },
 });
 
 const getCurrentDate = () => {
@@ -137,16 +161,17 @@ const MSOReceipt = (props) => {
     <Document style={styles.doc}>
       <Page style={styles.page}>
         <View style={styles.container}>
+          <View style={styles.msoContainer}>
+            <Image loading="lazy" src={WishingWell} alt="" style={styles.msoImage} />
+            <Image loading="lazy" src={WCD} alt="" style={styles.msoImage} />
+          </View>
+          <Text style={styles.msoText}>INTERNATIONAL MEDICAL SECOND OPINION</Text>
+
           <View style={[styles.row, styles.justify_between]}>
             <View style={styles.row}>
-              <View style={styles.topLogo}>
-                <Image source={CoverComparedLogo} />
+              <View>
+                <Image source={CoverComparedLogo} style={styles.topLogo} />
               </View>
-              {logo && (
-                <View style={styles.msoLogo}>
-                  <Image source={logo} />
-                </View>
-              )}
             </View>
             <View>
               <Text>Date: {getCurrentDate()}</Text>
@@ -260,10 +285,7 @@ const MSOReceipt = (props) => {
               <View
                 style={[styles.center, styles.tableCol, styles.border_right, styles.tableContent]}
               >
-                <Text>
-                  {' '}
-                  {mso_countries.find((f) => f.value === 'member.country')?.label || ''}{' '}
-                </Text>
+                <Text> {mso_countries.find((f) => f.value === member.country)?.label || ''}</Text>
               </View>
               <View
                 style={[styles.center, styles.tableCol, styles.border_right, styles.tableContent]}

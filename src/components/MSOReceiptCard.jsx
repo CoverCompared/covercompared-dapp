@@ -1,10 +1,13 @@
 import React from 'react';
 import dayjs from 'dayjs';
 
-import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import { shortenTxHash } from '../utils';
 import { mso_countries } from '../functions/data';
+
+import CoverComparedLogo from '../assets/img/logo-final-light.png';
+import WishingWell from '../assets/img/wishing-well-logo.png';
+import WCD from '../assets/img/world-class-doctor-logo.png';
 
 const MSOReceiptCard = (props) => {
   const {
@@ -37,11 +40,24 @@ const MSOReceiptCard = (props) => {
   return (
     <>
       <div className="bg-white rounded-lg mt-8 w-full md:p-8 px-4 py-6 shadow-lg">
-        <div className="flex justify-between">
-          <div className="flex">
-            <img loading="lazy" src={CoverComparedLogo} alt="CoverCompared" className="h-14" />
-            <img loading="lazy" src={logo} alt="MSO" className="h-14 ml-2" />
+        <div className="grid grid-cols-12 gap-x-5 gap-y-2 mt-2 mb-4 md:divide-x-2">
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-5 self-center md:pr-2">
+            <img
+              loading="lazy"
+              src={WishingWell}
+              alt=""
+              className="w-auto h-28 p-3 dark:bg-white"
+            />
           </div>
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-7 self-center md:pl-7">
+            <img loading="lazy" src={WCD} alt="" className="w-auto h-28 p-3 dark:bg-white" />
+          </div>
+        </div>
+        <div className="bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 text-center text-white font-semibold mb-10">
+          INTERNATIONAL MEDICAL SECOND OPINION
+        </div>
+        <div className="flex justify-between">
+          <img loading="lazy" src={CoverComparedLogo} alt="CoverCompared" className="h-20" />
           <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">
             Date: {getCurrentDate()}
           </div>

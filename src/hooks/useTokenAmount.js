@@ -7,6 +7,7 @@ import { getCvrAddressByChainId } from '../utils/addressHelpers';
 import { getErc20Contract } from '../utils/contractHelpers';
 import useAddress from './useAddress';
 import { getBalanceNumber } from '../utils/formatBalance';
+import { tokenDecimals } from '../config';
 
 const useTokenAmount = () => {
   const { library, account, chainId } = useActiveWeb3React();
@@ -32,7 +33,10 @@ const useTokenAmount = () => {
         big_desiredAmount,
       );
       // return new BigNumber(tokenAmount.toString());
-      return getBalanceNumber(new BigNumber(tokenAmount.toString()), decimals0);
+      return {
+        parsedVal: getBalanceNumber(new BigNumber(tokenAmount.toString()), decimals0),
+        weiVal: new BigNumber(tokenAmount.toString()),
+      };
     },
     [library, account],
   );
@@ -40,13 +44,16 @@ const useTokenAmount = () => {
     async (desiredAmount) => {
       let ethAmount = BIG_ZERO;
       const big_desiredAmount = new BigNumber(desiredAmount)
-        .multipliedBy(10 ** 6)
+        .multipliedBy(10 ** tokenDecimals.usdc)
         .toFixed(0)
         .toString();
       ethAmount = await exchangeAgentContract.getETHAmountForUSDC(big_desiredAmount);
 
       // return new BigNumber(ethAmount.toString());
-      return getBalanceNumber(new BigNumber(ethAmount.toString()));
+      return {
+        parsedVal: getBalanceNumber(new BigNumber(ethAmount.toString())),
+        weiVal: new BigNumber(ethAmount.toString()),
+      };
     },
     [library, account, exchangeAgentContract],
   );
@@ -56,14 +63,17 @@ const useTokenAmount = () => {
       const tokenContract = getErc20Contract(cvrAddr, library);
       const decimals = await tokenContract.decimals();
       const big_desiredAmount = new BigNumber(desiredAmount)
-        .multipliedBy(10 ** 6)
+        .multipliedBy(10 ** tokenDecimals.usdc)
         .toFixed(0)
         .toString();
 
       tokenAmount = await exchangeAgentContract.getTokenAmountForUSDC(cvrAddr, big_desiredAmount);
 
       // return new BigNumber(tokenAmount.toString());
-      return getBalanceNumber(new BigNumber(tokenAmount.toString()), decimals);
+      return {
+        parsedVal: getBalanceNumber(new BigNumber(tokenAmount.toString()), decimals),
+        weiVal: new BigNumber(tokenAmount.toString()),
+      };
     },
     [library, account, exchangeAgentContract],
   );
@@ -78,7 +88,10 @@ const useTokenAmount = () => {
         .toString();
       tokenAmount = await exchangeAgentContract.getTokenAmountForETH(token, big_desiredAmount);
 
-      return getBalanceNumber(new BigNumber(tokenAmount.toString()), decimals);
+      return {
+        parsedVal: getBalanceNumber(new BigNumber(tokenAmount.toString()), decimals),
+        weiVal: new BigNumber(tokenAmount.toString()),
+      };
     },
     [library, account, exchangeAgentContract],
   );

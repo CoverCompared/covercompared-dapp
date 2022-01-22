@@ -283,12 +283,12 @@ const DeviceBuyBox = (props) => {
           tran_id: devicePlanDetails?.tran_id,
           purchase_date: purchaseDate,
         };
-        const ethAmount = await getETHAmountForUSDC(total);
+        const { weiVal: ethAmount } = await getETHAmountForUSDC(total);
         try {
           const result =
             currency !== 'ETH'
               ? await onStakeByToken({ ...param, token: getTokenAddress(currency) }, signature)
-              : await onStake(param, getDecimalAmount(ethAmount).toString(), signature);
+              : await onStake(param, ethAmount.toString(), signature);
 
           if (result.status) {
             dispatch(
@@ -357,15 +357,15 @@ const DeviceBuyBox = (props) => {
     let balance;
     let decimals = 18;
     if (currency === 'ETH') {
-      coverAmount = await getETHAmountForUSDC(plan_total_price);
+      coverAmount = (await getETHAmountForUSDC(plan_total_price)).parsedVal;
       balance = ethBalance.balance;
     } else if (currency === 'CVR') {
-      coverAmount = await getTokenAmountForUSDC(plan_total_price);
+      coverAmount = (await getTokenAmountForUSDC(plan_total_price)).parsedVal;
       balance = cvrBalance.balance;
     } else {
       const token = getTokenAddress(currency);
       const usdc = getTokenAddress('usdc');
-      coverAmount = await getNeededTokenAmount(token, usdc, plan_total_price);
+      coverAmount = (await getNeededTokenAmount(token, usdc, plan_total_price)).parsedVal;
       balance = tokenBalance.balance;
       decimals = tokenBalance.decimals;
     }
@@ -382,6 +382,7 @@ const DeviceBuyBox = (props) => {
       value: deviceDetails?.device_values[value],
       purchase_month: purchaseMonth,
       durPlan: purchaseMonth === 'Less than 12 months' ? 1 : 2,
+      model_code: model || 'OTHERS',
       model: model || 'OTHERS',
       model_name: selectedModel?.[0]?.model_name || 'Others',
       plan_type: 'monthly',
@@ -390,12 +391,16 @@ const DeviceBuyBox = (props) => {
       email,
       phone,
       imei_or_serial_number: imeiOrSerial,
+      purchase_date: purchaseDate,
       currency: plan_currency,
       amount: plan_total_price,
       discount_amount: discountAmount,
       tax: '0',
       total_amount: total,
       wallet_address: account,
+      custom_device_name: selectedModel?.[0]?.model_name || `${brand} ${deviceType}`,
+      tran_id: devicePlanDetails?.tran_id,
+      partner_code: '1039',
     };
 
     dispatch(buyDeviceInsuranceFirst(param));
@@ -539,6 +544,10 @@ const DeviceBuyBox = (props) => {
             <Alert type="danger" text={deviceMessage} onClose={() => setShowAlert(false)} />
           </div>
         )}
+        <div className="flex items-center justify-between w-full dark:text-white mb-2">
+          <h5 className="text-h6 font-medium">Premium in USD</h5>
+          <h5 className="text-body-lg font-medium">{plan_total_price} USD</h5>
+        </div>
         <CurrencySelect
           {...{
             negativeLeft: false,

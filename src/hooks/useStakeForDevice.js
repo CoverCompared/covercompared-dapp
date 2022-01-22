@@ -41,14 +41,16 @@ const useStakeForDevice = () => {
 
 export const useStakeForDeviceByToken = () => {
   const { library, account, chainId } = useActiveWeb3React();
-  const p4lContract = useP4LContractB();
+  const p4lContractB = useP4LContractB();
+  const p4lContractA = useP4LContractA();
   const { getCvrAddress } = useAddress();
   const dispatch = useDispatch();
   const handleStake = useCallback(
     async (param, signature) => {
       if (signature) {
         let tx = await p4l.buyProductByToken(
-          p4lContract,
+          p4lContractA,
+          p4lContractB,
           param,
           library.getSigner(),
           account,
@@ -67,7 +69,7 @@ export const useStakeForDeviceByToken = () => {
         txn_hash: null,
       };
     },
-    [library, p4lContract, account],
+    [library, p4lContractA, p4lContractB, account],
   );
 
   return {

@@ -142,7 +142,7 @@ const CoverBuyBox = (props) => {
       setQuoteField(quote ? quote.toFixed(6) : quote);
     } else {
       (async () => {
-        const amount = await getNeededTokenAmount(
+        const { parsedVal: amount } = await getNeededTokenAmount(
           getTokenAddress(quoteSelect),
           getTokenAddress(amountSelect),
           quote,
@@ -197,7 +197,7 @@ const CoverBuyBox = (props) => {
           setFieldValue={setAmountField}
           selectedOption={amountSelect}
           setSelectedOption={setAmountSelect}
-          dropdownOptions={currency}
+          dropdownOptions={company_code === 'nexus' ? [currency[0]] : currency}
           placeholder="Enter amount "
         />
         <SelectWithSearch

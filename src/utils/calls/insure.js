@@ -23,7 +23,7 @@ const buyETHCoverByETH = async (contract, param) => {
   return tx;
 };
 
-const buyETHCoverByToken = async (contract, account, signer, param) => {
+const buyETHCoverByToken = async (contractA, contractB, account, signer, param) => {
   const { data, premium, token } = param;
   const contractInterface = new ethers.utils.Interface(insureAceAbi);
   const funParam = [
@@ -42,19 +42,19 @@ const buyETHCoverByToken = async (contract, account, signer, param) => {
   ];
   let tx;
   try {
-    tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.insurace, {
+    tx = await metaCall(contractB, contractInterface, account, signer, PRODUCT_CHAIN.insurace, {
       name: 'buyETHCoverByToken',
       params: funParam,
     });
   } catch (error) {
-    if (error.code === 151) {
-      tx = await callWithEstimateGas(contract, 'buyETHCoverByToken', funParam);
+    if (error.code === 151 || error.code === 150) {
+      tx = await callWithEstimateGas(contractA, 'buyETHCoverByToken', funParam);
     }
   }
   return tx;
 };
 
-const buyTokenCoverByToken = async (contract, account, signer, param) => {
+const buyTokenCoverByToken = async (contractA, contractB, account, signer, param) => {
   const { data, premium, token } = param;
   const contractInterface = new ethers.utils.Interface(insureAceAbi);
   const funParam = [
@@ -73,13 +73,13 @@ const buyTokenCoverByToken = async (contract, account, signer, param) => {
   ];
   let tx;
   try {
-    tx = await metaCall(contract, contractInterface, account, signer, PRODUCT_CHAIN.insurace, {
+    tx = await metaCall(contractB, contractInterface, account, signer, PRODUCT_CHAIN.insurace, {
       name: 'buyTokenCoverByToken',
       params: funParam,
     });
   } catch (error) {
-    if (error.code === 151) {
-      tx = await callWithEstimateGas(contract, 'buyTokenCoverByToken', funParam);
+    if (error.code === 151 || error.code === 150) {
+      tx = await callWithEstimateGas(contractA, 'buyTokenCoverByToken', funParam);
     }
   }
   return tx;

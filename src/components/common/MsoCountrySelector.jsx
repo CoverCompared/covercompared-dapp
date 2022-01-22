@@ -28,7 +28,7 @@ import useTokenAmount from '../../hooks/useTokenAmount';
 import useTokenApprove from '../../hooks/useTokenApprove';
 import useAddress from '../../hooks/useAddress';
 import useAssetsUsdPrice from '../../hooks/useAssetsUsdPrice';
-import { MSO_PLAN_TYPE } from '../../config';
+import { MSO_PLAN_TYPE, tokenDecimals } from '../../config';
 import CurrencySelect from './CurrencySelect';
 
 const MsoCountrySelector = ({
@@ -131,18 +131,23 @@ const MsoCountrySelector = ({
       (async () => {
         const param = {
           policyId: txn_hash,
-          value: getDecimalAmount(addonServices ? total - MSOAddOnService : total).toString(),
+          value: getDecimalAmount(
+            addonServices ? total - MSOAddOnService : total,
+            tokenDecimals.usdc,
+          ).toString(),
           period: MSO_PLAN_TYPE[`${selectedPlan.unique_id}`],
-          conciergePrice: getDecimalAmount(addonServices ? MSOAddOnService : 0).toString(),
+          conciergePrice: getDecimalAmount(
+            addonServices ? MSOAddOnService : 0,
+            tokenDecimals.usdc,
+          ).toString(),
           sig: signature,
         };
-        const ethAmount = await getETHAmountForUSDC(total);
+        const { weiVal: ethAmount } = await getETHAmountForUSDC(total);
         try {
-          console.log(currency);
           const result =
             currency !== 'ETH'
               ? await onStakeByToken({ ...param, token: getTokenAddress(currency) })
-              : await onStake(param, getDecimalAmount(ethAmount).toString());
+              : await onStake(param, ethAmount.toString());
           if (result.status) {
             dispatch(
               confirmBuyMsoInsurance({
@@ -206,15 +211,15 @@ const MsoCountrySelector = ({
     let balance;
     let decimals = 18;
     if (currency === 'ETH') {
-      coverAmount = await getETHAmountForUSDC(quote);
+      coverAmount = (await getETHAmountForUSDC(quote)).parsedVal;
       balance = ethBalance.balance;
     } else if (currency === 'CVR') {
-      coverAmount = await getTokenAmountForUSDC(quote);
+      coverAmount = (await getTokenAmountForUSDC(quote)).parsedVal;
       balance = cvrBalance.balance;
     } else {
       const token = getTokenAddress(currency);
       const usdc = getTokenAddress('usdc');
-      coverAmount = await getNeededTokenAmount(token, usdc, quote);
+      coverAmount = (await getNeededTokenAmount(token, usdc, quote)).parsedVal;
       balance = tokenBalance.balance;
       decimals = tokenBalance.decimals;
     }
@@ -250,6 +255,7 @@ const MsoCountrySelector = ({
   };
 
   const onApproveToken = async () => {
+    setTxPending(true);
     try {
       const result = await onApprove();
       await handleTokenAllowance();
@@ -355,6 +361,10 @@ const MsoCountrySelector = ({
               <Alert type="danger" text={message} onClose={() => setShowAlert(false)} />
             </div>
           )}
+          <div className="flex items-center justify-between w-full dark:text-white mb-2">
+            <h5 className="text-h6 font-medium">Premium in USD</h5>
+            <h5 className="text-body-lg font-medium">{quote} USD</h5>
+          </div>
           <CurrencySelect
             {...{
               negativeLeft: false,

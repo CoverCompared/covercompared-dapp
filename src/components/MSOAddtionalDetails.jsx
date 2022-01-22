@@ -36,6 +36,7 @@ const MSOAdditionalDetails = (props) => {
         <div className="bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 text-center text-white font-semibold mb-10">
           INTERNATIONAL MEDICAL SECOND OPINION
         </div>
+
         <div className="grid grid-cols-12 gap-6 mt-6">
           {/* <div className="lg:col-span-4 md:col-span-5 col-span-11">
             <img

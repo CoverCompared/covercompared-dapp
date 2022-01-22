@@ -1,9 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 // import { useParams } from 'react-router-dom';
 // import uniqid from 'uniqid';
 import StarRatings from 'react-star-ratings';
 import { useDispatch, useSelector } from 'react-redux';
 import { logEvent } from 'firebase/analytics';
+import { Markup } from 'interweave';
+import { ExternalLinkIcon } from '@heroicons/react/outline';
 
 import { analytics } from '../config/firebase';
 import ReviewCard from '../components/ReviewCard';
@@ -17,6 +19,8 @@ import ProductBgDots from '../assets/bg-img/product-bg-dots.svg';
 import { ThemeContext } from '../themeContext';
 import { getCoverById } from '../redux/actions/CoverList';
 import Select from '../components/common/Select';
+import { numberFormat } from '../functions/utils';
+import ToolTip from '../components/common/ToolTip';
 
 const filterOption = ['High to low', 'Low to high'];
 
@@ -58,17 +62,24 @@ const ReviewContainer = (props) => {
   );
 };
 
-const CoverInsuranceProduct = (props) => {
+const CoverAndExchangeProduct = (props) => {
+  const buyButton = useRef(null);
+  const payWithCVR = useRef(false);
   const dispatch = useDispatch();
   const { currentProduct: product } = useSelector((state) => state.app);
-  const { loader, message, cover } = useSelector((state) => state.coverList) || {};
-  const { additional_details, description, reviews = [], terms_and_conditions } = cover || {};
+  const {
+    additional_details,
+    description,
+    reviews = [],
+    terms_and_conditions,
+    pdf,
+    cover,
+  } = useSelector((state) => state.coverList?.cover) || {};
   const avgRating =
     +(reviews.map((m) => m.rating).reduce((a, b) => a + b, 0) / reviews.length).toFixed(1) || 0;
 
   const { theme } = useContext(ThemeContext);
   const [filterSelect, setFilterSelect] = useState('');
-  const [showFilterOption, setShowFilterOption] = useState(false);
   const [accountNumber, setAccountNumber] = useState('');
 
   const {
@@ -84,6 +95,7 @@ const CoverInsuranceProduct = (props) => {
     company_icon,
     unique_id,
     currency_limit,
+    chain_type_list,
   } = product || {};
 
   useEffect(() => {
@@ -143,14 +155,14 @@ const CoverInsuranceProduct = (props) => {
             <div className="font-Montserrat font-semibold text-black md:text-body-sm text-body-xs mb-5 dark:text-white">
               Details
             </div>
-            <div className="flex justify-between items-center md:mb-3 mb-4">
+            {/* <div className="flex justify-between items-center md:mb-3 mb-4">
               <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Address
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
                 {accountNumber}
               </div>
-            </div>
+            </div> */}
             <div className="flex justify-between items-center md:mb-3 mb-4">
               <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white">
                 Provider
@@ -172,37 +184,114 @@ const CoverInsuranceProduct = (props) => {
                 Capacity
               </div>
               <div className="font-Montserrat font-medium text-dark-blue md:text-body-sm text-body-xs ml-2 dark:text-white">
-                Loreuam ac in amet, porta ac duis.
+                {typeof cover?.capacity === 'object'
+                  ? `${numberFormat(cover?.capacity?.capacityETH || 0, 1)} ETH / ${numberFormat(
+                      cover?.capacity?.capacityDAI / 1000000000000 || 0,
+                      1,
+                    )} DAI`
+                  : `${numberFormat(cover?.capacity || 0, 1)} ETH`}
               </div>
             </div>
+            {/* <div className="flex justify-between items-center">
+              <div className="font-Montserrat font-semibold text-dark-blue md:text-body-sm text-body-xs dark:text-white mt-2">
+                <div className="flex">
+                  Supported Chains
+                  <div
+                    data-for="chains-tool-tip"
+                    data-tip="the chains on which the cover is applicable"
+                    data-iscapture="true"
+                    className="ml-1 bg-login-button-bg dark:bg-white h-5 w-5 p-1 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                  >
+                    i
+                  </div>
+                  <ToolTip
+                    ToolTipId="chains-tool-tip"
+                    bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                    fontColor="#FFF"
+                  />
+                </div>
+              </div>
+              <div>
+                <div
+                  data-for="info-tool-tip"
+                  data-tip={chain_type_list.join(', ')}
+                  data-iscapture="true"
+                  className="bg-login-button-bg dark:bg-white h-7 w-7 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                >
+                  i
+                </div>
+                <ToolTip
+                  ToolTipId="info-tool-tip"
+                  bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                  fontColor="#FFF"
+                />
+              </div>
+            </div> */}
           </div>
           <div className="md:col-span-5 col-span-12">
-            <CoverBuyBox {...props} />
+            <CoverBuyBox {...{ ...props, buyButton, payWithCVR }} />
           </div>
         </div>
 
         <div className="grid grid-cols-12 xl:gap-x-12 gap-x-6 gap-y-10 md:mt-20 mt-6 mb-10">
           <div className="lg:col-span-7 xl:col-span-6 col-span-12 order-2 md:order-1">
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 dark:text-white">
-              Description :
+              Description:
             </div>
             <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
               {description}
             </div>
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
-              Additional Details :
+              Additional Details:
             </div>
             <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
               {additional_details}
             </div>
+
             <div className="font-Montserrat font-semibold text-h5 text-dark-blue mb-2 md:mt-10 mt-8 dark:text-white">
-              Term & Condition :
+              Term & Condition:
             </div>
             <div className="font-Inter font-normal text-counter-card-text text-body-md dark:text-subtitle-dark-text">
-              {terms_and_conditions}
+              {terms_and_conditions && (
+                <>
+                  <Markup content={terms_and_conditions} />
+                  <br />
+                </>
+              )}
+              <p>Supported chains:</p>
+              {chain_type_list && <p>{chain_type_list.toString()}</p>}
+              <br />
+              {pdf && (
+                <p className="flex">
+                  Check out full details here
+                  <ExternalLinkIcon
+                    className="ml-2 w-5 h-5 cursor-pointer"
+                    onClick={() => window.open(pdf, '_blank')}
+                  />
+                </p>
+              )}
             </div>
           </div>
           <div className="xl:col-span-5 xl:col-start-8 lg:col-span-5 col-span-12 order-1 md:order-2">
+            <div className="mb-4">
+              <div className="flex font-Montserrat font-semibold text-19 text-dark-blue dark:text-white items-center">
+                Supported Chains
+                <div
+                  data-for="chains-tool-tip"
+                  data-tip="the chains on which the cover is applicable"
+                  data-iscapture="true"
+                  className="ml-1 bg-login-button-bg dark:bg-white h-5 w-5 p-1 shadow-search-shadow rounded-full font-semibold font-Inter text-h6 text-login-button-text dark:text-dark-blue flex justify-center items-center mr-4 cursor-pointer"
+                >
+                  i
+                </div>
+                <ToolTip
+                  ToolTipId="chains-tool-tip"
+                  bgColor="linear-gradient(to right, #175186 , #7BC3E4)"
+                  fontColor="#FFF"
+                />
+              </div>
+              <div className="text-body-m dark:text-white">{chain_type_list.join(',  ')}</div>
+            </div>
             <div className="font-Montserrat font-semibold text-19 text-dark-blue mb-4 dark:text-white">
               Discount
             </div>
@@ -213,12 +302,18 @@ const CoverInsuranceProduct = (props) => {
               <div className="font-Inter text-body-md text-counter-card-text mt-4 mb-5 leading-6">
                 Use $CVR when purchasing and get 25% off on all insurance policies.
               </div>
-              {/* <button
-                type="button"
-                className="py-3 px-8 bg-discount-apply-btn-bg rounded-2xl outline-none border-0 text-discount-apply-btn-text font-Montserrat font-semibold text-body-md"
-              >
-                Apply
-              </button> */}
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    payWithCVR.current = true;
+                    buyButton.current.click();
+                  }}
+                  className="py-2 px-4 bg-login-button-bg rounded-lg outline-none border-0 text-login-button-text font-Montserrat font-semibold text-body-sm shadow-lg"
+                >
+                  Apply Now
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -243,7 +338,8 @@ const CoverInsuranceProduct = (props) => {
               <div className="mb-2 relative">
                 <Select
                   {...{
-                    fieldTitle: 'Short By',
+                    negativeLeft: true,
+                    fieldTitle: 'Sort By',
                     options: filterOption,
                     selectedOption: filterSelect,
                     setSelectedOption: setFilterSelect,
@@ -261,7 +357,9 @@ const CoverInsuranceProduct = (props) => {
                 Did you know
               </div>
               <div className="font-Inter text-body-md text-counter-card-text leading-6 text-center">
-                Lorem ipsum dolor sit ametsectetur adipiscing elit. Ultrices purus sit placeranunc.
+                CoverCompared is the first-ever multichain insurance aggregator that offers a pool
+                of traditional & crypto-asset based insurance policies in exchange for your
+                cryptocurrencies.
               </div>
             </div>
           </div>
@@ -271,4 +369,4 @@ const CoverInsuranceProduct = (props) => {
   );
 };
 
-export default CoverInsuranceProduct;
+export default CoverAndExchangeProduct;

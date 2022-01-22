@@ -1,11 +1,14 @@
+import { useWeb3React } from '@web3-react/core';
 import React, { useState, useEffect, useRef } from 'react';
-
+import { toast } from 'react-toastify';
+import { PRODUCT_CHAIN } from '../config';
 import Modal from './common/Modal';
 import CountrySelector from './common/MsoCountrySelector';
 import MSOAdditionalDetails from './MSOAddtionalDetails';
 
 const MSOPlanCard = (props) => {
   const {
+    country,
     isEligible,
     InsurancePlanType,
     MSOPlanDuration,
@@ -45,6 +48,7 @@ const MSOPlanCard = (props) => {
     totalUsers,
   };
 
+  const { account, chainId } = useWeb3React();
   const btnEl = useRef(null);
 
   const [addonServices, setAddonServices] = useState(false);
@@ -59,19 +63,32 @@ const MSOPlanCard = (props) => {
     setAddonServices(!addonServices);
   };
 
-  const handleBuy = () => {
-    if (setIsModalOpen) {
-      setIsModalOpen(true);
-      setIsInEligibilityCheck(true);
-    }
-  };
-
   useEffect(() => {
     if (isEligible && isInEligibilitlyCheck) {
       setIsInEligibilityCheck(false);
       btnEl.current.click();
     }
   }, [isEligible, isInEligibilitlyCheck]);
+
+  const validate = () => {
+    if (!account) {
+      toast.warning('You need to login in advance!');
+      return false;
+    }
+    if (chainId !== PRODUCT_CHAIN.mso) {
+      toast.warning('You need to switch over to correct network!');
+      return false;
+    }
+    return true;
+  };
+
+  const handleBuy = () => {
+    if (!validate()) return;
+    if (setIsModalOpen) {
+      setIsModalOpen(true);
+      setIsInEligibilityCheck(true);
+    }
+  };
 
   return (
     <>
@@ -98,7 +115,7 @@ const MSOPlanCard = (props) => {
           <label className="cursor-pointer flex justify-center">
             <input
               type="checkbox"
-              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 focus:shadow-0"
               checked={addonServices}
               onClick={toggleCheckbox}
               onChange={() => {}}
@@ -117,10 +134,12 @@ const MSOPlanCard = (props) => {
               bgImg="md:bg-additionalDetailsBg1 bg-mobilePopupBg bg-right-bottom bg-no-repeat bg-contain"
               renderComponent={MSOAdditionalDetails}
               {...{
+                country,
                 selectedPlan,
                 addonServices,
                 isEligible,
                 handleBuy,
+                validateX: validate,
                 name,
                 quote,
                 MSOAddOnService,
@@ -140,7 +159,8 @@ const MSOPlanCard = (props) => {
                 sizeClass="max-w-6xl"
                 renderComponent={CountrySelector}
                 bgImg="bg-loginPopupBg"
-                {...{ selectedPlan, addonServices }}
+                validate={validate}
+                {...{ selectedPlan, addonServices, country }}
               >
                 <button
                   type="button"

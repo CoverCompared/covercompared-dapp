@@ -2,6 +2,8 @@ import {
   RESET_DEVICE_INSURANCE,
   SET_BUY_DEVICE_INSURANCE_LOADER,
   BUY_DEVICE_INSURANCE_FIRST_SUCCESS,
+  CREATE_DEVICE_INSURANCE_POLICY_SUCCESS,
+  SET_CREATE_DEVICE_INSURANCE_POLICY_LOADER,
   BUY_DEVICE_INSURANCE_SUCCESS,
   SET_CONFIRM_BUY_DEVICE_INSURANCE_LOADER,
   CONFIRM_BUY_DEVICE_INSURANCE_SUCCESS,
@@ -22,6 +24,7 @@ const INIT_STATE = {
   deviceDetails: null,
   devicePlanDetails: null,
   deviceModelDetails: null,
+  devicePolicy: null,
   txn_hash: null,
 };
 
@@ -121,6 +124,21 @@ export default (state = INIT_STATE, { type, payload }) => {
         loader: false,
         isFailed: false,
         deviceModelDetails: payload,
+      };
+    }
+    case SET_CREATE_DEVICE_INSURANCE_POLICY_LOADER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case CREATE_DEVICE_INSURANCE_POLICY_SUCCESS: {
+      return {
+        ...state,
+        message: '',
+        loader: false,
+        isFailed: false,
+        devicePolicy: payload,
       };
     }
     default:

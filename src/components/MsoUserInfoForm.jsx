@@ -8,10 +8,12 @@ import FormInput from './FormInput';
 import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
 import { resetDeviceInsurance } from '../redux/actions/DeviceInsurance';
 import Alert from './common/Alert';
+import { mso_countries } from '../functions/data';
 
 const MsoUserInfoForm = (props) => {
   // remove default values from below object once response is in this format
   const {
+    country,
     uuid,
     unique_id,
     userTypeOptions,
@@ -20,7 +22,6 @@ const MsoUserInfoForm = (props) => {
     mainMemberParents,
     spouseParents,
     totalUsers,
-    countries,
     handleBuyNow,
   } = props;
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const MsoUserInfoForm = (props) => {
     userType: '',
     firstName: '',
     lastName: '',
-    country: 'UAE',
+    country: country?.value || 'UAE',
     dob: '',
     identity: '',
     typeChangeable: true,
@@ -98,37 +99,35 @@ const MsoUserInfoForm = (props) => {
     }
   };
 
-  // const validateUsers = (usersClone) => {
-  //   const mainMember = usersClone.filter((f) => f.userType === 'Main Member').length;
-  //   const spouse = usersClone.filter((f) => f.userType === 'Spouse').length;
-  //   const dependent = usersClone.filter((f) => f.userType === 'Dependent').length;
+  const validateUsers = (usersClone) => {
+    const mainMember = usersClone.filter((f) => f.userType === 'Main Member').length;
+    // const spouse = usersClone.filter((f) => f.userType === 'Spouse').length;
+    // const dependent = usersClone.filter((f) => f.userType === 'Dependent').length;
 
-  //   if (mainMember > 1) {
-  //     setShowAlert(true);
-  //     setAlertType('danger');
-  //     setAlertText('Number of main members reach its maximum limit according to policy1');
-  //     return false;
-  //   }
-  //   if (spouse > noOfSpouse) {
-  //     setShowAlert(true);
-  //     setAlertType('danger');
-  //     setAlertText(`Number of spouses reach its maximum limit according to policy`);
-  //     return false;
-  //   }
-  //   if (dependent > noOfDependent) {
-  //     setShowAlert(true);
-  //     setAlertType('danger');
-  //     setAlertText(`Number of dependents reach its maximum limit according to policy`);
-  //     return false;
-  //   }
-  //   return true;
-  // };
+    if (mainMember > 1) {
+      setShowAlert(true);
+      setAlertType('danger');
+      setAlertText('Number of main members cannot be more than 1');
+      return false;
+    }
+    // if (spouse > noOfSpouse) {
+    //   setShowAlert(true);
+    //   setAlertType('danger');
+    //   setAlertText(`Number of spouses reach its maximum limit according to policy`);
+    //   return false;
+    // }
+    // if (dependent > noOfDependent) {
+    //   setShowAlert(true);
+    //   setAlertType('danger');
+    //   setAlertText(`Number of dependents reach its maximum limit according to policy`);
+    //   return false;
+    // }
+    return true;
+  };
 
   const handleUserFieldChange = (i, name, value) => {
-    const usersClone = [...users];
-    usersClone[i][name] = value;
-    setUsers(usersClone);
-    // if (validateUsers(usersClone)) setUsers(usersClone);
+    const usersClone = users.map((m, idx) => (i !== idx ? m : { ...m, [name]: value }));
+    if (validateUsers(usersClone)) setUsers(usersClone);
   };
 
   const handleSubmit = (e) => {
@@ -230,14 +229,16 @@ const MsoUserInfoForm = (props) => {
           Member(s) Information
         </h5>
         <div className="flex justify-center ml-4">
-          <button
-            type="button"
-            disabled={notRegistered}
-            onClick={handleAddUser}
-            className="font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg disabled:opacity-80"
-          >
-            Add
-          </button>{' '}
+          {totalUsers !== 1 && (
+            <button
+              type="button"
+              disabled={notRegistered}
+              onClick={handleAddUser}
+              className="font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg disabled:opacity-80"
+            >
+              Add
+            </button>
+          )}{' '}
           {/* <button
             type="button"
             className="ml-3 font-Montserrat inline-flex items-center md:px-4 px-2.5 py-3 shadow-lg md:text-body-md text-body-sm  leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg disabled:opacity-80"
@@ -250,23 +251,23 @@ const MsoUserInfoForm = (props) => {
       </div>
 
       <form id="msp-checkout-form" onSubmit={handleSubmit}>
-        <div className="w-full mb-8 overflow-x-auto rounded-lg shadow-lg px-0.5px">
+        <div className="w-full mb-4 md:mb-8 overflow-x-auto rounded-lg shadow-lg px-0.5px">
           <table className="w-full">
             <thead>
-              <tr className="font-Montserrat text-sm tracking-wide text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 uppercase">
+              <tr className="font-Montserrat text-sm tracking-wide text-white bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 uppercase border-r border-global-banner-gd-2">
                 <th className="p-2 font-medium">User type</th>
                 <th className="p-2 font-medium">First Name</th>
                 <th className="p-2 font-medium">Last Name</th>
                 <th className="p-2 font-medium">Country</th>
                 <th className="p-2 font-medium">DOB</th>
                 <th className="p-2 font-medium">Identity</th>
-                <th className="p-2 font-medium" />
+                {totalUsers !== 1 && <th className="p-2 font-medium" />}
               </tr>
             </thead>
             <tbody className="bg-white">
               {users.map((user, index) => (
-                <tr key={index} className="text-gray-700">
-                  <td className="py-1 text-ms font-semibold border min-w-40">
+                <tr key={index} className="text-gray-700 border-r border-global-banner-gd-2">
+                  <td className="py-1 text-ms font-semibold border min-w-44">
                     <CheckoutFormInput
                       title="Type of user"
                       id="userType"
@@ -284,7 +285,7 @@ const MsoUserInfoForm = (props) => {
                       ]}
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
                       title="Only Alphabets are allowed"
@@ -299,7 +300,7 @@ const MsoUserInfoForm = (props) => {
                       required
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       pattern="[^0-9\?.()/<>[\]\\,':;\{\}+=_|\x22\*&\^%$#@!~`]+"
                       title="Only Alphabets are allowed"
@@ -314,7 +315,7 @@ const MsoUserInfoForm = (props) => {
                       required
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       title="Country of residence"
                       inputValue={user.country}
@@ -326,10 +327,10 @@ const MsoUserInfoForm = (props) => {
                       disabled={notRegistered}
                       required
                       isDropdown
-                      dropdownOptions={initial(countries)}
+                      dropdownOptions={initial(mso_countries)}
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
                       type="date"
                       title="Date of Birth"
@@ -345,51 +346,59 @@ const MsoUserInfoForm = (props) => {
                       required
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
+                  <td className="py-1 text-ms font-semibold border min-w-40">
                     <CheckoutFormInput
-                      title="Identity"
+                      pattern="^[a-zA-Z0-9-]*$"
+                      title="Only Alphabets, Numbers and Hyphen are allowed"
                       type="text"
                       id="identity"
                       name="identity"
                       inputValue={user.identity}
-                      inputPlaceholder="Aadhar or passport"
+                      inputPlaceholder="Passport or Local ID"
                       fieldChange={handleUserFieldChange}
                       index={index}
                       disabled={notRegistered}
                       required
                     />
                   </td>
-                  <td className="py-1 text-ms font-semibold border">
-                    <button
-                      type="button"
-                      className="bg-transparent p-1 text-black disabled:text-gray-400"
-                      disabled={users.length === 1 || notRegistered}
-                      onClick={() => handleRemoveUser(index)}
-                    >
-                      <XIcon className="w-5 h-5" />
-                    </button>
-                  </td>
+                  {totalUsers !== 1 && (
+                    <td className="py-1 text-ms font-semibold border">
+                      <button
+                        type="button"
+                        className="bg-transparent p-1 text-black disabled:text-gray-400"
+                        disabled={users.length === 1 || notRegistered}
+                        onClick={() => handleRemoveUser(index)}
+                      >
+                        <XIcon className="w-5 h-5" />
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        <div className="flex justify-between items-center mt-8">
+        <div className="flex flex-col md:flex-row justify-center md:justify-between items-center mt-4 md:mt-8">
           <div>
             <input
               id="termsAndCondition"
               name="termsAndCondition"
               type="checkbox"
-              className="form-checkbox rounded-sm text-primary-gd-1 focus:border-0 focus:border-opacity-0 focus:ring-0 focus:ring-offset-0 duration-100 focus:shadow-0"
+              className="form-checkbox rounded-sm text-primary-gd-1 focus:ring-offset-0 duration-500"
               required
             />
             <label
               htmlFor="termsAndCondition"
               className="ml-2 font-Montserrat font-medium md:text-body-md text-body-xs  text-dark-blue dark:text-white group-hover:text-white"
             >
-              I have read and agree to the
-              <a className="underline" target="_blank" href="https://google.com" rel="noreferrer">
+              I have read and agree to the{' '}
+              <a
+                className="underline"
+                target="_blank"
+                href="https://covercompared-assets.s3.me-south-1.amazonaws.com/mso-covercompared-t-n-c.pdf"
+                rel="noreferrer"
+              >
                 terms and conditions
               </a>
               *
@@ -397,7 +406,7 @@ const MsoUserInfoForm = (props) => {
           </div>
           <button
             type="submit"
-            className="ml-3 py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
+            className="mt-6 md:mt-0 py-3 md:px-5 px-4 text-white font-Montserrat md:text-body-md text-body-sm md:rounded-2xl rounded-xl bg-gradient-to-r font-semibold from-primary-gd-1 to-primary-gd-2"
           >
             Proceed to Pay
           </button>

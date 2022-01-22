@@ -27,16 +27,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   topLogo: {
-    width: 100,
+    height: '60pt',
   },
   p4lLogo: {
-    width: '90pt',
-    marginVertical: 15,
-    marginLeft: '6pt',
+    height: '35pt',
+    width: 'auto',
   },
   total: {
     color: '#011b41',
-    fontSize: '14pt',
+    fontSize: '12pt',
     fontWeight: 'semibold',
     marginBottom: '6pt',
   },
@@ -71,12 +70,18 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  blueText: {
+    color: '#1E3A8A',
+  },
 });
 
 const DeviceReceipt = (props) => {
   const {
     txn_hash,
     payment_hash,
+    transaction_link,
+    network_name,
+    crypto_currency,
     quote,
     total,
     discountAmount,
@@ -89,6 +94,7 @@ const DeviceReceipt = (props) => {
     value,
     purchaseMonth,
     plan_currency,
+    imei_or_serial_number,
     selectedModel,
     logo = P4LLogo,
   } = props;
@@ -106,15 +112,11 @@ const DeviceReceipt = (props) => {
     <Document style={styles.doc}>
       <Page style={styles.page}>
         <View style={styles.container}>
+          <View style={styles.row}>
+            <Image source={logo} style={styles.p4lLogo} />
+          </View>
           <View style={[styles.row, styles.justify_between]}>
-            <View style={styles.row}>
-              <View style={styles.topLogo}>
-                <Image source={CoverComparedLogo} />
-              </View>
-              <View style={styles.p4lLogo}>
-                <Image source={logo} />
-              </View>
-            </View>
+            <Image source={CoverComparedLogo} style={styles.topLogo} />
             <View>
               <Text>Date: {getCurrentDate()}</Text>
             </View>
@@ -182,6 +184,14 @@ const DeviceReceipt = (props) => {
               </View>
               <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
                 <View style={styles.deviceDetails}>
+                  <Text>IMEI or Serial Number</Text>
+                </View>
+                <View>
+                  <Text>{imei_or_serial_number}</Text>
+                </View>
+              </View>
+              <View style={[styles.row, styles.justify_between, styles.paymentetails]}>
+                <View style={styles.deviceDetails}>
                   <Text>Device Model</Text>
                 </View>
                 <View style={[styles.row, styles.modelDetails]}>
@@ -196,20 +206,33 @@ const DeviceReceipt = (props) => {
           </View>
 
           <View style={[styles.row, styles.justify_between, styles.mt]}>
-            <View>
-              <View style={styles.total}>
-                <Text>Transction Details</Text>
+            {payment_hash && (
+              <View>
+                <View style={styles.total}>
+                  <Text>Transaction Details</Text>
+                </View>
+                <View style={[styles.total, styles.paymentetails]}>
+                  <Text>
+                    Tnx Hash:{' '}
+                    <a
+                      style={styles.blueText}
+                      href={transaction_link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {shortenTxHash(payment_hash)}
+                    </a>
+                  </Text>
+                </View>
+                <View style={[styles.total, styles.paymentetails]}>
+                  <Text>Network: Ethereum {network_name}</Text>
+                </View>
+                <View style={[styles.total, styles.paymentetails]}>
+                  <Text>currency: {crypto_currency}</Text>
+                </View>
               </View>
-              <View style={[styles.total, styles.paymentetails]}>
-                <Text>Txn Hash: {shortenTxHash(payment_hash)}</Text>
-              </View>
-              <View style={[styles.total, styles.paymentetails]}>
-                <Text>Network: Kovan</Text>
-              </View>
-              <View style={[styles.total, styles.paymentetails]}>
-                <Text>currency: USD</Text>
-              </View>
-            </View>
+            )}
+
             <View style={styles.deviceDetailsContainer}>
               <View style={styles.total}>
                 <Text>Payment Details</Text>

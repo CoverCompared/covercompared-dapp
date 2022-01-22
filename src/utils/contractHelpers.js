@@ -13,10 +13,11 @@ import insureAceAbi from '../config/abi/insureAceAbi.json';
 import distributorAbi from '../config/abi/distributor.json';
 import claimAbi from '../config/abi/claims.json';
 import claimRewardAbi from '../config/abi/claimsReward.json';
+import IUniswapV2Router02Abi from '../config/abi/IUniswapV2Router02.json';
 
 export const getContract = (abi, address, signer) => {
   const signerOrProvider = signer ?? ethSimpleProvider;
-  return new ethers.Contract(address, abi, signerOrProvider);
+  return address ? new ethers.Contract(address, abi, signerOrProvider) : null;
 };
 
 export const getErc20Contract = (address, signer) => {
@@ -62,4 +63,7 @@ export const getClaimContract = (address, signer) => {
 
 export const getClaimRewardContract = (address, signer) => {
   return getContract(claimRewardAbi, address, signer);
+};
+export const getUniswapV2RouterContract = (address, signer) => {
+  return getContract(IUniswapV2Router02Abi, address, signer);
 };

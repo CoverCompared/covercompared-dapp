@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Markup } from 'interweave';
 import uniqid from 'uniqid';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { logEvent } from 'firebase/analytics';
 
 import { analytics } from '../config/firebase';
@@ -33,6 +34,7 @@ import SwissRe from '../assets/partners/p4l-partners/swiss_re.jpg';
 import P4LLogo from '../assets/img/p4l-logo.png';
 import { SupportedChainId } from '../config/chains';
 import { setupNetwork } from '../utils/wallet';
+import { PRODUCT_CHAIN } from '../config';
 
 const Backers = [
   {
@@ -196,18 +198,19 @@ const p4lTable = [
 ];
 
 const DeviceProduct = (props) => {
-  const { chainId } = useActiveWeb3React();
+  const { account, chainId } = useActiveWeb3React();
   const [table, setTable] = useState(p4lTable);
   const [showMore, setShowMore] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isEligible, setIsEligible] = useState(false);
+  const [parentCountry, setParentCountry] = useState('');
 
   const { loader } = useSelector((state) => state.deviceInsurance);
 
   // this hooks for testing. Should be remove in production.
   useEffect(() => {
     (async () => {
-      const _chainId = SupportedChainId.RINKEBY;
+      const _chainId = PRODUCT_CHAIN.p4l;
       if (chainId !== _chainId) {
         await setupNetwork(_chainId);
       }
@@ -229,6 +232,18 @@ const DeviceProduct = (props) => {
     }
   }, [showMore]);
 
+  const validate = () => {
+    if (!account) {
+      toast.warning('You need to login in advance!');
+      return false;
+    }
+    if (chainId !== PRODUCT_CHAIN.p4l) {
+      toast.warning('You need to switch over to correct network!');
+      return false;
+    }
+    return true;
+  };
+
   return (
     <>
       {loader && <OverlayLoading />}
@@ -239,7 +254,7 @@ const DeviceProduct = (props) => {
         renderComponent={DeviceEligibilityChecker}
         onClose={() => setIsModalOpen(false)}
         bgImg="bg-loginPopupBg"
-        {...{ setIsEligible }}
+        {...{ setIsEligible, setParentCountry }}
       />
       <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center dark:text-white">
         We protect what you love
@@ -251,12 +266,11 @@ const DeviceProduct = (props) => {
       <div className="flex justify-center items-center md:mt-10 mt-8">
         <div className="grid grid-cols-12 md:gap-6 gap-4">
           {DeviceTypeArr.map((item, i) => (
-            <>
+            <React.Fragment key={i}>
               {!isEligible ? (
                 <div
-                  key={i}
                   onClick={() => setIsModalOpen(true)}
-                  className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6"
+                  className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6 cursor-pointer"
                 >
                   <div className="md:h-24 md:w-24 h-12 w-12 flex justify-center items-center">
                     <img loading="lazy" src={item.image} alt="" className="h-full" />
@@ -266,27 +280,27 @@ const DeviceProduct = (props) => {
                   </div>
                 </div>
               ) : (
-                <div
-                  key={i}
-                  className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6"
+                <Modal
+                  title="Device Details"
+                  sizeClass="max-w-2xl"
+                  renderComponent={DeviceBuyBox}
+                  validate={validate}
+                  bgImg="bg-loginPopupBg bg-cover"
+                  initDeviceType={item.initDeviceType}
+                  {...{ parentCountry }}
+                  className="animation-wrapper w-full shadow-md rounded-xl flex flex-col items-center bg-white md:px-8 px-5 py-6 dark:bg-featureCard-dark-bg sm:col-span-1 md:col-span-3 col-span-6 cursor-pointer"
                 >
-                  <Modal
-                    title="Device Details"
-                    sizeClass="max-w-2xl"
-                    renderComponent={DeviceBuyBox}
-                    bgImg="bg-loginPopupBg bg-cover"
-                    initDeviceType={item.initDeviceType}
-                  >
+                  <div>
                     <div className="md:h-24 md:w-24 h-12 w-12 flex justify-center items-center">
                       <img loading="lazy" src={item.image} alt="" className="h-full" />
                     </div>
                     <div className="mt-3 font-Montserrat font-semibold md:text-body-md text-body-sm dark:text-white text-center">
                       {item.title}
                     </div>
-                  </Modal>
-                </div>
+                  </div>
+                </Modal>
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
       </div>
@@ -319,6 +333,8 @@ const DeviceProduct = (props) => {
               title="Device Details"
               sizeClass="max-w-2xl"
               renderComponent={DeviceBuyBox}
+              validate={validate}
+              {...{ parentCountry }}
               bgImg="bg-loginPopupBg bg-cover"
             >
               <button

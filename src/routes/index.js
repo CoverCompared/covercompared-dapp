@@ -8,7 +8,7 @@ const AboutToken = React.lazy(() => import('../views/AboutToken'));
 const ContactUs = React.lazy(() => import('../views/ContactUs'));
 const DetailSearch = React.lazy(() => import('../views/DetailSearch'));
 const AboutUs = React.lazy(() => import('../views/AboutUs'));
-const Product = React.lazy(() => import('../views/Product'));
+const CoverAndExchangeProduct = React.lazy(() => import('../views/CoverAndExchangeProduct'));
 const MyAccount = React.lazy(() => import('../views/MyAccount'));
 const SubmitReview = React.lazy(() => import('../views/SubmitReview'));
 const Blog = React.lazy(() => import('../views/Blog'));
@@ -91,7 +91,7 @@ const routes = [
     exact: true,
     pageName: 'Product',
     withSidebar: false,
-    component: Product,
+    component: CoverAndExchangeProduct,
     title: '',
     bgImg: 'md:bg-productBg',
     mobileBgImg: 'bg-productPageBg',
@@ -148,7 +148,7 @@ const routes = [
     pageName: 'MyAccount',
     withSidebar: true,
     component: MyAccount,
-    title: '',
+    title: 'My Account',
     bgImg: 'md:bg-commonSectionBg',
     mobileBgImg: 'bg-Mobile404Bg',
     bgImgClass: 'bg-100% bg-no-repeat bg-bottom',

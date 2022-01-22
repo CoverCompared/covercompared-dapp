@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { MenuAlt2Icon } from '@heroicons/react/outline';
 import { useDispatch } from 'react-redux';
 import { toggleSidebar } from '../../redux/actions/AppActions';
-import coverComparedLogo from '../../assets/img/logo-final-light.svg';
-import coverComparedWhiteLogo from '../../assets/img/cover-compared-logo-dark.svg';
+import coverComparedLogo from '../../assets/img/logo-final-light.png';
+import coverComparedWhiteLogo from '../../assets/img/cover-compared-logo-dark.png';
 import { ThemeContext } from '../../themeContext';
 
 const HeaderMobile = (props) => {
@@ -16,7 +16,7 @@ const HeaderMobile = (props) => {
       <div className="absolute w-full inset-y-0 right-0 top-8 px-4 flex items-center justify-between sm:pr-6 lg:hidden">
         <Link to="/">
           <img
-            className="h-10 md:h-10 w-auto"
+            className="h-14 md:h-14 w-auto"
             src={theme === 'light' ? coverComparedLogo : coverComparedWhiteLogo}
             alt="logo"
           />

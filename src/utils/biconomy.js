@@ -29,6 +29,7 @@ export const constructMetaTransactionMessage = (
 export const metaCall = async (contract, contractInterface, account, signer, salt, call) => {
   const nonce = await contract.getNonce(account);
   const functionSignature = contractInterface.encodeFunctionData(call.name, call.params);
+  console.log(call.name, call.params);
   const messageToSign = constructMetaTransactionMessage(
     nonce.toNumber(),
     salt,

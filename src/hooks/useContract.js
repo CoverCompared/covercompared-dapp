@@ -12,7 +12,9 @@ import {
   getDistributorContract,
   getClaimContract,
   getClaimRewardContract,
+  getUniswapV2RouterContract,
 } from '../utils/contractHelpers';
+import { ROUTER_ADDRESS } from '../config';
 import erc20Abi from '../config/abi/erc20.json';
 
 export const useMSOContract = () => {
@@ -29,7 +31,7 @@ export const useP4LContract = () => {
 
 export const useTokenContract = (address) => {
   const { library } = useActiveWeb3React();
-  return useMemo(() => getContract(erc20Abi, address, library.getSigner()), [library]);
+  return useMemo(() => getContract(erc20Abi, address, library.getSigner()), [library, address]);
 };
 
 export const usePriceFeedContract = (symbol) => {
@@ -37,7 +39,7 @@ export const usePriceFeedContract = (symbol) => {
   const { getPriceFeedAddressBySymbol } = useAddress();
   return useMemo(
     () => getPriceFeedContract(getPriceFeedAddressBySymbol(symbol), library.getSigner()),
-    [library],
+    [library, symbol],
   );
 };
 
@@ -87,4 +89,9 @@ export const useClaimRewardContract = () => {
     () => getClaimRewardContract(getClaimRewardAddress(), library.getSigner()),
     [library],
   );
+};
+
+export const useUniswapV2RouterContract = () => {
+  const { library } = useActiveWeb3React();
+  return useMemo(() => getUniswapV2RouterContract(ROUTER_ADDRESS, library.getSigner()), [library]);
 };

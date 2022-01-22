@@ -6,8 +6,8 @@ const PostCard = (props) => {
   return (
     <div key={title} className="md:col-span-4 col-span-6">
       <div className="space-y-4">
-        <div className="aspect-w-3 aspect-h-2">
-          <img loading="lazy" className="object-cover rounded-2xl" src={image} alt={title} />
+        <div className="aspect-w-3 aspect-h-2 bg-gray-100 rounded-xl">
+          <img loading="lazy" className="object-contain rounded-2xl" src={image} alt={title} />
         </div>
 
         <div className="space-y-1">

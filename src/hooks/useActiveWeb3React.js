@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { simpleRpcProvider } from '../utils/providers';
-
+import { APP_CHAIN_ID } from '../config';
 /**
  * Provides a web3 provider with or without user's signer
  * Recreate web3 instance only if the provider change
@@ -20,7 +20,7 @@ const useActiveWeb3React = () => {
 
   return {
     library: provider,
-    chainId: chainId ?? parseInt(process.env.REACT_APP_CHAIN_ID, 10),
+    chainId: chainId ?? parseInt(APP_CHAIN_ID, 10),
     ...web3React,
   };
 };

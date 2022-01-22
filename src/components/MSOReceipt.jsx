@@ -2,9 +2,13 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { Document, Page, StyleSheet, View, Text, Image } from '@react-pdf/renderer';
 
-import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import { shortenTxHash } from '../utils';
+import { mso_countries } from '../functions/data';
+
+import CoverComparedLogo from '../assets/img/logo-final-light.png';
+import WishingWell from '../assets/img/wishing-well-logo.png';
+import WCD from '../assets/img/world-class-doctor-logo.png';
 
 const styles = StyleSheet.create({
   page: {
@@ -30,7 +34,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   topLogo: {
-    width: 100,
+    height: '60pt',
+    width: 'auto',
   },
   msoLogo: {
     height: '40pt',
@@ -88,7 +93,7 @@ const styles = StyleSheet.create({
   },
   total: {
     color: '#011b41',
-    fontSize: '14pt',
+    fontSize: '12pt',
   },
   policyNumber: {
     fontSize: '12pt',
@@ -98,6 +103,29 @@ const styles = StyleSheet.create({
     fontSize: '12pt',
     fontWeight: 'bold',
     marginTop: 40,
+  },
+  blueText: {
+    color: '#1E3A8A',
+  },
+  msoContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: '8pt',
+    marginBottom: '16pt',
+  },
+  msoImage: {
+    width: 'auto',
+    height: '60pt',
+  },
+  msoText: {
+    backgroundColor: '#007993',
+    backgroundImage: 'linear-gradient(to right, #007993 , #45EA9A)',
+    textAlign: 'center',
+    color: '#ffffff',
+    fontWeight: '600',
+    marginBottom: '40pt',
   },
 });
 
@@ -114,6 +142,9 @@ const MSOReceipt = (props) => {
   const {
     txn_hash,
     payment_hash,
+    transaction_link,
+    network_name,
+    crypto_currency,
     currency,
     membersInfo,
     quote,
@@ -130,16 +161,17 @@ const MSOReceipt = (props) => {
     <Document style={styles.doc}>
       <Page style={styles.page}>
         <View style={styles.container}>
+          <View style={styles.msoContainer}>
+            <Image loading="lazy" src={WishingWell} alt="" style={styles.msoImage} />
+            <Image loading="lazy" src={WCD} alt="" style={styles.msoImage} />
+          </View>
+          <Text style={styles.msoText}>INTERNATIONAL MEDICAL SECOND OPINION</Text>
+
           <View style={[styles.row, styles.justify_between]}>
             <View style={styles.row}>
-              <View style={styles.topLogo}>
-                <Image source={CoverComparedLogo} />
+              <View>
+                <Image source={CoverComparedLogo} style={styles.topLogo} />
               </View>
-              {logo && (
-                <View style={styles.msoLogo}>
-                  <Image source={logo} />
-                </View>
-              )}
             </View>
             <View>
               <Text>Date: {getCurrentDate()}</Text>
@@ -155,20 +187,32 @@ const MSOReceipt = (props) => {
                 <Text>{MSOCoverUser}</Text>
               </View>
             </View>
-            <View>
-              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-                <Text>Policy Number: {txn_hash || '-'}</Text>
+            {payment_hash && (
+              <View>
+                <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                  <Text>Policy Number: {txn_hash || '-'}</Text>
+                </View>
+                <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                  <Text>
+                    Tnx Hash:{' '}
+                    <a
+                      style={styles.blueText}
+                      href={transaction_link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {shortenTxHash(payment_hash) || '-'}
+                    </a>
+                  </Text>
+                </View>
+                <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                  <Text>Network: Ethereum {network_name || ''}</Text>
+                </View>
+                <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
+                  <Text>Currency: {crypto_currency || '-'}</Text>
+                </View>
               </View>
-              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-                <Text>Tnx Hash: {shortenTxHash(payment_hash) || '-'}</Text>
-              </View>
-              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-                <Text>Network: Kovan</Text>
-              </View>
-              <View style={[styles.paymentetails, styles.total, styles.policyNumber]}>
-                <Text>Currency: {currency || '-'}</Text>
-              </View>
-            </View>
+            )}
           </View>
 
           <View
@@ -241,7 +285,7 @@ const MSOReceipt = (props) => {
               <View
                 style={[styles.center, styles.tableCol, styles.border_right, styles.tableContent]}
               >
-                <Text> {member.country} </Text>
+                <Text> {mso_countries.find((f) => f.value === member.country)?.label || ''}</Text>
               </View>
               <View
                 style={[styles.center, styles.tableCol, styles.border_right, styles.tableContent]}

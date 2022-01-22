@@ -6,17 +6,47 @@ import { CheckCircleIcon } from '@heroicons/react/outline';
 import { submitUserCountry } from '../../redux/actions/EligibilityChecker';
 
 const countries = [
-  { value: 'UAE', label: 'UAE' },
-  { value: 'QAT', label: 'Qatar' },
-  { value: 'OMN', label: 'Oman' },
-  { value: 'KWT', label: 'Kuwait' },
-  { value: 'USA', label: 'USA' },
-  { value: 'BHR', label: 'Bahrain' },
-  { value: 'SAU', label: 'Saudi Arabia' },
-  { value: 'NOT', label: 'None of Them' },
+  { value: 'UAE', label: 'UAE', code: 'ae' },
+  { value: 'QAT', label: 'Qatar', code: 'qa' },
+  { value: 'OMN', label: 'Oman', code: 'om' },
+  { value: 'KWT', label: 'Kuwait', code: 'kw' },
+  { value: 'USA', label: 'USA', code: 'us' },
+  { value: 'SAU', label: 'Saudi Arabia', code: 'sa' },
+  { value: 'EGY', label: 'Egypt', code: 'eg' },
+  { value: 'MAR', label: 'Morocco', code: 'ma' },
+  { value: 'IRN', label: 'Iran', code: 'ir' },
+  { value: 'ZAF', label: 'South Africa', code: 'za' },
+  { value: 'ZWE', label: 'Zimbabwe', code: 'zw' },
+  { value: 'YEM', label: 'Yemen', code: 'ye' },
+  { value: 'UGA', label: 'Uganda', code: 'ug' },
+  { value: 'TZA', label: 'Tanzania', code: 'tz' },
+  { value: 'NAM', label: 'Namibia', code: 'na' },
+  { value: 'MOZ', label: 'Mozambique', code: 'mz' },
+  { value: 'LBY', label: 'Libya', code: 'ly' },
+  { value: 'TUR', label: 'Turkey', code: 'tr' },
+  { value: 'LBN', label: 'Lebanon', code: 'lb' },
+  { value: 'JOR', label: 'Jordan', code: 'jo' },
+  { value: 'GHA', label: 'Ghana', code: 'gh' },
+  { value: 'ETH', label: 'Ethiopia', code: 'et' },
+  { value: 'BWA', label: 'Botswana', code: 'bw' },
+  { value: 'AGO', label: 'Angola', code: 'ao' },
+  { value: 'KEN', label: 'Kenya', code: 'ke' },
+  { value: 'NGA', label: 'Nigeria', code: 'ng' },
+  { value: 'DNK', label: 'Denmark', code: 'dk' },
+  { value: 'NPL', label: 'Nepal', code: 'np' },
+  { value: 'LKA', label: 'Srilanka', code: 'lk' },
+  { value: 'IND', label: 'India', code: 'in' },
+  { value: 'IRQ', label: 'Iraq', code: 'iq' },
+  { value: 'NOT', label: 'None of Them', code: '' },
 ];
 
-const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitle }) => {
+const DeviceEligibilityChecker = ({
+  setIsModalOpen,
+  setIsEligible,
+  onClose,
+  setTitle,
+  setParentCountry,
+}) => {
   const dispatch = useDispatch();
 
   const [country, setCountry] = useState('');
@@ -40,7 +70,7 @@ const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setT
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setParentCountry && setParentCountry(country);
     if (userCountry && userEmail) {
       setShowSuccess(true);
       setTitle('');
@@ -152,7 +182,7 @@ const DeviceEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setT
 
   return (
     <div className="grid grid-cols-12">
-      <div className="grid col-span-8 col-start-3">
+      <div className="grid col-span-12 md:col-span-8 col-start-0 md:col-start-3 px-4 md:px-0">
         <form onSubmit={handleSubmit}>
           <div className="relative">
             <Select

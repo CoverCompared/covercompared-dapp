@@ -7,30 +7,36 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 
-import Modal from '../../components/common/Modal';
-import Login from '../../components/Login';
 import ThemeToggleSwitch from '../../components/ThemeToggleSwitch';
 import { toggleSidebar } from '../../redux/actions/AppActions';
+import { logoutUser } from '../../redux/actions/Auth';
+import { walletLogout } from '../../hooks/useAuth';
+import { shortenAddress } from '../../utils';
 import { classNames } from '../../functions/utils';
 import { ThemeContext } from '../../themeContext';
 import getNav from '../../components/common/sidebarNav';
 import { setLoginModalVisible, setRegisterModalVisible } from '../../redux/actions';
 
 import LoginIcon from '../../assets/img/Login.svg';
-import coverComparedLogo from '../../assets/img/logo-final-light.svg';
-import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.svg';
+import coverComparedLogo from '../../assets/img/logo-final-light.png';
+import coverComparedDarkLogo from '../../assets/img/cover-compared-logo-dark.png';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const Sidebar = (props) => {
   const dispatch = useDispatch();
+  const { account, deactivate, library } = useWeb3React();
   const { sidebarOpen } = useSelector((state) => state.app);
   const { is_verified } = useSelector((state) => state.auth);
   const history = useHistory();
-  const { account } = useWeb3React();
   const dialogRef = useRef(null);
   const { theme } = useContext(ThemeContext);
   const navigation = getNav();
 
+  const handleLogout = () => {
+    walletLogout(deactivate);
+    dispatch(logoutUser());
+    dispatch(setLoginModalVisible(false));
+  };
   const handleLogin = () => {
     dispatch(setLoginModalVisible(true));
     dispatch(setRegisterModalVisible(true));
@@ -90,7 +96,7 @@ const Sidebar = (props) => {
             <div className="flex-shrink-0 flex items-center justify-between">
               <Link to="/">
                 <img
-                  className="h-10 w-auto"
+                  className="h-14 w-auto"
                   src={theme === 'dark' ? coverComparedDarkLogo : coverComparedLogo}
                   alt="logo"
                 />
@@ -127,15 +133,25 @@ const Sidebar = (props) => {
               </nav>
               <div className="border-t-2 border-grey-300 mt-5 mb-6 w-full" />
               <div className="flex items-center mt-6">
-                <Modal title="Log In" bgImg="bg-mobileLoginPopupBg bg-100%" renderComponent={Login}>
+                {!account ? (
                   <button
                     type="button"
+                    onClick={() => dispatch(setLoginModalVisible(true))}
                     className="md:ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm md:text-body-md text-body-sm leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
                   >
                     <img loading="lazy" src={LoginIcon} alt="Login" className="mr-1" />
                     Log In
                   </button>
-                </Modal>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="md:ml-3 font-Montserrat inline-flex items-center px-4 py-3 shadow-sm md:text-body-md text-body-sm leading-4 font-semibold rounded-xl text-login-button-text bg-login-button-bg"
+                  >
+                    <img loading="lazy" src={LoginIcon} alt="Login" className="mr-1" />
+                    {shortenAddress(account)}
+                  </button>
+                )}
               </div>
             </div>
           </div>

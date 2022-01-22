@@ -4,6 +4,7 @@ import { getBalanceNumberByDecimal } from '../utils/getAssetPrice';
 import useAddress from './useAddress';
 import { useTokenContract, usePriceFeedContract } from './useContract';
 import { getDecimalAmount, getBalanceNumber } from '../utils/formatBalance';
+import { tokenDecimals } from '../config';
 
 const useAssetsUsdPrice = (assetSymbol) => {
   const [assetPrice, setAssetPrice] = useState(0);
@@ -13,12 +14,10 @@ const useAssetsUsdPrice = (assetSymbol) => {
   const tokenContract = useTokenContract(tokenAddress);
   useEffect(() => {
     const getPrice = async () => {
-      // const res = await priceFeedContract.latestRoundData();
-      // setAssetPrice(res ? getBalanceNumberByDecimal(res.answer) : 0);
       const tokenDecimal = await tokenContract.decimals();
       const oneInWei = getDecimalAmount(1, tokenDecimal).toFixed();
       const res = await priceFeedContract.consult(tokenAddress, oneInWei);
-      setAssetPrice(res ? ethers.utils.formatEther(res) : 0);
+      setAssetPrice(res ? getBalanceNumber(res.toString(), tokenDecimals.usdc) : 0);
     };
     getPrice();
   }, [assetSymbol]);

@@ -13,11 +13,11 @@ import nexus from '../utils/calls/nexus';
 import insure from '../utils/calls/insure';
 import useAddress from './useAddress';
 import { setPendingTransaction } from '../redux/actions';
-import { BASE_SCAN_URLS } from '../config';
+import { BASE_SCAN_URLS, ETH_ADDRESS } from '../config';
 
 const useStakeForCover = () => {
   const { library, account, chainId } = useActiveWeb3React();
-  const { getCrvAddress } = useAddress();
+  const { getCvrAddress } = useAddress();
   const nexusContractA = useNexusMutualContractA();
   const insuraceContractA = useInsureAceContractA();
   const nexusContractB = useNexusMutualContractB();
@@ -25,62 +25,124 @@ const useStakeForCover = () => {
   const dispatch = useDispatch();
   const handleNexusMutualStake = useCallback(
     async (param, applyDiscount) => {
+      const { coverAsset } = param;
+      const isETHCover = coverAsset.toLowerCase() === ETH_ADDRESS.toLowerCase();
       const maxPriceWithFee = await nexus.getProductPrice(nexusContractA, param);
       let tx;
       if (applyDiscount) {
-        tx = await nexus.buyCoverByToken(nexusContractB, account, library.getSigner(), {
-          ...param,
-          maxPriceWithFee,
-          token: await getCrvAddress(),
-        });
-        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+        tx = await nexus.buyCoverByToken(
+          nexusContractA,
+          nexusContractB,
+          account,
+          library.getSigner(),
+          {
+            ...param,
+            maxPriceWithFee,
+            token: await getCvrAddress(),
+          },
+        );
       } else {
-        tx = await nexus.buyCoverByETH(nexusContractA, { ...param, maxPriceWithFee });
+        // eslint-disable-next-line no-lonely-if
+        if (isETHCover) {
+          tx = await nexus.buyCoverByETH(nexusContractA, { ...param, maxPriceWithFee });
+        } else {
+          tx = await nexus.buyCoverByToken(
+            nexusContractA,
+            nexusContractB,
+            account,
+            library.getSigner(),
+            {
+              ...param,
+              maxPriceWithFee,
+            },
+          );
+        }
+      }
+
+      if (tx) {
         tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
-      }
-      dispatch(setPendingTransaction(tx));
-      const receipt = await tx.wait();
-      let events = null;
-      let buyNMEvent = null;
-      let pId = null;
+        dispatch(setPendingTransaction(tx));
+        const receipt = await tx.wait();
+        let events = null;
+        let buyNMEvent = null;
+        let pId = null;
 
-      if (receipt.status) {
-        events = receipt.events;
-        buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
-        pId = buyNMEvent?.args?.pid.toString();
-      }
+        if (receipt.status) {
+          events = receipt.events;
+          buyNMEvent = events?.filter((_e) => _e.event === 'BuyNexusMutual')[0];
+          pId = buyNMEvent?.args?.pid.toString();
+        }
 
-      return {
-        status: receipt.status,
-        txn_hash: tx.hash,
-        token_id: pId,
-      };
+        return {
+          status: receipt.status,
+          txn_hash: tx.hash,
+          token_id: pId,
+        };
+      }
+      return null;
     },
-    [library, account],
+    [library, account, nexusContractA, nexusContractB],
   );
 
   const handleInsureAceStake = useCallback(
     async (param, applyDiscount) => {
-      let tx;
+      const cvrAddress = await getCvrAddress();
+      const currency = param.data[3]; // cover currency
+      const isETHCover = currency.toLowerCase() === ETH_ADDRESS.toLowerCase();
+      let tx = null;
       if (applyDiscount) {
-        tx = await insure.buyCoverByToken(insuraceContractB, account, library.getSigner(), {
-          ...param,
-          token: await getCrvAddress(),
-        });
-        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+        if (isETHCover) {
+          tx = await insure.buyETHCoverByToken(
+            insuraceContractA,
+            insuraceContractB,
+            account,
+            library.getSigner(),
+            {
+              ...param,
+              token: cvrAddress,
+            },
+          );
+        } else {
+          tx = await insure.buyTokenCoverByToken(
+            insuraceContractA,
+            insuraceContractB,
+            account,
+            library.getSigner(),
+            {
+              ...param,
+              token: cvrAddress,
+            },
+          );
+        }
       } else {
-        tx = await insure.buyCoverByETH(insuraceContractA, param);
-        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+        // eslint-disable-next-line no-lonely-if
+        if (isETHCover) {
+          tx = await insure.buyETHCoverByETH(insuraceContractA, param);
+        } else {
+          tx = await insure.buyTokenCoverByToken(
+            insuraceContractA,
+            insuraceContractB,
+            account,
+            library.getSigner(),
+            param,
+          );
+        }
       }
-      dispatch(setPendingTransaction(tx));
-      const receipt = await tx.wait();
 
-      return {
-        status: receipt.status,
-        txn_hash: tx.hash,
-      };
+      if (tx) {
+        tx = { ...tx, description: '', etherscan: BASE_SCAN_URLS[chainId] };
+
+        dispatch(setPendingTransaction(tx));
+        const receipt = await tx.wait();
+
+        return {
+          status: receipt.status,
+          txn_hash: tx.hash,
+        };
+      }
+      return null;
     },
-    [library, account],
+    [library, account, insuraceContractA, insuraceContractB],
   );
   return {
     onNMStake: handleNexusMutualStake,

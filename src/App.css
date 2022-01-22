@@ -53,3 +53,69 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+/*react-phone-input-2 override classes*/
+.react-tel-input .form-control {
+  position: relative !important;
+  font-size: 14px !important;
+  letter-spacing: 0.01rem !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-left: 48px !important;
+  margin-left: 0 !important;
+  border-radius: 0.75rem !important;
+  line-height: 25px !important;
+  height: 3rem !important;
+  width: inherit !important;
+}
+
+.react-tel-input .light-border {
+  border: 2px solid #d2d2d2 !important;
+}
+.react-tel-input .light-flag-dropdown-border {
+  border-left: 2px solid #d2d2d2 !important;
+  border-top: 2px solid #d2d2d2 !important;
+  border-bottom: 2px solid #d2d2d2 !important;
+}
+.react-tel-input .dark-form-control,
+.react-tel-input .dark-form-control:hover,
+.react-tel-input .dark-form-control:focus {
+  background: rgba(42, 51, 65) !important;
+  border: inherit !important;
+}
+
+.react-tel-input .dark-flag-dropdown {
+  background-color: rgba(42, 51, 65) !important;
+  border-left: inherit !important;
+  border-top: inherit !important;
+  border-bottom: inherit !important;
+  border-right: 0.5px solid #555555 !important;
+}
+.react-tel-input .dark-flag-dropdown .selected-flag:hover,
+.react-tel-input .dark-flag-dropdown .selected-flag:focus {
+  border-radius: 0.75rem 0 0 0.75rem !important;
+  background-color: rgba(42, 51, 65) !important;
+}
+.react-tel-input .selected-flag:hover,
+.react-tel-input .selected-flag:focus,
+.react-tel-input .flag-dropdown.open .selected-flag {
+  border-radius: 0.75rem 0 0 0.75rem !important;
+}
+.react-tel-input .dark-flag-dropdown.open .selected-flag {
+  background: rgba(42, 51, 65) !important;
+  border-radius: 0.75rem 0 0 0.75rem !important;
+}
+.react-tel-input .dark-country-list {
+  background-color: rgba(42, 51, 65) !important;
+}
+.react-tel-input .dark-country-list .country.highlight {
+  background-color: rgba(42, 51, 65) !important;
+}
+.react-tel-input .flag-dropdown {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  padding: 0 !important;
+  border: inherit;
+  border-radius: 0.75rem 0 0 0.75rem !important;
+}

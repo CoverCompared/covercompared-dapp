@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 import { all, call, put, takeLatest, select } from 'redux-saga/effects';
+import { tokenDecimals } from '../../config';
+import { recoverDecimal } from '../../utils/formatBalance';
 import { API_BASE_URL } from '../constants/config';
 import {
   BUY_COVER,
@@ -225,8 +227,8 @@ function* getCoverById({ payload }) {
       }),
     );
 
-    const { protocol, unique_id } = payload;
-    const url = `${API_BASE_URL}/cover-details/${protocol}/${unique_id}`;
+    const { type, unique_id } = payload;
+    const url = `${API_BASE_URL}/cover-details/${type}/${unique_id}`;
     const cover = yield call(axiosGet, url);
 
     if (cover?.data?.success) {
@@ -314,7 +316,10 @@ function* getQuote({ payload }) {
 
     const miniQuoteUrl = `${API_BASE_URL}/cover-min-quote`;
     const quote = yield call(axiosPost, miniQuoteUrl, payload);
-    if (quote?.data?.success) yield put(getQuoteSuccess(quote?.data?.data || quote?.data?.quote));
+    if (quote?.data?.success) {
+      const decimal = tokenDecimals[payload.currency.toLowerCase()];
+      yield put(getQuoteSuccess(recoverDecimal(quote?.data?.data || quote?.data?.quote, decimal)));
+    }
 
     const quoteUrl = `${API_BASE_URL}/user/cover-quote`;
     const quoteDetail = yield call(axiosPost, quoteUrl, payload, yield select(selector.token));

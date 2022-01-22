@@ -1,8 +1,9 @@
 import addresses from '../config/contracts';
 import tokens from '../config/tokens';
+import { APP_CHAIN_ID } from '../config';
 
 export const getAddress = (address) => {
-  const chainId = process.env.REACT_APP_CHAIN_ID ? process.env.REACT_APP_CHAIN_ID : 1;
+  const chainId = APP_CHAIN_ID || 1;
   // const chainId = '42';
   return address[chainId] ? address[chainId] : address[1];
 };
@@ -23,12 +24,12 @@ export const getMSOAddress = () => {
   return getAddress(addresses.mso);
 };
 
-export const getCrvAddress = () => {
-  return getAddress(tokens.crv);
+export const getCvrAddress = () => {
+  return getAddress(tokens.cvr);
 };
 
-export const getCrvAddressByChainId = (chainId) => {
-  return tokens.crv[`${chainId}`];
+export const getCvrAddressByChainId = (chainId) => {
+  return tokens.cvr[`${chainId}`];
 };
 
 export const getExchangeAgentAddress = () => {

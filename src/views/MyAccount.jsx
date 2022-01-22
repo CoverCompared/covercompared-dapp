@@ -5,8 +5,8 @@ import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
 import { logEvent } from 'firebase/analytics';
+import { LinkIcon } from '@heroicons/react/outline';
 
-import { PDFViewer } from '@react-pdf/renderer';
 import DownloadPolicy from '../components/common/DownloadPolicy';
 import { analytics } from '../config/firebase';
 import GetCVROnReview from '../components/GetCVROnReview';
@@ -27,6 +27,8 @@ import Loading from '../components/common/TxLoading';
 import p4lLogo from '../assets/img/p4l-logo.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import placeholderLogo from '../assets/img/placeholder.png';
+import SmartContractCard from '../components/SmartContractCard';
+import CryptoExchangeCard from '../components/CryptoExchangeCard';
 
 const DeviceCard = (props) => {
   return (
@@ -37,9 +39,6 @@ const DeviceCard = (props) => {
           fileName="Device_protection_receipt.pdf"
         />
       </div>
-      {/* <PDFViewer className="fixed h-96 w-full">
-        <DeviceReceipt {...props} />
-      </PDFViewer> */}
       <DeviceReceiptCard {...props} />
     </>
   );
@@ -65,8 +64,6 @@ const MyAccount = (props) => {
   const { email } = useSelector((state) => state.auth);
   const { policies, loader } = useSelector((state) => state.userProfile);
   const auth = useSelector((state) => state.auth);
-  const [proofPending, setProofPending] = useState(false);
-  const [nexusIndex, setNexusIndex] = useState(-1);
 
   const { onNMClaim, onNMRedeemClaim, onSubmitCAVote, getCheckVoteClosing, onCloseClaim } =
     useClaimForCover();
@@ -91,8 +88,6 @@ const MyAccount = (props) => {
     const newPageUrl = `https://app.nexusmutual.io/home/proof-of-loss/add-affected-addresses?coverId=${token_id}&owner=${wallet_address}`;
     window.open(newPageUrl, '_blank');
 
-    setProofPending(true);
-    setNexusIndex(i);
     try {
       const emptyData = ethers.utils.defaultAbiCoder.encode([], []);
 
@@ -145,12 +140,8 @@ const MyAccount = (props) => {
       } else {
         toast.warning('Failed to redeem claim!');
       }
-
-      setProofPending(false);
-      setNexusIndex(-1);
     } catch (err) {
       // console.log(err);
-      setProofPending(false);
       toast.error(err.message);
     }
   };
@@ -160,7 +151,6 @@ const MyAccount = (props) => {
       _id,
       tax,
       amount,
-      payment_hash,
       txn_hash,
       total_amount,
       logo = p4lLogo,
@@ -176,33 +166,44 @@ const MyAccount = (props) => {
         device_type,
         purchase_month,
         currency,
+        imei_or_serial_number,
         model,
         model_name,
       } = {},
+      payment: { transaction_link, payment_hash, network_name, crypto_currency } = {},
     } = device;
     return (
       <div
-        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl flex flex-row justify-between mb-4 relative"
         key={_id}
       >
-        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex items-center h-full w-full">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white flex items-center justify-center">
             <img loading="lazy" src={logo} alt="" className="h-auto w-full" />
           </div>
           <div className="flex flex-col">
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${device_type} - ${brand} `}</div>
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-row items-center">
+              <div>{`${device_type} - ${brand} `}</div>
+            </div>
             <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
               {model_name || model || 'Others'}
             </div>
           </div>
         </div>
 
-        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex sm:justify-end items-center min-w-max">
+          <button
+            type="button"
+            onClick={() => window.open(transaction_link, '_blank')}
+            className="p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text rounded-xl "
+          >
+            <LinkIcon title="Transaction details" className="w-5 h-5" />
+          </button>
           {!review?.length && (
             <button
               type="button"
               onClick={() => history.push(`submit-review/${_id}`)}
-              className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+              className="md:px-5 p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
             >
               Submit Review
             </button>
@@ -215,6 +216,9 @@ const MyAccount = (props) => {
               tax,
               txn_hash,
               payment_hash,
+              transaction_link,
+              network_name,
+              crypto_currency,
               quote: amount,
               total: total_amount,
               discountAmount: discount_amount,
@@ -225,6 +229,7 @@ const MyAccount = (props) => {
               brand,
               value,
               logo,
+              imei_or_serial_number,
               deviceType: device_type,
               purchaseMonth: purchase_month,
               plan_currency: currency,
@@ -247,7 +252,6 @@ const MyAccount = (props) => {
     const {
       _id,
       tax,
-      payment_hash,
       currency,
       amount,
       details,
@@ -256,6 +260,7 @@ const MyAccount = (props) => {
       logo = msoLogo,
       discount_amount,
       review,
+      payment: { transaction_link, payment_hash, network_name, crypto_currency } = {},
       // plan_details: { name, logo, MSOCoverUser, MSOPlanDuration },
     } = policy;
     const { MSOMembers, quote, mso_addon_service, plan_details } = details;
@@ -263,27 +268,36 @@ const MyAccount = (props) => {
 
     return (
       <div
-        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
+        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl flex flex-row justify-between mb-4 relative"
         key={_id}
       >
-        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex items-center h-full w-full">
           <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
             <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
           </div>
           <div className="flex flex-col">
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${MSOPlanDuration} `}</div>
+            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-row items-center">
+              <div>{`${name} - ${MSOPlanDuration} `}</div>
+            </div>
             <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
               {MSOCoverUser}
             </div>
           </div>
         </div>
 
-        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
+        <div className="flex sm:justify-end items-center min-w-max">
+          <button
+            type="button"
+            onClick={() => window.open(transaction_link, '_blank')}
+            className="p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text rounded-xl "
+          >
+            <LinkIcon title="Transaction details" className="w-5 h-5" />
+          </button>
           {!review?.length && (
             <button
               type="button"
               onClick={() => history.push(`submit-review/${_id}`)}
-              className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
+              className="md:px-5 p-3 md:mr-3 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
             >
               Submit Review
             </button>
@@ -299,6 +313,9 @@ const MyAccount = (props) => {
               total: total_amount,
               tax,
               payment_hash,
+              transaction_link,
+              network_name,
+              crypto_currency,
               currency,
               discountAmount: discount_amount,
               addonServices: !!mso_addon_service,
@@ -320,133 +337,12 @@ const MyAccount = (props) => {
     );
   };
 
-  const renderCryptoCard = (policy) => {
-    const {
-      _id,
-      details,
-      logo = placeholderLogo,
-      crypto_amount,
-      crypto_currency,
-      review,
-      wallet_address,
-    } = policy;
-    const { company_code, name, duration_days, token_id } = details;
-
-    return (
-      <div
-        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
-        key={_id}
-      >
-        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
-          <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
-            <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
-          </div>
-          <div className="flex flex-col">
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${company_code} `}</div>
-            <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
-              {`${crypto_amount} ${crypto_currency} - ${duration_days} days`}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
-          {!review?.length && (
-            <button
-              type="button"
-              onClick={() => history.push(`submit-review/${_id}`)}
-              className="md:px-5 p-3 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-            >
-              Submit Review
-            </button>
-          )}
-
-          {company_code === 'nexus' ? (
-            // replace the true with condition which check whether claim is submitted or not
-            true ? (
-              <Modal
-                title="Instruction"
-                bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
-                sizeClass="max-w-3xl"
-                renderComponent={() => (
-                  <ClaimCards policyId={token_id} walletAddress={wallet_address} />
-                )}
-              >
-                <button
-                  type="button"
-                  className="md:px-6 py-3 px-4 md:ml-4 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-                >
-                  Submit Claim
-                </button>
-              </Modal>
-            ) : (
-              <button
-                type="button"
-                className="md:px-6 py-3 px-4 md:ml-4 ml-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-              >
-                Redeem Claim
-              </button>
-            )
-          ) : null}
-        </div>
-      </div>
-    );
+  const renderSmartContractCard = (policy, index) => {
+    return <SmartContractCard policy={policy} />;
   };
 
-  const renderNexusCard = (policy, index) => {
-    const {
-      _id,
-      details,
-      logo = placeholderLogo,
-      crypto_amount,
-      crypto_currency,
-      txn_hash,
-      wallet_address,
-      review,
-    } = policy;
-    const { company_code, name, duration_days, token_id } = details;
-
-    return (
-      <div
-        className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative"
-        key={_id}
-      >
-        <div className="flex items-center h-full w-full sm:col-span-6 lg:col-span-6 col-span-12">
-          <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl shadow-2xl p-1 relative bg-white">
-            <img loading="lazy" src={logo} alt={name} className="h-full w-full rounded-xl" />
-          </div>
-          <div className="flex flex-col">
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">{`${name} - ${company_code} `}</div>
-            <div className="font-Montserrat text-body-md font-medium text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white flex flex-col">
-              {`${crypto_amount} ${crypto_currency} - ${duration_days} days`}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-6 col-span-12">
-          {!review?.length && (
-            <button
-              type="button"
-              onClick={() => history.push(`submit-review/${_id}`)}
-              className="md:px-5 p-3 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-            >
-              Submit Review
-            </button>
-          )}
-          <button
-            disabled={(proofPending && nexusIndex === index) || token_id === undefined}
-            onClick={() => handleSubmitToClaim(policy, index)}
-            type="button"
-            className="md:px-5 px-3 py-3 bg-gradient-to-r from-login-button-bg to-login-button-bg disabled:from-primary-gd-2 disabled:to-primary-gd-2 disabled:text-white hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-          >
-            {proofPending && nexusIndex === index ? (
-              <Loading widthClass="w-4" heightClass="h-4" />
-            ) : (
-              'Submit Claim'
-            )}
-          </button>
-        </div>
-      </div>
-    );
+  const renderCryptoExchangeCard = (policy) => {
+    return <CryptoExchangeCard policy={policy} />;
   };
 
   return (
@@ -466,26 +362,6 @@ const MyAccount = (props) => {
               {email}
             </label>
           </div>
-          {/* <div className="mt-1 flex rounded-md shadow-sm">  
-            <div className="relative flex items-stretch flex-grow focus-within:z-10">
-              <input
-                disabled
-                type="email"
-                name="email"
-                id="email"
-                value={email}
-                placeholder="your@email.com"
-                onChange={(e) => setEmail(e.target.value)}
-                className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 bg-gray-50"
-              />
-            </div>
-            <button
-              type="button"
-              className="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-0 focus:border-0"
-            >
-              <PencilAltIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-            </button>
-          </div> */}
         </div>
       </div>
       <div className="font-Montserrat md:text-h2 text-h4 font-semibold text-dark-blue mb-8 dark:text-white">
@@ -501,10 +377,10 @@ const MyAccount = (props) => {
               return renderMSOCard(m);
             }
             if (m.product_type === 'smart_contract') {
-              return renderNexusCard(m, i);
+              return renderSmartContractCard(m, i);
             }
             if (m.product_type === 'crypto_exchange') {
-              return renderCryptoCard(m);
+              return renderCryptoExchangeCard(m);
             }
             return <></>;
           })
@@ -513,41 +389,6 @@ const MyAccount = (props) => {
             No insurance policies to display
           </div>
         )}
-
-        {/* <div className="w-full bg-white dark:bg-featureCard-dark-bg shadow-md py-4 pl-4 xl:pr-8 pr-4 rounded-xl grid grid-cols-12 gap-x-5 gap-y-6 mb-4 relative">
-          <div className="flex items-center h-full sm:col-span-6 lg:col-span-7 col-span-12">
-            <div className="md:w-16 md:h-16 w-14 h-14 rounded-xl bg-gray-200">
-              <img
-                src="https://via.placeholder.com/400x250.png"
-                alt=""
-                className="h-full w-full rounded-xl"
-              />
-            </div>
-            <div className="font-Montserrat text-h5 font-semibold text-dark-blue md:ml-6 ml-4 md:mr-10 dark:text-white">
-              Uniswap - Nexus Mutual
-            </div>
-          </div>
-          <div className="flex sm:justify-end items-center sm:col-span-6 lg:col-span-5 col-span-12">
-            <Modal
-              title="Instruction"
-              bgImg="md:bg-submitClaimBg bg-submitClaimPopupBg bg-cover"
-              renderComponent={ClaimCards}
-            >
-              <button
-                type="button"
-                className="md:px-6 py-3 px-4 md:mr-4 mr-2 bg-gradient-to-r from-login-button-bg to-login-button-bg hover:from-primary-gd-1 hover:to-primary-gd-2 hover:text-white text-login-button-text font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-              >
-                Submit Claim
-              </button>
-            </Modal>
-            <button
-              type="button"
-              className="md:px-7 px-5 py-3 bg-discount-apply-btn-bg text-white font-Montserrat font-semibold md:text-body-md text-body-sm rounded-xl "
-            >
-              Reedem Claim
-            </button>
-          </div>
-        </div> */}
       </div>
     </>
   );

@@ -25,10 +25,16 @@ const countries = [
   { value: 'NOT', label: 'None of Them' },
 ];
 
-const MsoEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitle }) => {
+const MsoEligibilityChecker = ({
+  setIsModalOpen,
+  setIsEligible,
+  onClose,
+  setTitle,
+  country,
+  setCountry,
+}) => {
   const dispatch = useDispatch();
 
-  const [country, setCountry] = useState('');
   const [userCountry, setUserCountry] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
@@ -154,7 +160,7 @@ const MsoEligibilityChecker = ({ setIsModalOpen, setIsEligible, onClose, setTitl
 
   return (
     <div className="grid grid-cols-12">
-      <div className="grid col-span-8 col-start-3">
+      <div className="grid col-span-12 md:col-span-8 col-start-0 md:col-start-3 px-4 md:px-0">
         <form onSubmit={handleSubmit}>
           <div className="relative">
             <Select

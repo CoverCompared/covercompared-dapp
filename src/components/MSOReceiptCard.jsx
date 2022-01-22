@@ -1,14 +1,21 @@
 import React from 'react';
 import dayjs from 'dayjs';
 
-import CoverComparedLogo from '../assets/img/logo-final-light.png';
 import msoLogo from '../assets/img/mso-logo.png';
 import { shortenTxHash } from '../utils';
+import { mso_countries } from '../functions/data';
+
+import CoverComparedLogo from '../assets/img/logo-final-light.png';
+import WishingWell from '../assets/img/wishing-well-logo.png';
+import WCD from '../assets/img/world-class-doctor-logo.png';
 
 const MSOReceiptCard = (props) => {
   const {
     txn_hash,
     payment_hash,
+    transaction_link,
+    network_name,
+    crypto_currency,
     currency,
     membersInfo,
     quote,
@@ -33,11 +40,24 @@ const MSOReceiptCard = (props) => {
   return (
     <>
       <div className="bg-white rounded-lg mt-8 w-full md:p-8 px-4 py-6 shadow-lg">
-        <div className="flex justify-between">
-          <div className="flex">
-            <img loading="lazy" src={CoverComparedLogo} alt="CoverCompared" className="h-10" />
-            <img loading="lazy" src={logo} alt="MSO" className="h-14 ml-2" />
+        <div className="grid grid-cols-12 gap-x-5 gap-y-2 mt-2 mb-4 md:divide-x-2">
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-5 self-center md:pr-2">
+            <img
+              loading="lazy"
+              src={WishingWell}
+              alt=""
+              className="w-auto h-28 p-3 dark:bg-white"
+            />
           </div>
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-7 self-center md:pl-7">
+            <img loading="lazy" src={WCD} alt="" className="w-auto h-28 p-3 dark:bg-white" />
+          </div>
+        </div>
+        <div className="bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 text-center text-white font-semibold mb-10">
+          INTERNATIONAL MEDICAL SECOND OPINION
+        </div>
+        <div className="flex justify-between">
+          <img loading="lazy" src={CoverComparedLogo} alt="CoverCompared" className="h-20" />
           <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">
             Date: {getCurrentDate()}
           </div>
@@ -52,20 +72,30 @@ const MSOReceiptCard = (props) => {
             </div>
           </div>
 
-          <div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Policy Number: {txn_hash || '-'}
+          {payment_hash && (
+            <div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Policy Number: {txn_hash || '-'}
+              </div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Tnx Hash:{' '}
+                <a
+                  className="text-blue-900"
+                  href={transaction_link}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {shortenTxHash(payment_hash) || '-'}
+                </a>
+              </div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Network : Ethereum {network_name || ''}
+              </div>
+              <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+                Currency: {crypto_currency || '-'}
+              </div>
             </div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Tnx Hash: {shortenTxHash(payment_hash)}
-            </div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Network : kovan
-            </div>
-            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Currency: {currency}
-            </div>
-          </div>
+          )}
         </div>
 
         <div className="w-full mb-8 mt-8">
@@ -102,7 +132,7 @@ const MSOReceiptCard = (props) => {
                 {member.lastName || member.last_name || ''}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
-                {member.country}
+                {mso_countries.find((f) => f.value === member.country)?.label || ''}
               </div>
               <div className="lg:col-span-2 col-span-12 border border-black text-center font-Montserrat md:text-body-sm text-body-xs">
                 {dayjs(member.dob).format('DD/MM/YYYY')}

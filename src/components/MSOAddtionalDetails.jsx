@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Modal from './common/Modal';
 import CountrySelector from './common/MsoCountrySelector';
+import WishingWell from '../assets/img/wishing-well-logo.png';
+import WCD from '../assets/img/world-class-doctor-logo.png';
 
 const MSOAdditionalDetails = (props) => {
   const {
@@ -13,12 +15,30 @@ const MSOAdditionalDetails = (props) => {
     addonServices,
     isEligible,
     handleBuy,
+    validateX,
   } = props;
   return (
     <>
       <div>
+        <div className="grid grid-cols-12 gap-x-5 gap-y-2 mt-2 mb-4 md:divide-x-2">
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-5 self-center md:pr-2">
+            <img
+              loading="lazy"
+              src={WishingWell}
+              alt=""
+              className="w-auto h-28 p-3 dark:bg-white"
+            />
+          </div>
+          <div className="w-full flex flex-col items-center col-span-12 md:col-span-7 self-center md:pl-7">
+            <img loading="lazy" src={WCD} alt="" className="w-auto h-28 p-3 dark:bg-white" />
+          </div>
+        </div>
+        <div className="bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 text-center text-white font-semibold mb-10">
+          INTERNATIONAL MEDICAL SECOND OPINION
+        </div>
+
         <div className="grid grid-cols-12 gap-6 mt-6">
-          <div className="lg:col-span-4 md:col-span-5 col-span-11">
+          {/* <div className="lg:col-span-4 md:col-span-5 col-span-11">
             <img
               loading="lazy"
               src={logo}
@@ -31,7 +51,7 @@ const MSOAdditionalDetails = (props) => {
                 {name}
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="md:col-span-7 col-span-12 flex-col flex justify-center">
             <div className="font-Montserrat font-semibold text-dark-blue text-h5 dark:text-white hidden md:block ">
               {name}
@@ -70,7 +90,7 @@ const MSOAdditionalDetails = (props) => {
                 <li>Turn around time – 10 days from receipt of medical records</li>
               </ul>
               <div className="font-Montserrat font-semibold text-body-md text-dark-blue dark:text-white mb-2 mt-4">
-                Features EHR (from wishing well)
+                Features EHR (Electronic Health Records)
               </div>
               <ul className="list-disc pl-6">
                 <li>EHR with mobile app for entire family</li>
@@ -80,7 +100,12 @@ const MSOAdditionalDetails = (props) => {
               </div>
               <ul className="list-disc pl-6">
                 <li>Local service provider - Toll free number will be provided </li>
-                <li>Email: MSO @ wishingwellcorp.com, MSO @calladoc.co.in</li>
+                <li>
+                  Email:{' '}
+                  <a className="underline cursor-pointer" href="mailto:support@wishingwellcorp.com">
+                    support@wishingwellcorp.com
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -88,14 +113,14 @@ const MSOAdditionalDetails = (props) => {
         <div className="grid grid-cols-12 mt-6">
           <div className="lg:col-span-12 md:col-span-12 col-span-12">
             <div className="font-Montserrat font-semibold text-body-md text-dark-blue mb-2 dark:text-white text-left">
-              <a className="underline" href="https://google.com" target="_blank" rel="noreferrer">
+              <a
+                className="underline"
+                target="_blank"
+                href="https://covercompared-assets.s3.me-south-1.amazonaws.com/mso-covercompared-t-n-c.pdf"
+                rel="noreferrer"
+              >
                 Term & Condition
               </a>
-            </div>
-            <div className="font-Inter text-counter-card-text text-body-xs leading-5 dark:text-subtitle-dark-text text-left">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices purus sit placerat
-              nunc varius porta. Tincidunt vestibulum vivamus sed facilisi ac urna quisque etiam
-              bibendum. Sed aliquet at aliquam at nascetur hendrerit adipiscing.
             </div>
           </div>
         </div>
@@ -105,6 +130,7 @@ const MSOAdditionalDetails = (props) => {
               title="Members Information Form"
               sizeClass="max-w-6xl"
               renderComponent={CountrySelector}
+              validate={validateX}
               bgImg="bg-loginPopupBg"
               {...{ selectedPlan, addonServices }}
             >

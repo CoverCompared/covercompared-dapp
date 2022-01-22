@@ -9,6 +9,7 @@ import {
   GET_DEVICE_DETAILS,
   GET_DEVICE_PLAN_DETAILS,
   GET_DEVICE_MODEL_DETAILS,
+  CREATE_DEVICE_INSURANCE_POLICY,
 } from '../constants/ActionTypes';
 import {
   setBuyDeviceInsuranceLoader,
@@ -22,6 +23,8 @@ import {
   setGetDevicePlanDetailsLoader,
   getDeviceModelDetailsSuccess,
   setGetDeviceModelDetailsLoader,
+  createDeviceInsurancePolicySuccess,
+  setCreateDeviceInsurancePolicyLoader,
 } from '../actions/DeviceInsurance';
 import { axiosGet, axiosPost } from '../constants/apicall';
 import * as selector from '../constants/selectors';
@@ -91,6 +94,18 @@ function* buyDeviceInsurance({ payload }) {
         currency: payload.currency,
         wallet_address: payload.wallet_address,
         paid_amount: payload.total_amount,
+
+        // create-policy-api params
+        first_name: payload.first_name,
+        last_name: payload.last_name,
+        mobile: payload.mobile,
+        email: payload.email,
+        model_code: payload.model_code,
+        custom_device_name: payload.custom_device_name,
+        imei_or_serial_number: payload.imei_or_serial_number,
+        tran_id: payload.tran_id,
+        purchase_date: payload.purchase_date,
+        partner_code: payload.partner_code,
       };
 
       const confirmRes = yield call(
@@ -128,52 +143,52 @@ function* buyDeviceInsurance({ payload }) {
   }
 }
 
-function* confirmBuyDeviceInsurance({ payload }) {
-  try {
-    yield put(
-      setConfirmBuyDeviceInsuranceLoader({
-        message: '',
-        loader: true,
-        isFailed: false,
-      }),
-    );
+// function* confirmBuyDeviceInsurance({ payload }) {
+//   try {
+//     yield put(
+//       setConfirmBuyDeviceInsuranceLoader({
+//         message: '',
+//         loader: true,
+//         isFailed: false,
+//       }),
+//     );
 
-    const url = `${API_BASE_URL}/user/policies-device-insurance/${payload._id}/confirm-payment`;
-    // const res = yield call(axiosPost, url, payload, yield select(selector.token));
-    const res = yield call(
-      axiosPost,
-      url,
-      payload,
-      yield select(selector.token),
-      null,
-      yield select(selector.wallet_address),
-    );
+//     const url = `${API_BASE_URL}/user/policies-device-insurance/${payload._id}/confirm-payment`;
+//     // const res = yield call(axiosPost, url, payload, yield select(selector.token));
+//     const res = yield call(
+//       axiosPost,
+//       url,
+//       payload,
+//       yield select(selector.token),
+//       null,
+//       yield select(selector.wallet_address),
+//     );
 
-    if (res?.data?.success) {
-      return yield put(confirmBuyDeviceInsuranceSuccess(res.data.data));
-    }
+//     if (res?.data?.success) {
+//       return yield put(confirmBuyDeviceInsuranceSuccess(res.data.data));
+//     }
 
-    return yield put(
-      setConfirmBuyDeviceInsuranceLoader({
-        _id: null,
-        txn_hash: null,
-        loader: false,
-        isFailed: true,
-        message: res.data.message,
-      }),
-    );
-  } catch (error) {
-    return yield put(
-      setConfirmBuyDeviceInsuranceLoader({
-        _id: null,
-        txn_hash: null,
-        loader: false,
-        isFailed: true,
-        message: error.message,
-      }),
-    );
-  }
-}
+//     return yield put(
+//       setConfirmBuyDeviceInsuranceLoader({
+//         _id: null,
+//         txn_hash: null,
+//         loader: false,
+//         isFailed: true,
+//         message: res.data.message,
+//       }),
+//     );
+//   } catch (error) {
+//     return yield put(
+//       setConfirmBuyDeviceInsuranceLoader({
+//         _id: null,
+//         txn_hash: null,
+//         loader: false,
+//         isFailed: true,
+//         message: error.message,
+//       }),
+//     );
+//   }
+// }
 
 function* getDeviceDetail({ payload }) {
   try {
@@ -293,11 +308,49 @@ function* getDeviceModelDetail({ payload }) {
   }
 }
 
+function* createDeviceInsurancePolicy({ payload }) {
+  try {
+    yield put(
+      setCreateDeviceInsurancePolicyLoader({
+        message: '',
+        loader: true,
+        isFailed: false,
+      }),
+    );
+
+    const url = `${API_BASE_URL}/p4l-forward`;
+    const res = yield call(axiosPost, url, payload);
+
+    if (!res?.data?.error_message) {
+      yield put(createDeviceInsurancePolicySuccess(res.data.data));
+    } else {
+      yield put(
+        setCreateDeviceInsurancePolicyLoader({
+          loader: false,
+          isFailed: true,
+          devicePolicy: null,
+          message: res.data.error_message,
+        }),
+      );
+    }
+  } catch (error) {
+    yield put(
+      setCreateDeviceInsurancePolicyLoader({
+        loader: false,
+        isFailed: true,
+        devicePolicy: null,
+        message: error.message,
+      }),
+    );
+  }
+}
+
 export default all([
   takeLatest(BUY_DEVICE_INSURANCE_FIRST, buyDeviceInsuranceFirst),
   takeLatest(BUY_DEVICE_INSURANCE, buyDeviceInsurance),
-  takeLatest(CONFIRM_BUY_DEVICE_INSURANCE, confirmBuyDeviceInsurance),
+  // takeLatest(CONFIRM_BUY_DEVICE_INSURANCE, confirmBuyDeviceInsurance),
   takeLatest(GET_DEVICE_DETAILS, getDeviceDetail),
   takeLatest(GET_DEVICE_PLAN_DETAILS, getDevicePlanDetail),
   takeLatest(GET_DEVICE_MODEL_DETAILS, getDeviceModelDetail),
+  takeLatest(CREATE_DEVICE_INSURANCE_POLICY, createDeviceInsurancePolicy),
 ]);

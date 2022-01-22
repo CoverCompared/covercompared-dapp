@@ -8,7 +8,7 @@ import FormInput from './FormInput';
 import { setProfileDetails, verifyOTP } from '../redux/actions/Auth';
 import { resetDeviceInsurance } from '../redux/actions/DeviceInsurance';
 import Alert from './common/Alert';
-                     
+
 const MsoUserInfoForm = (props) => {
   // remove default values from below object once response is in this format
   const {

@@ -36,11 +36,41 @@ import Uniswap from '../assets/partners/uniswap.png';
 import Unmarshal from '../assets/partners/Unmarshal.png';
 import Unore from '../assets/partners/UNORE.png';
 import VitorServices from '../assets/partners/Vitor services.png';
+import Dfyn from '../assets/partners/Dfyn.png';
+import UniLend from '../assets/partners/unilend.png';
+import InsurAce from '../assets/partners/InsurAce.png';
+import Coinversation from '../assets/partners/Coinversation-Protocol.png';
+import NFTrade from '../assets/partners/nftrade.svg';
+import PixelVerse from '../assets/partners/PixelVerse.png';
+import RageFan from '../assets/partners/ragefan.png';
+import Centaur from '../assets/partners/Centaur.png';
+import Polytrade from '../assets/partners/polyTrade.jpg';
+import Vaiot from '../assets/partners/vaiot.svg';
+import NftyPlay from '../assets/partners/nifty-play.png';
+import Polygon from '../assets/partners/Polygon-logo.png';
+import Biconomy from '../assets/partners/biconomy.svg';
+import Mexc from '../assets/partners/mexc.svg';
 
 const tabs = [
   {
     tabTitle: 'Integration',
     content: [
+      {
+        img: Biconomy,
+        partnerName: 'Biconomy',
+        type: 'Integration',
+        ctaLink: 'https://www.biconomy.io/',
+        description:
+          'Our partnership with Biconomy will help eliminate the transaction fees imposed when users purchase insurance policies through our platform.',
+      },
+      {
+        img: Polygon,
+        partnerName: 'Polygon Network',
+        type: 'Integration',
+        ctaLink: 'https://www.polygon.com',
+        description:
+          'CoverCompared, the world’s first DeFi insurance aggregator for traditional and crypto products, will launch on one of the fastest-growing blockchain networks — Polygon.',
+      },
       {
         img: AudaceIcon,
         partnerName: 'Audace Labs',
@@ -78,6 +108,86 @@ const tabs = [
   {
     tabTitle: 'Client',
     content: [
+      {
+        img: NftyPlay,
+        partnerName: 'NftyPlay',
+        type: 'Client',
+        ctaLink: 'https://nftyplay.io',
+        description:
+          'CoverCompared will provide coverage to NftyPlay users to protect their NFTs against uncertain predicaments. Simultaneously, this alliance will also provide CoverCompared users with a platform to trade NFTs on Nftyplay.',
+      },
+      {
+        img: Vaiot,
+        partnerName: 'Vaiot ',
+        type: 'Client',
+        ctaLink: 'https://vaiot.ai/en',
+        description:
+          'This partnership will entail CoverCompared exploring Vaiot’s solutions to further optimize user experiences on our platform. Simultaneously, Vaiot will get access to the CoverCompared marketplace, where the Vaiot community can buy insurance covers for smart contracts, NFTs and more.',
+      },
+      {
+        img: Polytrade,
+        partnerName: 'Polytrade',
+        type: 'Client',
+        ctaLink: 'https://polytrade.finance/',
+        description:
+          'This partnership aims to bring insurance backed real-world assets to the crypto world. Simultaneously, CoverCompared users will have access to low interest and swift financing to free up critical working capital tapped from crypto lenders.',
+      },
+      {
+        img: Centaur,
+        partnerName: 'Centaur',
+        type: 'Client',
+        ctaLink: 'https://cntr.finance/',
+        description:
+          'This partnership will give Centaur users access to the CoverCompared platform from where they can buy a wide array of different insurance products This partnership will also give the CoverCompared community access to a platform that specialises in DeFi solutions.',
+      },
+      {
+        img: RageFan,
+        partnerName: 'Rage Fan',
+        type: 'Client',
+        ctaLink: ' https://rage.fan',
+        description:
+          'As part of this integration, the community will gain access to a platform where users can opt for insurance to safeguard their NFTs against vulnerabilities. This integration will also provide CoverCompared users with a platform where they can purchase and trade NFTs on RageFan.',
+      },
+      {
+        img: PixelVerse,
+        partnerName: 'PixelVerse',
+        type: 'Client',
+        ctaLink: 'https://pixelverse.ai',
+        description:
+          'As part of this integration, the PixelVerse community will gain access to a platform where users can opt for insurance to safeguard their NFTs against vulnerabilities.',
+      },
+      {
+        img: NFTrade,
+        partnerName: 'NFTrade',
+        type: 'Client',
+        ctaLink: 'https://nftrade.com',
+        description:
+          'As part of this integration, NFTrade users will get access to the CoverCompared platform where NFT covers will be offered to safeguard their assets against vulnerabilities.',
+      },
+      {
+        img: Coinversation,
+        partnerName: 'Coinversation',
+        type: 'Client',
+        ctaLink: ' http://coinversation.io',
+        description:
+          'PolkaCover will essentially provide the Coinversation community with hack Covers and Smart Contract Covers along with hosting airdrop activities with the Coinversation community.',
+      },
+      {
+        img: UniLend,
+        partnerName: 'UniLend',
+        type: 'Client',
+        ctaLink: ' https://unilend.finance',
+        description:
+          'UniLend users can now insure their custodial wallets through Wallet Hack Covers offered on our insurance marketplace. Additionally, UniLend will also provide its flash loans to PolkaCover users on our platform.',
+      },
+      {
+        img: Dfyn,
+        partnerName: 'Dfyn ',
+        type: 'Client',
+        ctaLink: 'https://dfyn.network',
+        description:
+          'Our StableCoin Pool Cover for DFYN will provide insurance to the users in the stable coin pools of DFYN.',
+      },
       {
         img: PhantasmaChain,
         partnerName: 'Phantasma Chain',
@@ -164,6 +274,14 @@ const tabs = [
     tabTitle: 'Insurers',
     content: [
       {
+        img: InsurAce,
+        partnerName: 'InsurAce',
+        type: 'Insurers',
+        ctaLink: 'https://www.insurace.io',
+        description:
+          'As part of this partnership, Cover Compared users will gain exposure to and be able to purchase InsurAce.io’s premium insurance offerings.',
+      },
+      {
         img: Unore,
         partnerName: 'Uno Re',
         type: 'Insurers',
@@ -195,14 +313,14 @@ const tabs = [
         description:
           'With this collaboration, Nsure Network will expand Cover Compared’s market place by adding its unique variety of insurance products and insurance against common compromises in the crypto space.',
       },
-      // {
-      //   img: CoverProtocol,
-      //   partnerName: 'Cover Protocol',
-      //   type: 'Insurers',
-      //   ctaLink: 'https://www.coverprotocol.com/',
-      //   description:
-      //     'As a part of this integration, Cover Compared will be featuring their smart contract and platform covers on our marketplace. We are building an insurance marketplace to which Cover Protocol’s unique products will offer a much-needed layer of protection.',
-      // },
+      {
+        img: CoverProtocol,
+        partnerName: 'Cover Protocol',
+        type: 'Insurers',
+        ctaLink: 'https://www.coverprotocol.com/',
+        description:
+          'As a part of this integration, Cover Compared will be featuring their smart contract and platform covers on our marketplace. We are building an insurance marketplace to which Cover Protocol’s unique products will offer a much-needed layer of protection.',
+      },
     ],
   },
   {
@@ -229,6 +347,14 @@ const tabs = [
   {
     tabTitle: 'Exchange',
     content: [
+      {
+        img: Mexc,
+        partnerName: 'MEXC Global',
+        type: 'Exchange',
+        ctaLink: 'mexc.com',
+        description:
+          'MEXC Global is known as the exchange of high performance and mega transaction matching technology.',
+      },
       {
         img: Hoo,
         partnerName: 'HOO',

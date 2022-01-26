@@ -50,6 +50,7 @@ const CoverBuyBox = (props) => {
   const [quoteSelect, setQuoteSelect] = useState('ETH');
   const [quoteOptions, setQuoteOptions] = useState(['ETH', 'CVR']);
   const [forceClose, setForceClose] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const { getNeededTokenAmount } = useTokenAmount();
   const { getTokenAddress } = useAddress();
@@ -109,6 +110,7 @@ const CoverBuyBox = (props) => {
       toast.error(
         `Period duration is not valid, it must be between ${duration_days_min} to ${duration_days_max} days`,
       );
+      setDisabled(true);
       return;
     }
 
@@ -120,9 +122,11 @@ const CoverBuyBox = (props) => {
       toast.error(
         `Amount is not valid, it must be between ${amountLimit.min} to ${amountLimit.max}`,
       );
+      setDisabled(true);
       return;
     }
 
+    setDisabled(false);
     callGetQuote();
   }, [period, amountField, amountSelect, account]);
 
@@ -238,7 +242,7 @@ const CoverBuyBox = (props) => {
           <button
             ref={buyButton}
             type="button"
-            disabled={!!message || !quoteField}
+            disabled={!!message || !quoteField || disabled}
             className="md:py-3 px-6 outline-none border-0 bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 disabled:from-buy-button-gd-2 disabled:to-buy-button-gd-2 rounded-xl text-white font-Montserrat font-semibold text-body-md shadow-buyInsurance disabled:opacity-80 disabled:cursor-default"
           >
             Buy Now

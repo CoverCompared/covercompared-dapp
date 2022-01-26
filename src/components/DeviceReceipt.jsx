@@ -90,6 +90,7 @@ const DeviceReceipt = (props) => {
     phone,
     email,
     deviceType,
+    purchaseDate,
     brand,
     value,
     purchaseMonth,
@@ -99,8 +100,8 @@ const DeviceReceipt = (props) => {
     logo = P4LLogo,
   } = props;
 
-  const getCurrentDate = () => {
-    const newDate = new Date();
+  const getDate = (d) => {
+    const newDate = d ? new Date(d) : new Date();
     const date = newDate.getDate();
     const month = newDate.getMonth() + 1;
     const year = newDate.getFullYear();
@@ -118,7 +119,7 @@ const DeviceReceipt = (props) => {
           <View style={[styles.row, styles.justify_between]}>
             <Image source={CoverComparedLogo} style={styles.topLogo} />
             <View>
-              <Text>Date: {getCurrentDate()}</Text>
+              <Text>Date: {getDate()}</Text>
             </View>
           </View>
 
@@ -141,6 +142,9 @@ const DeviceReceipt = (props) => {
               </View>
               <View style={[styles.total, styles.paymentetails]}>
                 <Text>Email: {email}</Text>
+              </View>
+              <View style={[styles.total, styles.paymentetails]}>
+                <Text>Purchase Date: {getDate(purchaseDate)}</Text>
               </View>
             </View>
 

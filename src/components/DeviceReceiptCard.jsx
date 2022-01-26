@@ -20,6 +20,7 @@ const DeviceReceiptCard = (props) => {
     phone,
     email,
     deviceType,
+    purchaseDate,
     brand,
     value,
     purchaseMonth,
@@ -29,8 +30,8 @@ const DeviceReceiptCard = (props) => {
     logo = P4LLogo,
   } = props;
 
-  const getCurrentDate = () => {
-    const newDate = new Date();
+  const getDate = (d) => {
+    const newDate = d ? new Date(d) : new Date();
     const date = newDate.getDate();
     const month = newDate.getMonth() + 1;
     const year = newDate.getFullYear();
@@ -45,7 +46,7 @@ const DeviceReceiptCard = (props) => {
         <div className="flex justify-between">
           <img loading="lazy" src={CoverComparedLogo} alt="CoverCompared" className="h-20" />
           <div className="text-dark-blue font-medium font-Montserrat md:text-body-md text-body-xs">
-            Date: {getCurrentDate()}
+            Date: {getDate()}
           </div>
         </div>
 
@@ -64,10 +65,13 @@ const DeviceReceiptCard = (props) => {
               Last Name : {lName}
             </div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
-              Phone : {phone}
+              Phone : +{phone}
             </div>
             <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
               Email : {email}
+            </div>
+            <div className="text-dark-blue font-medium font-Montserrat md:text-body-lg text-body-sm text-left">
+              Purchase Date : {getDate(purchaseDate)}
             </div>
           </div>
 

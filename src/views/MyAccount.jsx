@@ -165,6 +165,7 @@ const MyAccount = (props) => {
         value,
         device_type,
         purchase_month,
+        purchase_date,
         currency,
         imei_or_serial_number,
         model,
@@ -232,6 +233,7 @@ const MyAccount = (props) => {
               imei_or_serial_number,
               deviceType: device_type,
               purchaseMonth: purchase_month,
+              purchaseDate: purchase_date,
               plan_currency: currency,
               selectedModel: model_name || model || 'Others',
             }}

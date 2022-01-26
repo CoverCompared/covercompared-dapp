@@ -27,12 +27,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   topLogo: {
-    width: 110,
+    height: '60pt',
   },
   p4lLogo: {
-    width: '90pt',
-    marginVertical: 15,
-    marginLeft: '6pt',
+    height: '35pt',
+    width: 'auto',
   },
   total: {
     color: '#011b41',
@@ -91,6 +90,7 @@ const DeviceReceipt = (props) => {
     phone,
     email,
     deviceType,
+    purchaseDate,
     brand,
     value,
     purchaseMonth,
@@ -100,8 +100,8 @@ const DeviceReceipt = (props) => {
     logo = P4LLogo,
   } = props;
 
-  const getCurrentDate = () => {
-    const newDate = new Date();
+  const getDate = (d) => {
+    const newDate = d ? new Date(d) : new Date();
     const date = newDate.getDate();
     const month = newDate.getMonth() + 1;
     const year = newDate.getFullYear();
@@ -113,17 +113,13 @@ const DeviceReceipt = (props) => {
     <Document style={styles.doc}>
       <Page style={styles.page}>
         <View style={styles.container}>
+          <View style={styles.row}>
+            <Image source={logo} style={styles.p4lLogo} />
+          </View>
           <View style={[styles.row, styles.justify_between]}>
-            <View style={styles.row}>
-              <View style={styles.topLogo}>
-                <Image source={CoverComparedLogo} />
-              </View>
-              <View style={styles.p4lLogo}>
-                <Image source={logo} />
-              </View>
-            </View>
+            <Image source={CoverComparedLogo} style={styles.topLogo} />
             <View>
-              <Text>Date: {getCurrentDate()}</Text>
+              <Text>Date: {getDate()}</Text>
             </View>
           </View>
 
@@ -146,6 +142,9 @@ const DeviceReceipt = (props) => {
               </View>
               <View style={[styles.total, styles.paymentetails]}>
                 <Text>Email: {email}</Text>
+              </View>
+              <View style={[styles.total, styles.paymentetails]}>
+                <Text>Purchase Date: {getDate(purchaseDate)}</Text>
               </View>
             </View>
 

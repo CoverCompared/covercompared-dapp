@@ -20,20 +20,23 @@ const MSOAdditionalDetails = (props) => {
   return (
     <>
       <div>
-        {' '}
         <div className="grid grid-cols-12 gap-x-5 gap-y-2 mt-2 mb-4 md:divide-x-2">
           <div className="w-full flex flex-col items-center col-span-12 md:col-span-5 self-center md:pr-2">
             <img
               loading="lazy"
               src={WishingWell}
               alt=""
-              className="w-full h-20 p-3 dark:bg-white"
+              className="w-auto h-28 p-3 dark:bg-white"
             />
           </div>
           <div className="w-full flex flex-col items-center col-span-12 md:col-span-7 self-center md:pl-7">
-            <img loading="lazy" src={WCD} alt="" className="w-full h-20 p-3 dark:bg-white" />
+            <img loading="lazy" src={WCD} alt="" className="w-auto h-28 p-3 dark:bg-white" />
           </div>
         </div>
+        <div className="bg-gradient-to-r from-buy-button-gd-1 to-buy-button-gd-2 text-center text-white font-semibold mb-10">
+          INTERNATIONAL MEDICAL SECOND OPINION
+        </div>
+
         <div className="grid grid-cols-12 gap-6 mt-6">
           {/* <div className="lg:col-span-4 md:col-span-5 col-span-11">
             <img

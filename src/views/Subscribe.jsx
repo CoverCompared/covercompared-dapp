@@ -23,7 +23,7 @@ const Subscribe = () => {
 
   useEffect(() => {
     if (subscribeData) {
-      if (subscribeData?.success) {
+      if (subscribeData?.success && subscribeData?.message !== 'User already subscribed.') {
         toast.success(subscribeData?.message || '');
         setEmail('');
       } else {

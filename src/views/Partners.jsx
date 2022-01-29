@@ -289,14 +289,14 @@ const tabs = [
         description:
           'Together, Cover Compared and UnoRe will transform the decentralized ecosystem and provide insurance users a safety net on an unprecedented scale. Uno Re will provide Cover Compared with excess loss cover.',
       },
-      {
-        img: Insurance971,
-        partnerName: '971 Insurance',
-        type: 'Insurers',
-        ctaLink: 'http://www.971insurance.ae/',
-        description:
-          '971 Insurance will support Cover Compared by providing the ground regulations needed to distribute regulated insurance products. Their panel will offer regular covers and tailor-made risk covers based on Cover Compared requirements. This collaboration will also enable seamless distribution of traditional and crypto insurance to the global audience on one platform.',
-      },
+      // {
+      //   img: Insurance971,
+      //   partnerName: '971 Insurance',
+      //   type: 'Insurers',
+      //   ctaLink: 'http://www.971insurance.ae/',
+      //   description:
+      //     '971 Insurance will support Cover Compared by providing the ground regulations needed to distribute regulated insurance products. Their panel will offer regular covers and tailor-made risk covers based on Cover Compared requirements. This collaboration will also enable seamless distribution of traditional and crypto insurance to the global audience on one platform.',
+      // },
       {
         img: PolkaInsure,
         partnerName: 'Polka Insure',

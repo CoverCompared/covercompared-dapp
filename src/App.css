@@ -111,6 +111,7 @@ input[type='number'] {
 .react-tel-input .dark-country-list .country.highlight {
   background-color: rgba(42, 51, 65) !important;
 }
+
 .react-tel-input .flag-dropdown {
   position: absolute !important;
   top: 0 !important;

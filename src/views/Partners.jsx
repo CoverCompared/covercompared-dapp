@@ -50,11 +50,21 @@ import NftyPlay from '../assets/partners/nifty-play.png';
 import Polygon from '../assets/partners/Polygon-logo.png';
 import Biconomy from '../assets/partners/biconomy.svg';
 import Mexc from '../assets/partners/mexc.svg';
+import Escrow from '../assets/partners/escrow.png';
+import IntegraGlobal from '../assets/partners/intregra-global.png';
 
 const tabs = [
   {
     tabTitle: 'Integration',
     content: [
+      {
+        img: IntegraGlobal,
+        partnerName: 'Integra Health',
+        type: 'Client',
+        ctaLink: 'https://integraglobal.com',
+        description:
+          'Our partnership with Integra Global will only make health coverage more accessible and affordable to users globally.',
+      },
       {
         img: Biconomy,
         partnerName: 'Biconomy',
@@ -108,6 +118,14 @@ const tabs = [
   {
     tabTitle: 'Client',
     content: [
+      {
+        img: Escrow,
+        partnerName: 'Escrow Protocol',
+        type: 'Client',
+        ctaLink: 'https://www.escrowprotocol.app',
+        description:
+          'CoverCompared welcomes Escrow Protocol to their partnership ecosystem. Investors will now have access to our platform where they can insure their escrow funds at affordable rates.',
+      },
       {
         img: NftyPlay,
         partnerName: 'NftyPlay',

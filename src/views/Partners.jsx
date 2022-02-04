@@ -52,19 +52,20 @@ import Biconomy from '../assets/partners/biconomy.svg';
 import Mexc from '../assets/partners/mexc.svg';
 import Escrow from '../assets/partners/escrow.png';
 import IntegraGlobal from '../assets/partners/intregra-global.png';
+import UnrealFinance from '../assets/partners/unreal-finance.png';
 
 const tabs = [
   {
     tabTitle: 'Integration',
     content: [
-      {
-        img: IntegraGlobal,
-        partnerName: 'Integra Health',
-        type: 'Client',
-        ctaLink: 'https://integraglobal.com',
-        description:
-          'Our partnership with Integra Global will only make health coverage more accessible and affordable to users globally.',
-      },
+      // {
+      //   img: IntegraGlobal,
+      //   partnerName: 'Integra Health',
+      //   type: 'Client',
+      //   ctaLink: 'https://integraglobal.com',
+      //   description:
+      //     'Our partnership with Integra Global will only make health coverage more accessible and affordable to users globally.',
+      // },
       {
         img: Biconomy,
         partnerName: 'Biconomy',
@@ -118,6 +119,14 @@ const tabs = [
   {
     tabTitle: 'Client',
     content: [
+      {
+        img: UnrealFinance,
+        partnerName: 'Unreal Finance',
+        type: 'Client',
+        ctaLink: 'https://unreal.finance',
+        description:
+          'As the first-ever platform to allow gasless policy purchasing, we are happy to help yield farmers and derivative traders using Unreal Finance get access to affordable insurance policies.',
+      },
       {
         img: Escrow,
         partnerName: 'Escrow Protocol',

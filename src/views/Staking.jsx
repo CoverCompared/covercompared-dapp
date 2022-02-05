@@ -76,12 +76,12 @@ const Staking = () => {
       <div className="text-h1 text-dark-blue font-Montserrat font-bold text-center dark:text-white mt-4">
         {/* Start Winning today with <span>Cover</span>
         <span className="text-coverComapredrLightBlue">Compared</span> <span>Staking</span> */}
-        Claim your Staking Rewards
+        Claim your $CVR Staking Rewards
       </div>
 
       <div className="text-h4 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-4">
-        CoverCompared Staking is a flexible staking contract for ERC-20 tokens. <br /> Simple &
-        Secure. You stake it till we make it !
+        CoverCompared Staking is a flexible staking contract for etc-20 tokens <br /> keep a look
+        out for our next staking programme!
       </div>
 
       <div className="text-h4 text-light-green font-Montserrat font-semibold text-center mt-6 mb-2">

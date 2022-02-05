@@ -105,7 +105,7 @@ module.exports = {
         'planPrice-1': 'rgba(69, 234, 154, 1)',
         'planPrice-2': 'rgba(0, 121, 147, 1)',
         'staking-plan-box-green': '#59E7A2',
-        'staking-plan-title': '#1E5992'
+        'staking-plan-title': '#1E5992',
         // 'coverComapredrDarkBlue': '#003660',
         // 'coverComapredrLightBlue': '#51C1C3',
       },

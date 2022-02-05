@@ -80,7 +80,7 @@ const Staking = () => {
       </div>
 
       <div className="text-h4 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mt-4">
-        CoverCompared Staking is a flexible staking contract for etc-20 tokens <br /> keep a look
+        CoverCompared Staking is a flexible staking contract for ERC-20 tokens <br /> keep a look
         out for our next staking programme!
       </div>
 

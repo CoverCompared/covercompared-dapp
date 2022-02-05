@@ -16,6 +16,7 @@ const ErrorPage = React.lazy(() => import('../views/ErrorPage'));
 const MSOPlans = React.lazy(() => import('../views/MSOPlans'));
 const DeviceProduct = React.lazy(() => import('../views/DeviceProduct'));
 const FAQ = React.lazy(() => import('../views/FAQ'));
+const Staking = React.lazy(() => import('../views/Staking'));
 
 const routes = [
   {
@@ -182,6 +183,17 @@ const routes = [
     withSidebar: true,
     component: Blog,
     title: 'Learn More',
+    bgImg: 'md:bg-partnersBg',
+    mobileBgImg: 'bg-LearnMoreMobileBg',
+    bgImgClass: 'bg-100% bg-no-repeat bg-center',
+  },
+  {
+    path: '/staking',
+    exact: true,
+    pageName: 'Staking',
+    withSidebar: true,
+    component: Staking,
+    title: 'Staking',
     bgImg: 'md:bg-partnersBg',
     mobileBgImg: 'bg-LearnMoreMobileBg',
     bgImgClass: 'bg-100% bg-no-repeat bg-center',

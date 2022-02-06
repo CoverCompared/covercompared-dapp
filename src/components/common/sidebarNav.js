@@ -8,6 +8,7 @@ import { ReactComponent as LearnMoreIcon } from '../../assets/img/learn-more-ico
 import { ReactComponent as SubscribeIcon } from '../../assets/img/subscribe-icon.svg';
 import { ReactComponent as PartnerIcon } from '../../assets/img/partner-icon.svg';
 import { ReactComponent as FAQIcon } from '../../assets/img/faq-icon.svg';
+import { ReactComponent as StkingReward } from '../../assets/img/staking-reward.svg';
 
 const nav = [
   { name: 'Home', to: '/', icon: HomeIcon, authProtected: false },
@@ -18,6 +19,7 @@ const nav = [
   { name: 'Our Partners', to: '/partners', icon: PartnerIcon, authProtected: false },
   { name: 'Subscribe', to: '/subscribe', icon: SubscribeIcon, authProtected: false },
   { name: 'Blogs', to: '/blogs', icon: LearnMoreIcon, authProtected: false },
+  { name: 'Staking Rewards', to: '/staking', icon: StkingReward, authProtected: false },
   { name: 'FAQ', to: '/faq', icon: FAQIcon, authProtected: false },
 ];
 

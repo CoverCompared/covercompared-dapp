@@ -4,7 +4,7 @@ const TxDetailMsg = ({ transaction }) => (
   <div>
     <h2 className="font-sans md:text-h6">
       {/* {transaction.description} */}
-      Transaction Succeed
+      {transaction.description || 'Transaction Succeed'}
     </h2>
     <a
       rel="noreferrer"

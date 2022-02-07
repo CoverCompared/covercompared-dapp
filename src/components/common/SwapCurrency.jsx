@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { parseUnits } from 'ethers/lib/utils';
 import {
@@ -22,7 +23,8 @@ import { ThemeContext } from '../../themeContext';
 import { useUniswapV2RouterContract } from '../../hooks/useContract';
 import useTokenApprove from '../../hooks/useTokenApprove';
 import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
-import { ROUTER_ADDRESS } from '../../config';
+import { BASE_SCAN_URLS, ROUTER_ADDRESS } from '../../config';
+import { setPendingTransaction } from '../../redux/actions';
 
 const tryParseAmount = (value, currency) => {
   if (!value || !currency) {
@@ -254,6 +256,7 @@ const useSwapCallback = (trade, allowedSlippage, deadline, recipientAddressOrNam
 };
 const SwapCurrency = () => {
   const { theme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
   const { chainId } = useWeb3React();
   const [isOpen, setISOpen] = useState(false);
   const [firstCurrency, setFirstCurrency] = useState(0);
@@ -332,9 +335,17 @@ const SwapCurrency = () => {
       swapCallback()
         .then((hash) => {
           console.log(hash);
+          dispatch(
+            setPendingTransaction({
+              hash,
+              description: `Swap exactly ${formattedAmounts.INPUT} ${currencies.INPUT.symbol} for ${formattedAmounts.OUTPUT} ${currencies.OUTPUT.symbol}`,
+              etherscan: BASE_SCAN_URLS[chainId],
+            }),
+          );
         })
         .catch((error) => {
           console.log(error);
+          dispatch(setPendingTransaction(null));
         });
     }
   };

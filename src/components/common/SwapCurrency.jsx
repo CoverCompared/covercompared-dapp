@@ -23,6 +23,8 @@ import { ThemeContext } from '../../themeContext';
 import { useUniswapV2RouterContract } from '../../hooks/useContract';
 import useTokenApprove from '../../hooks/useTokenApprove';
 import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
+import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
+import { getBalanceNumber } from '../../utils/formatBalance';
 import { BASE_SCAN_URLS, ROUTER_ADDRESS } from '../../config';
 import { setPendingTransaction } from '../../redux/actions';
 
@@ -262,6 +264,10 @@ const SwapCurrency = () => {
   const [firstCurrency, setFirstCurrency] = useState(0);
   const [secondCurrency, setSecondCurrency] = useState(0);
   const { getTokenAddress } = useAddress();
+
+  const ethBalance = useGetEthBalance();
+  const cvrBalance = useTokenBalance();
+
   const [currencies, setCurrencies] = useState({});
   useEffect(() => {
     setCurrencies({
@@ -329,6 +335,13 @@ const SwapCurrency = () => {
   const handleSwap = () => {
     if (!formattedAmounts.INPUT || !formattedAmounts.OUTPUT) {
       toast.warning('Please input token amount correctly');
+      return;
+    }
+    if (
+      Number(formattedAmounts.INPUT) >
+      getBalanceNumber(currencies.INPUT.symbol === 'ETH' ? ethBalance.balance : cvrBalance.balance)
+    ) {
+      toast.warning(`Insufficient ${currencies.INPUT.symbol} amount`);
       return;
     }
     if (swapCallback) {

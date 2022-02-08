@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { parseUnits } from 'ethers/lib/utils';
 import {
@@ -26,7 +26,7 @@ import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
 import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
 import { getBalanceNumber } from '../../utils/formatBalance';
 import { BASE_SCAN_URLS, ROUTER_ADDRESS } from '../../config';
-import { setPendingTransaction } from '../../redux/actions';
+import { setPendingTransaction, openSwapModal } from '../../redux/actions';
 
 const tryParseAmount = (value, currency) => {
   if (!value || !currency) {
@@ -259,8 +259,9 @@ const useSwapCallback = (trade, allowedSlippage, deadline, recipientAddressOrNam
 const SwapCurrency = () => {
   const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
+  const { openSwapModal: isOpen } = useSelector((state) => state.app);
   const { chainId } = useWeb3React();
-  const [isOpen, setISOpen] = useState(false);
+  // const [isOpen, setISOpen] = useState(false);
   const [firstCurrency, setFirstCurrency] = useState(0);
   const [secondCurrency, setSecondCurrency] = useState(0);
   const { getTokenAddress } = useAddress();
@@ -366,7 +367,7 @@ const SwapCurrency = () => {
     <>
       <div className="relative ml-3 duration-150">
         <div
-          onClick={() => setISOpen(!isOpen)}
+          onClick={() => dispatch(openSwapModal(!isOpen))}
           className="p-2 rounded-xl cursor-pointer bg-white dark:bg-featureCard-dark-bg shadow-addToCart"
         >
           <img src={theme === 'light' ? SwapIcon : SwapWhiteIcon} alt="Swap" />

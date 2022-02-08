@@ -5,6 +5,7 @@ import {
   SET_CURRENT_PRODUCT,
   SET_PENDING_TRANSACTION,
   SET_PENDING_TRANSACTION_SUCCESS,
+  OPEN_SWAP_MODAL,
 } from '../constants/ActionTypes';
 
 const INIT_STATE = {
@@ -12,6 +13,7 @@ const INIT_STATE = {
   filtersOpen: false,
   currentProduct: null,
   pendingTx: null,
+  openSwapModal: false,
 };
 
 export default (state = INIT_STATE, { type, payload }) => {
@@ -38,6 +40,12 @@ export default (state = INIT_STATE, { type, payload }) => {
       return {
         ...state,
         pendingTx: payload,
+      };
+    }
+    case OPEN_SWAP_MODAL: {
+      return {
+        ...state,
+        openSwapModal: payload,
       };
     }
     default:

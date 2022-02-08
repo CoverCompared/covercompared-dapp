@@ -12,7 +12,7 @@ import useTokenApprove from '../hooks/useTokenApprove';
 import useStakeForCover from '../hooks/useStakeForCover';
 import PageLoader from './common/PageLoader';
 import { buyCover } from '../redux/actions/CoverList';
-import { setLoginModalVisible } from '../redux/actions';
+import { setLoginModalVisible, openSwapModal } from '../redux/actions';
 import Loading from './common/TxLoading';
 import { getBalanceNumber } from '../utils/formatBalance';
 import { axiosPost } from '../redux/constants/apicall';
@@ -35,6 +35,7 @@ const CoverBuyConfirmModal = (props) => {
     token,
     setIsModalOpen,
     setIsNotCloseable,
+    onClose,
     payWithCVR,
   } = props;
 
@@ -135,10 +136,11 @@ const CoverBuyConfirmModal = (props) => {
       setIsNotCloseable(false);
       return;
     }
-
     if (applyDiscount && cvrAmount >= getBalanceNumber(cvrBalance.balance)) {
       toast.warning('Insufficient CVR balance!');
       setIsNotCloseable(false);
+      setIsModalOpen(false);
+      dispatch(openSwapModal(true));
       return;
     }
     if (

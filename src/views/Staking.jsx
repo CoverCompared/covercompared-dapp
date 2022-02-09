@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import uniqid from 'uniqid';
 import FerrumNetworkFullLogo from '../assets/img/FerrumNetwork-logo.png';
 import StakingImg from '../assets/img/staking-icon.png';
@@ -155,14 +154,14 @@ const Staking = () => {
             <div className="font-Montserrat font-semiBold text-dark-blue font-medium text-h6 dark:text-white mb-5">
               <span className="text-staking-plan-title font-bold text-h3">{obj.cvr}</span> CVR
             </div>
-            <Link to={obj.ctaLink} target="_blank" rel="noopener">
+            <a href={obj.ctaLink} target="_blank" rel="noopener noreferrer">
               <button
                 type="button"
                 className="outline-none md:h-12 h-11 py-0.75 px-5 md:px-12 bg-white disabled:bg-gray-200 text-primary-gd-1 font-Montserrat font-semibold md:rounded-lg rounded-xl text-body-md"
               >
                 Claim
               </button>
-            </Link>
+            </a>
             {index === 1 ? (
               <>
                 <div className="h-10 w-10 md:h-14 md:w-14 shadow-lg bg-white rounded-full absolute right-16 bottom-16 md:hidden xl:block" />

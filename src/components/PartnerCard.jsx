@@ -9,7 +9,7 @@ const PartnerCard = ({ img, partnerName, description, ctaLink }) => {
       rel="noopener noreferrer"
       className="p-6 rounded-2xl shadow-md bg-white dark:bg-featureCard-dark-bg"
     >
-      <div className="flex justify-center">
+      <div className="flex justify-center items-center lg:h-24 lg:w-24 md:h-14 md:w-24 h-12 w-16 mx-auto">
         <img
           loading="lazy"
           src={img}

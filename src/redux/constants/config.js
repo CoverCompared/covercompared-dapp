@@ -9,7 +9,7 @@ const stagingHostname = ['staging-covercompared.polkacover.com'];
 
 if (productionHostname.includes(window.location.hostname)) {
   env = 'production';
-  baseURL = `https://covercompared.com/api`;
+  baseURL = `https://${window.location.hostname}/api`;
 } else if (stagingHostname.includes(window.location.hostname)) {
   env = 'staging';
   baseURL = 'https://staging-covercompared.polkacover.com/api';

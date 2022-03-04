@@ -170,8 +170,8 @@ const AboutUs = () => {
         Our Partners
       </div>
       <div className="flex justify-center xl:px-28 lg:px-24 md:px-16 w-full">
-        <div className="grid grid-cols-2 w-full xl:gap-x-28 gap-x-6">
-          <div className="flex justify-center col-span-2 sm:col-span-1">
+        <div className="grid grid-cols-1 w-full xl:gap-x-28 gap-x-6">
+          {/* <div className="flex justify-center col-span-2 sm:col-span-1">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
                 <img loading="lazy" src={Jaskanwar} alt="Jaskanwar" className="rounded-full" />
@@ -186,7 +186,7 @@ const AboutUs = () => {
                 Technology Advisor
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="flex justify-center col-span-2 sm:col-span-1 mt-10 sm:mt-0">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">

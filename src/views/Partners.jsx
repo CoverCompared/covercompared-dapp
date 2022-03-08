@@ -53,6 +53,8 @@ import Mexc from '../assets/partners/mexc.svg';
 import Escrow from '../assets/partners/escrow.png';
 import IntegraGlobal from '../assets/partners/intregra-global.png';
 import UnrealFinance from '../assets/partners/unreal-finance.png';
+import RepresentLogo from '../assets/partners/Represent-Logo.png';
+import MetaMarket from '../assets/partners/metamarket.png';
 
 const tabs = [
   {
@@ -119,6 +121,22 @@ const tabs = [
   {
     tabTitle: 'Client',
     content: [
+      {
+        img: RepresentLogo,
+        partnerName: 'Represent',
+        type: 'Client',
+        ctaLink: 'https://www.representdao.com/',
+        description:
+          'By joining hands with Represent, we are employing a more democratic approach and hoping to meet our community’s requirements faster and with more accuracy with the help of Represent DAO system where our users can anonymously place votes.',
+      },
+      {
+        img: MetaMarket,
+        partnerName: 'Unique things',
+        type: 'Client',
+        ctaLink: 'http://uniquethings.market/',
+        description:
+          'CoverCompared is delighted to provide Unique Things users with access to our insurance marketplace. In light of our alliance, Unique Things users will be given the option to purchase varied insurance coverage at affordable prices.',
+      },
       {
         img: UnrealFinance,
         partnerName: 'Unreal Finance',

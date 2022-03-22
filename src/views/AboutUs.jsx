@@ -71,7 +71,7 @@ const AboutUs = () => {
 
   return (
     <>
-      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mb-12">
+      {/* <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mb-12">
         Our Core Team
       </div>
       <div className="flex justify-center xl:px-28 lg:px-24 md:px-16 w-full">
@@ -79,7 +79,6 @@ const AboutUs = () => {
           <div className="flex justify-center col-span-2 sm:col-span-1">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full md:mb-6 mb-4">
-                {/* img here */}
                 <img loading="lazy" src={Kunal} alt="Kunal" className="rounded-full" />
               </div>
               <div className="text-dark-blue font-Montserrat font-semibold text-h6 dark:text-white">
@@ -162,16 +161,16 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* core-team-end */}
 
       {/* partner-section-start */}
-      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center mb-12 mt-20 dark:text-white">
+      {/* <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center mb-12 mt-20 dark:text-white">
         Our Partners
-      </div>
-      <div className="flex justify-center xl:px-28 lg:px-24 md:px-16 w-full">
+      </div> */}
+      {/* <div className="flex justify-center xl:px-28 lg:px-24 md:px-16 w-full">
         <div className="grid grid-cols-1 w-full xl:gap-x-28 gap-x-6">
-          {/* <div className="flex justify-center col-span-2 sm:col-span-1">
+          <div className="flex justify-center col-span-2 sm:col-span-1">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
                 <img loading="lazy" src={Jaskanwar} alt="Jaskanwar" className="rounded-full" />
@@ -186,7 +185,7 @@ const AboutUs = () => {
                 Technology Advisor
               </div>
             </div>
-          </div> */}
+          </div>
           <div className="flex justify-center col-span-2 sm:col-span-1 mt-10 sm:mt-0">
             <div className="flex-col flex items-center">
               <div className="md:h-32 md:w-32 h-16 w-16 rounded-full bg-gray-300 md:mb-6 mb-4">
@@ -201,11 +200,11 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* partner-section-end */}
 
       {/* manifesto-section-start */}
-      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mb-12 mt-20">
+      <div className="text-h2 text-dark-blue font-Montserrat font-semibold text-center dark:text-white mb-12">
         Our Manifesto
       </div>
       <div className="flex justify-center">

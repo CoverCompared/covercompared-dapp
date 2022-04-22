@@ -55,6 +55,7 @@ import IntegraGlobal from '../assets/partners/intregra-global.png';
 import UnrealFinance from '../assets/partners/unreal-finance.png';
 import RepresentLogo from '../assets/partners/Represent-Logo.png';
 import MetaMarket from '../assets/partners/metamarket.png';
+import openWorld from '../assets/partners/open-world.png';
 
 const tabs = [
   {
@@ -121,6 +122,14 @@ const tabs = [
   {
     tabTitle: 'Client',
     content: [
+      {
+        img: openWorld,
+        partnerName: 'Open World',
+        type: 'Client',
+        ctaLink: 'https://openworld.vision',
+        description:
+          'Open World is an open #Metaverse with a circular economy based on real monetary flow and CoverCompared is delighted to provide its users with access to our insurance marketplace.',
+      },
       {
         img: RepresentLogo,
         partnerName: 'Represent',

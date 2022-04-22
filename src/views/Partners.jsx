@@ -55,7 +55,7 @@ import IntegraGlobal from '../assets/partners/intregra-global.png';
 import UnrealFinance from '../assets/partners/unreal-finance.png';
 import RepresentLogo from '../assets/partners/Represent-Logo.png';
 import MetaMarket from '../assets/partners/metamarket.png';
-import openWorld from '../assets/partners/open-world.jpeg';
+import openWorld from '../assets/partners/open-world.png';
 
 const tabs = [
   {

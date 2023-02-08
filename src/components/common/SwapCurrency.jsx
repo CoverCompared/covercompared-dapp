@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { parseUnits } from 'ethers/lib/utils';
 import {
@@ -22,7 +23,10 @@ import { ThemeContext } from '../../themeContext';
 import { useUniswapV2RouterContract } from '../../hooks/useContract';
 import useTokenApprove from '../../hooks/useTokenApprove';
 import useGetAllowanceOfToken from '../../hooks/useGetAllowanceOfToken';
-import { ROUTER_ADDRESS } from '../../config';
+import useTokenBalance, { useGetEthBalance } from '../../hooks/useTokenBalance';
+import { getBalanceNumber } from '../../utils/formatBalance';
+import { BASE_SCAN_URLS, ROUTER_ADDRESS } from '../../config';
+import { setPendingTransaction, openSwapModal } from '../../redux/actions';
 
 const tryParseAmount = (value, currency) => {
   if (!value || !currency) {
@@ -254,11 +258,17 @@ const useSwapCallback = (trade, allowedSlippage, deadline, recipientAddressOrNam
 };
 const SwapCurrency = () => {
   const { theme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+  const { openSwapModal: isOpen } = useSelector((state) => state.app);
   const { chainId } = useWeb3React();
-  const [isOpen, setISOpen] = useState(false);
+  // const [isOpen, setISOpen] = useState(false);
   const [firstCurrency, setFirstCurrency] = useState(0);
   const [secondCurrency, setSecondCurrency] = useState(0);
   const { getTokenAddress } = useAddress();
+
+  const ethBalance = useGetEthBalance();
+  const cvrBalance = useTokenBalance();
+
   const [currencies, setCurrencies] = useState({});
   useEffect(() => {
     setCurrencies({
@@ -328,13 +338,28 @@ const SwapCurrency = () => {
       toast.warning('Please input token amount correctly');
       return;
     }
+    if (
+      Number(formattedAmounts.INPUT) >
+      getBalanceNumber(currencies.INPUT.symbol === 'ETH' ? ethBalance.balance : cvrBalance.balance)
+    ) {
+      toast.warning(`Insufficient ${currencies.INPUT.symbol} amount`);
+      return;
+    }
     if (swapCallback) {
       swapCallback()
         .then((hash) => {
           console.log(hash);
+          dispatch(
+            setPendingTransaction({
+              hash,
+              description: `Swap exactly ${formattedAmounts.INPUT} ${currencies.INPUT.symbol} for ${formattedAmounts.OUTPUT} ${currencies.OUTPUT.symbol}`,
+              etherscan: BASE_SCAN_URLS[chainId],
+            }),
+          );
         })
         .catch((error) => {
           console.log(error);
+          dispatch(setPendingTransaction(null));
         });
     }
   };
@@ -342,7 +367,7 @@ const SwapCurrency = () => {
     <>
       <div className="relative ml-3 duration-150">
         <div
-          onClick={() => setISOpen(!isOpen)}
+          onClick={() => dispatch(openSwapModal(!isOpen))}
           className="p-2 rounded-xl cursor-pointer bg-white dark:bg-featureCard-dark-bg shadow-addToCart"
         >
           <img src={theme === 'light' ? SwapIcon : SwapWhiteIcon} alt="Swap" />

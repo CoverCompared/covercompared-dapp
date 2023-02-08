@@ -5,6 +5,7 @@ import {
   SET_CURRENT_PRODUCT,
   SET_PENDING_TRANSACTION,
   SET_PENDING_TRANSACTION_SUCCESS,
+  OPEN_SWAP_MODAL,
 } from '../constants/ActionTypes';
 
 export const toggleSidebar = (payload) => {
@@ -38,6 +39,13 @@ export const setPendingTransaction = (payload) => {
 export const setPendingTransactionSuccess = (payload) => {
   return {
     type: SET_PENDING_TRANSACTION_SUCCESS,
+    payload,
+  };
+};
+
+export const openSwapModal = (payload) => {
+  return {
+    type: OPEN_SWAP_MODAL,
     payload,
   };
 };

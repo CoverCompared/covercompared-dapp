@@ -132,14 +132,10 @@ input[type='number'] {
   /* display: none !important; */
 }
 .modal-container{
-  /* width: 00px; */
   font-size: 20px;
   font-weight: 600;
-  /* background: #51c1c3; */
   background: linear-gradient(90deg, #6aa0e7, #7edadb);
   text-align: center;
-  /* background: linear-gradient(90deg, #FF8800, #7edadb); */
-  /* background: linear-gradient(90deg, #FF8800, #FFd6a7); */
   padding: 30px 50px;
   color: #FFF;
 }

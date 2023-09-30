@@ -78,11 +78,11 @@ const Features = (props) => {
       <h2 className="font-Montserrat md:text-h2 text-h4 text-dark-blue font-semibold text-center lg:max-w-xs dark:text-white">
         Save money on your insurance in 4 easy steps!
       </h2>
-      <div className="md:mt-10 mt-8 xl:px-14 md:px-6 grid grid-cols-2 gap-y-6 gap-x-5 xl:gap-x-8">
-        {featureCards.map(({ icon, title, body }) => (
+      {/* <div className="md:mt-10 mt-8 xl:px-14 md:px-6 grid grid-cols-2 gap-y-6 gap-x-5 xl:gap-x-8">
+        {featureCards.map(({ icon, title, body }) => (  
           <FeatureCard {...props} key={uniqid()} icon={icon} title={title} body={body} />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -107,21 +107,21 @@ export default function Home(props) {
     })();
   }, [chainId]);
 
-  useEffect(() => {
-    logEvent(analytics, 'View - Home Screen');
-    const query = `/table?range=[0,3]`;
-    dispatch(searchBlogList(query));
+  // useEffect(() => {
+  //   logEvent(analytics, 'View - Home Screen');
+  //   const query = `/table?range=[0,3]`;
+  //   dispatch(searchBlogList(query));
 
-    if (wallet_addresses?.length) {
-      dispatch(getLoginDetails({ wallet_address: wallet_addresses[0] }));
-    }
-  }, []);
+  //   if (wallet_addresses?.length) {
+  //     dispatch(getLoginDetails({ wallet_address: wallet_addresses[0] }));
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (coverListData.blogList) {
-      setBlogList(coverListData.blogList);
-    }
-  }, [coverListData.blogList]);
+  // useEffect(() => {
+  //   if (coverListData.blogList) {
+  //     setBlogList(coverListData.blogList);
+  //   }
+  // }, [coverListData.blogList]);
 
   const RenderBlogs = () => {
     if (loader) {
@@ -196,7 +196,7 @@ export default function Home(props) {
 
       {RenderBlogs()}
 
-      <Features {...props} />
+      {/* <Features {...props} /> */}
 
       <div className="md:pb-20 pb-16">
         <h2 className="font-Montserrat font-semibold md:text-h2 text-h4 mb-4 text-dark-blue dark:text-white text-center">

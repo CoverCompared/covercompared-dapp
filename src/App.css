@@ -120,3 +120,45 @@ input[type='number'] {
   border: inherit;
   border-radius: 0.75rem 0 0 0.75rem !important;
 }
+
+
+.app-close-modal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 100000000;
+  /* display: none !important; */
+}
+.modal-container{
+  /* width: 00px; */
+  font-size: 20px;
+  font-weight: 600;
+  /* background: #51c1c3; */
+  background: linear-gradient(90deg, #6aa0e7, #7edadb);
+  text-align: center;
+  /* background: linear-gradient(90deg, #FF8800, #7edadb); */
+  /* background: linear-gradient(90deg, #FF8800, #FFd6a7); */
+  padding: 30px 50px;
+  color: #FFF;
+}
+.medium-link{
+  color:#000;
+  text-decoration: underline;
+}
+
+iframe{
+  display: none !important;
+}
+
+@media(max-width: 768px){
+  .app-close-modal{
+    padding: 20px;
+  }
+  .modal-container{
+    width: 100%;
+    padding: 20px 25px;
+    font-size: 18px;
+  }
+}

@@ -23,27 +23,29 @@ BigNumber.config({
 const App = (props) => {
   // useEagerDisconnect();
   return (
-    <BrowserRouter>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <SVGGradients />
-      <PreRenderedModals />
-      {/* <TelegramWidget /> */}
-      <Switch>
-        {routes.map((m, i) => (
-          <PublicRoute key={i} {...m} />
-        ))}
-      </Switch>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <SVGGradients />
+        <PreRenderedModals />
+        {/* <TelegramWidget /> */}
+        <Switch>
+          {routes.map((m, i) => (
+            <PublicRoute key={i} {...m} />
+          ))}
+        </Switch>
+      </BrowserRouter>
+    </>
   );
 };
 
